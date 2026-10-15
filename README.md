@@ -8,7 +8,7 @@ Projeto para mapear o banco do Sistema Domínio (SQL Anywhere 17, banco `Contabi
 - Andamento: [`STATUS.md`](STATUS.md)
 - Descobertas já obtidas: [`docs/descobertas-rea.md`](docs/descobertas-rea.md)
 - Relacionamentos entre tabelas: [`docs/relacionamentos.md`](docs/relacionamentos.md)
-- Modelo de entidades: [Fiscal](docs/modelo-fiscal.md) · [Contábil](docs/modelo-contabil.md) · [Folha](docs/modelo-folha.md) · [Honorários](docs/modelo-honorarios.md) · [Geral](docs/modelo-geral.md) · [Empresa](docs/modelo-comum.md) (formato em [`docs/formato-modelo.md`](docs/formato-modelo.md))
+- Modelo de entidades: [Fiscal](docs/modelo-fiscal.md) · [Contábil](docs/modelo-contabil.md) · [Folha](docs/modelo-folha.md) · [Honorários](docs/modelo-honorarios.md) · [Geral](docs/modelo-geral.md) · [EFD-Reinf](docs/modelo-reinf.md) · [Empresa](docs/modelo-comum.md) (formato em [`docs/formato-modelo.md`](docs/formato-modelo.md))
 
 ## Estrutura
 | Pasta | Conteúdo |

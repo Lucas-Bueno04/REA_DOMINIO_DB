@@ -1,0 +1,187 @@
+# Modelo de entidades da EFD-Reinf (tabelas EFD_REINF_*): controle de envio dos eventos, erros e retorno do web service.
+# Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO:
+#   EFD_REINF_ENVIO_ARQUIVOS_XML (XML completo do evento em long binary: pesado e contém dados de terceiros),
+#   EFD_REINF_ENVIO_ARQUIVOS_LOG_ERROS_COMUNICACAO (log técnico de rede), EFD_REINF_RETORNO_ARQUIVOS_R2010/R2020/R2050/R2060
+#   e *_R2099_R20xx (detalhes do retorno por evento), EFENTRADAS/EFSAIDAS/EFSERVICOS_EFD_REINF (complemento da nota: tipo de
+#   serviço e PAJ) e as tabelas de recursos/espetáculo desportivo (vazias).
+modulo: reinf
+titulo: EFD-Reinf
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  evento_reinf:
+    descricao: Evento da EFD-Reinf (efd_reinf_envio_arquivos.i_evento), numeração oficial do layout R-xxxx.
+    confirmado: parcial
+    nota: >
+      Os códigos seguem o layout oficial da EFD-Reinf (R-1000 … R-9000). Não há tabela de descrição no banco; a descrição
+      vem do layout, não do banco. Presentes nos dados: 1000, 2010, 2020, 2050, 2060, 2098, 2099, 4010, 4020, 4080, 4099, 9000.
+    valores:
+      1000: R-1000 Informações do contribuinte
+      2010: R-2010 Retenção contribuição previdenciária - serviços tomados
+      2020: R-2020 Retenção contribuição previdenciária - serviços prestados
+      2050: R-2050 Comercialização da produção por produtor rural PJ/agroindústria
+      2060: R-2060 Contribuição previdenciária sobre a receita bruta (CPRB)
+      2098: R-2098 Reabertura dos eventos da série R-2000
+      2099: R-2099 Fechamento dos eventos da série R-2000
+      4010: R-4010 Pagamentos/créditos a beneficiário pessoa física
+      4020: R-4020 Pagamentos/créditos a beneficiário pessoa jurídica
+      4080: R-4080 Retenção no recebimento
+      4099: R-4099 Fechamento/reabertura dos eventos da série R-4000
+      9000: R-9000 Exclusão de eventos
+  tipo_envio_reinf:
+    descricao: Tipo de envio (efd_reinf_envio_arquivos.tipo_envio).
+    confirmado: parcial
+    nota: >
+      O comentário do banco só diz "Tipo de envio". Significados deduzidos do cruzamento com o evento: E só aparece no R-9000
+      (1.217 de 1.217); F só em fechamentos (2099 e 4099); B só em 2098 e 4099 (reabertura); A só no R-1000; I e R em eventos
+      de movimento. Sem confirmação da Domínio.
+    valores: {I: Inclusão (envio original), R: Retificação, E: Exclusão (R-9000), F: Fechamento, B: Reabertura, A: Alteração (R-1000)}
+  situacao_envio_reinf:
+    descricao: Situação do processo de envio (efd_reinf_envio_arquivos.situacao).
+    confirmado: parcial
+    nota: >
+      Comentário do banco: "Situação processo", sem lista. Evidência nos dados - 1: 99,7% têm número de recibo (57.770 de
+      57.924), logo recebido/processado com sucesso; 3: 99,8% têm erro registrado (8.680 de 8.702) e nenhum recibo, logo
+      rejeitado; 0: nunca tem recibo e tem protocolo, logo enviado/aguardando retorno; 2: 86% têm evento excluído, 19% erro,
+      quase sem recibo (hipótese - cancelado/excluído); 4, 5 e 6 (1.160 linhas): sem recibo nem protocolo, significado desconhecido.
+    valores:
+      0: Enviado, aguardando retorno (hipótese)
+      1: Processado com recibo (hipótese forte)
+      2: Excluído/cancelado (hipótese)
+      3: Rejeitado com erro (hipótese forte)
+      4: Desconhecido
+      5: Desconhecido
+      6: Desconhecido
+  ambiente_reinf:
+    confirmado: parcial
+    nota: >
+      O = 75.106 e T = 81 linhas. O padrão da coluna é 'T'. Por analogia com a EFD-Reinf, O seria produção (ambiente oficial)
+      e T teste/produção restrita; o comentário do banco só diz "Ambiente".
+    valores: {O: Produção (hipótese), T: Teste (hipótese)}
+  origem_erro_reinf:
+    confirmado: parcial
+    nota: >
+      O comentário diz "Origem do erro (D/R)". D (1.291) tem sempre codigo_erro = 0, R (10.733) traz o código do retorno.
+      Hipótese - D = validação da Domínio antes do envio, R = retorno da Receita.
+    valores: {D: Domínio (validação local, hipótese), R: Receita/retorno do web service (hipótese)}
+  evento_excluido_por:
+    confirmado: parcial
+    nota: Comentário - "Evento Excluído Por (U-Usuário)". Só U (3.779) e vazio aparecem.
+    valores: {U: Usuário}
+
+entidades:
+  envio_reinf:
+    titulo: Envios da EFD-Reinf (um evento por linha)
+    descricao: >
+      Controle de cada evento gerado/transmitido à Receita pela Domínio: competência, evento (R-xxxx), tipo de envio, situação,
+      recibo, protocolo e data de envio. Chave (empresa, envio, filial); `i_filial` é diferente de 0 em todas as linhas.
+      Cobre 875 empresas, competências de 2018-12 a 2026-09.
+    tabela: efd_reinf_envio_arquivos
+    chave: [codi_emp, i_envio, i_filial]
+    acesso: {empresa: codi_emp, periodo: competencia, volume: grande}
+    ordem: [[competencia, desc], [i_envio, desc]]
+    colunas:
+      envio: i_envio
+      filial: i_filial
+      competencia: competencia
+      evento: {coluna: i_evento, dominio: evento_reinf}
+      situacao: {coluna: situacao, dominio: situacao_envio_reinf}
+      tipo_envio: {coluna: tipo_envio, dominio: tipo_envio_reinf}
+      ambiente: {coluna: ambiente, dominio: ambiente_reinf}
+      id_evento: id_evento
+      numero_recibo: numero_recibo
+      numero_recibo_excluido_retificado: numero_recibo_excluido_retificado
+      numero_protocolo_entrega: numero_protocolo_entrega
+      data_envio: data_envio
+      horario_envio: horario_envio
+      data_inicio_processamento: data_inicio_processamento
+      inscricao: {coluna: inscricao, sensivel: parcial}
+      inscricao_cliente_fornecedor: {coluna: inscricao_cli_for, sensivel: parcial}
+      nome_arquivo: nome_arquivo
+      evento_excluido: {coluna: evento_excluido, dominio: sim_nao_texto}
+      evento_excluido_por: {coluna: evento_excluido_por, dominio: evento_excluido_por}
+      data_hora_exclusao: data_hora_exclusao
+      validacao_envio: validacao_envio
+      situacao_especial: situacao_especial
+      gerado_em: data_hora
+    filtros:
+      envio: {coluna: i_envio, ops: [eq, in]}
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      evento: {coluna: i_evento, ops: [eq, in]}
+      situacao: {coluna: situacao, ops: [eq, in]}
+      tipo_envio: {coluna: tipo_envio, ops: [eq, in]}
+      data_envio: {coluna: data_envio, ops: [eq, entre, gte, lte]}
+      numero_recibo: {coluna: numero_recibo, ops: [eq]}
+      evento_excluido: {coluna: evento_excluido, ops: [eq]}
+    filhos:
+      erros: {entidade: erro_envio_reinf, liga: {codi_emp: codi_emp, i_envio: envio, i_filial: filial}}
+      retorno: {entidade: retorno_reinf, liga: {codi_emp: codi_emp, i_envio: envio, i_filial: filial}}
+    regras:
+      - "Recibo x situação: situação 1 tem número de recibo em 57.770 de 57.924 envios (99,7%); situações 0, 3, 4, 5 e 6 nunca têm recibo; a 2 tem em 2 de 4.485. Use `numero_recibo` preenchido para afirmar que a Receita recebeu o evento."
+      - "Rejeição x erro: 8.680 de 8.702 envios com situação 3 têm erro em efd_reinf_envio_arquivos_erros (99,8%); nas demais situações os erros são raros (situação 1: 31 de 57.924)."
+      - "Tipo x evento: tipo E só no R-9000, F só em 2099/4099, B só em 2098/4099, A só no R-1000."
+      - "Eventos excluídos (`evento_excluido = S`, 17.939 linhas) continuam na tabela; filtre `evento_excluido = N` para ver o que está vigente."
+      - "Não há duplicidade na chave (empresa, envio, filial) e todo erro e todo retorno tem o envio correspondente (0 órfãos)."
+
+  erro_envio_reinf:
+    titulo: Erros dos envios da EFD-Reinf
+    descricao: >
+      Erros de validação ou do retorno da Receita, vinculados ao envio. Um envio pode ter vários erros. `codigo_erro` 0 aparece
+      em todos os erros de origem D (validação local).
+    tabela: efd_reinf_envio_arquivos_erros
+    chave: [codi_emp, i_envio, i_erro, i_filial]
+    acesso: {empresa: codi_emp, exige_algum: [envio], volume: medio}
+    ordem: [[i_envio, desc], [i_erro, asc]]
+    colunas:
+      envio: i_envio
+      filial: i_filial
+      sequencia: i_erro
+      codigo_erro: codigo_erro
+      mensagem: mensagem_erro
+      localizacao: localizacao_erro
+      identificador_retorno_lote: identificador_retorno_lote
+      origem: {coluna: origem_erro, dominio: origem_erro_reinf}
+    vinculos:
+      envio_ref:
+        tabela: efd_reinf_envio_arquivos
+        liga: {codi_emp: codi_emp, i_envio: i_envio, i_filial: i_filial}
+        colunas: {competencia: competencia, evento: i_evento, situacao_envio: situacao, data_envio: data_envio}
+    filtros:
+      envio: {coluna: i_envio, ops: [eq, in]}
+      codigo_erro: {coluna: codigo_erro, ops: [eq, in]}
+      origem: {coluna: origem_erro, ops: [eq]}
+    regras:
+      - "Códigos mais frequentes: 1005 (4.129), 0 (1.291, origem D), 1353 (1.092), 13 (947), 1556 (858), 15 (842). A tabela não traz descrição do código; use `mensagem`."
+
+  retorno_reinf:
+    titulo: Retorno do web service da EFD-Reinf
+    descricao: >
+      Dados da consulta de retorno de cada envio (hash, data da consulta e estabelecimento). Com o fechamento R-2099 traz
+      também o indicador de movimento da competência.
+    tabela: efd_reinf_retorno_arquivos
+    chave: [codi_emp, i_envio, i_filial]
+    acesso: {empresa: codi_emp, exige_algum: [envio, data_consulta], volume: medio}
+    ordem: [[i_envio, desc]]
+    colunas:
+      envio: i_envio
+      filial: i_filial
+      hash: hash
+      data_consulta: data_consulta
+      tipo_inscricao_estabelecimento: tipo_inscricao_estabelecimento
+      inscricao_estabelecimento: {coluna: inscricao_estabelecimento, sensivel: parcial}
+    vinculos:
+      fechamento_r2099:
+        tabela: efd_reinf_retorno_arquivos_r2099
+        liga: {codi_emp: codi_emp, i_envio: i_envio, i_filial: i_filial}
+        colunas: {possui_movimento: possui_movimento}
+      envio_ref:
+        tabela: efd_reinf_envio_arquivos
+        liga: {codi_emp: codi_emp, i_envio: i_envio, i_filial: i_filial}
+        colunas: {competencia: competencia, evento: i_evento, numero_recibo: numero_recibo}
+    filtros:
+      envio: {coluna: i_envio, ops: [eq, in]}
+      data_consulta: {coluna: data_consulta, ops: [eq, entre, gte, lte]}
+    regras:
+      - "Todo retorno tem o envio correspondente em efd_reinf_envio_arquivos (0 órfãos em 25.231); o hash vem preenchido em 100%."
+      - "possui_movimento (R-2099): N em 10.623 e S em 987 fechamentos; todos correspondem a envios com i_evento = 2099."

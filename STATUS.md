@@ -224,6 +224,18 @@ A 1ª versão inferia relações por coincidência de colunas de chave e gerou *
 
 **Fora do modelo de propósito:** certificados digitais, usuários e grupos do banco, `GELOGUSER` (2 milhões de linhas de horas por usuário), filas de integração (`GEATENDIMENTO*`), preferências de tela, `GERESPONSAVEL`. Sócios: só nome, CPF/CNPJ, sexo e UF (sem endereço, filiação, cônjuge, documentos, telefones). Empresa: sem contatos, endereço, observações livres e dados do responsável legal além do nome.
 
+## Fase 3 — módulo EFD-Reinf (2026-10-15)
+**Entregas:** `src/model/modulos/reinf.yaml` (3 entidades), `docs/modelo-reinf.md`. Validado (0 erros, 0 avisos) e executado no banco real (3 de 3, sem multiplicar linhas).
+
+| Entidade | Tabela | Linhas |
+|---|---|---|
+| envio_reinf | `efd_reinf_envio_arquivos` | 75.187 |
+| erro_envio_reinf | `efd_reinf_envio_arquivos_erros` | 12.024 |
+| retorno_reinf (+ fechamento R-2099) | `efd_reinf_retorno_arquivos` | 25.231 |
+
+**Descobertas:** situação 1 = recibo (99,7%), 3 = rejeitado (99,8% com erro) — ambos `confirmado: parcial`; `tipo_envio` deduzido do cruzamento com o evento (E=R-9000, F=fechamento, B=reabertura); `i_filial` nunca é 0; `ambiente` O=75.106, T=81.
+**Fora de propósito:** XML do evento, log de comunicação, retornos por evento (R-2010/2020/2050/2060) e complementos de nota (`EF*_EFD_REINF`) — próxima rodada.
+
 ## Cobertura do modelo (`scripts/cobertura_modelo.py`, 2026-10-15)
 O modelo curado toca **75 tabelas (1,6% das 4.727 fontes do gerador)**, que concentram **17,2% das 264,6 milhões de linhas**. Não é objetivo cobrir tudo à mão: as demais tabelas serão atendidas pela **camada genérica** (`consultar_tabela` sobre o catálogo, Fase 5).
 
