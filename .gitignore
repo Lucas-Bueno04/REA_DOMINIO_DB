@@ -1,0 +1,8 @@
+config/.env
+data/samples/
+data/catalog/*.db
+.venv/
+__pycache__/
+*.pyc
+*.log
+logs/

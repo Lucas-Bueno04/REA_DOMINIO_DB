@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa do banco Domínio</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#ffffff; --ink:#1b2430; --muted:#5d6b7a; --line:#d7dce3; --soft:#eef1f5; --accent:#2a6fdb;
+  --fiscal:#2a6fdb; --contabil:#1f9d6b; --folha:#d9822b; --honorarios:#8a4fd3; --geral:#5b6b7a; --comum:#c0455b;
+  --edge:#8794a3; --edge-hi:#e0431f; --shadow:0 1px 2px rgba(20,30,50,.08),0 4px 14px rgba(20,30,50,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#12161c; --panel:#1b222b; --ink:#e7ebf0; --muted:#98a5b3; --line:#2f3946; --soft:#232c37; --accent:#6aa3ff;
+    --fiscal:#6aa3ff; --contabil:#3ccf94; --folha:#f0a24d; --honorarios:#b58cf0; --geral:#9aa9b9; --comum:#ee7a90; --edge:#6f7e8e; --edge-hi:#ff7a55}
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{position:sticky;top:0;z-index:20;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+header h1{font-size:16px;margin:0;font-weight:650}
+header .sub{color:var(--muted);font-size:12px}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button,.chip,.btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 11px;border-radius:8px;cursor:pointer;font:inherit}
+nav button.on,.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn:hover,nav button:hover,.chip:hover{border-color:var(--accent)}
+main{padding:16px;max-width:1500px;margin:0 auto}
+section{display:none}
+section.on{display:block}
+h2{font-size:18px;margin:6px 0 4px}
+p.lead{color:var(--muted);margin:0 0 14px;max-width:80ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin:12px 0 18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px 13px;box-shadow:var(--shadow)}
+.card b{display:block;font-size:22px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.card span{color:var(--muted);font-size:12px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:var(--shadow);margin-bottom:16px}
+.box h3{margin:0 0 8px;font-size:14px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;position:sticky;top:0;background:var(--panel)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+code,.mono{font-family:ui-monospace,Consolas,Menlo,monospace;font-size:12.5px}
+.bar{height:8px;border-radius:4px;background:var(--soft);overflow:hidden;min-width:90px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:980px){.row2{grid-template-columns:1fr}}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 10px}
+input[type=search],select{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 10px;border-radius:8px;font:inherit;min-width:220px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;align-items:center}
+.legend i{display:inline-block;width:26px;height:0;border-top:2px solid var(--edge);vertical-align:middle;margin-right:5px}
+.legend i.d{border-top-style:dashed}
+.legend i.o{border-top-color:var(--accent)}
+#canvasWrap{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:12px;height:calc(100vh - 250px);min-height:460px;overflow:hidden;box-shadow:var(--shadow)}
+#canvasWrap svg{width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+#canvasWrap svg.drag{cursor:grabbing}
+.zoom{position:absolute;right:10px;top:10px;display:flex;gap:4px;z-index:5}
+.zoom .btn{padding:4px 10px}
+.node rect.cab{stroke-width:0}
+.node .corpo{fill:var(--panel);stroke:var(--line)}
+.node text{font-size:11.5px;fill:var(--ink)}
+.node text.t{font-weight:650;fill:#fff;font-size:12px}
+.node text.m{fill:var(--muted)}
+.node text.pk{font-weight:600}
+.node{cursor:pointer}
+.node.dim{opacity:.18}
+.node.sel .corpo{stroke:var(--edge-hi);stroke-width:2}
+.node:hover .corpo{stroke:var(--accent);stroke-width:1.6}
+.edge{fill:none;stroke:var(--edge);stroke-width:1.2}
+.edge.t-vigencia{stroke:#b07a2a}
+.edge.t-ligacao{stroke:#8a8f99}
+.edge.obs{stroke-dasharray:5 4}
+.edge.dim{opacity:.07}
+.edge.hi{stroke:var(--edge-hi);stroke-width:2.2;opacity:1}
+aside#painel{position:fixed;right:0;top:0;bottom:0;width:min(520px,100vw);background:var(--panel);border-left:1px solid var(--line);box-shadow:-8px 0 30px rgba(0,0,0,.16);z-index:40;transform:translateX(105%);transition:transform .18s;display:flex;flex-direction:column}
+aside#painel.on{transform:none}
+aside#painel .topo{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:flex-start}
+aside#painel .topo h3{margin:0;font-size:15px}
+aside#painel .conteudo{padding:12px 14px;overflow:auto;flex:1}
+aside#painel .x{margin-left:auto}
+.tag{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11.5px;border:1px solid var(--line);background:var(--soft);color:var(--muted);margin:0 4px 3px 0}
+.tag.m{color:#fff;border:0}
+.lock{filter:saturate(0)}
+.regra{border-left:3px solid var(--accent);padding:3px 0 3px 10px;margin:6px 0;color:var(--ink)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:3px 10px;margin:8px 0}
+.kv div:nth-child(odd){color:var(--muted)}
+.small{font-size:12px;color:var(--muted)}
+.fn td:first-child{white-space:nowrap}
+details.arq{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-bottom:8px}
+details.arq>summary{cursor:pointer;padding:9px 12px;list-style:none;display:flex;gap:10px;align-items:baseline}
+details.arq>summary::-webkit-details-marker{display:none}
+details.arq[open]>summary{border-bottom:1px solid var(--line)}
+details.arq .corpo{padding:4px 12px 10px}
+footer{color:var(--muted);font-size:12px;padding:8px 16px 24px;max-width:1500px;margin:0 auto}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Mapa do banco Domínio</h1><div class="sub" id="sub"></div></div>
+  <nav id="nav"></nav>
+</header>
+<main>
+  <section id="s-visao"></section>
+  <section id="s-modelo"></section>
+  <section id="s-entidades"></section>
+  <section id="s-onde"></section>
+  <section id="s-funcoes"></section>
+</main>
+<aside id="painel"><div class="topo"><div><h3 id="pTitulo"></h3><div class="small" id="pSub"></div></div><button class="btn x" id="pFechar" aria-label="Fechar painel">Fechar</button></div><div class="conteudo" id="pCorpo"></div></aside>
+<footer>Gerado a partir do catálogo, dos modelos YAML e do código-fonte do projeto (REA_DOMINIO_DB). Somente estrutura: nenhum dado de cliente está neste arquivo.</footer>
+<script>
+const D = /*__DADOS__*/null;
+const MOD_COR = {fiscal:'var(--fiscal)', contabil:'var(--contabil)', folha:'var(--folha)', honorarios:'var(--honorarios)', geral:'var(--geral)', comum:'var(--comum)'};
+const MOD_NOME = {fiscal:'Fiscal', contabil:'Contábil', folha:'Folha', honorarios:'Honorários', geral:'Geral', comum:'Empresa'};
+const NS = 'http://www.w3.org/2000/svg';
+const $ = (s, r=document) => r.querySelector(s);
+const fmt = n => (n==null?'—':Number(n).toLocaleString('pt-BR'));
+function h(tag, attrs, ...kids){
+  const e = document.createElement(tag);
+  for (const [k,v] of Object.entries(attrs||{})){
+    if (k==='class') e.className=v; else if (k==='html') e.innerHTML=v; else if (k.startsWith('on')) e.addEventListener(k.slice(2),v); else if (v!==false && v!=null) e.setAttribute(k,v);
+  }
+  for (const k of kids.flat()) if (k!=null && k!==false) e.append(k.nodeType?k:document.createTextNode(k));
+  return e;
+}
+function s(tag, attrs, ...kids){
+  const e = document.createElementNS(NS, tag);
+  for (const [k,v] of Object.entries(attrs||{})) if (v!=null) e.setAttribute(k, v);
+  for (const k of kids.flat()) if (k!=null) e.append(k.nodeType?k:document.createTextNode(k));
+  return e;
+}
+const esc = t => String(t==null?'':t).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+/* ---------------------------------------------------------------- navegação */
+const ABAS = [['visao','Visão geral'],['modelo','Modelo relacional'],['entidades','Entidades'],['onde','Onde está tudo'],['funcoes','Funções']];
+function ir(id){
+  document.querySelectorAll('main>section').forEach(x => x.classList.toggle('on', x.id==='s-'+id));
+  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.id===id));
+  if (id==='modelo' && !ir._m){ ir._m=1; abrirModulo(modAtual); }
+  history.replaceState(null,'','#'+id);
+}
+function montarNav(){
+  const nav = $('#nav');
+  ABAS.forEach(([id,nome]) => nav.append(h('button',{'data-id':id, onclick:()=>ir(id)}, nome)));
+  $('#sub').textContent = `${fmt(D.stats.entidades)} entidades · ${fmt(D.stats.legiveis)} tabelas legíveis · gerado em ${D.gerado_em}`;
+}
+
+/* ---------------------------------------------------------------- 1. visão geral */
+function visao(){
+  const S = D.stats, sec = $('#s-visao');
+  const cards = [
+    [fmt(S.objetos),'objetos do banco ('+fmt(S.tabelas_base)+' tabelas, '+fmt(S.views)+' views, '+fmt(S.temporarias)+' temporárias)'],
+    [fmt(S.legiveis),'fontes de dados legíveis (as do gerador de relatórios)'],
+    [fmt(S.colunas),'colunas catalogadas (tipo, PK, descrição)'],
+    [fmt(S.indices),'índices'], [fmt(S.fks),'chaves estrangeiras declaradas'],
+    [fmt(S.relacoes),'relações no grafo (declaradas + observadas + inferidas)'],
+    [fmt(S.joins_pares),'pares de colunas ligados nos programas da Domínio ('+fmt(S.joins_ocorrencias)+' usos)'],
+    [fmt(S.programas),'programas (.pbd/.exe) analisados; '+fmt(S.vinculos_programa_tabela)+' vínculos programa→tabela'],
+    [fmt(S.entidades),'entidades de negócio modeladas'], [fmt(S.dominios),'domínios de códigos ('+fmt(S.dominios_confirmados)+' confirmados)'],
+    [fmt(S.perfil_colunas),'colunas com perfil de preenchimento'], [fmt(S.colunas_sensiveis),'campos marcados sensíveis nos modelos'],
+  ];
+  sec.append(h('h2',null,'O que foi mapeado'),
+    h('p',{class:'lead'},'Banco do Sistema Domínio (SQL Anywhere 17, owner bethadba), mapeado por engenharia reversa dos programas e do catálogo, em modo somente leitura.'),
+    h('div',{class:'cards'}, cards.map(([n,t]) => h('div',{class:'card'}, h('b',null,n), h('span',null,t)))));
+  // relações por origem
+  const ro = {}; D.stats.relacoes_origem.filter(r=>r.tipo!=='temporaria').forEach(r => { const k = r.origens.includes('declarada')?'declarada':(r.origens==='observada'?'observada':'inferida'); ro[k]=(ro[k]||0)+r.n; });
+  const max = Math.max(...Object.values(ro));
+  const caixaRel = h('div',{class:'box'}, h('h3',null,'Relações por origem'),
+    h('table',null, h('tbody',null, [['declarada','FK criada no banco (confiança 1,0)'],['observada','JOIN que os programas da Domínio realmente usam (0,5–0,9)'],['inferida','Inferida por nome/chave (0,6; precisão medida ≈72%)']].map(([k,t]) =>
+      h('tr',null, h('td',null,h('b',null,k)), h('td',{class:'small'},t), h('td',{class:'n'},fmt(ro[k]||0)), h('td',null,h('div',{class:'bar'},h('i',{style:`width:${100*(ro[k]||0)/max}%`}))))))));
+  // cobertura por departamento
+  const caixaDep = h('div',{class:'box'}, h('h3',null,'Cobertura do modelo por departamento'),
+    h('table',null, h('thead',null,h('tr',null,h('th',null,'Departamento'),h('th',{class:'n'},'Tabelas'),h('th',{class:'n'},'Modeladas'),h('th',null,'% das linhas modeladas'))),
+      h('tbody',null, D.departamentos.map(d => { const p = d.linhas? 100*d.linhas_modeladas/d.linhas:0;
+        return h('tr',null,h('td',null,d.departamento),h('td',{class:'n'},fmt(d.tabelas)),h('td',{class:'n'},fmt(d.modeladas)),
+          h('td',null,h('div',{style:'display:flex;gap:8px;align-items:center'},h('div',{class:'bar',style:'flex:1'},h('i',{style:`width:${p}%`})),h('span',{class:'small'},p.toFixed(1)+'%'))));}))),
+    h('p',{class:'small'},'As demais tabelas são atendidas pela consulta genérica (consultar_tabela), sem entidade curada.'));
+  sec.append(h('div',{class:'row2'}, caixaRel, caixaDep));
+  // mapa entre módulos
+  sec.append(h('div',{class:'box'}, h('h3',null,'Como os módulos se ligam (relações com confiança ≥ 0,9 entre tabelas-raiz das entidades)'),
+    h('p',{class:'small'},'Clique em um módulo para abrir seu modelo relacional. A empresa (geempre) liga todos: o número em cada módulo é quantas das suas tabelas-raiz apontam para ela.'),
+    mapaModulos()));
+}
+function mapaModulos(){
+  const W=900, H=420, cx=W/2, cy=H/2, R=165, nomes = Object.keys(D.modulos).filter(m=>m!=='comum');
+  const svg = s('svg',{viewBox:`0 0 ${W} ${H}`,style:'width:100%;height:auto;max-height:440px'});
+  const pos = {}; nomes.forEach((m,i) => { const a = -Math.PI/2 + i*2*Math.PI/nomes.length; pos[m] = {x:cx+R*1.55*Math.cos(a), y:cy+R*Math.sin(a)}; });
+  const mx = Math.max(1,...D.cross.map(c=>c.n));
+  svg.append(s('rect',{x:cx-62,y:cy-26,width:124,height:52,rx:10,fill:'var(--soft)',stroke:'var(--line)'}),
+             s('text',{x:cx,y:cy-3,'text-anchor':'middle',style:'font-weight:650;font-size:13px',fill:'var(--ink)'},'geempre'),
+             s('text',{x:cx,y:cy+14,'text-anchor':'middle',style:'font-size:11px',fill:'var(--muted)'},'empresa (raiz de tudo)'));
+  nomes.forEach(m => { const p=pos[m]; svg.append(s('line',{x1:cx,y1:cy,x2:p.x,y2:p.y,stroke:'var(--line)','stroke-width':1.2,'stroke-dasharray':'3 4'})); });
+  D.cross.forEach(c => { if(!pos[c.a]||!pos[c.b]) return; const a=pos[c.a], b=pos[c.b], w = 1.5+5*Math.log(1+c.n)/Math.log(1+mx);
+    const l = s('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'var(--edge)','stroke-width':w,opacity:.75}); l.append(s('title',null,`${MOD_NOME[c.a]} ↔ ${MOD_NOME[c.b]}: ${c.n} relações\n${c.exemplos.join('\n')}`)); svg.append(l);
+    svg.append(s('text',{x:(a.x+b.x)/2,y:(a.y+b.y)/2-4,'text-anchor':'middle',style:'font-size:11px',fill:'var(--ink)'},String(c.n))); });
+  nomes.forEach(m => { const p=pos[m], M=D.modulos[m], g = s('g',{style:'cursor:pointer',onclick:null});
+    g.addEventListener('click',()=>{ modAtual=m; ir('modelo'); abrirModulo(m); });
+    g.append(s('rect',{x:p.x-78,y:p.y-30,width:156,height:60,rx:12,fill:MOD_COR[m]}),
+      s('text',{x:p.x,y:p.y-6,'text-anchor':'middle',style:'font-weight:650;font-size:14px',fill:'#fff'},MOD_NOME[m]),
+      s('text',{x:p.x,y:p.y+12,'text-anchor':'middle',style:'font-size:11px',fill:'#fff'},`${M.entidades.length} entidades · ${M.tabelas.length} tabelas`),
+      s('text',{x:p.x,y:p.y+26,'text-anchor':'middle',style:'font-size:10px',fill:'#fff',opacity:.9},`${D.hub[m]||0} → empresa`));
+    svg.append(g); });
+  return svg;
+}
+
+/* ---------------------------------------------------------------- 2. modelo relacional */
+let modAtual = 'fiscal';
+const VW = {x:0,y:0,k:1};
+function layout(M){
+  const W=262, GX=130, GY=26, HH=32, RH=15;
+  const T = M.tabelas.map(t => Object.assign({}, t, {id:t.nome.toLowerCase()}));
+  const by = {}; T.forEach(t => by[t.id]=t);
+  const E = M.relacoes.map(e => Object.assign({}, e, {f:e.filha.toLowerCase(), p:e.pai.toLowerCase()})).filter(e => by[e.f] && by[e.p] && e.f!==e.p);
+  // o nível (coluna) vem da hierarquia das entidades, calculada no gerador; sem ele, cai no nível do grafo de relações
+  const temNivel = T.every(t => typeof t.nivel === 'number');
+  T.forEach(t => { if (!temNivel) t.nivel=0; const npk = Math.min(t.pk.length,4)+(t.pk.length>4?1:0), nfk = Math.min(t.fks.length,4); t.linhasBox = npk + nfk; t.h = HH + RH*Math.max(1,t.linhasBox) + 8; });
+  if (!temNivel) for (let it=0; it<10; it++){ let ch=false; for (const e of E){ const a=by[e.p], b=by[e.f]; if (b.nivel < a.nivel+1 && a.nivel+1<=7){ b.nivel=a.nivel+1; ch=true; } } if(!ch) break; }
+  const niveis = []; T.forEach(t => (niveis[t.nivel] = niveis[t.nivel]||[]).push(t));
+  const lv = niveis.filter(Boolean);
+  lv.forEach(l => l.sort((a,b) => (b.entidades.length - a.entidades.length) || a.nome.localeCompare(b.nome)));
+  const idx = {}; const reidx = () => lv.forEach(l => l.forEach((t,i) => idx[t.id]=i));
+  reidx();
+  for (let sweep=0; sweep<3; sweep++){
+    for (let i=1;i<lv.length;i++){ lv[i].forEach(t => { const ps = E.filter(e=>e.f===t.id && by[e.p].nivel<t.nivel).map(e=>idx[e.p]); t._b = ps.length? ps.reduce((x,y)=>x+y,0)/ps.length : 1e9; }); lv[i].sort((a,b)=>a._b-b._b); reidx(); }
+    for (let i=lv.length-2;i>=0;i--){ lv[i].forEach(t => { const cs = E.filter(e=>e.p===t.id && by[e.f].nivel>t.nivel).map(e=>idx[e.f]); t._b = cs.length? cs.reduce((x,y)=>x+y,0)/cs.length : 1e9; }); lv[i].sort((a,b)=>a._b-b._b); reidx(); }
+  }
+  const alturas = lv.map(l => l.reduce((a,t)=>a+t.h+GY,0)-GY), maxH = Math.max(...alturas);
+  lv.forEach((l,i) => { let y = (maxH-alturas[i])/2; l.forEach(t => { t.x = i*(W+GX); t.y = y; t.w = W; y += t.h+GY; }); });
+  return {T, E, by, W, HH, RH, largura: lv.length*(W+GX)-GX, altura: maxH};
+}
+function caminho(a, b){
+  const y1=a.y+16, y2=b.y+16;
+  if (b.nivel>a.nivel){ const x1=a.x+a.w, x2=b.x, dx=Math.max(45,(x2-x1)/2); return `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`; }
+  if (b.nivel===a.nivel){ const x=a.x+a.w; return `M${x},${y1} C${x+80},${y1} ${x+80},${y2} ${x},${y2}`; }
+  const x1=a.x, x2=b.x+b.w; return `M${x1},${y1} C${x1-60},${y1} ${x2+60},${y2} ${x2},${y2}`;
+}
+function abrirModulo(m){
+  modAtual = m; const sec = $('#s-modelo'); sec.innerHTML='';
+  const M = D.modulos[m];
+  sec.append(h('h2',null,'Modelo relacional'),
+    h('p',{class:'lead'},'Cada caixa é uma tabela do banco: chave primária (PK) e colunas de ligação (FK). Linhas ligam pai → filha; a "pata de galinha" fica no lado "muitos". Continuo cada empresa em codi_emp (omitido nas ligações, pois quase toda tabela o tem). Clique em uma tabela para ver os detalhes.'));
+  const chips = h('div',{class:'tools'}, Object.keys(D.modulos).map(k => h('button',{class:'chip'+(k===m?' on':''), onclick:()=>abrirModulo(k)}, `${MOD_NOME[k]} (${D.modulos[k].tabelas.length})`)));
+  const busca = h('input',{type:'search',placeholder:'Buscar tabela (nome ou descrição)…',id:'busca'});
+  const leg = h('div',{class:'legend'}, h('span',null,h('i'),'FK declarada no banco'), h('span',null,h('i',{class:'d'}),'usada nos programas / inferida'), h('span',null,h('i',{class:'o',style:'border-top-color:#b07a2a'}),'por vigência'),
+    h('span',null,`${M.entidades.length} entidades · ${M.tabelas.length} tabelas · ${M.relacoes.length} relações`));
+  sec.append(chips, h('div',{class:'tools'}, busca, leg));
+  const wrap = h('div',{id:'canvasWrap'}); sec.append(wrap);
+  const L = layout(M);
+  const svg = s('svg',{role:'img','aria-label':'Diagrama relacional do módulo '+MOD_NOME[m]});
+  const defs = s('defs',null,
+    s('marker',{id:'many',markerWidth:14,markerHeight:14,refX:12,refY:7,orient:'auto',markerUnits:'userSpaceOnUse'}, s('path',{d:'M0,7 L12,2 M0,7 L12,7 M0,7 L12,12',stroke:'#8794a3',fill:'none','stroke-width':1.3})),
+    s('marker',{id:'one',markerWidth:10,markerHeight:14,refX:2,refY:7,orient:'auto',markerUnits:'userSpaceOnUse'}, s('path',{d:'M3,2 L3,12',stroke:'#8794a3',fill:'none','stroke-width':1.6})));
+  const vp = s('g',{id:'vp'}); svg.append(defs, vp);
+  const gE = s('g'), gN = s('g'); vp.append(gE, gN);
+  const eEls = [];
+  L.E.forEach(e => { const p = s('path',{d:caminho(L.by[e.p],L.by[e.f]), class:'edge t-'+e.tipo+(e.confianca<1?' obs':''), 'marker-end':'url(#many)','marker-start':'url(#one)'});
+    p.append(s('title',null,`${e.pai} (1) → ${e.filha} (N)\n${e.colunas.map(c=>c[0]+' → '+c[1]).join(', ')}\n${e.origens} · confiança ${e.confianca}${e.usos?(' · '+e.usos+' usos nos programas'):''}`));
+    gE.append(p); eEls.push({el:p, e}); });
+  const nEls = {};
+  L.T.forEach(t => {
+    const g = s('g',{class:'node',transform:`translate(${t.x},${t.y})`});
+    g.append(s('title',null,(t.descricao||t.nome)+(t.linhas!=null?`\n${fmt(t.linhas)} linhas`:'')));
+    g.append(s('rect',{class:'corpo',width:t.w,height:t.h,rx:7}),
+      s('path',{d:`M0,7 a7,7 0 0 1 7,-7 h${t.w-14} a7,7 0 0 1 7,7 v${L.HH-7} h-${t.w} z`,fill:t.raiz?MOD_COR[m]:'var(--geral)'}),
+      s('text',{class:'t',x:9,y:15},t.nome.length>31?t.nome.slice(0,30)+'…':t.nome),
+      s('text',{class:'t',x:9,y:27,style:'font-weight:400;font-size:10.5px;opacity:.92'}, (t.entidades.length? t.entidades.join(', ') : 'tabela de apoio (vínculo)').slice(0,40) ));
+    let y = L.HH + 12; const row = (txt, cls, tag) => { g.append(s('text',{class:cls||'',x:9,y},tag? tag+'  '+txt : txt)); y += L.RH; };
+    t.pk.slice(0,4).forEach(c => row(c,'pk','PK')); if (t.pk.length>4) row(`+${t.pk.length-4} colunas na chave`,'m','  ');
+    t.fks.slice(0,4).forEach(f => row(`${f.col} → ${f.pai.length>22?f.pai.slice(0,21)+'…':f.pai}`,'m','FK'));
+    if (!t.pk.length && !t.fks.length) row('(sem PK declarada)','m','');
+    g.addEventListener('click', ev => { ev.stopPropagation(); selecionar(t.id); painelTabela(t, L); });
+    gN.append(g); nEls[t.id] = g; });
+  function selecionar(id){
+    const ligados = new Set([id]);
+    eEls.forEach(({el,e}) => { const on = e.f===id||e.p===id; el.classList.toggle('hi',on); el.classList.toggle('dim',!on); if(on){ligados.add(e.f);ligados.add(e.p);} });
+    Object.entries(nEls).forEach(([k,g]) => { g.classList.toggle('dim',!ligados.has(k)); g.classList.toggle('sel',k===id); });
+  }
+  function limpar(){ eEls.forEach(({el})=>el.classList.remove('hi','dim')); Object.values(nEls).forEach(g=>g.classList.remove('dim','sel')); }
+  svg.addEventListener('click', () => { limpar(); fecharPainel(); });
+  busca.addEventListener('input', () => { const q = busca.value.trim().toLowerCase(); limpar();
+    if (!q) return; const hit = new Set(L.T.filter(t => (t.nome+' '+(t.descricao||'')+' '+t.entidades.join(' ')).toLowerCase().includes(q)).map(t=>t.id));
+    Object.entries(nEls).forEach(([k,g]) => g.classList.toggle('dim',!hit.has(k))); eEls.forEach(({el,e}) => el.classList.toggle('dim', !(hit.has(e.f)&&hit.has(e.p)))); });
+  // zoom e arrasto
+  const aplicar = () => vp.setAttribute('transform',`translate(${VW.x},${VW.y}) scale(${VW.k})`);
+  const ajustar = () => { const r = wrap.getBoundingClientRect(); const k = Math.min(r.width/(L.largura+60), r.height/(L.altura+60), 1.2); VW.k=k; VW.x=(r.width-L.largura*k)/2; VW.y=(r.height-L.altura*k)/2; aplicar(); };
+  const zoom = (f, cx, cy) => { const r = wrap.getBoundingClientRect(); cx = cx==null? r.width/2 : cx; cy = cy==null? r.height/2 : cy; const k = Math.max(.08, Math.min(3, VW.k*f)); VW.x = cx-(cx-VW.x)*(k/VW.k); VW.y = cy-(cy-VW.y)*(k/VW.k); VW.k=k; aplicar(); };
+  svg.addEventListener('wheel', ev => { ev.preventDefault(); const r = wrap.getBoundingClientRect(); zoom(ev.deltaY<0?1.12:1/1.12, ev.clientX-r.left, ev.clientY-r.top); }, {passive:false});
+  let arr = null;
+  svg.addEventListener('pointerdown', ev => { if (ev.target.closest('.node')) return; arr = {x:ev.clientX-VW.x, y:ev.clientY-VW.y, moved:false}; svg.setPointerCapture(ev.pointerId); svg.classList.add('drag'); });
+  svg.addEventListener('pointermove', ev => { if(!arr) return; VW.x=ev.clientX-arr.x; VW.y=ev.clientY-arr.y; arr.moved=true; aplicar(); });
+  svg.addEventListener('pointerup', ev => { if(arr && arr.moved){ svg._arrastou = true; setTimeout(()=>svg._arrastou=false,0);} arr=null; svg.classList.remove('drag'); });
+  wrap.append(svg, h('div',{class:'zoom'}, h('button',{class:'btn',onclick:()=>zoom(1.25),'aria-label':'Aproximar'},'+'), h('button',{class:'btn',onclick:()=>zoom(1/1.25),'aria-label':'Afastar'},'−'), h('button',{class:'btn',onclick:ajustar},'Ajustar')));
+  requestAnimationFrame(ajustar);
+  window.onresize = () => { if ($('#s-modelo').classList.contains('on')) ajustar(); };
+  // entidades do módulo (lista abaixo do diagrama)
+  sec.append(h('div',{class:'box',style:'margin-top:16px'}, h('h3',null,`Entidades de ${MOD_NOME[m]}`), listaEntidades(M.entidades)));
+}
+
+/* ---------------------------------------------------------------- painel */
+function fecharPainel(){ $('#painel').classList.remove('on'); }
+$('#pFechar').addEventListener('click', fecharPainel);
+document.addEventListener('keydown', ev => { if (ev.key==='Escape') fecharPainel(); });
+function abrirPainel(titulo, sub, corpo){ $('#pTitulo').textContent=titulo; $('#pSub').textContent=sub||''; const c=$('#pCorpo'); c.innerHTML=''; c.append(corpo); c.scrollTop=0; $('#painel').classList.add('on'); }
+function painelTabela(t, L){
+  const rels = L.E.filter(e => e.f===t.id || e.p===t.id).sort((a,b)=>b.confianca-a.confianca);
+  const c = h('div');
+  c.append(h('div',null, h('span',{class:'tag m',style:'background:'+(t.raiz?MOD_COR[modAtual]:'var(--geral)')}, t.raiz?'tabela-raiz de entidade':'tabela de apoio'), h('span',{class:'tag'},t.departamento||''), h('span',{class:'tag'},fmt(t.linhas)+' linhas'), t.tem_empresa?h('span',{class:'tag'},'multiempresa (codi_emp)'):null),
+    h('p',null,t.descricao||''),
+    h('div',{class:'kv'}, h('div',null,'Chave primária'), h('div',{class:'mono'}, t.pk.join(', ')||'(não declarada)'),
+      h('div',null,'Entidades'), h('div',null, t.entidades.length? t.entidades.map(n=>h('a',{href:'#',onclick:ev=>{ev.preventDefault();painelEntidade(n);}},n+' ')) : '—')),
+    h('h4',null,`Relações neste módulo (${rels.length})`),
+    h('table',null,h('thead',null,h('tr',null,h('th',null,'Papel'),h('th',null,'Tabela'),h('th',null,'Colunas (filha → pai)'),h('th',{class:'n'},'Conf.'))),
+      h('tbody',null,rels.map(e => { const pai = e.p===t.id; return h('tr',null,h('td',null,pai?'pai de':'filha de'),h('td',{class:'mono'},pai?e.filha:e.pai),h('td',{class:'mono'},e.colunas.map(c=>c[0]+'→'+c[1]).join(', ')),h('td',{class:'n'},String(e.confianca)));}))),
+    h('p',{class:'small'},'Confiança 1,0 = FK declarada; 0,5–0,9 = ligação usada nos programas da Domínio; 0,6 = inferida por nome. Todas as colunas: ferramenta descrever_tabela.'));
+  abrirPainel(t.nome, 'Tabela do banco', c);
+}
+function achaEntidade(n){ for (const m of Object.values(D.modulos)) { const e = m.entidades.find(x=>x.nome===n); if (e) return e; } }
+function painelEntidade(n){
+  const e = achaEntidade(n); if(!e) return;
+  const c = h('div');
+  c.append(h('div',null,h('span',{class:'tag m',style:'background:'+MOD_COR[e.modulo]},MOD_NOME[e.modulo]),h('span',{class:'tag'},'volume: '+(e.volume||'—')), e.empresa?h('span',{class:'tag'},'exige empresa ('+e.empresa+')'):h('span',{class:'tag'},'tabela global')),
+    h('p',null,e.descricao||''),
+    h('div',{class:'kv'}, h('div',null,'Tabela'),h('div',{class:'mono'},e.tabela), h('div',null,'Chave'),h('div',{class:'mono'},e.chave.join(', ')), h('div',null,'Período'),h('div',{class:'mono'},e.periodo||'—'),
+      h('div',null,'Exige um destes'),h('div',{class:'mono'},(e.exige_algum||[]).join(', ')||'—'), e.privacidade?h('div',null,'Privacidade'):null, e.privacidade?h('div',null,e.privacidade):null));
+  if (e.regras.length) c.append(h('h4',null,'Regras de negócio validadas'), e.regras.map(r => h('div',{class:'regra'},r)));
+  c.append(h('h4',null,`Campos (${e.campos.length})`),
+    h('table',null,h('thead',null,h('tr',null,h('th',null,'Campo'),h('th',null,'Coluna'),h('th',null,'Domínio'))),
+      h('tbody',null,e.campos.map(f => h('tr',null,h('td',null,f.campo+(f.sensivel?' 🔒':'')),h('td',{class:'mono'},f.coluna),h('td',{class:'small'},f.dominio||''))))));
+  const vs = Object.entries(e.vinculos);
+  if (vs.length) c.append(h('h4',null,'Vínculos (acrescentam colunas legíveis)'), vs.map(([k,v]) => h('div',{class:'small'}, h('b',null,k),' → ',h('span',{class:'mono'},v.tabela),' por ',h('span',{class:'mono'},Object.entries(v.liga).map(([a,b])=>a+'='+b).join(' e ')),' · ',v.colunas.join(', '))));
+  const cal = Object.entries(e.calculadas||{}).concat(Object.entries(e.coalescidas||{}).map(([k,v])=>[k,'primeiro não nulo de '+v.join(' | ')]));
+  if (cal.length) c.append(h('h4',null,'Colunas calculadas'), cal.map(([k,v]) => h('div',{class:'small'},h('b',null,k),' = ',h('span',{class:'mono'},v))));
+  const fl = Object.entries(e.filtros);
+  if (fl.length) c.append(h('h4',null,'Filtros'), h('div',null, fl.map(([k,v]) => h('span',{class:'tag',title:Array.isArray(v.coluna)?v.coluna.join(' ou '):v.coluna}, k+' ('+v.ops.join('/')+')'))));
+  const fh = Object.entries(e.filhos);
+  if (fh.length) c.append(h('h4',null,'Filhos (1:N)'), fh.map(([k,v]) => h('a',{href:'#',class:'tag',onclick:ev=>{ev.preventDefault();painelEntidade(v);}}, k+' → '+v)));
+  abrirPainel(e.titulo||e.nome, e.nome, c);
+}
+
+/* ---------------------------------------------------------------- 3. entidades */
+function listaEntidades(lista){
+  return h('table',null,h('thead',null,h('tr',null,h('th',null,'Entidade'),h('th',null,'Título'),h('th',null,'Tabela'),h('th',null,'Volume'),h('th',null,'Filtro obrigatório'))),
+    h('tbody',null,lista.map(e => h('tr',{style:'cursor:pointer',onclick:()=>painelEntidade(e.nome)},
+      h('td',null,h('b',null,e.nome)), h('td',null,e.titulo||''), h('td',{class:'mono'},e.tabela), h('td',null,e.volume||''),
+      h('td',{class:'small'},[e.empresa?'empresa':null,(e.exige_algum&&e.exige_algum.length)?'um de: '+e.exige_algum.join(', '):null].filter(Boolean).join('; ')||'—')))));
+}
+function entidades(){
+  const sec = $('#s-entidades'); const todas = Object.values(D.modulos).flatMap(m=>m.entidades);
+  let filtro = 'todos', q = '';
+  const corpo = h('div'); const desenhar = () => { corpo.innerHTML=''; corpo.append(listaEntidades(todas.filter(e => (filtro==='todos'||e.modulo===filtro) && (!q || (e.nome+' '+e.titulo+' '+e.tabela).toLowerCase().includes(q))))); };
+  const chips = h('div',{class:'tools'}); const ref = () => { chips.innerHTML=''; ['todos',...Object.keys(D.modulos)].forEach(k => chips.append(h('button',{class:'chip'+(k===filtro?' on':''),onclick:()=>{filtro=k;ref();desenhar();}}, k==='todos'?'Todos ('+todas.length+')':MOD_NOME[k]+' ('+D.modulos[k].entidades.length+')'))); };
+  ref();
+  const busca = h('input',{type:'search',placeholder:'Buscar entidade ou tabela…'}); busca.addEventListener('input',()=>{q=busca.value.trim().toLowerCase();desenhar();});
+  sec.append(h('h2',null,'Entidades de negócio'), h('p',{class:'lead'},'Consultas curadas (consultar_entidade): já resolvem joins, nomes legíveis e as armadilhas descobertas. Clique em uma linha para ver campos, vínculos, filtros e regras validadas.'), chips, h('div',{class:'tools'},busca), h('div',{class:'box'},corpo));
+  desenhar();
+}
+
+/* ---------------------------------------------------------------- 4. onde está tudo */
+function onde(){
+  const sec = $('#s-onde');
+  sec.append(h('h2',null,'Onde está tudo'), h('p',{class:'lead'},'Projeto em C:\\Users\\Administrator\\Desktop\\REA_DOMINIO_DB'),
+    h('div',{class:'box'},h('h3',null,'Pastas'),h('table',null,h('tbody',null,D.pastas.map(([p,t]) => h('tr',null,h('td',{class:'mono'},p),h('td',null,t)))))),
+    h('div',{class:'box'},h('h3',null,'Arquivos principais'),h('table',null,h('thead',null,h('tr',null,h('th',null,'Arquivo'),h('th',{class:'n'},'KB'))),
+      h('tbody',null,D.artefatos.map(a => h('tr',null,h('td',{class:'mono'},a.caminho),h('td',{class:'n'},fmt(a.kb))))))),
+    h('div',{class:'box'},h('h3',null,'Fontes analisadas (fora do projeto)'),h('table',null,h('tbody',null,
+      [['C:\\Contabil\\Utilitários\\geradrel.exe','Gerador de relatórios (PowerBuilder): mostrou como o sistema lista tabelas e usa o dicionário DSDBA.'],
+       ['C:\\Contabil\\*.pbd e *.exe (1.154 arquivos, 1,6 GB)','Textos SQL dos programas: origem dos JOINs "observados".'],
+       ['ODBC DSN "Contabil" (SQL Anywhere 17)','Banco consultado em leitura: catálogo SYS.*, tabelas e agregados.']].map(([a,b])=>h('tr',null,h('td',{class:'mono'},a),h('td',null,b)))))));
+}
+
+/* ---------------------------------------------------------------- 5. funções */
+function funcoes(){
+  const sec = $('#s-funcoes'); let q = '';
+  const lista = h('div'); const desenhar = () => { lista.innerHTML='';
+    D.codigo.filter(a => !q || (a.caminho+' '+a.descricao+' '+a.itens.map(i=>i.nome+' '+i.doc).join(' ')).toLowerCase().includes(q)).forEach(a => {
+      lista.append(h('details',{class:'arq',open:q?'':null}, h('summary',null,h('span',{class:'mono'},a.caminho),h('span',{class:'small'},a.descricao||'')),
+        h('div',{class:'corpo'}, a.itens.length? h('table',{class:'fn'},h('tbody',null,a.itens.filter(i=>!q||(i.nome+' '+i.doc+' '+a.caminho).toLowerCase().includes(q)||a.caminho.toLowerCase().includes(q)).map(i => h('tr',null,h('td',{class:'mono'},i.nome),h('td',{class:'small'},i.tipo),h('td',null,i.doc||''))))) : h('span',{class:'small'},'sem funções (script de execução direta)')))); }); };
+  const busca = h('input',{type:'search',placeholder:'Buscar função, arquivo ou descrição…'}); busca.addEventListener('input',()=>{q=busca.value.trim().toLowerCase();desenhar();});
+  sec.append(h('h2',null,'Funções criadas'), h('p',{class:'lead'},`${D.codigo.length} arquivos Python (extraídos do próprio código). Em destaque, as 12 ferramentas do servidor MCP:`),
+    h('div',{class:'box'},h('h3',null,'Ferramentas do servidor MCP (dominio-db)'),h('table',null,h('tbody',null,D.ferramentas_mcp.map(f => h('tr',null,h('td',{class:'mono'},f.nome+'()'),h('td',null,f.doc.slice(0,230)+(f.doc.length>230?'…':''))))))),
+    h('div',{class:'tools'},busca), lista);
+  desenhar();
+}
+
+montarNav(); visao(); entidades(); onde(); funcoes();
+// links diretos: #visao, #modelo, #modelo-contabil, #entidades, #onde, #funcoes
+(function(){
+  const hs = location.hash.slice(1), mm = hs.match(/^modelo-([a-z]+)$/);
+  if (mm && D.modulos[mm[1]]) { modAtual = mm[1]; ir('modelo'); }
+  else ir(ABAS.some(a=>a[0]===hs) ? hs : 'visao');
+})();
+</script>
+</body>
+</html>

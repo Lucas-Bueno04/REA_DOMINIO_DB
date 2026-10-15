@@ -1,0 +1,635 @@
+# Modelo de entidades do módulo FOLHA (prefixo FO). Formato: docs/formato-modelo.md
+#
+# PRIVACIDADE (decisão de projeto, reversível pelo dono do projeto — a política final de mascaramento ainda está pendente):
+#   * Esta folha contém DADO PESSOAL e financeiro de trabalhadores. Colunas marcadas `sensivel: pessoal` (nome, CPF, PIS,
+#     identidade, nascimento) ou `sensivel: financeiro` (salário, valores pagos) devem ser mascaradas por padrão na Fase 4.
+#   * NÃO foram expostas, de propósito, as categorias de dado pessoal SENSÍVEL (LGPD art. 5º, II) e dados de risco:
+#     saúde (grupo sanguíneo, fator RH, deficiência, exames médicos, CID, CAT, acidente), raça/cor, filiação sindical
+#     (sindicalizado, contribuição sindical), filiação familiar (pais, cônjuge, filhos), dados bancários (conta, agência),
+#     endereço, telefone, e-mail, título de eleitor, reservista, carteira de motorista e foto.
+#     Para incluí-las é preciso decidir base legal e perfil de acesso; elas continuam acessíveis no banco, apenas fora do modelo.
+modulo: folha
+titulo: Folha de Pagamento
+dominios:
+  situacao_cadastro:
+    confirmado: true      # comentários de focargos/fodepto/foservicos
+    valores: {0: Inativo, 1: Ativo}
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  tipo_folha:
+    descricao: Tipo do processamento da folha (fomovtoserv.tipo_proces / fobasesserv.tipo_process)
+    confirmado: parcial
+    nota: >
+      11, 31-36, 41, 42, 51, 52, 70 e 91 vêm de comentários do banco (FOLANCAMENTOS_EVENTOS, FOGUIAINSS, FOCONTRIBUICAO_SINDICAL...).
+      Os tipos 60 (127 mil eventos), 61 (77 mil) e 92 (3,4 mil) NÃO estão documentados. A hipótese de que 60/61 fossem rescisão
+      foi TESTADA E REFUTADA: só 342 das 21.401 linhas de base do tipo 60 coincidem com mês de rescisão do empregado (1,6%),
+      proporção parecida com a da folha mensal. Significado desconhecido.
+    valores: {11: Mensal, 31: 1ª semana, 32: 2ª semana, 33: 3ª semana, 34: 4ª semana, 35: Última semana, 36: Todas as semanas, 41: Adiantamento, 42: Complementar, 51: Adiantamento de 13º salário, 52: 13º salário, 70: Participação nos lucros, 91: Resilição de professor}
+    valores_sem_significado_conhecido: [60, 61, 92]
+  tipo_evento:
+    descricao: Natureza da rubrica (foeventos.prov_desc / fomovtoserv.prov_desc)
+    confirmado: parcial   # P e D confirmados (somam em proventos/descontos); I e ID observados, significado inferido
+    valores: {P: Provento, D: Desconto, I: Informativo (não soma), ID: "Informativo de desconto (inferido)"}
+  origem_calculo:
+    confirmado: true      # comentário: "C = mensal / F = férias / I = convocação intermitente"
+    valores: {C: Folha mensal, F: Férias, I: Convocação intermitente}
+  estado_civil:
+    confirmado: true
+    valores: {S: Solteiro, C: Casado, V: Viúvo, D: Divorciado, O: Concubinato, J: Separado judicialmente, U: União estável}
+  tipo_falta:
+    confirmado: true
+    valores: {1: Normal, 2: DSR, 3: Reembolso, 4: Parcial, 5: Noturna, 6: DSR noturna, 7: Suspensão, 8: DSR suspensão}
+  origem_falta:
+    confirmado: true
+    valores: {1: Lançamento de rubricas, 2: Data para férias, 3: Advertência e suspensão}
+  tipo_rescisao:
+    confirmado: true      # comentário de forescisoes.tipo; dados mostram só 1 e 2
+    valores: {1: Normal, 2: Complementar, 3: Parcial, 4: Simulação}
+  tipo_gozo_ferias:
+    confirmado: true
+    valores: {1: Individual, 2: Coletiva, 3: Rescisão, 4: Manual, 5: Provisão, 6: Acerto, 7: Simulação de férias, 8: Simulação de rescisão}
+
+entidades:
+  # ================================================ CADASTROS ===========================================================
+  empregado:
+    titulo: Empregados (cadastro funcional)
+    descricao: >
+      Dados funcionais do empregado. Apenas colunas necessárias ao uso de DP; veja o bloco de privacidade no topo do arquivo.
+      A tabela tem 416 colunas (27 marcadas pelo próprio banco como "SEM USO"); só um subconjunto é exposto.
+    privacidade: "Contém dado pessoal (nome, CPF, PIS, identidade, nascimento) e salário. Mascarar por padrão."
+    tabela: foempregados
+    chave: [codi_emp, i_empregados]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[nome, asc]]
+    colunas:
+      codigo: i_empregados
+      matricula: matricula
+      nome: {coluna: nome, sensivel: pessoal}
+      cpf: {coluna: cpf, sensivel: pessoal}
+      pis: {coluna: pis, sensivel: pessoal}
+      identidade: {coluna: identidade, sensivel: pessoal}
+      data_nascimento: {coluna: data_nascimento, sensivel: pessoal}
+      sexo: sexo
+      estado_civil: {coluna: estado_civil, dominio: estado_civil}
+      grau_instrucao: grau_instrucao
+      admissao: admissao
+      categoria: categoria
+      vinculo: vinculo
+      salario: {coluna: salario, sensivel: financeiro}
+      forma_pagamento: forma_pagto
+      horas_mes: horas_mes
+      horas_semana: horas_semana
+      horas_dia: horas_dia
+      vencimento_ferias: venc_ferias
+      optante_fgts: {coluna: opta_fgts, dominio: sim_nao_texto}
+      data_opcao_fgts: opcao_fgts
+      tipo_contribuinte: tipo_contrib
+      filial_codigo: i_filiais
+      departamento_codigo: i_depto
+      cargo_codigo: i_cargos
+      centro_custo_codigo: i_ccustos
+      servico_codigo: i_servicos
+      sindicato_codigo: i_sindicatos
+      data_transferencia: data_transf
+      origem_registro: origem_reg
+    vinculos:
+      filial:
+        tabela: fofiliais
+        liga: {codi_emp: codi_emp, i_filiais: i_filiais}
+        colunas: {filial_nome: nome}
+      departamento:
+        tabela: fodepto
+        liga: {codi_emp: codi_emp, i_depto: i_depto}
+        colunas: {departamento_nome: nome}
+      cargo:
+        tabela: focargos
+        liga: {codi_emp: codi_emp, i_cargos: i_cargos}
+        colunas: {cargo_nome: nome, cargo_cbo: cbo_2002}
+      centro_custo:
+        tabela: foccustos
+        liga: {codi_emp: codi_emp, i_ccustos: i_ccustos}
+        colunas: {centro_custo_nome: nome}
+      sindicato:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {sindicato_nome: nome}
+    filtros:
+      codigo: {coluna: i_empregados, ops: [eq, in]}
+      matricula: {coluna: matricula, ops: [eq]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      cpf: {coluna: cpf, ops: [eq]}
+      admissao: {coluna: admissao, ops: [entre, gte, lte]}
+      filial_codigo: {coluna: i_filiais, ops: [eq, in]}
+      departamento_codigo: {coluna: i_depto, ops: [eq, in]}
+      cargo_codigo: {coluna: i_cargos, ops: [eq, in]}
+      centro_custo_codigo: {coluna: i_ccustos, ops: [eq, in]}
+      categoria: {coluna: categoria, ops: [eq, in]}
+      vinculo: {coluna: vinculo, ops: [eq, in]}
+    regras:
+      - "O cadastro de empregados NÃO traz situação atual (ativo/demitido). A demissão está em `rescisao`; afastamentos em `afastamento`."
+      - "categoria (1=10.741, 5=217, 7=14, 4=2) e vinculo (1, 11, 50, 0, 13, 52...) são códigos sem tabela de descrição no banco: significado não confirmado."
+      - "Dados dos 'SEM USO' do próprio banco foram ignorados."
+    filhos:
+      movimento: {entidade: movimento_folha, liga: {codi_emp: codi_emp, i_empregados: empregado_codigo}}
+      bases: {entidade: base_folha, liga: {codi_emp: codi_emp, i_empregados: empregado_codigo}}
+      afastamentos: {entidade: afastamento, liga: {codi_emp: codi_emp, i_empregados: empregado_codigo}}
+      faltas: {entidade: falta, liga: {codi_emp: codi_emp, i_empregados: empregado_codigo}}
+      periodos_aquisitivos: {entidade: ferias_periodo_aquisitivo, liga: {codi_emp: codi_emp, i_empregados: empregado_codigo}}
+
+  cargo:
+    titulo: Cargos
+    tabela: focargos
+    chave: [codi_emp, i_cargos]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[nome, asc]]
+    colunas:
+      codigo: i_cargos
+      nome: nome
+      cbo_1994: cbo
+      cbo_2002: cbo_2002
+      atividade: atividade
+      situacao: {coluna: SITUACAO, dominio: situacao_cadastro}
+      data_inicio: DATA_INICIO
+      data_inativacao: DATA_INATIVACAO
+      codigo_esocial: CODIGO_ESOCIAL
+    filtros:
+      codigo: {coluna: i_cargos, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      cbo_2002: {coluna: cbo_2002, ops: [eq, in]}
+      situacao: {coluna: SITUACAO, ops: [eq]}
+
+  departamento_folha:
+    titulo: Departamentos (folha)
+    tabela: fodepto
+    chave: [codi_emp, i_depto]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[nome, asc]]
+    colunas:
+      codigo: i_depto
+      nome: nome
+      situacao: {coluna: SITUACAO, dominio: situacao_cadastro}
+      data_inicio: DATA_INICIO
+      data_inativacao: DATA_INATIVACAO
+    filtros:
+      codigo: {coluna: i_depto, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      situacao: {coluna: SITUACAO, ops: [eq]}
+
+  centro_custo_folha:
+    titulo: Centros de custo (folha)
+    tabela: foccustos
+    chave: [codi_emp, i_ccustos]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[MASCARA, asc]]
+    colunas:
+      codigo: i_ccustos
+      nome: nome
+      tipo: TIPO
+      sintetico_codigo: I_CCUSTOS_SINTETICO
+      mascara: MASCARA
+    filtros:
+      codigo: {coluna: i_ccustos, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+    regras:
+      - "tipo: 1 = sintético, 2 = analítico (comentário do banco)."
+
+  filial_folha:
+    titulo: Filiais (folha)
+    descricao: Estabelecimentos da empresa na folha (CNPJ da filial). Dados de pessoa jurídica.
+    tabela: fofiliais
+    chave: [codi_emp, i_filiais]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[i_filiais, asc]]
+    colunas:
+      codigo: i_filiais
+      nome: nome
+      razao_social: RAZAO_SOCIAL
+      tipo_inscricao: tipo_insc
+      inscricao: cgc
+      inscricao_estadual: inscricao
+      cnae: i_cnae20
+      cidade: cidade
+      uf: estado
+      municipio_codigo: codigo_municipio
+    filtros:
+      codigo: {coluna: i_filiais, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+
+  sindicato:
+    titulo: Sindicatos / convenções coletivas
+    descricao: Cadastro global (não depende de empresa) de convenções coletivas e regras de cálculo.
+    tabela: fosindicatos
+    chave: [i_sindicatos]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[nome, asc]]
+    colunas:
+      codigo: i_sindicatos
+      nome: nome
+      piso_salarial: piso_salarial
+      mes_base: mes_base
+      mes_contribuicao: mes_contribuicao
+      adicional_noturno_percentual: adic_noturno
+      dias_multa_rescisao: dias_multa_db
+      percentual_multa_rescisao: perc_multa_db
+    filtros:
+      codigo: {coluna: i_sindicatos, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+
+  evento:
+    titulo: Eventos / rubricas
+    descricao: >
+      Rubricas da folha (proventos, descontos e informativos) com as marcações que definem sobre quais bases incidem
+      e se aparecem no recibo. IMPORTANTE: só entram nos totais (proventos/descontos) os eventos com aparece_recibo = 'S'.
+    tabela: foeventos
+    chave: [codi_emp, i_eventos]
+    acesso: {empresa: codi_emp, volume: grande}
+    ordem: [[i_eventos, asc]]
+    colunas:
+      codigo: i_eventos
+      nome: nome
+      tipo: {coluna: prov_desc, dominio: tipo_evento}
+      unidade: tipo_inf
+      taxa: taxa
+      ordem_calculo: ordem_calculo
+      classificacao: classificacao
+      aparece_recibo: {coluna: aparece_recibo, dominio: sim_nao_texto}
+      soma_ficha_financeira: {coluna: soma_fic_fin, dominio: sim_nao_texto}
+      base_inss: base_inss
+      base_irrf: base_irrf
+      base_fgts: base_fgts
+      base_sindicato: base_sindicato
+      base_hora_extra: base_hextra
+      base_periculosidade: base_periculosidade
+      compoe_horas_mes: horas_mes
+      media_13: soma_med_13
+      media_ferias: soma_med_fer
+      sai_na_rais: soma_rais
+      paga_proporcional: paga_prop
+      rendimento_tributavel: rend_tributaveis
+      rendimento_isento: rend_isentos
+    filtros:
+      codigo: {coluna: i_eventos, ops: [eq, in, entre]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      tipo: {coluna: prov_desc, ops: [eq, in]}
+      aparece_recibo: {coluna: aparece_recibo, ops: [eq]}
+    regras:
+      - "Totais da folha: fobasesserv.proventos = Σ valor calculado dos eventos P que entram no recibo; fobasesserv.descontos = Σ dos eventos D idem (entra = aparece_recibo 'S' no cadastro próprio ou, na falta, no padrão; evento sem cadastro nenhum entra). Validado em 65.877 linhas de base, 9 empresas (proventos 100,0%, descontos 99,5%). Eventos D que NÃO aparecem no recibo (ex.: auxiliares) NÃO entram em descontos."
+      - "Uma empresa pode não ter nenhuma linha aqui e ainda assim ter movimento de folha: ela usa os eventos padrão (entidade evento_padrao)."
+      - "As marcações base_* têm formatos diferentes (S/N em umas, 0/1 em outras): não as use como booleano sem conferir o valor real."
+
+  evento_padrao:
+    titulo: Eventos padrão (rubricas-modelo)
+    descricao: >
+      Cadastro global de rubricas-modelo da Domínio. Empresas sem eventos próprios (309 delas têm movimento de folha)
+      usam estes. Tem as mesmas marcações de `evento`, sem filtro de empresa.
+    tabela: foeventosdef
+    chave: [i_eventos]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_eventos, asc]]
+    colunas:
+      codigo: i_eventos
+      nome: nome
+      tipo: {coluna: prov_desc, dominio: tipo_evento}
+      unidade: tipo_inf
+      aparece_recibo: {coluna: aparece_recibo, dominio: sim_nao_texto}
+      soma_ficha_financeira: {coluna: soma_fic_fin, dominio: sim_nao_texto}
+      base_inss: base_inss
+      base_irrf: base_irrf
+      base_fgts: base_fgts
+    filtros:
+      codigo: {coluna: i_eventos, ops: [eq, in, entre]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      tipo: {coluna: prov_desc, ops: [eq, in]}
+      aparece_recibo: {coluna: aparece_recibo, ops: [eq]}
+
+  servico_folha:
+    titulo: Serviços / tomadores (folha)
+    descricao: Código de serviço usado no rateio da folha (a maior parte das colunas do banco está marcada SEM USO).
+    tabela: foservicos
+    chave: [codi_emp, i_servicos]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[i_servicos, asc]]
+    colunas:
+      codigo: i_servicos
+      nome: nome
+      situacao: {coluna: SITUACAO, dominio: situacao_cadastro}
+      data_inicio: DATA_INICIO
+      data_inativacao: DATA_INATIVACAO
+    filtros:
+      codigo: {coluna: i_servicos, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+
+  # ================================================ MOVIMENTO ===========================================================
+  movimento_folha:
+    titulo: Movimento da folha (valores por evento)
+    descricao: >
+      Uma linha por evento (rubrica) calculado de cada empregado, competência e tipo de folha — o "recibo" aberto.
+      O identificador do cálculo (calculo) é um GUID e faz parte da chave.
+    privacidade: "Valores pagos por empregado identificável (financeiro). Mascarar por padrão."
+    tabela: fomovtoserv
+    chave: [codi_emp, i_empregados, data, tipo_proces, i_eventos, rateio, i_servicos, I_CALCULOS]
+    acesso:
+      empresa: codi_emp
+      periodo: data
+      exige_algum: [periodo, empregado_codigo]
+      volume: grande
+    ordem: [[data, desc], [i_empregados, asc], [i_eventos, asc]]
+    colunas:
+      empregado_codigo: i_empregados
+      competencia: data
+      tipo_folha: {coluna: tipo_proces, dominio: tipo_folha}
+      evento_codigo: i_eventos
+      tipo_evento: {coluna: prov_desc, dominio: tipo_evento}
+      valor_calculado: {coluna: valor_cal, sensivel: financeiro}
+      valor_informado: {coluna: valor_inf, sensivel: financeiro}
+      valor_calculado_integral: {coluna: VALOR_CALCULADO_INTEGRAL, sensivel: financeiro}
+      origem: {coluna: origem, dominio: origem_calculo}
+      rateio: rateio
+      servico_codigo: i_servicos
+      simulacao: SIMULACAO
+      calculo: I_CALCULOS
+    vinculos:
+      evento:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {evento_proprio_nome: nome, evento_proprio_aparece_recibo: aparece_recibo}
+      evento_padrao:
+        tabela: foeventosdef
+        liga: {i_eventos: i_eventos}
+        colunas: {evento_padrao_nome: nome, evento_padrao_aparece_recibo: aparece_recibo}
+      empregado:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    coalescidas:
+      evento_nome: [evento.nome, evento_padrao.nome]
+      evento_aparece_recibo: [evento.aparece_recibo, evento_padrao.aparece_recibo, "'S'"]
+    filtros:
+      empregado_codigo: {coluna: i_empregados, ops: [eq, in]}
+      competencia: {coluna: data, ops: [eq, entre, gte, lte]}
+      tipo_folha: {coluna: tipo_proces, ops: [eq, in]}
+      evento_codigo: {coluna: i_eventos, ops: [eq, in]}
+      tipo_evento: {coluna: prov_desc, ops: [eq, in]}
+      simulacao: {coluna: SIMULACAO, ops: [eq]}
+    regras:
+      - "REGRA DOS EVENTOS (validada): o evento de um movimento é buscado primeiro no cadastro da própria empresa (foeventos) e, se não existir, nos eventos padrão (foeventosdef). 208.504 movimentos (7,1%) de 310 empresas não têm evento próprio; 309 dessas empresas não têm NENHUM evento próprio e usam só os padrões (92% dos casos resolvem pelos padrões; o resto existe só em outra empresa). As colunas evento_nome e evento_aparece_recibo já aplicam essa ordem."
+      - "Para somar proventos/descontos como a Domínio: some valor_calculado dos eventos tipo P ou D com evento_aparece_recibo = 'S'. Evento sem cadastro nenhum (nem próprio nem padrão) CONTA (default 'S'). Com essa regra: proventos batem em 65.869 de 65.877 linhas de base (100,0%) e descontos em 65.560 (99,5%), em 9 empresas incluindo as que só usam eventos padrão. Sem o default 'S' a regra falha nessas empresas (ex.: 19% na empresa 37)."
+      - "competencia é sempre o dia 1º do mês (data = primeiro dia da competência)."
+      - "Há competências futuras já calculadas (até 2026-12): filtre por período."
+      - "origem 'F' (172 mil linhas) são cálculos de férias; 'C' são da folha mensal e demais."
+
+  base_folha:
+    titulo: Bases e totais da folha
+    descricao: >
+      Uma linha por empregado, competência, tipo de folha, serviço e cálculo, com os totais já calculados pela Domínio:
+      proventos, descontos e o líquido (calculado pelo modelo = proventos − descontos). Das ~35 colunas, o banco marca
+      ~25 como "SEM USO" (IRRF, INSS, FGTS ficam em outras tabelas); só as vivas são expostas.
+    privacidade: "Totais de remuneração por empregado identificável (financeiro). Mascarar por padrão."
+    tabela: fobasesserv
+    chave: [codi_emp, i_empregados, competencia, tipo_process, i_servicos, rateio, I_CALCULOS]
+    acesso:
+      empresa: codi_emp
+      periodo: competencia
+      exige_algum: [periodo, empregado_codigo]
+      volume: medio
+    ordem: [[competencia, desc], [i_empregados, asc]]
+    colunas:
+      empregado_codigo: i_empregados
+      competencia: competencia
+      tipo_folha: {coluna: tipo_process, dominio: tipo_folha}
+      situacao_mes: situacao_mes
+      departamento_codigo: i_depto
+      centro_custo_codigo: i_ccustos
+      cargo_codigo: i_cargos
+      numero_filhos: num_filhos
+      numero_dependentes: num_dependentes
+      proventos: {coluna: proventos, sensivel: financeiro}
+      descontos: {coluna: descontos, sensivel: financeiro}
+      salario_mes: {coluna: salario_mes, sensivel: financeiro}
+      salario_maternidade: {coluna: salario_maternidade, sensivel: financeiro}
+      salario_familia: {coluna: val_sal_fam, sensivel: financeiro}
+      numero_cheque: nume_cheque
+      servico_codigo: i_servicos
+      rateio: rateio
+      calculo: I_CALCULOS
+    calculadas:
+      liquido: "proventos - descontos"
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+      departamento:
+        tabela: fodepto
+        liga: {codi_emp: codi_emp, i_depto: i_depto}
+        colunas: {departamento_nome: nome}
+      cargo:
+        tabela: focargos
+        liga: {codi_emp: codi_emp, i_cargos: i_cargos}
+        colunas: {cargo_nome: nome}
+    filtros:
+      empregado_codigo: {coluna: i_empregados, ops: [eq, in]}
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      tipo_folha: {coluna: tipo_process, ops: [eq, in]}
+      departamento_codigo: {coluna: i_depto, ops: [eq, in]}
+      centro_custo_codigo: {coluna: i_ccustos, ops: [eq, in]}
+      cargo_codigo: {coluna: i_cargos, ops: [eq, in]}
+    regras:
+      - "proventos = Σ valor_calculado dos eventos P que aparecem no recibo; descontos = Σ dos eventos D que aparecem no recibo (validado: 99,99% e 99,4% de 56.026 linhas, 5 empresas)."
+      - "liquido = proventos − descontos coincide com o líquido registrado pela Domínio em foliquidosfilepr em 99,8% dos pares empregado×cálculo."
+      - "situacao_mes (valores 1, 9, 8, 6, 5, 59, 3, 16...) não tem descrição no banco: significado não confirmado."
+      - "INSS, IRRF e FGTS NÃO estão aqui (colunas marcadas SEM USO); estão em tabelas próprias (fobasesirrf, fofgtsfilial, foguiainss...), ainda não modeladas."
+
+  liquido_folha:
+    titulo: Líquido a pagar
+    descricao: Líquido registrado pela Domínio para pagamento, por empregado e cálculo.
+    privacidade: "Valor líquido por empregado identificável (financeiro). Mascarar por padrão."
+    tabela: foliquidosfilepr
+    chave: [codi_emp, i_empregados, SEQUENCIAL, I_LIQUIDOSFIL]
+    acesso:
+      empresa: codi_emp
+      exige_algum: [empregado_codigo]
+      volume: medio
+    ordem: [[i_empregados, asc], [SEQUENCIAL, asc]]
+    colunas:
+      empregado_codigo: i_empregados
+      liquido: {coluna: liquido, sensivel: financeiro}
+      sequencial: SEQUENCIAL
+      numero_rpa: NUMERO_RPA
+      calculo: I_CALCULOS
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: i_empregados, ops: [eq, in]}
+    regras:
+      - "Não há data nesta tabela; a competência vem do cálculo (calculo = base_folha.calculo)."
+
+  # ================================================ EVENTOS DO VÍNCULO ==================================================
+  rescisao:
+    titulo: Rescisões
+    privacidade: "Verbas rescisórias por empregado identificável (financeiro). Mascarar por padrão."
+    tabela: forescisoes
+    chave: [codi_emp, i_calculos, i_empregados, tipo]
+    acesso: {empresa: codi_emp, periodo: demissao, volume: pequeno}
+    ordem: [[demissao, desc]]
+    colunas:
+      empregado_codigo: i_empregados
+      tipo: {coluna: tipo, dominio: tipo_rescisao}
+      calculo: I_CALCULOS
+      demissao: demissao
+      motivo: motivo
+      data_aviso: data_aviso
+      aviso_indenizado: {coluna: aviso_indenizado, dominio: sim_nao_texto}
+      avos_13: avos_pago_13
+      ferias_vencidas: num_fer_venc
+      meses_ferias_proporcionais: meses_fer_prop
+      codigo_saque_fgts: codigo_saque_fgts
+      salario: {coluna: salario, sensivel: financeiro}
+      proventos: {coluna: proventos, sensivel: financeiro}
+      descontos: {coluna: descontos, sensivel: financeiro}
+      saldo_fgts: {coluna: saldo_fgts, sensivel: financeiro}
+      fgts_rescisao: {coluna: val_fgts_res, sensivel: financeiro}
+    calculadas:
+      liquido: "proventos - descontos"
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {empregado_nome: nome, empregado_admissao: admissao}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: i_empregados, ops: [eq, in]}
+      demissao: {coluna: demissao, ops: [entre, gte, lte]}
+      motivo: {coluna: motivo, ops: [eq, in]}
+    regras:
+      - "A chave é (empresa, cálculo, empregado, tipo): um empregado pode ter mais de uma linha (rescisão normal e complementar). Hoje há 6.904 normais (tipo 1) e 288 complementares (tipo 2); simulações (tipo 4) não aparecem."
+      - "Para contar demissões, filtre tipo = 1; somar normal + complementar duplica o evento de desligamento."
+      - "motivo é um código sem tabela de descrição no banco (mais frequentes: 2, 4, 43, 99, 10, 27, 11, 12): significado não confirmado."
+
+  afastamento:
+    titulo: Afastamentos
+    descricao: >
+      Afastamentos do empregado (licenças, auxílio-doença, maternidade...). Colunas de saúde (CID, CAT, acidente) foram
+      deixadas de fora de propósito.
+    privacidade: "O tipo de afastamento pode revelar condição de saúde do empregado (ex.: auxílio-doença). Tratar como dado sensível."
+    tabela: FOAFASTAMENTOS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_REAL_DN]
+    acesso: {empresa: CODI_EMP, periodo: DATA_REAL, volume: medio}
+    ordem: [[DATA_REAL, desc]]
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      data_inicio: DATA_REAL
+      data_inicio_folha: DATA_FOLHA
+      data_fim: DATA_FIM
+      numero_dias: NUMERO_DIAS
+      tipo_codigo: I_AFASTAMENTOS
+      transferencia: TRANSFERENCIA
+      origem: ORIGEM
+    vinculos:
+      tipo:
+        tabela: FOAFASTAMENTOS_TIPOS
+        liga: {I_AFASTAMENTOS: I_AFASTAMENTOS}
+        colunas: {tipo_descricao: DESCRICAO}
+      empregado:
+        tabela: foempregados
+        liga: {CODI_EMP: codi_emp, I_EMPREGADOS: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      data_inicio: {coluna: DATA_REAL, ops: [entre, gte, lte]}
+      tipo_codigo: {coluna: I_AFASTAMENTOS, ops: [eq, in]}
+
+  falta:
+    titulo: Faltas
+    tabela: FOFALTAS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FALTAS]
+    acesso: {empresa: CODI_EMP, periodo: DIA, volume: pequeno}
+    ordem: [[DIA, desc]]
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      sequencial: I_FALTAS
+      dia: DIA
+      tipo: {coluna: TIPO, dominio: tipo_falta}
+      origem: {coluna: ORIGEM, dominio: origem_falta}
+      horas: VALOR
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {CODI_EMP: codi_emp, I_EMPREGADOS: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      dia: {coluna: DIA, ops: [entre, gte, lte]}
+      tipo: {coluna: TIPO, ops: [eq, in]}
+
+  ferias_periodo_aquisitivo:
+    titulo: Férias — períodos aquisitivos
+    tabela: FOFERIAS_AQUISITIVOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_AQUISITIVOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem: [[DATA_INICIO, desc]]
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      sequencia: I_FERIAS_AQUISITIVOS
+      data_inicio: DATA_INICIO
+      data_fim: DATA_FIM
+      situacao: SITUACAO
+      dias_direito: DIAS_DIREITO
+      dias_gozados: DIAS_GOZADOS
+      dias_abono: DIAS_ABONO
+      dias_faltas: DIAS_FALTAS
+      avos_adquiridos: AVOS_ADQUIRIDOS
+      limite_para_gozo: LIMITE_PARA_GOZO
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {CODI_EMP: codi_emp, I_EMPREGADOS: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      data_inicio: {coluna: DATA_INICIO, ops: [entre, gte, lte]}
+      limite_para_gozo: {coluna: LIMITE_PARA_GOZO, ops: [entre, gte, lte]}
+    regras:
+      - "situacao (GOZADO, PERDIDA etc., segundo o comentário) é um código sem tabela de descrição: significado não confirmado."
+    filhos:
+      gozos: {entidade: ferias_gozo, liga: {CODI_EMP: CODI_EMP, I_EMPREGADOS: empregado_codigo, I_FERIAS_AQUISITIVOS: periodo_aquisitivo}}
+
+  ferias_gozo:
+    titulo: Férias — gozo
+    tabela: FOFERIAS_GOZO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO]
+    acesso: {empresa: CODI_EMP, periodo: GOZO_INICIO, volume: pequeno}
+    ordem: [[GOZO_INICIO, desc]]
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      sequencia: I_FERIAS_GOZO
+      periodo_aquisitivo: I_FERIAS_AQUISITIVOS
+      gozo_inicio: GOZO_INICIO
+      gozo_fim: GOZO_FIM
+      paga_abono: {coluna: ABONO_PAGA, dominio: sim_nao_texto}
+      abono_inicio: ABONO_INICIO
+      abono_fim: ABONO_FIM
+      data_pagamento: DATA_PAGTO
+      paga_adiantamento_13: {coluna: PAGA_AD13, dominio: sim_nao_texto}
+      dias_faltas: DIAS_FALTAS
+      tipo: {coluna: TIPO, dominio: tipo_gozo_ferias}
+    vinculos:
+      empregado:
+        tabela: foempregados
+        liga: {CODI_EMP: codi_emp, I_EMPREGADOS: i_empregados}
+        colunas: {empregado_nome: nome}
+        sensiveis: [empregado_nome]
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      gozo_inicio: {coluna: GOZO_INICIO, ops: [entre, gte, lte]}
+      tipo: {coluna: TIPO, ops: [eq, in]}
+    regras:
+      - "tipo 5 (provisão), 7 e 8 (simulação) NÃO são férias efetivamente gozadas; filtre tipo in (1,2,3,4,6) para férias reais."

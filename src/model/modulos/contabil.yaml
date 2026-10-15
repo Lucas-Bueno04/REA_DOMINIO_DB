@@ -1,0 +1,357 @@
+# Modelo de entidades do módulo CONTÁBIL (prefixo CT). Formato: docs/formato-modelo.md
+#
+# REGRA CENTRAL DO PLANO DE CONTAS (validada nos dados):
+#   Conta contábil e histórico padrão pertencem ao PLANO, não à empresa do lançamento. 15 empresas usam o plano de outra
+#   empresa (3 planos compartilhados). Em ctlancto a empresa do plano está em `codi_emp_plano`; por isso os vínculos com
+#   ctcontas e cthispad ligam por (codi_emp_plano, código) e NUNCA por codi_emp:
+#     órfãos de conta com codi_emp = 1.603  x  com codi_emp_plano = 166 (de 13,3 mi);
+#     histórico dos 781 lançamentos de plano alheio: achado 0 vezes por codi_emp, 781 vezes por codi_emp_plano.
+modulo: contabil
+titulo: Contabilidade
+dominios:
+  tipo_conta:
+    descricao: Tipo da conta (ctcontas.tipo_cta)
+    confirmado: true      # comentário do banco + dados (13.267.083 lançamentos em contas A; só 33 em contas S)
+    valores: {A: Analítica (recebe lançamentos), S: Sintética (apenas totaliza)}
+  situacao_conta:
+    confirmado: true
+    valores: {A: Ativa, I: Inativa}
+  tipo_lote:
+    descricao: Forma do lote de lançamentos (ctlanctolote.tipo / ctlanctopadrao.tipo_pad)
+    confirmado: true      # comentário + padrão de lado zerado: C e D têm exatamente 1 linha "isolada" por lote
+    valores: {X: Um débito para um crédito, D: Um débito para vários créditos, C: Um crédito para vários débitos, V: Vários débitos para vários créditos}
+  origem_lancamento:
+    descricao: De onde veio o lançamento (ctlancto.orig_lan)
+    confirmado: parcial
+    nota: >
+      Os códigos 1 a 19 vêm do comentário do banco; foram CONFIRMADOS pelos dados apenas 5, 6, 7, 10 e 11
+      (ligação 1:1 com as tabelas efsaidas_lancto, efentradas_lancto, efservicos_lancto, efsdoimp_lancto e efpagimp_lancto).
+      O código 49 (54% de todos os lançamentos) NÃO está no comentário: 100% dele está ligado a EFCUPOM_FISCAL_ELETRONICO_LANCTO,
+      logo é a contabilização de cupom fiscal eletrônico (CF-e) — conclusão por evidência, não documentada pelo banco.
+      Os demais códigos (20, 39, 70, 34...) existem em volume relevante e seguem sem significado conhecido.
+    valores:
+      1: "Normal (digitado/importado)"
+      2: "Zeramento (comentário; não confirmado)"
+      3: "Patrimônio (comentário; não confirmado)"
+      5: "Escrita fiscal - saídas (confirmado)"
+      6: "Escrita fiscal - entradas (confirmado)"
+      7: "Escrita fiscal - serviços (confirmado)"
+      10: "Apuração de impostos (confirmado)"
+      11: "Pagamento de guia (confirmado)"
+      13: "Folha (comentário; não confirmado)"
+      49: "Cupom fiscal eletrônico CF-e (inferido por evidência)"
+    valores_sem_significado_conhecido: [20, 34, 39, 42, 44, 55, 56, 65, 67, 70, 72]
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  tipo_ligacao_documento:
+    descricao: efsaidas_lancto.tipo (ligação nota x lançamento)
+    confirmado: false
+    nota: >
+      O banco não descreve esta coluna. Nos dados: tipo 1 em 98% das ligações (410.252 com origem 'N', 1.253 com 'I', 7.361 sem origem)
+      e tipo 0 em 0,1% (338 ligações). Não foi investigado o que diferencia os dois; não use o tipo como regra de negócio.
+    valores: {1: "predominante (98%)", 0: "raro (0,1%) — significado desconhecido"}
+
+entidades:
+  # ================================================= PLANO E CADASTROS =================================================
+  conta_contabil:
+    titulo: Plano de contas
+    descricao: >
+      Contas contábeis. ATENÇÃO: `empresa` aqui é a empresa DONA DO PLANO. Se a empresa consultada usa o plano de outra,
+      informe a empresa do plano (ctlancto.codi_emp_plano). Só contas analíticas (tipo A) recebem lançamentos.
+    tabela: ctcontas
+    chave: [codi_emp, codi_cta]
+    acesso: {empresa: codi_emp, volume: grande}
+    ordem: [[clas_cta, asc]]
+    colunas:
+      codigo: codi_cta
+      classificacao: clas_cta
+      nome: nome_cta
+      tipo: {coluna: tipo_cta, dominio: tipo_conta}
+      situacao: {coluna: SITUACAO_CTA, dominio: situacao_conta}
+      data_cadastro: DATA_CTA
+      data_inativacao: DATAINATIVA_CTA
+      grupo_dre: grdre_cta
+      grupo_dlpa: dlpa_cta
+      grupo_doar: doar_cta
+      grupo_dmpl: dmpl_cta
+      grupo_dra: DRA_CTA
+      grupo_dsp: DSP_CTA
+      grupo_ebitda: EBITDA_CTA
+      grupo_lcdpr: LCDPR_CTA
+    filtros:
+      codigo: {coluna: codi_cta, ops: [eq, in]}
+      classificacao: {coluna: clas_cta, ops: [eq, prefixo]}
+      nome: {coluna: nome_cta, ops: [contem, prefixo]}
+      tipo: {coluna: tipo_cta, ops: [eq]}
+      situacao: {coluna: SITUACAO_CTA, ops: [eq]}
+    regras:
+      - "clas_cta é a classificação hierárquica (ex.: 1.1.01...): contas sintéticas totalizam as analíticas cujo clas_cta começa pelo mesmo prefixo."
+      - "Só contas analíticas (A) recebem lançamentos (13.267.083 lançamentos em contas A contra 33 em contas S — exceções de dado)."
+
+  historico_padrao:
+    titulo: Históricos padrão
+    descricao: Textos-modelo de histórico, pertencentes ao plano (use a empresa do plano). 64% dos lançamentos não usam código de histórico e trazem o texto livre em chis_lan.
+    tabela: cthispad
+    chave: [codi_emp, codi_his]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_his, asc]]
+    colunas: {codigo: codi_his, descricao: desc_his}
+    filtros:
+      codigo: {coluna: codi_his, ops: [eq, in]}
+      descricao: {coluna: desc_his, ops: [contem, prefixo]}
+
+  centro_custo:
+    titulo: Centros de custo
+    tabela: ctccusto
+    chave: [codi_emp, codi_ccu]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_ccu, asc]]
+    colunas: {codigo: codi_ccu, descricao: desc_ccu, departamento_codigo: codi_dep, data_cadastro: DATA_CCU}
+    vinculos:
+      departamento:
+        tabela: ctdepto
+        liga: {codi_emp: codi_emp, codi_dep: codi_dep}
+        colunas: {departamento_nome: desc_dep}
+    filtros:
+      codigo: {coluna: codi_ccu, ops: [eq, in]}
+      descricao: {coluna: desc_ccu, ops: [contem, prefixo]}
+
+  departamento:
+    titulo: Departamentos (contabilidade)
+    tabela: ctdepto
+    chave: [codi_emp, codi_dep]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_dep, asc]]
+    colunas: {codigo: codi_dep, descricao: desc_dep}
+    filtros:
+      codigo: {coluna: codi_dep, ops: [eq, in]}
+      descricao: {coluna: desc_dep, ops: [contem, prefixo]}
+
+  lancamento_padrao:
+    titulo: Lançamentos padrão
+    descricao: Modelos de lançamento (contas e histórico pré-definidos).
+    tabela: ctlanctopadrao
+    chave: [codi_emp, codi_pad]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_pad, asc]]
+    colunas:
+      codigo: codi_pad
+      descricao: desc_pad
+      conta_debito: cdeb_pad
+      conta_credito: ccre_pad
+      historico_codigo: chis_pad
+      tipo: {coluna: tipo_pad, dominio: tipo_lote}
+      filial: FILI_PAD
+    filtros:
+      codigo: {coluna: codi_pad, ops: [eq, in]}
+      descricao: {coluna: desc_pad, ops: [contem, prefixo]}
+
+  # ================================================= LANÇAMENTOS =======================================================
+  lote_lancamento:
+    titulo: Lotes de lançamento
+    descricao: >
+      Todo lançamento pertence a um lote (nenhum lançamento sem lote). O equilíbrio contábil (débitos = créditos)
+      vale POR LOTE: no tipo X há 1 débito e 1 crédito na mesma linha; nos tipos D, C e V as linhas têm um dos lados zerado.
+    tabela: ctlanctolote
+    chave: [codi_emp, codi_lote]
+    acesso: {empresa: codi_emp, volume: grande}
+    ordem: [[codi_lote, desc]]
+    colunas:
+      codigo: codi_lote
+      tipo: {coluna: tipo, dominio: tipo_lote}
+      lancamento_padrao_codigo: codi_pad
+      localizador: LOCALIZADOR
+    filtros:
+      codigo: {coluna: codi_lote, ops: [eq, in, entre]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    filhos:
+      lancamentos: {entidade: lancamento, liga: {codi_emp: codi_emp, codi_lote: lote_codigo}}
+
+  lancamento:
+    titulo: Lançamentos contábeis
+    descricao: >
+      Livro diário: uma linha por lançamento. Cada lançamento tem valor, conta a débito (cdeb_lan) e conta a crédito (ccre_lan);
+      o valor 0 em um dos lados significa linha de lote com vários débitos ou créditos. Contas e histórico são do PLANO
+      (codi_emp_plano), que pode ser de outra empresa.
+    tabela: ctlancto
+    chave: [codi_emp, nume_lan]
+    acesso:
+      empresa: codi_emp
+      periodo: data_lan
+      exige_algum: [periodo, numero, lote_codigo, documento]     # 13,7 mi de linhas (até ~725 mil por empresa)
+      volume: grande
+    ordem: [[data_lan, asc], [nume_lan, asc]]
+    colunas:
+      numero: nume_lan
+      data: data_lan
+      valor: vlor_lan
+      conta_debito: cdeb_lan
+      conta_credito: ccre_lan
+      plano_empresa: CODI_EMP_PLANO
+      historico_codigo: codi_his
+      historico: chis_lan
+      lote_codigo: codi_lote
+      lancamento_padrao_codigo: codi_pad
+      origem: {coluna: orig_lan, dominio: origem_lancamento}
+      documento: ndoc_lan
+      filial: fili_lan
+      data_original: dorig_lan
+      data_ocorrencia: DATA_OCORRENCIA
+      conciliado_debito: {coluna: CONCILIADO_DEB, dominio: sim_nao_texto}
+      conciliado_credito: {coluna: CONCILIADO_CRE, dominio: sim_nao_texto}
+      usuario: codi_usu
+      origem_registro: origem_reg
+      cpf_titular_pagamento: {coluna: CPF_TITULAR_PAGAMENTO, sensivel: sim}
+      cpf_beneficiario_servico: {coluna: CPF_BENEFICIARIO_SERVICO, sensivel: sim}
+    vinculos:
+      conta_debito_cadastro:
+        tabela: ctcontas
+        liga: {CODI_EMP_PLANO: codi_emp, cdeb_lan: codi_cta}
+        colunas: {conta_debito_classificacao: clas_cta, conta_debito_nome: nome_cta}
+      conta_credito_cadastro:
+        tabela: ctcontas
+        liga: {CODI_EMP_PLANO: codi_emp, ccre_lan: codi_cta}
+        colunas: {conta_credito_classificacao: clas_cta, conta_credito_nome: nome_cta}
+      historico_padrao:
+        tabela: cthispad
+        liga: {CODI_EMP_PLANO: codi_emp, codi_his: codi_his}
+        colunas: {historico_padrao_descricao: desc_his}
+      lote:
+        tabela: ctlanctolote
+        liga: {codi_emp: codi_emp, codi_lote: codi_lote}
+        colunas: {lote_tipo: tipo}
+    filtros:
+      numero: {coluna: nume_lan, ops: [eq, in, entre]}
+      data: {coluna: data_lan, ops: [entre, gte, lte]}
+      conta: {coluna: [cdeb_lan, ccre_lan], ops: [eq, in]}     # a conta em QUALQUER dos lados (razão)
+      conta_debito: {coluna: cdeb_lan, ops: [eq, in]}
+      conta_credito: {coluna: ccre_lan, ops: [eq, in]}
+      valor: {coluna: vlor_lan, ops: [eq, gte, lte, entre]}
+      lote_codigo: {coluna: codi_lote, ops: [eq, in]}
+      origem: {coluna: orig_lan, ops: [eq, in]}
+      documento: {coluna: ndoc_lan, ops: [eq, in]}
+      filial: {coluna: fili_lan, ops: [eq, in]}
+      historico_codigo: {coluna: codi_his, ops: [eq, in]}
+      usuario: {coluna: codi_usu, ops: [eq]}
+    regras:
+      - "Equilíbrio: em cada lote, soma dos valores com débito = soma dos valores com crédito. Conferido nos 40.317 lotes da empresa 1430 (tipos X, V, C e D: 100% equilibrados; total de débitos = créditos = 248.988.467,04)."
+      - "vlor_lan nunca é negativo (0 negativos em 13,7 mi); 91 lançamentos têm valor 0."
+      - "Conta e histórico: ligar pelo PLANO (plano_empresa = CODI_EMP_PLANO), não por codi_emp. A ligação com o histórico não aparece nos JOINs dos programas da Domínio (por isso o validador avisa 'sem relação no grafo'); ela se sustenta nos dados: 0 órfãos por plano, contra 781 de 781 por codi_emp nos lançamentos de plano alheio."
+      - "Elo com a escrita fiscal: orig 5/6/7 ligam a efsaidas_lancto/efentradas_lancto/efservicos_lancto. REGRA ROBUSTA: o MAIOR lançamento ligado a uma nota é igual ao valor contábil dela (98,8% a 100% em 6 amostras de empresas e tipos de nota). A SOMA dos lançamentos ligados só fecha com o valor da nota quando a empresa contabiliza apenas o total (100% em saídas da empresa 1430; 65%, 33% e 64% em outras empresas), porque há lançamentos adicionais (impostos, retenções)."
+      - "Datas: há lançamentos com data absurda (143 acima de 2100, ex.: 9282-06-06) — erro de digitação nos dados; filtre por período."
+      - "O texto do histórico fica em `historico` (chis_lan); o código de histórico padrão é opcional (64% dos lançamentos da empresa 1430 não usam)."
+    filhos:
+      centros_custo: {entidade: lancamento_centro_custo, liga: {codi_emp: codi_emp, nume_lan: numero_lancamento}}
+
+  lancamento_centro_custo:
+    titulo: Rateio de lançamentos por centro de custo
+    descricao: Distribuição de um lançamento entre centros de custo (apenas empresas que usam centro de custo).
+    tabela: ctclancto
+    chave: [codi_emp, nume_ccu, cdeb_ccu, ccre_ccu]
+    acesso:
+      empresa: codi_emp
+      periodo: data_ccu
+      volume: medio
+    ordem: [[data_ccu, asc], [nume_ccu, asc]]
+    colunas:
+      numero_lancamento: nume_ccu
+      conta_debito_centro: cdeb_ccu
+      conta_credito_centro: ccre_ccu
+      conta_codigo: codi_cta
+      data: data_ccu
+      valor: vlor_ccu
+      filial: fili_ccu
+      lancamento_contabil: nume_lan
+    filtros:
+      numero_lancamento: {coluna: nume_ccu, ops: [eq, in]}
+      data: {coluna: data_ccu, ops: [entre, gte, lte]}
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+
+  # ================================================= ELO FISCAL x CONTÁBIL =============================================
+  contabilizacao_nota_saida:
+    titulo: Contabilização das notas de saída
+    descricao: >
+      Liga cada nota de saída (efsaidas) aos lançamentos que a contabilizaram. `empresa` = empresa da NOTA;
+      `empresa_lancamento` (fili_lan) = empresa em cujo livro o lançamento foi feito — difere em 17% das linhas
+      (notas de filiais contabilizadas na matriz).
+    tabela: efsaidas_lancto
+    chave: [codi_emp, nume_lan, fili_lan, codi_sai]
+    acesso:
+      empresa: codi_emp
+      exige_algum: [codigo_nota, numero_lancamento]
+      volume: medio
+    ordem: [[codi_sai, desc], [nume_lan, asc]]
+    colunas:
+      codigo_nota: codi_sai
+      numero_lancamento: nume_lan
+      empresa_lancamento: fili_lan
+      tipo: {coluna: tipo, dominio: tipo_ligacao_documento}
+      origem_lancamento: origem_lancamento
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {fili_lan: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+    filtros:
+      codigo_nota: {coluna: codi_sai, ops: [eq, in]}
+      numero_lancamento: {coluna: nume_lan, ops: [eq, in]}
+    regras:
+      - "O MAIOR lancamento_valor entre as linhas ligadas a uma nota de saída (cancelada='N') é igual a vcon_sai em 100% (empresa 1430) e 99,9% (empresa 879). NÃO assuma que a soma é igual: ela fecha em 100% na empresa 1430, mas em 65% na 879 (lançamentos adicionais de imposto/retenção)."
+
+  contabilizacao_nota_entrada:
+    titulo: Contabilização das notas de entrada
+    tabela: efentradas_lancto
+    chave: [codi_emp, nume_lan, fili_lan, codi_ent]
+    acesso:
+      empresa: codi_emp
+      exige_algum: [codigo_nota, numero_lancamento]
+      volume: medio
+    ordem: [[codi_ent, desc], [nume_lan, asc]]
+    colunas:
+      codigo_nota: codi_ent
+      numero_lancamento: nume_lan
+      empresa_lancamento: fili_lan
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {fili_lan: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+    filtros:
+      codigo_nota: {coluna: codi_ent, ops: [eq, in]}
+      numero_lancamento: {coluna: nume_lan, ops: [eq, in]}
+    regras:
+      - "O maior lancamento_valor ligado a uma nota de entrada é igual a vcon_ent em 99,9% (empresa 1430) e 100% (empresa 1047). A soma fecha em 95% (empresa 1430) mas só em 33% (empresa 1047)."
+
+  contabilizacao_nota_servico:
+    titulo: Contabilização das notas de serviço
+    tabela: efservicos_lancto
+    chave: [codi_emp, nume_lan, fili_lan, codi_ser]
+    acesso:
+      empresa: codi_emp
+      exige_algum: [codigo_nota, numero_lancamento]
+      volume: grande
+    ordem: [[codi_ser, desc], [nume_lan, asc]]
+    colunas:
+      codigo_nota: codi_ser
+      numero_lancamento: nume_lan
+      empresa_lancamento: fili_lan
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {fili_lan: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+    filtros:
+      codigo_nota: {coluna: codi_ser, ops: [eq, in]}
+      numero_lancamento: {coluna: nume_lan, ops: [eq, in]}
+    regras:
+      - "O maior lancamento_valor ligado a uma nota de serviço é igual a vcon_ser em 99,9% (empresa 138) e 98,8% (empresa 603). A soma NÃO fecha (0% na empresa 138, 64% na 603): serviços costumam gerar vários lançamentos (receita, retenções)."
+
+# Consultas agregadas (implementadas em src/server/sqlbuilder.py; não são tabelas):
+consultas:
+  balancete:
+    titulo: Balancete de verificação
+    descricao: >
+      Por conta analítica: saldo anterior, débitos, créditos e saldo atual no período. Saldo = débitos - créditos
+      (positivo = devedor). Agrega ctlancto pela empresa do PLANO e junta ctcontas. Não existe saldo armazenado
+      (CTLANCTO_SALDO tem 0 linhas): o balancete é sempre calculado dos lançamentos.
+    parametros: {empresa: obrigatorio, data_inicial: obrigatorio, data_final: obrigatorio, filial: opcional}
+    invariantes: [soma_debitos == soma_creditos, soma_saldo_anterior == 0, soma_saldo_atual == 0]

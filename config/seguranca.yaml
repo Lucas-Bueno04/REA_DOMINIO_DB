@@ -1,0 +1,36 @@
+# Salvaguardas do servidor MCP (Fases 4/5). Não são "mascaramento por papel": os papéis e restrições virão em cópias futuras do
+# servidor. Aqui ficam só as proteções que valem SEMPRE, mesmo com os dados de negócio em claro.
+#
+# 1) CREDENCIAIS NUNCA SAEM: o banco guarda senhas, tokens e segredos em texto em dezenas de tabelas (senha de certificado digital,
+#    senhas de portais e de SMTP, tokens de APIs...). Entregá-las a um LLM é um risco desproporcional e não é dado de negócio.
+#    - colunas cujo nome casa com o padrão abaixo são omitidas da consulta genérica (e recusadas se pedidas);
+#    - tabelas que são só cofres de credenciais ficam bloqueadas por inteiro.
+#    As entidades curadas dos modelos já não expõem essas colunas.
+colunas_credencial_regex: "(?i)(senha|password|passwd|(^|_)pwd(_|$)|token|secret|segredo|credencial|private|arquivo_certificado|frase_secreta)"
+colunas_credencial_excecoes: []        # colunas que casam com o padrão mas são inofensivas (ex.: nomes terminados em ...TOKENIZADO)
+
+tabelas_bloqueadas:                    # nomes em minúsculas
+  - gecertificadosdigitais
+  - geapuracao_assistida_credenciais
+  - geatendimento_banking_keycloak_credentials
+  - fodarf_dctfweb_api_tokens_requisicao
+  - efdas_api_tokens_requisicao
+  - geconfiguracao_envio_email_parametros
+  - geconversao_senha_usuarios
+  - gesenhainternethist
+  - syslicacao
+  - sysliberacao2
+  - sysliberacao_historico
+  - gesecusuarios
+  - gesecusuariosgrupos
+  - efproxy_lista
+
+# 2) LIMITES (protegem o banco e o contexto do cliente)
+limites:
+  linhas_padrao: 50
+  linhas_maximo: 500
+  colunas_padrao_tabela_generica: 40   # tabelas largas (até 400 colunas): sem lista de colunas, devolve só as primeiras
+  colunas_maximo: 100
+  tabela_grande_linhas: 200000         # acima disso a consulta genérica exige filtro por coluna líder de índice
+  timeout_segundos: 60
+  valores_em_in_maximo: 500

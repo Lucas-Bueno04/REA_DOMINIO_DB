@@ -1,0 +1,951 @@
+# Modelo de entidades do módulo FISCAL (Escrita Fiscal — prefixo EF).
+# Convenções:
+#   colunas:  nome_api: coluna_real            ou  nome_api: {coluna, dominio, sensivel}
+#   vinculos: lookups N:1 (LEFT JOIN) que acrescentam colunas legíveis (nome do cliente, do produto...)
+#             `liga` = {coluna_local: coluna_remota}. (Não usar a chave `on`: o YAML 1.1 a lê como booleano.)
+#   filhos:   relações 1:N navegáveis a partir da entidade; `liga` = {coluna_do_pai: nome_api_ou_coluna_do_filho}
+#   acesso:   empresa = coluna obrigatória no filtro; periodo = coluna (ou vinculo.coluna) usada para recortar por datas;
+#             exige_algum = pelo menos um destes filtros é obrigatório (protege tabelas grandes);
+#             volume = ordem de grandeza (pequeno <10 mil | medio <1 mi | grande >=1 mi)
+# Fontes de cada decisão: docs/colunas/*.md (comentários do banco), relações em exports/grafo.json,
+# valores reais em data/raw/valores_distintos.json.
+modulo: fiscal
+titulo: Escrita Fiscal
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  situacao_documento:
+    descricao: Situação do documento (situacao_sai / situacao_ent / situacao_ser)
+    confirmado: false
+    nota: >
+      O comentário do banco ("Codigo do modelo do documento fiscal") não corresponde aos valores.
+      Os códigos lembram a tabela COD_SIT do SPED (00 regular, 02 cancelado, 06 complementar, 08 regime especial),
+      mas NÃO foi confirmado. Em notas de saída: 92% das notas canceladas têm situacao=2 (3.793 de 4.123), porém só 59%
+      das notas com situacao=2 estão canceladas (3.793 de 6.453; as outras 2.660 têm cancelada='N'). Portanto situacao=2
+      NÃO equivale a cancelada. Use `cancelada` para saber se a nota está cancelada.
+    valores_observados: {0: "regular (97,9% das notas)", 1: desconhecido, 2: desconhecido, 4: desconhecido, 6: desconhecido, 7: desconhecido, 8: desconhecido, 9: desconhecido, 10: desconhecido}
+  tipo_frete:
+    descricao: Responsável pelo frete (cifob_sai / cifob_ent)
+    confirmado: parcial          # C e F vêm do comentário ("C-Cif / F-Fob"); T e S aparecem nos dados sem comentário
+    valores: {C: CIF, F: FOB, T: Terceiros (provável), S: Sem frete (provável)}
+  emitente_nota:
+    confirmado: true
+    valores: {P: Próprio, T: Terceiro}
+  tipo_produto:
+    confirmado: true             # comentário da coluna efprodutos.tipo_pdi
+    valores: {V: Veículos novos, M: Medicamentos, A: Armas de fogo, O: Outros, C: Combustíveis, U: Comunicação, E: Energia elétrica, S: Veículos usados}
+  tipo_item_produto:
+    confirmado: true             # comentário de efprodutos.tipo_item_pdi (SPED: tipo do item)
+    valores: {0: Mercadoria para revenda, 1: Matéria-prima, 2: Produto intermediário, 3: Produto em fabricação, 4: Produto acabado, 5: Embalagem, 9: Serviços, 10: Outros insumos, 99: Outras}
+  regime_apuracao:
+    confirmado: parcial          # efclientes: N,O,M vistos; efclientes/effornece têm legendas diferentes no comentário
+    valores: {N: Normal, M: ME - Simples Nacional, E: EPP - Simples Nacional, O: Outros, U: Imune, I: Isenta, S: ME - Simples Nacional (fornecedor), P: EPP - Simples Nacional (fornecedor)}
+  codigo_imposto:
+    descricao: Código do imposto (codi_imp). O cadastro por empresa está em geimposto; os nomes abaixo são globais (iguais em todas as empresas).
+    confirmado: true             # nomes lidos de geimposto.nome_imp
+    valores: {1: ICMS, 2: IPI, 3: ISS, 4: PIS, 5: COFINS, 8: DIFALI, 9: Substituição Tributária, 16: IRRF, 18: ISS Retido, 22: PIS (Retido), 23: COFINS (Retido), 24: Contribuição Social (Retida), 26: INSS Retido}
+  periodicidade_apuracao:
+    descricao: Periodicidade do saldo de imposto (efsdoimp.pdic_sim)
+    confirmado: true             # comentário da coluna
+    valores: {1: 1º decêndio, 2: 2º decêndio, 3: 3º decêndio, 4: 1ª quinzena, 5: 2ª quinzena, 6: Mensal, 7: Trimestral, 11: 1ª semana, 12: 2ª semana, 13: 3ª semana, 14: 4ª semana, 15: 5ª semana, 51: Complementar, 52: 13º salário}
+  tipo_parcela:
+    confirmado: true
+    valores: {1: À vista, 0: Outro valor a prazo}
+  tipo_pagamento_saida:
+    descricao: Tipo de pagamento/recebimento de nota de saída ou serviço (tipo_saip / tipo_serp)
+    confirmado: true             # comentário da coluna
+    valores: {1: Normal, 2: Juros, 3: Multa, 4: Desconto, 5: Devolução, 6: PIS, 7: COFINS, 8: CSLL, 9: IRRF, 11: PISOP, 12: COFINSOP, 13: CSLLOP, 14: IRPJOP, 15: IRRFP, 16: Juros valor presente, 17: Outras, 18: Profissional parceiro, 19: ICMS ST, 20: FETHAB}
+  tipo_pagamento_entrada:
+    confirmado: true
+    valores: {1: Normal, 2: Juros, 3: Multa, 4: Desconto, 5: Devolução, 6: PIS, 7: COFINS, 8: CSOC, 9: CRF, 10: IRRF, 11: IRRFPF, 12: Juros valor presente, 13: ISS, 14: Outras}
+  origem_pagamento: {confirmado: true, valores: {B: Baixa, L: Lançamento}}
+
+entidades:
+  # ====================================================== CADASTROS =====================================================
+  cliente:
+    titulo: Clientes
+    descricao: Cadastro de clientes da escrita fiscal (por empresa). Inclui pessoas físicas — ver `sensivel`.
+    tabela: efclientes
+    chave: [codi_emp, codi_cli]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[nome_cli, asc]]
+    colunas:
+      codigo: codi_cli
+      nome: nome_cli
+      nome_resumido: nomr_cli
+      cnpj_cpf: {coluna: cgce_cli, sensivel: parcial}
+      tipo_inscricao: {coluna: tins_cli, dominio: tipo_inscricao}
+      inscricao_estadual: insc_cli
+      inscricao_municipal: imun_cli
+      contribuinte_icms: {coluna: icms_cli, dominio: sim_nao_texto}
+      regime_apuracao: {coluna: regime_cli, dominio: regime_apuracao}
+      produtor_rural_pf: {coluna: PRODUTOR_RURAL_PF_CLI, dominio: sim_nao_texto}
+      endereco: {coluna: ende_cli, sensivel: parcial}
+      numero: nume_cli
+      complemento: complemento_cli
+      bairro: bair_cli
+      cidade: cida_cli
+      uf: sigl_est
+      cep: cepe_cli
+      telefone: {coluna: fone_cli, sensivel: parcial}
+      municipio_codigo: codigo_municipio
+      pais_codigo: codigo_pais
+      conta_contabil: codi_cta
+      data_cadastro: CADASTRO_CLI
+    vinculos:
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+    filtros:
+      codigo: {coluna: codi_cli, ops: [eq, in]}
+      nome: {coluna: nome_cli, ops: [contem, prefixo]}
+      cnpj_cpf: {coluna: cgce_cli, ops: [eq]}
+      uf: {coluna: sigl_est, ops: [eq, in]}
+      regime_apuracao: {coluna: regime_cli, ops: [eq, in]}
+    filhos:
+      notas_saida: {entidade: nota_saida, liga: {codi_emp: codi_emp, codi_cli: cliente_codigo}}
+      notas_servico: {entidade: nota_servico, liga: {codi_emp: codi_emp, codi_cli: cliente_codigo}}
+
+  fornecedor:
+    titulo: Fornecedores
+    descricao: Cadastro de fornecedores da escrita fiscal (por empresa).
+    tabela: effornece
+    chave: [codi_emp, codi_for]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[nome_for, asc]]
+    colunas:
+      codigo: codi_for
+      nome: nome_for
+      nome_resumido: nomr_for
+      cnpj_cpf: {coluna: cgce_for, sensivel: parcial}
+      tipo_inscricao: {coluna: tins_for, dominio: tipo_inscricao}
+      inscricao_estadual: insc_for
+      inscricao_municipal: imun_for
+      contribuinte_icms: {coluna: icms_for, dominio: sim_nao_texto}
+      regime_apuracao: {coluna: regime_for, dominio: regime_apuracao}
+      endereco: {coluna: ende_for, sensivel: parcial}
+      numero: nume_for
+      complemento: complemento_for
+      bairro: bair_for
+      cidade: cida_for
+      uf: sigl_est
+      cep: cepe_for
+      telefone: {coluna: fone_for, sensivel: parcial}
+      email: {coluna: email_for, sensivel: parcial}
+      municipio_codigo: codigo_municipio
+      pais_codigo: codigo_pais
+      conta_contabil: codi_cta
+      data_cadastro: CADASTRO_FOR
+    vinculos:
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+    filtros:
+      codigo: {coluna: codi_for, ops: [eq, in]}
+      nome: {coluna: nome_for, ops: [contem, prefixo]}
+      cnpj_cpf: {coluna: cgce_for, ops: [eq]}
+      uf: {coluna: sigl_est, ops: [eq, in]}
+    filhos:
+      notas_entrada: {entidade: nota_entrada, liga: {codi_emp: codi_emp, codi_for: fornecedor_codigo}}
+
+  produto:
+    titulo: Produtos
+    descricao: Cadastro de produtos/mercadorias (por empresa) — base de itens de entrada e saída e do inventário.
+    tabela: efprodutos
+    chave: [codi_emp, codi_pdi]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[desc_pdi, asc]]
+    colunas:
+      codigo: codi_pdi
+      descricao: desc_pdi
+      grupo_codigo: codi_gru
+      unidade: unid_pdi
+      ncm: cncm_pdi
+      ean: ean_pdi
+      tipo: {coluna: tipo_pdi, dominio: tipo_produto}
+      tipo_item: {coluna: tipo_item_pdi, dominio: tipo_item_produto}
+      cst: cst_pdi
+      aliquota_icms: aicms_pdi
+      aliquota_ipi: aipi_pdi
+      valor_unitario: vuni_pdi
+      quantidade_inicial: qtin_pdi
+      valor_inicial: vlin_pdi
+      quantidade_final: qtfi_pdi
+      valor_final: vlfi_pdi
+    filtros:
+      codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      descricao: {coluna: desc_pdi, ops: [contem, prefixo]}
+      ncm: {coluna: cncm_pdi, ops: [eq, prefixo]}
+      tipo: {coluna: tipo_pdi, ops: [eq, in]}
+      tipo_item: {coluna: tipo_item_pdi, ops: [eq, in]}
+
+  acumulador:
+    titulo: Acumuladores
+    descricao: Acumuladores fiscais (classificam notas de entrada, saída e serviço).
+    tabela: EFACUMULADOR
+    chave: [codi_emp, codi_acu]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_acu, asc]]
+    colunas:
+      codigo: codi_acu
+      nome: nome_acu
+      situacao: situacao_acu
+      data_cadastro: data_cadastro_acu
+      data_inativacao: data_inativacao_acu
+    filtros:
+      codigo: {coluna: codi_acu, ops: [eq, in]}
+      nome: {coluna: nome_acu, ops: [contem, prefixo]}
+      situacao: {coluna: situacao_acu, ops: [eq]}
+
+  natureza_operacao:
+    titulo: Naturezas de operação (CFOP)
+    descricao: Tabela global de naturezas/CFOP (não depende de empresa). Existem versões (versao_nat 1 e 2).
+    tabela: efnatureza
+    chave: [codi_nat, versao_nat]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[codi_nat, asc], [versao_nat, asc]]
+    colunas:
+      codigo: codi_nat
+      versao: versao_nat
+      nome: nome_nat
+      mascara: masc_nat
+    filtros:
+      codigo: {coluna: codi_nat, ops: [eq, in, prefixo]}
+      nome: {coluna: nome_nat, ops: [contem]}
+
+  especie_documento:
+    titulo: Espécies de documento fiscal
+    descricao: Tabela global de espécies (NF, NFe, NFCe, CTe...). Não depende de empresa.
+    tabela: efespecies
+    chave: [codi_esp]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[codi_esp, asc]]
+    colunas:
+      codigo: codi_esp
+      nome: nome_esp
+      modelo_documento: mode_esp
+      codigo_modelo: codigo_modelo
+      tipo: tipo_esp
+      documento_nao_fiscal: {coluna: DOCUMENTO_NAO_FISCAL, dominio: sim_nao_texto}
+      nota_fiscal_conjugada: {coluna: NOTA_FISCAL_CONJUGADA, dominio: sim_nao_texto}
+    filtros:
+      codigo: {coluna: codi_esp, ops: [eq, in]}
+      nome: {coluna: nome_esp, ops: [contem]}
+
+  imposto:
+    titulo: Impostos (cadastro por empresa)
+    descricao: Cadastro de impostos por empresa. O código (codi_imp) tem o mesmo significado em todas as empresas.
+    tabela: geimposto
+    chave: [codi_emp, codi_imp]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_imp, asc]]
+    colunas:
+      codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      nome: nome_imp
+      sigla: sigl_imp
+      nome_resumido: NOME_RESUMIDO
+    filtros:
+      codigo: {coluna: codi_imp, ops: [eq, in]}
+      nome: {coluna: nome_imp, ops: [contem]}
+
+  # ====================================================== SAÍDAS ========================================================
+  nota_saida:
+    titulo: Notas fiscais de saída
+    descricao: Cabeçalho das notas fiscais de saída (mercadorias e outras saídas) lançadas na escrita fiscal.
+    tabela: efsaidas
+    chave: [codi_emp, codi_sai]
+    acesso:
+      empresa: codi_emp
+      periodo: dsai_sai
+      volume: medio
+    ordem: [[dsai_sai, desc], [codi_sai, desc]]
+    colunas:
+      codigo: codi_sai
+      numero: nume_sai
+      numero_final: atex_sai
+      serie: seri_sai
+      sub_serie: sub_serie_sai
+      data_saida: dsai_sai
+      data_emissao: ddoc_sai
+      competencia: {coluna: compte_sai, nulo_se: "1900-01-01", nota: "Valor-padrão 1900-01-01 em 99,9% das notas (não informada). A competência de apuração é o mês de data_saida."}
+      valor_contabil: vcon_sai
+      valor_produtos: vprod_sai
+      valor_frete: vfre_sai
+      valor_seguro: vseg_sai
+      despesas_acessorias: vdesace_sai
+      valor_deducao: deducao_sai
+      valor_excluido: vexc_sai
+      cliente_codigo: codi_cli
+      acumulador_codigo: codi_acu
+      natureza_codigo: codi_nat
+      natureza_versao: versao_nat
+      especie_codigo: codi_esp
+      uf: sigl_est
+      municipio_codigo: codigo_municipio
+      situacao: {coluna: situacao_sai, dominio: situacao_documento}
+      cancelada: {coluna: cancelada_sai, dominio: sim_nao_texto}
+      tipo_frete: {coluna: cifob_sai, dominio: tipo_frete}
+      chave_nfe: chave_nfe_sai
+      cfps: cfps_sai
+      observacao: obse_sai
+      usuario: codi_usu
+      origem_registro: origem_reg
+    vinculos:
+      cliente:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {cliente_nome: nome_cli, cliente_cnpj_cpf: cgce_cli}
+      acumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {acumulador_nome: nome_acu}
+      natureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {natureza_nome: nome_nat}
+      especie:
+        tabela: efespecies
+        liga: {codi_esp: codi_esp}
+        colunas: {especie_nome: nome_esp, especie_modelo: codigo_modelo}
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+    filtros:
+      codigo: {coluna: codi_sai, ops: [eq, in]}
+      numero: {coluna: nume_sai, ops: [eq, in, entre]}
+      serie: {coluna: seri_sai, ops: [eq]}
+      data_saida: {coluna: dsai_sai, ops: [entre, gte, lte]}
+      data_emissao: {coluna: ddoc_sai, ops: [entre, gte, lte]}
+      competencia: {coluna: compte_sai, ops: [eq, entre]}
+      cliente_codigo: {coluna: codi_cli, ops: [eq, in]}
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+      natureza_codigo: {coluna: codi_nat, ops: [eq, in, prefixo]}
+      especie_codigo: {coluna: codi_esp, ops: [eq, in]}
+      uf: {coluna: sigl_est, ops: [eq, in]}
+      cancelada: {coluna: cancelada_sai, ops: [eq]}
+      situacao: {coluna: situacao_sai, ops: [eq, in]}
+      chave_nfe: {coluna: chave_nfe_sai, ops: [eq]}
+      valor_contabil: {coluna: vcon_sai, ops: [gte, lte, entre]}
+    regras:
+      - "A apuração (apuracao_imposto) de cada imposto soma o valor contábil POR IMPOSTO (imposto_nota_saida.valor_contabil, com codigo_imposto = o do imposto), e não o valor_contabil do cabeçalho da nota: nota sem aquele imposto não entra na soma. Validado centavo a centavo (6 de 6 competências, empresa 1430, ICMS)."
+      - "O mês de apuração é o de data_saida. A coluna competencia quase sempre vale 1900-01-01 (não informada) e não deve ser usada como período."
+      - "cancelada = 'S' marca a nota cancelada. situacao tem significado NÃO confirmado (ver domínio situacao_documento); não use situacao = 2 como sinônimo de cancelada."
+    filhos:
+      itens: {entidade: item_nota_saida, liga: {codi_emp: codi_emp, codi_sai: codigo_nota}}
+      impostos: {entidade: imposto_nota_saida, liga: {codi_emp: codi_emp, codi_sai: codigo_nota}}
+      parcelas: {entidade: parcela_nota_saida, liga: {codi_emp: codi_emp, codi_sai: codigo_nota}}
+
+  item_nota_saida:
+    titulo: Itens das notas de saída
+    descricao: Produtos de cada nota de saída, com bases e valores de ICMS, ST, IPI, PIS e COFINS.
+    tabela: efmvspro
+    chave: [codi_emp, codi_sai, nume_msp]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: nota, coluna: dsai_sai}
+      exige_algum: [codigo_nota, periodo]      # 1,3 milhão de linhas: exige nota ou período
+      volume: grande
+    ordem: [[codi_sai, desc], [nume_msp, asc]]
+    colunas:
+      codigo_nota: codi_sai
+      sequencial: nume_msp
+      produto_codigo: codi_pdi
+      quantidade: qtde_msp
+      unidade: UNIDADE
+      valor_unitario: valor_unit_msp
+      valor_produto: vpro_msp
+      valor_desconto: vdes_msp
+      valor_frete: vfre_msp
+      valor_seguro: vseg_msp
+      despesas_acessorias: vdesace_msp
+      cfop: cfop_msp
+      cst_icms: cst_msp
+      base_icms: bicms_msp
+      aliquota_icms: aliicms_msp
+      valor_icms: valor_icms_msp
+      base_icms_st: bicmsst_msp
+      aliquota_st: aliq_st_msp
+      valor_st: valor_subtri_msp
+      base_ipi: bcal_msp
+      aliquota_ipi: aliq_ipi_msp
+      valor_ipi: vipi_msp
+      cst_pis: cst_pis_msp
+      base_pis: bc_pis_msp
+      aliquota_pis: aliq_pis_msp
+      valor_pis: valor_pis_msp
+      cst_cofins: cst_cofins_msp
+      base_cofins: bc_cofins_msp
+      aliquota_cofins: aliq_cofins_msp
+      valor_cofins: valor_cofins_msp
+      quantidade_cancelada: qtde_cancelada_msp
+      valor_cancelado: valor_cancel_msp
+      data: data_msp
+    vinculos:
+      nota:
+        tabela: efsaidas
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai}
+        colunas: {nota_numero: nume_sai, nota_serie: seri_sai, nota_data_saida: dsai_sai, nota_cancelada: cancelada_sai}
+      produto:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi: codi_pdi}
+        colunas: {produto_descricao: desc_pdi, produto_ncm: cncm_pdi}
+    filtros:
+      codigo_nota: {coluna: codi_sai, ops: [eq, in]}
+      produto_codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      cfop: {coluna: cfop_msp, ops: [eq, in]}
+      cst_icms: {coluna: cst_msp, ops: [eq, in]}
+      data: {coluna: data_msp, ops: [entre, gte, lte]}
+
+  imposto_nota_saida:
+    titulo: Impostos das notas de saída
+    descricao: Uma linha por imposto de cada nota de saída (ICMS, IPI, ISS, PIS, COFINS, retenções...), com base, alíquota e valor.
+    tabela: efimpsai
+    chave: [codi_emp, codi_sai, codi_imp, sequ_isa]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: nota, coluna: dsai_sai}
+      exige_algum: [codigo_nota, periodo]
+      volume: medio
+    ordem: [[codi_sai, desc], [codi_imp, asc], [sequ_isa, asc]]
+    colunas:
+      codigo_nota: codi_sai
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      sequencia: sequ_isa
+      percentual_base: prbc_isa
+      base_calculo: bcal_isa
+      aliquota: aliq_isa
+      valor_imposto: vlor_isa
+      valor_isentas: vise_isa
+      valor_outras: vout_isa
+      valor_contabil: vcon_isa
+      nao_tributadas: ntri_isa
+      parcela_reduzida: redu_isa
+      valor_ipi: VLORIPI_ISA
+      codigo_recolhimento: CODIGO_RECOLHIMENTO
+    vinculos:
+      nota:
+        tabela: efsaidas
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai}
+        colunas: {nota_numero: nume_sai, nota_serie: seri_sai, nota_data_saida: dsai_sai}
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      codigo_nota: {coluna: codi_sai, ops: [eq, in]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+
+  parcela_nota_saida:
+    titulo: Parcelas das notas de saída
+    tabela: efsaidaspar
+    chave: [codi_emp, codi_sai, parc_saip]
+    acesso:
+      empresa: codi_emp
+      periodo: vcto_saip
+      volume: medio
+    ordem: [[vcto_saip, asc], [codi_sai, asc], [parc_saip, asc]]
+    colunas:
+      codigo_nota: codi_sai
+      parcela: parc_saip
+      vencimento: vcto_saip
+      valor: vlor_saip
+      valor_bruto: vbru_saip
+      tipo: {coluna: tipo_saip, dominio: tipo_parcela}
+      valor_crf: vcrf_saip
+      valor_irrf: virrf_saip
+      valor_iss_retido: vissr_saip
+      valor_inss_retido: vinss_saip
+      valor_pis_retido: vpisret_saip
+      valor_cofins_retido: vcofret_saip
+      valor_csll_retido: vcsocret_saip
+      numero_titulo: NUMERO_TITULO_SAIP
+    filtros:
+      codigo_nota: {coluna: codi_sai, ops: [eq, in]}
+      vencimento: {coluna: vcto_saip, ops: [entre, gte, lte]}
+    filhos:
+      pagamentos: {entidade: pagamento_nota_saida, liga: {codi_emp: codi_emp, codi_sai: codigo_nota, parc_saip: parcela}}
+
+  pagamento_nota_saida:
+    titulo: Recebimentos das notas de saída
+    descricao: Pagamentos/recebimentos (e juros, multas, descontos, retenções) lançados contra as parcelas.
+    tabela: efsaidaspag
+    chave: [codi_emp, codi_sai, pgto_saip, tipo_saip, parc_saip, nropag_saip]
+    acesso:
+      empresa: codi_emp
+      periodo: pgto_saip
+      volume: pequeno
+    ordem: [[pgto_saip, desc], [codi_sai, asc]]
+    colunas:
+      codigo_nota: codi_sai
+      parcela: parc_saip
+      data_pagamento: pgto_saip
+      tipo: {coluna: tipo_saip, dominio: tipo_pagamento_saida}
+      numero_pagamento: nropag_saip
+      valor: vpag_saip
+      lancamento_contabil: nlan_saip
+      origem_pagamento: {coluna: origempg_saip, dominio: origem_pagamento}
+      numero_titulo: NUMERO_TITULO_SAIP
+      historico: HISTORICO_DE_RECEBIMENTO
+    filtros:
+      codigo_nota: {coluna: codi_sai, ops: [eq, in]}
+      data_pagamento: {coluna: pgto_saip, ops: [entre, gte, lte]}
+      tipo: {coluna: tipo_saip, ops: [eq, in]}
+
+  # ====================================================== ENTRADAS ======================================================
+  nota_entrada:
+    titulo: Notas fiscais de entrada
+    descricao: Cabeçalho das notas fiscais de entrada (compras e outras entradas) lançadas na escrita fiscal.
+    tabela: efentradas
+    chave: [codi_emp, codi_ent]
+    acesso:
+      empresa: codi_emp
+      periodo: dent_ent
+      volume: medio
+    ordem: [[dent_ent, desc], [codi_ent, desc]]
+    colunas:
+      codigo: codi_ent
+      numero: nume_ent
+      numero_final: atex_ent
+      serie: seri_ent
+      sub_serie: sub_serie_ent
+      data_entrada: dent_ent
+      data_emissao: ddoc_ent
+      competencia: {coluna: compte_ent, nulo_se: "1900-01-01", nota: "Valor-padrão 1900-01-01 em 99,9% das notas (não informada). A competência de apuração é o mês de data_entrada."}
+      valor_contabil: vcon_ent
+      valor_produtos: vprod_ent
+      valor_frete: vfre_ent
+      valor_seguro: vseg_ent
+      despesas_acessorias: vdesace_ent
+      valor_pis: vpis_ent
+      valor_cofins: vcof_ent
+      valor_excluido: vexc_ent
+      fornecedor_codigo: codi_for
+      acumulador_codigo: codi_acu
+      natureza_codigo: codi_nat
+      natureza_versao: versao_nat
+      especie_codigo: codi_esp
+      municipio_codigo: codigo_municipio
+      situacao: {coluna: situacao_ent, dominio: situacao_documento}
+      emitente: {coluna: emitente_ent, dominio: emitente_nota}
+      tipo_frete: {coluna: cifob_ent, dominio: tipo_frete}
+      chave_nfe: chave_nfe_ent
+      cfop_documento: CFOP_SAI_ENT
+      observacao: obse_ent
+      usuario: codi_usu
+      origem_registro: origem_reg
+    vinculos:
+      fornecedor:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, codi_for: codi_for}
+        colunas: {fornecedor_nome: nome_for, fornecedor_cnpj_cpf: cgce_for}
+      acumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {acumulador_nome: nome_acu}
+      natureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {natureza_nome: nome_nat}
+      especie:
+        tabela: efespecies
+        liga: {codi_esp: codi_esp}
+        colunas: {especie_nome: nome_esp, especie_modelo: codigo_modelo}
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+    filtros:
+      codigo: {coluna: codi_ent, ops: [eq, in]}
+      numero: {coluna: nume_ent, ops: [eq, in, entre]}
+      serie: {coluna: seri_ent, ops: [eq]}
+      data_entrada: {coluna: dent_ent, ops: [entre, gte, lte]}
+      data_emissao: {coluna: ddoc_ent, ops: [entre, gte, lte]}
+      competencia: {coluna: compte_ent, ops: [eq, entre]}
+      fornecedor_codigo: {coluna: codi_for, ops: [eq, in]}
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+      natureza_codigo: {coluna: codi_nat, ops: [eq, in, prefixo]}
+      especie_codigo: {coluna: codi_esp, ops: [eq, in]}
+      emitente: {coluna: emitente_ent, ops: [eq]}
+      situacao: {coluna: situacao_ent, ops: [eq, in]}
+      chave_nfe: {coluna: chave_nfe_ent, ops: [eq]}
+      valor_contabil: {coluna: vcon_ent, ops: [gte, lte, entre]}
+    regras:
+      - "Na apuração de um imposto só entram as notas que têm aquele imposto (imposto_nota_entrada); a soma do valor_contabil do cabeçalho das notas NÃO fecha com a apuração (ex.: 418.479,86 nas notas contra 372.995,98 apurados de ICMS). Validado centavo a centavo somando imposto_nota_entrada.valor_contabil."
+      - "O mês de apuração é o de data_entrada, não o de competencia (quase sempre 1900-01-01)."
+    filhos:
+      itens: {entidade: item_nota_entrada, liga: {codi_emp: codi_emp, codi_ent: codigo_nota}}
+      impostos: {entidade: imposto_nota_entrada, liga: {codi_emp: codi_emp, codi_ent: codigo_nota}}
+      parcelas: {entidade: parcela_nota_entrada, liga: {codi_emp: codi_emp, codi_ent: codigo_nota}}
+
+  item_nota_entrada:
+    titulo: Itens das notas de entrada
+    descricao: Produtos de cada nota de entrada, com bases e valores de ICMS, ST e IPI.
+    tabela: efmvepro
+    chave: [codi_emp, codi_ent, nume_mep]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: nota, coluna: dent_ent}
+      exige_algum: [codigo_nota, periodo]
+      volume: medio
+    ordem: [[codi_ent, desc], [nume_mep, asc]]
+    colunas:
+      codigo_nota: codi_ent
+      sequencial: nume_mep
+      produto_codigo: codi_pdi
+      quantidade: qtde_mep
+      valor_unitario: valor_unit_mep
+      valor_produto: vpro_mep
+      valor_desconto: vdes_mep
+      valor_total: vlor_mep
+      valor_frete: vfre_mep
+      valor_seguro: vseg_mep
+      despesas_acessorias: vdesace_mep
+      cst_icms: cst_mep
+      base_icms: bicms_mep
+      aliquota_icms: aliicms_mep
+      valor_icms: valor_icms_mep
+      base_icms_st: bicmsst_mep
+      aliquota_st: aliq_st_mep
+      valor_st: valor_subtri_mep
+      base_ipi: bcal_mep
+      aliquota_ipi: aliq_ipi_mep
+      valor_ipi: vipi_mep
+      cfop: cfop_mep
+      cst_pis: cst_pis_mep
+      base_pis: bc_pis_mep
+      aliquota_pis: aliq_pis_mep
+      valor_pis: valor_pis_mep
+      cst_cofins: cst_cofins_mep
+      base_cofins: bc_cofins_mep
+      aliquota_cofins: aliq_cofins_mep
+      valor_cofins: valor_cofins_mep
+      data: data_mep
+    vinculos:
+      nota:
+        tabela: efentradas
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent}
+        colunas: {nota_numero: nume_ent, nota_serie: seri_ent, nota_data_entrada: dent_ent}
+      produto:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi: codi_pdi}
+        colunas: {produto_descricao: desc_pdi, produto_ncm: cncm_pdi}
+    filtros:
+      codigo_nota: {coluna: codi_ent, ops: [eq, in]}
+      produto_codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      cst_icms: {coluna: cst_mep, ops: [eq, in]}
+      cfop: {coluna: cfop_mep, ops: [eq, in]}
+      data: {coluna: data_mep, ops: [entre, gte, lte]}
+
+  imposto_nota_entrada:
+    titulo: Impostos das notas de entrada
+    tabela: efimpent
+    chave: [codi_emp, codi_ent, codi_imp, sequ_ien]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: nota, coluna: dent_ent}
+      exige_algum: [codigo_nota, periodo]
+      volume: medio
+    ordem: [[codi_ent, desc], [codi_imp, asc], [sequ_ien, asc]]
+    colunas:
+      codigo_nota: codi_ent
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      sequencia: sequ_ien
+      percentual_base: prbc_ien
+      base_calculo: bcal_ien
+      aliquota: aliq_ien
+      valor_imposto: vlor_ien
+      valor_isentas: vise_ien
+      valor_outras: vout_ien
+      valor_contabil: vcon_ien
+      nao_tributadas: ntri_ien
+      parcela_reduzida: redu_ien
+      valor_ipi: vloripi_ien
+      valor_substituicao: vlorsubtri_ien
+      codigo_recolhimento: codrec_ien
+    vinculos:
+      nota:
+        tabela: efentradas
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent}
+        colunas: {nota_numero: nume_ent, nota_serie: seri_ent, nota_data_entrada: dent_ent}
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      codigo_nota: {coluna: codi_ent, ops: [eq, in]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+
+  parcela_nota_entrada:
+    titulo: Parcelas das notas de entrada
+    tabela: efentradaspar
+    chave: [codi_emp, codi_ent, parc_entp]
+    acesso:
+      empresa: codi_emp
+      periodo: vcto_entp
+      volume: medio
+    ordem: [[vcto_entp, asc], [codi_ent, asc], [parc_entp, asc]]
+    colunas:
+      codigo_nota: codi_ent
+      parcela: parc_entp
+      vencimento: vcto_entp
+      valor: vlor_entp
+      valor_bruto: vbru_entp
+      tipo: {coluna: tipo_entp, dominio: tipo_parcela}
+      valor_crf: vcrf_entp
+      valor_irrf: virrf_entp
+      valor_iss_retido: vissr_entp
+      valor_inss_retido: vinss_entp
+      valor_pis_retido: vpisret_entp
+      valor_cofins_retido: vcofret_entp
+      valor_csll_retido: vcsocret_entp
+      numero_titulo: NUMERO_TITULO_ENTP
+    filtros:
+      codigo_nota: {coluna: codi_ent, ops: [eq, in]}
+      vencimento: {coluna: vcto_entp, ops: [entre, gte, lte]}
+    filhos:
+      pagamentos: {entidade: pagamento_nota_entrada, liga: {codi_emp: codi_emp, codi_ent: codigo_nota, parc_entp: parcela}}
+
+  pagamento_nota_entrada:
+    titulo: Pagamentos das notas de entrada
+    tabela: efentradaspag
+    chave: [codi_emp, codi_ent, pgto_entp, tipo_entp, parc_entp, nropag_entp]
+    acesso:
+      empresa: codi_emp
+      periodo: pgto_entp
+      volume: pequeno
+    ordem: [[pgto_entp, desc], [codi_ent, asc]]
+    colunas:
+      codigo_nota: codi_ent
+      parcela: parc_entp
+      data_pagamento: pgto_entp
+      tipo: {coluna: tipo_entp, dominio: tipo_pagamento_entrada}
+      numero_pagamento: nropag_entp
+      valor: vpag_entp
+      lancamento_contabil: nlan_entp
+      origem_pagamento: {coluna: origempg_entp, dominio: origem_pagamento}
+      numero_titulo: NUMERO_TITULO_ENTP
+      historico: HISTORICO_DE_PAGAMENTO
+    filtros:
+      codigo_nota: {coluna: codi_ent, ops: [eq, in]}
+      data_pagamento: {coluna: pgto_entp, ops: [entre, gte, lte]}
+      tipo: {coluna: tipo_entp, ops: [eq, in]}
+
+  # ====================================================== SERVIÇOS ======================================================
+  nota_servico:
+    titulo: Notas fiscais de serviço
+    descricao: Notas fiscais de serviços prestados lançadas na escrita fiscal.
+    tabela: efservicos
+    chave: [codi_emp, codi_ser]
+    acesso:
+      empresa: codi_emp
+      periodo: dser_ser
+      volume: medio
+    ordem: [[dser_ser, desc], [codi_ser, desc]]
+    colunas:
+      codigo: codi_ser
+      numero: nume_ser
+      numero_final: atex_ser
+      serie: seri_ser
+      sub_serie: sub_serie_ser
+      data_servico: dser_ser
+      data_emissao: ddoc_ser
+      valor_contabil: vcon_ser
+      valor_servicos: VALOR_SERVICOS_SER
+      valor_desconto: VALOR_DESCONTO_SER
+      valor_deducao: deducao_ser
+      valor_ibs: VALOR_TOTAL_IBS
+      valor_cbs: VALOR_TOTAL_CBS
+      cliente_codigo: codi_cli
+      acumulador_codigo: codi_acu
+      especie_codigo: codi_esp
+      uf: sigl_est
+      municipio_codigo: codigo_municipio
+      situacao: {coluna: situacao_ser, dominio: situacao_documento}
+      cancelada: {coluna: cancelada_ser, dominio: sim_nao_texto}
+      chave_eletronica: chave_eletronica
+      cfps: cfps_ser
+      observacao: obse_ser
+      usuario: codi_usu
+      origem_registro: origem_reg
+    vinculos:
+      cliente:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {cliente_nome: nome_cli, cliente_cnpj_cpf: cgce_cli}
+      acumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {acumulador_nome: nome_acu}
+      especie:
+        tabela: efespecies
+        liga: {codi_esp: codi_esp}
+        colunas: {especie_nome: nome_esp, especie_modelo: codigo_modelo}
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+    filtros:
+      codigo: {coluna: codi_ser, ops: [eq, in]}
+      numero: {coluna: nume_ser, ops: [eq, in, entre]}
+      serie: {coluna: seri_ser, ops: [eq]}
+      data_servico: {coluna: dser_ser, ops: [entre, gte, lte]}
+      data_emissao: {coluna: ddoc_ser, ops: [entre, gte, lte]}
+      cliente_codigo: {coluna: codi_cli, ops: [eq, in]}
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+      especie_codigo: {coluna: codi_esp, ops: [eq, in]}
+      cancelada: {coluna: cancelada_ser, ops: [eq]}
+      situacao: {coluna: situacao_ser, ops: [eq, in]}
+      chave_eletronica: {coluna: chave_eletronica, ops: [eq]}
+      valor_contabil: {coluna: vcon_ser, ops: [gte, lte, entre]}
+    regras:
+      - "A apuração do ISS soma imposto_nota_servico.valor_contabil (por imposto), validado centavo a centavo em 6 de 6 competências; somar o valor_contabil do cabeçalho divergiu em 1 de 6 (diferença de 5.299,00 por notas sem ISS)."
+      - "O mês de apuração é o de data_servico (dser_ser)."
+    filhos:
+      impostos: {entidade: imposto_nota_servico, liga: {codi_emp: codi_emp, codi_ser: codigo_nota}}
+      parcelas: {entidade: parcela_nota_servico, liga: {codi_emp: codi_emp, codi_ser: codigo_nota}}
+
+  imposto_nota_servico:
+    titulo: Impostos das notas de serviço
+    tabela: efimpser
+    chave: [codi_emp, codi_ser, codi_imp, sequ_ise]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: nota, coluna: dser_ser}
+      exige_algum: [codigo_nota, periodo]
+      volume: grande
+    ordem: [[codi_ser, desc], [codi_imp, asc], [sequ_ise, asc]]
+    colunas:
+      codigo_nota: codi_ser
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      sequencia: sequ_ise
+      percentual_base: prbc_ise
+      base_calculo: bcal_ise
+      aliquota: aliq_ise
+      valor_imposto: vlor_ise
+      valor_isentas: vise_ise
+      valor_outras: vout_ise
+      valor_contabil: vcon_ise
+      codigo_recolhimento: CODIGO_RECOLHIMENTO
+    vinculos:
+      nota:
+        tabela: efservicos
+        liga: {codi_emp: codi_emp, codi_ser: codi_ser}
+        colunas: {nota_numero: nume_ser, nota_serie: seri_ser, nota_data_servico: dser_ser}
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      codigo_nota: {coluna: codi_ser, ops: [eq, in]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+
+  parcela_nota_servico:
+    titulo: Parcelas das notas de serviço
+    tabela: efservicospar
+    chave: [codi_emp, codi_ser, parc_serp]
+    acesso:
+      empresa: codi_emp
+      periodo: vcto_serp
+      volume: medio
+    ordem: [[vcto_serp, asc], [codi_ser, asc], [parc_serp, asc]]
+    colunas:
+      codigo_nota: codi_ser
+      parcela: parc_serp
+      vencimento: vcto_serp
+      valor: vlor_serp
+      valor_bruto: vbru_serp
+      tipo: {coluna: tipo_serp, dominio: tipo_parcela}
+      valor_crf: vcrf_serp
+      valor_irrf: virrf_serp
+      valor_iss_retido: vissr_serp
+      valor_inss_retido: vinss_serp
+      valor_pis_retido: vpisret_serp
+      valor_cofins_retido: vcofret_serp
+      valor_csll_retido: vcsocret_serp
+      numero_titulo: NUMERO_TITULO_SERP
+    filtros:
+      codigo_nota: {coluna: codi_ser, ops: [eq, in]}
+      vencimento: {coluna: vcto_serp, ops: [entre, gte, lte]}
+    filhos:
+      pagamentos: {entidade: pagamento_nota_servico, liga: {codi_emp: codi_emp, codi_ser: codigo_nota, parc_serp: parcela}}
+
+  pagamento_nota_servico:
+    titulo: Recebimentos das notas de serviço
+    tabela: efservicospag
+    chave: [codi_emp, codi_ser, pgto_serp, tipo_serp, parc_serp, nropag_serp]
+    acesso:
+      empresa: codi_emp
+      periodo: pgto_serp
+      volume: pequeno
+    ordem: [[pgto_serp, desc], [codi_ser, asc]]
+    colunas:
+      codigo_nota: codi_ser
+      parcela: parc_serp
+      data_pagamento: pgto_serp
+      tipo: {coluna: tipo_serp, dominio: tipo_pagamento_saida}
+      numero_pagamento: nropag_serp
+      valor: vpag_serp
+      lancamento_contabil: nlan_serp
+      origem_pagamento: {coluna: origempg_serp, dominio: origem_pagamento}
+      numero_titulo: NUMERO_TITULO_SERP
+      historico: HISTORICO_DE_RECEBIMENTO
+    filtros:
+      codigo_nota: {coluna: codi_ser, ops: [eq, in]}
+      data_pagamento: {coluna: pgto_serp, ops: [entre, gte, lte]}
+      tipo: {coluna: tipo_serp, ops: [eq, in]}
+
+  # ====================================================== APURAÇÃO ======================================================
+  apuracao_imposto:
+    titulo: Apuração de impostos (saldos)
+    descricao: >
+      Saldo/apuração de cada imposto por competência e periodicidade: totais de entradas, saídas e serviços
+      (valor contábil, base, imposto, isentas, outras), créditos, débitos, estornos e saldo a recolher/credor.
+    tabela: efsdoimp
+    regras:
+      - "Totais de entradas/saídas/serviços (…_valor_contabil) = soma de imposto_nota_*.valor_contabil do mesmo imposto no mês, pela data de movimento da nota. Conferido 6/6 competências nas três origens."
+      - "Os totais de 'entradas'/'saídas'/'serviços' são por imposto: o mesmo documento pode aparecer em vários impostos. Não some entre impostos diferentes."
+    chave: [codi_emp, codi_imp, data_sim, pdic_sim]
+    acesso:
+      empresa: codi_emp
+      periodo: data_sim
+      volume: medio
+    ordem: [[data_sim, desc], [codi_imp, asc], [pdic_sim, asc]]
+    colunas:
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      competencia: data_sim
+      periodicidade: {coluna: pdic_sim, dominio: periodicidade_apuracao}
+      saldo_a_recolher: sdev_sim
+      saldo_credor: scre_sim
+      entradas_valor_contabil: vcoe_sim
+      entradas_base_calculo: bcae_sim
+      entradas_valor_imposto: vime_sim
+      entradas_isentas: vise_sim
+      entradas_outras: voue_sim
+      saidas_valor_contabil: vcos_sim
+      saidas_base_calculo: bcas_sim
+      saidas_valor_imposto: vims_sim
+      saidas_isentas: viss_sim
+      saidas_outras: vous_sim
+      servicos_valor_contabil: vcov_sim
+      servicos_base_calculo: bcav_sim
+      servicos_valor_imposto: vimv_sim
+      servicos_isentas: visv_sim
+      servicos_outras: vouv_sim
+      outros_creditos: outc_sim
+      estorno_debitos: estd_sim
+      outros_debitos: outd_sim
+      estorno_creditos: estc_sim
+      outras_deducoes: oded_sim
+      outros_acrescimos: oacr_sim
+      base_acumulada_mes_anterior: acum_sim
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+      competencia: {coluna: data_sim, ops: [eq, entre, gte, lte]}
+      periodicidade: {coluna: pdic_sim, ops: [eq, in]}

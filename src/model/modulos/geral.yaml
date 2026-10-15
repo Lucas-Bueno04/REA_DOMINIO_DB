@@ -1,0 +1,305 @@
+# Modelo de entidades do módulo GERAL (prefixo GE): sócios, quadro societário, tabelas de referência e impostos por vigência.
+# Formato: docs/formato-modelo.md   (a entidade `empresa` está em comum.yaml)
+#
+# NÃO MODELADO DE PROPÓSITO (segurança/privacidade ou sem valor de negócio):
+#   GECERTIFICADOSDIGITAIS (certificados digitais), GESECUSUARIOS / GESECUSUARIOSGRUPOS (usuários e grupos do banco),
+#   GELOGUSER (2 milhões de linhas de horas por usuário: monitoramento de pessoas), GEATENDIMENTO* e GEIMPORTADOR*
+#   (filas de integração com o Domínio Atendimento/importadores), GEINICIAL/GEPREFDW/GEPREFWINDOW (preferências de tela),
+#   GEARQUIVOSQLCMD, GECMDEXECUTADO (controle técnico), GERESPONSAVEL (contato pessoal dos responsáveis).
+#
+# PRIVACIDADE: sócios são pessoas físicas. Só identificação mínima (nome, CPF/CNPJ, sexo) é exposta; endereço, filiação, cônjuge,
+# documentos (RG, carteiras), telefones, estado civil, regime de casamento e emancipação NÃO são expostos.
+modulo: geral
+titulo: Geral
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  sim_nao_numerico_ge: {confirmado: true, valores: {1: Sim, 0: Não}}     # comentário: "Exerce atividade 1=Sim/0=Nao"
+  tipo_inscricao:
+    confirmado: true      # gesocios: 1 CNPJ / 2 CPF
+    valores: {1: CNPJ, 2: CPF}
+  tipo_participante:
+    descricao: Papel da pessoa no quadro societário (gequadrosocietario_socios.tipo)
+    confirmado: parcial
+    nota: >
+      S (sócio, 4.909), A (administrador, 7) e R (representante legal) vêm do comentário do banco. O valor E (64 linhas) NÃO está
+      documentado e não há 'R' nos dados. Significado de E desconhecido.
+    valores: {S: Sócio, A: Administrador, R: Representante legal, E: "Desconhecido (64 linhas, não documentado)"}
+  abrangencia_feriado:
+    confirmado: true
+    valores: {1: Federal, 2: Estadual, 3: Municipal, 4: Sindical}
+  tipo_feriado:
+    confirmado: true
+    valores: {1: Móvel, 2: Fixo}
+  competencia_imposto:
+    confirmado: true      # comentário de geimposto_vigencia.comp_imp
+    valores: {F: Federal, E: Estadual, M: Municipal}
+  periodicidade_imposto:
+    descricao: Periodicidade do imposto na CONFIGURAÇÃO (geimposto_vigencia.pdic_imp). ATENÇÃO - codificação DIFERENTE da periodicidade da apuração (efsdoimp.pdic_sim).
+    confirmado: true      # comentário da coluna
+    valores: {1: Mensal, 2: Quinzenal, 3: Decendial, 4: Trimestral, 5: Semanal, 6: Semestral}
+  forma_vencimento:
+    confirmado: true
+    valores: {1: Dias corridos antecipado, 2: Dias corridos adiado, 3: Dias úteis, 4: Dias corridos direto, 5: Último dia útil}
+  tipo_calculo_imposto:
+    confirmado: true
+    valores: {L: Lançado por nota, P: Lançado por produto, C: Calculado}
+
+entidades:
+  # ================================================ SOCIETÁRIO ==========================================================
+  socio:
+    titulo: Sócios (cadastro mínimo)
+    descricao: >
+      Cadastro GLOBAL de pessoas sócias (não depende de empresa; 412 de 2.125 aparecem em mais de uma empresa).
+      Somente identificação mínima.
+    privacidade: "Pessoa física identificada (nome e CPF). Mascarar por padrão."
+    tabela: gesocios
+    chave: [i_socio]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[nome, asc]]
+    colunas:
+      codigo: i_socio
+      nome: {coluna: nome, sensivel: pessoal}
+      sexo: sexo
+      tipo_inscricao: {coluna: tipo_insc, dominio: tipo_inscricao}
+      inscricao: {coluna: inscricao, sensivel: pessoal}
+      uf: uf
+    filtros:
+      codigo: {coluna: i_socio, ops: [eq, in]}
+      nome: {coluna: nome, ops: [contem, prefixo]}
+      inscricao: {coluna: inscricao, ops: [eq]}
+    filhos:
+      participacoes: {entidade: participante_societario, liga: {i_socio: socio_codigo}}
+
+  quadro_societario:
+    titulo: Quadros societários (histórico)
+    descricao: >
+      Uma linha por empresa e data de alteração: capital social e quotas. O quadro vigente é o de maior `data`.
+      988 empresas têm 1 quadro; as demais têm histórico (até 6).
+    tabela: gequadrosocietario
+    chave: [codi_emp, data]
+    acesso: {empresa: codi_emp, periodo: data, volume: pequeno}
+    ordem: [[data, desc]]
+    colunas:
+      data: data
+      quotas: qdade_quota
+      capital_social: {coluna: capital_social, sensivel: financeiro}
+      capital_a_integralizar: {coluna: total_integralizar, sensivel: financeiro}
+      quotas_integralizadas: QUOTA_INTEGRALIZADA
+      quotas_a_integralizar: QUOTA_A_INTEGRALIZAR
+      capital_integralizado: {coluna: CAPITAL_INTEGRALIZADO, sensivel: financeiro}
+      quotas_em_tesouraria_percentual: QUOTAS_EM_TESOURARIA
+      liberado_registro: {coluna: liberado, dominio: sim_nao_texto}
+    filtros:
+      data: {coluna: data, ops: [eq, entre, gte, lte]}
+    regras:
+      - "Coerência com os participantes: a soma da participação dos sócios (tipo S) é 100% em 1.474 de 1.486 quadros (99,2%; 12 abaixo, 0 acima) e a soma das quotas dos sócios é igual às quotas do quadro em 1.472 (99,1%)."
+    filhos:
+      participantes: {entidade: participante_societario, liga: {codi_emp: codi_emp, data: data}}
+
+  participante_societario:
+    titulo: Participantes do quadro societário
+    descricao: Sócios, administradores e demais participantes de cada quadro, com quotas e participação percentual.
+    privacidade: "Liga pessoa física a empresa e percentual de participação. Mascarar nome por padrão."
+    tabela: gequadrosocietario_socios
+    chave: [codi_emp, data, i_socio, tipo]
+    acesso: {empresa: codi_emp, periodo: data, volume: pequeno}
+    ordem: [[data, desc], [i_socio, asc]]
+    colunas:
+      data: data
+      socio_codigo: i_socio
+      tipo: {coluna: tipo, dominio: tipo_participante}
+      quotas: qdade_quotas
+      quotas_a_integralizar: integralizar
+      participacao_percentual: participacao
+      condicao: condicao
+      cargo: cargo
+      data_ingresso: data_ingresso
+      data_saida: data_saida
+      exerce_atividade: {coluna: exerce_atividade, dominio: sim_nao_numerico_ge}
+    vinculos:
+      socio:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {socio_nome: nome}
+        sensiveis: [socio_nome]
+    filtros:
+      data: {coluna: data, ops: [eq, entre, gte, lte]}
+      socio_codigo: {coluna: i_socio, ops: [eq, in]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    regras:
+      - "Para o quadro de uma data some só tipo = 'S' ao conferir 100%. O tipo 'E' (64 linhas) é desconhecido; não o some como sócio."
+      - "Todos os participantes têm cadastro em gesocios (0 sem cadastro em 4.980)."
+
+  # ================================================ REFERÊNCIAS =========================================================
+  municipio:
+    titulo: Municípios
+    descricao: >
+      Tabela global de municípios. `codigo` é um código INTERNO sequencial da Domínio (1 a 5.576), NÃO o código IBGE
+      (que está em `ibge`). As demais colunas de código (SRF, ANP, NFS-e...) servem a integrações específicas.
+    tabela: gemunicipio
+    chave: [codigo_municipio]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[nome_municipio, asc]]
+    colunas:
+      codigo: codigo_municipio
+      nome: nome_municipio
+      nome_acentuado: NOME_MUNICIPIO_ACENTUADO_MINUSCULO
+      uf_codigo: codigo_uf
+      ibge: codigo_ibge
+      srf: codigo_srf
+      srf_2016: CODIGO_SRF_2016
+      codigo_estadual: codigo_estado
+    vinculos:
+      estado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {uf: sigla_uf, uf_nome: nome_uf}
+    filtros:
+      codigo: {coluna: codigo_municipio, ops: [eq, in]}
+      nome: {coluna: nome_municipio, ops: [contem, prefixo]}
+      ibge: {coluna: codigo_ibge, ops: [eq, in]}
+      uf_codigo: {coluna: codigo_uf, ops: [eq, in]}
+
+  estado:
+    titulo: Estados (UF)
+    tabela: geestado
+    chave: [codigo_uf]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[sigla_uf, asc]]
+    colunas:
+      codigo: codigo_uf
+      nome: nome_uf
+      sigla: sigla_uf
+      regiao: regiao
+      aliquota_icms: aliquota
+    filtros:
+      sigla: {coluna: sigla_uf, ops: [eq, in]}
+
+  pais:
+    titulo: Países
+    tabela: gepais
+    chave: [codigo_pais]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[nome_pais, asc]]
+    colunas:
+      codigo: codigo_pais
+      nome: nome_pais
+      codigo_bacen: codigo_bc
+      codigo_siscomex: codigo_siscomex
+      sigla_iso: SIGLA_ISO
+      codigo_iso: CODIGO_ISO
+      codigo_reinf: CODIGO_REINF
+    filtros:
+      nome: {coluna: nome_pais, ops: [contem, prefixo]}
+      sigla_iso: {coluna: SIGLA_ISO, ops: [eq]}
+
+  cnae:
+    titulo: CNAE 2.0
+    tabela: gecnae20
+    chave: [i_cnae20]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_cnae20, asc]]
+    colunas: {codigo: i_cnae20, descricao: descricao}
+    filtros:
+      codigo: {coluna: i_cnae20, ops: [eq, in, prefixo]}
+      descricao: {coluna: descricao, ops: [contem]}
+
+  natureza_juridica:
+    titulo: Naturezas jurídicas
+    tabela: genatjuridica
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[codigo, asc]]
+    colunas: {codigo: codigo, descricao: descricao, tipo: tipo}
+    filtros:
+      codigo: {coluna: codigo, ops: [eq, in]}
+      descricao: {coluna: descricao, ops: [contem]}
+
+  atividade_secundaria:
+    titulo: Atividades secundárias (CNAE) da empresa
+    tabela: geatvsecundaria
+    chave: [codigo_cnae, codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[ordem, asc]]
+    colunas:
+      cnae: codigo_cnae
+      ordem: ordem
+      usa_cnae20: {coluna: usa_cnae20, dominio: sim_nao_texto}
+    vinculos:
+      cnae_cadastro:
+        tabela: gecnae20
+        liga: {codigo_cnae: i_cnae20}
+        colunas: {cnae_descricao: descricao}
+    filtros:
+      cnae: {coluna: codigo_cnae, ops: [eq, in, prefixo]}
+
+  feriado:
+    titulo: Feriados
+    descricao: >
+      Feriados federais, estaduais, municipais e sindicais usados nos cálculos e vencimentos. Fixos têm dia/mês; móveis têm ano.
+    tabela: geferiados
+    chave: [i_feriados]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[mes, asc], [dia, asc]]
+    colunas:
+      codigo: i_feriados
+      descricao: descricao
+      abrangencia: {coluna: abrangencia, dominio: abrangencia_feriado}
+      tipo: {coluna: tipo, dominio: tipo_feriado}
+      dia: dia
+      mes: mes
+      ano: ano
+      municipio_codigo: codigo_municipio
+      uf_codigo: codigo_uf
+      sindicato_codigo: I_SINDICATOS
+    filtros:
+      abrangencia: {coluna: abrangencia, ops: [eq, in]}
+      mes: {coluna: mes, ops: [eq, in]}
+      uf_codigo: {coluna: codigo_uf, ops: [eq, in]}
+      municipio_codigo: {coluna: codigo_municipio, ops: [eq, in]}
+
+  # ================================================ IMPOSTOS POR VIGÊNCIA ===============================================
+  imposto_vigencia:
+    titulo: Configuração de impostos por vigência
+    descricao: >
+      Como cada empresa apura cada imposto a partir de uma data (vigência): competência (federal/estadual/municipal), periodicidade,
+      forma e dias de vencimento, códigos de recolhimento e contas/históricos contábeis. A configuração em vigor numa data é a de
+      MAIOR `vigencia` menor ou igual a essa data. A tabela tem 367 colunas; só as ~30 de uso geral são expostas.
+    tabela: GEIMPOSTO_VIGENCIA
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, exige_algum: [imposto_codigo, periodo], volume: grande}
+    ordem: [[CODI_IMP, asc], [VIGENCIA_IMP, desc]]
+    colunas:
+      imposto_codigo: CODI_IMP
+      vigencia: VIGENCIA_IMP
+      descricao: DESCRICAO_IMP
+      competencia: {coluna: COMP_IMP, dominio: competencia_imposto}
+      periodicidade: {coluna: PDIC_IMP, dominio: periodicidade_imposto}
+      forma_vencimento: {coluna: FVEN_IMP, dominio: forma_vencimento}
+      dias_vencimento: NDIV_IMP
+      a_partir_de_meses: NMES_IMP
+      aliquota: ALIQ_IMP
+      aliquota_base_calculo: ABAS_IMP
+      tipo_calculo: {coluna: TCAL_IMP, dominio: tipo_calculo_imposto}
+      codigo_recolhimento: CDRN_IMP
+      codigo_recolhimento_juros: CDRJ_IMP
+      codigo_recolhimento_multa: CDRM_IMP
+      codigo_recolhimento_atualizacao: CDRC_IMP
+      conta_imposto_a_recolher: CTRC_IMP
+      historico_imposto_a_recolher: CHIP_IMP
+      conta_imposto_a_recuperar: CTRP_IMP
+      historico_imposto_a_recuperar: CHIR_IMP
+      conta_imposto_sobre_vendas: CTVD_IMP
+      conta_imposto_sobre_compras: CTCP_IMP
+      gera_lancamento_contabil_por_nota: {coluna: LANC_IMP, dominio: sim_nao_texto}
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_IMP, ops: [entre, gte, lte]}
+    regras:
+      - "ATENÇÃO: periodicidade_imposto (1 mensal, 2 quinzenal, 3 decendial, 4 trimestral, 5 semanal, 6 semestral) usa codificação DIFERENTE da periodicidade da apuração em efsdoimp.pdic_sim (6 = mensal, 4/5 = quinzenas, 7 = trimestral...). Não misture."
+      - "As contas contábeis (conta_*) são códigos do plano de contas; resolva-os pelo plano da empresa (ver regra do plano em contabil.yaml)."

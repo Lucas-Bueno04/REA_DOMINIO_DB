@@ -1,0 +1,109 @@
+# Entidades compartilhadas entre módulos: a EMPRESA (cadastro) — raiz multiempresa de todo o banco (codi_emp).
+# Formato: docs/formato-modelo.md
+#
+# PRIVACIDADE: expostos só os dados cadastrais da empresa. Telefone, e-mail, endereço, caixa postal e as 3 observações livres
+# (OBS_GERAL, OBS_SOCIETARIO, OBS_CONTABIL) não são expostos; os dados do responsável legal (CPF, RG, endereço, telefone,
+# e-mail, estado civil, profissão, nacionalidade) também não — só o nome (sensível). 61 das 742 empresas ativas são pessoas físicas (CPF).
+modulo: comum
+titulo: Cadastros comuns
+dominios:
+  status_empresa:
+    descricao: Situação da empresa no cadastro (geempre.stat_emp)
+    confirmado: true      # comentário da coluna + contagens reais (I=1.227, A=742)
+    valores: {A: Ativa, I: Inativa, C: Em constituição, M: Ativo sem movimento, B: Em processo de baixa, E: Excluindo}
+  motivo_inatividade:
+    descricao: Motivo da inatividade (geempre.tipoi_emp). Só aparece em empresas inativas.
+    confirmado: true      # comentário + dados: 636 outros, 307 transferida, 282 baixada, 2 inadimplente (soma = 1.227 inativas)
+    valores: {1: Outros, 2: Baixada, 3: Transferida, 4: Inadimplente}
+  tipo_inscricao:
+    descricao: Tipo da inscrição (CNPJ/CPF/CEI/CAEPF)
+    confirmado: true
+    valores: {1: CNPJ, 2: CPF, 3: CEI, 6: CAEPF}
+  regime_federal_empresa:
+    descricao: Regime federal da folha (geempre.rfed_emp)
+    confirmado: parcial   # o comentário da coluna não lista os valores; a legenda 1/2/3 vem do cadastro de clientes de Honorários (hrcliente.regime_federal)
+    valores: {1: Normal, 2: Microempresa, 3: Empresa de pequeno porte}
+  tipo_honorario_empresa:
+    descricao: Como a empresa usa o módulo Honorários (geempre.honorario_tipo)
+    confirmado: true
+    valores: {E: Escritório (quem fatura), C: Cliente}
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+
+entidades:
+  empresa:
+    titulo: Empresa (cadastro)
+    descricao: >
+      Empresas atendidas pelo escritório. 62% (1.227 de 1.969) estão INATIVAS mas continuam marcadas como usuárias dos módulos
+      (ex.: 729 inativas ainda com 'usa escrita fiscal'); para uma lista de clientes atuais filtre `status = 'A'`.
+    tabela: geempre
+    chave: [codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_emp, asc]]
+    colunas:
+      codigo: codi_emp
+      nome: nome_emp
+      razao_social: razao_emp
+      nome_fantasia: fantasia_emp
+      apelido: apel_emp
+      cnpj_cpf: {coluna: cgce_emp, sensivel: parcial}      # CPF quando tipo_inscricao = 2 (141 empresas)
+      tipo_inscricao: {coluna: tins_emp, dominio: tipo_inscricao}
+      inscricao_estadual: iest_emp
+      inscricao_municipal: imun_emp
+      inscricao_junta_comercial: ijuc_emp
+      data_inicio_atividades: dtinicio_emp
+      data_cadastro: dcad_emp
+      status: {coluna: stat_emp, dominio: status_empresa}
+      motivo_inatividade: {coluna: tipoi_emp, dominio: motivo_inatividade}
+      data_inativacao: dina_emp
+      natureza_juridica_codigo: njud_emp
+      cnae: i_cnae20
+      municipio_codigo: codigo_municipio
+      cidade: cida_emp
+      uf: esta_emp
+      regime_federal: {coluna: rfed_emp, dominio: regime_federal_empresa}
+      enquadramento_simples: simples_emp
+      tipo_honorario: {coluna: honorario_tipo, dominio: tipo_honorario_empresa}
+      numero_empregados: empreg_emp
+      faturamento_medio: {coluna: vlfat_emp, sensivel: financeiro}
+      valor_honorarios: {coluna: vlhon_emp, sensivel: financeiro}
+      responsavel_legal: {coluna: rleg_emp, sensivel: pessoal}
+      usa_escrita_fiscal: {coluna: uefi_emp, dominio: sim_nao_numerico}
+      usa_contabilidade: {coluna: ucta_emp, dominio: sim_nao_numerico}
+      usa_folha: {coluna: ufol_emp, dominio: sim_nao_numerico}
+      usa_ponto: {coluna: upto_emp, dominio: sim_nao_numerico}
+      usa_honorarios: {coluna: uhon_emp, dominio: sim_nao_numerico}
+      usa_patrimonio: {coluna: upat_emp, dominio: sim_nao_numerico}
+      usa_lalur: {coluna: ulal_emp, dominio: sim_nao_numerico}
+      usa_registro: {coluna: ureg_emp, dominio: sim_nao_numerico}
+      usa_livro_caixa: {coluna: ucxa_emp, dominio: sim_nao_numerico}
+      usa_protocolo: {coluna: upro_emp, dominio: sim_nao_numerico}
+    vinculos:
+      municipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {municipio_nome: nome_municipio, municipio_ibge: codigo_ibge}
+      natureza_juridica:
+        tabela: genatjuridica
+        liga: {njud_emp: codigo}
+        colunas: {natureza_juridica_descricao: descricao}
+      cnae_principal:
+        tabela: gecnae20
+        liga: {i_cnae20: i_cnae20}
+        colunas: {cnae_descricao: descricao}
+    filtros:
+      codigo: {coluna: codi_emp, ops: [eq, in]}
+      status: {coluna: stat_emp, ops: [eq, in]}
+      nome: {coluna: nome_emp, ops: [contem, prefixo]}
+      cnpj_cpf: {coluna: cgce_emp, ops: [eq]}
+      uf: {coluna: esta_emp, ops: [eq, in]}
+      tipo_inscricao: {coluna: tins_emp, ops: [eq, in]}
+      usa_folha: {coluna: ufol_emp, ops: [eq]}
+      usa_escrita_fiscal: {coluna: uefi_emp, ops: [eq]}
+      usa_contabilidade: {coluna: ucta_emp, ops: [eq]}
+    regras:
+      - "Situação: 742 ativas (A) e 1.227 inativas (I). Nas inativas, motivo_inatividade explica: 636 'outros', 307 transferida, 282 baixada, 2 inadimplente."
+      - "As flags usa_* NÃO indicam uso atual: 729 empresas inativas ainda têm usa_escrita_fiscal = 1 e usa_contabilidade = 1. Combine com status = 'A'."
+      - "Das 742 empresas ativas: 680 com CNPJ de 14 dígitos, 61 com CPF (11) e 1 sem documento."
+      - "geempre_vigencia repete o cadastro por data de vigência, mas na prática tem 1 vigência por empresa (1.967 de 1.968) e é igual a geempre em status; não foi modelada como entidade própria."
+      - "Escritório: tipo_honorario = 'E' marca quem fatura no módulo Honorários (3 empresas); as demais (1.966) são 'C' (cliente)."

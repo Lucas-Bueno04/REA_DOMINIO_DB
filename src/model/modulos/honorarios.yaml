@@ -1,0 +1,493 @@
+# Modelo de entidades do módulo HONORÁRIOS (prefixo HR) — cobrança do próprio escritório contábil aos seus clientes.
+# Formato: docs/formato-modelo.md
+#
+# ATENÇÃO — em HR*, `CODI_EMP` é o ESCRITÓRIO (quem fatura), NÃO a empresa-cliente. Há 2 escritórios no banco (códigos 1 e 930).
+# Os clientes de honorários são `hrcliente`: tipo F = cliente fixo (aponta para uma empresa cadastrada em geempre via
+# I_CLIENTE_FIXO; os 1.644 fixos existem todos em geempre) e tipo E = eventual (sem cadastro de empresa).
+# DADOS ATÉ 2025-12: o último faturamento é de 2025-12-31 e a última NFS-e de 2025-04-16; nada em 2026.
+#
+# PRIVACIDADE: 1.141 dos 2.918 clientes são PESSOAS FÍSICAS (CPF). Contatos (endereço, e-mail, telefones, site) e o campo de
+# observações livres NÃO foram expostos; inscrição (CPF/CNPJ) e nome ficam marcados `sensivel` para mascaramento.
+modulo: honorarios
+titulo: Honorários
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  tipo_cliente_honorarios:
+    confirmado: true      # comentário + dados (F=1.644, E=1.274); os 1.644 'F' existem em geempre
+    valores: {F: Fixo (empresa cadastrada), E: Eventual}
+  regime_federal:
+    confirmado: true      # comentário; dados só mostram 1 (2.883), 2 (33) e 3 (2)
+    valores: {1: Normal, 2: Microempresa, 3: Empresa de pequeno porte}
+  tipo_inscricao:
+    confirmado: true
+    valores: {1: CNPJ, 2: CPF, 3: CEI, 6: CAEPF}
+  tipo_faturamento:
+    confirmado: true      # comentário; dados: T 38.060, E 2.696, C 2.438
+    valores: {T: Todos, C: Contratos e eventos com contrato, E: Eventos sem contrato}
+  unidade_evento:
+    confirmado: true
+    valores: {V: Valor, Q: Quantidade, P: Percentual sobre contrato, F: Fórmula}
+  mes_vencimento:
+    confirmado: true
+    valores: {N: No mesmo mês, A: Após o mês, S: No segundo mês}
+  origem_recebimento:
+    descricao: Como o recebimento foi lançado (hrrecebimento.origem)
+    confirmado: true      # todos os 10 códigos observados constam do comentário do banco
+    valores: {D: Individual, G: Em grupo, R: Renegociação - recebimento, P: Renegociação - reparcelada, Q: Renegociação - quitada, N: Renegociação - novo faturamento, A: Adiantamento, F: Faturamento, I: Consulta de faturamento integral, E: Consulta de faturamento por evento, C: Consulta de cliente, S: Cancelamento de nota fiscal, B: Importação de boletos, M: Recebimento automático de boleto, X: Recebimento automático por QR Code}
+  tipo_boleto:
+    confirmado: true
+    valores: {1: Completo, 2: Detalhado, 3: Pré-impresso, 4: Carnê}
+  detalhe_movimento_cliente:
+    confirmado: true
+    valores: {P: Principal, J: Juros e multa, D: Desconto, R: Retenções, U: Juros, M: Multa}
+  tipo_movimento:
+    confirmado: true
+    valores: {E: Entrada, S: Saída, T: Transferência}
+  origem_movimento_cliente:
+    confirmado: true
+    valores: {F: Faturamento, P: Pagamento, A: Adiantamento, C: Cancelamento de nota fiscal, E: Pago pelo escritório, R: Renegociação}
+  origem_movimento_escritorio:
+    confirmado: true
+    valores: {M: Manual, F: Pagamento a fornecedor, I: Pagamento de imposto, P: Pagamento de funcionário, C: Pagamento de item para cliente, R: Recebimento, A: Adiantamento, H: Cheque, X: Extrato bancário}
+  tipo_conta_financeira:
+    confirmado: true
+    valores: {B: Bancária, C: Caixa, H: Cheque}
+
+entidades:
+  # ================================================ CADASTROS ===========================================================
+  cliente_honorarios:
+    titulo: Clientes de honorários
+    descricao: >
+      Clientes que o escritório fatura. `empresa` = ESCRITÓRIO. Fixos (tipo F) ligam à empresa cadastrada por
+      `empresa_cliente_codigo` (= geempre.codi_emp). Contatos e observações livres não são expostos.
+    privacidade: "1.141 clientes são pessoas físicas (CPF). Nome e inscrição mascarados por padrão."
+    tabela: hrcliente
+    chave: [codi_emp, i_cliente]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[NOME, asc]]
+    colunas:
+      codigo: I_CLIENTE
+      apelido: APELIDO
+      nome: {coluna: NOME, sensivel: parcial}
+      tipo: {coluna: TIPO, dominio: tipo_cliente_honorarios}
+      empresa_cliente_codigo: I_CLIENTE_FIXO
+      data_cadastro: DATA_CADASTRO
+      tipo_inscricao: {coluna: TIPO_INSCRICAO, dominio: tipo_inscricao}
+      inscricao: {coluna: INSCRICAO, sensivel: parcial}
+      municipio_codigo: CODIGO_MUNICIPIO
+      uf: UF
+      regime_federal: {coluna: REGIME_FEDERAL, dominio: regime_federal}
+      classificacao_codigo: I_CLASSIFICACAO
+      conta_contabil: CONTA_CONTABIL
+      gera_contabilizacao: {coluna: GERA_CONTABILIZACAO, dominio: sim_nao_texto}
+    vinculos:
+      classificacao:
+        tabela: hrclassificacao
+        liga: {I_CLASSIFICACAO: I_CLASSIFICACAO}
+        colunas: {classificacao_nome: DESCRICAO}
+      empresa_cadastrada:
+        tabela: geempre
+        liga: {I_CLIENTE_FIXO: codi_emp}
+        colunas: {empresa_cliente_nome: nome_emp}
+    filtros:
+      codigo: {coluna: I_CLIENTE, ops: [eq, in]}
+      nome: {coluna: NOME, ops: [contem, prefixo]}
+      tipo: {coluna: TIPO, ops: [eq]}
+      inscricao: {coluna: INSCRICAO, ops: [eq]}
+      empresa_cliente_codigo: {coluna: I_CLIENTE_FIXO, ops: [eq, in]}
+      uf: {coluna: UF, ops: [eq, in]}
+    regras:
+      - "Cliente fixo (F): empresa_cliente_codigo existe em geempre em 100% dos casos (1.644 de 1.644). Cliente eventual (E): sem empresa cadastrada."
+      - "Dois escritórios no banco (códigos 1 e 930): sempre filtre `empresa` pelo escritório desejado."
+
+  classificacao_cliente:
+    titulo: Classificações de cliente
+    descricao: Tabela global (3 linhas).
+    tabela: hrclassificacao
+    chave: [I_CLASSIFICACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[I_CLASSIFICACAO, asc]]
+    colunas: {codigo: I_CLASSIFICACAO, descricao: DESCRICAO}
+    filtros:
+      codigo: {coluna: I_CLASSIFICACAO, ops: [eq, in]}
+
+  evento_honorario:
+    titulo: Eventos de honorário (tipos de cobrança)
+    descricao: Catálogo de serviços/cobranças do escritório (89 linhas) com as marcações de impostos retidos.
+    tabela: hrevento
+    chave: [codi_emp, I_EVENTO]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[I_EVENTO, asc]]
+    colunas:
+      codigo: I_EVENTO
+      descricao: DESCRICAO
+      data_cadastro: DATA_CADASTRO
+      unidade: {coluna: UNIDADE, dominio: unidade_evento}
+      referencia: REFERENCIA
+      categoria_codigo: I_CATEGORIA_RECEBER
+      imposto_codigo: CODI_IMP
+      soma_irrf: {coluna: SOMA_IRRF, dominio: sim_nao_texto}
+      aliquota_irrf: ALIQUOTA_IRRF
+      soma_iss: {coluna: SOMA_ISS, dominio: sim_nao_texto}
+      aliquota_iss: ALIQUOTA_ISS
+      dia_vencimento: DIA_VENCIMENTO
+      mes_vencimento: {coluna: MES_VENCIMENTO, dominio: mes_vencimento}
+      fatura_contrato: {coluna: FATURA_CONTRATO, dominio: sim_nao_texto}
+    filtros:
+      codigo: {coluna: I_EVENTO, ops: [eq, in]}
+      descricao: {coluna: DESCRICAO, ops: [contem, prefixo]}
+
+  contrato:
+    titulo: Contratos de honorários
+    tabela: hrcontrato
+    chave: [codi_emp, I_CONTRATO]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[I_CONTRATO, desc]]
+    privacidade: "Valor contratado por cliente (financeiro)."
+    colunas:
+      codigo: I_CONTRATO
+      descricao: DESCRICAO
+      cliente_codigo: I_CLIENTE
+      tipo_contrato_codigo: I_TIPO_CONTRATO
+      evento_codigo: I_EVENTO
+      data_emissao: DATA_EMISSAO
+      data_inicio: DATA_INICIO
+      data_inicio_faturamento: DATA_INICIO_FATURAMENTO
+      dia_vencimento: DIA_VENCIMENTO
+      mes_vencimento: {coluna: MES_VENCIMENTO, dominio: mes_vencimento}
+      define_termino: {coluna: DEFINIR_TERMINO, dominio: sim_nao_texto}
+      data_termino: DATA_TERMINO
+      valor_contrato: {coluna: VALOR_CONTRATO, sensivel: financeiro}
+      valor_original: {coluna: VALOR_ORIGINAL, sensivel: financeiro}
+    vinculos:
+      cliente:
+        tabela: hrcliente
+        liga: {codi_emp: codi_emp, I_CLIENTE: i_cliente}
+        colunas: {cliente_nome: NOME}
+        sensiveis: [cliente_nome]
+      evento:
+        tabela: hrevento
+        liga: {codi_emp: codi_emp, I_EVENTO: i_evento}
+        colunas: {evento_descricao: DESCRICAO}
+    filtros:
+      codigo: {coluna: I_CONTRATO, ops: [eq, in]}
+      cliente_codigo: {coluna: I_CLIENTE, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTO, ops: [eq, in]}
+      data_inicio: {coluna: DATA_INICIO, ops: [entre, gte, lte]}
+      data_termino: {coluna: DATA_TERMINO, ops: [entre, gte, lte]}
+    regras:
+      - "583 contratos não têm término definido e 481 têm; destes, nenhum está vigente (todos encerrados)."
+
+  conta_financeira:
+    titulo: Contas financeiras do escritório
+    descricao: Bancos e caixas do escritório (24 linhas). Número da conta, agência e convênio não são expostos.
+    tabela: hrconta_financeira
+    chave: [codi_emp, I_CONTA_FINANCEIRA]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[I_CONTA_FINANCEIRA, asc]]
+    colunas:
+      codigo: I_CONTA_FINANCEIRA
+      descricao: DESCRICAO
+      tipo: {coluna: TIPO, dominio: tipo_conta_financeira}
+      banco_codigo: I_BANCO
+      conta_contabil: CONTA_CONTABIL
+      envia_cobranca_registrada: {coluna: ENVIA_COBRANCA_REGISTRADA, dominio: sim_nao_texto}
+    filtros:
+      codigo: {coluna: I_CONTA_FINANCEIRA, ops: [eq, in]}
+      tipo: {coluna: TIPO, ops: [eq]}
+
+  # ================================================ FATURAMENTO =========================================================
+  faturamento:
+    titulo: Faturamentos
+    descricao: Cabeçalho de cada faturamento de honorários (um por cliente e competência).
+    tabela: hrfaturamento
+    chave: [codi_emp, I_FATURAMENTO]
+    acesso: {empresa: codi_emp, periodo: DATA_FATURAMENTO, volume: medio}
+    ordem: [[DATA_FATURAMENTO, desc], [I_FATURAMENTO, desc]]
+    colunas:
+      codigo: I_FATURAMENTO
+      cliente_codigo: I_CLIENTE
+      competencia: COMPETENCIA
+      data_faturamento: DATA_FATURAMENTO
+      tipo: {coluna: TIPO_FATURAMENTO, dominio: tipo_faturamento}
+      somente_vencimento: {coluna: SOMENTE_VENCIMENTO, dominio: sim_nao_texto}
+      gerar_parcelado: {coluna: GERAR_PARCELADO, dominio: sim_nao_texto}
+      quantidade_parcelas: QUANTIDADE_PARCELA
+      intervalo_dias: INTERVALO_DIAS
+      nota_fiscal_codigo: I_NOTA_FISCAL
+      nfse_codigo: I_NOTA_NFSE
+      usuario: USUARIO
+      data_hora: DATA_HORA
+    vinculos:
+      cliente:
+        tabela: hrcliente
+        liga: {codi_emp: codi_emp, I_CLIENTE: i_cliente}
+        colunas: {cliente_nome: NOME}
+        sensiveis: [cliente_nome]
+    filtros:
+      codigo: {coluna: I_FATURAMENTO, ops: [eq, in]}
+      cliente_codigo: {coluna: I_CLIENTE, ops: [eq, in]}
+      competencia: {coluna: COMPETENCIA, ops: [eq, entre, gte, lte]}
+      data_faturamento: {coluna: DATA_FATURAMENTO, ops: [entre, gte, lte]}
+      tipo: {coluna: TIPO_FATURAMENTO, ops: [eq, in]}
+    regras:
+      - "Faturamentos de 2015-09 a 2025-12; não há nada em 2026."
+    filhos:
+      parcelas: {entidade: parcela_faturamento, liga: {codi_emp: codi_emp, I_FATURAMENTO: faturamento_codigo}}
+
+  parcela_faturamento:
+    titulo: Parcelas de faturamento
+    descricao: >
+      Vencimentos de cada faturamento, com o estado de emissão de boleto e de documento de cobrança. O valor da parcela é a soma
+      dos itens (item_parcela); o recebido é a soma de recebimento.valor. Para o saldo pronto use a consulta `contas_a_receber`.
+    tabela: hrfaturamento_parcela
+    chave: [codi_emp, I_FATURAMENTO, I_PARCELA]
+    acesso: {empresa: codi_emp, periodo: VENCIMENTO, volume: medio}
+    ordem: [[VENCIMENTO, desc], [I_FATURAMENTO, desc], [I_PARCELA, asc]]
+    colunas:
+      faturamento_codigo: I_FATURAMENTO
+      parcela: I_PARCELA
+      vencimento: VENCIMENTO
+      vencimento_original: VENCIMENTO_ORIGINAL
+      imprimiu_boleto: {coluna: IMPRIMIU_BOLETO, dominio: sim_nao_texto}
+      emissao_boleto: EMISSAO_BOLETO
+      nosso_numero_boleto: NOSSO_NUMERO_BOLETO
+      conta_financeira_boleto: I_CONTA_FINANCEIRA_BOLETO
+      tipo_boleto: {coluna: TIPO_BOLETO, dominio: tipo_boleto}
+      imprimiu_cobranca: {coluna: IMPRIMIU_COBRANCA, dominio: sim_nao_texto}
+      numero_cobranca: NUMERO_COBRANCA
+      emissao_cobranca: EMISSAO_COBRANCA
+    vinculos:
+      faturamento:
+        tabela: hrfaturamento
+        liga: {codi_emp: codi_emp, I_FATURAMENTO: i_faturamento}
+        colunas: {cliente_codigo: I_CLIENTE, faturamento_competencia: COMPETENCIA, faturamento_data: DATA_FATURAMENTO}
+    filtros:
+      faturamento_codigo: {coluna: I_FATURAMENTO, ops: [eq, in]}
+      vencimento: {coluna: VENCIMENTO, ops: [entre, gte, lte]}
+      imprimiu_boleto: {coluna: IMPRIMIU_BOLETO, ops: [eq]}
+    filhos:
+      itens: {entidade: item_parcela, liga: {codi_emp: codi_emp, I_FATURAMENTO: faturamento_codigo, I_PARCELA: parcela}}
+      recebimentos: {entidade: recebimento, liga: {codi_emp: codi_emp, I_FATURAMENTO: faturamento_codigo, I_PARCELA: parcela}}
+
+  item_parcela:
+    titulo: Itens das parcelas
+    descricao: Cada evento (honorário) cobrado em uma parcela, com valores, descontos e retenções (IRRF, ISS, INSS, CRF).
+    privacidade: "Valores cobrados por cliente (financeiro)."
+    tabela: hrfaturamento_parcela_item
+    chave: [codi_emp, I_FATURAMENTO, I_PARCELA, I_EVENTO, PAGO_ESCRITORIO]
+    acesso: {empresa: codi_emp, volume: medio, exige_algum: [faturamento_codigo]}
+    ordem: [[I_FATURAMENTO, desc], [I_PARCELA, asc], [I_EVENTO, asc]]
+    colunas:
+      faturamento_codigo: I_FATURAMENTO
+      parcela: I_PARCELA
+      evento_codigo: I_EVENTO
+      pago_pelo_escritorio: {coluna: PAGO_ESCRITORIO, dominio: sim_nao_texto}
+      valor: {coluna: VALOR, sensivel: financeiro}
+      valor_original: {coluna: VALOR_ORIGINAL, sensivel: financeiro}
+      valor_desconto: {coluna: VALOR_DESCONTO, sensivel: financeiro}
+      valor_irrf: {coluna: VALOR_IRRF, sensivel: financeiro}
+      aliquota_irrf: ALIQUOTA_IRRF
+      valor_iss: {coluna: VALOR_ISS, sensivel: financeiro}
+      aliquota_iss: ALIQUOTA_ISS
+      valor_iss_retido: {coluna: VALOR_ISS_RETIDO, sensivel: financeiro}
+      valor_inss_retido: {coluna: VALOR_INSS_RETIDO, sensivel: financeiro}
+      valor_crf: {coluna: VALOR_CRF, sensivel: financeiro}
+      movimento_cliente_codigo: I_MOVIMENTO_CLIENTE
+    vinculos:
+      evento:
+        tabela: hrevento
+        liga: {codi_emp: codi_emp, I_EVENTO: i_evento}
+        colunas: {evento_descricao: DESCRICAO}
+      parcela:
+        tabela: hrfaturamento_parcela
+        liga: {codi_emp: codi_emp, I_FATURAMENTO: i_faturamento, I_PARCELA: i_parcela}
+        colunas: {parcela_vencimento: VENCIMENTO}
+    filtros:
+      faturamento_codigo: {coluna: I_FATURAMENTO, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTO, ops: [eq, in]}
+    regras:
+      - "Valor do movimento da conta corrente do cliente = valor do item em 99,6% dos itens (43.594 de 43.766; 172 itens sem movimento)."
+      - "valor é o valor cobrado do item; a soma dos itens de uma parcela é o valor faturado dela."
+
+  # ================================================ RECEBIMENTO =========================================================
+  recebimento:
+    titulo: Recebimentos
+    descricao: >
+      Baixas de parcelas. `valor_recebido` é o BRUTO (inclui juros e multa); `valor` é o LÍQUIDO que abate o principal da parcela.
+      Identidade validada em 100%: valor = valor_recebido − juros − multa + desconto.
+    privacidade: "Valores recebidos por cliente (financeiro)."
+    tabela: hrrecebimento
+    chave: [codi_emp, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO]
+    acesso: {empresa: codi_emp, periodo: DATA_RECEBIMENTO, volume: medio}
+    ordem: [[DATA_RECEBIMENTO, desc], [I_FATURAMENTO, desc]]
+    colunas:
+      faturamento_codigo: I_FATURAMENTO
+      parcela: I_PARCELA
+      recebimento: I_RECEBIMENTO
+      data_recebimento: DATA_RECEBIMENTO
+      origem: {coluna: ORIGEM, dominio: origem_recebimento}
+      conta_financeira_codigo: I_CONTA_FINANCEIRA
+      movimento_escritorio_codigo: I_MOVIMENTO_ESCRITORIO
+      valor_liquido: {coluna: VALOR, sensivel: financeiro}
+      valor_recebido: {coluna: VALOR_RECEBIDO, sensivel: financeiro}
+      valor_juros: {coluna: VALOR_JUROS, sensivel: financeiro}
+      valor_multa: {coluna: VALOR_MULTA, sensivel: financeiro}
+      valor_desconto: {coluna: VALOR_DESCONTO, sensivel: financeiro}
+      valor_irrf: {coluna: VALOR_IRRF, sensivel: financeiro}
+      valor_crf: {coluna: VALOR_CRF, sensivel: financeiro}
+      valor_refaturado: {coluna: VALOR_REFATURADO, sensivel: financeiro}
+      valor_reparcelado: {coluna: VALOR_REPARCELADO, sensivel: financeiro}
+      valor_quitado: {coluna: VALOR_QUITADO, sensivel: financeiro}
+      historico: HISTORICO
+    vinculos:
+      conta_financeira:
+        tabela: hrconta_financeira
+        liga: {codi_emp: codi_emp, I_CONTA_FINANCEIRA: i_conta_financeira}
+        colunas: {conta_financeira_descricao: DESCRICAO}
+      faturamento:
+        tabela: hrfaturamento
+        liga: {codi_emp: codi_emp, I_FATURAMENTO: i_faturamento}
+        colunas: {cliente_codigo: I_CLIENTE, faturamento_competencia: COMPETENCIA}
+    filtros:
+      faturamento_codigo: {coluna: I_FATURAMENTO, ops: [eq, in]}
+      data_recebimento: {coluna: DATA_RECEBIMENTO, ops: [entre, gte, lte]}
+      origem: {coluna: ORIGEM, ops: [eq, in]}
+      conta_financeira_codigo: {coluna: I_CONTA_FINANCEIRA, ops: [eq, in]}
+    regras:
+      - "Identidade: valor_liquido = valor_recebido − valor_juros − valor_multa + valor_desconto, em 43.042 de 43.042 recebimentos (100%) e 43.581 de 43.603 itens (99,95%)."
+      - "O valor_recebido do recebimento é igual à soma dos itens em 99,95% (43.019 de 43.042); o valor_liquido em 99,998%."
+      - "O movimento do escritório ligado tem valor igual a valor_recebido em 98,3% (42.295 de 43.042; 746 recebimentos sem movimento) — o movimento registra o BRUTO, não o líquido."
+      - "Para saber o que ainda está em aberto use a consulta `contas_a_receber`: saldo da parcela = Σ valor dos itens − Σ valor_liquido dos recebimentos. Validado: 42.824 parcelas quitadas, 399 em aberto e 1 inconsistente (99,998%). Somar também desconto/quitado/refaturado/reparcelado produz 588 'baixadas a mais' artificiais."
+
+  item_recebimento:
+    titulo: Itens dos recebimentos
+    descricao: Rateio de cada recebimento pelos eventos (itens) da parcela.
+    privacidade: "Valores recebidos por cliente (financeiro)."
+    tabela: hrrecebimento_item
+    chave: [codi_emp, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO, I_EVENTO, PAGO_ESCRITORIO]
+    acesso: {empresa: codi_emp, volume: medio, exige_algum: [faturamento_codigo]}
+    ordem: [[I_FATURAMENTO, desc], [I_PARCELA, asc], [I_RECEBIMENTO, asc], [I_EVENTO, asc]]
+    colunas:
+      faturamento_codigo: I_FATURAMENTO
+      parcela: I_PARCELA
+      recebimento: I_RECEBIMENTO
+      evento_codigo: I_EVENTO
+      pago_pelo_escritorio: {coluna: PAGO_ESCRITORIO, dominio: sim_nao_texto}
+      valor_liquido: {coluna: VALOR, sensivel: financeiro}
+      valor_recebido: {coluna: VALOR_RECEBIDO, sensivel: financeiro}
+      valor_juros: {coluna: VALOR_JUROS, sensivel: financeiro}
+      valor_multa: {coluna: VALOR_MULTA, sensivel: financeiro}
+      valor_desconto: {coluna: VALOR_DESCONTO, sensivel: financeiro}
+    vinculos:
+      evento:
+        tabela: hrevento
+        liga: {codi_emp: codi_emp, I_EVENTO: i_evento}
+        colunas: {evento_descricao: DESCRICAO}
+    filtros:
+      faturamento_codigo: {coluna: I_FATURAMENTO, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTO, ops: [eq, in]}
+
+  # ================================================ CONTAS CORRENTES ====================================================
+  conta_corrente_cliente:
+    titulo: Conta corrente do cliente
+    descricao: >
+      Razão do cliente: faturamento entra (E, origem F), pagamento/adiantamento sai (S). Cada movimento principal (P) pode ter
+      desdobramentos (juros e multa, desconto, retenções) pelo sequencial.
+    privacidade: "Movimentação financeira por cliente. Mascarar por padrão."
+    tabela: hrconta_corrente_cliente
+    chave: [codi_emp, I_MOVIMENTO_CLIENTE, I_MOVIMENTO_CLIENTE_SEQ]
+    acesso: {empresa: codi_emp, periodo: DATA_MOVIMENTO, volume: medio}
+    ordem: [[DATA_MOVIMENTO, desc], [I_MOVIMENTO_CLIENTE, desc], [I_MOVIMENTO_CLIENTE_SEQ, asc]]
+    colunas:
+      movimento: I_MOVIMENTO_CLIENTE
+      sequencial: I_MOVIMENTO_CLIENTE_SEQ
+      detalhe: {coluna: DETALHE, dominio: detalhe_movimento_cliente}
+      cliente_codigo: I_CLIENTE
+      data: DATA_MOVIMENTO
+      tipo: {coluna: TIPO, dominio: tipo_movimento}
+      origem: {coluna: ORIGEM, dominio: origem_movimento_cliente}
+      valor: {coluna: VALOR, sensivel: financeiro}
+      historico: HISTORICO
+    vinculos:
+      cliente:
+        tabela: hrcliente
+        liga: {codi_emp: codi_emp, I_CLIENTE: i_cliente}
+        colunas: {cliente_nome: NOME}
+        sensiveis: [cliente_nome]
+    filtros:
+      cliente_codigo: {coluna: I_CLIENTE, ops: [eq, in]}
+      data: {coluna: DATA_MOVIMENTO, ops: [entre, gte, lte]}
+      tipo: {coluna: TIPO, ops: [eq]}
+      origem: {coluna: ORIGEM, ops: [eq, in]}
+      detalhe: {coluna: DETALHE, ops: [eq, in]}
+
+  conta_corrente_escritorio:
+    titulo: Conta corrente do escritório
+    descricao: Razão financeiro do próprio escritório (recebimentos, pagamentos a fornecedores, impostos, funcionários, transferências).
+    tabela: hrconta_corrente_escritorio
+    chave: [codi_emp, I_MOVIMENTO_ESCRITORIO]
+    acesso: {empresa: codi_emp, periodo: DATA_MOVIMENTO, volume: medio}
+    ordem: [[DATA_MOVIMENTO, desc], [I_MOVIMENTO_ESCRITORIO, desc]]
+    colunas:
+      movimento: I_MOVIMENTO_ESCRITORIO
+      data: DATA_MOVIMENTO
+      tipo: {coluna: TIPO, dominio: tipo_movimento}
+      origem: {coluna: ORIGEM, dominio: origem_movimento_escritorio}
+      valor: {coluna: VALOR, sensivel: financeiro}
+      conta_origem_codigo: I_CONTA_FINANCEIRA_ORIGEM
+      conta_destino_codigo: I_CONTA_FINANCEIRA_DESTINO
+      categoria_receber_codigo: I_CATEGORIA_RECEBER
+      categoria_pagar_codigo: I_CATEGORIA_PAGAR
+      historico: HISTORICO
+    filtros:
+      data: {coluna: DATA_MOVIMENTO, ops: [entre, gte, lte]}
+      tipo: {coluna: TIPO, ops: [eq, in]}
+      origem: {coluna: ORIGEM, ops: [eq, in]}
+    regras:
+      - "Movimento de recebimento (origem R) registra o valor BRUTO recebido (igual a hrrecebimento.valor_recebido em 98,3%)."
+
+  # ================================================ NFS-e ===============================================================
+  nfse:
+    titulo: Notas fiscais de serviço eletrônicas emitidas pelo escritório
+    descricao: NFS-e do escritório aos clientes. Observação livre e CNAE não são expostos.
+    tabela: hrnota_nfse
+    chave: [codi_emp, I_NOTA_NFSE]
+    acesso: {empresa: codi_emp, periodo: EMISSAO_NFSE, volume: medio}
+    ordem: [[EMISSAO_NFSE, desc], [I_NOTA_NFSE, desc]]
+    colunas:
+      codigo: I_NOTA_NFSE
+      cliente_codigo: I_CLIENTE
+      numero_rps: NUMERO_RPS
+      lote_codigo: I_LOTE
+      numero_nfse: NUMERO_NFSE
+      codigo_verificacao: CODIGO_VERIFICACAO
+      emissao: EMISSAO_NFSE
+      hora_emissao: EMISSAO_HORA_NFSE
+      cancelada: {coluna: CANCELADA_NOTA_NFSE, dominio: sim_nao_texto}
+      data_cancelamento: CANCELADA_NOTA_NFSE_DATA
+      aliquota: ALIQUOTA
+      serie: SERIE
+      municipio_prestacao_codigo: MUNICIPIO_PRESTACAO_SERVICO
+      usuario: USUARIO
+    vinculos:
+      cliente:
+        tabela: hrcliente
+        liga: {codi_emp: codi_emp, I_CLIENTE: i_cliente}
+        colunas: {cliente_nome: NOME}
+        sensiveis: [cliente_nome]
+    filtros:
+      numero_nfse: {coluna: NUMERO_NFSE, ops: [eq, in, entre]}
+      cliente_codigo: {coluna: I_CLIENTE, ops: [eq, in]}
+      emissao: {coluna: EMISSAO_NFSE, ops: [entre, gte, lte]}
+      cancelada: {coluna: CANCELADA_NOTA_NFSE, ops: [eq]}
+    regras:
+      - "Emissões de 2018-03-20 a 2025-04-16: 36.426 válidas e 70 canceladas. Não há NFS-e emitida por este módulo depois de 2025-04."
+
+consultas:
+  contas_a_receber:
+    titulo: Contas a receber (saldo por parcela)
+    descricao: >
+      Por parcela de faturamento: valor faturado (Σ valor dos itens), recebido (Σ valor líquido dos recebimentos) e saldo.
+      Situação: 'aberta' (saldo > 0), 'quitada' (saldo = 0) ou 'inconsistente' (saldo < 0). Validada: 42.824 quitadas, 399 abertas, 1 inconsistente.
+    parametros: {escritorio: obrigatorio, vencimento_de: opcional, vencimento_ate: opcional, situacao: opcional, cliente_codigo: opcional}
