@@ -1,0 +1,117 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_notas
+titulo: Contábil - notas (rascunho em lote)
+entidades:
+  ctnotas_explicativas:
+    titulo: Notas explicativas - Cadastro
+    descricao: 'Notas explicativas - Cadastro. 19 linhas no catálogo; chave: i_nota, codi_emp.'
+    tabela: ctnotas_explicativas
+    chave: [i_nota, codi_emp]
+    acesso: {empresa: codi_emp, periodo: balanco, volume: pequeno}
+    ordem:
+    - [balanco, desc]
+    - [i_nota, asc]
+    colunas: {codigo: i_nota, empresa: codi_emp, ole: i_ole, descricao: descricao, data_de_encerramento_do_balanco: balanco, periodo_inicial: PERIODO_INICIAL, periodo_final: PERIODO_FINAL}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: i_nota
+        ops: [eq, in]
+      data_de_encerramento_do_balanco:
+        coluna: balanco
+        ops: [entre, gte, lte]
+      periodo_inicial:
+        coluna: PERIODO_INICIAL
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FINAL
+        ops: [entre, gte, lte]
+      ole:
+        coluna: i_ole
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 19 linhas, 11 empresa(s), balanco de 2018-12-31 a 2025-12-31.', 'Colunas expostas nulas em 100% das linhas (2): periodo_inicial,
+        periodo_final.', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 1558).']
+  ctnotas_explicativas_relacionamento_conta:
+    titulo: Notas explicativas - Relacionamento entre contas - Contas
+    descricao: 'Notas explicativas - Relacionamento entre contas - Contas. 19 linhas no catálogo; chave: CODI_EMP, I_RELACIONAMENTO, I_CONTA.'
+    tabela: CTNOTAS_EXPLICATIVAS_RELACIONAMENTO_CONTA
+    chave: [CODI_EMP, I_RELACIONAMENTO, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RELACIONAMENTO, asc]
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_RELACIONAMENTO, sequencial: I_CONTA, conta_contabil: CODI_CTA, nota_explicativa: NOTA_EXPLICATIVA}
+    filtros:
+      codigo:
+        coluna: I_RELACIONAMENTO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      nota_explicativa:
+        coluna: NOTA_EXPLICATIVA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19 linhas, 6 empresa(s).']
+  ctnotas_explicativas_relacionamento:
+    titulo: Notas explicativas - Relacionamento entre contas
+    descricao: 'Notas explicativas - Relacionamento entre contas. 6 linhas no catálogo; chave: CODI_EMP, I_RELACIONAMENTO.'
+    tabela: CTNOTAS_EXPLICATIVAS_RELACIONAMENTO
+    chave: [CODI_EMP, I_RELACIONAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO_ENCERRADO, volume: pequeno}
+    ordem:
+    - [PERIODO_ENCERRADO, desc]
+    - [I_RELACIONAMENTO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_RELACIONAMENTO, periodo_encerrado_em: PERIODO_ENCERRADO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_RELACIONAMENTO
+        ops: [eq, in]
+      periodo_encerrado_em:
+        coluna: PERIODO_ENCERRADO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 6 linhas, 6 empresa(s), PERIODO_ENCERRADO de 2018-12-31 a 2024-12-31.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro
+        relacionado (empresa 910).']
+  ctnotas_explicativas_relacionamento_conta_sped_contabil:
+    titulo: Relacionamento de notas explicativas com o SPED contabil
+    descricao: 'Relacionamento de notas explicativas com o SPED contabil. 1 linhas no catálogo; chave: CODI_EMP, I_RELACIONAMENTO, I_CONTA, SEQUENCIAL.'
+    tabela: CTNOTAS_EXPLICATIVAS_RELACIONAMENTO_CONTA_SPED_CONTABIL
+    chave: [CODI_EMP, I_RELACIONAMENTO, I_CONTA, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RELACIONAMENTO, asc]
+    - [I_CONTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_relacionamento: I_RELACIONAMENTO, codigo_da_conta_contabil: I_CONTA, sequencial: SEQUENCIAL, codigo_do_scp: I_SCP,
+      observacao_da_nota_explicativa_relativa: NOTA_EXP_OBS_SCP}
+    filtros:
+      codigo_do_relacionamento:
+        coluna: I_RELACIONAMENTO
+        ops: [eq, in]
+      codigo_da_conta_contabil:
+        coluna: I_CONTA
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      observacao_da_nota_explicativa_relativa:
+        coluna: NOTA_EXP_OBS_SCP
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).']

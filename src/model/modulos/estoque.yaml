@@ -1,0 +1,104 @@
+# Modelo de entidades do ESTOQUE fiscal: saldo mensal e diário dos produtos (EFSDOPRO*). Curado à mão e conciliado com o movimento.
+# Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO: saldos de ICMS-ST por produto e UF (`EFSDOPRO_*` específicas) e os registros de inventário; próxima rodada.
+modulo: estoque
+titulo: Estoque fiscal (saldo de produtos)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  origem_registro_estoque:
+    descricao: Origem do registro (origem_reg)
+    confirmado: parcial
+    nota: >
+      Valores do comentário do banco (0 Sistema, 1 a 3 importações). Na empresa 680 os 63.777 saldos têm origem 0; nas demais
+      empresas não foi medido.
+    valores: {0: Sistema, 1: Importação de tabelas, 2: Importação de layout, 3: Importação de tabelas concorrentes}
+
+entidades:
+  saldo_produto:
+    titulo: Saldo mensal dos produtos (estoque fiscal)
+    descricao: >
+      Uma linha por empresa, produto e competência (primeiro dia do mês): saldo físico e em valor no início, entradas e saídas do
+      mês e saldo no fim. Traz também o estoque final da Portaria CAT 17/99 (SP) e o saldo de ICMS-ST. 8,45 milhões de linhas,
+      473 empresas, 2014-01 a 2026-09. Origem do movimento: notas de entrada (`efmvepro`), notas de saída (`efmvspro`) e CF-e.
+    tabela: efsdopro
+    chave: [codi_emp, codi_pdi, data_pro]
+    acesso: {empresa: codi_emp, periodo: data_pro, exige_algum: [produto_codigo, periodo], volume: grande}
+    ordem: [[data_pro, desc], [codi_pdi, asc]]
+    colunas:
+      produto_codigo: codi_pdi
+      competencia: data_pro
+      saldo_fisico_anterior: sfisant_pro
+      saldo_valor_anterior: svalant_pro
+      entradas_fisicas: entfis_pro
+      entradas_valor: entval_pro
+      saidas_fisicas: saifis_pro
+      saidas_valor: saival_pro
+      saldo_fisico: sfismes_pro
+      saldo_valor: svalmes_pro
+      estoque_final_cat17: ESTOQUE_FINAL
+      valor_unitario_cat17: VALOR_UNITARIO
+      saldo_final_cat17: SALDO_FINAL
+      quantidade_final_icms_st: QUANTIDADE_FINAL_ICMS_ST
+      valor_unitario_medio_icms_st: VALOR_UNITARIO_MEDIO_ICMS_ST
+      valor_final_icms_st: VALOR_FINAL_ICMS_ST
+      saldo_valido: {coluna: SALDO_VALIDO, dominio: sim_nao_texto}
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_estoque}
+    calculadas:
+      saldo_fisico_recalculado: "sfisant_pro + entfis_pro - saifis_pro"
+      saldo_valor_recalculado: "svalant_pro + entval_pro - saival_pro"
+    vinculos:
+      produto:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi: codi_pdi}
+        colunas: {produto_descricao: desc_pdi, produto_ncm: cncm_pdi}
+    filtros:
+      produto_codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      competencia: {coluna: data_pro, ops: [eq, entre, gte, lte]}
+      saldo_valido: {coluna: SALDO_VALIDO, ops: [eq]}
+    filhos:
+      dias: {entidade: saldo_produto_diario, liga: {codi_emp: codi_emp, codi_pdi: produto_codigo, data_pro: competencia}}
+    regras:
+      - "Identidade do saldo (empresa 680, 63.777 saldos): saldo_valor = saldo_valor_anterior + entradas_valor - saidas_valor em 100% (tolerância 0,01); saldo_fisico = anterior + entradas - saídas em 100% a menos de 0,001 (463 saldos diferem só por arredondamento, desvio máximo 0,0005). Use `saldo_fisico` e `saldo_valor`; as colunas `*_recalculado` existem para conferir."
+      - "Continuidade: o saldo anterior de um mês é igual ao saldo do mês anterior do mesmo produto em 62.130 de 62.130 pares (físico e valor). 76 saldos têm anterior diferente de zero sem registro do mês anterior (produto sem movimento no mês não gera linha)."
+      - "Entradas: entradas_fisicas é igual à soma de efmvepro.qtde_mep (notas de entrada) por produto e mês em 63.775 de 63.777 (empresa 680)."
+      - "Saídas: saidas_fisicas é igual à soma de efmvspro.qtde_msp (notas de saída) MAIS a quantidade dos itens de CF-e vigentes (situação 0) em 63.777 de 63.777 saldos a menos de 0,001 (63.258 exatos a 0,0001; os outros 519 diferem no máximo 0,0005, arredondamento). Só com as notas de saída seriam 57.529 (90,2%): o CF-e entra no saldo. Empresa 680."
+      - "Portaria CAT 17/99: estoque_final_cat17 x valor_unitario_cat17 = saldo_final_cat17 (tolerância 0,05) em 63.777 de 63.777; todos os saldos da empresa 680 têm saldo_valido = S."
+      - "Chave: (empresa, produto, competência) é única (PK); a competência é sempre o primeiro dia do mês."
+
+  saldo_produto_diario:
+    titulo: Saldo diário dos produtos (estoque fiscal)
+    descricao: >
+      Saldo físico e em valor, e de ICMS e ICMS-ST, de cada produto por dia com movimento dentro da competência. 249 mil linhas,
+      173 empresas, 2018-09 a 2026-09. É o detalhe do saldo mensal.
+    tabela: efsdopro_diario
+    chave: [codi_emp, data_pro, codi_pdi, dia_saldo]
+    acesso: {empresa: codi_emp, periodo: dia_saldo, exige_algum: [produto_codigo, periodo], volume: medio}
+    ordem: [[dia_saldo, desc], [codi_pdi, asc]]
+    colunas:
+      competencia: data_pro
+      produto_codigo: codi_pdi
+      dia: dia_saldo
+      saldo_fisico_anterior: saldo_fisico_anterior
+      saldo_valor_anterior: saldo_valor_anterior
+      icms_total_anterior: icms_total_anterior
+      saldo_fisico_final: saldo_fisico_final
+      saldo_valor_final: saldo_valor_final
+      icms_total_final: icms_total_final
+      saldo_fisico_icms_st_anterior: saldo_fisico_icms_st_anterior
+      icms_st_total_anterior: icms_st_total_anterior
+      saldo_fisico_icms_st_final: saldo_fisico_icms_st_final
+      icms_st_total_final: icms_st_total_final
+      saldo_valido: {coluna: saldo_valido, dominio: sim_nao_texto}
+    vinculos:
+      produto:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi: codi_pdi}
+        colunas: {produto_descricao: desc_pdi}
+    filtros:
+      produto_codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      competencia: {coluna: data_pro, ops: [eq, entre, gte, lte]}
+      dia: {coluna: dia_saldo, ops: [eq, entre, gte, lte]}
+    regras:
+      - "Fechamento com o mensal (empresa 644, 82.962 meses de produto): o saldo físico e o saldo em valor do último dia da competência são iguais a saldo_produto.saldo_fisico e saldo_valor em 82.962 de 82.962."
+      - "A empresa 644 tem 86.485 linhas diárias, só do ano de 2024 (2024-01 a 2024-12); todas com saldo_valido = S."

@@ -1,0 +1,352 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_socios
+titulo: Geral - socios (rascunho em lote)
+dominios:
+  gesocios_dependentes_tipo_21_filho_24_desce:
+    confirmado: true
+    nota: 'Todos os valores observados em gesocios_dependentes.tipo estão no comentário do banco (2026-10-18). Distribuição: 21=3.'
+    valores: {'21': Filho, '24': Descendente, '31': Dependente Ascendente, '41': Menor Probre, '90': Outros}
+  gesocios_bens_classificacao_m_movel_i_imove:
+    confirmado: true
+    nota: 'Todos os valores observados em gesocios_bens.classificacao estão no comentário do banco (2026-10-18). Distribuição: M=1, I=1.'
+    valores: {M: Movel, I: Imovel, S: Semovente}
+  gesocios_bens_tipo_u_urbano_r_rural:
+    confirmado: true
+    nota: 'Todos os valores observados em gesocios_bens.tipo estão no comentário do banco (2026-10-18). Distribuição: U=2.'
+    valores: {U: Urbano, R: Rural}
+  gesocios_bens_tipo_de_onus_p_penhora_h_hipo:
+    confirmado: true
+    nota: 'Todos os valores observados em gesocios_bens.tipo_onus estão no comentário do banco (2026-10-18). Distribuição: H=2.'
+    valores: {P: Penhora, H: Hipoteca}
+entidades:
+  gesocios_empresas:
+    titulo: Socios - Cadastro - Empresas que Participa
+    descricao: 'Socios - Cadastro - Empresas que Participa. 2.022 linhas no catálogo; chave: i_socio, cnpj.'
+    tabela: gesocios_empresas
+    chave: [i_socio, cnpj]
+    acesso: {empresa: null, periodo: data_entrada, volume: pequeno}
+    ordem:
+    - [data_entrada, desc]
+    - [i_socio, asc]
+    - [cnpj, asc]
+    colunas:
+      codigo_socio: i_socio
+      cnpj: {coluna: cnpj, sensivel: parcial}
+      razao_social: {coluna: razao_social, sensivel: parcial}
+      data_de_entrada: data_entrada
+      data_de_saida: data_saida
+      participacao_percentual: participacao
+      dirigente_s_n: dirigente
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      cnpj:
+        coluna: cnpj
+        ops: [eq, in]
+      data_de_entrada:
+        coluna: data_entrada
+        ops: [entre, gte, lte]
+      data_de_saida:
+        coluna: data_saida
+        ops: [entre, gte, lte]
+      razao_social:
+        coluna: razao_social
+        ops: [contem, prefixo]
+      dirigente_s_n:
+        coluna: dirigente
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.022 linhas, data_entrada de 1987-01-16 a 2026-05-04.', 'Vínculo gesocios (gesocios): 0 de 2.022 linhas sem registro relacionado.']
+  gesocios_dependentes:
+    titulo: Socios - Cadastro - Dependentes
+    descricao: 'Socios - Cadastro - Dependentes. 3 linhas no catálogo; chave: i_socio, sequencial.'
+    tabela: gesocios_dependentes
+    chave: [i_socio, sequencial]
+    acesso: {empresa: null, periodo: dtnascimento, volume: pequeno}
+    ordem:
+    - [dtnascimento, desc]
+    - [i_socio, asc]
+    - [sequencial, asc]
+    colunas:
+      codigo_socio: i_socio
+      sequencial: sequencial
+      tipo_21_filho_24_descendente_31_dependen: {coluna: tipo, dominio: gesocios_dependentes_tipo_21_filho_24_desce}
+      nome: nome
+      data_de_nascimento: dtnascimento
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_de_nascimento:
+        coluna: dtnascimento
+        ops: [entre, gte, lte]
+      tipo_21_filho_24_descendente_31_dependen:
+        coluna: tipo
+        ops: [eq, in]
+      nome:
+        coluna: nome
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, dtnascimento de 1998-01-01 a 2004-05-02.', 'tipo_21_filho_24_descendente_31_dependen: todos os valores reais estão no
+        comentário do banco (21=3).', 'Vínculo gesocios (gesocios): 0 de 3 linhas sem registro relacionado.']
+  gesocios_bens:
+    titulo: Socios - Cadastro - Bens
+    descricao: 'Socios - Cadastro - Bens. 2 linhas no catálogo; chave: i_socio, sequencial.'
+    tabela: gesocios_bens
+    chave: [i_socio, sequencial]
+    acesso: {empresa: null, periodo: data_matricula, volume: pequeno}
+    ordem:
+    - [data_matricula, desc]
+    - [i_socio, asc]
+    - [sequencial, asc]
+    colunas:
+      codigo_socio: i_socio
+      sequencial: sequencial
+      classificacao_m_movel_i_imovel_s_semoven: {coluna: classificacao, dominio: gesocios_bens_classificacao_m_movel_i_imove}
+      tipo_u_urbano_r_rural: {coluna: tipo, dominio: gesocios_bens_tipo_u_urbano_r_rural}
+      descricao: descricao
+      localizacao: localizacao
+      valor_do_bem: valor
+      area_em_m2_ou_ha: area
+      area_construida_em_m2: area_construida
+      onus_s_n: onus
+      tipo_de_onus_p_penhora_h_hipoteca: {coluna: tipo_onus, dominio: gesocios_bens_tipo_de_onus_p_penhora_h_hipo}
+      valor_do_onus: valor_onus
+      credor: credor
+      matricula: matricula
+      cartorio: cartorio
+      data_da_matricula: data_matricula
+      numero_do_livro: livro
+      numero_da_folha: folha
+      cessao_s_n: cessao
+      bem_impenhoravel_s_n: impenhoravel
+      imovel_rural_enquadrado_s_n: rural_enquadrado
+      marca: marca
+      ano: ano
+      alienado_s_n: alienado
+      vencimento_final: vencimento
+      leasing_s_n: leasing
+      empresa_do_leasing: empresa
+      data_do_contrato_de_leasing: data_contrato
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_da_matricula:
+        coluna: data_matricula
+        ops: [entre, gte, lte]
+      vencimento_final:
+        coluna: vencimento
+        ops: [entre, gte, lte]
+      data_do_contrato_de_leasing:
+        coluna: data_contrato
+        ops: [entre, gte, lte]
+      classificacao_m_movel_i_imovel_s_semoven:
+        coluna: classificacao
+        ops: [eq, in]
+      tipo_u_urbano_r_rural:
+        coluna: tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      localizacao:
+        coluna: localizacao
+        ops: [contem, prefixo]
+      onus_s_n:
+        coluna: onus
+        ops: [eq, in]
+      tipo_de_onus_p_penhora_h_hipoteca:
+        coluna: tipo_onus
+        ops: [eq, in]
+      credor:
+        coluna: credor
+        ops: [contem, prefixo]
+      matricula:
+        coluna: matricula
+        ops: [eq, in]
+      cartorio:
+        coluna: cartorio
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, data_matricula de 1999-01-10 a 1999-01-10.', 'Colunas expostas nulas em 100% das linhas (5): valor_do_onus, credor,
+        vencimento_final, empresa_do_leasing, data_do_contrato_de_leasing.', 'classificacao_m_movel_i_imovel_s_semoven: todos os valores reais estão no comentário
+        do banco (M=1, I=1).', 'tipo_u_urbano_r_rural: todos os valores reais estão no comentário do banco (U=2).', 'tipo_de_onus_p_penhora_h_hipoteca: todos os valores
+        reais estão no comentário do banco (H=2).', 'Vínculo gesocios (gesocios): 0 de 2 linhas sem registro relacionado.']
+  gesocios_comerciais:
+    titulo: Socios - Cadastro - Referencias Comerciais
+    descricao: 'Socios - Cadastro - Referencias Comerciais. 2 linhas no catálogo; chave: i_socio, sequencial.'
+    tabela: gesocios_comerciais
+    chave: [i_socio, sequencial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_socio, asc]
+    - [sequencial, asc]
+    colunas:
+      codigo_socio: i_socio
+      sequencial: sequencial
+      nome_da_empresa: empresa
+      endereco: {coluna: endereco, sensivel: parcial}
+      bairro: {coluna: bairro, sensivel: parcial}
+      cidade: cidade
+      uf: uf
+      numero: numero
+      cep: {coluna: cep, sensivel: parcial}
+      complemento: complemento
+      ddd: ddd
+      fone: {coluna: fone, sensivel: parcial}
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      nome_da_empresa:
+        coluna: empresa
+        ops: [contem, prefixo]
+      endereco:
+        coluna: endereco
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bairro
+        ops: [contem, prefixo]
+      cidade:
+        coluna: cidade
+        ops: [contem, prefixo]
+      uf:
+        coluna: uf
+        ops: [eq, in]
+      cep:
+        coluna: cep
+        ops: [eq, in]
+      complemento:
+        coluna: complemento
+        ops: [contem, prefixo]
+      fone:
+        coluna: fone
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas.', 'Colunas expostas nulas em 100% das linhas (1): complemento.', 'Vínculo gesocios (gesocios): 0 de 2 linhas sem registro
+        relacionado.']
+  gesocios_pessoais:
+    titulo: Socios - Cadastro - Referencias Pessoais
+    descricao: 'Socios - Cadastro - Referencias Pessoais. 2 linhas no catálogo; chave: i_socio, sequencial.'
+    tabela: gesocios_pessoais
+    chave: [i_socio, sequencial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_socio, asc]
+    - [sequencial, asc]
+    colunas:
+      codigo_socio: i_socio
+      sequencial: sequencial
+      nome_da_empresa: empresa
+      endereco: {coluna: endereco, sensivel: parcial}
+      bairro: {coluna: bairro, sensivel: parcial}
+      cidade: cidade
+      uf: uf
+      numero: numero
+      cep: {coluna: cep, sensivel: parcial}
+      complemento: complemento
+      ddd: ddd
+      fone: {coluna: fone, sensivel: parcial}
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      nome_da_empresa:
+        coluna: empresa
+        ops: [contem, prefixo]
+      endereco:
+        coluna: endereco
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bairro
+        ops: [contem, prefixo]
+      cidade:
+        coluna: cidade
+        ops: [contem, prefixo]
+      uf:
+        coluna: uf
+        ops: [eq, in]
+      cep:
+        coluna: cep
+        ops: [eq, in]
+      complemento:
+        coluna: complemento
+        ops: [contem, prefixo]
+      fone:
+        coluna: fone
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas.', 'Colunas expostas nulas em 100% das linhas (1): complemento.', 'Vínculo gesocios (gesocios): 0 de 2 linhas sem registro
+        relacionado.']
+  gesocios_seguros:
+    titulo: Socios - Cadastro - Seguros
+    descricao: 'Socios - Cadastro - Seguros. 2 linhas no catálogo; chave: i_socio, sequencial.'
+    tabela: gesocios_seguros
+    chave: [i_socio, sequencial]
+    acesso: {empresa: null, periodo: vencimento, volume: pequeno}
+    ordem:
+    - [vencimento, desc]
+    - [i_socio, asc]
+    - [sequencial, asc]
+    colunas: {codigo_socio: i_socio, sequencial: sequencial, modalidade_do_seguro: modalidade, bem_segurado: bem, nome_da_seguradora: seguradora, valor_do_seguro: valor,
+      data_de_vencimento: vencimento}
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      codigo_socio:
+        coluna: i_socio
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: vencimento
+        ops: [entre, gte, lte]
+      modalidade_do_seguro:
+        coluna: modalidade
+        ops: [contem, prefixo]
+      bem_segurado:
+        coluna: bem
+        ops: [contem, prefixo]
+      nome_da_seguradora:
+        coluna: seguradora
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, vencimento de 2005-07-10 a 2005-07-10.', 'Vínculo gesocios (gesocios): 0 de 2 linhas sem registro relacionado.']

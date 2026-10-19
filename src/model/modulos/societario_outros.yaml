@@ -1,0 +1,346 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: societario_outros
+titulo: Societário - outros (rascunho em lote)
+dominios:
+  rgtipo_alteracao_contratual_tipo_da_alteracao_da_:
+    confirmado: true
+    nota: 'Todos os valores observados em rgtipo_alteracao_contratual.tipofilial estão no comentário do banco (2026-10-18). Distribuição: A=6.'
+    valores: {I: Inclusao, E: Exclusao, A: Alteracao Cadastral}
+  rgalteracao_contratual_situacao_da_natureza_juridica:
+    confirmado: true
+    nota: 'Todos os valores observados em rgalteracao_contratual.SITUACAO_NATUREZA_JURIDICA estão no comentário do banco (2026-10-18). Distribuição: S=1.'
+    valores: {E: Empresário individual, S: Sociedade LTDA, R: EIRELI}
+entidades:
+  rgtabela_classe_servico:
+    titulo: Classe do Servico
+    descricao: 'Classe do Servico. 782 linhas no catálogo; chave: codigo_receita, codigo_classe.'
+    tabela: rgtabela_classe_servico
+    chave: [codigo_receita, codigo_classe]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_receita, asc]
+    - [codigo_classe, asc]
+    colunas: {codigo_da_receita: codigo_receita, codigo_da_classe_do_servico: codigo_classe, descricao: descricao}
+    vinculos:
+      rgtabela_codigo_receita:
+        tabela: rgtabela_codigo_receita
+        liga: {codigo_receita: codigo_receita}
+        colunas: {rgtabela_codigo_receita_nome: descricao}
+    filtros:
+      codigo_da_receita:
+        coluna: codigo_receita
+        ops: [eq, in]
+      codigo_da_classe_do_servico:
+        coluna: codigo_classe
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 782 linhas.', 'Vínculo rgtabela_codigo_receita (rgtabela_codigo_receita): 0 de 782 linhas sem registro relacionado.']
+  rgtabela_codigo_receita:
+    titulo: Codigo da Receita
+    descricao: 'Codigo da Receita. 11 linhas no catálogo; chave: codigo_receita.'
+    tabela: rgtabela_codigo_receita
+    chave: [codigo_receita]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_receita, asc]
+    colunas: {codigo_da_receita: codigo_receita, descricao: descricao}
+    filtros:
+      codigo_da_receita:
+        coluna: codigo_receita
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 11 linhas.']
+  rgdadosdw_linhas:
+    titulo: Dados do relatorios - Linhas
+    descricao: 'Dados do relatorios - Linhas. 81 linhas no catálogo; chave: codi_emp, tipo, codigo, nomedw, linha, nome.'
+    tabela: rgdadosdw_linhas
+    chave: [codi_emp, tipo, codigo, nomedw, linha, nome]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [tipo, asc]
+    - [codigo, asc]
+    colunas: {empresa: codi_emp, tipo_de_documento: tipo, codigo: codigo, dataobject_ou_codigo_do_relatorio_do_ger: nomedw, linha: linha, nome_do_campo_coluna: nome,
+      tipo_dado: tipo_dado, dados_da_coluna: dados}
+    filtros:
+      tipo_de_documento:
+        coluna: tipo
+        ops: [eq, in]
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      dataobject_ou_codigo_do_relatorio_do_ger:
+        coluna: nomedw
+        ops: [eq, in]
+      linha:
+        coluna: linha
+        ops: [eq, in]
+      nome_do_campo_coluna:
+        coluna: nome
+        ops: [eq, in]
+      tipo_dado:
+        coluna: tipo_dado
+        ops: [eq, in]
+      dados_da_coluna:
+        coluna: dados
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 81 linhas, 1 empresa(s).']
+  rgdocumentos_ole_modelos:
+    titulo: Modelos de Documento
+    descricao: 'Modelos de Documento. 70 linhas no catálogo; chave: i_modelo, i_tipo.'
+    tabela: rgdocumentos_ole_modelos
+    chave: [i_modelo, i_tipo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_modelo, asc]
+    - [i_tipo, asc]
+    colunas: {codigo: i_modelo, tipo: i_tipo, descricao: descricao, codigo_padrao: padrao, c_1_office_2_openoffice: EDITOR}
+    vinculos:
+      rgdocumentos_ole_tipo:
+        tabela: rgdocumentos_ole_tipo
+        liga: {i_tipo: i_tipo}
+        colunas: {rgdocumentos_ole_tipo_nome: descricao}
+    filtros:
+      codigo:
+        coluna: i_modelo
+        ops: [eq, in]
+      tipo:
+        coluna: i_tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      codigo_padrao:
+        coluna: padrao
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70 linhas.', 'Vínculo rgdocumentos_ole_tipo (rgdocumentos_ole_tipo): 0 de 70 linhas sem registro relacionado.']
+  rgdocumentos_ole_tipo:
+    titulo: Tipos de Documentos
+    descricao: 'Tipos de Documentos. 15 linhas no catálogo; chave: i_tipo.'
+    tabela: rgdocumentos_ole_tipo
+    chave: [i_tipo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tipo, asc]
+    colunas: {codigo: i_tipo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: i_tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 15 linhas.']
+  rgdocumentos_documentacao:
+    titulo: Documentos - Documentacao
+    descricao: 'Documentos - Documentacao. 6 linhas no catálogo; chave: i_documentacao, i_documento.'
+    tabela: rgdocumentos_documentacao
+    chave: [i_documentacao, i_documento]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_documentacao, asc]
+    - [i_documento, asc]
+    colunas: {documentacao: i_documentacao, documento: i_documento}
+    vinculos:
+      rgdocumentacao:
+        tabela: rgdocumentacao
+        liga: {i_documentacao: i_documentacao}
+        colunas: {rgdocumentacao_nome: descricao}
+      rgdocumentos:
+        tabela: rgdocumentos
+        liga: {i_documento: i_documento}
+        colunas: {rgdocumentos_nome: descricao}
+    filtros:
+      documentacao:
+        coluna: i_documentacao
+        ops: [eq, in]
+      documento:
+        coluna: i_documento
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas.', 'Vínculo rgdocumentacao (rgdocumentacao): 0 de 6 linhas sem registro relacionado.', 'Vínculo rgdocumentos (rgdocumentos):
+        0 de 6 linhas sem registro relacionado.']
+  rgtipo_requerimentos:
+    titulo: Tipos de Requerimentos
+    descricao: 'Tipos de Requerimentos. 8 linhas no catálogo; chave: i_tiporequerimento.'
+    tabela: rgtipo_requerimentos
+    chave: [i_tiporequerimento]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tiporequerimento, asc]
+    colunas: {codigo: i_tiporequerimento, descricao: descricao, modelo: modelo}
+    filtros:
+      codigo:
+        coluna: i_tiporequerimento
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      modelo:
+        coluna: modelo
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  rgtipo_alteracao_contratual:
+    titulo: Tipo de Alteracao Contratual
+    descricao: 'Tipo de Alteracao Contratual. 6 linhas no catálogo; chave: i_tipoalteracao.'
+    tabela: rgtipo_alteracao_contratual
+    chave: [i_tipoalteracao]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tipoalteracao, asc]
+    colunas:
+      codigo: i_tipoalteracao
+      descricao: descricao
+      alteracao_cadastral_s_n: cadastral
+      alteracao_do_quadro_societario_s_n: quadrosocietario
+      alteracao_de_dados_da_filial_s_n: filial
+      tipo_da_alteracao_da_filial_i_inclusao_e: {coluna: tipofilial, dominio: rgtipo_alteracao_contratual_tipo_da_alteracao_da_}
+      outros_tipos_de_alteracao_s_n: outros
+      natureza_jur_ca_s_n: NATUREZA_JURIDICA
+      capital_social_s_n: CAPITAL_SOCIAL
+    filtros:
+      codigo:
+        coluna: i_tipoalteracao
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      alteracao_cadastral_s_n:
+        coluna: cadastral
+        ops: [eq, in]
+      alteracao_do_quadro_societario_s_n:
+        coluna: quadrosocietario
+        ops: [eq, in]
+      alteracao_de_dados_da_filial_s_n:
+        coluna: filial
+        ops: [eq, in]
+      tipo_da_alteracao_da_filial_i_inclusao_e:
+        coluna: tipofilial
+        ops: [eq, in]
+      outros_tipos_de_alteracao_s_n:
+        coluna: outros
+        ops: [eq, in]
+      natureza_jur_ca_s_n:
+        coluna: NATUREZA_JURIDICA
+        ops: [eq, in]
+      capital_social_s_n:
+        coluna: CAPITAL_SOCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas.', 'tipo_da_alteracao_da_filial_i_inclusao_e: todos os valores reais estão no comentário do banco (A=6).']
+  rgalteracao_contratual:
+    titulo: Alteracao Contratual
+    descricao: 'Alteracao Contratual. 1 linhas no catálogo; chave: codi_emp, i_alteracao.'
+    tabela: rgalteracao_contratual
+    chave: [codi_emp, i_alteracao]
+    acesso: {empresa: codi_emp, periodo: data, volume: pequeno}
+    ordem:
+    - [data, desc]
+    - [i_alteracao, asc]
+    colunas:
+      empresa: codi_emp
+      codigo: i_alteracao
+      data: data
+      tipo_da_alteracao: i_tipoalteracao
+      codigo_da_filial: filial
+      advogado: i_advogado
+      testemunha: i_testemunha1
+      i_testemunha2: i_testemunha2
+      ato: i_ato
+      i_evento1: i_evento1
+      i_evento2: i_evento2
+      i_evento3: i_evento3
+      transferencia_de_uf_da_matriz: outra_uf_matriz
+      transferencia_de_uf_da_filial: outra_uf_filial
+      codigo_ole: i_ole
+      data_do_protocolo: dataprotocolo
+      numero_do_protocolo: nroprotocolo
+      avisar_s_n: avisar
+      numero_de_dias_para_conclusao: nrodias
+      data_de_aviso_do_processo: dataaviso
+      alteracao_finalizada_s_n: finalizado
+      numero_do_nire: nire
+      data_da_finalizacao: datafinalizado
+      inutilizar_campos_nao_preenchidos_s_n: INUTILIZAR_CAMPO_NAO_PREENCHIDO
+      alteracao_de_transformacao_s_n: ALTERACAO_TRANSFORMACAO
+      situacao_da_natureza_juridica_e_empresar: {coluna: SITUACAO_NATUREZA_JURIDICA, dominio: rgalteracao_contratual_situacao_da_natureza_juridica}
+      informar_valor_do_capital_social: INFORMAR_VALOR_CAPITAL_SOCIAL
+      capital_social: VALOR_CAPITAL_SOCIAL
+      habilita_grupo_de_modelo_de_relatorio: HABILITA_MODELO
+      habilita_grupo_de_documento_vinculado: HABILITA_DOCUMENTO_VINCULADO
+    vinculos:
+      rgadvogados:
+        tabela: rgadvogados
+        liga: {i_advogado: i_advogado}
+        colunas: {rgadvogados_nome: nome}
+      rgtestemunhas:
+        tabela: rgtestemunhas
+        liga: {i_testemunha1: i_testemunha}
+        colunas: {rgtestemunhas_nome: nome}
+      rgtipo_alteracao_contrat:
+        tabela: rgtipo_alteracao_contratual
+        liga: {i_tipoalteracao: i_tipoalteracao}
+        colunas: {rgtipo_alteracao_contrat_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      rgeventos:
+        tabela: rgeventos
+        liga: {i_ato: i_ato, i_evento1: i_evento}
+        colunas: {rgeventos_nome: descricao}
+      rgatos:
+        tabela: rgatos
+        liga: {i_ato: i_ato}
+        colunas: {rgatos_nome: descricao}
+    filtros:
+      codigo:
+        coluna: i_alteracao
+        ops: [eq, in]
+      data:
+        coluna: data
+        ops: [entre, gte, lte]
+      data_do_protocolo:
+        coluna: dataprotocolo
+        ops: [entre, gte, lte]
+      data_de_aviso_do_processo:
+        coluna: dataaviso
+        ops: [entre, gte, lte]
+      data_da_finalizacao:
+        coluna: datafinalizado
+        ops: [entre, gte, lte]
+      tipo_da_alteracao:
+        coluna: i_tipoalteracao
+        ops: [eq, in]
+      advogado:
+        coluna: i_advogado
+        ops: [eq, in]
+      testemunha:
+        coluna: i_testemunha1
+        ops: [eq, in]
+      i_testemunha2:
+        coluna: i_testemunha2
+        ops: [eq, in]
+      ato:
+        coluna: i_ato
+        ops: [eq, in]
+      i_evento1:
+        coluna: i_evento1
+        ops: [eq, in]
+      i_evento2:
+        coluna: i_evento2
+        ops: [eq, in]
+      i_evento3:
+        coluna: i_evento3
+        ops: [eq, in]
+      transferencia_de_uf_da_matriz:
+        coluna: outra_uf_matriz
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), data de 2018-03-07 a 2018-03-07.', 'Colunas expostas nulas em 100% das linhas (10): codigo_da_filial,
+        advogado, testemunha, i_testemunha2, ato, i_evento1, i_evento2, i_evento3, codigo_ole, numero_do_nire.', 'situacao_da_natureza_juridica_e_empresar: todos
+        os valores reais estão no comentário do banco (S=1).', 'Vínculo rgadvogados (rgadvogados): 0 de 1 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        rgtestemunhas (rgtestemunhas): 0 de 1 linhas sem registro relacionado (empresa 1).', 'Vínculo rgtipo_alteracao_contrat (rgtipo_alteracao_contratual): 0 de
+        1 linhas sem registro relacionado (empresa 1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1).', 'Vínculo rgeventos (rgeventos):
+        0 de 1 linhas sem registro relacionado (empresa 1).', 'Vínculo rgatos (rgatos): 0 de 1 linhas sem registro relacionado (empresa 1).']

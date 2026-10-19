@@ -1,0 +1,170 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_combustivel
+titulo: Fiscal - combustivel (rascunho em lote)
+entidades:
+  efcombustivel_tabela_anp:
+    titulo: Tabela de códigos de combustível da ANP
+    descricao: 'Tabela de códigos de combustível da ANP. 1.028 linhas no catálogo; chave: CODIGO_COMBUSTIVEL_ANP.'
+    tabela: EFCOMBUSTIVEL_TABELA_ANP
+    chave: [CODIGO_COMBUSTIVEL_ANP]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_COMBUSTIVEL_ANP, asc]
+    colunas: {codigo: CODIGO_COMBUSTIVEL_ANP, descricao: DESCRICAO, grupo: GRUPO, unidade_de_medida_simp: UNIDADE_MEDIDA_SIMP, unidade_de_grandeza: UNIDADE_GRANDEZA}
+    filtros:
+      codigo:
+        coluna: CODIGO_COMBUSTIVEL_ANP
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      grupo:
+        coluna: GRUPO
+        ops: [contem, prefixo]
+      unidade_de_medida_simp:
+        coluna: UNIDADE_MEDIDA_SIMP
+        ops: [contem, prefixo]
+      unidade_de_grandeza:
+        coluna: UNIDADE_GRANDEZA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.028 linhas.']
+  efcombustivel_tabela_df:
+    titulo: Tabela de códigos de combustível do DF
+    descricao: 'Tabela de códigos de combustível do DF. 29 linhas no catálogo; chave: CODIGO_COMBUSTIVEL_DF.'
+    tabela: EFCOMBUSTIVEL_TABELA_DF
+    chave: [CODIGO_COMBUSTIVEL_DF]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_COMBUSTIVEL_DF, asc]
+    colunas: {codigo: CODIGO_COMBUSTIVEL_DF, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO_COMBUSTIVEL_DF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 29 linhas.']
+  efcombustivel_bico:
+    titulo: Combustível - Bicos
+    descricao: 'Combustível - Bicos. 4 linhas no catálogo; chave: CODI_EMP, I_BICO.'
+    tabela: EFCOMBUSTIVEL_BICO
+    chave: [CODI_EMP, I_BICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_BICO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_BICO, numero_do_bico: NRO_BICO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_BICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 10107).']
+  efcombustivel_bico_vigencia:
+    titulo: Combustível - Bicos - Vigência
+    descricao: 'Combustível - Bicos - Vigência. 4 linhas no catálogo; chave: CODI_EMP, I_BICO, VIGENCIA_BICO.'
+    tabela: EFCOMBUSTIVEL_BICO_VIGENCIA
+    chave: [CODI_EMP, I_BICO, VIGENCIA_BICO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_BICO, volume: pequeno}
+    ordem:
+    - [VIGENCIA_BICO, desc]
+    - [I_BICO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_BICO, vigencia: VIGENCIA_BICO, encerrante_inicial: ENCERRANTE_INICIAL, descricao: DESCRICAO, observacao: OBSERVACAO}
+    filtros:
+      sequencial:
+        coluna: I_BICO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_BICO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), VIGENCIA_BICO de 2015-01-01 a 2015-01-01.']
+  efcombustivel_tanque:
+    titulo: Combustível - Tanques
+    descricao: 'Combustível - Tanques. 1 linhas no catálogo; chave: CODI_EMP, I_TANQUE.'
+    tabela: EFCOMBUSTIVEL_TANQUE
+    chave: [CODI_EMP, I_TANQUE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TANQUE, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_TANQUE, descricao: DESCRICAO, identificador: IDENTIFICADOR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_TANQUE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      identificador:
+        coluna: IDENTIFICADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10107).']
+  efcombustivel_tanque_vigencia:
+    titulo: Combustível - Tanques - Vigência
+    descricao: 'Combustível - Tanques - Vigência. 1 linhas no catálogo; chave: CODI_EMP, I_TANQUE, I_VIGENCIA_TANQUE.'
+    tabela: EFCOMBUSTIVEL_TANQUE_VIGENCIA
+    chave: [CODI_EMP, I_TANQUE, I_VIGENCIA_TANQUE]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_TANQUE, volume: pequeno}
+    ordem:
+    - [VIGENCIA_TANQUE, desc]
+    - [I_TANQUE, asc]
+    - [I_VIGENCIA_TANQUE, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_TANQUE, sequencial_da_vigencia: I_VIGENCIA_TANQUE, vigencia: VIGENCIA_TANQUE, produto: CODI_PDI, estoque_inicial: ESTOQUE_INICIAL,
+      codigo_do_tanque_no_arquivo: I_TANQUE_ARQUIVO, capacidade_nominal: CAPACIDADE_NOMINAL}
+    filtros:
+      sequencial:
+        coluna: I_TANQUE
+        ops: [eq, in]
+      sequencial_da_vigencia:
+        coluna: I_VIGENCIA_TANQUE
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_TANQUE
+        ops: [entre, gte, lte]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_do_tanque_no_arquivo:
+        coluna: I_TANQUE_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), VIGENCIA_TANQUE de 2015-01-01 a 2015-01-01.']
+  efcombustivel_tanque_vigencia_codigo_arquivo:
+    titulo: Combustível - Tanques - Vigência - Código do tanque no arquivo
+    descricao: 'Combustível - Tanques - Vigência - Código do tanque no arquivo. 1 linhas no catálogo; chave: CODI_EMP, I_TANQUE, I_VIGENCIA_TANQUE, I_CODIGO_ARQUIVO.'
+    tabela: EFCOMBUSTIVEL_TANQUE_VIGENCIA_CODIGO_ARQUIVO
+    chave: [CODI_EMP, I_TANQUE, I_VIGENCIA_TANQUE, I_CODIGO_ARQUIVO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TANQUE, asc]
+    - [I_VIGENCIA_TANQUE, asc]
+    colunas: {empresa: CODI_EMP, sequencial_tanque: I_TANQUE, sequencial_da_vigencia: I_VIGENCIA_TANQUE, sequencial_codigo_do_tanque_no_arquivo: I_CODIGO_ARQUIVO,
+      codigo_do_tanque_no_arquivo: CODIGO_ARQUIVO}
+    filtros:
+      sequencial_tanque:
+        coluna: I_TANQUE
+        ops: [eq, in]
+      sequencial_da_vigencia:
+        coluna: I_VIGENCIA_TANQUE
+        ops: [eq, in]
+      sequencial_codigo_do_tanque_no_arquivo:
+        coluna: I_CODIGO_ARQUIVO
+        ops: [eq, in]
+      codigo_do_tanque_no_arquivo:
+        coluna: CODIGO_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).']

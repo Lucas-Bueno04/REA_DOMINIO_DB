@@ -1,0 +1,366 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_parametro
+titulo: Financeiro do escritório - parametro (rascunho em lote)
+dominios:
+  hrparametro_intervalo_rps_tipo_de_inve:
+    confirmado: true
+    nota: 'Todos os valores observados em HRPARAMETRO_INTERVALO_RPS.TIPO_INTERVALO estão no comentário do banco (2026-10-18). Distribuição: U=10, S=3.'
+    valores: {U: Usuario, S: Sistema}
+  hrparametro_intervalo_lote_tipo_de_inv:
+    confirmado: true
+    nota: 'Todos os valores observados em HRPARAMETRO_INTERVALO_LOTE.TIPO_INTERVALO estão no comentário do banco (2026-10-18). Distribuição: S=3.'
+    valores: {U: Usuario, S: Sistema}
+entidades:
+  hrparametro_nfse_municipio:
+    titulo: Parametro Honorarios - Municípios que usam a NFS-e
+    descricao: 'Parametro Honorarios - Municípios que usam a NFS-e. 1.735 linhas no catálogo; chave: I_MUNICIPIO.'
+    tabela: HRPARAMETRO_NFSE_MUNICIPIO
+    chave: [I_MUNICIPIO]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_MUNICIPIO, asc]
+    colunas: {sequencial: I_MUNICIPIO, codigo_do_municipio: CODIGO_MUNICIPIO, nome_do_fornecedor_do_software: FORNECEDOR_SOFTWARE, versao_da_estrutura_do_arquivo_xml_que_e: VERSAO_ESTRUTURA_XML,
+      nome_da_classe_xml_a_ser_utilizada_para: NOME_CLASSE_XML, controla_sequencial_quando_troca_de_forn: CONTROLE_SEQUENCIAL_TROCA_FORNECEDOR, vigencia_do_fornecedor: VIGENCIA}
+    vinculos:
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      sequencial:
+        coluna: I_MUNICIPIO
+        ops: [eq, in]
+      vigencia_do_fornecedor:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+      codigo_do_municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+      nome_do_fornecedor_do_software:
+        coluna: FORNECEDOR_SOFTWARE
+        ops: [contem, prefixo]
+      nome_da_classe_xml_a_ser_utilizada_para:
+        coluna: NOME_CLASSE_XML
+        ops: [contem, prefixo]
+      controla_sequencial_quando_troca_de_forn:
+        coluna: CONTROLE_SEQUENCIAL_TROCA_FORNECEDOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.735 linhas, VIGENCIA de 1900-01-01 a 1900-01-01.', 'Vínculo gemunicipio (gemunicipio): 0 de 1.735 linhas sem registro relacionado.']
+  hrparametro_nfse_municipio_xml:
+    titulo: Parâmetro Honorarios - Tabela utilizada para montar o XML de envio de RPS para municípios específicos
+    descricao: 'Parâmetro Honorarios - Tabela utilizada para montar o XML de envio de RPS para municípios específicos. 1.224 linhas no catálogo; chave: I_MUNICIPIO,
+      I_SEQUENCIAL_TAG, TIPO_XML.'
+    tabela: HRPARAMETRO_NFSE_MUNICIPIO_XML
+    chave: [I_MUNICIPIO, I_SEQUENCIAL_TAG, TIPO_XML]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MUNICIPIO, asc]
+    - [I_SEQUENCIAL_TAG, asc]
+    colunas: {codigo_municipio: I_MUNICIPIO, sequencial_tags: I_SEQUENCIAL_TAG, tipo_de_xml_0_envio_2_consulta_lote_3_co: TIPO_XML, tag_atual: TAG, valor_da_mascara: MASCARA_VALOR,
+      tag_pai: TAG_PAI, campo_da_dw_de_dados: CHAVE_CAMPO_DW, campo_obrigatorio: CAMPO_OBRIGATORIO, chave_do_atributo: ATRIBUTO_CHAVE_1, valor_do_atributo: ATRIBUTO_VALOR_1,
+      atributo_chave_2: ATRIBUTO_CHAVE_2, atributo_valor_2: ATRIBUTO_VALOR_2, atributo_chave_3: ATRIBUTO_CHAVE_3, atributo_valor_3: ATRIBUTO_VALOR_3, constante_origem_informacao_0_sem_valor: ORIGEM_INFORMACAO,
+      atributo_chave_4: ATRIBUTO_CHAVE_4, atributo_valor_4: ATRIBUTO_VALOR_4, atributo_chave_5: ATRIBUTO_CHAVE_5, atributo_valor_5: ATRIBUTO_VALOR_5}
+    vinculos:
+      hrparametro_nfse_municip:
+        tabela: HRPARAMETRO_NFSE_MUNICIPIO
+        liga: {i_municipio: i_municipio}
+        colunas: {hrparametro_nfse_municip_nome: FORNECEDOR_SOFTWARE}
+    filtros:
+      codigo_municipio:
+        coluna: I_MUNICIPIO
+        ops: [eq, in]
+      sequencial_tags:
+        coluna: I_SEQUENCIAL_TAG
+        ops: [eq, in]
+      tipo_de_xml_0_envio_2_consulta_lote_3_co:
+        coluna: TIPO_XML
+        ops: [eq, in]
+      tag_atual:
+        coluna: TAG
+        ops: [contem, prefixo]
+      valor_da_mascara:
+        coluna: MASCARA_VALOR
+        ops: [contem, prefixo]
+      tag_pai:
+        coluna: TAG_PAI
+        ops: [contem, prefixo]
+      campo_da_dw_de_dados:
+        coluna: CHAVE_CAMPO_DW
+        ops: [contem, prefixo]
+      campo_obrigatorio:
+        coluna: CAMPO_OBRIGATORIO
+        ops: [eq, in]
+      chave_do_atributo:
+        coluna: ATRIBUTO_CHAVE_1
+        ops: [contem, prefixo]
+      valor_do_atributo:
+        coluna: ATRIBUTO_VALOR_1
+        ops: [contem, prefixo]
+      atributo_chave_2:
+        coluna: ATRIBUTO_CHAVE_2
+        ops: [contem, prefixo]
+      atributo_valor_2:
+        coluna: ATRIBUTO_VALOR_2
+        ops: [contem, prefixo]
+      atributo_chave_3:
+        coluna: ATRIBUTO_CHAVE_3
+        ops: [contem, prefixo]
+      atributo_valor_3:
+        coluna: ATRIBUTO_VALOR_3
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.224 linhas.', 'Vínculo hrparametro_nfse_municip (HRPARAMETRO_NFSE_MUNICIPIO): 0 de 1.224 linhas sem registro relacionado.']
+  hrparametro_intervalo_rps:
+    titulo: Parametro Honorarios - Intervalo de RPS
+    descricao: 'Parametro Honorarios - Intervalo de RPS. 13 linhas no catálogo; chave: CODI_EMP, I_INTERVALO, I_SEQUENCIAL_RPS.'
+    tabela: HRPARAMETRO_INTERVALO_RPS
+    chave: [CODI_EMP, I_INTERVALO, I_SEQUENCIAL_RPS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_INTERVALO, asc]
+    - [I_SEQUENCIAL_RPS, asc]
+    colunas:
+      escritorio: CODI_EMP
+      codigo: I_INTERVALO
+      sequencial_do_rps: I_SEQUENCIAL_RPS
+      inicial: INICIAL
+      final: FINAL
+      ultimo_codigo_de_intervalo_utilizado_pel: ULTIMO_UTILIZADO
+      inutilizar_intervalo_s_n: INUTILIZAR_INTERVALO
+      tipo_de_invervalo_u_usuario_s_sistema: {coluna: TIPO_INTERVALO, dominio: hrparametro_intervalo_rps_tipo_de_inve}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      processo_administrativo: PROCESSO_ADMINISTRATIVO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_INTERVALO
+        ops: [eq, in]
+      sequencial_do_rps:
+        coluna: I_SEQUENCIAL_RPS
+        ops: [eq, in]
+      inutilizar_intervalo_s_n:
+        coluna: INUTILIZAR_INTERVALO
+        ops: [eq, in]
+      tipo_de_invervalo_u_usuario_s_sistema:
+        coluna: TIPO_INTERVALO
+        ops: [eq, in]
+      processo_administrativo:
+        coluna: PROCESSO_ADMINISTRATIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): processo_administrativo.', 'tipo_de_invervalo_u_usuario_s_sistema:
+        todos os valores reais estão no comentário do banco (U=10, S=3).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 930).']
+  hrparametro_imagem:
+    titulo: Parametro Honorarios - Imagem para relatorios personalizados
+    descricao: 'Parametro Honorarios - Imagem para relatorios personalizados. 3 linhas no catálogo; chave: CODI_EMP.'
+    tabela: HRPARAMETRO_IMAGEM
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas: {escritorio: CODI_EMP, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).']
+  hrparametro_vigencia:
+    titulo: Parametro Honorarios - Vigencia
+    descricao: 'Parametro Honorarios - Vigencia. 3 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: HRPARAMETRO_VIGENCIA
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas: {codigo_do_escritorio: CODI_EMP, data_de_vigencia: VIGENCIA, contas_a_pagar_s_n: CONTAS_PAGAR, numero_de_dias_de_antecedencia: DIAS_ANTECEDENCIA, calcular_juros_no_recebimento_s_n: CALCULA_JUROS_RECEBIMENTO,
+      calcular_multa_no_recebimento_s_n: CALCULA_MULTA_RECEBIMENTO, nao_exibir_a_tela_de_evento_no_recebimen: NAO_EXIBIR_EVENTO_RECEBIMENTO, percentual_de_juros: PERCENTUAL_JUROS,
+      percentual_de_multa: PERCENTUAL_MULTA, emitir_comprovante_no_momento_do_recebim: EMITIR_COMPROVANTE_RECEBIMENTO_INDIVIDUAL, modelo_recebimento_individual: MODELO_RECEBIMENTO_INDIVIDUAL,
+      emitir_comprovante_recebimento_grupo: EMITIR_COMPROVANTE_RECEBIMENTO_GRUPO, modelo_recebimento_grupo: MODELO_RECEBIMENTO_GRUPO, emitir_comprovante_no_momento_no_adianta: EMITIR_COMPROVANTE_RECEBIMENTO_ADIANTAMENTO,
+      modelo_recebimento_adiantamento: MODELO_RECEBIMENTO_ADIANTAMENTO, valor_minimo_para_retencao_do_irrf: VALOR_MINIMO_IRRF, fato_gerador_irrf_r_recebimento_e_emissa: FATO_GERADOR_IRRF,
+      valor_minimo_para_retencao_do_inss: VALOR_MINIMO_INSS, valor_minimo_para_retencao_do_iss: VALOR_MINIMO_ISS, possui_crf_s_n: POSSUI_CRF, possui_pis_s_n: POSSUI_PIS,
+      possui_cofins_s_n: POSSUI_COFINS, possui_csll_s_n: POSSUI_CSLL, valor_minimo_da_parcela_para_calculo_da: VALOR_MINIMO_CRF, fato_gerador_crf_r_recebimento_e_emissao: FATO_GERADOR_CRF,
+      nao_faturar_com_parcelas_vencidas_s_n: NAO_FATURAR_VENCIDA, quantidade_de_parcelas_em_aberta: QUANTIDADE_PARCELAS_ABERTA, calcular_desconto_no_contrato_para_clien: CALCULAR_DESCONTO_ADIMPLENTE,
+      quantidade_de_meses_adimplente: QUANTIDADE_MESES_ADIMPLENTE, percentual_adimplente: PERCENTUAL_ADIMPLENTE, faturar_clientes_inativos_s_n: FATURAR_INATIVO, faturar_clientes_em_constituicao_s_n: FATURAR_CONSTITUICAO,
+      avisar_sobre_os_reajustes_vencidos_s_n: AVISAR_REAJUSTE_VENCIDO, avisar_se_o_cliente_possuir_parcelas_em: AVISAR_CLIENTE_PARCELA_ABERTA, numero_de_parcelas_em_aberto: NUMERO_PARCELA_ABERTA,
+      tipo_do_vencimento_1_direto_2_antecipado: TIPO_VENCIMENTO, limitar_dias_de_vencimento_s_n: LIMITAR_DIAS_VENCIMENTO, dias_para_vencimento: DIAS_VENCIMENTO, gerar_lancamentos_contabeis: GERA_LANCAMENTO,
+      mostrar_na_baixa_de_contas_a_receber_ind: MOSTRAR_BAIXA_RECEBER, mostrar_no_lancamento_de_contas_a_pagar: MOSTRAR_LANCAMENTO_PAGAR, mostrar_na_baixa_de_contas_a_pagar_indiv: MOSTRAR_BAIXAR_PAGAR,
+      mostrar_no_adiantamento_s_n: MOSTRAR_ADIANTAMENTO, mostrar_na_movimentacao_de_contas_s_n: MOSTRAR_MOVIMENTACAO, cada_cliente_gera_uma_conta_s_n: CLIENTE_CRIA_CONTA,
+      classificacao_diferente_para_cada_conta: CLASSIFICACAO_DIFERENTE_CLIENTE, codigo_do_cliente_igual_ao_da_conta_s_n: CODIGO_IGUAL_CLIENTE, classificacao_da_conta_cliente: CLASSIFICACAO_CONTA_CLIENTE,
+      contas_a_receber_conta_multa: RECEBER_CONTA_MULTA, contas_a_receber_historico_multa: RECEBER_HISTORICO_MULTA, contas_a_receber_conta_juros: RECEBER_CONTA_JUROS,
+      contas_a_receber_historico_juros: RECEBER_HISTORICO_JUROS, contas_a_receber_conta_desconto: RECEBER_CONTA_DESCONTO, contas_a_receber_historico_desconto: RECEBER_HISTORICO_DESCONTO,
+      contas_a_receber_conta_adiantamento: RECEBER_CONTA_ADIANTAMENTO, contas_a_receber_historico_adiantamento: RECEBER_HISTORICO_ADIANTAMENTO, contas_a_receber_historico_recebimento: RECEBER_HISTORICO_RECEBIMENTO,
+      contas_a_pagar_conta_multa: PAGAR_CONTA_MULTA, contas_a_pagar_historico_multa: PAGAR_HISTORICO_MULTA, contas_a_pagar_conta_juros: PAGAR_CONTA_JUROS}
+    filtros:
+      data_de_vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      contas_a_pagar_s_n:
+        coluna: CONTAS_PAGAR
+        ops: [eq, in]
+      calcular_juros_no_recebimento_s_n:
+        coluna: CALCULA_JUROS_RECEBIMENTO
+        ops: [eq, in]
+      calcular_multa_no_recebimento_s_n:
+        coluna: CALCULA_MULTA_RECEBIMENTO
+        ops: [eq, in]
+      nao_exibir_a_tela_de_evento_no_recebimen:
+        coluna: NAO_EXIBIR_EVENTO_RECEBIMENTO
+        ops: [eq, in]
+      emitir_comprovante_no_momento_do_recebim:
+        coluna: EMITIR_COMPROVANTE_RECEBIMENTO_INDIVIDUAL
+        ops: [eq, in]
+      modelo_recebimento_individual:
+        coluna: MODELO_RECEBIMENTO_INDIVIDUAL
+        ops: [contem, prefixo]
+      emitir_comprovante_recebimento_grupo:
+        coluna: EMITIR_COMPROVANTE_RECEBIMENTO_GRUPO
+        ops: [eq, in]
+      modelo_recebimento_grupo:
+        coluna: MODELO_RECEBIMENTO_GRUPO
+        ops: [contem, prefixo]
+      emitir_comprovante_no_momento_no_adianta:
+        coluna: EMITIR_COMPROVANTE_RECEBIMENTO_ADIANTAMENTO
+        ops: [eq, in]
+      modelo_recebimento_adiantamento:
+        coluna: MODELO_RECEBIMENTO_ADIANTAMENTO
+        ops: [contem, prefixo]
+      fato_gerador_irrf_r_recebimento_e_emissa:
+        coluna: FATO_GERADOR_IRRF
+        ops: [eq, in]
+      possui_crf_s_n:
+        coluna: POSSUI_CRF
+        ops: [eq, in]
+      possui_pis_s_n:
+        coluna: POSSUI_PIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s), VIGENCIA de 1900-01-01 a 1900-01-01.']
+  hrparametro_nfse_cabecalho:
+    titulo: Parametro Honorarios - Imagem e textos para NFSe
+    descricao: 'Parametro Honorarios - Imagem e textos para NFSe. 3 linhas no catálogo; chave: CODI_EMP.'
+    tabela: HRPARAMETRO_NFSE_CABECALHO
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas: {escritorio: CODI_EMP, texto_para_rps: TEXTO_RPS, texto_para_nfs_e: TEXTO_NFSE, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      texto_para_rps:
+        coluna: TEXTO_RPS
+        ops: [contem, prefixo]
+      texto_para_nfs_e:
+        coluna: TEXTO_NFSE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).']
+  hrparametro_intervalo_lote:
+    titulo: Parametro Honorarios - Intervalo de Lote
+    descricao: 'Parametro Honorarios - Intervalo de Lote. 3 linhas no catálogo; chave: CODI_EMP, I_INTERVALO, I_SEQUENCIAL_LOTE.'
+    tabela: HRPARAMETRO_INTERVALO_LOTE
+    chave: [CODI_EMP, I_INTERVALO, I_SEQUENCIAL_LOTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_INTERVALO, asc]
+    - [I_SEQUENCIAL_LOTE, asc]
+    colunas:
+      escritorio: CODI_EMP
+      codigo: I_INTERVALO
+      sequencial_do_lote: I_SEQUENCIAL_LOTE
+      inicial: INICIAL
+      final: FINAL
+      ultimo_codigo_de_intervalo_utilizado_pel: ULTIMO_UTILIZADO
+      inutilizar_intervalo_s_n: INUTILIZAR_INTERVALO
+      tipo_de_invervalo_u_usuario_s_sistema: {coluna: TIPO_INTERVALO, dominio: hrparametro_intervalo_lote_tipo_de_inv}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_INTERVALO
+        ops: [eq, in]
+      sequencial_do_lote:
+        coluna: I_SEQUENCIAL_LOTE
+        ops: [eq, in]
+      inutilizar_intervalo_s_n:
+        coluna: INUTILIZAR_INTERVALO
+        ops: [eq, in]
+      tipo_de_invervalo_u_usuario_s_sistema:
+        coluna: TIPO_INTERVALO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'tipo_de_invervalo_u_usuario_s_sistema: todos os valores reais estão no comentário do banco (S=3).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9996).']
+  hrparametro_sequencial_nfse_lote:
+    titulo: Parâmetro Honorarios - Sequência de lote utilizada para NFS-e
+    descricao: 'Parâmetro Honorarios - Sequência de lote utilizada para NFS-e. 3 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL_LOTE.'
+    tabela: HRPARAMETRO_SEQUENCIAL_NFSE_LOTE
+    chave: [CODI_EMP, I_SEQUENCIAL_LOTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL_LOTE, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_sequencial_lote: I_SEQUENCIAL_LOTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_lote:
+        coluna: I_SEQUENCIAL_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9996).']
+  hrparametro_sequencial_nfse_rps:
+    titulo: Parâmetro Honorarios - Sequência de RPS utilizada para NFS-e
+    descricao: 'Parâmetro Honorarios - Sequência de RPS utilizada para NFS-e. 3 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL_RPS.'
+    tabela: HRPARAMETRO_SEQUENCIAL_NFSE_RPS
+    chave: [CODI_EMP, I_SEQUENCIAL_RPS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL_RPS, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_sequencial_rps: I_SEQUENCIAL_RPS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_rps:
+        coluna: I_SEQUENCIAL_RPS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9996).']
+  hrparametro_sequencial_nfse_dps:
+    titulo: Parâmetro Honorarios - Sequência de DPS utilizada para NFS-e Nacional
+    descricao: 'Parâmetro Honorarios - Sequência de DPS utilizada para NFS-e Nacional. 3 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL_DPS.'
+    tabela: HRPARAMETRO_SEQUENCIAL_NFSE_DPS
+    chave: [CODI_EMP, I_SEQUENCIAL_DPS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL_DPS, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_sequencial_dps: I_SEQUENCIAL_DPS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_dps:
+        coluna: I_SEQUENCIAL_DPS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9996).']
+  hrparametro_sequencial_nfse_nacional_lote:
+    titulo: Parâmetro Honorarios - Sequência de lote utilizada para NFS-e Nacional
+    descricao: 'Parâmetro Honorarios - Sequência de lote utilizada para NFS-e Nacional. 3 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL_LOTE.'
+    tabela: HRPARAMETRO_SEQUENCIAL_NFSE_NACIONAL_LOTE
+    chave: [CODI_EMP, I_SEQUENCIAL_LOTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL_LOTE, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_sequencial_lote: I_SEQUENCIAL_LOTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_lote:
+        coluna: I_SEQUENCIAL_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9996).']

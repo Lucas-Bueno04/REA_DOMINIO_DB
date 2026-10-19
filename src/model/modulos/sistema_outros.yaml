@@ -1,0 +1,22 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: sistema_outros
+titulo: Sistema - outros (rascunho em lote)
+entidades:
+  ausituacao_inicializacao:
+    titulo: Tabela para sinalização da inicialização e parada da Auditoria.
+    descricao: 'Tabela para sinalização da inicialização e parada da Auditoria.. 1 linhas no catálogo; chave: SITUACAO.'
+    tabela: AUSITUACAO_INICIALIZACAO
+    chave: [SITUACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SITUACAO, asc]
+    colunas: {situacao_0_liberado_1_processando_inicia: SITUACAO, usuario_do_sistema_que_iniciou_a_auditor: USUARIO, connection_id_do_usuario_do_sistema_que: CONNECTION_ID}
+    filtros:
+      situacao_0_liberado_1_processando_inicia:
+        coluna: SITUACAO
+        ops: [eq, in]
+      usuario_do_sistema_que_iniciou_a_auditor:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

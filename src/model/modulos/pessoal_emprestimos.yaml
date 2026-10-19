@@ -1,0 +1,436 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_emprestimos
+titulo: Pessoal - emprestimos (rascunho em lote)
+dominios:
+  foemprestimos_consignados_parcelas_parcela_paga_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS_PARCELAS.PAGO estão no comentário do banco (2026-10-18). Distribuição: 1=3.980, 0=459.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_parcelas_origem_do_reg:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS_PARCELAS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=4.439.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  foemprestimos_consignados_parcelas_verifica_a_si:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS_PARCELAS.CALCULO_PARCELAS estão no comentário do banco (2026-10-18). Distribuição: 1=3.679, 0=760.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_importacao_erros_tipo_inscri:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS_IMPORTACAO_ERROS.TIPO_INSCRICAO_EMPRESA_IMPORTADA estão no comentário do banco (2026-10-18). Distribuição:
+      1=3.492, 2=87.'
+    valores: {'1': CNPJ, '2': CPF, '3': CEI}
+  foemprestimos_consignados_descontar_durante_o_period:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTAR_CALCULO_AFASTAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=401,
+      0=358.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_descontar_no_calculo_de_fe:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTAR_CALCULO_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 1=605, 0=154.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_descontar_no_calculo_de_13:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTAR_CALCULO_13_INTEGRAL estão no comentário do banco (2026-10-18). Distribuição: 0=748,
+      1=11.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_descontar_somente_a_parcel:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTAR_SOMENTE_PARCELA_MENSAL_RESCISAO estão no comentário do banco (2026-10-18). Distribuição:
+      0=757, 1=2.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_descontar_o_valor_restante:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTAR_RESTANTE_EMPRESTIMO_RESCISAO estão no comentário do banco (2026-10-18). Distribuição:
+      0=726, 1=33.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_origem_do_registro_0_siste:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=759.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  foemprestimos_consignados_limitar_o_desconto_a_um_pe:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.LIMITAR_DESCONTO_LIQUIDO_FOLHA estão no comentário do banco (2026-10-18). Distribuição: 1=595,
+      0=164.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_nao_descontar_do_colaborad:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.DESCONTO_DIFERENCA_PARCELA estão no comentário do banco (2026-10-18). Distribuição: 1=595, 0=164.'
+    valores: {'0': Não, '1': Sim}
+  foemprestimos_consignados_provisionar_o_valor_da_par:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPRESTIMOS_CONSIGNADOS.PROVISIONAR_VALOR_PARCELA_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 1=592,
+      0=167.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  foemprestimos_consignados_parcelas:
+    titulo: Parcelas dos empréstimos consignados.
+    descricao: 'Parcelas dos empréstimos consignados.. 4.435 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EMPRESTIMO, PARCELA.'
+    tabela: FOEMPRESTIMOS_CONSIGNADOS_PARCELAS
+    chave: [CODI_EMP, I_EMPREGADOS, I_EMPRESTIMO, PARCELA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_DESCONTO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_DESCONTO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EMPRESTIMO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_emprestimo: I_EMPRESTIMO
+      numero_da_parcela: PARCELA
+      competencia_de_pagamento_da_parcela: COMPETENCIA_DESCONTO
+      valor_da_parcela: VALOR
+      parcela_paga_0_nao_1_sim: {coluna: PAGO, dominio: foemprestimos_consignados_parcelas_parcela_paga_}
+      codigo_do_calculo_que_pagou_a_parcela_re: I_CALCULOS_PAGAMENTO_OLD
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foemprestimos_consignados_parcelas_origem_do_reg}
+      valor_efetivamente_pago: VALOR_PAGO
+      valor_restante_a_ser_pago_da_parcela: VALOR_RESTANTE
+      verifica_a_situacao_de_calculo_das_parce: {coluna: CALCULO_PARCELAS, dominio: foemprestimos_consignados_parcelas_verifica_a_si}
+      competencia_de_desconto_da_parcela: COMPETENCIA_DESCONTO_INFORMADA
+    vinculos:
+      foemprestimos_consignado:
+        tabela: FOEMPRESTIMOS_CONSIGNADOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_emprestimo: i_emprestimo}
+        colunas: {foemprestimos_consignado_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_emprestimo:
+        coluna: I_EMPRESTIMO
+        ops: [eq, in]
+      numero_da_parcela:
+        coluna: PARCELA
+        ops: [eq, in]
+      competencia_de_pagamento_da_parcela:
+        coluna: COMPETENCIA_DESCONTO
+        ops: [entre, gte, lte]
+      competencia_de_desconto_da_parcela:
+        coluna: COMPETENCIA_DESCONTO_INFORMADA
+        ops: [entre, gte, lte]
+      codigo_do_calculo_que_pagou_a_parcela_re:
+        coluna: I_CALCULOS_PAGAMENTO_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.439 linhas, 100 empresa(s), COMPETENCIA_DESCONTO de 2017-07-01 a 2026-10-01.', 'parcela_paga_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=3.980, 0=459).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=4.439).',
+      'verifica_a_situacao_de_calculo_das_parce: todos os valores reais estão no comentário do banco (1=3.679, 0=760).', 'Vínculo foemprestimos_consignado (FOEMPRESTIMOS_CONSIGNADOS):
+        0 de 20 linhas sem registro relacionado (empresa 666).']
+  foemprestimos_consignados_importacao_erros:
+    titulo: Empréstimos consignados realizados pela importação de arquivos com erros
+    descricao: 'Empréstimos consignados realizados pela importação de arquivos com erros. 3.574 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, SEQUENCIAL.'
+    tabela: FOEMPRESTIMOS_CONSIGNADOS_IMPORTACAO_ERROS
+    chave: [CODI_EMP, COMPETENCIA, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa_que_foi_realizada_a_im: CODI_EMP
+      competencia_de_desconto: COMPETENCIA
+      codigo_sequencial_da_tabela: SEQUENCIAL
+      cpf_do_colaborador: {coluna: CPF_COLABORADOR, sensivel: parcial}
+      matricula: MATRICULA
+      tipo_da_folha: CATEGORIA_ESOCIAL
+      codigo_da_empresa_importada: CODI_EMP_IMPORTADA
+      inscricao_da_empresa_importada: {coluna: INSCRICAO_EMPRESA_IMPORTADA, sensivel: parcial}
+      tipo_inscricao_da_empresa_importada_1_cn: {coluna: TIPO_INSCRICAO_EMPRESA_IMPORTADA, dominio: foemprestimos_consignados_importacao_erros_tipo_inscri, sensivel: parcial}
+      mensagem_do_erro: MENSAGEM
+      usuario_que_realizou_o_processo_de_impor: I_USUARIO
+      arquivo_que_foi_processado_as_informacoe: NOME_ARQUIVO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia_de_desconto:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      codigo_sequencial_da_tabela:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      cpf_do_colaborador:
+        coluna: CPF_COLABORADOR
+        ops: [eq, in]
+      matricula:
+        coluna: MATRICULA
+        ops: [contem, prefixo]
+      codigo_da_empresa_importada:
+        coluna: CODI_EMP_IMPORTADA
+        ops: [eq, in]
+      inscricao_da_empresa_importada:
+        coluna: INSCRICAO_EMPRESA_IMPORTADA
+        ops: [eq, in]
+      tipo_inscricao_da_empresa_importada_1_cn:
+        coluna: TIPO_INSCRICAO_EMPRESA_IMPORTADA
+        ops: [eq, in]
+      mensagem_do_erro:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+      usuario_que_realizou_o_processo_de_impor:
+        coluna: I_USUARIO
+        ops: [eq, in]
+      arquivo_que_foi_processado_as_informacoe:
+        coluna: NOME_ARQUIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.579 linhas, 147 empresa(s), COMPETENCIA de 2025-06-01 a 2026-10-01.', 'tipo_inscricao_da_empresa_importada_1_cn: todos os valores
+        reais estão no comentário do banco (1=3.492, 2=87).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 680).']
+  foemprestimos_consignados_importacao:
+    titulo: Empréstimos consignados realizados pela importação de arquivos.
+    descricao: 'Empréstimos consignados realizados pela importação de arquivos.. 2.832 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_BANCOS, COMPETENCIA_DESCONTO,
+      NUMERO_CONTRATO.'
+    tabela: FOEMPRESTIMOS_CONSIGNADOS_IMPORTACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_BANCOS, COMPETENCIA_DESCONTO, NUMERO_CONTRATO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_CONTRATO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_CONTRATO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_BANCOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, codigo_do_banco: I_BANCOS, competencia_de_desconto: COMPETENCIA_DESCONTO, numero_do_contrato: NUMERO_CONTRATO,
+      valor_da_parcela: VALOR_PARCELA, data_de_inicio_do_contrato: DATA_INICIO_CONTRATO, data_de_termino_do_contrato: DATA_FIM_CONTRATO, data_de_inicio_de_desconto_da_parcela: DATA_INICIO_DESCONTO,
+      numero_de_parcelas: NUMERO_PARCELAS, valor_total_do_emprestimo: VALOR_TOTAL, usuario_que_realizou_o_processo_de_impor: I_USUARIO, arquivo_que_foi_processado_as_informacoe: NOME_ARQUIVO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fobancos:
+        tabela: fobancos
+        liga: {i_bancos: i_bancos}
+        colunas: {fobancos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_banco:
+        coluna: I_BANCOS
+        ops: [eq, in]
+      competencia_de_desconto:
+        coluna: COMPETENCIA_DESCONTO
+        ops: [eq, in]
+      numero_do_contrato:
+        coluna: NUMERO_CONTRATO
+        ops: [eq, in]
+      data_de_inicio_do_contrato:
+        coluna: DATA_INICIO_CONTRATO
+        ops: [entre, gte, lte]
+      data_de_termino_do_contrato:
+        coluna: DATA_FIM_CONTRATO
+        ops: [entre, gte, lte]
+      data_de_inicio_de_desconto_da_parcela:
+        coluna: DATA_INICIO_DESCONTO
+        ops: [entre, gte, lte]
+      usuario_que_realizou_o_processo_de_impor:
+        coluna: I_USUARIO
+        ops: [eq, in]
+      arquivo_que_foi_processado_as_informacoe:
+        coluna: NOME_ARQUIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.835 linhas, 64 empresa(s), DATA_INICIO_CONTRATO de 2023-07-13 a 2026-11-30.', 'Vínculo geempre (geempre): 0 de 20 linhas sem
+        registro relacionado (empresa 1372).', 'Vínculo foempregados (foempregados): 0 de 20 linhas sem registro relacionado (empresa 1372).', 'Vínculo fobancos (fobancos):
+        0 de 20 linhas sem registro relacionado (empresa 1372).']
+  foemprestimos_consignados:
+    titulo: Empréstimos consignados.
+    descricao: 'Empréstimos consignados.. 757 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EMPRESTIMO.'
+    tabela: FOEMPRESTIMOS_CONSIGNADOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_EMPRESTIMO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_CONTRATO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_CONTRATO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EMPRESTIMO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_emprestimo: I_EMPRESTIMO
+      descricao: DESCRICAO
+      data_de_inicio_do_contrato: DATA_INICIO_CONTRATO
+      data_de_inicio_do_desconto_na_empresa: DATA_INICIO_DESCONTO
+      valor_do_emprestimo: VALOR
+      quantidade_de_parcelas_em_que_sera_pago: QUANTIDADE_PARCELAS
+      rubrica_para_desconto_do_emprestimo: RUBRICA_DESCONTO
+      rubrica_para_desconto_do_emprestimo_no_c: RUBRICA_DESCONTO_FERIAS
+      descontar_durante_o_periodo_de_afastamen: {coluna: DESCONTAR_CALCULO_AFASTAMENTO, dominio: foemprestimos_consignados_descontar_durante_o_period}
+      afastamentos_que_descontam_o_emprestimo: LISTA_AFASTAMENTOS_DESCONTAR
+      descontar_no_calculo_de_ferias_0_nao_1_s: {coluna: DESCONTAR_CALCULO_FERIAS, dominio: foemprestimos_consignados_descontar_no_calculo_de_fe}
+      descontar_no_calculo_de_13o_integral_0_n: {coluna: DESCONTAR_CALCULO_13_INTEGRAL, dominio: foemprestimos_consignados_descontar_no_calculo_de_13}
+      descontar_somente_a_parcela_mensal_na_re: {coluna: DESCONTAR_SOMENTE_PARCELA_MENSAL_RESCISAO, dominio: foemprestimos_consignados_descontar_somente_a_parcel}
+      descontar_o_valor_restante_de_emprestimo: {coluna: DESCONTAR_RESTANTE_EMPRESTIMO_RESCISAO, dominio: foemprestimos_consignados_descontar_o_valor_restante}
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foemprestimos_consignados_origem_do_registro_0_siste}
+      tipo_de_desconto_na_folha_mensal_em_comp: TIPO_DESCONTO_MENSAL_COMPETENCIA_FERIAS
+      limitar_o_desconto_a_um_percentual_do_li: {coluna: LIMITAR_DESCONTO_LIQUIDO_RESCISAO, dominio: foemprestimos_consignados_limitar_o_desconto_a_um_pe}
+      percentual_para_limitar_o_desconto_ao_li: {coluna: PERCENTUAL_LIMITAR_DESCONTO_LIQUIDO_RESCISAO, sensivel: financeiro}
+      limitar_desconto_liquido_folha: {coluna: LIMITAR_DESCONTO_LIQUIDO_FOLHA, dominio: foemprestimos_consignados_limitar_o_desconto_a_um_pe}
+      percentual_limitar_desconto_liquido_folh: {coluna: PERCENTUAL_LIMITAR_DESCONTO_LIQUIDO_FOLHA, sensivel: financeiro}
+      nao_descontar_do_colaborador_a_diferenca: {coluna: DESCONTO_DIFERENCA_PARCELA, dominio: foemprestimos_consignados_nao_descontar_do_colaborad}
+      codigo_de_identificacao_do_banco_na_tabe: I_BANCOS
+      numero_de_contrato_do_econsignado: NUMERO_CONTRATO
+      c_1_credito_do_trabalhador_2_credito_con: TIPO_EMPRESTIMO
+      c_1_para_quitar_parcela_mensal_2_para_qu: LIMITAR_DESCONTO_LIQUIDO_RESCISAO_PARCELAS
+      data_final_do_contrato_de_emprestimo: DATA_FIM_CONTRATO
+      data_de_inicio_do_desconto_do_emprestimo: DATA_INICIO_DESCONTO_EMPRESTIMO
+      provisionar_o_valor_da_parcela_do_empres: {coluna: PROVISIONAR_VALOR_PARCELA_FOLHA_ADIANTAMENTO, dominio: foemprestimos_consignados_provisionar_o_valor_da_par}
+      provisionar_valor_parcela_folha_adiantam: PROVISIONAR_VALOR_PARCELA_FOLHA_ADIANTAMENTO_RUBRICA
+      provisionar_valor_parcela_ferias: {coluna: PROVISIONAR_VALOR_PARCELA_FERIAS, dominio: foemprestimos_consignados_provisionar_o_valor_da_par}
+      provisionar_valor_parcela_ferias_rubrica: PROVISIONAR_VALOR_PARCELA_FERIAS_RUBRICA
+      c_1_integral_independete_dos_dias_gozado: FORMA_PROVISIONAR_VALOR_PARCELA_FERIAS
+      percentual_da_garantia_ofertada_para_des: {coluna: PERCENTUAL_GARANTIA_RESCISAO, sensivel: financeiro}
+      saldo_devedor_da_garantia_ofertada_para: {coluna: VALOR_SALDO_DEVEDOR_GARANTIA, sensivel: financeiro}
+      data_de_cadastro_do_emprestimo: DATA_CADASTRO
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fobancos:
+        tabela: fobancos
+        liga: {i_bancos: i_bancos}
+        colunas: {fobancos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_emprestimo:
+        coluna: I_EMPRESTIMO
+        ops: [eq, in]
+      data_de_inicio_do_contrato:
+        coluna: DATA_INICIO_CONTRATO
+        ops: [entre, gte, lte]
+      data_de_inicio_do_desconto_na_empresa:
+        coluna: DATA_INICIO_DESCONTO
+        ops: [entre, gte, lte]
+      data_final_do_contrato_de_emprestimo:
+        coluna: DATA_FIM_CONTRATO
+        ops: [entre, gte, lte]
+      data_de_inicio_do_desconto_do_emprestimo:
+        coluna: DATA_INICIO_DESCONTO_EMPRESTIMO
+        ops: [entre, gte, lte]
+      data_de_cadastro_do_emprestimo:
+        coluna: DATA_CADASTRO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_desconto_na_folha_mensal_em_comp:
+        coluna: TIPO_DESCONTO_MENSAL_COMPETENCIA_FERIAS
+        ops: [eq, in]
+      codigo_de_identificacao_do_banco_na_tabe:
+        coluna: I_BANCOS
+        ops: [eq, in]
+      numero_de_contrato_do_econsignado:
+        coluna: NUMERO_CONTRATO
+        ops: [eq, in]
+      c_1_credito_do_trabalhador_2_credito_con:
+        coluna: TIPO_EMPRESTIMO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 759 linhas, 100 empresa(s), DATA_INICIO_CONTRATO de 2016-09-01 a 2026-11-30.', 'descontar_durante_o_periodo_de_afastamen: todos
+        os valores reais estão no comentário do banco (1=401, 0=358).', 'descontar_no_calculo_de_ferias_0_nao_1_s: todos os valores reais estão no comentário do banco
+        (1=605, 0=154).', 'descontar_no_calculo_de_13o_integral_0_n: todos os valores reais estão no comentário do banco (0=748, 1=11).', 'descontar_somente_a_parcela_mensal_na_re:
+        todos os valores reais estão no comentário do banco (0=757, 1=2).', 'descontar_o_valor_restante_de_emprestimo: todos os valores reais estão no comentário
+        do banco (0=726, 1=33).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=759).', 'limitar_o_desconto_a_um_percentual_do_li:
+        todos os valores reais estão no comentário do banco (1=614, 0=145).', 'limitar_desconto_liquido_folha: todos os valores reais estão no comentário do banco
+        (1=595, 0=164).', 'nao_descontar_do_colaborador_a_diferenca: todos os valores reais estão no comentário do banco (1=595, 0=164).', 'provisionar_o_valor_da_parcela_do_empres:
+        todos os valores reais estão no comentário do banco (1=593, 0=166).', 'provisionar_valor_parcela_ferias: todos os valores reais estão no comentário do banco
+        (1=592, 0=167).', 'Vínculo foempregados (foempregados): 0 de 3 linhas sem registro relacionado (empresa 954).', 'Vínculo fobancos (fobancos): 0 de 3 linhas
+        sem registro relacionado (empresa 954).']
+  foemprestimos_cred_trab_rescisao_api_retorno:
+    titulo: Empréstimo Crédito do Trabalhador - Retorno Consulta API
+    descricao: 'Empréstimo Crédito do Trabalhador - Retorno Consulta API. 166 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: FOEMPRESTIMOS_CRED_TRAB_RESCISAO_API_RETORNO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_sequencial_da_tabela: I_SEQUENCIAL, codigo_da_empresa: CODI_EMP, competencia_da_rescisao: COMPETENCIA, codigo_do_empregado: I_EMPREGADOS, mensagem: MENSAGEM}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_da_tabela:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      competencia_da_rescisao:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      mensagem:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 170 linhas, 28 empresa(s), COMPETENCIA de 2026-07-01 a 2026-10-01.', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado
+        (empresa 1372).']
+  foemprestimos_cred_trab_rescisao:
+    titulo: Dados do ultimo calculo da rescisao para o Credito do Trabalhador
+    descricao: 'Dados do ultimo calculo da rescisao para o Credito do Trabalhador. 57 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA_RESCISAO, NUMERO_CONTRATO.'
+    tabela: FOEMPRESTIMOS_CRED_TRAB_RESCISAO
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA_RESCISAO, NUMERO_CONTRATO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_CONTRATO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_CONTRATO, desc]
+    - [I_EMPREGADOS, asc]
+    - [COMPETENCIA_RESCISAO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia_da_rescisao: COMPETENCIA_RESCISAO
+      numero_do_contrato: NUMERO_CONTRATO
+      data_de_inicio_do_contrato: DATA_INICIO_CONTRATO
+      data_de_termino_do_contrato: DATA_FIM_CONTRATO
+      valor_do_saldo_devedor: VALOR_SALDO_DEVEDOR
+      percentual_da_garantia_ofertada_para_des: {coluna: PERCENTUAL_GARANTIA, sensivel: financeiro}
+      competencia_de_inicio_do_desconto: COMPETENCIA_INICIO_DESCONTO
+      codigo_do_banco: I_BANCOS
+      codigo_da_instituicao_financeira_concess: CONCESSORA_CODIGO
+      descricao_da_instituicao_financeira_conc: CONCESSORA_DESCRICAO
+      numero_de_parcelas: NUMERO_PARCELAS
+      valor_total_do_emprestimo: VALOR_TOTAL_EMPRESTIMO
+      indica_se_ja_existia_parcela_na_competen: EXISTIA_PARCELA_COMPETENCIA
+      valor_original_da_parcela_na_competencia: {coluna: VALOR_PARCELA_ORIGINAL, sensivel: financeiro}
+      codigo_do_emprestimo_consignado_vinculad: I_EMPRESTIMO
+      numero_da_parcela_na_competencia_antes_d: {coluna: PARCELA, sensivel: financeiro}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_da_rescisao:
+        coluna: COMPETENCIA_RESCISAO
+        ops: [eq, in]
+      numero_do_contrato:
+        coluna: NUMERO_CONTRATO
+        ops: [eq, in]
+      data_de_inicio_do_contrato:
+        coluna: DATA_INICIO_CONTRATO
+        ops: [entre, gte, lte]
+      data_de_termino_do_contrato:
+        coluna: DATA_FIM_CONTRATO
+        ops: [entre, gte, lte]
+      competencia_de_inicio_do_desconto:
+        coluna: COMPETENCIA_INICIO_DESCONTO
+        ops: [entre, gte, lte]
+      codigo_do_banco:
+        coluna: I_BANCOS
+        ops: [eq, in]
+      codigo_da_instituicao_financeira_concess:
+        coluna: CONCESSORA_CODIGO
+        ops: [eq, in]
+      descricao_da_instituicao_financeira_conc:
+        coluna: CONCESSORA_DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_emprestimo_consignado_vinculad:
+        coluna: I_EMPRESTIMO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 58 linhas, 17 empresa(s), DATA_INICIO_CONTRATO de 2023-07-13 a 2026-09-16.', 'Colunas expostas nulas em 100% das linhas (2): codigo_da_instituicao_financeira_concess,
+        descricao_da_instituicao_financeira_conc.', 'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 680).']

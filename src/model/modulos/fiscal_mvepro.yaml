@@ -1,0 +1,787 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_mvepro
+titulo: Fiscal - mvepro (rascunho em lote)
+entidades:
+  efmvepro_apuracao_estoque:
+    titulo: Notas Fiscais de Entrada - Produtos - Apuração de estoque
+    descricao: 'Notas Fiscais de Entrada - Produtos - Apuração de estoque. 618.580 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_APURACAO_ESTOQUE
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, periodo: DATA_MOVIMENTACAO, volume: medio}
+    ordem:
+    - [DATA_MOVIMENTACAO, desc]
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, data_da_movimentacao: DATA_MOVIMENTACAO,
+      codigo_do_produto: CODI_PDI, quantidade: QUANTIDADE, valor_unitario: VALOR_UNITARIO, valor_total: VALOR_TOTAL, quantidade_acumulada: QUANTIDADE_ACUMULADA, valor_unitario_medio: VALOR_UNITARIO_MEDIO,
+      valor_acumulado: VALOR_ACUMULADO, valor_do_icms_unitario: ICMS_UNITARIO, valor_do_icms_total: ICMS_TOTAL, valor_do_icms_unitario_medio: ICMS_UNITARIO_MEDIO,
+      valor_do_icms_acumulado: ICMS_ACUMULADO, quantidade_icms_st: ICMS_ST_QUANTIDADE, valor_do_icms_st_unitario: ICMS_ST_UNITARIO, valor_do_icms_st_total: ICMS_ST_TOTAL,
+      quantidade_icms_st_acumulado: ICMS_ST_QUANTIDADE_ACUMULADO, valor_do_icms_st_unitario_medio: ICMS_ST_UNITARIO_MEDIO, icms_st_acumulado: ICMS_ST_ACUMULADO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      data_da_movimentacao:
+        coluna: DATA_MOVIMENTACAO
+        ops: [entre, gte, lte]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 620.483 linhas, 364 empresa(s), DATA_MOVIMENTACAO de 2016-01-30 a 2026-09-30.', 'Vínculo efmvepro (efmvepro): 0 de 46 linhas sem
+        registro relacionado (empresa 1348).']
+  efmvepro_base_piscofins:
+    titulo: Notas Fiscais de Entrada - Produtos - Bases PIS COFINS
+    descricao: 'Notas Fiscais de Entrada - Produtos - Bases PIS COFINS. 41.470 linhas no catálogo; chave: CODI_EMP, NUME_MEP, CODI_IMP, TIPO_CREDITO, CODI_ENT.'
+    tabela: EFMVEPRO_BASE_PISCOFINS
+    chave: [CODI_EMP, NUME_MEP, CODI_IMP, TIPO_CREDITO, CODI_ENT]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [NUME_MEP, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, sequencial: NUME_MEP, imposto: CODI_IMP, tipo_de_credito: TIPO_CREDITO, entrada: CODI_ENT, receita_cumulativa: RECEITA_CUMULATIVA,
+      receita_nao_cumulativa: RECEITA_NAO_CUMULATIVA, interna_tributada: INTERNA_TRIBUTADA, interna_nao_tributada: INTERNA_NAO_TRIBUTADA, externa: EXTERNA, competencia: COMPETENCIA}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      sequencial:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      tipo_de_credito:
+        coluna: TIPO_CREDITO
+        ops: [eq, in]
+      entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 41.286 linhas, 49 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.', 'Vínculo efmvepro (efmvepro): 0 de 88 linhas sem registro
+        relacionado (empresa 1011).']
+  efmvepro_difali:
+    titulo: Notas Fiscais de Entrada - Produtos - DIFALI
+    descricao: 'Notas Fiscais de Entrada - Produtos - DIFALI. 22.026 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_DIFALI
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, codigo_de_tributacao_do_produto_difali: CODIGO_TRIBUTACAO_DIFALI,
+      base_calculo_difali: BASE_CALCULO_DIFALI, aliquota_difali: ALIQUOTA_DIFALI, valor_difali: VALOR_DIFALI, codigo_sequencial_do_recolhimento_difali: I_RECOLHIMENTO_DIFALI,
+      codigo_do_recolhimento_difali: CODIGO_RECOLHIMENTO_DIFALI}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_difali:
+        coluna: CODIGO_TRIBUTACAO_DIFALI
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_difali:
+        coluna: I_RECOLHIMENTO_DIFALI
+        ops: [eq, in]
+      codigo_do_recolhimento_difali:
+        coluna: CODIGO_RECOLHIMENTO_DIFALI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22.026 linhas, 109 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_de_tributacao_do_produto_difali.', 'Vínculo
+        efmvepro (efmvepro): 0 de 45 linhas sem registro relacionado (empresa 1008).', 'Vínculo efprodutos (efprodutos): 0 de 45 linhas sem registro relacionado (empresa
+        1008).']
+  efmvepro_ibs_iva:
+    titulo: Valorer IBS Estoque - Entradas
+    descricao: 'Valorer IBS Estoque - Entradas. 6.777 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_IBS_IVA
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_cclasstrib: I_CCLASSTRIB, base_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor: VALOR, base_de_calculo_do_credito_presumido_ibs: CRED_PRESUM_BASE_CALCULO, aliquota_do_credito_presumido_ibs: CRED_PRESUM_ALIQUOTA,
+      valor_do_credito_presumido_ibs: CRED_PRESUM_VALOR}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.777 linhas, 7 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 687 linhas sem registro relacionado (empresa 1683).']
+  efmvepro_cbs_iva:
+    titulo: Valorer CBS Estoque - Entradas
+    descricao: 'Valorer CBS Estoque - Entradas. 6.777 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_CBS_IVA
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_cclasstrib: I_CCLASSTRIB, base_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor: VALOR, base_de_calculo_do_credito_presumido_cbs: CRED_PRESUM_BASE_CALCULO, aliquota_do_credito_presumido_cbs: CRED_PRESUM_ALIQUOTA,
+      valor_do_credito_presumido_cbs: CRED_PRESUM_VALOR}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.777 linhas, 7 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 687 linhas sem registro relacionado (empresa 1683).']
+  efmvepro_estadual_am:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual AM
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual AM. 1.887 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_AM
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, possui_isencao_s_n: DIA_POSSUI_ISENCAO,
+      codigo_de_tributacao_do_produto_dia: DIA_POSSUI_ISENCAO_CODIGO_TRIBUTACAO, codigo_de_tributacao_do_produto_difali: DIFALI_CODIGO_TRIBUTACAO, base_de_calculo_difali: DIFALI_BASE_CALCULO,
+      aliquota_difali: DIFALI_ALIQUOTA, valor_difali: DIFALI_VALOR, codigo_de_tributacao_do_produto_icmsa: ICMS_ANTECIPACAO_CODIGO_TRIBUTACAO, base_de_calculo_icmsa: ICMS_ANTECIPACAO_BASE_CALCULO,
+      aliquota_icmsa: ICMS_ANTECIPACAO_ALIQUOTA, valor_icmsa: ICMS_ANTECIPACAO_VALOR, codigo_de_tributacao_do_produto_icmsst: ICMS_ST_ANTECIPACAO_TOTAL_CODIGO_TRIBUTACAO,
+      base_de_calculo_icmsst: ICMS_ST_ANTECIPACAO_TOTAL_BASE_CALCULO, aliquota_icmsst: ICMS_ST_ANTECIPACAO_TOTAL_ALIQUOTA, valor_icmsst: ICMS_ST_ANTECIPACAO_TOTAL_VALOR}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      possui_isencao_s_n:
+        coluna: DIA_POSSUI_ISENCAO
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_dia:
+        coluna: DIA_POSSUI_ISENCAO_CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_difali:
+        coluna: DIFALI_CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_icmsa:
+        coluna: ICMS_ANTECIPACAO_CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_icmsst:
+        coluna: ICMS_ST_ANTECIPACAO_TOTAL_CODIGO_TRIBUTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.887 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (4): codigo_de_tributacao_do_produto_dia, codigo_de_tributacao_do_produto_difali,
+        codigo_de_tributacao_do_produto_icmsa, codigo_de_tributacao_do_produto_icmsst.', 'Vínculo efmvepro (efmvepro): 0 de 1.887 linhas sem registro relacionado
+        (empresa 955).', 'Vínculo efprodutos (efprodutos): 0 de 1.887 linhas sem registro relacionado (empresa 955).']
+  efmvepro_icmsa:
+    titulo: Notas Fiscais de Entrada - Produtos - ICMS Antecipado
+    descricao: 'Notas Fiscais de Entrada - Produtos - ICMS Antecipado. 1.182 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ICMSA
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, codigo_sequencial_do_recolhimento_icms_a: I_RECOLHIMENTO_ICMSA,
+      codigo_do_recolhimento_icms_antecipado: CODIGO_RECOLHIMENTO_ICMSA, codigo_de_tributacao_do_produto_icms_ant: CODIGO_TRIBUTACAO_ICMSA, base_calculo_icms_antecipado: BASE_CALCULO_ICMSA,
+      aliquota_icms_antecipado: ALIQUOTA_ICMSA, valor_icms_antecipado: VALOR_ICMSA}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_icms_a:
+        coluna: I_RECOLHIMENTO_ICMSA
+        ops: [eq, in]
+      codigo_do_recolhimento_icms_antecipado:
+        coluna: CODIGO_RECOLHIMENTO_ICMSA
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto_icms_ant:
+        coluna: CODIGO_TRIBUTACAO_ICMSA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.182 linhas, 10 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 110 linhas sem registro relacionado (empresa 501).', 'Vínculo
+        efprodutos (efprodutos): 0 de 110 linhas sem registro relacionado (empresa 501).']
+  efmvepro_icms_st_retido:
+    titulo: Notas Fiscais de Entrada - Produtos - ICMS ST Retido
+    descricao: 'Notas Fiscais de Entrada - Produtos - ICMS ST Retido. 931 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP, CODI_PDI.'
+    tabela: EFMVEPRO_ICMS_ST_RETIDO
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP, CODI_PDI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, icms_st_retido_base_calculo: ICMS_ST_RETIDO_BASE_CALCULO,
+      icms_st_retido_valor: ICMS_ST_RETIDO_VALOR, icms_st_retido_montante_imposto_presumid: ICMS_ST_RETIDO_MONTANTE_IMPOSTO_PRESUMIDO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 931 linhas, 13 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 61 linhas sem registro relacionado (empresa 1223).']
+  efmvepro_icmsi:
+    titulo: Notas Fiscais de Entrada - Produtos - ICMS Importação
+    descricao: 'Notas Fiscais de Entrada - Produtos - ICMS Importação. 789 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ICMSI
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_calculo_icms_importacao: BASE_CALCULO_ICMSI,
+      aliquota_icms_importacao: ALIQUOTA_ICMSI, valor_icms_importacao: VALOR_ICMSI}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 789 linhas, 11 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 54 linhas sem registro relacionado (empresa 1566).', 'Vínculo
+        efprodutos (efprodutos): 0 de 54 linhas sem registro relacionado (empresa 1566).']
+  efmvepro_icms_stat:
+    titulo: Notas Fiscais de Entrada - Produtos - ICMS STAT
+    descricao: 'Notas Fiscais de Entrada - Produtos - ICMS STAT. 727 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ICMS_STAT
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, codigo_de_tributacao_do_produto: CODIGO_TRIBUTACAO,
+      base_de_calculo_icms_st_antecipacao_tota: BASE_CALCULO, aliquota_icms_st_antecipacao_total: ALIQUOTA, valor_icms_st_antecipacao_total: VALOR_IMPOSTO, codigo_do_recolhimento_substituicao_trib: CODIGO_RECOLHIMENTO_STAT,
+      codigo_sequencial_do_recolhimento_substi: I_RECOLHIMENTO_STAT, base_calculo_st: BASE_CALCULO_ST, valor_icms_proprio: VALOR_ICMS_PROPRIO, valor_icms_retido: VALOR_ICMS_RETIDO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_de_tributacao_do_produto:
+        coluna: CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      codigo_do_recolhimento_substituicao_trib:
+        coluna: CODIGO_RECOLHIMENTO_STAT
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_substi:
+        coluna: I_RECOLHIMENTO_STAT
+        ops: [eq, in]
+      base_calculo_st:
+        coluna: BASE_CALCULO_ST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 727 linhas, 35 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 9 linhas sem registro relacionado (empresa 929).', 'Vínculo efprodutos
+        (efprodutos): 0 de 9 linhas sem registro relacionado (empresa 929).']
+  efmvepro_estadual_mg:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual MG
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual MG. 170 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_MG
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, base_de_calculo_difali: DIFALI_BASE_CALCULO,
+      aliquota_difali: DIFALI_ALIQUOTA, valor_difali: DIFALI_VALOR, base_de_calculo_icms_st_antecipacao_tota: ICMS_ST_ANTECIPACAO_TOTAL_BASE_CALCULO, aliquota_icms_st_antecipacao_total: ICMS_ST_ANTECIPACAO_TOTAL_ALIQUOTA,
+      valor_icms_st_antecipacao_total: ICMS_ST_ANTECIPACAO_TOTAL_VALOR, base_de_calculo_recali: RECALI_BASE_CALCULO, aliquota_recali: RECALI_ALIQUOTA, valor_recali: RECALI_VALOR,
+      codigo_recolhimento_recali: RECALI_CODIGO_RECOLHIMENTO, sequencial_recolhimento_recali: RECALI_I_RECOLHIMENTO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_recolhimento_recali:
+        coluna: RECALI_CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 170 linhas, 4 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 69 linhas sem registro relacionado (empresa 1473).']
+  efmvepro_fem_st_mg:
+    titulo: Notas Fiscais de Entrada - Produtos - FEM-ST/MG
+    descricao: 'Notas Fiscais de Entrada - Produtos - FEM-ST/MG. 170 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_FEM_ST_MG
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {empresa: CODI_EMP, entrada: CODI_ENT, sequencial: NUME_MEP, codigo_do_produto: CODI_PDI, base_de_calculo: BASE_CALCULO_FEM_ST, aliquota: ALIQUOTA_FEM_ST,
+      valor: VALOR_FEM_ST}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 170 linhas, 4 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 69 linhas sem registro relacionado (empresa 1473).', 'Vínculo efprodutos
+        (efprodutos): 0 de 69 linhas sem registro relacionado (empresa 1473).']
+  efmvepro_estadual_ro:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual RO
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual RO. 110 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_RO
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_de_calculo_icms_antecipado: BC_ICMSA_MEP,
+      aiquota_icms_antecipado: ALIQ_ICMSA_MEP, valor_icms_antecipado: VALOR_ICMSA_MEP}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 110 linhas, 1 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 110 linhas sem registro relacionado (empresa 501).', 'Vínculo efprodutos
+        (efprodutos): 0 de 110 linhas sem registro relacionado (empresa 501).']
+  efmvepro_extemporaneo_piscofins:
+    titulo: Notas Fiscais de Entrada - Produtos - Extemporâneo PIS COFINS
+    descricao: 'Notas Fiscais de Entrada - Produtos - Extemporâneo PIS COFINS. 56 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP, CODI_IMP, TIPO_CREDITO.'
+    tabela: EFMVEPRO_EXTEMPORANEO_PISCOFINS
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP, CODI_IMP, TIPO_CREDITO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {empresa: CODI_EMP, entrada: CODI_ENT, sequencial: NUME_MEP, imposto: CODI_IMP, tipo_de_credito: TIPO_CREDITO, receita_cumulativa: RECEITA_CUMULATIVA,
+      receita_nao_cumulativa: RECEITA_NAO_CUMULATIVA, interna_tributada: INTERNA_TRIBUTADA, interna_nao_tributada: INTERNA_NAO_TRIBUTADA, externa: EXTERNA, competencia: COMPETENCIA}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      tipo_de_credito:
+        coluna: TIPO_CREDITO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 56 linhas, 3 empresa(s), COMPETENCIA de 2018-07-01 a 2026-06-01.', 'Vínculo efmvepro (efmvepro): 0 de 2 linhas sem registro relacionado
+        (empresa 604).']
+  efmvepro_federal:
+    titulo: Valor ICMS desonerado Estoque
+    descricao: 'Valor ICMS desonerado Estoque. 39 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_FEDERAL
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, valor_icms_desonerado: VALOR_ICMS_DESONERADO,
+      motivo_desoneracao: I_MOTIVO_DESONERACAO, base_de_calculo_icms_diferido: BASE_CALCULO_ICMS_DIFERIDO, percentual_icms_diferido: PERCENTUAL_ICMS_DIFERIDO, valor_icms_diferido: VALOR_ICMS_DIFERIDO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      motivo_desoneracao:
+        coluna: I_MOTIVO_DESONERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 39 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): motivo_desoneracao.', 'Vínculo efmvepro (efmvepro):
+        0 de 35 linhas sem registro relacionado (empresa 955).']
+  efmvepro_difal_nc:
+    titulo: Notas Fiscais de Entrada - Produtos - DIFAL NC
+    descricao: 'Notas Fiscais de Entrada - Produtos - DIFAL NC. 27 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_DIFAL_NC
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor_uf_origem: VALOR_UF_ORIGEM, valor_uf_destino: VALOR_UF_DESTINO, valor_total: VALOR_TOTAL, valor_fcp: VALOR_FCP}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27 linhas, 1 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 27 linhas sem registro relacionado (empresa 1676).']
+  efmvepro_mg_sub_apuracao:
+    titulo: Notas Fiscais de Entrada - Produtos - MG Sub Apuração
+    descricao: 'Notas Fiscais de Entrada - Produtos - MG Sub Apuração. 14 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP, I_SUB_APURACAO.'
+    tabela: EFMVEPRO_MG_SUB_APURACAO
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP, I_SUB_APURACAO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, sequencial: I_SUB_APURACAO, codigo_do_produto: CODI_PDI,
+      base_de_calculo: BASE_CALCULO, valor_icms: VALOR_ICMS, proporcao: PROPORCAO, competencia: COMPETENCIA, estorno_do_fem_de_mercadorias_devolvidas: ESTORNO_FEM_MERCADORIAS_CREDITO_PRESUMIDO_DEVOLUCAO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      eftabela_mg_sub_apuracao:
+        tabela: EFTABELA_MG_SUB_APURACAO
+        liga: {i_sub_apuracao: i_sub_apuracao_mg}
+        colunas: {eftabela_mg_sub_apuracao_nome: DESCRICAO}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SUB_APURACAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, 1 empresa(s), COMPETENCIA de 2026-02-07 a 2026-05-20.', 'Vínculo efmvepro (efmvepro): 0 de 14 linhas sem registro relacionado
+        (empresa 1473).', 'Vínculo efprodutos (efprodutos): 0 de 14 linhas sem registro relacionado (empresa 1473).', 'Vínculo eftabela_mg_sub_apuracao (EFTABELA_MG_SUB_APURACAO):
+        0 de 14 linhas sem registro relacionado (empresa 1473).']
+  efmvepro_medicamento_lote:
+    titulo: Notas Fiscais de Entrada - Produtos - Medicamento - Lote
+    descricao: 'Notas Fiscais de Entrada - Produtos - Medicamento - Lote. 14 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP, I_LOTE.'
+    tabela: EFMVEPRO_MEDICAMENTO_LOTE
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP, I_LOTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_FABRICACAO, volume: pequeno}
+    ordem:
+    - [DATA_FABRICACAO, desc]
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_sequencial_do_lote: I_LOTE,
+      codigo_do_produto: CODI_PDI, lote: LOTE, qtd_item_lote: QUANTIDADE_ITEM_POR_LOTE, data_fabricacao: DATA_FABRICACAO, data_validade: DATA_VALIDADE, referencia_base_calculo: REFERENCIA_BASE_CALCULO,
+      preco_tab_max: PRECO_TABELADO_MAXIMO}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_sequencial_do_lote:
+        coluna: I_LOTE
+        ops: [eq, in]
+      data_fabricacao:
+        coluna: DATA_FABRICACAO
+        ops: [entre, gte, lte]
+      data_validade:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      lote:
+        coluna: LOTE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 14 linhas, 2 empresa(s), DATA_FABRICACAO de 2018-09-27 a 2018-10-31.', 'Vínculo efmvepro (efmvepro): 0 de 12 linhas sem registro
+        relacionado (empresa 418).']
+  efmvepro_estadual_es:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual ES
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual ES. 7 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_ES
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_de_calculo_difali: DIFALI_BASE_CALCULO,
+      aliquota_difali: DIFALI_ALIQUOTA, valor_difali: DIFALI_VALOR, situacao_tributaria_dief: SITUACAO_TRIBUTARIA_DIEF_CAFE_CRU, base_de_calculo_icms_complementar: ICMS_COMPLEMENTAR_BASE_CALCULO,
+      aliquota_icms_complementar: ICMS_COMPLEMENTAR_ALIQUOTA, valor_icms_complementar: ICMS_COMPLEMENTAR_VALOR}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      situacao_tributaria_dief:
+        coluna: SITUACAO_TRIBUTARIA_DIEF_CAFE_CRU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): situacao_tributaria_dief.', 'Vínculo efmvepro (efmvepro):
+        0 de 7 linhas sem registro relacionado (empresa 1575).', 'Vínculo efprodutos (efprodutos): 0 de 7 linhas sem registro relacionado (empresa 1575).']
+  efmvepro_estadual_sp:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual SP
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual SP. 6 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_SP
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, icms_st_retido_base_de_calculo: ICMS_ST_RETIDO_BASE_CALCULO,
+      icms_st_retido_valor: ICMS_ST_RETIDO_VALOR, possui_a_tag_preenchida_no_xml: POSSUI_TAG_PREENCHIDA_XML, base_calculo_fcp_st: BASE_CALCULO_FCP_ST, aliquota_fcp_st: ALIQUOTA_FCP_ST,
+      valor_fcp_st: VALOR_FCP_ST, icms_st_retido_aliquota: ICMS_ST_RETIDO_ALIQUOTA}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      possui_a_tag_preenchida_no_xml:
+        coluna: POSSUI_TAG_PREENCHIDA_XML
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 6 linhas sem registro relacionado (empresa 1446).', 'Vínculo efprodutos
+        (efprodutos): 0 de 6 linhas sem registro relacionado (empresa 1446).']
+  efmvepro_estadual_rj:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual RJ
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual RJ. 5 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_RJ
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_de_calculo: BASE_CALCULO_FECP,
+      aliquota: ALIQUOTA_FECP, valor: VALOR_FECP}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas, 1 empresa(s).', 'Vínculo efmvepro (efmvepro): 0 de 5 linhas sem registro relacionado (empresa 1574).', 'Vínculo efprodutos
+        (efprodutos): 0 de 5 linhas sem registro relacionado (empresa 1574).']
+  efmvepro_estadual_mt:
+    titulo: Notas Fiscais de Entrada - Produtos - Estadual MT
+    descricao: 'Notas Fiscais de Entrada - Produtos - Estadual MT. 1 linhas no catálogo; chave: CODI_EMP, CODI_ENT, NUME_MEP.'
+    tabela: EFMVEPRO_ESTADUAL_MT
+    chave: [CODI_EMP, CODI_ENT, NUME_MEP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [NUME_MEP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_entrada: CODI_ENT, codigo_sequencial_do_estoque: NUME_MEP, codigo_do_produto: CODI_PDI, base_de_calculo_icms: ICMS_ESTIMATIVA_SIMPLIFICADO_BASE_CALCULO,
+      aliquota_icms: ICMS_ESTIMATIVA_SIMPLIFICADO_ALIQUOTA, valor_icms: ICMS_ESTIMATIVA_SIMPLIFICADO_VALOR, base_de_calculo_icms_st: ICMS_ST_ESTIMATIVA_SIMPLIFICADO_BASE_CALCULO,
+      aliquota_icms_st: ICMS_ST_ESTIMATIVA_SIMPLIFICADO_ALIQUOTA, valor_icms_st: ICMS_ST_ESTIMATIVA_SIMPLIFICADO_VALOR, base_de_calculo_icmsa: ICMSA_BASE_CALCULO,
+      aliquota_icmsa: ICMSA_ALIQUOTA, valor_icmsa: ICMSA_VALOR, sequencial_recolhimento_icmsa: I_RECOLHIMENTO_ICMSA, codigo_recolhimento_icmsa: CODIGO_RECOLHIMENTO_ICMSA,
+      base_de_calculo_fecep_mt: FECEP_MT_ICMS_ES_BASE_CALCULO, aliquota_fecep_mt: FECEP_MT_ICMS_ES_ALIQUOTA, valor_fecep_mt: FECEP_MT_ICMS_ES_VALOR, fecep_mt_icms_st_base_calculo: FECEP_MT_ICMS_ST_BASE_CALCULO,
+      fecep_mt_icms_st_aliquota: FECEP_MT_ICMS_ST_ALIQUOTA, fecep_mt_icms_st_valor: FECEP_MT_ICMS_ST_VALOR}
+    vinculos:
+      efmvepro:
+        tabela: efmvepro
+        liga: {codi_emp: codi_emp, codi_ent: codi_ent, nume_mep: nume_mep}
+        colunas: {efmvepro_nome: DESCRICAO_COMPLEMENTAR_MEP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MEP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial_recolhimento_icmsa:
+        coluna: I_RECOLHIMENTO_ICMSA
+        ops: [eq, in]
+      codigo_recolhimento_icmsa:
+        coluna: CODIGO_RECOLHIMENTO_ICMSA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): sequencial_recolhimento_icmsa, codigo_recolhimento_icmsa.',
+      'Vínculo efmvepro (efmvepro): 0 de 1 linhas sem registro relacionado (empresa 466).', 'Vínculo efprodutos (efprodutos): 0 de 1 linhas sem registro relacionado
+        (empresa 466).']

@@ -1,0 +1,251 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_servicos
+titulo: Fiscal - servicos (rascunho em lote)
+entidades:
+  efservicos_pis_cofins:
+    titulo: Notas Fiscais de Servico - PIS/COFINS
+    descricao: 'Notas Fiscais de Servico - PIS/COFINS. 364.565 linhas no catálogo; chave: CODI_EMP, CODI_SER, I_PIS_COFINS.'
+    tabela: EFSERVICOS_PIS_COFINS
+    chave: [CODI_EMP, CODI_SER, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SER, asc]
+    - [I_PIS_COFINS, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_servico: CODI_SER, sequencial: I_PIS_COFINS, cst: CST, natureza_da_receita: NATUREZA_RECEITA, valor_contabil: VALOR_CONTABIL,
+      exclusoes: EXCLUSOES, base_de_calculo: BASE_CALCULO, aliquota_do_pis: ALIQUOTA_PIS, aliquota_da_cofins: ALIQUOTA_COFINS, quantidade_tributada: QUANTIDADE_TRIBUTADA,
+      valor_por_unidade_do_pis_por_unidade_de: VALOR_UNIDADE_MEDIDA_PIS, valor_por_unidade_da_cofins_por_unidade: VALOR_UNIDADE_MEDIDA_COFINS, valor_do_pis: VALOR_PIS,
+      valor_da_cofins: VALOR_COFINS, exclusao_cooperativa: EXCLUSAO_COOPERATIVA, percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS,
+      codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS, codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS, codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS,
+      codigo_do_beneficio_dirbi: CODIGO_BENEFICIO_DIRBI, calcular_reducao_linear_lc224: CALCULAR_REDUCAO_LINEAR_LC224}
+    vinculos:
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita: codigo, cst: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+    filtros:
+      codigo_do_servico:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_beneficio_dirbi:
+        coluna: CODIGO_BENEFICIO_DIRBI
+        ops: [eq, in]
+      calcular_reducao_linear_lc224:
+        coluna: CALCULAR_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 364.701 linhas, 427 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): codigo_sequencial_do_recolhimento_do_pis, codigo_sequencial_do_recolhimento_do_cof,
+        codigo_do_beneficio_dirbi.', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA): 0 de 57 linhas sem registro relacionado (empresa 266).']
+  efservicos_efd_reinf:
+    titulo: Notas Fiscais de Serviço - EFD Reinf
+    descricao: 'Notas Fiscais de Serviço - EFD Reinf. 107.871 linhas no catálogo; chave: CODI_EMP, CODI_SER.'
+    tabela: EFSERVICOS_EFD_REINF
+    chave: [CODI_EMP, CODI_SER]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SER, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, tipo_de_servico: TIPO_SERVICO, indicativo_de_prestacao_de_servico: INDICATIVO_PRESTACAO_SERVICOS, possui_paj: POSSUI_PAJ_SER}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      tipo_de_servico:
+        coluna: TIPO_SERVICO
+        ops: [eq, in]
+      possui_paj:
+        coluna: POSSUI_PAJ_SER
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 107.894 linhas, 72 empresa(s).']
+  efservicos_observacao_fisco:
+    titulo: Notas Fiscais de Serviços - Observação de interesse do fisco
+    descricao: 'Notas Fiscais de Serviços - Observação de interesse do fisco. 24.222 linhas no catálogo; chave: CODI_EMP, CODI_SER, I_SEQUENCIAL_FISCO.'
+    tabela: EFSERVICOS_OBSERVACAO_FISCO
+    chave: [CODI_EMP, CODI_SER, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SER, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, sequencial: I_SEQUENCIAL_FISCO, codigo_da_observacao: I_OBSERVACAO_FISCO, descricao_da_observacao: DESCRICAO_FISCO}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_FISCO
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 24.248 linhas, 152 empresa(s).']
+  efservicos_inss_rb:
+    titulo: Notas Fiscais de Serviço - INSS Receita Bruta
+    descricao: 'Notas Fiscais de Serviço - INSS Receita Bruta. 21.363 linhas no catálogo; chave: CODI_EMP, CODI_SER.'
+    tabela: EFSERVICOS_INSS_RB
+    chave: [CODI_EMP, CODI_SER]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SER, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, valor_contabil: VALOR_CONTABIL_INSS_RB, deducoes: DEDUCOES_INSS_RB, receita_bruta: RECEITA_BRUTA_INSS_RB, valor_desonerada: DESONERADA_INSS_RB,
+      valor_nao_desonerada: NAO_DESONERADA_INSS_RB, valor_total: TOTAL_INSS_RB, receita_bruta_reinf: RECEITA_BRUTA_TOTAL_REINF, desconto_reinf: DESCONTO_REINF, valor_desonerada_reinf: DESONERADA_INSS_RB_REINF,
+      valor_nao_desonerada_reinf: NAO_DESONERADA_INSS_RB_REINF, valor_total_reinf: TOTAL_INSS_RB_REINF}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21.369 linhas, 398 empresa(s).']
+  efservicos_inss_rb_atividades:
+    titulo: Notas Fiscais de Serviço - INSS Receita Bruta - Receitas por Atividade
+    descricao: 'Notas Fiscais de Serviço - INSS Receita Bruta - Receitas por Atividade. 5.897 linhas no catálogo; chave: CODI_EMP, CODI_SER, I_SEQUENCIAL.'
+    tabela: EFSERVICOS_INSS_RB_ATIVIDADES
+    chave: [CODI_EMP, CODI_SER, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SER, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, sequencial: I_SEQUENCIAL, codigo_da_atividade: I_ATIVIDADE, aliquota: ALIQUOTA, receita_bruta: RECEITA_BRUTA, receita_bruta_reinf: RECEITA_BRUTA_TOTAL_REINF,
+      desconto_reinf: DESCONTO_REINF, ipi_reinf: IPI_REINF, icms_st_reinf: ICMS_ST_REINF, codigo_cno: I_CNO, dispensa_cno: DISPENSA_CNO}
+    vinculos:
+      eftabela_atividade_servi:
+        tabela: EFTABELA_ATIVIDADE_SERVICO_FOLHA
+        liga: {i_atividade: i_atividade}
+        colunas: {eftabela_atividade_servi_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      codigo_cno:
+        coluna: I_CNO
+        ops: [eq, in]
+      dispensa_cno:
+        coluna: DISPENSA_CNO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.898 linhas, 4 empresa(s).', 'Vínculo eftabela_atividade_servi (EFTABELA_ATIVIDADE_SERVICO_FOLHA): 0 de 512 linhas sem registro
+        relacionado (empresa 1046).']
+  efservicos_valor_presente_provisao:
+    titulo: Notas Fiscais de Servico - Valor Presente Provisao
+    descricao: 'Notas Fiscais de Servico - Valor Presente Provisao. 66 linhas no catálogo; chave: CODI_EMP, CODI_SER, DATA_PROVISAO.'
+    tabela: EFSERVICOS_VALOR_PRESENTE_PROVISAO
+    chave: [CODI_EMP, CODI_SER, DATA_PROVISAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [CODI_SER, asc]
+    - [DATA_PROVISAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_nota_de_servico: CODI_SER, data_da_provisao: DATA_PROVISAO, data_do_lancamento: DATA_LANCAMENTO, numero_de_dias: NUMERO_DIAS,
+      valor_presente: VALOR_PRESENTE, valor_da_taxa: VALOR_TAXA, valor_de_juros: VALOR_JUROS, valor_de_devolucao: VALOR_DEVOLUCAO, valor_futuro: VALOR_FUTURO, valor_de_saldo_juros: VALOR_SALDO_JUROS}
+    filtros:
+      codigo_da_nota_de_servico:
+        coluna: CODI_SER
+        ops: [eq, in]
+      data_da_provisao:
+        coluna: DATA_PROVISAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 66 linhas, 3 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2017-10-31.']
+  efservicos_iva_ibs:
+    titulo: Notas Fiscais de Serviços - IVA IBS
+    descricao: 'Notas Fiscais de Serviços - IVA IBS. 23 linhas no catálogo; chave: CODI_EMP, CODI_SER.'
+    tabela: EFSERVICOS_IVA_IBS
+    chave: [CODI_EMP, CODI_SER]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SER, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, cclasstrib: I_CCLASSTRIB, cst: CST, base_de_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor: VALOR}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas, 1 empresa(s).']
+  efservicos_iva_cbs:
+    titulo: Notas Fiscais de Serviços - IVA CBS
+    descricao: 'Notas Fiscais de Serviços - IVA CBS. 23 linhas no catálogo; chave: CODI_EMP, CODI_SER.'
+    tabela: EFSERVICOS_IVA_CBS
+    chave: [CODI_EMP, CODI_SER]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SER, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, cclasstrib: I_CCLASSTRIB, cst: CST, base_de_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor: VALOR}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas, 1 empresa(s).']
+  efservicos_info_comp_fisco:
+    titulo: Notas Fiscais de Serviços - Informação complementar de interesse do fisco
+    descricao: 'Notas Fiscais de Serviços - Informação complementar de interesse do fisco. 2 linhas no catálogo; chave: CODI_EMP, CODI_SER, I_SEQUENCIAL_FISCO.'
+    tabela: EFSERVICOS_INFO_COMP_FISCO
+    chave: [CODI_EMP, CODI_SER, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SER, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, sequencial: I_SEQUENCIAL_FISCO, codigo_da_informacao_complementar: I_INFO_COMP_FISCO, descricao_da_informacao_complementar: DESCRICAO_FISCO}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_informacao_complementar:
+        coluna: I_INFO_COMP_FISCO
+        ops: [eq, in]
+      descricao_da_informacao_complementar:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_informacao_complementar.']
+  efservicos_observacao_contrib:
+    titulo: Notas Fiscais de Serviços - Obseração de interesse do contribuinte
+    descricao: 'Notas Fiscais de Serviços - Obseração de interesse do contribuinte. 1 linhas no catálogo; chave: CODI_EMP, CODI_SER, I_SEQUENCIAL_CONTRIB.'
+    tabela: EFSERVICOS_OBSERVACAO_CONTRIB
+    chave: [CODI_EMP, CODI_SER, I_SEQUENCIAL_CONTRIB]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SER, asc]
+    - [I_SEQUENCIAL_CONTRIB, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, sequencial: I_SEQUENCIAL_CONTRIB, codigo_da_observacao: I_OBSERVACAO_CONTRIB, descricao_da_observacao: DESCRICAO_CONTRIB}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTRIB
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_CONTRIB
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_CONTRIB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).']

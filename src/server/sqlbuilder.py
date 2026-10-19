@@ -12,6 +12,7 @@ import re
 import yaml
 
 RAIZ = pathlib.Path(__file__).resolve().parents[2]
+_CARREGADOR = getattr(yaml, "CSafeLoader", yaml.SafeLoader)      # libyaml em C quando disponível: o carregamento do modelo cai de ~7 s para ~1 s
 MODULOS = RAIZ / "src" / "model" / "modulos"
 OWNER = "bethadba"
 LIMITE_PADRAO, LIMITE_MAXIMO = 50, 500
@@ -26,10 +27,13 @@ def carregar_modelo() -> tuple[dict, dict]:
     """Devolve (entidades, dominios) de todos os módulos."""
     ents, doms = {}, {}
     for arq in sorted(MODULOS.glob("*.yaml")):
-        d = yaml.safe_load(arq.read_text(encoding="utf-8"))
+        txt = arq.read_text(encoding="utf-8")
+        d = yaml.load(txt, Loader=_CARREGADOR)
+        gerado = "Gerado em lote" in txt[:200]      # módulos gerados por scripts/mapear_lote.py (regras = fatos medidos, sem curadoria)
         doms.update(d.get("dominios", {}))
         for n, e in d.get("entidades", {}).items():
             e["_modulo"] = d["modulo"]
+            e["_gerada"] = gerado
             ents[n] = e
     return ents, doms
 
@@ -51,16 +55,18 @@ def _escape_like(v: str) -> str:
 def _condicao(expr: str, op: str, valor, params: list) -> str:
     if op == "eq":
         params.append(valor); return f"{expr} = ?"
-    if op == "in":
+    if op in ("in", "in_pad"):           # in_pad = lista já expandida pelo motor com as variantes de brancos de CHAR (até 3 por valor pedido)
         if not isinstance(valor, (list, tuple)) or not valor:
             raise ErroConsulta("operador 'in' exige lista não vazia")
-        if len(valor) > 500:
+        if len(valor) > (500 if op == "in" else 1500):
             raise ErroConsulta("operador 'in' aceita no máximo 500 valores")
         params.extend(valor); return f"{expr} IN ({','.join('?' * len(valor))})"
     if op == "entre":
         if not isinstance(valor, (list, tuple)) or len(valor) != 2:
             raise ErroConsulta("operador 'entre' exige [inicio, fim]")
         params.extend(valor); return f"{expr} BETWEEN ? AND ?"
+    if op == "branco":
+        return f"TRIM({expr}) = ''"
     if op == "gte":
         params.append(valor); return f"{expr} >= ?"
     if op == "lte":
@@ -142,12 +148,8 @@ def montar_contas_a_receber(escritorio: int, *, vencimento_de=None, vencimento_a
     return sql, params
 
 
-def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offset=0,
-           ordem=None, vinculos=True, contar=False) -> tuple[str, list]:
-    """filtros = {nome_filtro: (op, valor)}  ou  {'empresa': valor}  ou  {'periodo': (op, valor)}.
-
-    Retorna (sql, params). Lança ErroConsulta se faltar filtro obrigatório ou algo for inválido.
-    """
+def _preparar(ent: dict, filtros: dict):
+    """Valida os filtros obrigatórios e monta (tabela, joins, where, params, usar_vinculo). Compartilhado por montar() e montar_agregado()."""
     ac = ent.get("acesso", {})
     emp_col = ac.get("empresa")
     if emp_col and "empresa" not in filtros:
@@ -175,10 +177,8 @@ def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offs
         if nome == "empresa":
             continue
         op, val = spec
-        if nome == "periodo":
-            per = ac.get("periodo")
-            if not per:
-                raise ErroConsulta("esta entidade não tem coluna de período")
+        if nome == "periodo" and ac.get("periodo"):
+            per = ac["periodo"]
             if isinstance(per, dict):
                 usar_vinculo(per["vinculo"])
                 expr = f"v_{per['vinculo']}.{_ident(per['coluna'])}"
@@ -188,7 +188,7 @@ def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offs
             f = ent.get("filtros", {}).get(nome)
             if not f:
                 raise ErroConsulta(f"filtro desconhecido: {nome}")
-            if op not in f["ops"]:
+            if op not in f["ops"] and not (op == "branco" and "eq" in f["ops"]) and not (op == "in_pad" and ("eq" in f["ops"] or "in" in f["ops"])):
                 raise ErroConsulta(f"operador '{op}' não permitido em '{nome}' (permitidos: {f['ops']})")
             if isinstance(f["coluna"], list):       # várias colunas: a condição vale em QUALQUER uma (OR)
                 partes = [_condicao(f"t.{_ident(c)}", op, val, params) for c in f["coluna"]]
@@ -196,6 +196,18 @@ def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offs
                 continue
             expr = f"t.{_ident(f['coluna'])}"
         where.append(_condicao(expr, op, val, params))
+
+    return tabela, joins, where, params, usar_vinculo
+
+
+def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offset=0,
+           ordem=None, vinculos=True, contar=False) -> tuple[str, list]:
+    """filtros = {nome_filtro: (op, valor)}  ou  {'empresa': valor}  ou  {'periodo': (op, valor)}.
+
+    Retorna (sql, params). Lança ErroConsulta se faltar filtro obrigatório ou algo for inválido.
+    """
+    tabela, joins, where, params, usar_vinculo = _preparar(ent, filtros)
+    ac = ent.get("acesso", {})
 
     if contar:
         sql = f"SELECT COUNT(*) AS total FROM {OWNER}.{tabela} t " + " ".join(joins)
@@ -252,3 +264,65 @@ def montar(ent: dict, filtros: dict, *, colunas=None, limite=LIMITE_PADRAO, offs
     if not contar:
         sql += " ORDER BY " + order
     return re.sub(r"\s+", " ", sql).strip(), params
+
+
+# ------------------------------------------------------------------------------------------------ agregação (totais por grupo)
+FUNCOES_AGREGADAS = {"soma": "SUM", "media": "AVG", "minimo": "MIN", "maximo": "MAX"}
+GRANULARIDADES = {"mes": "YYYY-MM", "ano": "YYYY", "dia": "YYYY-MM-DD"}
+
+
+def montar_agregado(ent: dict, filtros: dict, *, agrupar: list[tuple[str, str | None]], metricas: list[tuple[str, str]], limite: int = LIMITE_PADRAO,
+                    ordem_desc: bool = False) -> tuple[str, list]:
+    """SELECT agregado: `agrupar` = [(campo_api, granularidade|None)], `metricas` = [(funcao, campo_api)] (+ sempre COUNT(*) AS linhas). Sem agrupar = um total geral.
+    Os campos vêm do modelo; as funções e granularidades de listas fechadas; os valores dos filtros como parâmetros."""
+    tabela, joins, where, params, _ = _preparar(ent, filtros)
+    reais = {api: _real(v) for api, v in ent["colunas"].items()}
+    sel, grp = [], []
+    for api, gran in agrupar:
+        if api not in reais:
+            raise ErroConsulta(f"campo de agrupamento desconhecido: {api}")
+        expr = f"t.{_ident(reais[api])}"
+        if gran:
+            if gran not in GRANULARIDADES:
+                raise ErroConsulta(f"granularidade desconhecida: {gran} (use mes, ano ou dia)")
+            expr = f"DATEFORMAT({expr}, '{GRANULARIDADES[gran]}')"
+        sel.append(f"{expr} AS {_ident(api)}")
+        grp.append(expr)
+    sel.append("COUNT(*) AS linhas")
+    for fn, api in metricas:
+        if fn not in FUNCOES_AGREGADAS:
+            raise ErroConsulta(f"função desconhecida: {fn} (use {', '.join(FUNCOES_AGREGADAS)})")
+        if api not in reais:
+            raise ErroConsulta(f"campo de métrica desconhecido: {api}")
+        sel.append(f"{FUNCOES_AGREGADAS[fn]}(t.{_ident(reais[api])}) AS {_ident(fn + '_' + api)}")
+    limite = max(1, min(int(limite or LIMITE_PADRAO), LIMITE_MAXIMO))
+    sql = f"SELECT TOP {limite} " + ", ".join(sel) + f" FROM {OWNER}.{tabela} t " + " ".join(joins)
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    if grp:
+        sql += " GROUP BY " + ", ".join(grp) + " ORDER BY " + ", ".join(f"{i + 1} {'DESC' if ordem_desc else 'ASC'}" for i in range(len(grp)))
+    return re.sub(r"\s+", " ", sql).strip(), params
+
+
+_NAO_SOMAVEL = re.compile(r"(^|_)(numero|codigo|serie|sequencial|sequencia|chave|ordem|ano|mes|dia|cnpj|cpf|cep|telefone|ddd|nsu|protocolo|ibge|competencia|versao|"
+                          r"aliquota|taxa|percentual|perc|fator|coeficiente|indice|cae|cnae|data|numerica|reducao|cadbases|cst|cfop|ncm|id|conta|grupo|parcelar|flag|tipo)(_|$)")
+_SOMAVEL = re.compile(r"valor|saldo|total|base|quant|qtd|montante|preco|custo|receita|despesa|credito|debito|imposto|juros|multa|desconto|dias|horas|retid|pago|apurad|devido|liquido|bruto|"
+                      r"lucro|prejuizo|faturamento|rendimento|salario|remuneracao|provento|encargo|tarifa|abatimento|deducao|acrescimo|ressarcimento|estoque|contabil|produtos|frete|seguro")
+
+
+_FORTE_SOMAVEL = re.compile(r"(^|_)(valor|valores|saldo|total|quantidade|qtd|dias|horas)(_|$)")
+
+
+def campos_somaveis(ent: dict, colunas_catalogo: dict[str, dict]) -> list[str]:
+    """Campos da entidade que somam com sentido: numéricos cujo nome indica valor/quantidade (valor, saldo, total, base, dias...) e que não são chave, código com domínio,
+    identificador (número, série, sequencial...), alíquota/percentual, data serial ou código fiscal. `colunas_catalogo` = {coluna_em_minusculas: {"tipo": ...}}."""
+    chave = {c.lower() for c in ent["chave"]}
+    out = []
+    for api, v in ent["colunas"].items():
+        real = _real(v).lower()
+        c = colunas_catalogo.get(real)
+        if not c or real in chave or (isinstance(v, dict) and v.get("dominio")) or not (_FORTE_SOMAVEL.search(api) or (_SOMAVEL.search(api) and not _NAO_SOMAVEL.search(api))):
+            continue
+        if (c.get("tipo") or "").lower().startswith(("decimal", "numeric", "double", "float", "real", "money", "integer", "smallint", "bigint")):
+            out.append(api)
+    return out

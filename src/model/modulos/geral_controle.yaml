@@ -1,0 +1,95 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_controle
+titulo: Geral - controle (rascunho em lote)
+dominios:
+  gecontrole_execucao_threads_executou_co:
+    confirmado: true
+    nota: 'Todos os valores observados em GECONTROLE_EXECUCAO_THREADS.EXECUTADA_COM_SUCESSO estão no comentário do banco (2026-10-18). Distribuição: 1=2.'
+    valores: {'1': Sim, '0': Não}
+entidades:
+  gecontrole_acessos_nao_permitidos:
+    titulo: Controle de acessos excedentes ao contrato
+    descricao: 'Controle de acessos excedentes ao contrato. 272 linhas no catálogo; chave: I_ACESSO.'
+    tabela: GECONTROLE_ACESSOS_NAO_PERMITIDOS
+    chave: [I_ACESSO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ACESSO, asc]
+    colunas: {i_acesso: I_ACESSO}
+    filtros:
+      i_acesso:
+        coluna: I_ACESSO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 272 linhas.']
+  gecontrole_execucao_threads:
+    titulo: Controle de execução de threads ao abrir o sistema
+    descricao: 'Controle de execução de threads ao abrir o sistema. 2 linhas no catálogo; chave: ID_THREAD.'
+    tabela: GECONTROLE_EXECUCAO_THREADS
+    chave: [ID_THREAD]
+    acesso: {empresa: null, periodo: DATA_ULTIMA_EXECUCAO, volume: pequeno}
+    ordem:
+    - [DATA_ULTIMA_EXECUCAO, desc]
+    - [ID_THREAD, asc]
+    colunas:
+      codigo_identificador_da_thread: ID_THREAD
+      executou_com_sucesso_1_sim_0_nao: {coluna: EXECUTADA_COM_SUCESSO, dominio: gecontrole_execucao_threads_executou_co}
+      data_da_ultima_execucao: DATA_ULTIMA_EXECUCAO
+    filtros:
+      codigo_identificador_da_thread:
+        coluna: ID_THREAD
+        ops: [eq, in]
+      data_da_ultima_execucao:
+        coluna: DATA_ULTIMA_EXECUCAO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 2 linhas, DATA_ULTIMA_EXECUCAO de 2026-10-16 a 2026-10-16.', 'executou_com_sucesso_1_sim_0_nao: todos os valores reais estão no
+        comentário do banco (1=2).']
+  gecontrole_imposto_retido:
+    titulo: Controle do recolhimento do imposto retido - IRRF
+    descricao: 'Controle do recolhimento do imposto retido - IRRF. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONTROLE_IMPOSTO_RETIDO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, c_0_nao_deve_mostrar_mensagem_na_abertur: MENSAGEM_IMPOSTO_RETIDO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      c_0_nao_deve_mostrar_mensagem_na_abertur:
+        coluna: MENSAGEM_IMPOSTO_RETIDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gecontrole_gestta_processos:
+    titulo: Controla Ativação do gestta processos
+    descricao: 'Controla Ativação do gestta processos. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONTROLE_GESTTA_PROCESSOS
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATAHORA_INCLUSAO, volume: pequeno}
+    ordem:
+    - [DATAHORA_INCLUSAO, desc]
+    - [CODIGO, asc]
+    colunas: {campo_criado_para_utilizar_o_update_no_c: CODIGO, data_e_hora_que_o_registro_foi_criado: DATAHORA_INCLUSAO, ja_utilizou_gestta: JA_UTILIZOU_GESTTA}
+    filtros:
+      campo_criado_para_utilizar_o_update_no_c:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_e_hora_que_o_registro_foi_criado:
+        coluna: DATAHORA_INCLUSAO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATAHORA_INCLUSAO de 2021-09-09 a 2021-09-09.']
+  gecontrole_dominio_processos:
+    titulo: Controla se o escritorio possui ou não permissão para utilizar o Domínio Processos
+    descricao: 'Controla se o escritorio possui ou não permissão para utilizar o Domínio Processos. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONTROLE_DOMINIO_PROCESSOS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, c_1_erro_na_requisiaao_0_nao_possui_aces: TEM_PERMISSAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

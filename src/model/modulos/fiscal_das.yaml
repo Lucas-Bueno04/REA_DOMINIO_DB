@@ -1,0 +1,29 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_das
+titulo: Fiscal - das (rascunho em lote)
+entidades:
+  efdas_api_envio_arquivos_json:
+    titulo: DAS Api - Envio dos Arquivos - JSON
+    descricao: 'DAS Api - Envio dos Arquivos - JSON. 25.498 linhas no catálogo; chave: CODI_EMP, I_ENVIO, TIPO_ARQUIVO.'
+    tabela: EFDAS_API_ENVIO_ARQUIVOS_JSON
+    chave: [CODI_EMP, I_ENVIO, TIPO_ARQUIVO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [TIPO_ARQUIVO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, tipo_do_arquivo: TIPO_ARQUIVO}
+    vinculos:
+      efdas_api_envio_arquivos:
+        tabela: EFDAS_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {efdas_api_envio_arquivos_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      tipo_do_arquivo:
+        coluna: TIPO_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 25.688 linhas, 257 empresa(s).', 'Vínculo efdas_api_envio_arquivos (EFDAS_API_ENVIO_ARQUIVOS): 0 de 106 linhas sem registro relacionado
+        (empresa 1259).']

@@ -1,0 +1,415 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_memoria
+titulo: Pessoal - memoria (rascunho em lote)
+dominios:
+  fomemoria_calculo_diferenca_salario_considerar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA_SALARIO.CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=43.542, 1=9.838.'
+    valores: {'0': Não, '1': Sim}
+  fomemoria_calculo_diferenca_salario_rubrica_ref:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA_SALARIO.DIFERENCA_CCT_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=46.187,
+      1=7.193.'
+    valores: {'0': Não, '1': Sim}
+  fomemoria_calculo_diferenca_calculo_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA.DIFERENCA_CCT estão no comentário do banco (2026-10-18). Distribuição: 0=24.123, 1=1.994.'
+    valores: {'0': Não, '1': Sim}
+  fomemoria_calculo_diferenca_diferenca_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA.ANTECIPACAO_SALARIAL estão no comentário do banco (2026-10-18). Distribuição: 0=26.117.'
+    valores: {'0': Não, '1': Sim}
+  fomemoria_calculo_diferenca_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=26.117.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de leiaute, '3': Conversão}
+  fomemoria_calculo_diferenca_salarial_cct_esocial_considerar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMEMORIA_CALCULO_DIFERENCA_SALARIAL_CCT_ESOCIAL.CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL estão no comentário do banco (2026-10-18).
+      Distribuição: 1=1.678.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  fomemoria_calculo_inss:
+    titulo: Memória de cálculo do INSS
+    descricao: 'Memória de cálculo do INSS. 1.167.319 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS,
+      SEQUENCIAL, I_CALCULOS.'
+    tabela: FOMEMORIA_CALCULO_INSS
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS, SEQUENCIAL, I_CALCULOS]
+    acesso:
+      empresa: CODI_EMP
+      periodo: COMPETENCIA
+      exige_algum: [codigo_do_empregado]
+      volume: grande
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: COMPETENCIA, tipo_de_processo: TIPO_PROCESSO, codigo_da_rubrica: I_EVENTOS,
+      rateio: RATEIO, codigo_do_servico: I_SERVICOS, sequencial: SEQUENCIAL, codigo_do_calculo: I_CALCULOS, codigo_do_calculo_renomeado: I_CALCULOS_OLD, tipo_de_descricao_valor: TIPO,
+      descricao: DESCRICAO, valor: VALOR}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_processo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_da_rubrica:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      tipo_de_descricao_valor:
+        coluna: TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.167.365 linhas, 352 empresa(s), COMPETENCIA de 2020-03-01 a 2026-11-30.']
+  fomemoria_calculo_diferenca_salario_bases:
+    titulo: Memória de cálculo de diferença de salário - Bases de cálculo
+    descricao: 'Memória de cálculo de diferença de salário - Bases de cálculo. 419.415 linhas no catálogo; chave: I_CADBASES, I_SERVICOS, RATEIO, I_CALCULOS_AJUSTADO,
+      I_CALCULOS_DIFERENCA.'
+    tabela: FOMEMORIA_CALCULO_DIFERENCA_SALARIO_BASES
+    chave: [I_CADBASES, I_SERVICOS, RATEIO, I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA]
+    acesso:
+      empresa: null
+      volume: medio
+      exige_algum: [codigo_do_calculo_da_diferenca, codigo_do_calculo_ajustado]
+    ordem:
+    - [I_CADBASES, asc]
+    - [I_SERVICOS, asc]
+    colunas: {codigo_da_base_de_calculo: I_CADBASES, servico: I_SERVICOS, rateio: RATEIO, codigo_do_calculo_ajustado: I_CALCULOS_AJUSTADO, codigo_do_calculo_da_diferenca: I_CALCULOS_DIFERENCA,
+      codigo_do_calculo_da_diferenca_renomeado: I_CALCULOS_DIFERENCA_OLD, codigo_do_calculo_ajustado_renomeado: I_CALCULOS_AJUSTADO_OLD, base_ajustada: BASE, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      valor_da_base_ajustada: VALOR, codigo_da_forma_de_ajuste_conforme_parce: I_FORMA_AJUSTE_PARCELAMENTO}
+    filtros:
+      codigo_da_base_de_calculo:
+        coluna: I_CADBASES
+        ops: [eq, in]
+      servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_calculo_ajustado:
+        coluna: I_CALCULOS_AJUSTADO
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca:
+        coluna: I_CALCULOS_DIFERENCA
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca_renomeado:
+        coluna: I_CALCULOS_DIFERENCA_OLD
+        ops: [eq, in]
+      codigo_do_calculo_ajustado_renomeado:
+        coluna: I_CALCULOS_AJUSTADO_OLD
+        ops: [eq, in]
+      codigo_da_forma_de_ajuste_conforme_parce:
+        coluna: I_FORMA_AJUSTE_PARCELAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 419.415 linhas.']
+  fomemoria_calculo_salario_proporcional:
+    titulo: Memória de cálculo do salário proporcional.
+    descricao: 'Memória de cálculo do salário proporcional.. 129.546 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_SERVICOS, RATEIO,
+      SEQUENCIAL, I_CALCULOS.'
+    tabela: FOMEMORIA_CALCULO_SALARIO_PROPORCIONAL
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_SERVICOS, RATEIO, SEQUENCIAL, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_REDUCAO, volume: medio}
+    ordem:
+    - [DATA_INICIO_REDUCAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [COMPETENCIA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia: COMPETENCIA
+      tipo_da_folha: TIPO_PROCESSO
+      codigo_do_servico: I_SERVICOS
+      rateio_do_servico: RATEIO
+      codigo_sequencial: SEQUENCIAL
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      data_de_inicio_do_periodo: PERIODO_INICIO
+      data_de_fim_do_periodo: PERIODO_FIM
+      quantidade_de_dias_no_mes: DIAS_MES
+      quantidade_de_dias_proporcionais: DIAS_PROPORCIONAL
+      valor_do_salario_base_para_calculo: {coluna: SALARIO_BASE_CALCULO, sensivel: financeiro}
+      valor_proporcional: VALOR_PROPORCIONAL
+      valor_do_percentual_de_reducao: REDUCAO
+      data_de_inicio_da_reducao: DATA_INICIO_REDUCAO
+      data_final_da_reducao: DATA_FIM_REDUCAO
+      tipo_de_calculo_1_integral_2_com_reducao: TIPO_CALCULO
+      tipo_de_memoria_de_calculo_1_salario_2_s: {coluna: TIPO_SALARIO, sensivel: financeiro}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_da_folha:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio_do_servico:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      data_de_inicio_do_periodo:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      data_de_fim_do_periodo:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      data_de_inicio_da_reducao:
+        coluna: DATA_INICIO_REDUCAO
+        ops: [entre, gte, lte]
+      data_final_da_reducao:
+        coluna: DATA_FIM_REDUCAO
+        ops: [entre, gte, lte]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      tipo_de_calculo_1_integral_2_com_reducao:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      tipo_de_memoria_de_calculo_1_salario_2_s:
+        coluna: TIPO_SALARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 129.576 linhas, 541 empresa(s), DATA_INICIO_REDUCAO de 2020-04-01 a 2021-07-17.']
+  fomemoria_calculo_diferenca_salario:
+    titulo: MEMÓRIA DE CÁLCULO DE DIFERENÇA DE SALÁRIO
+    descricao: 'MEMÓRIA DE CÁLCULO DE DIFERENÇA DE SALÁRIO. 53.380 linhas no catálogo; chave: I_EVENTOS, I_SERVICOS, RATEIO, I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA.'
+    tabela: FOMEMORIA_CALCULO_DIFERENCA_SALARIO
+    chave: [I_EVENTOS, I_SERVICOS, RATEIO, I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EVENTOS, asc]
+    - [I_SERVICOS, asc]
+    colunas:
+      codigo_do_evento: I_EVENTOS
+      servico: I_SERVICOS
+      rateio: RATEIO
+      codigo_do_calculo_ajustado: I_CALCULOS_AJUSTADO
+      codigo_do_calculo_da_diferenca: I_CALCULOS_DIFERENCA
+      codigo_do_calculo_da_diferenca_renomeado: I_CALCULOS_DIFERENCA_OLD
+      codigo_do_calculo_ajustado_renomeado: I_CALCULOS_AJUSTADO_OLD
+      codigo_da_empresa: CODI_EMP
+      valor_do_evento_ajustado: {coluna: VALOR, sensivel: financeiro}
+      codigo_da_forma_de_ajuste_conforme_parce: I_FORMA_AJUSTE_PARCELAMENTO
+      considerar_para_a_remuneracao_do_esocial: {coluna: CONSIDERAR_REMUNERACAO_ESOCIAL, dominio: fomemoria_calculo_diferenca_salario_considerar_}
+      considerar_para_a_retencao_de_pagamentos: {coluna: CONSIDERAR_RETENCAO_PAGAMENTO_ESOCIAL, dominio: fomemoria_calculo_diferenca_salario_considerar_}
+      considerar_para_a_remuneracao_para_compo: {coluna: CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL, dominio: fomemoria_calculo_diferenca_salario_considerar_}
+      rubrica_referente_a_convencao_coletiva_d: {coluna: DIFERENCA_CCT_ESOCIAL, dominio: fomemoria_calculo_diferenca_salario_rubrica_ref}
+      codigo_do_calculo_do_pagamento_do_adicio: I_CALCULOS_PAGAMENTO_ADICIONAL_MP_927_OLD
+    filtros:
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_calculo_ajustado:
+        coluna: I_CALCULOS_AJUSTADO
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca:
+        coluna: I_CALCULOS_DIFERENCA
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca_renomeado:
+        coluna: I_CALCULOS_DIFERENCA_OLD
+        ops: [eq, in]
+      codigo_do_calculo_ajustado_renomeado:
+        coluna: I_CALCULOS_AJUSTADO_OLD
+        ops: [eq, in]
+      codigo_da_forma_de_ajuste_conforme_parce:
+        coluna: I_FORMA_AJUSTE_PARCELAMENTO
+        ops: [eq, in]
+      codigo_do_calculo_do_pagamento_do_adicio:
+        coluna: I_CALCULOS_PAGAMENTO_ADICIONAL_MP_927_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 53.380 linhas, 206 empresa(s).', 'considerar_para_a_remuneracao_do_esocial: todos os valores reais estão no comentário do banco
+        (0=38.331, 1=15.049).', 'considerar_para_a_retencao_de_pagamentos: todos os valores reais estão no comentário do banco (0=53.380).', 'considerar_para_a_remuneracao_para_compo:
+        todos os valores reais estão no comentário do banco (0=43.542, 1=9.838).', 'rubrica_referente_a_convencao_coletiva_d: todos os valores reais estão no comentário
+        do banco (0=46.187, 1=7.193).']
+  fomemoria_calculo_diferenca:
+    titulo: Memória de cálculo do cálculo da diferença
+    descricao: 'Memória de cálculo do cálculo da diferença. 26.117 linhas no catálogo; chave: I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA.'
+    tabela: FOMEMORIA_CALCULO_DIFERENCA
+    chave: [I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [I_CALCULOS_AJUSTADO, asc]
+    - [I_CALCULOS_DIFERENCA, asc]
+    colunas:
+      codigo_do_calculo_ajustado: I_CALCULOS_AJUSTADO
+      codigo_do_calculo_da_diferenca: I_CALCULOS_DIFERENCA
+      codigo_do_calculo_da_diferenca_renomeado: I_CALCULOS_DIFERENCA_OLD
+      codigo_do_calculo_ajustado_renomeado: I_CALCULOS_AJUSTADO_OLD
+      calculo_de_diferenca_cct_0_nao_1_sim: {coluna: DIFERENCA_CCT, dominio: fomemoria_calculo_diferenca_calculo_de_}
+      diferenca_referente_a_antecipacao_salari: {coluna: ANTECIPACAO_SALARIAL, dominio: fomemoria_calculo_diferenca_diferenca_r}
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fomemoria_calculo_diferenca_origem_do_r}
+    filtros:
+      codigo_do_calculo_ajustado:
+        coluna: I_CALCULOS_AJUSTADO
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca:
+        coluna: I_CALCULOS_DIFERENCA
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca_renomeado:
+        coluna: I_CALCULOS_DIFERENCA_OLD
+        ops: [eq, in]
+      codigo_do_calculo_ajustado_renomeado:
+        coluna: I_CALCULOS_AJUSTADO_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 26.117 linhas.', 'calculo_de_diferenca_cct_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=24.123, 1=1.994).',
+      'diferenca_referente_a_antecipacao_salari: todos os valores reais estão no comentário do banco (0=26.117).', 'origem_do_registro_0_sistema_1_importaca: todos
+        os valores reais estão no comentário do banco (0=26.117).']
+  fomemoria_calculo_diferenca_salarial_cct_esocial:
+    titulo: Memória de cálculo do cálculo de diferença salarial CCT com algumas considerações do eSocial
+    descricao: 'Memória de cálculo do cálculo de diferença salarial CCT com algumas considerações do eSocial. 1.678 linhas no catálogo; chave: I_EVENTOS, I_SERVICOS,
+      RATEIO, I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA.'
+    tabela: FOMEMORIA_CALCULO_DIFERENCA_SALARIAL_CCT_ESOCIAL
+    chave: [I_EVENTOS, I_SERVICOS, RATEIO, I_CALCULOS_AJUSTADO, I_CALCULOS_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EVENTOS, asc]
+    - [I_SERVICOS, asc]
+    colunas:
+      codigo_do_evento: I_EVENTOS
+      servico: I_SERVICOS
+      rateio: RATEIO
+      codigo_do_calculo_ajustado: I_CALCULOS_AJUSTADO
+      codigo_do_calculo_da_diferenca: I_CALCULOS_DIFERENCA
+      codigo_do_calculo_da_diferenca_renomeado: I_CALCULOS_DIFERENCA_OLD
+      codigo_do_calculo_ajustado_renomeado: I_CALCULOS_AJUSTADO_OLD
+      codigo_da_empresa: CODI_EMP
+      valor_do_evento_ajustado: {coluna: VALOR, sensivel: financeiro}
+      considerar_para_a_remuneracao_do_esocial: {coluna: CONSIDERAR_REMUNERACAO_ESOCIAL, dominio: fomemoria_calculo_diferenca_salarial_cct_esocial_considerar_}
+      considerar_para_a_retencao_de_pagamentos: {coluna: CONSIDERAR_RETENCAO_PAGAMENTO_ESOCIAL, dominio: fomemoria_calculo_diferenca_salarial_cct_esocial_considerar_}
+      considerar_para_a_remuneracao_para_compo: {coluna: CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL, dominio: fomemoria_calculo_diferenca_salarial_cct_esocial_considerar_}
+    filtros:
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_calculo_ajustado:
+        coluna: I_CALCULOS_AJUSTADO
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca:
+        coluna: I_CALCULOS_DIFERENCA
+        ops: [eq, in]
+      codigo_do_calculo_da_diferenca_renomeado:
+        coluna: I_CALCULOS_DIFERENCA_OLD
+        ops: [eq, in]
+      codigo_do_calculo_ajustado_renomeado:
+        coluna: I_CALCULOS_AJUSTADO_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.678 linhas, 65 empresa(s).', 'considerar_para_a_remuneracao_do_esocial: todos os valores reais estão no comentário do banco
+        (1=1.678).', 'considerar_para_a_retencao_de_pagamentos: todos os valores reais estão no comentário do banco (0=1.678).', 'considerar_para_a_remuneracao_para_compo:
+        todos os valores reais estão no comentário do banco (1=1.678).']
+  fomemoria_calculo_salario_indenizacao_mp_936:
+    titulo: Memória de cálculo da indenização MP 936.
+    descricao: 'Memória de cálculo da indenização MP 936.. 7 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_SERVICOS, RATEIO, SEQUENCIAL,
+      I_CALCULOS.'
+    tabela: FOMEMORIA_CALCULO_SALARIO_INDENIZACAO_MP_936
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_SERVICOS, RATEIO, SEQUENCIAL, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_REDUCAO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_REDUCAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [COMPETENCIA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia: COMPETENCIA
+      tipo_da_folha: TIPO_PROCESSO
+      codigo_do_servico: I_SERVICOS
+      rateio_do_servico: RATEIO
+      codigo_sequencial: SEQUENCIAL
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      data_de_inicio_do_periodo_de_estabilidad: PERIODO_INICIO_ESTABILIDADE
+      data_de_fim_do_periodo_de_estabilidade: PERIODO_FIM_ESTABILIDADE
+      dias_de_estabilidade: DIAS_ESTABILIDADE
+      tipo_de_medida: TIPO_MEDIDA
+      quantidade_de_dias_no_mes: DIAS_MES
+      valor_do_percentual_de_reducao: PERCENTUAL_REDUCAO
+      valor_do_percentual_de_indenizacao: PERCENTUAL_INDENIZACAO
+      valor_do_salario_base_para_calculo: {coluna: SALARIO_BASE_CALCULO, sensivel: financeiro}
+      valor_da_indenizacao: VALOR_INDENIZACAO
+      data_de_inicio_da_reducao: DATA_INICIO_REDUCAO
+      data_final_da_reducao: DATA_FIM_REDUCAO
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_da_folha:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio_do_servico:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      data_de_inicio_do_periodo_de_estabilidad:
+        coluna: PERIODO_INICIO_ESTABILIDADE
+        ops: [entre, gte, lte]
+      data_de_fim_do_periodo_de_estabilidade:
+        coluna: PERIODO_FIM_ESTABILIDADE
+        ops: [entre, gte, lte]
+      data_de_inicio_da_reducao:
+        coluna: DATA_INICIO_REDUCAO
+        ops: [entre, gte, lte]
+      data_final_da_reducao:
+        coluna: DATA_FIM_REDUCAO
+        ops: [entre, gte, lte]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      tipo_de_medida:
+        coluna: TIPO_MEDIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 4 empresa(s), DATA_INICIO_REDUCAO de 2020-07-14 a 2021-05-03.']

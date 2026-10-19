@@ -1,0 +1,668 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_cfg
+titulo: Fiscal - cfg (rascunho em lote)
+dominios:
+  efcfg_importacao_nfe_tipo_de_not:
+    confirmado: true
+    nota: 'Todos os valores observados em efcfg_importacao_nfe.nota estão no comentário do banco (2026-10-18). Distribuição: 3=1.036, 1=1.034, 2=1.034.'
+    valores: {'1': entradas, '2': saidas, '3': servicos}
+  efcfg_importacao_nfe_tipo_nota_i:
+    confirmado: parcial
+    nota: 'Coluna efcfg_importacao_nfe.OBJETO_ISENCAO_IMPORTAR só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do
+      banco.'
+    valores: {P: Conforme padrao do acumulador, I: Informar, N: Nao importar}
+  efcfg_importacao_nfe_servico_pre:
+    confirmado: parcial
+    nota: 'Coluna efcfg_importacao_nfe.SITUACAO_NF_IMPORTAR só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {A: Conforme informacao no arquivo, P: Conforme informacao do acumulador, I: Informar, N: Nao importar}
+  efcfg_importacao_nfe_entradas_parcelas_tipo_de_not:
+    confirmado: true
+    nota: 'Todos os valores observados em EFCFG_IMPORTACAO_NFE_ENTRADAS_PARCELAS.NOTA estão no comentário do banco (2026-10-18). Distribuição: 1=558.'
+    valores: {'1': entradas, '2': saidas, '3': servicos}
+  efcfg_importacao_nfe_servicos_parcelas_tipo_de_not:
+    confirmado: true
+    nota: 'Todos os valores observados em EFCFG_IMPORTACAO_NFE_SERVICOS_PARCELAS.NOTA estão no comentário do banco (2026-10-18). Distribuição: 3=25.'
+    valores: {'1': entradas, '2': saidas, '3': servicos}
+  efcfg_importacao_nfe_saidas_parcelas_tipo_de_not:
+    confirmado: true
+    nota: 'Todos os valores observados em EFCFG_IMPORTACAO_NFE_SAIDAS_PARCELAS.NOTA estão no comentário do banco (2026-10-18). Distribuição: 2=1.'
+    valores: {'1': entradas, '2': saidas, '3': servicos}
+entidades:
+  efcfg_importacao_nfe_acumuladores_entradas_item_servico:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Item serviço
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Item serviço. 5.080 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR, I_ITEM_SERVICO.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_ENTRADAS_ITEM_SERVICO
+    chave: [CODI_EMP, I_ACUMULADOR, I_ITEM_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_ITEM_SERVICO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_do_item_do_servico: I_ITEM_SERVICO, item_do_servico: ITEM_SERVICO}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_do_item_do_servico:
+        coluna: I_ITEM_SERVICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.080 linhas, 350 empresa(s).']
+  efcfg_importacao_nfe:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica. 3.104 linhas no catálogo; chave: codi_emp, nota.'
+    tabela: efcfg_importacao_nfe
+    chave: [codi_emp, nota]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [nota, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      tipo_de_nota_1_entradas_2_saidas_3_servi: {coluna: nota, dominio: efcfg_importacao_nfe_tipo_de_not}
+      codigo_da_especie: tipo_rps
+      tipo_rpsm: tipo_rpsm
+      tipo_rpsc: tipo_rpsc
+      codigo_do_acumulador: situacao_t
+      situacao_i: situacao_i
+      situacao_f: situacao_f
+      situacao_c: situacao_c
+      situacao_e: situacao_e
+      situacao_j: situacao_j
+      codigo_do_acumulador_retido: SITUACAO_T_RETIDO
+      tipo_nota_codigo_da_tabela_municipal: TIPO_NOTA_I_TABELA
+      tipo_nota_valor_do_item: TIPO_NOTA_I_ITEM
+      tipo_nota_importar_p_conforme_padrao_do: {coluna: TIPO_NOTA_IMPORTAR, dominio: efcfg_importacao_nfe_tipo_nota_i}
+      servico_prestado_codigo_da_tabela_munici: SERVICO_PRESTADO_I_TABELA
+      servico_prestado_valor_do_item: SERVICO_PRESTADO_I_ITEM
+      servico_prestado_importar_a_conforme_inf: {coluna: SERVICO_PRESTADO_IMPORTAR, dominio: efcfg_importacao_nfe_servico_pre}
+      situacao_nota_fiscal_codigo_da_tabela_mu: SITUACAO_NF_I_TABELA
+      situacao_nota_fiscal_valor_do_item: SITUACAO_NF_I_ITEM
+      situacao_nf_importar: {coluna: SITUACAO_NF_IMPORTAR, dominio: efcfg_importacao_nfe_servico_pre}
+      objeto_isencao_codigo_da_tabela_municipa: OBJETO_ISENCAO_I_TABELA
+      objeto_isencao_valor_do_item: OBJETO_ISENCAO_I_ITEM
+      objeto_isencao_importar: {coluna: OBJETO_ISENCAO_IMPORTAR, dominio: efcfg_importacao_nfe_tipo_nota_i}
+      codigo_da_especie_do_documento_dispensad: ESPECIE_DOC_DISPENSADO
+      codigo_da_especie_do_documento_autorizad: ESPECIE_DOC_AUTORIZADO
+      codigo_da_especie_do_documento_obrigado: ESPECIE_DOC_OBRIGADO
+      situacao_s: SITUACAO_S
+      situacao_a: SITUACAO_A
+      situacao_b: SITUACAO_B
+      situacao_m: SITUACAO_M
+      situacao_n: SITUACAO_N
+      situacao_x: SITUACAO_X
+      situacao_v: SITUACAO_V
+      situacao_p: SITUACAO_P
+      sobrescrever_movimentos_existentes: SOBRESCREVER_MOVIMENTOS
+      criar_conta_contabil_para_fornecedor_cli: CRIAR_CONTA_FORCLI
+      utilizar_a_mesma_conta_do_grupo_cnpj_do: {coluna: CONTA_MESMO_GRUPO_CNPJ, sensivel: parcial}
+      data_do_cadastro_do_fornecedor_cliente: DATA_CADASTRO_FORCLI
+      formato_de_letras_nos_cadastros: FORMATO_LETRAS_CADASTROS
+      criar_conta_contabil_cliente: CRIAR_CONTA_CLIENTE
+      criar_conta_contabil_fornecedor: CRIAR_CONTA_FORNECEDOR
+      cliente_padrao: CODI_CLI_PADRAO
+      utilizar_o_cliente_padrao: UTILIZAR_CLIENTE_PADRAO
+      importar_o_codigo_do_servico_prestado_pa: IMPORTAR_SERVICO_PRESTADO_NA_OBS
+      gerar_lancamentos_contabeis: GERAR_LANCAMENTOS_CONTABEIS
+      considerar_as_definicoes_do_imposto_iss: CONSIDERAR_ISS_ACUMULADOR
+      considerar_os_impostos_retigos_somente_s: CONSIDERAR_IMPOSTOS_RETIDOS_SOMENTE_ARQUIVO
+      considerar_para_a_data_da_nota: CONSIDERAR_CAMPO_DATA
+      gerar_movimento_de_produtos: GERAR_MOVIMENTO_PRODUTOS
+      codigo_produto_padrao: CODI_PDI_PADRAO
+      definir_acumulador_para_excecao: ACUMULADOR_EXCECAO
+      codigo_do_acumulador_para_excecao: CODI_ACU_EXCECAO
+      gerar_parcelas_nas_notas_fiscais_de_said: GERAR_PARCELAS_SAIDAS
+      gerar_parcelas_nas_notas_fiscais_de_entr: GERAR_PARCELAS_ENTRADAS
+      gerar_parcelas_nas_notas_fiscais_de_serv: GERAR_PARCELAS_SERVICOS
+      se_deve_ter_produto_excecao_dos_itens: ITENS_EXCECAO_ENTRADA
+      itens_excecao_saida: ITENS_EXCECAO_SAIDA
+      itens_excecao_servico: ITENS_EXCECAO_SERVICO
+      codigo_do_produto_excecao_dos_itens: CODI_PDI_EXCECAO_ENTRADA
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, situacao_f: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efespecies:
+        tabela: efespecies
+        liga: {tipo_rps: codi_esp}
+        colunas: {efespecies_nome: nome_esp}
+      eftabelamuni_itens:
+        tabela: eftabelamuni_itens
+        liga: {tipo_nota_i_tabela: i_tabela, tipo_nota_i_item: i_item}
+        colunas: {eftabelamuni_itens_nome: descricao}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi_excecao_entrada: codi_pdi}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      tipo_de_nota_1_entradas_2_saidas_3_servi:
+        coluna: nota
+        ops: [eq, in]
+      codigo_da_especie:
+        coluna: tipo_rps
+        ops: [eq, in]
+      tipo_rpsm:
+        coluna: tipo_rpsm
+        ops: [eq, in]
+      tipo_rpsc:
+        coluna: tipo_rpsc
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: situacao_t
+        ops: [eq, in]
+      situacao_i:
+        coluna: situacao_i
+        ops: [eq, in]
+      situacao_f:
+        coluna: situacao_f
+        ops: [eq, in]
+      situacao_c:
+        coluna: situacao_c
+        ops: [eq, in]
+      situacao_e:
+        coluna: situacao_e
+        ops: [eq, in]
+      situacao_j:
+        coluna: situacao_j
+        ops: [eq, in]
+      codigo_do_acumulador_retido:
+        coluna: SITUACAO_T_RETIDO
+        ops: [eq, in]
+      tipo_nota_codigo_da_tabela_municipal:
+        coluna: TIPO_NOTA_I_TABELA
+        ops: [eq, in]
+      tipo_nota_valor_do_item:
+        coluna: TIPO_NOTA_I_ITEM
+        ops: [eq, in]
+      tipo_nota_importar_p_conforme_padrao_do:
+        coluna: TIPO_NOTA_IMPORTAR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.104 linhas, 1.036 empresa(s).', 'Colunas expostas nulas em 100% das linhas (10): tipo_nota_valor_do_item, tipo_nota_importar_p_conforme_padrao_do,
+        servico_prestado_valor_do_item, servico_prestado_importar_a_conforme_inf, situacao_nota_fiscal_valor_do_item, situacao_nf_importar, objeto_isencao_valor_do_item,
+        objeto_isencao_importar, codigo_produto_padrao, codigo_do_produto_excecao_dos_itens.', 'tipo_de_nota_1_entradas_2_saidas_3_servi: todos os valores reais estão
+        no comentário do banco (3=1.036, 1=1.034, 2=1.034).', 'tipo_nota_importar_p_conforme_padrao_do: coluna sem nenhum valor preenchido; o domínio do comentário
+        do banco não pôde ser verificado.', 'servico_prestado_importar_a_conforme_inf: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde
+        ser verificado.', 'situacao_nf_importar: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'objeto_isencao_importar:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'Vínculo efacumulador (EFACUMULADOR): 3 de 3 linhas sem registro
+        relacionado (empresa 899).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 899).', 'Vínculo efespecies (efespecies): 0 de 3
+        linhas sem registro relacionado (empresa 899).', 'Vínculo eftabelamuni_itens (eftabelamuni_itens): 1 de 3 linhas sem registro relacionado (empresa 899).',
+      'Vínculo efprodutos (efprodutos): 3 de 3 linhas sem registro relacionado (empresa 899).']
+  efcfg_importacao_nfe_acumuladores_entradas:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores. 2.939 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_ENTRADAS
+    chave: [CODI_EMP, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU, selecao_da_situacao: SELECAO_SITUACAO, selecao_do_item_do_servico: SELECAO_ITEM_SERVICO,
+      fornecedores_do_acumulador_t_todos_s_sel: SELECAO_FORNECEDOR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      selecao_da_situacao:
+        coluna: SELECAO_SITUACAO
+        ops: [eq, in]
+      selecao_do_item_do_servico:
+        coluna: SELECAO_ITEM_SERVICO
+        ops: [eq, in]
+      fornecedores_do_acumulador_t_todos_s_sel:
+        coluna: SELECAO_FORNECEDOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.939 linhas, 892 empresa(s).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 628).', 'Vínculo efacumulador
+        (EFACUMULADOR): 0 de 2 linhas sem registro relacionado (empresa 628).']
+  efcfg_importacao_nfe_acumuladores_servicos:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores. 1.515 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SERVICOS
+    chave: [CODI_EMP, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU, selecao_da_situacao: SELECAO_SITUACAO, selecao_do_item_do_servico: SELECAO_ITEM_SERVICO,
+      clientes_do_acumulador_t_todos_s_selecio: SELECAO_CLIENTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      selecao_da_situacao:
+        coluna: SELECAO_SITUACAO
+        ops: [eq, in]
+      selecao_do_item_do_servico:
+        coluna: SELECAO_ITEM_SERVICO
+        ops: [eq, in]
+      clientes_do_acumulador_t_todos_s_selecio:
+        coluna: SELECAO_CLIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.515 linhas, 697 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 691).', 'Vínculo efacumulador
+        (EFACUMULADOR): 0 de 1 linhas sem registro relacionado (empresa 691).']
+  efcfg_importacao_nfe_acumuladores_servicos_situacao_nota:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota. 1.025 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SERVICOS_SITUACAO_NOTA
+    chave: [CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_SITUACAO_NOTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_da_situacao_da_nota: I_SITUACAO_NOTA, situacao_da_nota: SITUACAO_NOTA}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_da_situacao_da_nota:
+        coluna: I_SITUACAO_NOTA
+        ops: [eq, in]
+      situacao_da_nota:
+        coluna: SITUACAO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.025 linhas, 212 empresa(s).']
+  efcfg_importacao_nfe_entradas_parcelas:
+    titulo: Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas
+    descricao: 'Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas. 558 linhas no catálogo; chave: CODI_EMP, NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_ENTRADAS_PARCELAS
+    chave: [CODI_EMP, NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NOTA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      tipo_de_nota_1_entradas_2_saidas_3_servi: {coluna: NOTA, dominio: efcfg_importacao_nfe_entradas_parcelas_tipo_de_not}
+      quantidade_de_parcelas: QUANTIDADE_PARCELAS
+      vencimento_m_mesma_data_da_nota_i_inform: VENCIMENTO
+      quantidade_de_dias: QUANTIDADE_DIAS
+      tipo_do_titulo_d_c_p_r: TIPO_TITULO
+      identificacao_s_n: IDENTIFICACAO_TITULO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_de_nota_1_entradas_2_saidas_3_servi:
+        coluna: NOTA
+        ops: [eq, in]
+      vencimento_m_mesma_data_da_nota_i_inform:
+        coluna: VENCIMENTO
+        ops: [eq, in]
+      tipo_do_titulo_d_c_p_r:
+        coluna: TIPO_TITULO
+        ops: [eq, in]
+      identificacao_s_n:
+        coluna: IDENTIFICACAO_TITULO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 558 linhas, 558 empresa(s).', 'tipo_de_nota_1_entradas_2_saidas_3_servi: todos os valores reais estão no comentário do banco (1=558).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 640).']
+  efcfg_importacao_nfe_acumuladores_entradas_situacao_nota:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota. 345 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_ENTRADAS_SITUACAO_NOTA
+    chave: [CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_SITUACAO_NOTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_da_situacao_da_nota: I_SITUACAO_NOTA, situacao_da_nota: SITUACAO_NOTA}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_da_situacao_da_nota:
+        coluna: I_SITUACAO_NOTA
+        ops: [eq, in]
+      situacao_da_nota:
+        coluna: SITUACAO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 345 linhas, 210 empresa(s).']
+  efcfg_importacao_nfe_acumuladores_saidas:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores. 45 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SAIDAS
+    chave: [CODI_EMP, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU, selecao_da_situacao: SELECAO_SITUACAO, selecao_do_item_do_servico: SELECAO_ITEM_SERVICO,
+      clientes_do_acumulador_t_todos_s_selecio: SELECAO_CLIENTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      selecao_da_situacao:
+        coluna: SELECAO_SITUACAO
+        ops: [eq, in]
+      selecao_do_item_do_servico:
+        coluna: SELECAO_ITEM_SERVICO
+        ops: [eq, in]
+      clientes_do_acumulador_t_todos_s_selecio:
+        coluna: SELECAO_CLIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 45 linhas, 38 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 939).', 'Vínculo efacumulador
+        (EFACUMULADOR): 0 de 1 linhas sem registro relacionado (empresa 939).']
+  efcfg_importacao_nfe_servicos_parcelas:
+    titulo: Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas
+    descricao: 'Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas. 25 linhas no catálogo; chave: CODI_EMP, NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_SERVICOS_PARCELAS
+    chave: [CODI_EMP, NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NOTA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      tipo_de_nota_1_entradas_2_saidas_3_servi: {coluna: NOTA, dominio: efcfg_importacao_nfe_servicos_parcelas_tipo_de_not}
+      quantidade_de_parcelas: QUANTIDADE_PARCELAS
+      vencimento_m_mesma_data_da_nota_i_inform: VENCIMENTO
+      quantidade_de_dias: QUANTIDADE_DIAS
+      tipo_do_titulo_d_c_p_r: TIPO_TITULO
+      identificacao_s_n: IDENTIFICACAO_TITULO
+      gerar_n_do_titulo_s_n: GERAR_NUMERO_TITULO
+      tipo_do_numero_do_titulo_n_mesmo_numero: TIPO_NUMERO_TITULO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_de_nota_1_entradas_2_saidas_3_servi:
+        coluna: NOTA
+        ops: [eq, in]
+      vencimento_m_mesma_data_da_nota_i_inform:
+        coluna: VENCIMENTO
+        ops: [eq, in]
+      tipo_do_titulo_d_c_p_r:
+        coluna: TIPO_TITULO
+        ops: [eq, in]
+      identificacao_s_n:
+        coluna: IDENTIFICACAO_TITULO
+        ops: [contem, prefixo]
+      gerar_n_do_titulo_s_n:
+        coluna: GERAR_NUMERO_TITULO
+        ops: [eq, in]
+      tipo_do_numero_do_titulo_n_mesmo_numero:
+        coluna: TIPO_NUMERO_TITULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 25 linhas, 25 empresa(s).', 'tipo_de_nota_1_entradas_2_saidas_3_servi: todos os valores reais estão no comentário do banco (3=25).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 57).']
+  efcfg_importacao_nfe_acumuladores_servicos_item_servico:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Item serviço
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Item serviço. 11 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR, I_ITEM_SERVICO.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SERVICOS_ITEM_SERVICO
+    chave: [CODI_EMP, I_ACUMULADOR, I_ITEM_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_ITEM_SERVICO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_do_item_do_servico: I_ITEM_SERVICO, item_do_servico: ITEM_SERVICO}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_do_item_do_servico:
+        coluna: I_ITEM_SERVICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11 linhas, 6 empresa(s).']
+  efcfg_importacao_nfe_acumuladores_entradas_fornecedores_sele:
+    titulo: Configuracao de importacao de NFS-e Paulistana - Acumuladores - Definição de fornecedores selecionados
+    descricao: 'Configuracao de importacao de NFS-e Paulistana - Acumuladores - Definição de fornecedores selecionados. 10 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR,
+      I_FORNECEDOR.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_ENTRADAS_FORNECEDORES_SELECIONADOS
+    chave: [CODI_EMP, I_ACUMULADOR, I_FORNECEDOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_FORNECEDOR, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_do_fornecedor: I_FORNECEDOR, codigo_do_fornecedor: CODI_FOR}
+    vinculos:
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, codi_for: codi_for}
+        colunas: {effornece_nome: nomr_for}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_do_fornecedor:
+        coluna: I_FORNECEDOR
+        ops: [eq, in]
+      codigo_do_fornecedor:
+        coluna: CODI_FOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, 3 empresa(s).', 'Vínculo effornece (effornece): 0 de 2 linhas sem registro relacionado (empresa 954).', 'Vínculo geempre
+        (geempre): 0 de 2 linhas sem registro relacionado (empresa 954).']
+  efcfg_importacao_nfe_acumuladores_saidas_situacao_nota:
+    titulo: Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota
+    descricao: 'Configuracao de importacao da Nota Fiscal Eletronica - Acumuladores - Situação da Nota. 9 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SAIDAS_SITUACAO_NOTA
+    chave: [CODI_EMP, I_ACUMULADOR, I_SITUACAO_NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_SITUACAO_NOTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_da_situacao_da_nota: I_SITUACAO_NOTA, situacao_da_nota: SITUACAO_NOTA}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_da_situacao_da_nota:
+        coluna: I_SITUACAO_NOTA
+        ops: [eq, in]
+      situacao_da_nota:
+        coluna: SITUACAO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas, 4 empresa(s).']
+  efcfg_importacao_nfe_itens_servicos:
+    titulo: Importação NFS-e Paulistana - Serviço - Relacionamento de itens
+    descricao: 'Importação NFS-e Paulistana - Serviço - Relacionamento de itens. 3 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL_PDI.'
+    tabela: EFCFG_IMPORTACAO_NFE_ITENS_SERVICOS
+    chave: [CODI_EMP, SEQUENCIAL_PDI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL_PDI, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_produto: SEQUENCIAL_PDI, produto: CODI_PDI}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_produto:
+        coluna: SEQUENCIAL_PDI
+        ops: [eq, in]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1446).']
+  efcfg_importacao_nfe_itens_selecionar_servicos:
+    titulo: Importação NFS-e Paulistana - Serviço - Inclusão de Item serviço
+    descricao: 'Importação NFS-e Paulistana - Serviço - Inclusão de Item serviço. 3 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL_PDI, SEQUENCIAL_INCLUSAO.'
+    tabela: EFCFG_IMPORTACAO_NFE_ITENS_SELECIONAR_SERVICOS
+    chave: [CODI_EMP, SEQUENCIAL_PDI, SEQUENCIAL_INCLUSAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL_PDI, asc]
+    - [SEQUENCIAL_INCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_pai: SEQUENCIAL_PDI, sequencial_do_item_servico: SEQUENCIAL_INCLUSAO, codigo_da_inclusao_de_item_servico: CODIGO_INCLUSAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_pai:
+        coluna: SEQUENCIAL_PDI
+        ops: [eq, in]
+      sequencial_do_item_servico:
+        coluna: SEQUENCIAL_INCLUSAO
+        ops: [eq, in]
+      codigo_da_inclusao_de_item_servico:
+        coluna: CODIGO_INCLUSAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1446).']
+  efcfg_importacao_nfe_acumuladores_servicos_clientes_selecion:
+    titulo: Configuracao de importacao de NFS-e Paulistana - Acumuladores - Definição de clientes selecionados
+    descricao: 'Configuracao de importacao de NFS-e Paulistana - Acumuladores - Definição de clientes selecionados. 2 linhas no catálogo; chave: CODI_EMP, I_ACUMULADOR,
+      I_CLIENTE.'
+    tabela: EFCFG_IMPORTACAO_NFE_ACUMULADORES_SERVICOS_CLIENTES_SELECIONADOS
+    chave: [CODI_EMP, I_ACUMULADOR, I_CLIENTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACUMULADOR, asc]
+    - [I_CLIENTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_acumulador: I_ACUMULADOR, sequencial_do_cliente: I_CLIENTE, codigo_do_cliente: CODI_CLI}
+    vinculos:
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      sequencial_do_cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      codigo_do_cliente:
+        coluna: CODI_CLI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Vínculo efclientes (efclientes): 0 de 1 linhas sem registro relacionado (empresa 704).', 'Vínculo geempre
+        (geempre): 0 de 1 linhas sem registro relacionado (empresa 704).']
+  efcfg_importacao_nfe_saidas_parcelas:
+    titulo: Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas
+    descricao: 'Configuração de importacao da Nota Fiscal Eletronica - Servicos - Geral - Gerar parcelas. 1 linhas no catálogo; chave: CODI_EMP, NOTA.'
+    tabela: EFCFG_IMPORTACAO_NFE_SAIDAS_PARCELAS
+    chave: [CODI_EMP, NOTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NOTA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      tipo_de_nota_1_entradas_2_saidas_3_servi: {coluna: NOTA, dominio: efcfg_importacao_nfe_saidas_parcelas_tipo_de_not}
+      quantidade_de_parcelas: QUANTIDADE_PARCELAS
+      vencimento_m_mesma_data_da_nota_i_inform: VENCIMENTO
+      quantidade_de_dias: QUANTIDADE_DIAS
+      tipo_do_titulo_d_c_p_r: TIPO_TITULO
+      identificacao_s_n: IDENTIFICACAO_TITULO
+      gerar_n_do_titulo_s_n: GERAR_NUMERO_TITULO
+      tipo_do_numero_do_titulo_n_mesmo_numero: TIPO_NUMERO_TITULO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_de_nota_1_entradas_2_saidas_3_servi:
+        coluna: NOTA
+        ops: [eq, in]
+      vencimento_m_mesma_data_da_nota_i_inform:
+        coluna: VENCIMENTO
+        ops: [eq, in]
+      tipo_do_titulo_d_c_p_r:
+        coluna: TIPO_TITULO
+        ops: [eq, in]
+      identificacao_s_n:
+        coluna: IDENTIFICACAO_TITULO
+        ops: [contem, prefixo]
+      gerar_n_do_titulo_s_n:
+        coluna: GERAR_NUMERO_TITULO
+        ops: [eq, in]
+      tipo_do_numero_do_titulo_n_mesmo_numero:
+        coluna: TIPO_NUMERO_TITULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'tipo_de_nota_1_entradas_2_saidas_3_servi: todos os valores reais estão no comentário do banco (2=1).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 928).']
+  efcfg_importacao_nfe_itens_entradas:
+    titulo: Importação NFS-e Paulistana - Entrada - Relacionamento de itens
+    descricao: 'Importação NFS-e Paulistana - Entrada - Relacionamento de itens. 1 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL_PDI.'
+    tabela: EFCFG_IMPORTACAO_NFE_ITENS_ENTRADAS
+    chave: [CODI_EMP, SEQUENCIAL_PDI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL_PDI, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_produto: SEQUENCIAL_PDI, produto: CODI_PDI}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_produto:
+        coluna: SEQUENCIAL_PDI
+        ops: [eq, in]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1696).']
+  efcfg_importacao_nfe_itens_selecionar_entradas:
+    titulo: Importação NFS-e Paulistana - Entrada - Inclusão de Item serviço
+    descricao: 'Importação NFS-e Paulistana - Entrada - Inclusão de Item serviço. 1 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL_PDI, SEQUENCIAL_INCLUSAO.'
+    tabela: EFCFG_IMPORTACAO_NFE_ITENS_SELECIONAR_ENTRADAS
+    chave: [CODI_EMP, SEQUENCIAL_PDI, SEQUENCIAL_INCLUSAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL_PDI, asc]
+    - [SEQUENCIAL_INCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_pai: SEQUENCIAL_PDI, sequencial_do_item_servico: SEQUENCIAL_INCLUSAO, codigo_da_inclusao_de_item_servico: CODIGO_INCLUSAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_pai:
+        coluna: SEQUENCIAL_PDI
+        ops: [eq, in]
+      sequencial_do_item_servico:
+        coluna: SEQUENCIAL_INCLUSAO
+        ops: [eq, in]
+      codigo_da_inclusao_de_item_servico:
+        coluna: CODIGO_INCLUSAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1696).']

@@ -1,0 +1,276 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_acumulador
+titulo: Fiscal - acumulador (rascunho em lote)
+dominios:
+  efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_tipo_de_pro:
+    confirmado: true
+    nota: 'Todos os valores observados em EFACUMULADOR_VIGENCIA_TABELA_MG_INCENTIVO_RET_FAIXAS.TIPO_PRODUTO estão no comentário do banco (2026-10-18). Distribuição:
+      D=21.'
+    valores: {I: Inferior, S: Superior, P: Importados, D: Demais}
+  efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_destino_da_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFACUMULADOR_VIGENCIA_TABELA_MG_INCENTIVO_RET_FAIXAS.DESTINO_OPERACAO estão no comentário do banco (2026-10-18). Distribuição:
+      0=21.'
+    valores: {'0': Todos, '1': Contribuinte, '2': Não contribuinte, '3': PJ não contribuinte, '4': Transf. matriz}
+  efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_sub_grupo_1:
+    confirmado: true
+    nota: 'Todos os valores observados em EFACUMULADOR_VIGENCIA_TABELA_MG_INCENTIVO_RET_FAIXAS.SUB_GRUPO estão no comentário do banco (2026-10-18). Distribuição:
+      2=21.'
+    valores: {'1': IMPORTADOS, '2': DEMAIS, '3': ELETRÔNICOS, '4': FIOS, '5': CAFÉ, '6': SUCOS, '7': CHÁ, '8': TOMATE, '9': FRUTAS, '10': EXTRATOS, '11': CEREAIS,
+      '12': MEDICAMENTOS}
+  efacumulador_vigencia_impostos_simplesn_imposto_com:
+    confirmado: true
+    nota: 'Todos os valores observados em EFACUMULADOR_VIGENCIA_IMPOSTOS_SIMPLESN.IMPOSTO estão no comentário do banco (2026-10-18). Distribuição: 3=1.'
+    valores: {'1': ICMS, '2': IPI, '3': ISS, '4': PIS, '5': COFINS, '6': CSLL, '7': IRPJ, '8': INSS}
+  efacumulador_vigencia_impostos_simplesn_motivo_1_li:
+    confirmado: true
+    nota: 'Todos os valores observados em EFACUMULADOR_VIGENCIA_IMPOSTOS_SIMPLESN.MOTIVO estão no comentário do banco (2026-10-18). Distribuição: 6=1.'
+    valores: {'1': Liminar em Mandado de Seguranca, '2': Deposito Judicial, '3': Antecipacao de Tutela, '4': Liminar em Medida Cautelar, '5': Deposito Administrativo,
+      '6': Outros}
+entidades:
+  efacumulador_vigencia_pis_cofins_saidas:
+    titulo: Acumuladores - Cadastro - PIS/COFINS - Saídas
+    descricao: 'Acumuladores - Cadastro - PIS/COFINS - Saídas. 70.702 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_PIS_COFINS_SAIDAS.'
+    tabela: EFACUMULADOR_VIGENCIA_PIS_COFINS_SAIDAS
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_PIS_COFINS_SAIDAS]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: medio}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [I_PIS_COFINS_SAIDAS, asc]
+    colunas: {empresa: CODI_EMP, acumulador: CODI_ACU, vigencia_do_acumulador: VIGENCIA_ACU, sequencial: I_PIS_COFINS_SAIDAS, cst: CST, natureza_da_receita: NATUREZA_RECEITA,
+      aliquota_do_pis: ALIQUOTA_PIS, aliquota_do_cofins: ALIQUOTA_COFINS, valor_do_pis_por_unidade_de_medida: VALOR_PIS_UNIDADE_MEDIDA, valor_da_cofins_por_unidade_de_medida: VALOR_COFINS_UNIDADE_MEDIDA,
+      percentual_de_reducao_da_base_de_calculo: PERCENTUAL_REDUCAO_BASE_CALCULO_PIS_COFINS_SAIDA, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS, codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS,
+      codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS, codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS, codigo_do_beneficio_dirbi: CODIGO_BENEFICIO_DIRBI,
+      calcular_piscofins_reducao_linear_lc224: CALCULAR_PISCOFINS_REDUCAO_LINEAR_LC224}
+    filtros:
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia_do_acumulador:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS_SAIDAS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_beneficio_dirbi:
+        coluna: CODIGO_BENEFICIO_DIRBI
+        ops: [eq, in]
+      calcular_piscofins_reducao_linear_lc224:
+        coluna: CALCULAR_PISCOFINS_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70.702 linhas, 1.357 empresa(s), VIGENCIA_ACU de 1964-06-01 a 2026-09-01.', 'Colunas expostas nulas em 100% das linhas (3): codigo_sequencial_do_recolhimento_do_pis,
+        codigo_sequencial_do_recolhimento_do_cof, codigo_do_beneficio_dirbi.']
+  efacumulador_vigencia_impostos_funrural:
+    titulo: Acumuladores - Cadastro - Aliquotas FUNRURAL
+    descricao: 'Acumuladores - Cadastro - Aliquotas FUNRURAL. 53 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP.'
+    tabela: EFACUMULADOR_VIGENCIA_IMPOSTOS_FUNRURAL
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, acumulador: CODI_ACU, vigencia: VIGENCIA_ACU, imposto: CODI_IMP, aliquota_do_funrural: ALIQ_IMP, aliquota_do_inss: ALIQ_INSS, aliquota_outras_entidades: ALIQ_OUTRAS,
+      percentual_da_base_de_calculo: PERCENTUALBC_IMP, aliquota_rat: ALIQUOTA_RAT, comercializacao_da_producao_isenta_lei_n: COMERCIALIZACAO_PRODUCAO_ISENTA_FUNRURAL}
+    filtros:
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      comercializacao_da_producao_isenta_lei_n:
+        coluna: COMERCIALIZACAO_PRODUCAO_ISENTA_FUNRURAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 53 linhas, 7 empresa(s), VIGENCIA_ACU de 2019-01-01 a 2026-04-01.']
+  efacumulador_vigencia_cfps:
+    titulo: Acumuladores - Vigência - CFPS
+    descricao: 'Acumuladores - Vigência - CFPS. 33 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, CFPS_ACU.'
+    tabela: EFACUMULADOR_VIGENCIA_CFPS
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CFPS_ACU]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [CFPS_ACU, asc]
+    colunas: {empresa: CODI_EMP, acumulador: CODI_ACU, vigencia: VIGENCIA_ACU, cfps: CFPS_ACU}
+    filtros:
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      cfps:
+        coluna: CFPS_ACU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 33 linhas, 26 empresa(s), VIGENCIA_ACU de 2015-01-01 a 2025-03-01.']
+  efacumulador_vigencia_pis_cofins_entradas:
+    titulo: Acumuladores - Cadastro - PIS/COFINS - Entradas
+    descricao: 'Acumuladores - Cadastro - PIS/COFINS - Entradas. 21 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_PIS_COFINS_ENTRADAS.'
+    tabela: EFACUMULADOR_VIGENCIA_PIS_COFINS_ENTRADAS
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_PIS_COFINS_ENTRADAS]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [I_PIS_COFINS_ENTRADAS, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ACU, vigencia: VIGENCIA_ACU, sequencial: I_PIS_COFINS_ENTRADAS, cst: CST, base_do_credito: BASE_CREDITO, natureza_do_frete: NATUREZA_FRETE,
+      aliquota_do_pis: ALIQUOTA_PIS, aliquota_do_cofins: ALIQUOTA_COFINS, vinculo_do_credito: VINCULO_CREDITO, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS,
+      codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS, codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS, codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS}
+    filtros:
+      codigo:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS_ENTRADAS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21 linhas, 12 empresa(s), VIGENCIA_ACU de 2021-10-01 a 2026-03-01.', 'Colunas expostas nulas em 100% das linhas (2): codigo_sequencial_do_recolhimento_do_pis,
+        codigo_sequencial_do_recolhimento_do_cof.']
+  efacumulador_vigencia_tabela_mg_incentivo_ret_faixas:
+    titulo: Acumulador - Tabela de incentivos do Crédito Estímulo MG - Faixas
+    descricao: 'Acumulador - Tabela de incentivos do Crédito Estímulo MG - Faixas. 21 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, SEQUENCIAL.'
+    tabela: EFACUMULADOR_VIGENCIA_TABELA_MG_INCENTIVO_RET_FAIXAS
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      acumulador: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      sequencial_incentivo_faixa: SEQUENCIAL
+      tipo_de_produto_i_inferior_s_superior_p: {coluna: TIPO_PRODUTO, dominio: efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_tipo_de_pro}
+      operacoes_internas: OPERACOES_INTERNAS
+      operacoes_interestaduais: OPERACOES_INTERESTADUAIS
+      destino_da_operacao_0_todos_1_contribuin: {coluna: DESTINO_OPERACAO, dominio: efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_destino_da_}
+      sub_grupo_1_importados_2_demais_3_eletro: {coluna: SUB_GRUPO, dominio: efacumulador_vigencia_tabela_mg_incentivo_ret_faixas_sub_grupo_1}
+      criterio_de_utilizacao_da_aliquota_desta: CRITERIO_ICMS
+      aliquota_icms_destacado: ALIQUOTA_ICMS
+    filtros:
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      sequencial_incentivo_faixa:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_produto_i_inferior_s_superior_p:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21 linhas, 1 empresa(s), VIGENCIA_ACU de 2025-05-01 a 2026-07-01.', 'tipo_de_produto_i_inferior_s_superior_p: todos os valores
+        reais estão no comentário do banco (D=21).', 'destino_da_operacao_0_todos_1_contribuin: todos os valores reais estão no comentário do banco (0=21).', 'sub_grupo_1_importados_2_demais_3_eletro:
+        todos os valores reais estão no comentário do banco (2=21).']
+  efacumulador_vigencia_inss_rb_ncm_servicos:
+    titulo: Acumuladores - Cadastro - INSS Receita Bruta - NCM e Serviços
+    descricao: 'Acumuladores - Cadastro - INSS Receita Bruta - NCM e Serviços. 2 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_SEQUENCIAL.'
+    tabela: EFACUMULADOR_VIGENCIA_INSS_RB_NCM_SERVICOS
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ACU, vigencia: VIGENCIA_ACU, sequencial: I_SEQUENCIAL, codigo_da_atividade: I_ATIVIDADE, aliquota: ALIQUOTA}
+    filtros:
+      codigo:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s), VIGENCIA_ACU de 2020-01-01 a 2021-12-01.']
+  efacumulador_vigencia_impostos_simplesn:
+    titulo: Acumuladores - Cadastro - Impostos - Simples Nacional
+    descricao: 'Acumuladores - Cadastro - Impostos - Simples Nacional. 1 linhas no catálogo; chave: CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP, IMPOSTO.'
+    tabela: EFACUMULADOR_VIGENCIA_IMPOSTOS_SIMPLESN
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP, IMPOSTO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ACU, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ACU, desc]
+    - [CODI_ACU, asc]
+    - [CODI_IMP, asc]
+    colunas:
+      empresa: CODI_EMP
+      acumulador: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      imposto: CODI_IMP
+      imposto_com_exigibilidade_suspensa_1_icm: {coluna: IMPOSTO, dominio: efacumulador_vigencia_impostos_simplesn_imposto_com}
+      motivo_1_liminar_em_mandado_de_seguranca: {coluna: MOTIVO, dominio: efacumulador_vigencia_impostos_simplesn_motivo_1_li}
+      numero_do_processo: PROCESSO
+      vara: VARA
+      municipio: CODIGO_MUNICIPIO
+      uf: UF
+      com_deposito_s_n: DEPOSITO
+    filtros:
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ACU
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      imposto_com_exigibilidade_suspensa_1_icm:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      motivo_1_liminar_em_mandado_de_seguranca:
+        coluna: MOTIVO
+        ops: [eq, in]
+      numero_do_processo:
+        coluna: PROCESSO
+        ops: [eq, in]
+      municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      com_deposito_s_n:
+        coluna: DEPOSITO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), VIGENCIA_ACU de 2023-11-01 a 2023-11-01.', 'imposto_com_exigibilidade_suspensa_1_icm: todos os valores
+        reais estão no comentário do banco (3=1).', 'motivo_1_liminar_em_mandado_de_seguranca: todos os valores reais estão no comentário do banco (6=1).']

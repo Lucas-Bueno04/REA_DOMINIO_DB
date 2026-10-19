@@ -1,0 +1,259 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_cat
+titulo: Pessoal - cat (rascunho em lote)
+dominios:
+  focat_agente_causador_lista_enviar_para_o_eso:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_AGENTE_CAUSADOR_LISTA.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=7.'
+    valores: {'0': Não, '1': Sim}
+  focat_agente_causador_lista_gerar_retificacao:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_AGENTE_CAUSADOR_LISTA.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=7.'
+    valores: {'0': Não, '1': Sim}
+  focat_agente_causador_lista_marcacao_do_event:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_AGENTE_CAUSADOR_LISTA.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=7.'
+    valores: {'0': Não, '1': Sim}
+  focat_parte_corpo_atingida_lista_lateralidad:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_PARTE_CORPO_ATINGIDA_LISTA.LATERALIDADE estão no comentário do banco (2026-10-18). Distribuição: 0=6, 1=1.'
+    valores: {'0': Não aplicável, '1': Esquerda, '2': Direita, '3': Ambas}
+  focat_parte_corpo_atingida_lista_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_PARTE_CORPO_ATINGIDA_LISTA.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=7.'
+    valores: {'0': Não, '1': Sim}
+  focat_parte_corpo_atingida_lista_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_PARTE_CORPO_ATINGIDA_LISTA.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=7.'
+    valores: {'0': Não, '1': Sim}
+  focat_parte_corpo_atingida_lista_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCAT_PARTE_CORPO_ATINGIDA_LISTA.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=7.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  focat_agente_causador:
+    titulo: Agente causador da CAT.
+    descricao: 'Agente causador da CAT.. 308 linhas no catálogo; chave: CODIGO.'
+    tabela: FOCAT_AGENTE_CAUSADOR
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_do_agente_causador: CODIGO, descricao_do_agente_causador: DESCRICAO, observacao_do_agente_causador: OBSERVACAO, aplicacao: APLICACAO, descricao_2024: DESCRICAO_2024}
+    filtros:
+      codigo_do_agente_causador:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_do_agente_causador:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      observacao_do_agente_causador:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      aplicacao:
+        coluna: APLICACAO
+        ops: [contem, prefixo]
+      descricao_2024:
+        coluna: DESCRICAO_2024
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 308 linhas.']
+  focat_situacao_geradora:
+    titulo: Situações geradoras da CAT.
+    descricao: 'Situações geradoras da CAT.. 60 linhas no catálogo; chave: CODIGO.'
+    tabela: FOCAT_SITUACAO_GERADORA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_situacao_geradora: CODIGO, descricao_da_situacao_geradora: DESCRICAO, aplicacao: APLICACAO}
+    filtros:
+      codigo_da_situacao_geradora:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_situacao_geradora:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      aplicacao:
+        coluna: APLICACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 60 linhas.']
+  focat_parte_corpo_atingida:
+    titulo: Partes do corpo atingida da CAT.
+    descricao: 'Partes do corpo atingida da CAT.. 45 linhas no catálogo; chave: CODIGO.'
+    tabela: FOCAT_PARTE_CORPO_ATINGIDA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_parte_do_corpo_atingida: CODIGO, descricao_da_parte_do_corpo_atingida: DESCRICAO, observacao_da_parte_do_corpo_atingida: OBSERVACAO}
+    filtros:
+      codigo_da_parte_do_corpo_atingida:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_parte_do_corpo_atingida:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      observacao_da_parte_do_corpo_atingida:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 45 linhas.']
+  focat_natureza_lesao:
+    titulo: Tabela de catálogo das naturezas de lesões do CAT
+    descricao: 'Tabela de catálogo das naturezas de lesões do CAT. 29 linhas no catálogo; chave: CODIGO.'
+    tabela: FOCAT_NATUREZA_LESAO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_natureza_da_lesao: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo_da_natureza_da_lesao:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 29 linhas.']
+  focat_tipo_acidente:
+    titulo: Tipos de acidente da CAT
+    descricao: 'Tipos de acidente da CAT. 22 linhas no catálogo; chave: CODIGO.'
+    tabela: FOCAT_TIPO_ACIDENTE
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_do_tipo_de_acidente: CODIGO, descricao_do_tipo_de_acidente: DESCRICAO}
+    filtros:
+      codigo_do_tipo_de_acidente:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_do_tipo_de_acidente:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  focat_agente_causador_lista:
+    titulo: Lista de agentes causador da CAT.
+    descricao: 'Lista de agentes causador da CAT.. 7 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CAT, SEQUENCIAL.'
+    tabela: FOCAT_AGENTE_CAUSADOR_LISTA
+    chave: [CODI_EMP, I_EMPREGADOS, I_CAT, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CAT, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_da_cat: I_CAT
+      sequencial_da_lista: SEQUENCIAL
+      codigo_do_agente_causador: CODIGO_AGENTE_CAUSADOR
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: focat_agente_causador_lista_enviar_para_o_eso}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: focat_agente_causador_lista_gerar_retificacao}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: focat_agente_causador_lista_marcacao_do_event}
+    vinculos:
+      focat:
+        tabela: FOCAT
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_cat: i_cat}
+        colunas: {focat_nome: DESCRICAO_SITUACAO_CAUSADORA}
+      focat_agente_causador:
+        tabela: FOCAT_AGENTE_CAUSADOR
+        liga: {codigo_agente_causador: codigo}
+        colunas: {focat_agente_causador_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_cat:
+        coluna: I_CAT
+        ops: [eq, in]
+      sequencial_da_lista:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_agente_causador:
+        coluna: CODIGO_AGENTE_CAUSADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 6 empresa(s).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=7).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=7).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco
+        (0=7).', 'Vínculo focat (FOCAT): 0 de 1 linhas sem registro relacionado (empresa 652).', 'Vínculo focat_agente_causador (FOCAT_AGENTE_CAUSADOR): 0 de 1 linhas
+        sem registro relacionado (empresa 652).']
+  focat_parte_corpo_atingida_lista:
+    titulo: Lista de partes do corpo atingida da CAT.
+    descricao: 'Lista de partes do corpo atingida da CAT.. 7 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CAT, SEQUENCIAL.'
+    tabela: FOCAT_PARTE_CORPO_ATINGIDA_LISTA
+    chave: [CODI_EMP, I_EMPREGADOS, I_CAT, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CAT, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_da_cat: I_CAT
+      sequencial_da_lista: SEQUENCIAL
+      codigo_da_parte_do_corpo_atingida: CODIGO_PARTE_CORPO_ATINGIDA
+      lateralidade_0_nao_aplicavel_1_esquerda: {coluna: LATERALIDADE, dominio: focat_parte_corpo_atingida_lista_lateralidad}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: focat_parte_corpo_atingida_lista_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: focat_parte_corpo_atingida_lista_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: focat_parte_corpo_atingida_lista_marcacao_do}
+    vinculos:
+      focat:
+        tabela: FOCAT
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_cat: i_cat}
+        colunas: {focat_nome: DESCRICAO_SITUACAO_CAUSADORA}
+      focat_parte_corpo_atingi:
+        tabela: FOCAT_PARTE_CORPO_ATINGIDA
+        liga: {codigo_parte_corpo_atingida: codigo}
+        colunas: {focat_parte_corpo_atingi_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_cat:
+        coluna: I_CAT
+        ops: [eq, in]
+      sequencial_da_lista:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_parte_do_corpo_atingida:
+        coluna: CODIGO_PARTE_CORPO_ATINGIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 6 empresa(s).', 'lateralidade_0_nao_aplicavel_1_esquerda: todos os valores reais estão no comentário do banco (0=6,
+        1=1).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=7).', 'gerar_retificacao_esocial: todos os valores reais
+        estão no comentário do banco (0=7).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=7).', 'Vínculo focat
+        (FOCAT): 0 de 1 linhas sem registro relacionado (empresa 652).', 'Vínculo focat_parte_corpo_atingi (FOCAT_PARTE_CORPO_ATINGIDA): 0 de 1 linhas sem registro
+        relacionado (empresa 652).']
+  focat_envios_esocial:
+    titulo: Envios dos CAT para o esocial
+    descricao: 'Envios dos CAT para o esocial. 1 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CAT, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOCAT_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, I_CAT, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CAT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, codigo_do_cat_referente_a_focat: I_CAT, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      focat:
+        tabela: FOCAT
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_cat: i_cat}
+        colunas: {focat_nome: DESCRICAO_SITUACAO_CAUSADORA}
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_cat_referente_a_focat:
+        coluna: I_CAT
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo focat (FOCAT): 0 de 1 linhas sem registro relacionado (empresa 789).', 'Vínculo foesocial_dados_eventos
+        (FOESOCIAL_DADOS_EVENTOS): 0 de 1 linhas sem registro relacionado (empresa 789).']

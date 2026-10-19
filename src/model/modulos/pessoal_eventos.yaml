@@ -1,0 +1,318 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_eventos
+titulo: Pessoal - eventos (rascunho em lote)
+dominios:
+  foeventos_alteracao_controle_envio_esocial_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEVENTOS_ALTERACAO_CONTROLE_ENVIO_ESOCIAL.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=3.608.952,
+      1=143.455.'
+    valores: {'0': Não, '1': Sim}
+  foeventos_alteracao_controle_envio_esocial_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEVENTOS_ALTERACAO_CONTROLE_ENVIO_ESOCIAL.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      1=1.886.981, 0=1.865.426.'
+    valores: {'0': Não, '1': Sim}
+  foeventos_alteracao_controle_envio_esocial_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEVENTOS_ALTERACAO_CONTROLE_ENVIO_ESOCIAL.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=3.752.407.'
+    valores: {'0': Não, '1': Sim}
+  foeventos_alteracao_origem_do_registro_1_sistema_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEVENTOS_ALTERACAO.ORIGEM_ALTERACAO estão no comentário do banco (2026-10-18). Distribuição: 1=1.317.230, 2=15.658.'
+    valores: {'1': Sistema, '2': Alteração de Faseamento do eSocial}
+  foeventos_alteracao_dados_cadastrais_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEVENTOS_ALTERACAO_DADOS_CADASTRAIS.ORIGEM_ALTERACAO estão no comentário do banco (2026-10-18). Distribuição: 1=1.307.271,
+      2=4.928.'
+    valores: {'1': Sistema, '2': Alteração de Faseamento do eSocial}
+entidades:
+  foeventos_alteracao_controle_envio_esocial:
+    titulo: Tabela de controle de envio da rubrica ao eSocial.
+    descricao: 'Tabela de controle de envio da rubrica ao eSocial.. 3.750.710 linhas no catálogo; chave: CODI_EMP, I_EVENTOS, VIGENCIA, CODI_EMP_ENVIO.'
+    tabela: FOEVENTOS_ALTERACAO_CONTROLE_ENVIO_ESOCIAL
+    chave: [CODI_EMP, I_EVENTOS, VIGENCIA, CODI_EMP_ENVIO]
+    acesso:
+      empresa: CODI_EMP
+      periodo: VIGENCIA
+      exige_algum: [codigo_da_rubrica]
+      volume: grande
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_EVENTOS, asc]
+    - [CODI_EMP_ENVIO, asc]
+    colunas:
+      codigo_da_empresa_do_evento: CODI_EMP
+      codigo_da_rubrica: I_EVENTOS
+      vigencia_da_alteracao: VIGENCIA
+      codigo_da_empresa_de_envio_do_evento_ao: CODI_EMP_ENVIO
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foeventos_alteracao_controle_envio_esocial_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foeventos_alteracao_controle_envio_esocial_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foeventos_alteracao_controle_envio_esocial_marcacao_do}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_envio: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_rubrica:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      vigencia_da_alteracao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_da_empresa_de_envio_do_evento_ao:
+        coluna: CODI_EMP_ENVIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.752.407 linhas, 711 empresa(s), VIGENCIA de 1900-01-01 a 2026-07-01.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores
+        reais estão no comentário do banco (0=3.608.952, 1=143.455).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (1=1.886.981,
+        0=1.865.426).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=3.752.407).', 'Vínculo geempre (geempre):
+        0 de 1.888 linhas sem registro relacionado (empresa 571).']
+  foeventos_alteracao:
+    titulo: Tabela de alterações.
+    descricao: 'Tabela de alterações.. 1.331.191 linhas no catálogo; chave: CODI_EMP, I_EVENTOS, VIGENCIA.'
+    tabela: FOEVENTOS_ALTERACAO
+    chave: [CODI_EMP, I_EVENTOS, VIGENCIA]
+    acesso:
+      empresa: CODI_EMP
+      periodo: VIGENCIA
+      exige_algum: [codigo_da_rubrica]
+      volume: grande
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa_do_evento: CODI_EMP
+      codigo_da_rubrica: I_EVENTOS
+      vigencia_da_alteracao: VIGENCIA
+      nome_da_rubrica: NOME
+      tipo_rubrica: PROV_DESC
+      natureza_do_evento_para_folha_mensal: NATUREZA_FOLHA_MENSAL
+      natureza_do_evento_para_13_integral: NATUREZA_13_INTEGRAL
+      codigo_da_incidencias_do_irrf_para_o_eso: CODIGO_INCIDENCIA_IRRF_ESOCIAL
+      codigo_da_incidencias_do_inss_para_o_eso: CODIGO_INCIDENCIA_INSS_ESOCIAL
+      codigo_da_incidencias_do_fgts_para_o_eso: CODIGO_INCIDENCIA_FGTS_ESOCIAL
+      codigo_da_incidencias_sindical_para_o_es: CODIGO_INCIDENCIA_SINDICAL_ESOCIAL
+      alteracao_de_informacoes_que_devem_ser_e: ENVIAR_ALTERACAO_ESOCIAL
+      alteracao_inserida_pela_troca_de_faseame: ALTERACAO_FASEAMENTO_ESOCIAL
+      origem_do_registro_1_sistema_2_alteracao: {coluna: ORIGEM_ALTERACAO, dominio: foeventos_alteracao_origem_do_registro_1_sistema_}
+      codigo_de_incidencia_do_rpps_para_o_esoc: CODIGO_INCIDENCIA_RPPS_ESOCIAL
+      codigo_de_incidencia_do_pis_para_o_esoci: CODIGO_INCIDENCIA_PIS_ESOCIAL
+    vinculos:
+      foincidencia_pis_rubrica:
+        tabela: FOINCIDENCIA_PIS_RUBRICA_ESOCIAL
+        liga: {codigo_incidencia_pis_esocial: codigo}
+        colunas: {foincidencia_pis_rubrica_nome: DESCRICAO}
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+    filtros:
+      codigo_da_rubrica:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      vigencia_da_alteracao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      nome_da_rubrica:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_rubrica:
+        coluna: PROV_DESC
+        ops: [eq, in]
+      codigo_da_incidencias_do_irrf_para_o_eso:
+        coluna: CODIGO_INCIDENCIA_IRRF_ESOCIAL
+        ops: [eq, in]
+      codigo_da_incidencias_do_inss_para_o_eso:
+        coluna: CODIGO_INCIDENCIA_INSS_ESOCIAL
+        ops: [eq, in]
+      codigo_da_incidencias_do_fgts_para_o_eso:
+        coluna: CODIGO_INCIDENCIA_FGTS_ESOCIAL
+        ops: [eq, in]
+      codigo_da_incidencias_sindical_para_o_es:
+        coluna: CODIGO_INCIDENCIA_SINDICAL_ESOCIAL
+        ops: [eq, in]
+      codigo_de_incidencia_do_rpps_para_o_esoc:
+        coluna: CODIGO_INCIDENCIA_RPPS_ESOCIAL
+        ops: [eq, in]
+      codigo_de_incidencia_do_pis_para_o_esoci:
+        coluna: CODIGO_INCIDENCIA_PIS_ESOCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.332.888 linhas, 732 empresa(s), VIGENCIA de 1900-01-01 a 2026-07-01.', 'origem_do_registro_1_sistema_2_alteracao: todos os valores
+        reais estão no comentário do banco (1=1.317.230, 2=15.658).', 'Vínculo foincidencia_pis_rubrica (FOINCIDENCIA_PIS_RUBRICA_ESOCIAL): 0 de 1.886 linhas sem
+        registro relacionado (empresa 220).', 'Vínculo foeventos (foeventos): 0 de 1.886 linhas sem registro relacionado (empresa 220).']
+  foeventos_alteracao_dados_cadastrais:
+    titulo: Alteração de dados cadastrais do histórico do cadastro de rubricas
+    descricao: 'Alteração de dados cadastrais do histórico do cadastro de rubricas. 1.310.502 linhas no catálogo; chave: CODI_EMP, I_EVENTOS, VIGENCIA.'
+    tabela: FOEVENTOS_ALTERACAO_DADOS_CADASTRAIS
+    chave: [CODI_EMP, I_EVENTOS, VIGENCIA]
+    acesso:
+      empresa: CODI_EMP
+      periodo: VIGENCIA
+      exige_algum: [codigo_da_rubrica]
+      volume: grande
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa_do_evento: CODI_EMP
+      codigo_da_rubrica: I_EVENTOS
+      vigencia_da_alteracao: VIGENCIA
+      taxa_da_rubrica: TAXA
+      soma_adicional_aviso_previo: SOMA_ADICIONAL_AVISO_PREVIO
+      computa_13_ferias: COMP_13FER
+      soma_media_aviso_previo: SOMA_MEDIA_AVISO_PREVIO
+      soma_med_13: SOMA_MED_13
+      soma_media_ferias: SOMA_MED_FER
+      reflexo_dsr: BASE_RDSR
+      desconta_no_dsr: DESCONTA_DSR
+      soma_media_licenca_premio: SOMA_MEDIA_LICENCA_PREMIO
+      soma_adicional_licenca_premio: SOMA_ADICIONAL_LICENCA_PREMIO
+      tipo_de_valor_pra_considerar_no_calculo: TIPO_VALOR_CONSIDERAR_CALCULO_MEDIAS
+      detalhar_lancamento_por_servico: DETALHAR_LANCAMENTO_POR_SERVICO
+      origem_do_registro_1_sistema_2_alteracao: {coluna: ORIGEM_ALTERACAO, dominio: foeventos_alteracao_dados_cadastrais_origem_do_r}
+      utiliza_para_o_esocial_domestico: UTILIZA_PARA_ESOCIAL_DOMESTICO
+      codigo_esocial_domestico: CODIGO_ESOCIAL_DOMESTICO
+    vinculos:
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+    filtros:
+      codigo_da_rubrica:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      vigencia_da_alteracao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      computa_13_ferias:
+        coluna: COMP_13FER
+        ops: [eq, in]
+      soma_med_13:
+        coluna: SOMA_MED_13
+        ops: [eq, in]
+      soma_media_ferias:
+        coluna: SOMA_MED_FER
+        ops: [eq, in]
+      reflexo_dsr:
+        coluna: BASE_RDSR
+        ops: [eq, in]
+      tipo_de_valor_pra_considerar_no_calculo:
+        coluna: TIPO_VALOR_CONSIDERAR_CALCULO_MEDIAS
+        ops: [eq, in]
+      codigo_esocial_domestico:
+        coluna: CODIGO_ESOCIAL_DOMESTICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.312.199 linhas, 732 empresa(s), VIGENCIA de 1900-01-01 a 2026-07-01.', 'origem_do_registro_1_sistema_2_alteracao: todos os valores
+        reais estão no comentário do banco (1=1.307.271, 2=4.928).', 'Vínculo foeventos (foeventos): 0 de 1.886 linhas sem registro relacionado (empresa 638).']
+  foeventos_ordem_calculo:
+    titulo: Tabela de controle da ordem de cálculo das rubricas
+    descricao: 'Tabela de controle da ordem de cálculo das rubricas. 1.051.318 linhas no catálogo; chave: CODI_EMP, I_EVENTOS.'
+    tabela: FOEVENTOS_ORDEM_CALCULO
+    chave: [CODI_EMP, I_EVENTOS]
+    acesso:
+      empresa: CODI_EMP
+      exige_algum: [codigo_dos_eventos]
+      volume: grande
+    ordem:
+    - [I_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_dos_eventos: I_EVENTOS, ordem_do_calculo: ORDEM_CALCULO}
+    vinculos:
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+    filtros:
+      codigo_dos_eventos:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.053.025 linhas, 603 empresa(s).', 'Vínculo foeventos (foeventos): 0 de 1.698 linhas sem registro relacionado (empresa 1507).']
+  foeventos_alteracao_controle_envio_esocial_envios_esocial:
+    titulo: Envios do controle de envio de rubrica ao eSocial
+    descricao: 'Envios do controle de envio de rubrica ao eSocial. 570.241 linhas no catálogo; chave: CODI_EMP, I_EVENTOS, VIGENCIA, CODI_EMP_ENVIO, CODI_EMP_DADOS_EVENTOS,
+      I_DADOS_EVENTOS.'
+    tabela: FOEVENTOS_ALTERACAO_CONTROLE_ENVIO_ESOCIAL_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EVENTOS, VIGENCIA, CODI_EMP_ENVIO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: medio}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_EVENTOS, asc]
+    - [CODI_EMP_ENVIO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento: I_EVENTOS, vigencia: VIGENCIA, codigo_da_empresa_de_envio_do_evento_ao: CODI_EMP_ENVIO, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_da_empresa_de_envio_do_evento_ao:
+        coluna: CODI_EMP_ENVIO
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 570.249 linhas, 413 empresa(s), VIGENCIA de 1900-01-01 a 2026-05-01.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 1.503 linhas sem registro relacionado (empresa 802).']
+  foeventos_afast:
+    titulo: Eventos pagos em afastamento
+    descricao: 'Eventos pagos em afastamento. 214.085 linhas no catálogo; chave: codi_emp, i_eventos, situacao.'
+    tabela: foeventos_afast
+    chave: [codi_emp, i_eventos, situacao]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [i_eventos, asc]
+    - [situacao, asc]
+    colunas: {codigo_da_empresa: codi_emp, codigo_do_evento: i_eventos, situacao: situacao, codigo_do_evento_de_afastamento: i_eventos_afast, calcular_1_sim_0_nao: calcular}
+    vinculos:
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+    filtros:
+      codigo_do_evento:
+        coluna: i_eventos
+        ops: [eq, in]
+      situacao:
+        coluna: situacao
+        ops: [eq, in]
+      codigo_do_evento_de_afastamento:
+        coluna: i_eventos_afast
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 214.360 linhas, 722 empresa(s).', 'Vínculo foeventos (foeventos): 0 de 319 linhas sem registro relacionado (empresa 291).']
+  foeventos_afastdef:
+    titulo: Eventos pagos em afastamento - padrao
+    descricao: 'Eventos pagos em afastamento - padrao. 275 linhas no catálogo; chave: i_eventos, situacao.'
+    tabela: foeventos_afastdef
+    chave: [i_eventos, situacao]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_eventos, asc]
+    - [situacao, asc]
+    colunas: {codigo_do_evento: i_eventos, situacao: situacao, codigo_do_evento_de_afastamento: i_eventos_afast, calcular_1_sim_0_nao: calcular}
+    vinculos:
+      foeventosdef:
+        tabela: foeventosdef
+        liga: {i_eventos: i_eventos}
+        colunas: {foeventosdef_nome: nome}
+    filtros:
+      codigo_do_evento:
+        coluna: i_eventos
+        ops: [eq, in]
+      situacao:
+        coluna: situacao
+        ops: [eq, in]
+      codigo_do_evento_de_afastamento:
+        coluna: i_eventos_afast
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 275 linhas.', 'Vínculo foeventosdef (foeventosdef): 0 de 275 linhas sem registro relacionado.']

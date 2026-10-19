@@ -1,0 +1,95 @@
+# Modelo de entidades dos INFORMATIVOS (obrigações acessórias): catálogo (EFINFORMATIVOS), "outros dados" por empresa e competência (EFOUTROSDADOS) e os campos
+# informados em cada um (EFOUTROSDADOS_DADOS, pares campo/valor). Curado à mão e medido no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada): as ~40 tabelas EFOUTROSDADOS_* e EF*_<obrigação> que detalham alguns informativos (DIRF SCP, DERE, DIEF-ES, MT-GIA,
+# DASN, VAF...) e EFOUTROSDADOS_CONTAS. Cada uma tem colunas próprias.
+modulo: informativos
+titulo: Informativos e obrigações acessórias (outros dados)
+dominios:
+  tipo_campo_informativo:
+    descricao: Tipo do campo em efoutrosdados_dados (coluna `tipo`)
+    confirmado: parcial
+    nota: >
+      O banco não documenta o tipo (a coluna não tem comentário). Padrão observado nos nomes de campo: 1 = indicador S/N ou texto curto (retificadora, numero_recibo,
+      situacao_especial, certificado_digital; 2,97 mi de campos, 481.742 vazios), 2 = data (data_evento, data_obito; 49.921, 47.429 vazios), 3 = opção/código escolhido
+      (evento, regime, qualificacao, forma_tributacao_lucro; 658.888, nenhum vazio), 4 = valor ou texto longo (limite_rendimento, natureza_declarante, total_ctb;
+      169.850, nenhum vazio). O campo numero_recibo aparece em tipo 1 (DCTF) e em tipo 4 (DIRF).
+    valores: {1: Indicador ou texto curto (por observação), 2: Data (por observação), 3: Opção ou código (por observação), 4: Valor ou texto longo (por observação)}
+
+entidades:
+  informativo:
+    titulo: Catálogo de informativos (obrigações acessórias)
+    descricao: >
+      Os 82 informativos que a Domínio trata, de DIPJ/DASN/DEFIS (um por ano) a guias estaduais (GIA, DIEF, GIM...), DCTF, DIRF, DMED, SPED, EFD-Reinf, MIT,
+      DIRBI e DeRE. Tabela global.
+    tabela: efinformativos
+    chave: [i_informativos]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_informativos, asc]]
+    colunas:
+      codigo: i_informativos
+      descricao: descricao
+    filtros:
+      codigo: {coluna: i_informativos, ops: [eq, in]}
+      descricao: {coluna: descricao, ops: [contem, prefixo]}
+    regras:
+      - "82 informativos. Códigos de uso mais frequente: 35 (SPED PIS e COFINS), 36 (DCTF), 62 e 65 (EFD-Reinf e Reinf eventos), 32 (DIRF após 2009), 77 (MIT), 78 e 80 (DEFIS 2025 e 2026)."
+
+  informativo_empresa:
+    titulo: Informativos preparados por empresa e competência
+    descricao: >
+      Marca que existe "outros dados" para um informativo numa competência de uma empresa: ou seja, a obrigação foi preparada ali. Para informativos anuais (DEFIS,
+      DIRF, DMED) a competência é 1º de janeiro do ano de referência. 83.391 linhas, 1.911 empresas. Os campos informados ficam em dado_informativo.
+    tabela: efoutrosdados
+    chave: [codi_emp, competencia, i_informativos]
+    acesso: {empresa: codi_emp, periodo: competencia, volume: medio}
+    ordem: [[competencia, desc], [i_informativos, asc]]
+    colunas:
+      competencia: competencia
+      informativo_codigo: i_informativos
+    vinculos:
+      informativo:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {informativo_descricao: descricao}
+    filtros:
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      informativo_codigo: {coluna: i_informativos, ops: [eq, in]}
+    filhos:
+      campos: {entidade: dado_informativo, liga: {codi_emp: codi_emp, competencia: competencia, i_informativos: informativo_codigo}}
+    regras:
+      - "Por informativo (cabeçalhos): 35 SPED PIS/COFINS 29.100 (868 empresas) · 36 DCTF 17.730 (709) · 62 EFD-Reinf 16.004 (883) · 65 Reinf eventos 7.219 (667) · 77 MIT 5.266 (679, de 2020-09 a 2026-09) · 32 DIRF 5.180 (1.740) · 78 DEFIS 2025 582 (196) · 80 DEFIS 2026 432 (235)."
+      - "Dado suspeito: 9 cabeçalhos têm ano impossível na competência (digitação): informativo 35 com anos 20 a 2240 (7 empresas) e informativo 62 com anos 3202 e 5025 (2 empresas). Filtre a competência entre 2000 e a data atual."
+      - "Integridade: todo campo (dado_informativo) tem o cabeçalho correspondente (0 sem cabeçalho em 3.842.053) e só 1 cabeçalho não tem campos."
+
+  dado_informativo:
+    titulo: Campos informados em cada informativo (campo/valor)
+    descricao: >
+      Os parâmetros e respostas que o escritório informa para gerar cada obrigação, como pares campo/valor por empresa, competência e informativo (retificadora,
+      número do recibo, regime, qualificação, opções...). 3,84 milhões de linhas; o informativo 35 (SPED PIS/COFINS) tem 2,9 milhões. O valor é sempre texto: o `tipo` diz
+      como interpretá-lo (ver domínio). Alguns campos têm dado pessoal (CPF e nome do inventariante da DIRF, CNPJ do responsável).
+    tabela: efoutrosdados_dados
+    chave: [codi_emp, competencia, i_informativos, campo]
+    acesso: {empresa: codi_emp, periodo: competencia, exige_algum: [informativo_codigo, periodo], volume: grande}
+    ordem: [[competencia, desc], [i_informativos, asc], [campo, asc]]
+    privacidade: Alguns valores contêm CPF, nome ou CNPJ (inventariante da DIRF, responsáveis).
+    colunas:
+      competencia: competencia
+      informativo_codigo: i_informativos
+      campo: campo
+      tipo: {coluna: tipo, dominio: tipo_campo_informativo}
+      valor: {coluna: valor, sensivel: parcial}
+    vinculos:
+      informativo:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {informativo_descricao: descricao}
+    filtros:
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      informativo_codigo: {coluna: i_informativos, ops: [eq, in]}
+      campo: {coluna: campo, ops: [eq, in, prefixo]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    regras:
+      - "Volume por informativo: 35 SPED PIS/COFINS 2.909.913 linhas (100 campos distintos) · 36 DCTF 383.650 (22) · 62 EFD-Reinf 201.167 (13) · 32 DIRF 138.911 (27) · 65 Reinf eventos 122.234 (18) · 77 MIT 47.061 (24)."
+      - "Tipo: 1 em 2.965.178 campos (481.742 com valor vazio), 3 em 658.888, 4 em 169.850 e 2 em 49.921 (47.429 vazios); tipos 3 e 4 nunca têm valor vazio."
+      - "Campos de controle comuns: `retificadora`, `numero_recibo`, `situacao_especial`, `regime`, `evento`, `qualificacao`. Na DCTF (36) campos como retificadora, numero_recibo, regime, evento e qualificacao aparecem em todos os 17.730 cabeçalhos; no MIT (77) aparecem data_evento e situacao_especial em 5.266 e evento, qualificacao_pj, tributacao_lucro e variacoes_monetarias em 4.959."

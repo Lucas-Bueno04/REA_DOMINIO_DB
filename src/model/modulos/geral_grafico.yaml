@@ -1,0 +1,262 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_grafico
+titulo: Geral - grafico (rascunho em lote)
+entidades:
+  gegrafico_contas_contabeis:
+    titulo: Tabela referente as contas contabeis que devem ser emitidas no grafico.
+    descricao: 'Tabela referente as contas contabeis que devem ser emitidas no grafico.. 217 linhas no catálogo; chave: CODIGO_GRAFICO, CODIGO_EMPRESA, CODIGO_CONTA_CONTABIL.'
+    tabela: GEGRAFICO_CONTAS_CONTABEIS
+    chave: [CODIGO_GRAFICO, CODIGO_EMPRESA, CODIGO_CONTA_CONTABIL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_GRAFICO, asc]
+    - [CODIGO_EMPRESA, asc]
+    colunas: {codigo_do_grafico: CODIGO_GRAFICO, empresa_selecionado: CODIGO_EMPRESA, codigo_da_conta_contabil: CODIGO_CONTA_CONTABIL, classificacao_da_conta_contabil: CLASSIFICACAO,
+      descricao_da_conta_contabil: DESCRICAO, posicao_do_item: POSICAO_ITEM}
+    filtros:
+      codigo_do_grafico:
+        coluna: CODIGO_GRAFICO
+        ops: [eq, in]
+      empresa_selecionado:
+        coluna: CODIGO_EMPRESA
+        ops: [eq, in]
+      codigo_da_conta_contabil:
+        coluna: CODIGO_CONTA_CONTABIL
+        ops: [eq, in]
+      classificacao_da_conta_contabil:
+        coluna: CLASSIFICACAO
+        ops: [contem, prefixo]
+      descricao_da_conta_contabil:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 217 linhas.']
+  gegrafico_plano_contas_empresa:
+    titulo: Tabela referente ao plano de conta selecionado para cada gráfico.
+    descricao: 'Tabela referente ao plano de conta selecionado para cada gráfico.. 83 linhas no catálogo; chave: CODIGO_GRAFICO, CODIGO_EMPRESA.'
+    tabela: GEGRAFICO_PLANO_CONTAS_EMPRESA
+    chave: [CODIGO_GRAFICO, CODIGO_EMPRESA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_GRAFICO, asc]
+    - [CODIGO_EMPRESA, asc]
+    colunas: {codigo_do_grafico: CODIGO_GRAFICO, empresa_selecionado: CODIGO_EMPRESA, c_1_saldo_do_periodo_2_saldo_do_exercici: TIPO_SALDO_CONTA_CONTABIL}
+    filtros:
+      codigo_do_grafico:
+        coluna: CODIGO_GRAFICO
+        ops: [eq, in]
+      empresa_selecionado:
+        coluna: CODIGO_EMPRESA
+        ops: [eq, in]
+      c_1_saldo_do_periodo_2_saldo_do_exercici:
+        coluna: TIPO_SALDO_CONTA_CONTABIL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 83 linhas.']
+  gegrafico_permissao_tipo_grafico:
+    titulo: Tipo de gráficos permitidos na configuração dos dashboards
+    descricao: 'Tipo de gráficos permitidos na configuração dos dashboards. 75 linhas no catálogo; chave: CODIGO_GRAFICO, CODIGO_MODULO, CODIGO_TIPO_GRAFICO.'
+    tabela: GEGRAFICO_PERMISSAO_TIPO_GRAFICO
+    chave: [CODIGO_GRAFICO, CODIGO_MODULO, CODIGO_TIPO_GRAFICO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_GRAFICO, asc]
+    - [CODIGO_MODULO, asc]
+    colunas: {codigo_do_grafico_referencia_a_tabela_ge: CODIGO_GRAFICO, codigo_do_modulo_referencia_aos_codigos: CODIGO_MODULO, tipo_do_grafico_referencia_a_tabela_gegr: CODIGO_TIPO_GRAFICO}
+    filtros:
+      codigo_do_grafico_referencia_a_tabela_ge:
+        coluna: CODIGO_GRAFICO
+        ops: [eq, in]
+      codigo_do_modulo_referencia_aos_codigos:
+        coluna: CODIGO_MODULO
+        ops: [eq, in]
+      tipo_do_grafico_referencia_a_tabela_gegr:
+        coluna: CODIGO_TIPO_GRAFICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 75 linhas.']
+  gegrafico_configuracao_contas_contabeis:
+    titulo: Dados dos gráficos criado pelo usuário e gráficos padrões.
+    descricao: 'Dados dos gráficos criado pelo usuário e gráficos padrões.. 30 linhas no catálogo; chave: CODIGO, CODIGO_MODULO.'
+    tabela: GEGRAFICO_CONFIGURACAO_CONTAS_CONTABEIS
+    chave: [CODIGO, CODIGO_MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [CODIGO_MODULO, asc]
+    colunas: {codigo: CODIGO, codigo_do_modulo_que_o_grafico_pertence: CODIGO_MODULO, codigo_do_usuario_para_graico_padrao_inf: CODIGO_USUARIO, nome_do_grafico: NOME,
+      titulo_do_grafico: TITULO, tipo_do_grafico_consultar_tabela_gegrafi: TIPO_GRAFICO, intervalo_de_emissao_dos_dados_1_mensal: INTERVALO_EMISSAO, informa_a_quantidade_de_contas_contabeis: ITENS_AGRUPAMENTO,
+      grafico_padrao_inserido_na_atualizacao_d: GRAFICO_PADRAO}
+    vinculos:
+      gegrafico_tipo:
+        tabela: GEGRAFICO_TIPO
+        liga: {tipo_grafico: codigo}
+        colunas: {gegrafico_tipo_nome: NOME}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_modulo_que_o_grafico_pertence:
+        coluna: CODIGO_MODULO
+        ops: [eq, in]
+      codigo_do_usuario_para_graico_padrao_inf:
+        coluna: CODIGO_USUARIO
+        ops: [eq, in]
+      nome_do_grafico:
+        coluna: NOME
+        ops: [contem, prefixo]
+      titulo_do_grafico:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      tipo_do_grafico_consultar_tabela_gegrafi:
+        coluna: TIPO_GRAFICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 30 linhas.', 'Vínculo gegrafico_tipo (GEGRAFICO_TIPO): 0 de 30 linhas sem registro relacionado.']
+  gegrafico_graficos_selecionados_emissao_empresas:
+    titulo: Empresas vinculadas aos dashboards
+    descricao: 'Empresas vinculadas aos dashboards. 25 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_GRAFICOS_SELECIONADOS_EMISSAO_EMPRESAS
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, codigo_selecao: CODIGO_SELECAO, codi_emp: CODI_EMP, codigo_vinculo: CODIGO_VINCULO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_selecao:
+        coluna: CODIGO_SELECAO
+        ops: [eq, in]
+      codigo_vinculo:
+        coluna: CODIGO_VINCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 25 linhas, 9 empresa(s).']
+  gegrafico_emitir:
+    titulo: Configurações do gráfico dos dashboards
+    descricao: 'Configurações do gráfico dos dashboards. 22 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_EMITIR
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, codigo_selecao: CODIGO_SELECAO, codigo_grafico: CODIGO_GRAFICO, codigo_modulo: CODIGO_MODULO, tipo_grafico: TIPO_GRAFICO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_selecao:
+        coluna: CODIGO_SELECAO
+        ops: [eq, in]
+      codigo_grafico:
+        coluna: CODIGO_GRAFICO
+        ops: [eq, in]
+      codigo_modulo:
+        coluna: CODIGO_MODULO
+        ops: [eq, in]
+      tipo_grafico:
+        coluna: TIPO_GRAFICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  gegrafico_tipo:
+    titulo: Tipo dos gráfico
+    descricao: 'Tipo dos gráfico. 6 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_TIPO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {chave_primaria: CODIGO, nome_de_cada_tipo_de_grafico_ex_1_linha: NOME}
+    filtros:
+      chave_primaria:
+        coluna: CODIGO
+        ops: [eq, in]
+      nome_de_cada_tipo_de_grafico_ex_1_linha:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  gegrafico_legenda:
+    titulo: Tabela referente as legendas do gráfico.
+    descricao: 'Tabela referente as legendas do gráfico.. 6 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_LEGENDA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {chave_primaria: CODIGO, codigo_do_grafico_que_a_legenda_pertence: CODIGO_GRAFICO, coluna_referente_a_legenda_1_do_grafico: LEGENDA_1, legenda_2_c: LEGENDA_2,
+      legenda_3_c: LEGENDA_3, legenda_4_c: LEGENDA_4, legenda_5_c: LEGENDA_5}
+    filtros:
+      chave_primaria:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_grafico_que_a_legenda_pertence:
+        coluna: CODIGO_GRAFICO
+        ops: [eq, in]
+      coluna_referente_a_legenda_1_do_grafico:
+        coluna: LEGENDA_1
+        ops: [contem, prefixo]
+      legenda_2_c:
+        coluna: LEGENDA_2
+        ops: [contem, prefixo]
+      legenda_3_c:
+        coluna: LEGENDA_3
+        ops: [contem, prefixo]
+      legenda_4_c:
+        coluna: LEGENDA_4
+        ops: [contem, prefixo]
+      legenda_5_c:
+        coluna: LEGENDA_5
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  gegrafico_graficos_selecionados_emissao:
+    titulo: Gráficos de dashboards - Cadastro
+    descricao: 'Gráficos de dashboards - Cadastro. 3 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_GRAFICOS_SELECIONADOS_EMISSAO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, nome: NOME}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas.']
+  gegrafico_vinculo:
+    titulo: Código, chave primaria
+    descricao: 'Código, chave primaria. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_VINCULO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO, exibe_acesso_sistema: EXIBE_ACESSO_SISTEMA}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gegrafico_graficos_selecionados_emissao_usuarios:
+    titulo: Usuários selecionados para emitir os dashboards
+    descricao: 'Usuários selecionados para emitir os dashboards. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGRAFICO_GRAFICOS_SELECIONADOS_EMISSAO_USUARIOS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, codigo_vinculo: CODIGO_VINCULO, codigo_usuario: CODIGO_USUARIO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_vinculo:
+        coluna: CODIGO_VINCULO
+        ops: [eq, in]
+      codigo_usuario:
+        coluna: CODIGO_USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

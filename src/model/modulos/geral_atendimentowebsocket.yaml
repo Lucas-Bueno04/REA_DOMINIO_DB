@@ -1,0 +1,214 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_atendimentowebsocket
+titulo: Geral - atendimentowebsocket (rascunho em lote)
+dominios:
+  geatendimentowebsocket_onvio_rota_lancamento_iceberg_situacao_da:
+    confirmado: true
+    nota: 'Todos os valores observados em GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_LANCAMENTO_ICEBERG.STATUS_TRANSACAO estão no comentário do banco (2026-10-18). Distribuição:
+      1=6.948.'
+    valores: {'1': Transação Original, '2': Atualizada, '3': Atualizada Apos Fechamento, '4': Excluida Apos Fechamento, '5': Atualizada Com Vinculo, '6': Excluida
+        Com Vinculo}
+entidades:
+  geatendimentowebsocket_onvio_rota_lancamentos_contabeis:
+    titulo: Armazena mensagens recebidos pelo websocket referente a rota que informa as empresas que utilizam Lançamentos Contábeis.
+    descricao: 'Armazena mensagens recebidos pelo websocket referente a rota que informa as empresas que utilizam Lançamentos Contábeis.. 128.090 linhas no catálogo;
+      chave: CODI, FILE_GUID.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_LANCAMENTOS_CONTABEIS
+    chave: [CODI, FILE_GUID]
+    acesso:
+      empresa: null
+      volume: medio
+      exige_algum: [codigo_sequencial]
+    ordem:
+    - [CODI, asc]
+    - [FILE_GUID, asc]
+    colunas: {codigo_sequencial: CODI, file_guid: FILE_GUID, hasmore: HASMORE, package: PACKAGE, c_0_nao_1_sim_informa_se_a_mensagem_foi: ACAO_PROCESSADA}
+    filtros:
+      codigo_sequencial:
+        coluna: CODI
+        ops: [eq, in]
+      file_guid:
+        coluna: FILE_GUID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 128.090 linhas.']
+  geatendimentowebsocket_onvio_rota_emp_ativas_boxe:
+    titulo: Armazena mensagens recebidos pelo websocket referente a rota que informa as empresas que utilizam box-e/manifesto.
+    descricao: 'Armazena mensagens recebidos pelo websocket referente a rota que informa as empresas que utilizam box-e/manifesto.. 9.084 linhas no catálogo; chave:
+      CODI.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_EMP_ATIVAS_BOXE
+    chave: [CODI]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI, asc]
+    colunas: {codigo_sequencial: CODI, c_0_nao_1_sim_informa_se_a_mensagem_foi: ACAO_PROCESSADA, c_1_boxe_2_manifesto: TIPO_ATIVACAO}
+    filtros:
+      codigo_sequencial:
+        coluna: CODI
+        ops: [eq, in]
+      c_1_boxe_2_manifesto:
+        coluna: TIPO_ATIVACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9.108 linhas.']
+  geatendimentowebsocket_onvio_rota_lancamento_iceberg:
+    titulo: Armazena mensagens recebidos pelo websocket referente a rota que busca as transações do Iceberg
+    descricao: 'Armazena mensagens recebidos pelo websocket referente a rota que busca as transações do Iceberg. 6.948 linhas no catálogo; chave: CODI.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_LANCAMENTO_ICEBERG
+    chave: [CODI]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI, asc]
+    colunas:
+      codigo_sequencial: CODI
+      c_2_transacoes_ignoradas_1_automacao_0_p: ACAO_PROCESSADA
+      messageid_do_payload: MESSAGE_ID
+      clientid_do_payload: CLIENT_ID
+      messageorigin_do_payload: MESSAGE_ORIGIN
+      identificador_da_transacao: ID_TRANSACAO
+      identificador_da_transacao_por_client_id: TRANSACTION_ID
+      parceiro_de_conexao_open_banking: PARTNER
+      versao_do_schema_do_payload_da_fintech: SCHEMA_VERSION
+      situacao_da_transacao_apos_processamento: {coluna: STATUS_TRANSACAO, dominio: geatendimentowebsocket_onvio_rota_lancamento_iceberg_situacao_da}
+      sequencial_do_json_que_atualizou_a_linha: CODI_HISTORY
+      consent_id_da_transacao: CONSENT_ID
+    filtros:
+      codigo_sequencial:
+        coluna: CODI
+        ops: [eq, in]
+      messageid_do_payload:
+        coluna: MESSAGE_ID
+        ops: [contem, prefixo]
+      clientid_do_payload:
+        coluna: CLIENT_ID
+        ops: [contem, prefixo]
+      messageorigin_do_payload:
+        coluna: MESSAGE_ORIGIN
+        ops: [contem, prefixo]
+      identificador_da_transacao:
+        coluna: ID_TRANSACAO
+        ops: [contem, prefixo]
+      identificador_da_transacao_por_client_id:
+        coluna: TRANSACTION_ID
+        ops: [contem, prefixo]
+      parceiro_de_conexao_open_banking:
+        coluna: PARTNER
+        ops: [contem, prefixo]
+      versao_do_schema_do_payload_da_fintech:
+        coluna: SCHEMA_VERSION
+        ops: [eq, in]
+      sequencial_do_json_que_atualizou_a_linha:
+        coluna: CODI_HISTORY
+        ops: [eq, in]
+      consent_id_da_transacao:
+        coluna: CONSENT_ID
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6.948 linhas.', 'Colunas expostas nulas em 100% das linhas (3): parceiro_de_conexao_open_banking, versao_do_schema_do_payload_da_fintech,
+        sequencial_do_json_que_atualizou_a_linha.', 'situacao_da_transacao_apos_processamento: todos os valores reais estão no comentário do banco (1=6.948).']
+  geatendimentowebsocket_sgd_notificacoes:
+    titulo: Notificações de suporte e notícias recebidas pelo websocket
+    descricao: 'Notificações de suporte e notícias recebidas pelo websocket. 3.035 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOWEBSOCKET_SGD_NOTIFICACOES
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_auto_numeracao: CODIGO, codigo_da_empresa: CODI_EMP, marca_se_a_mensagem_foi_processada: ACAO_PROCESSADA, tipo_de_ativacao: TIPO_ATIVACAO}
+    filtros:
+      codigo_auto_numeracao:
+        coluna: CODIGO
+        ops: [eq, in]
+      tipo_de_ativacao:
+        coluna: TIPO_ATIVACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.045 linhas, 0 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): codigo_da_empresa, tipo_de_ativacao.', 'A coluna
+        de empresa (codi_emp) é nula em 100% das linhas: tabela global, sem filtro de empresa (medido em 2026-10-18).']
+  geatendimentowebsocket_onvio_rota_conta_iceberg:
+    titulo: Armazena mensagens recebidos pelo websocket referente a rota que busca as contas financeiras do Iceberg
+    descricao: 'Armazena mensagens recebidos pelo websocket referente a rota que busca as contas financeiras do Iceberg. 86 linhas no catálogo; chave: CODI.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_CONTA_ICEBERG
+    chave: [CODI]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI, asc]
+    colunas: {codigo_sequencial: CODI, c_0_nao_1_sim_2_aguardando_informa_se_a: ACAO_PROCESSADA, messageid_do_payload: MESSAGE_ID, identificador_do_consentimento_open_bank: CONSENT_ID,
+      parceiro_de_conexao_open_banking: PARTNER, versao_do_schema_do_payload_da_fintech: SCHEMA_VERSION}
+    filtros:
+      codigo_sequencial:
+        coluna: CODI
+        ops: [eq, in]
+      messageid_do_payload:
+        coluna: MESSAGE_ID
+        ops: [contem, prefixo]
+      identificador_do_consentimento_open_bank:
+        coluna: CONSENT_ID
+        ops: [contem, prefixo]
+      parceiro_de_conexao_open_banking:
+        coluna: PARTNER
+        ops: [contem, prefixo]
+      versao_do_schema_do_payload_da_fintech:
+        coluna: SCHEMA_VERSION
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 86 linhas.', 'Colunas expostas nulas em 100% das linhas (4): messageid_do_payload, identificador_do_consentimento_open_bank, parceiro_de_conexao_open_banking,
+        versao_do_schema_do_payload_da_fintech.']
+  geatendimentowebsocket_onvio_rota_brclient_conflitos_motivos:
+    titulo: Motivo do conflito no envio das informações para o BRClient
+    descricao: 'Motivo do conflito no envio das informações para o BRClient. 4 linhas no catálogo; chave: GUID.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_BRCLIENT_CONFLITOS_MOTIVOS
+    chave: [GUID]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [GUID, asc]
+    colunas: {id_do_registro: GUID, a_causa_do_conflito: MOTIVO, sugestao_para_resolucao_do_conflito: SUGESTAO}
+    filtros:
+      id_do_registro:
+        coluna: GUID
+        ops: [eq, in]
+      a_causa_do_conflito:
+        coluna: MOTIVO
+        ops: [contem, prefixo]
+      sugestao_para_resolucao_do_conflito:
+        coluna: SUGESTAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  geatendimentowebsocket_onvio_rota_lancamento_controle:
+    titulo: Tabela de controle de lançamentos pra o Domínio Inova
+    descricao: 'Tabela de controle de lançamentos pra o Domínio Inova. 1 linhas no catálogo; chave: EVENT_DATE.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_LANCAMENTO_CONTROLE
+    chave: [EVENT_DATE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [EVENT_DATE, asc]
+    colunas: {event_date: EVENT_DATE}
+    filtros:
+      event_date:
+        coluna: EVENT_DATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimentowebsocket_onvio_rota_conta_controle:
+    titulo: Tabela de controle para o Domínio Inova
+    descricao: 'Tabela de controle para o Domínio Inova. 1 linhas no catálogo; chave: EVENT_DATE.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_CONTA_CONTROLE
+    chave: [EVENT_DATE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [EVENT_DATE, asc]
+    colunas: {event_date: EVENT_DATE}
+    filtros:
+      event_date:
+        coluna: EVENT_DATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimentowebsocket_onvio_rota_openbanking_controle:
+    titulo: Tabela de controle de Offset de operações Open Banking
+    descricao: 'Tabela de controle de Offset de operações Open Banking. 1 linhas no catálogo; chave: EVENT_DATE.'
+    tabela: GEATENDIMENTOWEBSOCKET_ONVIO_ROTA_OPENBANKING_CONTROLE
+    chave: [EVENT_DATE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [EVENT_DATE, asc]
+    colunas: {informa_lasteventdate_ao_realizar_subscr: EVENT_DATE}
+    filtros:
+      informa_lasteventdate_ao_realizar_subscr:
+        coluna: EVENT_DATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): informa_lasteventdate_ao_realizar_subscr.']

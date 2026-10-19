@@ -1,0 +1,152 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_tabcalc
+titulo: Pessoal - tabcalc (rascunho em lote)
+dominios:
+  fotabcalc_patronal_atividade_d:
+    confirmado: true
+    nota: 'Todos os valores observados em fotabcalc_patronal.ATIVIDADE_ENSINO estão no comentário do banco (2026-10-18). Distribuição: 0=24.'
+    valores: {'0': Não, '1': Sim}
+  fotabcalc_patronal_utilizar_re:
+    confirmado: true
+    nota: 'Todos os valores observados em fotabcalc_patronal.UTILIZAR_RECEITA_BRUTA estão no comentário do banco (2026-10-18). Distribuição: 0=24.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  fotabcalc_patronal_faixas:
+    titulo: Tabela de Contribuição Sindical Patronal - Faixas
+    descricao: 'Tabela de Contribuição Sindical Patronal - Faixas. 459 linhas no catálogo; chave: i_fotabcalc_patronal, ano, valor_inicial.'
+    tabela: fotabcalc_patronal_faixas
+    chave: [i_fotabcalc_patronal, ano, valor_inicial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_fotabcalc_patronal, asc]
+    - [ano, asc]
+    colunas: {codigo: i_fotabcalc_patronal, ano: ano, valor_de: valor_inicial, valor_ate: valor_final, percentual: perc, valor_a_adicionar: valor}
+    vinculos:
+      fotabcalc_patronal:
+        tabela: fotabcalc_patronal
+        liga: {i_fotabcalc_patronal: i_fotabcalc_patronal}
+        colunas: {fotabcalc_patronal_nome: nome}
+    filtros:
+      codigo:
+        coluna: i_fotabcalc_patronal
+        ops: [eq, in]
+      ano:
+        coluna: ano
+        ops: [eq, in]
+      valor_de:
+        coluna: valor_inicial
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 459 linhas.', 'Vínculo fotabcalc_patronal (fotabcalc_patronal): 0 de 459 linhas sem registro relacionado.']
+  fotabcalc_patronal:
+    titulo: Tabela de Contribuição Sindical Patronal
+    descricao: 'Tabela de Contribuição Sindical Patronal. 24 linhas no catálogo; chave: i_fotabcalc_patronal.'
+    tabela: fotabcalc_patronal
+    chave: [i_fotabcalc_patronal]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_fotabcalc_patronal, asc]
+    colunas:
+      codigo: i_fotabcalc_patronal
+      nome: nome
+      atividade_de_ensino_0_nao_1_sim: {coluna: ATIVIDADE_ENSINO, dominio: fotabcalc_patronal_atividade_d}
+      utilizar_receita_bruta: {coluna: UTILIZAR_RECEITA_BRUTA, dominio: fotabcalc_patronal_utilizar_re}
+    filtros:
+      codigo:
+        coluna: i_fotabcalc_patronal
+        ops: [eq, in]
+      nome:
+        coluna: nome
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 24 linhas.', 'atividade_de_ensino_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=24).', 'utilizar_receita_bruta:
+        todos os valores reais estão no comentário do banco (0=24).']
+  fotabcalc_salario_minimo_estadual_vigencias_categorias:
+    titulo: Valores do salário mínimo estadual por categoria na vigência.
+    descricao: 'Valores do salário mínimo estadual por categoria na vigência.. 6 linhas no catálogo; chave: I_TABCALC_SALARIO_MINIMO_ESTADUAL, VIGENCIA, I_CATEGORIA.'
+    tabela: FOTABCALC_SALARIO_MINIMO_ESTADUAL_VIGENCIAS_CATEGORIAS
+    chave: [I_TABCALC_SALARIO_MINIMO_ESTADUAL, VIGENCIA, I_CATEGORIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_TABCALC_SALARIO_MINIMO_ESTADUAL, asc]
+    - [I_CATEGORIA, asc]
+    colunas:
+      codigo_sequencial_da_tabela_de_salario_m: {coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL, sensivel: financeiro}
+      competencia_de_inicio_da_vigencia_da_tab: VIGENCIA
+      codigo_da_categoria: I_CATEGORIA
+      valor_do_salario_minimo: {coluna: VALOR, sensivel: financeiro}
+    filtros:
+      codigo_sequencial_da_tabela_de_salario_m:
+        coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL
+        ops: [eq, in]
+      competencia_de_inicio_da_vigencia_da_tab:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: I_CATEGORIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, VIGENCIA de 2015-01-01 a 2017-01-01.']
+  fotabcalc_salario_minimo_estadual_vigencias:
+    titulo: Vigência da tabela de salário mínimo estadual.
+    descricao: 'Vigência da tabela de salário mínimo estadual.. 3 linhas no catálogo; chave: I_TABCALC_SALARIO_MINIMO_ESTADUAL, VIGENCIA.'
+    tabela: FOTABCALC_SALARIO_MINIMO_ESTADUAL_VIGENCIAS
+    chave: [I_TABCALC_SALARIO_MINIMO_ESTADUAL, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_TABCALC_SALARIO_MINIMO_ESTADUAL, asc]
+    colunas:
+      codigo_sequencial_da_tabela_de_salario_m: {coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL, sensivel: financeiro}
+      competencia_de_inicio_da_vigencia_da_tab: VIGENCIA
+    filtros:
+      codigo_sequencial_da_tabela_de_salario_m:
+        coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL
+        ops: [eq, in]
+      competencia_de_inicio_da_vigencia_da_tab:
+        coluna: VIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, VIGENCIA de 2015-01-01 a 2017-01-01.']
+  fotabcalc_salario_minimo_estadual_categorias:
+    titulo: Categorias para a tabela de salário mínimo estadual.
+    descricao: 'Categorias para a tabela de salário mínimo estadual.. 2 linhas no catálogo; chave: I_CATEGORIA.'
+    tabela: FOTABCALC_SALARIO_MINIMO_ESTADUAL_CATEGORIAS
+    chave: [I_CATEGORIA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CATEGORIA, asc]
+    colunas: {codigo_da_categoria: I_CATEGORIA, nome: NOME, descricao: DESCRICAO}
+    filtros:
+      codigo_da_categoria:
+        coluna: I_CATEGORIA
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.', 'Colunas expostas nulas em 100% das linhas (1): descricao.']
+  fotabcalc_salario_minimo_estadual:
+    titulo: Tabela de salário mínimo estadual.
+    descricao: 'Tabela de salário mínimo estadual.. 1 linhas no catálogo; chave: I_TABCALC_SALARIO_MINIMO_ESTADUAL.'
+    tabela: FOTABCALC_SALARIO_MINIMO_ESTADUAL
+    chave: [I_TABCALC_SALARIO_MINIMO_ESTADUAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TABCALC_SALARIO_MINIMO_ESTADUAL, asc]
+    colunas:
+      codigo_sequencial_da_tabela_de_salario_m: {coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL, sensivel: financeiro}
+      uf_da_tabela: CODIGO_UF
+    vinculos:
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+    filtros:
+      codigo_sequencial_da_tabela_de_salario_m:
+        coluna: I_TABCALC_SALARIO_MINIMO_ESTADUAL
+        ops: [eq, in]
+      uf_da_tabela:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Vínculo geestado (geestado): 0 de 1 linhas sem registro relacionado.']

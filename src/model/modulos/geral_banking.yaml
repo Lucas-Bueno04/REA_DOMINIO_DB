@@ -1,0 +1,99 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_banking
+titulo: Geral - banking (rascunho em lote)
+dominios:
+  gebanking_feature_flag_status_da_fea:
+    confirmado: true
+    nota: 'Todos os valores observados em GEBANKING_FEATURE_FLAG.ATIVO estão no comentário do banco (2026-10-18). Distribuição: 1=2.'
+    valores: {'0': Inativa, '1': Ativa}
+entidades:
+  gebanking_dados_fintech:
+    titulo: Configuracao de feature flags para integracao com a Fintech por empresa
+    descricao: 'Configuracao de feature flags para integracao com a Fintech por empresa. 1.969 linhas no catálogo; chave: COMPANY_ID, CODI_EMP.'
+    tabela: GEBANKING_DADOS_FINTECH
+    chave: [COMPANY_ID, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [COMPANY_ID, asc]
+    colunas: {guid_do_escritorio: COMPANY_ID, codigo_da_empresa: CODI_EMP, flag_para_ativar_nova_integracao_de_bene: FEATURE_FLAG_BENEFICIOS, flag_para_controle_de_execucao_da_carga: CARGA_INICIAL_EMPLOYEES_EXECUTADA,
+      flag_para_controle_de_uso_do_portal_do_e: USA_PORTAL_EMPREGADO, flag_indicando_se_carga_inicial_de_empre: ENVIO_CARGA_INICIAL_PORTAL_EMPREGADO, flag_indicando_se_carga_inicial_de_benef: ENVIO_CARGA_INICIAL_PORTAL_BENEFICIO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      guid_do_escritorio:
+        coluna: COMPANY_ID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.969 linhas, 1.969 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 123).']
+  gebanking_acoes_empregados:
+    titulo: Controle de acoes de empregados para integracao com FinTech
+    descricao: 'Controle de acoes de empregados para integracao com FinTech. 1.420 linhas no catálogo; chave: CODIGO.'
+    tabela: GEBANKING_ACOES_EMPREGADOS
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas:
+      codigo_sequencial_do_registro: CODIGO
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      cpf_do_empregado: {coluna: CPF, sensivel: parcial}
+      tipo_de_evento_create_update_delete: EVENT_TYPE
+      indica_se_o_registro_foi_processado_0_na: PROCESSADO
+      numero_de_tentativas_de_processamento_qu: NUMERO_TENTATIVAS
+    filtros:
+      codigo_sequencial_do_registro:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      cpf_do_empregado:
+        coluna: CPF
+        ops: [eq, in]
+      tipo_de_evento_create_update_delete:
+        coluna: EVENT_TYPE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.400 linhas, 156 empresa(s).']
+  gebanking_log_temporario:
+    titulo: Tabela de logs para monitoramento temporário de processos
+    descricao: 'Tabela de logs para monitoramento temporário de processos. 6 linhas no catálogo; chave: I_LOG.'
+    tabela: GEBANKING_LOG_TEMPORARIO
+    chave: [I_LOG]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_LOG, asc]
+    colunas: {sequencial_auto_incremental: I_LOG, codigo_da_empresa: CODI_EMP, tipo_de_log_processando_aviso_advertenci: TIPO_LOG, titulo_do_processo: PROCESSO, descricao_da_etapa_do_processo: DESCRICAO}
+    filtros:
+      sequencial_auto_incremental:
+        coluna: I_LOG
+        ops: [eq, in]
+      tipo_de_log_processando_aviso_advertenci:
+        coluna: TIPO_LOG
+        ops: [contem, prefixo]
+      titulo_do_processo:
+        coluna: PROCESSO
+        ops: [contem, prefixo]
+      descricao_da_etapa_do_processo:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).']
+  gebanking_feature_flag:
+    titulo: Controle de Feature Flags da Fintech
+    descricao: 'Controle de Feature Flags da Fintech. 2 linhas no catálogo; chave: DESCRICAO_FEATURE.'
+    tabela: GEBANKING_FEATURE_FLAG
+    chave: [DESCRICAO_FEATURE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [DESCRICAO_FEATURE, asc]
+    colunas:
+      nome_da_feature_flag: DESCRICAO_FEATURE
+      status_da_feature_flag_0_inativa_1_ativa: {coluna: ATIVO, dominio: gebanking_feature_flag_status_da_fea}
+    filtros:
+      nome_da_feature_flag:
+        coluna: DESCRICAO_FEATURE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas.', 'status_da_feature_flag_0_inativa_1_ativa: todos os valores reais estão no comentário do banco (1=2).']

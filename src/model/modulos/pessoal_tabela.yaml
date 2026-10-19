@@ -1,0 +1,133 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_tabela
+titulo: Pessoal - tabela (rascunho em lote)
+dominios:
+  fotabela_calculo_irrf_participacao_lucros_tabela_incl:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTABELA_CALCULO_IRRF_PARTICIPACAO_LUCROS.ORIGEM_SGD estão no comentário do banco (2026-10-18). Distribuição: 0=64, 1=4.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  fotabela_tuss:
+    titulo: Tabela TUSS
+    descricao: 'Tabela TUSS. 5.665 linhas no catálogo; chave: CODIGO.'
+    tabela: FOTABELA_TUSS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.665 linhas.']
+  fotabela_exames:
+    titulo: Código do exame.
+    descricao: 'Código do exame.. 1.450 linhas no catálogo; chave: I_EXAMES.'
+    tabela: FOTABELA_EXAMES
+    chave: [I_EXAMES]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_EXAMES, asc]
+    colunas: {codigo_do_exame: I_EXAMES, procedimento_realizado: PROCEDIMENTO}
+    filtros:
+      codigo_do_exame:
+        coluna: I_EXAMES
+        ops: [eq, in]
+      procedimento_realizado:
+        coluna: PROCEDIMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.450 linhas.']
+  fotabela_terceiros_convenios:
+    titulo: Tabela de alíquotas dos convênios para os códigos de terceiros.
+    descricao: 'Tabela de alíquotas dos convênios para os códigos de terceiros.. 625 linhas no catálogo; chave: I_TERCEIROS, CODIGO_CONVENIO.'
+    tabela: FOTABELA_TERCEIROS_CONVENIOS
+    chave: [I_TERCEIROS, CODIGO_CONVENIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TERCEIROS, asc]
+    - [CODIGO_CONVENIO, asc]
+    colunas: {codigo_de_terceiros: I_TERCEIROS, codigo_do_convenio: CODIGO_CONVENIO, aliquota: ALIQUOTA, aliquota_mp_932_2020_c: ALIQUOTA_MP_932_2020}
+    vinculos:
+      fotabela_terceiros:
+        tabela: FOTABELA_TERCEIROS
+        liga: {i_terceiros: i_terceiros}
+        colunas: {fotabela_terceiros_nome: DESCRICAO}
+      foconvenios_terceiros:
+        tabela: FOCONVENIOS_TERCEIROS
+        liga: {codigo_convenio: codigo_convenio}
+        colunas: {foconvenios_terceiros_nome: DESCRICAO}
+    filtros:
+      codigo_de_terceiros:
+        coluna: I_TERCEIROS
+        ops: [eq, in]
+      codigo_do_convenio:
+        coluna: CODIGO_CONVENIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 625 linhas.', 'Vínculo fotabela_terceiros (FOTABELA_TERCEIROS): 0 de 625 linhas sem registro relacionado.', 'Vínculo foconvenios_terceiros
+        (FOCONVENIOS_TERCEIROS): 0 de 625 linhas sem registro relacionado.']
+  fotabela_terceiros:
+    titulo: Tabela de códigos de terceiros.
+    descricao: 'Tabela de códigos de terceiros.. 309 linhas no catálogo; chave: I_TERCEIROS.'
+    tabela: FOTABELA_TERCEIROS
+    chave: [I_TERCEIROS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TERCEIROS, asc]
+    colunas: {identificador_da_tabela_de_terceiros: I_TERCEIROS, codigo_do_fpas: CODIGO_FPAS, codigo_de_terceiros: CODIGO_TERCEIROS, descricao: DESCRICAO}
+    filtros:
+      identificador_da_tabela_de_terceiros:
+        coluna: I_TERCEIROS
+        ops: [eq, in]
+      codigo_do_fpas:
+        coluna: CODIGO_FPAS
+        ops: [eq, in]
+      codigo_de_terceiros:
+        coluna: CODIGO_TERCEIROS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 309 linhas.']
+  fotabela_calculo_irrf_participacao_lucros_faixas:
+    titulo: Faixas da tabela de cálculo de IRRF sobre participação nos lucros.
+    descricao: 'Faixas da tabela de cálculo de IRRF sobre participação nos lucros.. 227 linhas no catálogo; chave: COMPETENCIA, VALOR_ATE.'
+    tabela: FOTABELA_CALCULO_IRRF_PARTICIPACAO_LUCROS_FAIXAS
+    chave: [COMPETENCIA, VALOR_ATE]
+    acesso: {empresa: null, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [VALOR_ATE, asc]
+    colunas: {competencia: COMPETENCIA, valor_maximo_da_faixa: VALOR_ATE, valor_da_aliquota_para_o_calculo: ALIQUOTA, valor_do_desconto: VALOR_DESCONTO}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      valor_maximo_da_faixa:
+        coluna: VALOR_ATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 227 linhas, COMPETENCIA de 1998-01-01 a 2025-05-01.']
+  fotabela_calculo_irrf_participacao_lucros:
+    titulo: Tabela de cálculo do IRRF sobre participação nos lucros.
+    descricao: 'Tabela de cálculo do IRRF sobre participação nos lucros.. 68 linhas no catálogo; chave: COMPETENCIA.'
+    tabela: FOTABELA_CALCULO_IRRF_PARTICIPACAO_LUCROS
+    chave: [COMPETENCIA]
+    acesso: {empresa: null, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    colunas:
+      competencia: COMPETENCIA
+      valor_do_desconto_por_dependente: VALOR_DESCONTO_DEPENDENTE
+      valor_minimo_para_retencao: VALOR_MINIMO_RETENCAO
+      tabela_incluida_atraves_do_processo_de_a: {coluna: ORIGEM_SGD, dominio: fotabela_calculo_irrf_participacao_lucros_tabela_incl}
+      versao_da_tabela_atualizada_pelo_sgd: VERSAO_TABELA_SGD
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 68 linhas, COMPETENCIA de 1998-01-01 a 2025-05-01.', 'tabela_incluida_atraves_do_processo_de_a: todos os valores reais estão no
+        comentário do banco (0=64, 1=4).']

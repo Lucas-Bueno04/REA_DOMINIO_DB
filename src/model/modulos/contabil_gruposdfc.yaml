@@ -1,0 +1,206 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_gruposdfc
+titulo: Contábil - gruposdfc (rascunho em lote)
+dominios:
+  ctgruposdfc_indireto_atividade_1_operacio:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_INDIRETO.ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=2.769, 3=753, 2=749.'
+    valores: {'1': Operacionais, '2': Investimento, '3': Financiamento}
+  ctgruposdfc_indireto_natureza_a_analitica:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_INDIRETO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=2.927, S=969, V=375.'
+    valores: {A: Analitica, S: Sintetica, V: Atividade}
+  ctgruposdfc_indireto_tipo_l_lancamentos_p:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_INDIRETO.TIPO estão no comentário do banco (2026-10-18). Distribuição: P=1.682, L=933, nulo=599, S=498, T=246,
+      D=186, J=125, C=2.'
+    valores: {L: Lancamentos, P: Saldo Periodo, D: Total Debito, J: Lucro-Prejuizo, S: Sub-Total, T: Total, C: Total crédito, A: Lucro antes do IR, I: Inverter natureza
+        do saldo, E: Saldo-Exercício}
+  ctgruposdfc_direto_atividade_1_operaciona:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_DIRETO.ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=1.111, 2=606, 3=606.'
+    valores: {'1': Operacionais, '2': Investimento, '3': Financiamento}
+  ctgruposdfc_direto_natureza_a_analitica_s:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_DIRETO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=1.515, S=505, V=303.'
+    valores: {A: Analitica, S: Sub-Total, V: Atividade}
+  ctgruposdfc_conciliacao_natureza_a_analitica_s_s:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_CONCILIACAO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=1.157, S=178, G=178.'
+    valores: {A: Analitica, S: Sintetica, G: Grupo}
+  ctgruposdfc_conciliacao_tipo_j_lucro_prejuizo_p_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPOSDFC_CONCILIACAO.TIPO estão no comentário do banco (2026-10-18). Distribuição: P=1.068, nulo=178, S=89, T=89, J=89.'
+    valores: {J: Lucro-Prejuizo, P: Saldo Periodo, S: Sub-Total, T: Total, C: Total crédito, D: Total débito, I: Inverter natureza do saldo}
+entidades:
+  ctgruposdfc_indireto_contas:
+    titulo: Estrutura DFC - Metodo Indireto Contas
+    descricao: 'Estrutura DFC - Metodo Indireto Contas. 53.657 linhas no catálogo; chave: CODI_EMP, CODI_INDIRETO, CODI_CTA.'
+    tabela: CTGRUPOSDFC_INDIRETO_CONTAS
+    chave: [CODI_EMP, CODI_INDIRETO, CODI_CTA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_INDIRETO, asc]
+    - [CODI_CTA, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_INDIRETO, codigo_da_conta: CODI_CTA, empresa_do_plano_de_contas: CODI_EMP_PLANO}
+    vinculos:
+      ctgruposdfc_indireto:
+        tabela: CTGRUPOSDFC_INDIRETO
+        liga: {codi_emp: codi_emp, codi_indireto: codi_indireto}
+        colunas: {ctgruposdfc_indireto_nome: DESCRICAO}
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+    filtros:
+      codigo:
+        coluna: CODI_INDIRETO
+        ops: [eq, in]
+      codigo_da_conta:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 53.657 linhas, 71 empresa(s).', 'Vínculo ctgruposdfc_indireto (CTGRUPOSDFC_INDIRETO): 0 de 298 linhas sem registro relacionado
+        (empresa 1244).', 'Vínculo ctcontas (ctcontas): 0 de 298 linhas sem registro relacionado (empresa 1244).']
+  ctgruposdfc_indireto:
+    titulo: Estrutura DFC - Metodo Indireto
+    descricao: 'Estrutura DFC - Metodo Indireto. 4.271 linhas no catálogo; chave: CODI_EMP, CODI_INDIRETO.'
+    tabela: CTGRUPOSDFC_INDIRETO
+    chave: [CODI_EMP, CODI_INDIRETO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_INDIRETO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_INDIRETO
+      ordem: ORDEM
+      atividade_1_operacionais_2_investimento: {coluna: ATIVIDADE, dominio: ctgruposdfc_indireto_atividade_1_operacio}
+      descricao: DESCRICAO
+      natureza_a_analitica_s_sintetica_v_ativi: {coluna: NATUREZA, dominio: ctgruposdfc_indireto_natureza_a_analitica}
+      tipo_l_lancamentos_p_saldo_periodo_d_tot: {coluna: TIPO, dominio: ctgruposdfc_indireto_tipo_l_lancamentos_p}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: CODI_INDIRETO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_a_analitica_s_sintetica_v_ativi:
+        coluna: NATUREZA
+        ops: [eq, in]
+      tipo_l_lancamentos_p_saldo_periodo_d_tot:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.271 linhas, 125 empresa(s).', 'atividade_1_operacionais_2_investimento: todos os valores reais estão no comentário do banco
+        (1=2.769, 3=753, 2=749).', 'natureza_a_analitica_s_sintetica_v_ativi: todos os valores reais estão no comentário do banco (A=2.927, S=969, V=375).', 'tipo_l_lancamentos_p_saldo_periodo_d_tot:
+        todos os valores reais estão no comentário do banco (P=1.682, L=933, nulo=599, S=498, T=246, D=186, J=125, C=2).', 'Vínculo geempre (geempre): 0 de 32 linhas
+        sem registro relacionado (empresa 753).']
+  ctgruposdfc_direto_contas:
+    titulo: Estrutura DFC - Metodo Direto Contas
+    descricao: 'Estrutura DFC - Metodo Direto Contas. 2.554 linhas no catálogo; chave: CODI_EMP, CODI_DIRETO, CODI_CTA.'
+    tabela: CTGRUPOSDFC_DIRETO_CONTAS
+    chave: [CODI_EMP, CODI_DIRETO, CODI_CTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_DIRETO, asc]
+    - [CODI_CTA, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_DIRETO, codigo_da_conta: CODI_CTA, empresa_do_plano_de_contas: CODI_EMP_PLANO}
+    vinculos:
+      ctgruposdfc_direto:
+        tabela: CTGRUPOSDFC_DIRETO
+        liga: {codi_emp: codi_emp, codi_direto: codi_direto}
+        colunas: {ctgruposdfc_direto_nome: DESCRICAO}
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+    filtros:
+      codigo:
+        coluna: CODI_DIRETO
+        ops: [eq, in]
+      codigo_da_conta:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.554 linhas, 28 empresa(s).', 'Vínculo ctgruposdfc_direto (CTGRUPOSDFC_DIRETO): 0 de 79 linhas sem registro relacionado (empresa
+        10055).', 'Vínculo ctcontas (ctcontas): 0 de 79 linhas sem registro relacionado (empresa 10055).']
+  ctgruposdfc_direto:
+    titulo: Estrutura DFC - Metodo Direto
+    descricao: 'Estrutura DFC - Metodo Direto. 2.323 linhas no catálogo; chave: CODI_EMP, CODI_DIRETO.'
+    tabela: CTGRUPOSDFC_DIRETO
+    chave: [CODI_EMP, CODI_DIRETO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_DIRETO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_DIRETO
+      ordem: ORDEM
+      atividade_1_operacionais_2_investimento: {coluna: ATIVIDADE, dominio: ctgruposdfc_direto_atividade_1_operaciona}
+      descricao: DESCRICAO
+      natureza_a_analitica_s_sub_total_v_ativi: {coluna: NATUREZA, dominio: ctgruposdfc_direto_natureza_a_analitica_s}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: CODI_DIRETO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_a_analitica_s_sub_total_v_ativi:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.323 linhas, 101 empresa(s).', 'atividade_1_operacionais_2_investimento: todos os valores reais estão no comentário do banco
+        (1=1.111, 2=606, 3=606).', 'natureza_a_analitica_s_sub_total_v_ativi: todos os valores reais estão no comentário do banco (A=1.515, S=505, V=303).', 'Vínculo
+        geempre (geempre): 0 de 23 linhas sem registro relacionado (empresa 607).']
+  ctgruposdfc_conciliacao:
+    titulo: Estrutura DFC - Conciliacao
+    descricao: 'Estrutura DFC - Conciliacao. 1.513 linhas no catálogo; chave: CODI_EMP, CODI_CONCILIACAO.'
+    tabela: CTGRUPOSDFC_CONCILIACAO
+    chave: [CODI_EMP, CODI_CONCILIACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_CONCILIACAO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_CONCILIACAO
+      ordem: ORDEM
+      grupo: GRUPO
+      descricao: DESCRICAO
+      natureza_a_analitica_s_sintetica_g_grupo: {coluna: NATUREZA, dominio: ctgruposdfc_conciliacao_natureza_a_analitica_s_s}
+      tipo_j_lucro_prejuizo_p_saldo_periodo_s: {coluna: TIPO, dominio: ctgruposdfc_conciliacao_tipo_j_lucro_prejuizo_p_}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: CODI_CONCILIACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_a_analitica_s_sintetica_g_grupo:
+        coluna: NATUREZA
+        ops: [eq, in]
+      tipo_j_lucro_prejuizo_p_saldo_periodo_s:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.513 linhas, 89 empresa(s).', 'natureza_a_analitica_s_sintetica_g_grupo: todos os valores reais estão no comentário do banco
+        (A=1.157, S=178, G=178).', 'tipo_j_lucro_prejuizo_p_saldo_periodo_s: todos os valores reais estão no comentário do banco (P=1.068, nulo=178, S=89, T=89, J=89).',
+      'Vínculo geempre (geempre): 0 de 17 linhas sem registro relacionado (empresa 1372).']

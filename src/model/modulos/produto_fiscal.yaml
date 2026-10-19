@@ -1,0 +1,90 @@
+# Modelo de entidades da CLASSIFICAÇÃO FISCAL DOS PRODUTOS por vigência (EFPRODUTOS_VIGENCIA): CST e alíquotas de PIS/COFINS, ICMS, IPI, substituição tributária e monofásico.
+# Curado à mão e medido no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO EXPOSTO DE PROPÓSITO: a tabela tem 324 colunas e a maioria é de regras de um estado específico (RS, RJ, PA, TO, MS...), de unidade de medida e de preparação para a reforma
+# tributária (CBS/IBS); aqui estão as 37 de uso geral. As demais continuam em consultar_tabela('EFPRODUTOS_VIGENCIA', colunas=[...]).
+modulo: produto_fiscal
+titulo: Classificação fiscal dos produtos (por vigência)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  tipo_contribuicao_produto:
+    descricao: Tipo de contribuição do produto no PIS/COFINS (efprodutos_vigencia.tipo_contribuicao)
+    confirmado: true      # comentário do banco
+    nota: O comentário lista N, C, T e S; nos dados só aparecem S (104.403), C (82.137) e N (74.635), nunca T.
+    valores: {N: Não cumulativo, C: Cumulativo, T: Substituição tributária, S: Sem incidência}
+  cst_pis_cofins:
+    descricao: CST de PIS/COFINS (codigo_cst_entrada / codigo_cst_saida)
+    confirmado: parcial
+    nota: >
+      O banco não traz a legenda. São os códigos da tabela oficial de CST de PIS/COFINS (01 = operação tributável com alíquota básica, 04 = monofásica com alíquota zero, 06 = alíquota zero,
+      07 = isenta, 08 = sem incidência, 49 = outras operações de saída, 99 = outras operações): leitura pelo layout oficial, não pelo banco. Mais frequentes na saída: 1 (105.070 vigências), 49 (45.684),
+      99 (34.147), 7 (20.700), 6 (15.356), nulo (13.829), 8 (13.512) e 4 (8.762).
+    valores: {1: Tributável com alíquota básica, 4: Monofásica com alíquota zero, 6: Alíquota zero, 7: Isenta, 8: Sem incidência, 49: Outras operações de saída, 99: Outras operações}
+
+entidades:
+  produto_vigencia:
+    titulo: Classificação fiscal do produto por vigência
+    descricao: >
+      Como o produto é tributado a partir de uma data: CST e alíquotas de PIS/COFINS na entrada e na saída, tipo de contribuição, natureza da receita, CST e alíquota de ICMS e IPI,
+      substituição tributária e monofásico. A vigência em uso numa data é a de maior `vigencia` até essa data. 261.175 linhas, 475 empresas; 190.836 produtos têm uma só vigência.
+    tabela: efprodutos_vigencia
+    chave: [CODI_EMP, CODI_PDI, VIGENCIA_PDI]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem: [[CODI_PDI, asc], [VIGENCIA_PDI, desc]]
+    colunas:
+      produto_codigo: CODI_PDI
+      vigencia: VIGENCIA_PDI
+      descricao: DESCRICAO
+      pis_cofins_cst_entrada: {coluna: CODIGO_CST_ENTRADA, dominio: cst_pis_cofins}
+      pis_cofins_cst_saida: {coluna: CODIGO_CST_SAIDA, dominio: cst_pis_cofins}
+      tipo_contribuicao: {coluna: TIPO_CONTRIBUICAO, dominio: tipo_contribuicao_produto}
+      natureza_receita: NATUREZA_RECEITA
+      pis_cumulativo_art_6: {coluna: PIS_INCIDENCIA_CUMULATIVA_ART_6, dominio: sim_nao_texto}
+      cofins_cumulativo_art_10: {coluna: COFINS_INCIDENCIA_CUMULATIVA_ART_10, dominio: sim_nao_texto}
+      monofasico_pis_cofins: {coluna: PRODUTO_SUJEITO_TRIBUTACAO_MONOFASICA_PISCOFINS, dominio: sim_nao_texto}
+      codigo_recolhimento_pis: CODIGO_RECOLHIMENTO_PIS
+      codigo_recolhimento_cofins: CODIGO_RECOLHIMENTO_COFINS
+      credito_vinculo: VINCULO_CREDITO
+      credito_base: BASE_CREDITO
+      credito_proporcional: {coluna: APROVEITAR_CREDITO_PROPORCIONAL, dominio: sim_nao_texto}
+      credito_aliquota_diferenciada: {coluna: CREDITO_ALIQUOTA_DIFERENCIADA, dominio: sim_nao_texto}
+      credito_aliquota_pis: ALIQUOTA_PIS_CREDITO
+      credito_aliquota_cofins: ALIQUOTA_COFINS_CREDITO
+      debito_aliquota_diferenciada: {coluna: DEBITO_ALIQUOTA_DIFERENCIADA, dominio: sim_nao_texto}
+      debito_aliquota_pis: ALIQUOTA_PIS_DEBITO
+      debito_aliquota_cofins: ALIQUOTA_COFINS_DEBITO
+      dados_piscofins_ok: {coluna: DADOS_PISCOFINS_OK, dominio: sim_nao_texto}
+      icms_cst_entrada: CST_ICMS_ENTRADA
+      icms_cst_saida: CST_ICMS_SAIDA
+      icms_aliquota: ALIQUOTA_ICMS
+      ipi_cst_entrada: CST_IPI_ENTRADA
+      ipi_cst_saida: CST_IPI_SAIDA
+      ipi_aliquota: ALIQUOTA_IPI
+      ipi_periodicidade: PERIODICIDADE_IPI
+      ipi_classe_enquadramento: CLASSE_ENQUADRAMENTO_IPI
+      st_base_calculo: BASE_CALCULO_ST
+      st_percentual_reducao_base: PERCENTUAL_REDUCAO_BC_ST
+      st_margem_valor_agregado: PERCENTUAL_MARGEM_DE_VALOR_ADIC_ST
+      st_valor_unitario: VALOR_UNITARIO_ST
+      st_produto_incluido: {coluna: PRODUTO_INCLUIDO_ST, dominio: sim_nao_texto}
+      st_data_inicio: DATA_INICIO_ST
+      sped_tabela: TABELA_SPED
+    vinculos:
+      produto:
+        tabela: efprodutos
+        liga: {CODI_EMP: codi_emp, CODI_PDI: codi_pdi}
+        colunas: {produto_descricao_cadastro: desc_pdi, produto_ncm: cncm_pdi}
+    filtros:
+      produto_codigo: {coluna: CODI_PDI, ops: [eq, in, prefixo]}
+      vigencia: {coluna: VIGENCIA_PDI, ops: [eq, entre, gte, lte]}
+      descricao: {coluna: DESCRICAO, ops: [contem, prefixo]}
+      tipo_contribuicao: {coluna: TIPO_CONTRIBUICAO, ops: [eq, in]}
+      pis_cofins_cst_saida: {coluna: CODIGO_CST_SAIDA, ops: [eq, in]}
+      icms_cst_saida: {coluna: CST_ICMS_SAIDA, ops: [eq, in]}
+      monofasico_pis_cofins: {coluna: PRODUTO_SUJEITO_TRIBUTACAO_MONOFASICA_PISCOFINS, ops: [eq]}
+    regras:
+      - "Vigências: 190.836 produtos têm 1, 21.829 têm 2, 7.710 têm 3, 646 têm 4 e 167 têm 5 (até 14). A data mais antiga é 1964-06-01 (valor padrão). A vigência em uso numa data é a mais recente até essa data (mesma regra dos acumuladores)."
+      - "Tipo de contribuição: sem incidência (S) 104.403 · cumulativo (C) 82.137 · não cumulativo (N) 74.635; substituição tributária (T) não ocorre. Monofásico em apenas 46 vigências e alíquota diferenciada de saída em 984."
+      - "CST de ICMS de saída mais frequentes: 0 (77.829), 102 (42.554), 60 (25.140), 500 (18.156), 400 (13.774), 101 (10.981), 100 (10.449) e 20 (9.768); as legendas desses CST/CSOSN vêm do layout oficial (ex.: 102 Simples sem permissão de crédito, 60 ICMS-ST cobrado anteriormente), não do banco. Nenhum produto está marcado como incluído em ST (produto_incluido_st = N em 261.175)."
+      - "Dados de PIS/COFINS conferidos (S) em 71.071 vigências e não conferidos (N) em 190.104: a apuração do PIS/COFINS usa esse indicador (com o do item) para sinalizar produtos com dados incompletos, não para excluí-los."
+      - "Integridade (5 maiores empresas, 71.973 vigências): todas têm o produto no cadastro (efprodutos), 0 sem cadastro."

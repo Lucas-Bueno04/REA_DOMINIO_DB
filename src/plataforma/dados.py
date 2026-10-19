@@ -26,14 +26,16 @@ RAIZ = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(RAIZ / "src"))
 CATALOGO = RAIZ / "data" / "catalog" / "dominio_catalog.db"
 ESTADO = RAIZ / "data" / "progresso.db"
+_CARREGADOR = getattr(yaml, "CSafeLoader", yaml.SafeLoader)      # libyaml em C quando disponível
 MODULOS = RAIZ / "src" / "model" / "modulos"
 RASCUNHOS = RAIZ / "data" / "rascunhos"
 
 # status derivados (em ordem de precedência) e rótulos
-STATUS = ["bloqueada", "validada", "modelada", "apoio", "ignorada", "em_analise", "vazia", "nao_iniciada"]
-ROTULO = {"bloqueada": "Bloqueada (credenciais)", "validada": "Validada", "modelada": "Modelada (entidade)", "apoio": "Apoio (vínculo)",
+STATUS = ["bloqueada", "validada", "medida", "modelada", "apoio", "ignorada", "em_analise", "vazia", "nao_iniciada"]
+ROTULO = {"bloqueada": "Bloqueada (credenciais)", "validada": "Validada (curada e conciliada)", "medida": "Medida (gerada em lote)", "modelada": "Modelada (entidade)", "apoio": "Apoio (vínculo)",
           "ignorada": "Ignorada (baixo valor)", "em_analise": "Em análise", "vazia": "Vazia hoje", "nao_iniciada": "Não iniciada"}
 MODULO_POR_DEP = {"Fiscal": "fiscal", "Pessoal": "folha", "Contábil": "contabil", "Geral": "geral", "Financeiro do escritório": "honorarios"}
+MODELADAS = ("validada", "medida", "modelada", "apoio")      # status que contam como "tem entidade"
 STATUS_MANUAIS_TABELA = {"em_analise", "ignorada", "nenhum"}
 STATUS_MANUAIS_COLUNA = {"mapeada", "ignorada", "duvida", "nenhum"}
 
@@ -91,16 +93,19 @@ class Base:
         self.raiz = collections.defaultdict(list)      # tabela -> [entidades-raiz]
         self.apoio = collections.defaultdict(list)     # tabela -> [entidades que a usam como vínculo]
         self.expostas = collections.defaultdict(lambda: collections.defaultdict(set))   # tabela -> coluna -> {entidades}
-        self.validada = set()                          # tabelas-raiz de entidades com regras validadas (campo `regras`)
+        self.validada = set()                          # tabelas-raiz de entidades CURADAS à mão com regras (campo `regras`)
+        self.medida = set()                            # tabelas-raiz de entidades GERADAS em lote com regras = fatos medidos (módulos "Gerado em lote")
         for arq in sorted(MODULOS.glob("*.yaml")):
-            y = yaml.safe_load(arq.read_text(encoding="utf-8"))
+            txt = arq.read_text(encoding="utf-8")
+            gerado = "Gerado em lote" in txt[:200]
+            y = yaml.load(txt, Loader=_CARREGADOR)
             self.dominios.update(y.get("dominios", {}))
             for n, e in y["entidades"].items():
-                self.entidades[n] = {**e, "_modulo": y["modulo"], "_arquivo": arq.name}
+                self.entidades[n] = {**e, "_modulo": y["modulo"], "_arquivo": arq.name, "_gerada": gerado}
                 t = e["tabela"].lower()
                 self.raiz[t].append(n)
                 if e.get("regras"):
-                    self.validada.add(t)
+                    (self.medida if gerado else self.validada).add(t)
                 for v in e["colunas"].values():
                     self.expostas[t][(v["coluna"] if isinstance(v, dict) else v).lower()].add(n)
                 for f in e.get("filtros", {}).values():
@@ -154,7 +159,7 @@ class Base:
         if t in self.bloqueadas:
             return "bloqueada"
         if t in self.raiz:
-            return "validada" if t in self.validada else "modelada"
+            return "validada" if t in self.validada else "medida" if t in self.medida else "modelada"
         if t in self.apoio:
             return "apoio"
         if d["linhas"] == 0:
@@ -196,7 +201,7 @@ def resumo() -> dict:
     for x in ts:
         linhas[x["status"]] += x["linhas"]
     total_l = sum(linhas.values())
-    modeladas = ("validada", "modelada", "apoio")
+    modeladas = MODELADAS
     # relevantes: o que realmente vale mapear (não vazia, não ignorada, não bloqueada)
     relevantes = [x for x in ts if x["status"] not in ("vazia", "ignorada", "bloqueada")]
     rel_modeladas = [x for x in relevantes if x["status"] in modeladas]
@@ -220,7 +225,8 @@ def resumo() -> dict:
         "tabelas_modeladas": sum(por[s] for s in modeladas), "linhas_modeladas": sum(linhas[s] for s in modeladas),
         "relevantes": len(relevantes), "relevantes_modeladas": len(rel_modeladas), "grandes": len(grandes), "grandes_modeladas": len(grandes_mod),
         "colunas_total": cols_total, "colunas_uteis_total": cols_utes, "colunas_expostas": cols_exp,
-        "entidades": len(b.entidades), "entidades_validadas": sum(1 for e in b.entidades.values() if e.get("regras")),
+        "entidades": len(b.entidades), "entidades_validadas": sum(1 for e in b.entidades.values() if e.get("regras") and not e["_gerada"]),
+        "entidades_medidas": sum(1 for e in b.entidades.values() if e.get("regras") and e["_gerada"]),
         "dominios": len(b.dominios), "dominios_confirmados": sum(1 for d in b.dominios.values() if d.get("confirmado") is True),
         "por_departamento": {k: dict(v) for k, v in deps.items()}, "fora_do_escopo": dict(fora), "rotulos": ROTULO, "ordem_status": STATUS,
     }
@@ -232,13 +238,13 @@ def familias() -> list[dict]:
     fam = collections.defaultdict(lambda: {"dep": None, "n": 0, "mod": 0, "vazias": 0, "linhas": 0, "linhas_mod": 0, "em_analise": 0, "relevantes": 0})
     for x in ts:
         f = fam[x["fam"]]; f["dep"] = x["dep"]; f["n"] += 1; f["linhas"] += x["linhas"]
-        if x["status"] in ("validada", "modelada", "apoio"):
+        if x["status"] in MODELADAS:
             f["mod"] += 1; f["linhas_mod"] += x["linhas"]
         if x["status"] == "vazia":
             f["vazias"] += 1
         if x["status"] == "em_analise":
             f["em_analise"] += 1
-        if x["status"] in ("nao_iniciada", "em_analise", "validada", "modelada", "apoio"):
+        if x["status"] in ("nao_iniciada", "em_analise") + MODELADAS:
             f["relevantes"] += 1
     return sorted(({"familia": k, **v} for k, v in fam.items()), key=lambda f: -f["linhas"])
 
@@ -277,7 +283,7 @@ def historico(limite: int = 80) -> list[dict]:
 def snapshot_hoje(forcar: bool = False) -> dict:
     r = resumo()
     snap = {"dia": datetime.date.today().isoformat(), "tabelas_modeladas": r["tabelas_modeladas"], "linhas_modeladas": r["linhas_modeladas"],
-            "entidades": r["entidades"], "colunas_expostas": r["colunas_expostas"], "validadas": r["por_status"].get("validada", 0),
+            "entidades": r["entidades"], "colunas_expostas": r["colunas_expostas"], "validadas": r["por_status"].get("validada", 0), "medidas": r["por_status"].get("medida", 0),
             "em_analise": r["por_status"].get("em_analise", 0), "relevantes_modeladas": r["relevantes_modeladas"]}
     c = estado_db()
     try:

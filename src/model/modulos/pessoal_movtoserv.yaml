@@ -1,0 +1,403 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_movtoserv
+titulo: Pessoal - movtoserv (rascunho em lote)
+dominios:
+  fomovtoserv_simulacao_e_simulacao:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_SIMULACAO.SIMULACAO estão no comentário do banco (2026-10-18). Distribuição: 1=101.062, 0=5.643.'
+    valores: {'0': Não, '1': Sim}
+  fomovtoserv_simulacao_considerar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_SIMULACAO.CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=86.128,
+      1=20.577.'
+    valores: {'0': Não, '1': Sim}
+  fomovtoserv_pensao_alimenticia_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_PENSAO_ALIMENTICIA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=2.205.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+  fomovtoserv_dados_formula_origem_do_regist:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_DADOS_FORMULA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=725.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  fomovtoserv_dados_per_dcomp_origem_do_regist:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_DADOS_PER_DCOMP.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=9.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  fomovtoserv_dados_per_dcomp_tipo_do_calculo_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOMOVTOSERV_DADOS_PER_DCOMP.TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=8, 3=1.'
+    valores: {'1': Salário Familia, '2': Maternidade, '3': Maternidade 13o}
+entidades:
+  fomovtoserv_planosaude:
+    titulo: Movimentação - Cálculo - Plano de saúde
+    descricao: 'Movimentação - Cálculo - Plano de saúde. 115.080 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES, I_EVENTOS, RATEIO, I_SERVICOS,
+      I_BENEFICIARIO, I_CALCULOS.'
+    tabela: FOMOVTOSERV_PLANOSAUDE
+    chave: [CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES, I_EVENTOS, RATEIO, I_SERVICOS, I_BENEFICIARIO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: medio}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCES, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: DATA, tipo_de_calculo: TIPO_PROCES, codigo_do_evento: I_EVENTOS, rateio: RATEIO,
+      codigo_do_servico: I_SERVICOS, sequencial_de_beneficiario: I_BENEFICIARIO, codigo_do_calculo: I_CALCULOS, codigo_do_dependente: I_FILHOS, valor: VALOR, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      codigo_da_operadora_de_plano_de_saude: I_OPERADORAPLANOSAUDE, codigo_do_calculo_renomeado: I_CALCULOS_OLD}
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+      fooperadoraplanosaude:
+        tabela: FOOPERADORAPLANOSAUDE
+        liga: {i_operadoraplanosaude: i_operadoraplanosaude}
+        colunas: {fooperadoraplanosaude_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: DATA
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCES
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      sequencial_de_beneficiario:
+        coluna: I_BENEFICIARIO
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      codigo_da_operadora_de_plano_de_saude:
+        coluna: I_OPERADORAPLANOSAUDE
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 115.082 linhas, 87 empresa(s), DATA de 2014-01-01 a 2026-10-01.', 'Vínculo fofilhos (fofilhos): 82 de 218 linhas sem registro
+        relacionado (empresa 734).', 'Vínculo fooperadoraplanosaude (FOOPERADORAPLANOSAUDE): 0 de 218 linhas sem registro relacionado (empresa 734).']
+  fomovtoserv_simulacao:
+    titulo: Movimentação do cálculo de simulação de rescisão/férias
+    descricao: 'Movimentação do cálculo de simulação de rescisão/férias. 106.705 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES, I_EVENTOS,
+      RATEIO, I_SERVICOS, I_CALCULOS.'
+    tabela: FOMOVTOSERV_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES, I_EVENTOS, RATEIO, I_SERVICOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: medio}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCES, asc]
+    colunas:
+      codigo_empresa: CODI_EMP
+      empregado: I_EMPREGADOS
+      competencia: DATA
+      tipo_folha: TIPO_PROCES
+      evento: I_EVENTOS
+      rateio: RATEIO
+      servico: I_SERVICOS
+      codigo_do_calculo: I_CALCULOS
+      valor_informado: VALOR_INF
+      valor_calculado: VALOR_CAL
+      provento_desconto: PROV_DESC
+      origem_calculo_origem_calculo_c_mensal_f: ORIGEM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      valor_informado_da_folha_complementar: VALOR_INF_COMPL
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      e_simulacao_0_nao_1_sim: {coluna: SIMULACAO, dominio: fomovtoserv_simulacao_e_simulacao}
+      valor_calculado_integral: VALOR_CALCULADO_INTEGRAL
+      valor_informado_real_utilizado_no_calcul: VALOR_INFORMADO_REAL
+      considerar_para_a_remuneracao_do_esocial: {coluna: CONSIDERAR_REMUNERACAO_ESOCIAL, dominio: fomovtoserv_simulacao_considerar_}
+      considerar_para_a_retencao_de_pagamentos: {coluna: CONSIDERAR_RETENCAO_PAGAMENTO_ESOCIAL, dominio: fomovtoserv_simulacao_considerar_}
+      considerar_para_a_remuneracao_para_compo: {coluna: CONSIDERAR_REMUNERACAO_S_1210_ESOCIAL, dominio: fomovtoserv_simulacao_considerar_}
+    vinculos:
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: DATA
+        ops: [eq, in]
+      tipo_folha:
+        coluna: TIPO_PROCES
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      provento_desconto:
+        coluna: PROV_DESC
+        ops: [eq, in]
+      origem_calculo_origem_calculo_c_mensal_f:
+        coluna: ORIGEM
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 106.705 linhas, 192 empresa(s), DATA de 2018-06-01 a 2027-02-01.', 'e_simulacao_0_nao_1_sim: todos os valores reais estão no comentário
+        do banco (1=101.062, 0=5.643).', 'considerar_para_a_remuneracao_do_esocial: todos os valores reais estão no comentário do banco (1=89.718, 0=16.987).', 'considerar_para_a_retencao_de_pagamentos:
+        todos os valores reais estão no comentário do banco (0=104.548, 1=2.157).', 'considerar_para_a_remuneracao_para_compo: todos os valores reais estão no comentário
+        do banco (0=86.128, 1=20.577).', 'Vínculo foservicos (foservicos): 0 de 156 linhas sem registro relacionado (empresa 9067).', 'Vínculo foempregados (foempregados):
+        0 de 156 linhas sem registro relacionado (empresa 9067).']
+  fomovtoserv_pensao_alimenticia:
+    titulo: Valores de pensão alimentícia nas férias por dependente.
+    descricao: 'Valores de pensão alimentícia nas férias por dependente.. 2.205 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCESSO, I_EVENTOS,
+      RATEIO, I_SERVICOS, I_FILHOS, I_CALCULOS.'
+    tabela: FOMOVTOSERV_PENSAO_ALIMENTICIA
+    chave: [CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS, I_FILHOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia: DATA
+      tipo_de_processo: TIPO_PROCESSO
+      codigo_do_evento: I_EVENTOS
+      rateio: RATEIO
+      codigo_do_servico: I_SERVICOS
+      codigo_do_dependente: I_FILHOS
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      valor: VALOR
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: fomovtoserv_pensao_alimenticia_origem_do_r}
+      codigo_da_convocacao_intermitente_relaci: I_CONVOCACAO
+      numero_do_rpa: NUMERO
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: DATA
+        ops: [eq, in]
+      tipo_de_processo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.205 linhas, 34 empresa(s), DATA de 2017-09-01 a 2026-11-09.', 'Colunas expostas nulas em 100% das linhas (2): codigo_da_convocacao_intermitente_relaci,
+        numero_do_rpa.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=2.205).', 'Vínculo fofilhos (fofilhos):
+        0 de 45 linhas sem registro relacionado (empresa 364).']
+  fomovtoserv_salario_familia:
+    titulo: Dependentes que foram considerados para o cálculo do salário família na rubrica.
+    descricao: 'Dependentes que foram considerados para o cálculo do salário família na rubrica.. 1.689 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES,
+      I_EVENTOS, RATEIO, I_SERVICOS, I_FILHOS, I_CALCULOS.'
+    tabela: FOMOVTOSERV_SALARIO_FAMILIA
+    chave: [CODI_EMP, I_EMPREGADOS, DATA, TIPO_PROCES, I_EVENTOS, RATEIO, I_SERVICOS, I_FILHOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCES, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: DATA, tipo_de_folha: TIPO_PROCES, codigo_do_evento: I_EVENTOS, rateio: RATEIO,
+      codigo_do_servico: I_SERVICOS, codigo_do_dependente: I_FILHOS, codigo_do_calculo: I_CALCULOS, codigo_do_calculo_renomeado: I_CALCULOS_OLD}
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: DATA
+        ops: [eq, in]
+      tipo_de_folha:
+        coluna: TIPO_PROCES
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.689 linhas, 75 empresa(s), DATA de 2015-01-01 a 2026-09-01.', 'Vínculo fofilhos (fofilhos): 0 de 14 linhas sem registro relacionado
+        (empresa 981).']
+  fomovtoserv_dados_formula:
+    titulo: Informações do cálculo da fórmula.
+    descricao: 'Informações do cálculo da fórmula.. 725 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS,
+      I_CALCULOS.'
+    tabela: FOMOVTOSERV_DADOS_FORMULA
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia_do_calculo: COMPETENCIA
+      tipo_de_calculo: TIPO_PROCESSO
+      codigo_do_evento: I_EVENTOS
+      rateio: RATEIO
+      codigo_do_servico: I_SERVICOS
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      base_de_calculo_utilizada: BASE_CALCULO
+      percentual_utilizado_para_o_calculo: PERCENTUAL
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fomovtoserv_dados_formula_origem_do_regist}
+      dias_dsr_utilizados_no_calculo_da_formul: DIAS_DSR
+      dias_trabalhados_utilizados_no_calculo_d: DIAS_TRABALHADOS
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_do_calculo:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 725 linhas, 9 empresa(s), COMPETENCIA de 2016-04-01 a 2026-09-01.', 'origem_do_registro_0_sistema_1_importaca: todos os valores
+        reais estão no comentário do banco (0=725).']
+  fomovtoserv_dados_per_dcomp:
+    titulo: Informações do cálculo da fórmula.
+    descricao: 'Informações do cálculo da fórmula.. 9 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS,
+      SEQUENCIAL, I_CALCULOS.'
+    tabela: FOMOVTOSERV_DADOS_PER_DCOMP
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, I_EVENTOS, RATEIO, I_SERVICOS, SEQUENCIAL, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia_do_calculo: COMPETENCIA
+      tipo_de_calculo: TIPO_PROCESSO
+      codigo_do_evento: I_EVENTOS
+      rateio: RATEIO
+      codigo_do_servico: I_SERVICOS
+      sequencial: SEQUENCIAL
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      codigo_do_filho: I_FILHOS
+      valor_calculado: VALOR_CALCULADO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fomovtoserv_dados_per_dcomp_origem_do_regist}
+      tipo: {coluna: TIPO, dominio: fomovtoserv_dados_per_dcomp_tipo_do_calculo_}
+      provento_desconto: PROV_DESC
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_do_calculo:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      codigo_do_filho:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      provento_desconto:
+        coluna: PROV_DESC
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas, 1 empresa(s), COMPETENCIA de 2022-10-01 a 2023-01-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_filho.',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=9).', 'tipo: todos os valores reais estão no comentário do
+        banco (2=8, 3=1).', 'Vínculo fofilhos (fofilhos): 9 de 9 linhas sem registro relacionado (empresa 911).']

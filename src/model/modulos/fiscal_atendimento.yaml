@@ -1,0 +1,237 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_atendimento
+titulo: Fiscal - atendimento (rascunho em lote)
+dominios:
+  efatendimento_nfe_catalogo_tipo_da_nota:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_CATALOGO.ORIGEM_XML estão no comentário do banco (2026-10-18). Distribuição: 1=68.953, 4=1.492.'
+    valores: {'1': Baixado automaticamente, '2': Baixado pelo utilitários, '3': Baixado automaticamente pela Consulta NF-e SEFAZ RS, '4': Baixado automaticamente
+        pela Importação NF-e via Web Service Portal Federal}
+  efatendimento_nfe_catalogo_baixa_do_arq:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_CATALOGO.COMPLEMENTO_BAIXADO estão no comentário do banco (2026-10-18). Distribuição: 0=70.445.'
+    valores: {'0': Download do XML ainda nÃ£o realizado, '1': Download do XML jÃ¡ realizado}
+  efatendimento_nfe_catalogo_importacao_d:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_CATALOGO.IMPORTADA estão no comentário do banco (2026-10-18). Distribuição: 1=41.834, 0=28.611.'
+    valores: {'0': Nota ainda não importada para a Escrita, '1': Nota já importada para a Escrita}
+  efatendimento_nfe_catalogo_exclusao_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_CATALOGO.XML_EXCLUIDO estão no comentário do banco (2026-10-18). Distribuição: 0=54.737, 1=15.708.'
+    valores: {'0': Não excluído, '1': Excluído}
+  efatendimento_nfe_empresa_ativado_0_n:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_EMPRESA.ATIVADO estão no comentário do banco (2026-10-18). Distribuição: 0=1.515, 1=2.'
+    valores: {'0': Não, '1': Sim}
+  efatendimento_nfe_catalogo_visualizados_tipo_da_con:
+    confirmado: true
+    nota: 'Todos os valores observados em EFATENDIMENTO_NFE_CATALOGO_VISUALIZADOS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=38.'
+    valores: {'1': Usuário, '2': Grupo}
+entidades:
+  efatendimento_nfe_catalogo:
+    titulo: Catálogo de Notas - Domínio Atendimento
+    descricao: 'Catálogo de Notas - Domínio Atendimento. 67.201 linhas no catálogo; chave: I_CATALOGO.'
+    tabela: EFATENDIMENTO_NFE_CATALOGO
+    chave: [I_CATALOGO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_BAIXADO, volume: medio}
+    ordem:
+    - [DATA_BAIXADO, desc]
+    - [I_CATALOGO, asc]
+    colunas:
+      codigo_do_catalogo: I_CATALOGO
+      empresa: CODI_EMP
+      codigo_sequencial_do_site: SEQUENCIAL
+      tipo_da_nota_1_entrada_2_saada_3_cancela: {coluna: TIPO, dominio: efatendimento_nfe_catalogo_tipo_da_nota}
+      data_de_emissao_da_nota: EMISSAO
+      baixa_do_arquivo_0_download_do_xml_ainda: {coluna: BAIXADO, dominio: efatendimento_nfe_catalogo_baixa_do_arq}
+      importacao_do_arquivo_0_nota_ainda_nao_i: {coluna: IMPORTADA, dominio: efatendimento_nfe_catalogo_importacao_d}
+      chave: CHAVE
+      data_que_o_xml_foi_baixado: DATA_BAIXADO
+      origem_xml: {coluna: ORIGEM_XML, dominio: efatendimento_nfe_catalogo_tipo_da_nota}
+      exclusao_do_xml_0_nao_excluido_1_excluid: {coluna: XML_EXCLUIDO, dominio: efatendimento_nfe_catalogo_exclusao_do_}
+      tipo_nota: TIPO_NOTA
+      flag_que_indica_se_o_registro_vem_do_da: ORIGEM_ATENDIMENTO
+      c_0_registro_da_antigo_1_serviao_onvio_b: TIPO_ENDPOINT
+      c_0_nota_de_saida_1_nota_de_entrada_uso: NOTA_ENTRADA
+      c_0_nota_regular_1_nota_cancelada_uso_in: NOTA_CANCELADA
+      url_de_download_do_xml_da_nota: URL_XML_NOTA
+      url_de_download_do_xml_do_cancelamento: URL_XML_CANCELAMENTO
+      c_0_nao_1_sim: XML_EXCLUIDO_MANUALMENTE
+      nota_foi_enviada_ao_box_e: ENVIOU_BOXE
+      quantidade_de_tentativas_de_envios_ao_bo: QUANTIDADE_TENTATIVAS_BOXE
+      protocolo: PROTOCOLO_BOXE
+      motivo: MOTIVO_BOXE
+      nsu_nota: NSU_NOTA
+      codigo_do_processo_criado_no_auditor_asi: CODIGO_PROCESSO_AUDITOR
+      status_do_arquivo_no_auditor_asis_0_igno: STATUS_ASIS
+      url_de_download_do_xml_do_complemento: URL_XML_COMPLEMENTO
+      baixa_do_arquivo_complementar_0_download: {coluna: COMPLEMENTO_BAIXADO, dominio: efatendimento_nfe_catalogo_baixa_do_arq}
+      data_que_o_xml_complementar_foi_baixado: COMPLEMENTO_DATA_BAIXADO
+      parceiro: PARCEIRO
+    filtros:
+      codigo_do_catalogo:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+      data_de_emissao_da_nota:
+        coluna: EMISSAO
+        ops: [entre, gte, lte]
+      data_que_o_xml_foi_baixado:
+        coluna: DATA_BAIXADO
+        ops: [entre, gte, lte]
+      data_que_o_xml_complementar_foi_baixado:
+        coluna: COMPLEMENTO_DATA_BAIXADO
+        ops: [entre, gte, lte]
+      tipo_da_nota_1_entrada_2_saada_3_cancela:
+        coluna: TIPO
+        ops: [eq, in]
+      chave:
+        coluna: CHAVE
+        ops: [contem, prefixo]
+      tipo_nota:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      c_0_registro_da_antigo_1_serviao_onvio_b:
+        coluna: TIPO_ENDPOINT
+        ops: [eq, in]
+      url_de_download_do_xml_da_nota:
+        coluna: URL_XML_NOTA
+        ops: [contem, prefixo]
+      url_de_download_do_xml_do_cancelamento:
+        coluna: URL_XML_CANCELAMENTO
+        ops: [contem, prefixo]
+      nota_foi_enviada_ao_box_e:
+        coluna: ENVIOU_BOXE
+        ops: [eq, in]
+      protocolo:
+        coluna: PROTOCOLO_BOXE
+        ops: [contem, prefixo]
+      motivo:
+        coluna: MOTIVO_BOXE
+        ops: [contem, prefixo]
+      codigo_do_processo_criado_no_auditor_asi:
+        coluna: CODIGO_PROCESSO_AUDITOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70.445 linhas, 530 empresa(s), DATA_BAIXADO de 2017-08-17 a 2026-10-18.', 'Colunas expostas nulas em 100% das linhas (7): quantidade_de_tentativas_de_envios_ao_bo,
+        protocolo, motivo, codigo_do_processo_criado_no_auditor_asi, url_de_download_do_xml_do_complemento, data_que_o_xml_complementar_foi_baixado, parceiro.', 'tipo_da_nota_1_entrada_2_saada_3_cancela:
+        todos os valores reais estão no comentário do banco (2=30.991, 1=26.765, 4=11.256, 3=1.433).', 'baixa_do_arquivo_0_download_do_xml_ainda: todos os valores
+        reais estão no comentário do banco (1=70.445).', 'importacao_do_arquivo_0_nota_ainda_nao_i: todos os valores reais estão no comentário do banco (1=41.834,
+        0=28.611).', 'origem_xml: todos os valores reais estão no comentário do banco (1=68.953, 4=1.492).', 'exclusao_do_xml_0_nao_excluido_1_excluid: todos os valores
+        reais estão no comentário do banco (0=54.737, 1=15.708).', 'baixa_do_arquivo_complementar_0_download: todos os valores reais estão no comentário do banco
+        (0=70.445).']
+  efatendimento_nfe_xml_v2:
+    titulo: XML DAS NFES - COMPRIMIDO
+    descricao: 'XML DAS NFES - COMPRIMIDO. 51.502 linhas no catálogo; chave: I_CATALOGO.'
+    tabela: EFATENDIMENTO_NFE_XML_V2
+    chave: [I_CATALOGO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [I_CATALOGO, asc]
+    colunas: {i_catalogo: I_CATALOGO}
+    filtros:
+      i_catalogo:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 54.737 linhas.']
+  efatendimento_nfe_empresa:
+    titulo: Dados da empresa referente a NFe - Domínio Atendimento
+    descricao: 'Dados da empresa referente a NFe - Domínio Atendimento. 1.515 linhas no catálogo; chave: CODI_EMP.'
+    tabela: EFATENDIMENTO_NFE_EMPRESA
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ATIVACAO, volume: pequeno}
+    ordem:
+    - [DATA_ATIVACAO, desc]
+    colunas:
+      empresa: CODI_EMP
+      data_de_ativacao_da_empresa_no_box_e: DATA_ATIVACAO
+      ativado_0_nao_1_sim: {coluna: ATIVADO, dominio: efatendimento_nfe_empresa_ativado_0_n}
+      flag_que_indica_se_o_registro_vem_do_da: ORIGEM_ATENDIMENTO
+      informa_se_esta_ativo_box_e_no_onvio_par: UTILIZA_BOXE
+      informa_se_esta_ativo_o_manifesto_no_onv: UTILIZA_MANIFESTO
+    filtros:
+      data_de_ativacao_da_empresa_no_box_e:
+        coluna: DATA_ATIVACAO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1.517 linhas, 1.517 empresa(s), DATA_ATIVACAO de 2024-01-17 a 2024-03-18.', 'ativado_0_nao_1_sim: todos os valores reais estão
+        no comentário do banco (0=1.515, 1=2).']
+  efatendimento_nfe_catalogo_log:
+    titulo: Catalogo - Log Comunicacao DA
+    descricao: 'Catalogo - Log Comunicacao DA. 122 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: EFATENDIMENTO_NFE_CATALOGO_LOG
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial_do_log: SEQUENCIAL, sequencial_da_nota: I_CATALOGO}
+    filtros:
+      sequencial_do_log:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      sequencial_da_nota:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 122 linhas.']
+  efatendimento_nfe_catalogo_visualizados:
+    titulo: Notas já visualizadas pelos usuários - Domínio Atendimento
+    descricao: 'Notas já visualizadas pelos usuários - Domínio Atendimento. 38 linhas no catálogo; chave: I_CONFUSUARIO, TIPO, CODI_EMP, SEQUENCIAL.'
+    tabela: EFATENDIMENTO_NFE_CATALOGO_VISUALIZADOS
+    chave: [I_CONFUSUARIO, TIPO, CODI_EMP, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFUSUARIO, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_configuracao_do_usuario: I_CONFUSUARIO
+      tipo_da_configuracao_1_usuario_2_grupo: {coluna: TIPO, dominio: efatendimento_nfe_catalogo_visualizados_tipo_da_con}
+      empresa: CODI_EMP
+      codigo_do_catalogo: SEQUENCIAL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {tipo: tipo, i_confusuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_da_configuracao_do_usuario:
+        coluna: I_CONFUSUARIO
+        ops: [eq, in]
+      tipo_da_configuracao_1_usuario_2_grupo:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_catalogo:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38 linhas, 3 empresa(s).', 'tipo_da_configuracao_1_usuario_2_grupo: todos os valores reais estão no comentário do banco (1=38).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 53).', 'Vínculo usconfusuario (usConfUsuario): 0 de 1 linhas sem registro relacionado
+        (empresa 53).']
+  efatendimento_nfe_xml:
+    titulo: XML DAS NFES
+    descricao: 'XML DAS NFES. 27 linhas no catálogo; chave: I_CATALOGO.'
+    tabela: EFATENDIMENTO_NFE_XML
+    chave: [I_CATALOGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CATALOGO, asc]
+    colunas: {i_catalogo: I_CATALOGO}
+    filtros:
+      i_catalogo:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27 linhas.']
+  efatendimento_nfe_controle_websocket:
+    titulo: EFATENDIMENTO_NFE_CONTROLE_WEBSOCKET
+    descricao: 'EFATENDIMENTO_NFE_CONTROLE_WEBSOCKET. 1 linhas no catálogo; chave: DATA_PACOTE.'
+    tabela: EFATENDIMENTO_NFE_CONTROLE_WEBSOCKET
+    chave: [DATA_PACOTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [DATA_PACOTE, asc]
+    colunas: {data_pacote: DATA_PACOTE}
+    filtros:
+      data_pacote:
+        coluna: DATA_PACOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): data_pacote.']

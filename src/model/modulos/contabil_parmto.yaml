@@ -1,0 +1,389 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_parmto
+titulo: Contábil - parmto (rascunho em lote)
+dominios:
+  ctparmto_sped_vigencia_sped_ecf_sp:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_SPED_VIGENCIA.PLANO_REFERENCIAL_SPED_ECF estão no comentário do banco (2026-10-18). Distribuição: 5=931, 1=479,
+      3=74.'
+    valores: {'1': PESSOA JURÍDICA EM GERAL - LUCRO REAL, '2': PESSOA JURÍDICA FINANCEIRA, '3': IMUNES E ISENTAS EM GERAL, '4': PARTIDOS POLÍTICOS, '5': PESSOA JURÍDICA
+        EM GERAL - LUCRO PRESUMIDO, '8': ENTIDADES, '9': SEGURADORAS OU ENTIDADES ABERTAS DE PREVIDÊNCIA COMPLEMENTAR, '10': PESSOA JURÍDICA FINANCEIRA - LUCRO PRESUMIDO,
+      '11': TEF TRIBUTAÇÃO ESPECÍFICA DO FUTEBOL}
+  ctparmto_sped_vigencia_tipo_de_ati:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_SPED_VIGENCIA.TIPO_ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: A=804, G=679, R=1.'
+    valores: {G: Atividade Geral, R: Atividade Rural, A: Ambos}
+  ctparmto_sped_vigencia_forma_de_tr:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_SPED_VIGENCIA.FORMA_TRIBUTACAO_TRIMESTRE_4 estão no comentário do banco (2026-10-18). Distribuição: 1=1.484.'
+    valores: {'1': LUCRO REAL, '5': LUCRO PRESUMIDO, '6': ARBITRADO}
+  ctparmto_sped_vigencia_periodo_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_SPED_VIGENCIA.PERIODO_APURACAO_IRPJ_CSLL estão no comentário do banco (2026-10-18). Distribuição: T=800, A=684.'
+    valores: {T: Trimestral, A: Anual}
+  ctparmto_dere_vigencia_encerrament:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_DERE_VIGENCIA.ENCERRAMENTO_CONTABIL estão no comentário do banco (2026-10-18). Distribuição: A=1.427.'
+    valores: {A: Anual, S: Semestral, Q: Quadrimestral, T: Trimestral, B: Bimestral, M: Mensal}
+  ctparmto_dados_sped_contabil_signatario_responsavel_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_DADOS_SPED_CONTABIL_SIGNATARIO.RESPONSAVEL_ASSINATURA estão no comentário do banco (2026-10-18). Distribuição:
+      N=653, S=550.'
+    valores: {S: Sim, N: Não}
+  ctparmto_cmv_estoque_grupo_grupos_de_p:
+    confirmado: true
+    nota: 'Todos os valores observados em CTPARMTO_CMV_ESTOQUE_GRUPO.GRUPO_PRODUTO estão no comentário do banco (2026-10-18). Distribuição: T=8.'
+    valores: {S: Selecionar, T: Todos}
+entidades:
+  ctparmto_sped_vigencia:
+    titulo: Parâmetros Contabilidade - Vigência da guia Dados SPED
+    descricao: 'Parâmetros Contabilidade - Vigência da guia Dados SPED. 1.484 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: CTPARMTO_SPED_VIGENCIA
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas:
+      empresa: CODI_EMP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      plano_referencial_sped_ecf: {coluna: PLANO_REFERENCIAL_SPED_ECF, dominio: ctparmto_sped_vigencia_sped_ecf_sp}
+      tipo_de_escrituracao: TIPO_ESCRITURACAO
+      data_em_formato_integer_para_otimizar_in: VIGENCIA_BUSCA
+      tipo_de_atividade_g_atividade_geral_r_at: {coluna: TIPO_ATIVIDADE, dominio: ctparmto_sped_vigencia_tipo_de_ati}
+      forma_de_tributacao_do_lucro_1_lucro_rea: {coluna: FORMA_TRIBUTACAO, dominio: ctparmto_sped_vigencia_forma_de_tr}
+      periodo_de_apuracao_do_irpj_e_csll_t_tri: {coluna: PERIODO_APURACAO_IRPJ_CSLL, dominio: ctparmto_sped_vigencia_periodo_de_}
+      forma_de_tributacao_do_trimestre_1_1_luc: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_1, dominio: ctparmto_sped_vigencia_forma_de_tr}
+      forma_tributacao_trimestre_2: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_2, dominio: ctparmto_sped_vigencia_forma_de_tr}
+      forma_tributacao_trimestre_3: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_3, dominio: ctparmto_sped_vigencia_forma_de_tr}
+      forma_tributacao_trimestre_4: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_4, dominio: ctparmto_sped_vigencia_forma_de_tr}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_escrituracao:
+        coluna: TIPO_ESCRITURACAO
+        ops: [eq, in]
+      tipo_de_atividade_g_atividade_geral_r_at:
+        coluna: TIPO_ATIVIDADE
+        ops: [eq, in]
+      periodo_de_apuracao_do_irpj_e_csll_t_tri:
+        coluna: PERIODO_APURACAO_IRPJ_CSLL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.484 linhas, 1.358 empresa(s), VIGENCIA de 2014-01-01 a 2025-08-01.', 'plano_referencial_sped_ecf: todos os valores reais estão
+        no comentário do banco (5=931, 1=479, 3=74).', 'tipo_de_atividade_g_atividade_geral_r_at: todos os valores reais estão no comentário do banco (A=804, G=679,
+        R=1).', 'forma_de_tributacao_do_lucro_1_lucro_rea: valores reais fora do comentário do banco (9=70, 8=6); tratar o domínio como hipótese.', 'periodo_de_apuracao_do_irpj_e_csll_t_tri:
+        todos os valores reais estão no comentário do banco (T=800, A=684).', 'forma_de_tributacao_do_trimestre_1_1_luc: todos os valores reais estão no comentário
+        do banco (1=1.484).', 'forma_tributacao_trimestre_2: todos os valores reais estão no comentário do banco (1=1.484).', 'forma_tributacao_trimestre_3: todos
+        os valores reais estão no comentário do banco (1=1.484).', 'forma_tributacao_trimestre_4: todos os valores reais estão no comentário do banco (1=1.484).']
+  ctparmto_dere_vigencia:
+    titulo: Parametros Contabilidade - Vigencia da guia Informativos/DeRE
+    descricao: 'Parametros Contabilidade - Vigencia da guia Informativos/DeRE. 1.427 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: CTPARMTO_DERE_VIGENCIA
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas:
+      empresa: CODI_EMP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      plano_referencial_1_banco_central_cosif: PLANO_REFERENCIAL
+      encerramento_contabil_a_anual_s_semestra: {coluna: ENCERRAMENTO_CONTABIL, dominio: ctparmto_dere_vigencia_encerrament}
+      vigencia_no_formato_aaaamm_para_navegaca: VIGENCIA_BUSCA
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      encerramento_contabil_a_anual_s_semestra:
+        coluna: ENCERRAMENTO_CONTABIL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.427 linhas, 1.427 empresa(s), VIGENCIA de 2026-10-01 a 2026-10-01.', 'encerramento_contabil_a_anual_s_semestra: todos os valores
+        reais estão no comentário do banco (A=1.427).']
+  ctparmto_dados_sped_contabil_signatario:
+    titulo: Dados da Assinaturas do registro J930 do SPED CONTABIL
+    descricao: 'Dados da Assinaturas do registro J930 do SPED CONTABIL. 1.203 linhas no catálogo; chave: CODI_EMP, CODI_SIGNATARIO.'
+    tabela: CTPARMTO_DADOS_SPED_CONTABIL_SIGNATARIO
+    chave: [CODI_EMP, CODI_SIGNATARIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VALIDADE_CPRC, volume: pequeno}
+    ordem:
+    - [DATA_VALIDADE_CPRC, desc]
+    - [CODI_SIGNATARIO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: CODI_SIGNATARIO
+      cpf_ou_cnpj_do_signatario: {coluna: CPF_CNPJ, sensivel: parcial}
+      nome_do_signatario: NOME_SIGNATARIO
+      codigo_fk_para_a_tabela_ctsped_signatari: I_QUALIFICACAO
+      crc_do_signatario: CRC_CONTABILISTA
+      data_de_validade_do_crc: DATA_VALIDADE_CPRC
+      crc_do_expedidor: CRC_EXPEDIDOR
+      sequencial_do_crc: SEQUENCIAL_CRC
+      telefone_do_signatario: {coluna: TELEFONE_SIGNATARIO, sensivel: parcial}
+      email_signatario: {coluna: EMAIL_SIGNATARIO, sensivel: parcial}
+      responsavel_pela_assinatura_s_sim_n_nao: {coluna: RESPONSAVEL_ASSINATURA, dominio: ctparmto_dados_sped_contabil_signatario_responsavel_}
+    filtros:
+      sequencial:
+        coluna: CODI_SIGNATARIO
+        ops: [eq, in]
+      data_de_validade_do_crc:
+        coluna: DATA_VALIDADE_CPRC
+        ops: [entre, gte, lte]
+      cpf_ou_cnpj_do_signatario:
+        coluna: CPF_CNPJ
+        ops: [eq, in]
+      nome_do_signatario:
+        coluna: NOME_SIGNATARIO
+        ops: [contem, prefixo]
+      codigo_fk_para_a_tabela_ctsped_signatari:
+        coluna: I_QUALIFICACAO
+        ops: [eq, in]
+      crc_do_signatario:
+        coluna: CRC_CONTABILISTA
+        ops: [contem, prefixo]
+      crc_do_expedidor:
+        coluna: CRC_EXPEDIDOR
+        ops: [contem, prefixo]
+      sequencial_do_crc:
+        coluna: SEQUENCIAL_CRC
+        ops: [contem, prefixo]
+      telefone_do_signatario:
+        coluna: TELEFONE_SIGNATARIO
+        ops: [eq, in]
+      email_signatario:
+        coluna: EMAIL_SIGNATARIO
+        ops: [contem, prefixo]
+      responsavel_pela_assinatura_s_sim_n_nao:
+        coluna: RESPONSAVEL_ASSINATURA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.203 linhas, 601 empresa(s), DATA_VALIDADE_CPRC de 2026-08-16 a 2026-08-16.', 'responsavel_pela_assinatura_s_sim_n_nao: todos
+        os valores reais estão no comentário do banco (N=653, S=550).']
+  ctparmto_periodo_trabalho_usuario:
+    titulo: Parametros - Período de trabalho por usuário
+    descricao: 'Parametros - Período de trabalho por usuário. 213 linhas no catálogo; chave: CODI_EMP, I_PERIODO.'
+    tabela: CTPARMTO_PERIODO_TRABALHO_USUARIO
+    chave: [CODI_EMP, I_PERIODO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PERIODO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_PERIODO, codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO, acao_do_periodo_de_trabalho_l_livre_a_av: ACAO}
+    vinculos:
+      ctparmto:
+        tabela: ctparmto
+        liga: {codi_emp: codi_emp}
+        colunas: {ctparmto_nome: manhi_par}
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      sequencial:
+        coluna: I_PERIODO
+        ops: [eq, in]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+      acao_do_periodo_de_trabalho_l_livre_a_av:
+        coluna: ACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 213 linhas, 5 empresa(s).', 'Vínculo ctparmto (ctparmto): 0 de 41 linhas sem registro relacionado (empresa 812).', 'Vínculo usconfusuario
+        (usConfUsuario): 0 de 41 linhas sem registro relacionado (empresa 812).']
+  ctparmto_cmv_estoque:
+    titulo: Parametros - CMV Contas de estoque
+    descricao: 'Parametros - CMV Contas de estoque. 62 linhas no catálogo; chave: CODI_EMP, I_CONTA.'
+    tabela: CTPARMTO_CMV_ESTOQUE
+    chave: [CODI_EMP, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 62 linhas, 24 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10111).']
+  ctparmto_cmv_estoque_grupo:
+    titulo: Parametros - CMV Contas de estoque - Grupos de produtos
+    descricao: 'Parametros - CMV Contas de estoque - Grupos de produtos. 8 linhas no catálogo; chave: CODI_EMP, I_CONTA, I_FILIAL.'
+    tabela: CTPARMTO_CMV_ESTOQUE_GRUPO
+    chave: [CODI_EMP, I_CONTA, I_FILIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_estoque: I_CONTA
+      sequencial: I_FILIAL
+      filial: CODI_EMP_FILIAL
+      grupos_de_produtos_s_selecionar_t_todos: {coluna: GRUPO_PRODUTO, dominio: ctparmto_cmv_estoque_grupo_grupos_de_p}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_filial: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_estoque:
+        coluna: I_CONTA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      filial:
+        coluna: CODI_EMP_FILIAL
+        ops: [eq, in]
+      grupos_de_produtos_s_selecionar_t_todos:
+        coluna: GRUPO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 8 empresa(s).', 'grupos_de_produtos_s_selecionar_t_todos: todos os valores reais estão no comentário do banco (T=8).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10103).']
+  ctparmto_filial_api_conta_azul:
+    titulo: Seleção de empresas filiais para o envio api conta azul
+    descricao: 'Seleção de empresas filiais para o envio api conta azul. 6 linhas no catálogo; chave: CODIGO, CODI_EMP.'
+    tabela: CTPARMTO_FILIAL_API_CONTA_AZUL
+    chave: [CODIGO, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {prima_key_com_autoincrement: CODIGO, empresa_principal_de_parametro: CODI_EMP, verifica_se_a_empresa_e_habilitada: HABILITAR, codigo_empresa_filial: CODIGO_EMPRESA_FILIAL}
+    filtros:
+      prima_key_com_autoincrement:
+        coluna: CODIGO
+        ops: [eq, in]
+      verifica_se_a_empresa_e_habilitada:
+        coluna: HABILITAR
+        ops: [eq, in]
+      codigo_empresa_filial:
+        coluna: CODIGO_EMPRESA_FILIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).']
+  ctparmto_contas_iceberg:
+    titulo: Parâmetrização de contas Contabilidade Digital
+    descricao: 'Parâmetrização de contas Contabilidade Digital. 4 linhas no catálogo; chave: CODI_EMP, CODI_FIL, I_BANCO.'
+    tabela: CTPARMTO_CONTAS_ICEBERG
+    chave: [CODI_EMP, CODI_FIL, I_BANCO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_INTEGRACAO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_INTEGRACAO, desc]
+    - [CODI_FIL, asc]
+    - [I_BANCO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_filial: CODI_FIL, codigo_de_identificacao_do_banco: I_BANCO, codigo_da_conta_contabil: CODI_CTA, data_inicial_para_busca_de_dados_de_extr: DATA_INICIO_INTEGRACAO,
+      saldo_inicial: SALDO_INICIAL}
+    vinculos:
+      ctparmto:
+        tabela: ctparmto
+        liga: {codi_emp: codi_emp}
+        colunas: {ctparmto_nome: manhi_par}
+      geatendimento_contas_ice:
+        tabela: GEATENDIMENTO_CONTAS_ICEBERG
+        liga: {codi_fil: codi_emp, i_banco: i_banco}
+        colunas: {geatendimento_contas_ice_nome: NOME_BANCO}
+    filtros:
+      codigo_da_filial:
+        coluna: CODI_FIL
+        ops: [eq, in]
+      codigo_de_identificacao_do_banco:
+        coluna: I_BANCO
+        ops: [eq, in]
+      data_inicial_para_busca_de_dados_de_extr:
+        coluna: DATA_INICIO_INTEGRACAO
+        ops: [entre, gte, lte]
+      codigo_da_conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 3 empresa(s), DATA_INICIO_INTEGRACAO de 2024-11-25 a 2024-11-25.', 'Vínculo ctparmto (ctparmto): 0 de 1 linhas sem registro
+        relacionado (empresa 841).', 'Vínculo geatendimento_contas_ice (GEATENDIMENTO_CONTAS_ICEBERG): 0 de 1 linhas sem registro relacionado (empresa 841).']
+  ctparmto_cpv_estoque:
+    titulo: Parâmetros - CPV Contas de estoque
+    descricao: 'Parâmetros - CPV Contas de estoque. 3 linhas no catálogo; chave: CODI_EMP, I_CONTA.'
+    tabela: CTPARMTO_CPV_ESTOQUE
+    chave: [CODI_EMP, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9993).']
+  ctparmto_permitir_mesma_classificacao:
+    titulo: Parametros - Contas que poderão ter as contas analíticas cadastradas com a mesma classificação
+    descricao: 'Parametros - Contas que poderão ter as contas analíticas cadastradas com a mesma classificação. 2 linhas no catálogo; chave: CODI_EMP, I_CONTA.'
+    tabela: CTPARMTO_PERMITIR_MESMA_CLASSIFICACAO
+    chave: [CODI_EMP, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      ctparmto:
+        tabela: ctparmto
+        liga: {codi_emp: codi_emp}
+        colunas: {ctparmto_nome: manhi_par}
+    filtros:
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo ctparmto (ctparmto): 0 de 2 linhas sem registro relacionado (empresa 10001).']
+  ctparmto_cmv_estoque_grupo_selecao:
+    titulo: Parametros - CMV Contas de estoque - Grupos de produtos - Seleção
+    descricao: 'Parametros - CMV Contas de estoque - Grupos de produtos - Seleção. 1 linhas no catálogo; chave: CODI_EMP, I_CONTA, I_FILIAL, I_GRUPO.'
+    tabela: CTPARMTO_CMV_ESTOQUE_GRUPO_SELECAO
+    chave: [CODI_EMP, I_CONTA, I_FILIAL, I_GRUPO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_estoque: I_CONTA, codigo_filial: I_FILIAL, sequencial: I_GRUPO, empresa_do_grupo_de_produto: CODI_EMP_GRUPO, grupo_de_produto: CODI_GRU}
+    vinculos:
+      efgrupopdi:
+        tabela: efgrupopdi
+        liga: {codi_emp_grupo: codi_emp, codi_gru: codi_gru}
+        colunas: {efgrupopdi_nome: nome_gru}
+    filtros:
+      codigo_estoque:
+        coluna: I_CONTA
+        ops: [eq, in]
+      codigo_filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: I_GRUPO
+        ops: [eq, in]
+      empresa_do_grupo_de_produto:
+        coluna: CODI_EMP_GRUPO
+        ops: [eq, in]
+      grupo_de_produto:
+        coluna: CODI_GRU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo efgrupopdi (efgrupopdi): 0 de 1 linhas sem registro relacionado (empresa 10101).']

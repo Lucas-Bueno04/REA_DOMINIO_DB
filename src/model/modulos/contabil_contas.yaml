@@ -1,0 +1,1099 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_contas
+titulo: Contábil - contas (rascunho em lote)
+dominios:
+  ctcontas_sped_ecf_geral_ref_sa_scp_tipo_do_sal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_GERAL_REF_SA_SCP.TIPO_SALDO_ANTERIOR estão no comentário do banco (2026-10-18). Distribuição: D=16.743,
+      C=10.136.'
+    valores: {C: Crédito, D: Débito}
+  ctcontas_sped_ecf_geral_ref_sa_scp_sa3cio_oste:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_GERAL_REF_SA_SCP.SOCIO_OSTENSIVO estão no comentário do banco (2026-10-18). Distribuição: S=23.241, N=3.638.'
+    valores: {S: SIM, N: NÃƒO}
+  ctcontas_ans_natureza_s_sintetica_a_analiti:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_ANS.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=13.210, S=8.760.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_ans_tipo_de_registro_p_padrao_m_ma:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_ANS.TIPO_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: P=21.970.'
+    valores: {P: Padrão, M: Manual}
+  ctcontas_bc_geral_utilizacao_f_f:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_GERAL.UTILIZACAO estão no comentário do banco (2026-10-18). Distribuição: F=4.717, S=4.300.'
+    valores: {F: Fiscal, S: Societária, A: Ambas}
+  ctcontas_bc_geral_natureza_s_sin:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_GERAL.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=7.311, S=1.706.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_sped_ecf_sistema_financeiro_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=4.805, S=1.208.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_sistema_financeiro_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 1=2.856, 2=1.402,
+      4=1.341, 3=414.'
+    valores: {'1': Ativo, '2': Passivo, '3': Patrimônio Líquido, '4': Resultado}
+  ctcontas_sped_ecf_sistema_financeiro_presumido_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO_PRESUMIDO.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=4.340, S=1.113.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_sistema_financeiro_presumido_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO_PRESUMIDO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 1=2.485,
+      2=1.398, 4=1.336, 3=234.'
+    valores: {'1': Ativo, '2': Passivo, '3': Patrimônio Líquido, '4': Resultado}
+  ctcontas_bc_bancos_cambio_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_BANCOS_CAMBIO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=3.663, S=730.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_bc_valores_mobiliarios_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_VALORES_MOBILIARIOS.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=3.545, S=728.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_cosif_utilizacao_f_fiscal_s_societ:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_COSIF.UTILIZACAO_COSIF estão no comentário do banco (2026-10-18). Distribuição: S=3.884.'
+    valores: {F: Fiscal, S: Societária, A: Ambas}
+  ctcontas_cosif_natureza_s_sintetica_a_anali:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_COSIF.NATUREZA_COSIF estão no comentário do banco (2026-10-18). Distribuição: A=3.185, S=699.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_susep_tipo_a_analitica_s_sintetica:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SUSEP.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=3.166, S=233.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_imune_isenta_ref_sa_scp_tipo_do_sal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_IMUNE_ISENTA_REF_SA_SCP.TIPO_SALDO_ANTERIOR estão no comentário do banco (2026-10-18). Distribuição: D=2.204,
+      C=1.124.'
+    valores: {C: Crédito, D: Débito}
+  ctcontas_sped_ecf_imune_isenta_ref_sa_scp_sa3cio_oste:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_IMUNE_ISENTA_REF_SA_SCP.SOCIO_OSTENSIVO estão no comentário do banco (2026-10-18). Distribuição: S=3.309,
+      N=19.'
+    valores: {S: SIM, N: NÃƒO}
+  ctcontas_bc_sociedade_corretora_cambio_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_SOCIEDADE_CORRETORA_CAMBIO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=2.649, S=550.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_bc_sociedade_corretora_titulos_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_SOCIEDADE_CORRETORA_TITULOS.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=2.646, S=553.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_sped_ecf_partido_politico_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_PARTIDO_POLITICO.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=1.952, S=705.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_partido_politico_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_PARTIDO_POLITICO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 4=1.298, 1=720, 2=563,
+      3=57, 5=19.'
+    valores: {'1': ATIVO, '2': PASSIVO, '3': PATRIMÔNIO LÍQUIDO, '4': RESULTADO, '5': OUTRAS}
+  ctcontas_bc_adm_consorcios_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_ADM_CONSORCIOS.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=909, S=293.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_bc_instituicao_pagamento_natureza_s_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_BC_INSTITUICAO_PAGAMENTO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: A=901, S=281.'
+    valores: {S: Sintética, A: Analítica}
+  ctcontas_sped_ecf_entidade_fechada_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_ENTIDADE_FECHADA.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=687, S=217.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_entidade_fechada_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_ENTIDADE_FECHADA.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 1=405, 4=249, 2=147,
+      3=103.'
+    valores: {'1': Ativo, '2': Passivo, '3': Patrimônio Líquido, '4': Resultado}
+  ctcontas_cofi_normal_ou_retificadora_n_norm:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_COFI.NORMAL_RETIFICADORA_COFI estão no comentário do banco (2026-10-18). Distribuição: N=411, R=68, NR=13.'
+    valores: {N: Normal, R: Retificadora, NR: Normal e Retificadora}
+  ctcontas_sped_ecf_seguradora_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SEGURADORA.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=281, S=51.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_seguradora_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_SEGURADORA.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 4=120, 1=104, 2=92, 3=16.'
+    valores: {'1': Ativo, '2': Passivo, '3': Patrimônio Líquido, '4': Resultado}
+  ctcontas_sped_ecf_tef_tipo_a_anal:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_TEF.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=261, S=63.'
+    valores: {A: Analítica, S: Sintética}
+  ctcontas_sped_ecf_tef_natureza_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCONTAS_SPED_ECF_TEF.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: 1=125, 4=92, 2=84, 3=23.'
+    valores: {'1': Ativo, '2': Passivo, '3': Patrimônio Líquido, '4': Resultado}
+entidades:
+  ctcontas_sped_ecf_geral_ref_sa_scp:
+    titulo: Plano de contas SPED ECF Geral Referencial - Saldo anterior por SCP
+    descricao: 'Plano de contas SPED ECF Geral Referencial - Saldo anterior por SCP. 26.875 linhas no catálogo; chave: CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE, CODIGO_CTA_SPED_ECF_GERAL,
+      SEQUENCIAL.'
+    tabela: CTCONTAS_SPED_ECF_GERAL_REF_SA_SCP
+    chave: [CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE, CODIGO_CTA_SPED_ECF_GERAL, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_CTA, asc]
+    - [CODI_EMP_CORRENTE, asc]
+    colunas:
+      empresa: CODI_EMP
+      conta_contabil: CODI_CTA
+      empresa_corrente: CODI_EMP_CORRENTE
+      conta_sped_ecf: CODIGO_CTA_SPED_ECF_GERAL
+      sequencial: SEQUENCIAL
+      scp: I_SCP
+      saldo_anterior: SALDO_ANTERIOR
+      tipo_do_saldo_anterior_c_credito_d_debit: {coluna: TIPO_SALDO_ANTERIOR, dominio: ctcontas_sped_ecf_geral_ref_sa_scp_tipo_do_sal}
+      sa3cio_ostensivo_s_sim_n_nao: {coluna: SOCIO_OSTENSIVO, dominio: ctcontas_sped_ecf_geral_ref_sa_scp_sa3cio_oste}
+    filtros:
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_corrente:
+        coluna: CODI_EMP_CORRENTE
+        ops: [eq, in]
+      conta_sped_ecf:
+        coluna: CODIGO_CTA_SPED_ECF_GERAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      tipo_do_saldo_anterior_c_credito_d_debit:
+        coluna: TIPO_SALDO_ANTERIOR
+        ops: [eq, in]
+      sa3cio_ostensivo_s_sim_n_nao:
+        coluna: SOCIO_OSTENSIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 26.879 linhas, 599 empresa(s).', 'tipo_do_saldo_anterior_c_credito_d_debit: todos os valores reais estão no comentário do banco
+        (D=16.743, C=10.136).', 'sa3cio_ostensivo_s_sim_n_nao: todos os valores reais estão no comentário do banco (S=23.241, N=3.638).']
+  ctcontas_ans:
+    titulo: Plano de contas ANS
+    descricao: 'Plano de contas ANS. 21.970 linhas no catálogo; chave: CODIGO_CTA_ANS, CODI_EMP.'
+    tabela: CTCONTAS_ANS
+    chave: [CODIGO_CTA_ANS, CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: VALIDADE_INICIO, volume: medio}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_ANS, asc]
+    colunas:
+      codigo: CODIGO_CTA_ANS
+      empresa: CODI_EMP
+      classificacao: CLASSIFICACAO_ANS
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_ans_natureza_s_sintetica_a_analiti}
+      tipo_de_registro_p_padrao_m_manual: {coluna: TIPO_REGISTRO, dominio: ctcontas_ans_tipo_de_registro_p_padrao_m_ma}
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_ANS
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_ANS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+      tipo_de_registro_p_padrao_m_manual:
+        coluna: TIPO_REGISTRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21.970 linhas, 5 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): inicio_validade.', 'natureza_s_sintetica_a_analitica:
+        todos os valores reais estão no comentário do banco (A=13.210, S=8.760).', 'tipo_de_registro_p_padrao_m_manual: todos os valores reais estão no comentário
+        do banco (P=21.970).']
+  ctcontas_grupos_dlpa:
+    titulo: Grupos DLPA que fazem parte da conta
+    descricao: 'Grupos DLPA que fazem parte da conta. 17.562 linhas no catálogo; chave: CODI_EMP, CODI_CTA, DLPA_CTA.'
+    tabela: CTCONTAS_GRUPOS_DLPA
+    chave: [CODI_EMP, CODI_CTA, DLPA_CTA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_CTA, asc]
+    - [DLPA_CTA, asc]
+    colunas: {empresa_do_plano: CODI_EMP, codigo_da_conta: CODI_CTA, codigo_do_grupo_dlpa: DLPA_CTA}
+    vinculos:
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_cta: codi_cta, codi_emp: codi_emp}
+        colunas: {ctcontas_nome: nome_cta}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_conta:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      codigo_do_grupo_dlpa:
+        coluna: DLPA_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17.562 linhas, 1.291 empresa(s).', 'Vínculo ctcontas (ctcontas): 0 de 13 linhas sem registro relacionado (empresa 129).', 'Vínculo
+        geempre (geempre): 0 de 13 linhas sem registro relacionado (empresa 129).']
+  ctcontas_equivalentes:
+    titulo: Contas equivalentes de caixa
+    descricao: 'Contas equivalentes de caixa. 15.344 linhas no catálogo; chave: CODI_EMP, CODI_CTA.'
+    tabela: CTCONTAS_EQUIVALENTES
+    chave: [CODI_EMP, CODI_CTA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_CTA, asc]
+    colunas: {empresa: CODI_EMP, conta_equivalente_caixa: CODI_CTA, empresa_do_plano_de_contas: CODI_EMP_PLANO}
+    vinculos:
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      conta_equivalente_caixa:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15.344 linhas, 476 empresa(s).', 'Vínculo ctcontas (ctcontas): 0 de 33 linhas sem registro relacionado (empresa 1147).', 'Vínculo
+        geempre (geempre): 0 de 33 linhas sem registro relacionado (empresa 1147).']
+  ctcontas_bc_geral:
+    titulo: Plano de contas Banco Central - Geral
+    descricao: 'Plano de contas Banco Central - Geral. 9.017 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_GERAL
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_GERAL
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      utilizacao_f_fiscal_s_societaria_a_ambas: {coluna: UTILIZACAO, dominio: ctcontas_bc_geral_utilizacao_f_f}
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_geral_natureza_s_sin}
+      grau_para_calcular_o_valor_do_pai: CLAS_CTA_GRAU
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_GERAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      utilizacao_f_fiscal_s_societaria_a_ambas:
+        coluna: UTILIZACAO
+        ops: [eq, in]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+      grau_para_calcular_o_valor_do_pai:
+        coluna: CLAS_CTA_GRAU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9.017 linhas, VALIDADE_INICIO de 1988-06-01 a 2027-07-01.', 'utilizacao_f_fiscal_s_societaria_a_ambas: todos os valores reais
+        estão no comentário do banco (F=4.717, S=4.300).', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no comentário do banco (A=7.311, S=1.706).']
+  ctcontas_aneel:
+    titulo: Plano de contas referencial da ANEEL
+    descricao: 'Plano de contas referencial da ANEEL. 8.998 linhas no catálogo; chave: CODIGO_CTA_ANEEL, VIGENCIA.'
+    tabela: CTCONTAS_ANEEL
+    chave: [CODIGO_CTA_ANEEL, VIGENCIA]
+    acesso: {empresa: null, periodo: INICIO_VALIDADE, volume: pequeno}
+    ordem:
+    - [INICIO_VALIDADE, desc]
+    - [CODIGO_CTA_ANEEL, asc]
+    - [VIGENCIA, asc]
+    colunas: {codigo_sequencial: CODIGO_CTA_ANEEL, vigencia: VIGENCIA, classificacao: CLASSIFICACAO_ANEEL, descricao: DESCRICAO_ANEEL, permite_lancamento_s_n: PERMITE_LANCAMENTO_ANEEL,
+      inicio_da_validade: INICIO_VALIDADE, fim_da_validade: FIM_VALIDADE}
+    filtros:
+      codigo_sequencial:
+        coluna: CODIGO_CTA_ANEEL
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      inicio_da_validade:
+        coluna: INICIO_VALIDADE
+        ops: [entre, gte, lte]
+      fim_da_validade:
+        coluna: FIM_VALIDADE
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_ANEEL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_ANEEL
+        ops: [contem, prefixo]
+      permite_lancamento_s_n:
+        coluna: PERMITE_LANCAMENTO_ANEEL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.998 linhas, INICIO_VALIDADE de 2015-01-01 a 2022-01-01.']
+  ctcontas_sped_ecf_sistema_financeiro:
+    titulo: Plano de contas SPED ECF Sistema Financeiro
+    descricao: 'Plano de contas SPED ECF Sistema Financeiro. 6.013 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_SF.'
+    tabela: CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO
+    chave: [CODIGO_CTA_SPED_ECF_SF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_SF, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_SF
+      classificacao: CLASSIFICACAO_SPED_ECF_SF
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_sistema_financeiro_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_sistema_financeiro_natureza_1_}
+      layout_de_inicio_de_utilizacao_da_conta: LAYOUT_INICIO
+      layout_de_fim_de_utilizacao_da_conta: LAYOUT_FIM
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_SF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_SF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.013 linhas, VALIDADE_INICIO de 2014-01-01 a 2026-07-01.', 'Colunas expostas nulas em 100% das linhas (1): layout_de_fim_de_utilizacao_da_conta.',
+      'tipo_a_analitica_s_sintetica: todos os valores reais estão no comentário do banco (A=4.805, S=1.208).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os
+        valores reais estão no comentário do banco (1=2.856, 2=1.402, 4=1.341, 3=414).']
+  ctcontas_sped_ecf_sistema_financeiro_presumido:
+    titulo: Plano de contas SPED ECF Pessoa Jurídica Financeira - Lucro Presumido
+    descricao: 'Plano de contas SPED ECF Pessoa Jurídica Financeira - Lucro Presumido. 5.453 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_SF_LP.'
+    tabela: CTCONTAS_SPED_ECF_SISTEMA_FINANCEIRO_PRESUMIDO
+    chave: [CODIGO_CTA_SPED_ECF_SF_LP]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_SF_LP, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_SF_LP
+      classificacao: CLASSIFICACAO_SPED_ECF_SF_LP
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_sistema_financeiro_presumido_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_sistema_financeiro_presumido_natureza_1_}
+      layout_de_inicio_de_utilizacao_da_conta: LAYOUT_INICIO
+      layout_de_fim_de_utilizacao_da_conta: LAYOUT_FIM
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_SF_LP
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_SF_LP
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.453 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-07-01.', 'Colunas expostas nulas em 100% das linhas (1): layout_de_fim_de_utilizacao_da_conta.',
+      'tipo_a_analitica_s_sintetica: todos os valores reais estão no comentário do banco (A=4.340, S=1.113).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os
+        valores reais estão no comentário do banco (1=2.485, 2=1.398, 4=1.336, 3=234).']
+  ctcontas_bc_bancos_cambio:
+    titulo: Plano de contas Banco Central - Bancos de Câmbio
+    descricao: 'Plano de contas Banco Central - Bancos de Câmbio. 4.393 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_BANCOS_CAMBIO
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_BANCOS_CAMBIO
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_bancos_cambio_natureza_s_}
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_BANCOS_CAMBIO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.393 linhas, VALIDADE_INICIO de 1988-06-01 a 2022-01-03.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=3.663, S=730).']
+  ctcontas_bc_valores_mobiliarios:
+    titulo: Plano de contas Banco Central - Distribuidora de Títulos e Valores Mobiliários
+    descricao: 'Plano de contas Banco Central - Distribuidora de Títulos e Valores Mobiliários. 4.273 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_VALORES_MOBILIARIOS
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_VALORES_MOBILIARIOS
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_valores_mobiliarios_natureza_s_}
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_VALORES_MOBILIARIOS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.273 linhas, VALIDADE_INICIO de 1988-06-01 a 2023-07-01.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=3.545, S=728).']
+  ctcontas_cosif:
+    titulo: Plano de contas COSIF
+    descricao: 'Plano de contas COSIF. 3.884 linhas no catálogo; chave: CODIGO_CTA_COSIF.'
+    tabela: CTCONTAS_COSIF
+    chave: [CODIGO_CTA_COSIF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO_COSIF, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO_COSIF, desc]
+    - [CODIGO_CTA_COSIF, asc]
+    colunas:
+      codigo: CODIGO_CTA_COSIF
+      classificacao: CLASSIFICACAO_COSIF
+      descricao: DESCRICAO_COSIF
+      inicio_validade: VALIDADE_INICIO_COSIF
+      fim_validade: VALIDADE_FIM_COSIF
+      utilizacao_f_fiscal_s_societaria_a_ambas: {coluna: UTILIZACAO_COSIF, dominio: ctcontas_cosif_utilizacao_f_fiscal_s_societ}
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA_COSIF, dominio: ctcontas_cosif_natureza_s_sintetica_a_anali}
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_COSIF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO_COSIF
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM_COSIF
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_COSIF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_COSIF
+        ops: [contem, prefixo]
+      utilizacao_f_fiscal_s_societaria_a_ambas:
+        coluna: UTILIZACAO_COSIF
+        ops: [eq, in]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA_COSIF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.884 linhas, VALIDADE_INICIO_COSIF de 1988-06-01 a 2016-01-01.', 'utilizacao_f_fiscal_s_societaria_a_ambas: todos os valores
+        reais estão no comentário do banco (S=3.884).', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no comentário do banco (A=3.185, S=699).']
+  ctcontas_idiomas:
+    titulo: Contas Contabeis Outros Idiomas
+    descricao: 'Contas Contabeis Outros Idiomas. 3.858 linhas no catálogo; chave: CODI_EMP, CODI_CTA, I_IDIOMAS.'
+    tabela: CTCONTAS_IDIOMAS
+    chave: [CODI_EMP, CODI_CTA, I_IDIOMAS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_CTA, asc]
+    - [I_IDIOMAS, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_conta: CODI_CTA, codigo_do_idioma: I_IDIOMAS, descricao_da_conta: DESCRICAO}
+    vinculos:
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+      ctidiomas:
+        tabela: CTIDIOMAS
+        liga: {i_idiomas: i_idiomas}
+        colunas: {ctidiomas_nome: NOME}
+    filtros:
+      codigo_da_conta:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      codigo_do_idioma:
+        coluna: I_IDIOMAS
+        ops: [eq, in]
+      descricao_da_conta:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.858 linhas, 8 empresa(s).', 'Vínculo ctcontas (ctcontas): 0 de 485 linhas sem registro relacionado (empresa 9998).', 'Vínculo
+        ctidiomas (CTIDIOMAS): 0 de 485 linhas sem registro relacionado (empresa 9998).']
+  ctcontas_susep:
+    titulo: Plano de contas SUSEP
+    descricao: 'Plano de contas SUSEP. 3.399 linhas no catálogo; chave: CODIGO_CTA_SUSEP.'
+    tabela: CTCONTAS_SUSEP
+    chave: [CODIGO_CTA_SUSEP]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SUSEP, asc]
+    colunas:
+      codigo: CODIGO_CTA_SUSEP
+      classificacao: CLASSIFICACAO_SUSEP
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_susep_tipo_a_analitica_s_sintetica}
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SUSEP
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SUSEP
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.399 linhas.', 'Colunas expostas nulas em 100% das linhas (2): inicio_validade, fim_validade.', 'tipo_a_analitica_s_sintetica:
+        todos os valores reais estão no comentário do banco (A=3.166, S=233).']
+  ctcontas_sped_ecf_imune_isenta_ref_sa_scp:
+    titulo: Plano de contas SPED ECF Imunes e Isentas Referencial - Saldo anterior por SCP
+    descricao: 'Plano de contas SPED ECF Imunes e Isentas Referencial - Saldo anterior por SCP. 3.328 linhas no catálogo; chave: CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE,
+      CODIGO_CTA_SPED_ECF_IMUNE_ISENTA, SEQUENCIAL.'
+    tabela: CTCONTAS_SPED_ECF_IMUNE_ISENTA_REF_SA_SCP
+    chave: [CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE, CODIGO_CTA_SPED_ECF_IMUNE_ISENTA, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_CTA, asc]
+    - [CODI_EMP_CORRENTE, asc]
+    colunas:
+      empresa: CODI_EMP
+      conta_contabil: CODI_CTA
+      empresa_corrente: CODI_EMP_CORRENTE
+      conta_sped_ecf: CODIGO_CTA_SPED_ECF_IMUNE_ISENTA
+      sequencial: SEQUENCIAL
+      scp: I_SCP
+      saldo_anterior: SALDO_ANTERIOR
+      tipo_do_saldo_anterior_c_credito_d_debit: {coluna: TIPO_SALDO_ANTERIOR, dominio: ctcontas_sped_ecf_imune_isenta_ref_sa_scp_tipo_do_sal}
+      sa3cio_ostensivo_s_sim_n_nao: {coluna: SOCIO_OSTENSIVO, dominio: ctcontas_sped_ecf_imune_isenta_ref_sa_scp_sa3cio_oste}
+    filtros:
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_corrente:
+        coluna: CODI_EMP_CORRENTE
+        ops: [eq, in]
+      conta_sped_ecf:
+        coluna: CODIGO_CTA_SPED_ECF_IMUNE_ISENTA
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      tipo_do_saldo_anterior_c_credito_d_debit:
+        coluna: TIPO_SALDO_ANTERIOR
+        ops: [eq, in]
+      sa3cio_ostensivo_s_sim_n_nao:
+        coluna: SOCIO_OSTENSIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.328 linhas, 32 empresa(s).', 'tipo_do_saldo_anterior_c_credito_d_debit: todos os valores reais estão no comentário do banco
+        (D=2.204, C=1.124).', 'sa3cio_ostensivo_s_sim_n_nao: todos os valores reais estão no comentário do banco (S=3.309, N=19).']
+  ctcontas_bc_sociedade_corretora_cambio:
+    titulo: Plano de contas Banco Central - Sociedade Corretora de Câmbio
+    descricao: 'Plano de contas Banco Central - Sociedade Corretora de Câmbio. 3.199 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_SOCIEDADE_CORRETORA_CAMBIO
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_SOC_COR_CAMBIO
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_sociedade_corretora_cambio_natureza_s_}
+      exibe_saldo_1_saldo_somente_na_coluna_to: EXIGE_SALDO
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_SOC_COR_CAMBIO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.199 linhas, VALIDADE_INICIO de 1988-06-01 a 2022-02-01.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=2.649, S=550).']
+  ctcontas_bc_sociedade_corretora_titulos:
+    titulo: Plano de contas Banco Central - Sociedade Corretora de Títulos e Valores Mobiliários
+    descricao: 'Plano de contas Banco Central - Sociedade Corretora de Títulos e Valores Mobiliários. 3.199 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_SOCIEDADE_CORRETORA_TITULOS
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_SOC_COR_TITULOS
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_sociedade_corretora_titulos_natureza_s_}
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_SOC_COR_TITULOS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.199 linhas, VALIDADE_INICIO de 1988-06-01 a 2022-02-01.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=2.646, S=553).']
+  ctcontas_sped_ecf_partido_politico:
+    titulo: Plano de contas SPED ECF Partidos Políticos
+    descricao: 'Plano de contas SPED ECF Partidos Políticos. 2.657 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_PARTIDO_POLITICO.'
+    tabela: CTCONTAS_SPED_ECF_PARTIDO_POLITICO
+    chave: [CODIGO_CTA_SPED_ECF_PARTIDO_POLITICO]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_PARTIDO_POLITICO, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_PARTIDO_POLITICO
+      classificacao: CLASSIFICACAO_SPED_ECF_PARTIDO_POLITICO
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_partido_politico_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_partido_politico_natureza_1_}
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_PARTIDO_POLITICO
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_PARTIDO_POLITICO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.657 linhas, VALIDADE_INICIO de 2014-01-01 a 2022-01-01.', 'tipo_a_analitica_s_sintetica: todos os valores reais estão no comentário
+        do banco (A=1.952, S=705).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os valores reais estão no comentário do banco (4=1.298, 1=720, 2=563, 3=57, 5=19).']
+  ctcontas_bc_adm_consorcios:
+    titulo: Plano de contas Banco Central - Administradoras de Consórcio
+    descricao: 'Plano de contas Banco Central - Administradoras de Consórcio. 1.202 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_ADM_CONSORCIOS
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_ADM_CONSORCIOS
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_adm_consorcios_natureza_s_}
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_ADM_CONSORCIOS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.202 linhas, VALIDADE_INICIO de 2014-07-01 a 2022-01-03.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=909, S=293).']
+  ctcontas_bc_instituicao_pagamento:
+    titulo: Plano de contas Banco Central - Administradoras de Consórcio
+    descricao: 'Plano de contas Banco Central - Administradoras de Consórcio. 1.182 linhas no catálogo; chave: I_CONTA.'
+    tabela: CTCONTAS_BC_INSTITUICAO_PAGAMENTO
+    chave: [I_CONTA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_CONTA, asc]
+    colunas:
+      codigo: I_CONTA
+      classificacao: CLASSIFICACAO_BC_INSTITUICAO_PAGAMENTO
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      natureza_s_sintetica_a_analitica: {coluna: NATUREZA, dominio: ctcontas_bc_instituicao_pagamento_natureza_s_}
+    filtros:
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_BC_INSTITUICAO_PAGAMENTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_s_sintetica_a_analitica:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.182 linhas, VALIDADE_INICIO de 2017-01-01 a 2023-07-01.', 'natureza_s_sintetica_a_analitica: todos os valores reais estão no
+        comentário do banco (A=901, S=281).']
+  ctcontas_sped_ecf_entidade_fechada:
+    titulo: Plano de contas SPED ECF Entidades Fechadas da Previdência Complementar
+    descricao: 'Plano de contas SPED ECF Entidades Fechadas da Previdência Complementar. 904 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_ENTIDADE_FECHADA.'
+    tabela: CTCONTAS_SPED_ECF_ENTIDADE_FECHADA
+    chave: [CODIGO_CTA_SPED_ECF_ENTIDADE_FECHADA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_ENTIDADE_FECHADA, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_ENTIDADE_FECHADA
+      classificacao: CLASSIFICACAO_SPED_ECF_ENTIDADE_FECHADA
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_entidade_fechada_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_entidade_fechada_natureza_1_}
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_ENTIDADE_FECHADA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_ENTIDADE_FECHADA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 904 linhas, VALIDADE_INICIO de 2014-01-01 a 2023-01-01.', 'tipo_a_analitica_s_sintetica: todos os valores reais estão no comentário
+        do banco (A=687, S=217).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os valores reais estão no comentário do banco (1=405, 4=249, 2=147, 3=103).']
+  ctcontas_cofi:
+    titulo: Plano de contas COFI
+    descricao: 'Plano de contas COFI. 492 linhas no catálogo; chave: CODIGO_CTA_COFI.'
+    tabela: CTCONTAS_COFI
+    chave: [CODIGO_CTA_COFI]
+    acesso: {empresa: null, periodo: DATA_INICIO_COFI, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_COFI, desc]
+    - [CODIGO_CTA_COFI, asc]
+    colunas:
+      codigo: CODIGO_CTA_COFI
+      classificacao: CLASSIFICACAO_COFI
+      descricao: DESCRICAO_COFI
+      data_inicio: DATA_INICIO_COFI
+      data_fim: DATA_FIM_COFI
+      permite_relacionamento_s_n: PERMITE_RELACIONAMENTO_COFI
+      normal_ou_retificadora_n_normal_r_retifi: {coluna: NORMAL_RETIFICADORA_COFI, dominio: ctcontas_cofi_normal_ou_retificadora_n_norm}
+      conta_superior: CONTA_SUPERIOR_COFI
+      classificacao_auxiliar: CLASSIFICACAO_COFI_AUXILIAR
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_COFI
+        ops: [eq, in]
+      data_inicio:
+        coluna: DATA_INICIO_COFI
+        ops: [entre, gte, lte]
+      data_fim:
+        coluna: DATA_FIM_COFI
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_COFI
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_COFI
+        ops: [contem, prefixo]
+      permite_relacionamento_s_n:
+        coluna: PERMITE_RELACIONAMENTO_COFI
+        ops: [eq, in]
+      normal_ou_retificadora_n_normal_r_retifi:
+        coluna: NORMAL_RETIFICADORA_COFI
+        ops: [eq, in]
+      conta_superior:
+        coluna: CONTA_SUPERIOR_COFI
+        ops: [eq, in]
+      classificacao_auxiliar:
+        coluna: CLASSIFICACAO_COFI_AUXILIAR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 492 linhas, DATA_INICIO_COFI de 2006-08-12 a 2016-07-07.', 'Colunas expostas nulas em 100% das linhas (1): data_fim.', 'normal_ou_retificadora_n_normal_r_retifi:
+        todos os valores reais estão no comentário do banco (N=411, R=68, NR=13).']
+  ctcontas_sped_ecf_seguradora:
+    titulo: Plano de contas SPED ECF Seguradoras ou Entidades Abertas de Previdência Complementar
+    descricao: 'Plano de contas SPED ECF Seguradoras ou Entidades Abertas de Previdência Complementar. 332 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_SEGURADORA.'
+    tabela: CTCONTAS_SPED_ECF_SEGURADORA
+    chave: [CODIGO_CTA_SPED_ECF_SEGURADORA]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_SEGURADORA, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_SEGURADORA
+      classificacao: CLASSIFICACAO_SPED_ECF_SEGURADORA
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_seguradora_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_seguradora_natureza_1_}
+      layout_de_inicio_de_utilizacao_da_conta: LAYOUT_INICIO
+      layout_de_fim_de_utilizacao_da_conta: LAYOUT_FIM
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_SEGURADORA
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_SEGURADORA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 332 linhas, VALIDADE_INICIO de 2014-01-01 a 2023-01-01.', 'Colunas expostas nulas em 100% das linhas (2): fim_validade, layout_de_fim_de_utilizacao_da_conta.',
+      'tipo_a_analitica_s_sintetica: todos os valores reais estão no comentário do banco (A=281, S=51).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os valores
+        reais estão no comentário do banco (4=120, 1=104, 2=92, 3=16).']
+  ctcontas_sped_ecf_tef:
+    titulo: Plano de contas SPED ECF - TEF Tributação Específica do Futebol
+    descricao: 'Plano de contas SPED ECF - TEF Tributação Específica do Futebol. 324 linhas no catálogo; chave: CODIGO_CTA_SPED_ECF_TEF.'
+    tabela: CTCONTAS_SPED_ECF_TEF
+    chave: [CODIGO_CTA_SPED_ECF_TEF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO_CTA_SPED_ECF_TEF, asc]
+    colunas:
+      codigo: CODIGO_CTA_SPED_ECF_TEF
+      classificacao: CLASSIFICACAO_SPED_ECF_TEF
+      descricao: DESCRICAO
+      inicio_validade: VALIDADE_INICIO
+      fim_validade: VALIDADE_FIM
+      tipo_a_analitica_s_sintetica: {coluna: TIPO, dominio: ctcontas_sped_ecf_tef_tipo_a_anal}
+      conta_pai_superior: CONTA_SUPERIOR
+      nivel: NIVEL
+      natureza_1_ativo_2_passivo_3_patrimonio: {coluna: NATUREZA, dominio: ctcontas_sped_ecf_tef_natureza_1_}
+      data_em_formato_integer_para_otimizar_in: VALIDADE_INICIO_BUSCA
+      validade_fim_busca: VALIDADE_FIM_BUSCA
+      mascara_da_conta: MASCARA_CONTA
+    filtros:
+      codigo:
+        coluna: CODIGO_CTA_SPED_ECF_TEF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: CLASSIFICACAO_SPED_ECF_TEF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_a_analitica_s_sintetica:
+        coluna: TIPO
+        ops: [eq, in]
+      conta_pai_superior:
+        coluna: CONTA_SUPERIOR
+        ops: [eq, in]
+      mascara_da_conta:
+        coluna: MASCARA_CONTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 324 linhas, VALIDADE_INICIO de 2021-01-01 a 2021-01-01.', 'Colunas expostas nulas em 100% das linhas (1): fim_validade.', 'tipo_a_analitica_s_sintetica:
+        todos os valores reais estão no comentário do banco (A=261, S=63).', 'natureza_1_ativo_2_passivo_3_patrimonio: todos os valores reais estão no comentário
+        do banco (1=125, 4=92, 2=84, 3=23).']
+  ctcontas_scp:
+    titulo: Contas Contabeis - SCP
+    descricao: 'Contas Contabeis - SCP. 14 linhas no catálogo; chave: CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE.'
+    tabela: CTCONTAS_SCP
+    chave: [CODI_EMP, CODI_CTA, CODI_EMP_CORRENTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_CTA, asc]
+    - [CODI_EMP_CORRENTE, asc]
+    colunas: {empresa_do_plano: CODI_EMP, codigo_da_conta: CODI_CTA, empresa_corrente: CODI_EMP_CORRENTE, definir_scp_padrao_para_o_lancamento_s_n: DEFINIR_SCP_PADRAO,
+      empresa_para_listar_o_cadastro_de_scp: FILIAL, scp: I_SCP}
+    vinculos:
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_corrente: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_conta:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_corrente:
+        coluna: CODI_EMP_CORRENTE
+        ops: [eq, in]
+      definir_scp_padrao_para_o_lancamento_s_n:
+        coluna: DEFINIR_SCP_PADRAO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, 3 empresa(s).', 'Vínculo ctcontas (ctcontas): 0 de 5 linhas sem registro relacionado (empresa 612).', 'Vínculo geempre
+        (geempre): 0 de 5 linhas sem registro relacionado (empresa 612).']

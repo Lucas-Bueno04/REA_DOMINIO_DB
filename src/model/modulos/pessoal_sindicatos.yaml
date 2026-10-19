@@ -1,0 +1,1179 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_sindicatos
+titulo: Pessoal - sindicatos (rascunho em lote)
+dominios:
+  fosindicatos_medias_tipo_de_media_1_feri:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.TIPO_MEDIA estão no comentário do banco (2026-10-18). Distribuição: 3=324, 1=324, 2=324, 5=322, 4=8.'
+    valores: {'1': Férias, '2': 13º salário, '3': Aviso prévio, '4': Saldo de salário, '5': Afastamentos}
+  fosindicatos_medias_configuracao_de_medi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONFIGURACAO_MEDIA_COMISSOES estão no comentário do banco (2026-10-18). Distribuição: 0=1.254, 1=48.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_tipo_de_periodo_1_ul:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.TIPO_PERIODO estão no comentário do banco (2026-10-18). Distribuição: 1=790, 3=321, 2=190, 6=1.'
+    valores: {'1': Últimos meses, '2': Período aquisitivo, '3': Ano corrente, '4': Últimos meses no período aquisitivo, '5': Últimos meses no ano corrente, '6': Selecionar
+        meses no ano corrente}
+  fosindicatos_medias_valores_a_considerar:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.NMESES_CONSIDERAR estão no comentário do banco (2026-10-18). Distribuição: 1=1.302.'
+    valores: {'1': Todos, '2': Somente com valor, '3': Maiores, '4': Maiores e menores}
+  fosindicatos_medias_considerar_o_mes_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONSIDERAR_DEZEMBRO estão no comentário do banco (2026-10-18). Distribuição: 0=1.301, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_periodo_a_considerar:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.PERIODO_CONSIDERAR_ULTIMOS_MESES_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 1=1.302.'
+    valores: {'1': Anteriores ao gozo, '2': Anteriores ao pagamento}
+  fosindicatos_medias_tipo_de_calculo_de_f:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.TIPO_CALCULO_FERIAS estão no comentário do banco (2026-10-18). Distribuição: nulo=978, 0=324.'
+    valores: {'0': Todos, '1': Férias gozadas, '2': Férias pagas em rescisão}
+  fosindicatos_medias_considerar_o_mes_da_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONSIDERAR_MES_ADMISSAO_PERIODO_TRABALHADO_INFERIOR_15_DIAS estão no comentário do banco (2026-10-18).
+      Distribuição: 1=1.302.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_considerar_a_compete:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONSIDERAR_COMPETENCIA_SOMA_MEDIAS_MESMA_UNIDADE_MAIOR_VALOR estão no comentário do banco (2026-10-18).
+      Distribuição: 0=1.302.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_considerar_a_existen:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONSIDERAR_EXISTENCIA_VALOR_ULTIMOS_MESES_CALCULO_MEDIA estão no comentário do banco (2026-10-18). Distribuição:
+      0=1.302.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_calcular_a_media_pro:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CALCULAR_MEDIA_PROPORCIONAL_AVOS_DIREITO estão no comentário do banco (2026-10-18). Distribuição: 1=1.302.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_medias_considerar_os_meses_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_MEDIAS.CONSIDERAR_MESES_SEM_VALOR_LANCADO_PARA_DIVISOR estão no comentário do banco (2026-10-18). Distribuição:
+      1=1.302.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_tipo_percent:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.TIPO_PERCENTUAL_REAJUSTE estão no comentário do banco (2026-10-18). Distribuição: 1=63.'
+    valores: {'1': Fixo, '2': Conforme cargo}
+  fosindicatos_cct_alterar_sala:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.ALTERAR_SALARIO_EMPREGADO_ADMITIDO_DENTRO_VIGENCIA_CONVENCAO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=55, 1=8.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_permitir_alt:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.PERMITIR_ALTERACAO_EMPREGADO_RETORNO_AFASTAMENTO_MES_ANTERIOR_VIGENCIA estão no comentário do banco (2026-10-18).
+      Distribuição: 0=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_considerar_o:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.CONSIDERAR_PERIODO_AFASTADO_ALTERACAO_SALARIAL_CONFORME_CARGO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_possui_termo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.POSSUI_TERMO_ADITIVO estão no comentário do banco (2026-10-18). Distribuição: 0=61, 1=2.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_indica_se_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.TERMO_ADITIVO estão no comentário do banco (2026-10-18). Distribuição: 0=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_enviar_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_gerar_retifi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_marcacao_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=63.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_cct_documentos_anexados_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_CCT_DOCUMENTOS_ANEXADOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=33.'
+    valores: {'0': Sistema, '1': Importação de tabela, '2': Importação de layout}
+  fosindicatos_indenizacao_especial_campo_1_ida:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 2=12, 3=12, 1=3.'
+    valores: {'1': Idade, '2': Meses trabalhados, '3': Motivo demissão, '4': CBO 2002, '5': Piso salarial, '6': Salário base, '7': Motivo afastamento, '8': Vínculo
+        empregatício, '9': Data de demissão}
+  fosindicatos_indenizacao_especial_operador_de:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.OPERADOR_COMPARACAO estão no comentário do banco (2026-10-18). Distribuição: 4=15, 1=12.'
+    valores: {'1': Igual, '2': Maior que, '3': Menor que, '4': Maior igual, '5': Menor igual, '6': A cada quantidade completa de, '7': A cada quantidade completa
+        ou superior a metade de}
+  fosindicatos_indenizacao_especial_operador_lo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.OPERADOR_LOGICO estão no comentário do banco (2026-10-18). Distribuição: 1=15, 3=12.'
+    valores: {'1': E, '2': Ou, '3': Resultado}
+  fosindicatos_indenizacao_especial_base_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.BASE_CALCULO estão no comentário do banco (2026-10-18). Distribuição: nulo=15, 4=7, 1=5.'
+    valores: {'1': Salário contratual, '2': Salário base, '3': Piso salarial, '4': Mesma base do aviso prévio, '5': Salário mínimo federal, '6': Aviso prévio}
+  fosindicatos_indenizacao_especial_tipo_de_ind:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.TIPO_INDENIZACAO estão no comentário do banco (2026-10-18). Distribuição: 1=17, 3=10.'
+    valores: {'1': Rescisão, '2': Afastamento, '3': Aviso Prévio}
+  fosindicatos_indenizacao_especial_unidade_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.UNIDADE_RESULTADO estão no comentário do banco (2026-10-18). Distribuição: 1=22, 3=5.'
+    valores: {'1': Dias, '2': Valor, '3': Percentual}
+  fosindicatos_indenizacao_especial_tipo_de_fol:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.TIPO_FOLHA estão no comentário do banco (2026-10-18). Distribuição: 1=27.'
+    valores: {'1': Folha mensal do início do afastamento, '2': Folha mensal do retorno do afastamento}
+  fosindicatos_indenizacao_especial_vinculo_emp:
+    confirmado: parcial
+    nota: 'Coluna FOSINDICATOS_INDENIZACAO_ESPECIAL.VINCULO_EMPREGATICIO só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {'1': Cel., '3': Trab. avulso não port., '4': Trab. temp. Lei6.019, '5': Cel. cont. prazo det., '6': Trab. rural, '9': Trab. rural cont. prazo det.,
+      '10': Cont. prazo det. Lei9.601, '52': Emp. dom., '53': Aprendiz, '54': Emp. Dom. Reg. Tempo Parc., '55': Trab. Rural Tempo Parc., '56': Celetista Contrato
+        Intermitente, '59': Trab. Avulso Port., '60': Contrato verde amarelo com acordo., '61': Contrato verde amarelo sem acordo., '62': Celetista Trabalhador Cedido,
+      '99': Cel. reg. tempo parc.}
+  fosindicatos_indenizacao_especial_parcelar_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.PARCELAR estão no comentário do banco (2026-10-18). Distribuição: 0=27.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_indenizacao_especial_inicio_do_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.INICIO_PARCELAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=27.'
+    valores: {'1': Na rescisão normal, '2': Na rescisão complementar}
+  fosindicatos_indenizacao_especial_acrescentar:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.ACRESCENTAR_DIAS_INDENIZADOS_SOMENTE_A_PARTIR_INICIO_SEGUNDO_ANO_EMPRESA estão no comentário
+      do banco (2026-10-18). Distribuição: 0=27.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_indenizacao_especial_considerar_:
+    confirmado: parcial
+    nota: 'Coluna FOSINDICATOS_INDENIZACAO_ESPECIAL.CONSIDERAR_ANO_IDADE_COMPLETO_A_PARTIR_6_MESES_COMPLETOS só tem valores nulos na data da medição (2026-10-18):
+      sem evidência para confirmar o comentário do banco.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_indenizacao_especial_somar_condi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.SOMAR_CONDICOES estão no comentário do banco (2026-10-18). Distribuição: 0=26, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_indenizacao_especial_informar_pe:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.INFORMAR_PERIODO estão no comentário do banco (2026-10-18). Distribuição: 0=27.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_indenizacao_especial_definir_lim:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_INDENIZACAO_ESPECIAL.DEFINIR_LIMITE_VALOR estão no comentário do banco (2026-10-18). Distribuição: 0=27.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_estabilidade_afastamentos_operador_de:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.OPERADOR_COMPARACAO estão no comentário do banco (2026-10-18). Distribuição: 4=9,
+      1=8.'
+    valores: {'1': Igual, '2': Maior que, '3': Menor que, '4': Maior igual, '5': Menor igual, '6': A cada}
+  fosindicatos_estabilidade_afastamentos_operador_lo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.OPERADOR_LOGICO estão no comentário do banco (2026-10-18). Distribuição: 3=17.'
+    valores: {'1': E, '2': Ou, '3': Resultado}
+  fosindicatos_estabilidade_afastamentos_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=17.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de leiaute, '3': Conversão}
+  fosindicatos_estabilidade_afastamentos_campo_1_mes:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 2=16, 3=1.'
+    valores: {'1': Meses trabalhados, '2': Afastamento, '3': Data do parto}
+  fosindicatos_estabilidade_afastamentos_forma_de_ca:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.FORMA_CALCULO_INDENIZACAO estão no comentário do banco (2026-10-18). Distribuição:
+      2=17.'
+    valores: {'1': Valor fixo, '2': Valor proporcional}
+  fosindicatos_estabilidade_afastamentos_base_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.BASE_CALCULO_INDENIZACAO estão no comentário do banco (2026-10-18). Distribuição:
+      2=15, 3=2.'
+    valores: {'1': Salário mínimo, '2': Salário contratual, '3': Salário base, '4': Piso salarial, '5': Valor informado}
+  fosindicatos_estabilidade_afastamentos_utilizar_os:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.UTILIZAR_DIAS_AFASTADOS estão no comentário do banco (2026-10-18). Distribuição:
+      0=14, 1=3.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_estabilidade_afastamentos_definir_a_u:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS.DEFINIR_UNIDADE_CALCULO estão no comentário do banco (2026-10-18). Distribuição:
+      0=17.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_tipo_de_con:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=6, 2=2.'
+    valores: {'1': Pagamento, '2': Desconto}
+  fosindicatos_plr_campo_1_fal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 1=2, 7=2, 9=2, 3=2.'
+    valores: {'1': Faltas justificadas, '2': Faltas injustificadas, '3': Meses trabalhados, '4': Idade, '5': Cargo, '6': Data admissão, '7': Quant. de Empregados,
+      '8': Motivo afastamento, '9': Faltas justificadas, '10': Advertências, '11': Suspensões, '12': Advertências, '13': Salário Base, '14': Faltas parciais, '15': Mês
+        aniversário}
+  fosindicatos_plr_operador_de:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.OPERADOR_COMPARACAO estão no comentário do banco (2026-10-18). Distribuição: 7=2, 6=2, 5=2, 1=2.'
+    valores: {'1': Igual, '2': Diferente, '3': Maior que, '4': Menor que, '5': Maior igual, '6': Menor igual, '7': Entre, '8': A cada}
+  fosindicatos_plr_operador_lo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.OPERADOR_LOGICO estão no comentário do banco (2026-10-18). Distribuição: 3=8.'
+    valores: {'1': E, '2': Ou, '3': Resultado}
+  fosindicatos_plr_unidade_1_v:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.UNIDADE_LIMITE estão no comentário do banco (2026-10-18). Distribuição: 2=6, 1=2.'
+    valores: {'1': Valor, '2': Percentual, '3': Dias, '4': Mês, '5': Semestre, '6': Horas}
+  fosindicatos_plr_base_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.BASE_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 1=6, nulo=2.'
+    valores: {'1': Salário contratual, '2': Salário base, '3': Piso salarial, '4': Salário contratual da competência, '5': Média vigência, '6': Salário base da competência}
+  fosindicatos_plr_tipo_proces:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.TIPO_PROCESSO_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição: 70=6, nulo=2.'
+    valores: {'11': Mensal, '42': Complementar, '52': Décimo terceiro integral, '70': Participação de lucros}
+  fosindicatos_plr_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=8.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  fosindicatos_plr_desocntar_o:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.DESCONTAR_1_365_AVOS_VALOR_POR_CADA_FALTA_INJUSTIFICADA_PERIODO_VIGENCIA estão no comentário do banco (2026-10-18).
+      Distribuição: 0=8.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_definir_lim:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.DEFINIR_LIMITE estão no comentário do banco (2026-10-18). Distribuição: 0=8.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_calcular_pr:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.CALCULAR_PROPORCIONAL_MES_ADMISSAO estão no comentário do banco (2026-10-18). Distribuição: 0=8.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_descontar_2:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.DESCONTAR_20_POR_CENTO_VALOR_TOTAL_PLR_POR_CADA_FALTA_PERIODO_VIGENCIA estão no comentário do banco (2026-10-18).
+      Distribuição: 0=6, 1=2.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_calcular_em:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.CALCULAR_AVOS estão no comentário do banco (2026-10-18). Distribuição: 0=8.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_plr_pagamento_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_PLR.PAGAMENTO_PARCELADO estão no comentário do banco (2026-10-18). Distribuição: 0=5, 1=3.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_diasaviso_codigo_do_campo_da:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_DIASAVISO.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 2=3, 5=1, 1=1.'
+    valores: {'1': Idade, '2': Meses trabalhados, '3': Sexo, '4': Admissão, '5': Motivo demissão, '6': Salário Contratual, '7': Salário Mínimo, '8': Salário Base,
+      '9': Piso Salarial}
+  fosindicatos_diasaviso_somar_condicoes_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_DIASAVISO.SOMAR_CONDICOES estão no comentário do banco (2026-10-18). Distribuição: 0=4, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_calcular_no:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_COMISSIONADOS.CALCULAR_NO_AVISO_PREVIO_REAVIDO estão no comentário do banco (2026-10-18). Distribuição:
+      0=4.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_calcular_na:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_COMISSIONADOS.CALCULAR_NAS_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 1=4.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_determinar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_COMISSIONADOS.DETERMINAR_FIM estão no comentário do banco (2026-10-18). Distribuição: 1=3, 0=1.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_calcular_mu:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_COMISSIONADOS.CALCULAR_MULTA_ESTABILIDADE estão no comentário do banco (2026-10-18). Distribuição:
+      0=4.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_utilizar_pa:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_COMISSIONADOS.UTILIZAR_PARA_FALTAS estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_garantia_comissionados_regime_fede:
+    confirmado: parcial
+    nota: 'Coluna FOSINDICATOS_GARANTIA_COMISSIONADOS.REGIME_FEDERAL só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {'1': Normal, '2': Microempresa, '3': Empresa de pequeno porte}
+  fosindicatos_garantia_comissionados_operador_de:
+    confirmado: parcial
+    nota: 'Coluna FOSINDICATOS_GARANTIA_COMISSIONADOS.OPERADOR_COMPARACAO só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {'1': Igual, '3': Maior que, '4': Menor que, '5': Maior igual, '6': Menor igual}
+  fosindicatos_garantia_semestral_campo_1_motivo_da_rescisao_2_me:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 1=2, 2=2.'
+    valores: {'1': Motivo da rescisão, '2': Meses trabalhados, '3': Data admissão, '4': Data demissão}
+  fosindicatos_garantia_semestral_operador_de_comparacao_1_igual_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.OPERADOR_COMPARACAO estão no comentário do banco (2026-10-18). Distribuição: 4=2, 1=2.'
+    valores: {'1': Igual, '2': Maior que, '3': Menor que, '4': Maior igual, '5': Menor igual}
+  fosindicatos_garantia_semestral_operador_logico_1_e_2_ou_3_resu:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.OPERADOR_LOGICO estão no comentário do banco (2026-10-18). Distribuição: 1=2, 3=2.'
+    valores: {'1': E, '2': Ou, '3': Resultado}
+  fosindicatos_garantia_semestral_tipo_de_pagamento_1_dias_restan:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.TIPO_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=4.'
+    valores: {'1': Dias restantes do semestre, '2': Pagar 1, '3': Pagar durante o recesso escolar, '4': Pagar até a data fim}
+  fosindicatos_garantia_semestral_origem_do_registro_0_sistema_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de leiaute, '3': Conversão}
+  fosindicatos_garantia_semestral_somar_condicoes_0_nao_1_sim:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_GARANTIA_SEMESTRAL.SOMAR_CONDICOES estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  fosindicatos_adicional_ferias_campo_1_mes:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ADICIONAL_FERIAS.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'1': Meses trabalhados, '2': Falta justificada, '3': Falta injustificada, '4': Forma de cálculo, '5': Salário base}
+  fosindicatos_adicional_ferias_operador_de:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ADICIONAL_FERIAS.OPERADOR_COMPARACAO estão no comentário do banco (2026-10-18). Distribuição: 5=1.'
+    valores: {'1': Igual, '2': Diferente, '3': Maior que, '4': Menor que, '5': Maior igual, '6': Menor igual}
+  fosindicatos_adicional_ferias_operador_lo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ADICIONAL_FERIAS.OPERADOR_LOGICO estão no comentário do banco (2026-10-18). Distribuição: 3=1.'
+    valores: {'1': E, '2': OU, '3': Resultado}
+  fosindicatos_adicional_ferias_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ADICIONAL_FERIAS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 3=1.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de leiaute, '3': Conversão}
+  fosindicatos_adicional_ferias_base_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSINDICATOS_ADICIONAL_FERIAS.BASE_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 10=1.'
+    valores: {'1': Salário contratual, '2': Salário base, '3': Piso salarial, '10': 'Salário, médias e adicionais'}
+entidades:
+  fosindicatos_empresas:
+    titulo: Lista de empresas que utilizam o sindicato.
+    descricao: 'Lista de empresas que utilizam o sindicato.. 292.571 linhas no catálogo; chave: I_SINDICATOS, CODI_EMP.'
+    tabela: FOSINDICATOS_EMPRESAS
+    chave: [I_SINDICATOS, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_SINDICATOS, asc]
+    colunas: {codigo_do_sindicato: I_SINDICATOS, codigo_da_empresa: CODI_EMP}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 294.540 linhas, 1.969 empresa(s).', 'Vínculo fosindicatos (fosindicatos): 0 de 151 linhas sem registro relacionado (empresa 1146).',
+      'Vínculo geempre (geempre): 0 de 151 linhas sem registro relacionado (empresa 1146).']
+  fosindicatos_medias:
+    titulo: CADASTRO DE SINDICATOS - MÉDIAS
+    descricao: 'CADASTRO DE SINDICATOS - MÉDIAS. 1.294 linhas no catálogo; chave: i_sindicatos, TIPO_MEDIA, CODIGO, CONFIGURACAO_MEDIA_COMISSOES.'
+    tabela: FOSINDICATOS_MEDIAS
+    chave: [i_sindicatos, TIPO_MEDIA, CODIGO, CONFIGURACAO_MEDIA_COMISSOES]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_sindicatos, asc]
+    - [TIPO_MEDIA, asc]
+    colunas:
+      codigo: i_sindicatos
+      tipo_de_media_1_ferias_2_13o_salario_3_a: {coluna: TIPO_MEDIA, dominio: fosindicatos_medias_tipo_de_media_1_feri}
+      codigo_da_configuracao: CODIGO
+      configuracao_de_media_para_comissoes_0_n: {coluna: CONFIGURACAO_MEDIA_COMISSOES, dominio: fosindicatos_medias_configuracao_de_medi}
+      tipo_de_unidade_1_quantidade_2_valor_3_q: TIPO_UNIDADE
+      tipo_de_periodo_1_ultimos_meses_2_period: {coluna: TIPO_PERIODO, dominio: fosindicatos_medias_tipo_de_periodo_1_ul}
+      c_1_todos_2_somente_com_valor: PERIODO_CONSIDERAR
+      valores_a_considerar_1_todos_2_somente_c: {coluna: NMESES_CONSIDERAR, dominio: fosindicatos_medias_valores_a_considerar}
+      quantidade_de_meses: NMESES_QUANTIDADE
+      numero_de_meses_com_os_maiores_valores: NMESES_QUANTIDADE_MAIORES
+      tipo_de_calculo_de_13_0_todos_1_adiantam: TIPO_CALCULO_13
+      meses_com_menor_valor_a_desconsiderar_pa: {coluna: MESES_DESCONTO_MENOR_MEDIA_RESCISAO, sensivel: financeiro}
+      considerar_o_mes_de_janeiro_para_buscar: {coluna: CONSIDERAR_JANEIRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_fevereiro_para_busca: {coluna: CONSIDERAR_FEVEREIRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_marco_para_buscar_os: {coluna: CONSIDERAR_MARCO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_abril_para_buscar_os: {coluna: CONSIDERAR_ABRIL, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_maio_para_buscar_os: {coluna: CONSIDERAR_MAIO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_junho_para_buscar_os: {coluna: CONSIDERAR_JUNHO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_julho_para_buscar_os: {coluna: CONSIDERAR_JULHO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_agosto_para_buscar_o: {coluna: CONSIDERAR_AGOSTO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_setembro_para_buscar: {coluna: CONSIDERAR_SETEMBRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_outubro_para_buscar: {coluna: CONSIDERAR_OUTUBRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_novembro_para_buscar: {coluna: CONSIDERAR_NOVEMBRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      considerar_o_mes_de_dezembro_para_buscar: {coluna: CONSIDERAR_DEZEMBRO, dominio: fosindicatos_medias_considerar_o_mes_de_}
+      numero_de_meses_com_os_menores_valores: NMESES_CONSIDERAR_MENORES
+      periodo_a_considerar_na_media_da_opcao_u: {coluna: PERIODO_CONSIDERAR_ULTIMOS_MESES_FERIAS, dominio: fosindicatos_medias_periodo_a_considerar}
+      tipo_de_calculo_de_ferias_0_todos_1_feri: {coluna: TIPO_CALCULO_FERIAS, dominio: fosindicatos_medias_tipo_de_calculo_de_f}
+      considerar_o_mes_da_admissao_se_o_empreg: {coluna: CONSIDERAR_MES_ADMISSAO_PERIODO_TRABALHADO_INFERIOR_15_DIAS, dominio: fosindicatos_medias_considerar_o_mes_da_}
+      considerar_a_competencia_que_possua_a_so: {coluna: CONSIDERAR_COMPETENCIA_SOMA_MEDIAS_MESMA_UNIDADE_MAIOR_VALOR, dominio: fosindicatos_medias_considerar_a_compete}
+      considerar_a_existencia_de_valor_nos_ult: {coluna: CONSIDERAR_EXISTENCIA_VALOR_ULTIMOS_MESES_CALCULO_MEDIA, dominio: fosindicatos_medias_considerar_a_existen}
+      quantidade_de_meses_que_devem_ter_valor: QUANTIDADE_ULTIMOS_MESES_VERIFICAR_VALOR
+      calcular_a_media_proporcional_aos_avos_d: {coluna: CALCULAR_MEDIA_PROPORCIONAL_AVOS_DIREITO, dominio: fosindicatos_medias_calcular_a_media_pro}
+      considerar_os_meses_em_que_nao_houver_va: {coluna: CONSIDERAR_MESES_SEM_VALOR_LANCADO_PARA_DIVISOR, dominio: fosindicatos_medias_considerar_os_meses_}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo:
+        coluna: i_sindicatos
+        ops: [eq, in]
+      tipo_de_media_1_ferias_2_13o_salario_3_a:
+        coluna: TIPO_MEDIA
+        ops: [eq, in]
+      codigo_da_configuracao:
+        coluna: CODIGO
+        ops: [eq, in]
+      configuracao_de_media_para_comissoes_0_n:
+        coluna: CONFIGURACAO_MEDIA_COMISSOES
+        ops: [eq, in]
+      tipo_de_unidade_1_quantidade_2_valor_3_q:
+        coluna: TIPO_UNIDADE
+        ops: [eq, in]
+      tipo_de_periodo_1_ultimos_meses_2_period:
+        coluna: TIPO_PERIODO
+        ops: [eq, in]
+      tipo_de_calculo_de_13_0_todos_1_adiantam:
+        coluna: TIPO_CALCULO_13
+        ops: [eq, in]
+      tipo_de_calculo_de_ferias_0_todos_1_feri:
+        coluna: TIPO_CALCULO_FERIAS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.302 linhas.', 'Colunas expostas nulas em 100% das linhas (2): meses_com_menor_valor_a_desconsiderar_pa, quantidade_de_meses_que_devem_ter_valor.',
+      'tipo_de_media_1_ferias_2_13o_salario_3_a: todos os valores reais estão no comentário do banco (3=324, 1=324, 2=324, 5=322, 4=8).', 'configuracao_de_media_para_comissoes_0_n:
+        todos os valores reais estão no comentário do banco (0=1.254, 1=48).', 'tipo_de_periodo_1_ultimos_meses_2_period: todos os valores reais estão no comentário
+        do banco (1=790, 3=321, 2=190, 6=1).', 'valores_a_considerar_1_todos_2_somente_c: todos os valores reais estão no comentário do banco (1=1.302).', 'considerar_o_mes_de_janeiro_para_buscar:
+        todos os valores reais estão no comentário do banco (0=1.302).', 'considerar_o_mes_de_fevereiro_para_busca: todos os valores reais estão no comentário do
+        banco (0=1.302).', 'considerar_o_mes_de_marco_para_buscar_os: todos os valores reais estão no comentário do banco (0=1.302).', 'considerar_o_mes_de_abril_para_buscar_os:
+        todos os valores reais estão no comentário do banco (0=1.302).', 'considerar_o_mes_de_maio_para_buscar_os: todos os valores reais estão no comentário do banco
+        (0=1.302).', 'considerar_o_mes_de_junho_para_buscar_os: todos os valores reais estão no comentário do banco (0=1.302).', 'considerar_o_mes_de_julho_para_buscar_os:
+        todos os valores reais estão no comentário do banco (0=1.301, 1=1).', 'considerar_o_mes_de_agosto_para_buscar_o: todos os valores reais estão no comentário
+        do banco (0=1.301, 1=1).', 'considerar_o_mes_de_setembro_para_buscar: todos os valores reais estão no comentário do banco (0=1.301, 1=1).', 'considerar_o_mes_de_outubro_para_buscar:
+        todos os valores reais estão no comentário do banco (0=1.301, 1=1).', 'considerar_o_mes_de_novembro_para_buscar: todos os valores reais estão no comentário
+        do banco (0=1.301, 1=1).', 'considerar_o_mes_de_dezembro_para_buscar: todos os valores reais estão no comentário do banco (0=1.301, 1=1).', 'periodo_a_considerar_na_media_da_opcao_u:
+        todos os valores reais estão no comentário do banco (1=1.302).', 'tipo_de_calculo_de_ferias_0_todos_1_feri: todos os valores reais estão no comentário do
+        banco (nulo=978, 0=324).', 'considerar_o_mes_da_admissao_se_o_empreg: todos os valores reais estão no comentário do banco (1=1.302).', 'considerar_a_competencia_que_possua_a_so:
+        todos os valores reais estão no comentário do banco (0=1.302).', 'considerar_a_existencia_de_valor_nos_ult: todos os valores reais estão no comentário do
+        banco (0=1.302).', 'calcular_a_media_proporcional_aos_avos_d: todos os valores reais estão no comentário do banco (1=1.302).', 'considerar_os_meses_em_que_nao_houver_va:
+        todos os valores reais estão no comentário do banco (1=1.302).', 'Vínculo fosindicatos (fosindicatos): 0 de 1.302 linhas sem registro relacionado.']
+  fosindicatos_cadastro:
+    titulo: Sindicato - Cadastro
+    descricao: 'Sindicato - Cadastro. 121 linhas no catálogo; chave: I_SINDICATOS_CADASTRO.'
+    tabela: FOSINDICATOS_CADASTRO
+    chave: [I_SINDICATOS_CADASTRO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SINDICATOS_CADASTRO, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS_CADASTRO
+      apelido_do_sindicato: APELIDO
+      nome_do_sindicato: NOME
+      cep: {coluna: CEP, sensivel: parcial}
+      endereco: {coluna: ENDERECO, sensivel: parcial}
+      numero: NUMERO
+      complemento: COMPLEMENTO
+      bairro: {coluna: BAIRRO, sensivel: parcial}
+      cidade: CIDADE
+      estado: ESTADO
+      cnpj: {coluna: CGC, sensivel: parcial}
+      telefone: {coluna: FONE, sensivel: parcial}
+      fax: FAX
+      endereco_da_pagina_na_internet: {coluna: PAGINA_INTERNET, sensivel: parcial}
+      correio_eletronico: {coluna: EMAIL, sensivel: parcial}
+      codigo_do_banco: I_BANCOS
+      agencia: AGENCIA
+      tipo_da_entidade_1_sindicato_2_federacao: TIPO_ENTIDADE
+      codigo_da_entidade_sindical: CODI_ENTIDADE
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS_CADASTRO
+        ops: [eq, in]
+      apelido_do_sindicato:
+        coluna: APELIDO
+        ops: [eq, in]
+      nome_do_sindicato:
+        coluna: NOME
+        ops: [contem, prefixo]
+      cep:
+        coluna: CEP
+        ops: [eq, in]
+      endereco:
+        coluna: ENDERECO
+        ops: [contem, prefixo]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+      bairro:
+        coluna: BAIRRO
+        ops: [contem, prefixo]
+      cidade:
+        coluna: CIDADE
+        ops: [contem, prefixo]
+      estado:
+        coluna: ESTADO
+        ops: [eq, in]
+      cnpj:
+        coluna: CGC
+        ops: [eq, in]
+      telefone:
+        coluna: FONE
+        ops: [eq, in]
+      fax:
+        coluna: FAX
+        ops: [eq, in]
+      endereco_da_pagina_na_internet:
+        coluna: PAGINA_INTERNET
+        ops: [contem, prefixo]
+      correio_eletronico:
+        coluna: EMAIL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 122 linhas.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_banco.']
+  fosindicatos_cct:
+    titulo: Sindicato - Cadastro - Convencao Coletiva
+    descricao: 'Sindicato - Cadastro - Convencao Coletiva. 63 linhas no catálogo; chave: I_SINDICATOS, DATA_REGISTRO.'
+    tabela: FOSINDICATOS_CCT
+    chave: [I_SINDICATOS, DATA_REGISTRO]
+    acesso: {empresa: null, periodo: DATA_REGISTRO_CONVENCAO_COLETIVA, volume: pequeno}
+    ordem:
+    - [DATA_REGISTRO_CONVENCAO_COLETIVA, desc]
+    - [I_SINDICATOS, asc]
+    - [DATA_REGISTRO, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      data_do_registro: DATA_REGISTRO
+      numero_do_processo: PROCESSO
+      descricao_da_convencao_coletiva: DESCRICAO
+      aumento_retroativo_0_nao_retroativo_1_re: RETROATIVO
+      competencia_da_alteracao: {coluna: COMPETENCIA_ALTERACAO, sensivel: pessoal}
+      competencia_retroativa: RETROATIVO_DATA
+      retroativo_ajuste: RETROATIVO_AJUSTE
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      gerar_folhas_complementares_especificas: GERAR_FOLHA_COMPLEMENTAR_ESPECIFICA
+      inicio_vigencia: VIGENCIA_INICIO
+      fim_vigencia: VIGENCIA_FIM
+      percentual_de_reajuste: PERCENTUAL_REAJUSTE
+      alteracao_proporcional_conforme_percentu: ALTERACAO_PROPORCIONAL_MESES_TRABALHADOS
+      percentual_reajuste_01_meses: PERCENTUAL_REAJUSTE_01_MESES
+      percentual_reajuste_02_meses: PERCENTUAL_REAJUSTE_02_MESES
+      percentual_reajuste_03_meses: PERCENTUAL_REAJUSTE_03_MESES
+      percentual_reajuste_04_meses: PERCENTUAL_REAJUSTE_04_MESES
+      percentual_reajuste_05_meses: PERCENTUAL_REAJUSTE_05_MESES
+      percentual_reajuste_06_meses: PERCENTUAL_REAJUSTE_06_MESES
+      percentual_reajuste_07_meses: PERCENTUAL_REAJUSTE_07_MESES
+      percentual_reajuste_08_meses: PERCENTUAL_REAJUSTE_08_MESES
+      percentual_reajuste_09_meses: PERCENTUAL_REAJUSTE_09_MESES
+      percentual_reajuste_10_meses: PERCENTUAL_REAJUSTE_10_MESES
+      percentual_reajuste_11_meses: PERCENTUAL_REAJUSTE_11_MESES
+      percentual_reajuste_12_meses: PERCENTUAL_REAJUSTE_12_MESES
+      considerar_o_mes_da_admissao_apenas_se_t: CONSIDERAR_MES_ADMISSAO_ATE_15_DIAS_TRABALHO
+      codigo_da_forma_de_ajuste_conforme_parce: I_FORMA_AJUSTE_PARCELAMENTO
+      tipo_de_acordo_1_acordo_coletivo_2_conve: TIPO_ACORDO
+      tipo_percentual_de_reajuste_1_fixo_2_con: {coluna: TIPO_PERCENTUAL_REAJUSTE, dominio: fosindicatos_cct_tipo_percent}
+      alterar_salario_de_empregado_admitido_de: {coluna: ALTERAR_SALARIO_EMPREGADO_ADMITIDO_DENTRO_VIGENCIA_CONVENCAO, dominio: fosindicatos_cct_alterar_sala}
+      permitir_alteracao_salarial_de_empregado: {coluna: PERMITIR_ALTERACAO_EMPREGADO_RETORNO_AFASTAMENTO_MES_ANTERIOR_VIGENCIA, dominio: fosindicatos_cct_permitir_alt}
+      considerar_o_mes_da_admissao_independent: {coluna: CONSIDERAR_MES_ADMISSAO_INDEPENDENTEMENTE_QUANTIDADE_DIAS_TRABALHADOS, dominio: fosindicatos_cct_considerar_o}
+      possui_termo_aditivo_0_nao_1_sim: {coluna: POSSUI_TERMO_ADITIVO, dominio: fosindicatos_cct_possui_termo}
+      indica_se_o_registro_de_convencao_e_um_t: {coluna: TERMO_ADITIVO, dominio: fosindicatos_cct_indica_se_o_}
+      data_de_registro_da_convencao_coletiva_q: DATA_REGISTRO_CONVENCAO_COLETIVA
+      competencia_para_pagamento_do_percentual: COMPETENCIA_PERCENTUAL_REAJUSTE_01_MES
+      competencia_percentual_reajuste_02_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_02_MESES
+      competencia_percentual_reajuste_03_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_03_MESES
+      competencia_percentual_reajuste_04_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_04_MESES
+      competencia_percentual_reajuste_05_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_05_MESES
+      competencia_percentual_reajuste_06_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_06_MESES
+      competencia_percentual_reajuste_07_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_07_MESES
+      competencia_percentual_reajuste_08_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_08_MESES
+      competencia_percentual_reajuste_09_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_09_MESES
+      competencia_percentual_reajuste_10_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_10_MESES
+      competencia_percentual_reajuste_11_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_11_MESES
+      competencia_percentual_reajuste_12_meses: COMPETENCIA_PERCENTUAL_REAJUSTE_12_MESES
+      considerar_o_periodo_afastado_do_emprega: {coluna: CONSIDERAR_PERIODO_AFASTADO_ALTERACAO_SALARIAL, dominio: fosindicatos_cct_considerar_o}
+      considerar_periodo_afastado_alteracao_sa: {coluna: CONSIDERAR_PERIODO_AFASTADO_ALTERACAO_SALARIAL_CONFORME_CARGO, dominio: fosindicatos_cct_considerar_o}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fosindicatos_cct_enviar_para_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fosindicatos_cct_gerar_retifi}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fosindicatos_cct_marcacao_do_}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      data_do_registro:
+        coluna: DATA_REGISTRO
+        ops: [eq, in]
+      competencia_da_alteracao:
+        coluna: COMPETENCIA_ALTERACAO
+        ops: [entre, gte, lte]
+      competencia_retroativa:
+        coluna: RETROATIVO_DATA
+        ops: [entre, gte, lte]
+      inicio_vigencia:
+        coluna: VIGENCIA_INICIO
+        ops: [entre, gte, lte]
+      fim_vigencia:
+        coluna: VIGENCIA_FIM
+        ops: [entre, gte, lte]
+      data_de_registro_da_convencao_coletiva_q:
+        coluna: DATA_REGISTRO_CONVENCAO_COLETIVA
+        ops: [entre, gte, lte]
+      competencia_para_pagamento_do_percentual:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_01_MES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_02_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_02_MESES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_03_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_03_MESES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_04_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_04_MESES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_05_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_05_MESES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_06_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_06_MESES
+        ops: [entre, gte, lte]
+      competencia_percentual_reajuste_07_meses:
+        coluna: COMPETENCIA_PERCENTUAL_REAJUSTE_07_MESES
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 63 linhas.', 'Colunas expostas nulas em 100% das linhas (1): data_de_registro_da_convencao_coletiva_q.', 'tipo_percentual_de_reajuste_1_fixo_2_con:
+        todos os valores reais estão no comentário do banco (1=63).', 'alterar_salario_de_empregado_admitido_de: todos os valores reais estão no comentário do banco
+        (0=55, 1=8).', 'permitir_alteracao_salarial_de_empregado: todos os valores reais estão no comentário do banco (0=63).', 'considerar_o_mes_da_admissao_independent:
+        todos os valores reais estão no comentário do banco (0=53, 1=10).', 'possui_termo_aditivo_0_nao_1_sim: todos os valores reais estão no comentário do banco
+        (0=61, 1=2).', 'indica_se_o_registro_de_convencao_e_um_t: todos os valores reais estão no comentário do banco (0=63).', 'considerar_o_periodo_afastado_do_emprega:
+        todos os valores reais estão no comentário do banco (0=62, 1=1).', 'considerar_periodo_afastado_alteracao_sa: todos os valores reais estão no comentário do
+        banco (0=63).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=63).', 'gerar_retificacao_esocial: todos os valores
+        reais estão no comentário do banco (0=63).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=63).', 'Vínculo
+        fosindicatos (fosindicatos): 0 de 63 linhas sem registro relacionado.']
+  fosindicatos_cct_documentos_anexados:
+    titulo: Documentos anexados na coleção coletiva.
+    descricao: 'Documentos anexados na coleção coletiva.. 33 linhas no catálogo; chave: I_SINDICATOS, DATA_REGISTRO, SEQUENCIAL.'
+    tabela: FOSINDICATOS_CCT_DOCUMENTOS_ANEXADOS
+    chave: [I_SINDICATOS, DATA_REGISTRO, SEQUENCIAL]
+    acesso: {empresa: null, periodo: DATA_REGISTRO, volume: pequeno}
+    ordem:
+    - [DATA_REGISTRO, desc]
+    - [I_SINDICATOS, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      data_de_registro_da_convencao_coletiva: DATA_REGISTRO
+      numero_sequencial_do_cadastro_do_arquivo: SEQUENCIAL
+      nome_do_arquivo: NOME_ARQUIVO
+      vigencia_inicial: VIGENCIA_INICIAL
+      vigencia_final: VIGENCIA_FINAL
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosindicatos_cct_documentos_anexados_origem_do_r}
+    vinculos:
+      fosindicatos_cct:
+        tabela: FOSINDICATOS_CCT
+        liga: {i_sindicatos: i_sindicatos, data_registro: data_registro}
+        colunas: {fosindicatos_cct_nome: DESCRICAO}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      data_de_registro_da_convencao_coletiva:
+        coluna: DATA_REGISTRO
+        ops: [eq, in]
+      numero_sequencial_do_cadastro_do_arquivo:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      nome_do_arquivo:
+        coluna: NOME_ARQUIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 33 linhas, DATA_REGISTRO de 2018-06-12 a 2024-09-03.', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão
+        no comentário do banco (0=33).', 'Vínculo fosindicatos_cct (FOSINDICATOS_CCT): 0 de 33 linhas sem registro relacionado.']
+  fosindicatos_indenizacao_especial:
+    titulo: Cadastro de Sindicatos - Indenização Especial
+    descricao: 'Cadastro de Sindicatos - Indenização Especial. 27 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, I_REGRASEQ.'
+    tabela: FOSINDICATOS_INDENIZACAO_ESPECIAL
+    chave: [I_SINDICATOS, I_REGRAS, I_REGRASEQ]
+    acesso: {empresa: null, periodo: DATA_CONSIDERAR, volume: pequeno}
+    ordem:
+    - [DATA_CONSIDERAR, desc]
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_da_regra: I_REGRAS
+      sequencial_da_regra: I_REGRASEQ
+      campo_1_idade_2_meses_trabalhados_3_moti: {coluna: CAMPO, dominio: fosindicatos_indenizacao_especial_campo_1_ida}
+      operador_de_comparacao_1_igual_2_maior_q: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_indenizacao_especial_operador_de}
+      valor_de_comparacao: {coluna: VALOR_COMPARACAO, sensivel: pessoal}
+      operador_logico_1_e_2_ou_3_resultado: {coluna: OPERADOR_LOGICO, dominio: fosindicatos_indenizacao_especial_operador_lo}
+      dias_indenizados: DIAS_INDENIZADOS
+      limite: LIMITE
+      base_de_calculo_1_salario_contratual_2_s: {coluna: BASE_CALCULO, dominio: fosindicatos_indenizacao_especial_base_de_cal}
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+      valor_final_de_comparacao: VALOR_COMPARACAO_FINAL
+      tipo_de_indenizacao_1_rescisao_2_afastam: {coluna: TIPO_INDENIZACAO, dominio: fosindicatos_indenizacao_especial_tipo_de_ind}
+      unidade_do_resultado_1_dias_2_valor_3_pe: {coluna: UNIDADE_RESULTADO, dominio: fosindicatos_indenizacao_especial_unidade_do_}
+      valor_da_indenizacao: VALOR_INDENIZACAO
+      tipo_de_folha_1_folha_mensal_do_inicio_d: {coluna: TIPO_FOLHA, dominio: fosindicatos_indenizacao_especial_tipo_de_fol}
+      vinculo_empregaticio_1_cel_3_trab_avulso: {coluna: VINCULO_EMPREGATICIO, dominio: fosindicatos_indenizacao_especial_vinculo_emp}
+      data_para_considerar_na_regra: DATA_CONSIDERAR
+      parcelar_0_nao_1_sim: {coluna: PARCELAR, dominio: fosindicatos_indenizacao_especial_parcelar_0_}
+      inicio_do_parcelamento_1_na_rescisao_nor: {coluna: INICIO_PARCELAMENTO, dominio: fosindicatos_indenizacao_especial_inicio_do_p}
+      quantidade_de_parcelas: QUANTIDADE_PARCELAS
+      acrescentar_dias_informados_para_cada_an: {coluna: ACRESCENTAR_DIAS_APOS_CADA_ANO_IDADE_COMPLETO, dominio: fosindicatos_indenizacao_especial_acrescentar}
+      considerar_ano_de_idade_completo_a_parti: {coluna: CONSIDERAR_ANO_IDADE_COMPLETO_A_PARTIR_6_MESES_COMPLETOS, dominio: fosindicatos_indenizacao_especial_considerar_}
+      somar_condicoes_0_nao_1_sim: {coluna: SOMAR_CONDICOES, dominio: fosindicatos_indenizacao_especial_somar_condi}
+      acrescentar_os_dias_informados_a_cada_an: {coluna: ACRESCENTAR_DIAS_INFORMADOS_ANO_COMPLETO_APOS_QUANTIDADE_MESES_TRABALHADOS_INFORMADOS, dominio: fosindicatos_indenizacao_especial_acrescentar}
+      acrescentar_o_percentual_informado_a_cad: {coluna: ACRESCENTAR_PERCENTUAL_INFORMADO_CADA_ANO_COMPLETO_APOS_QUANTIDADE_MESES_TRABALHADOS, dominio: fosindicatos_indenizacao_especial_acrescentar}
+      informar_periodo_0_nao_1_sim: {coluna: INFORMAR_PERIODO, dominio: fosindicatos_indenizacao_especial_informar_pe}
+      periodo_inicial: PERIODO_INICIAL
+      periodo_final: PERIODO_FINAL
+      definir_limite_para_o_valor_de_indenizac: {coluna: DEFINIR_LIMITE_VALOR, dominio: fosindicatos_indenizacao_especial_definir_lim}
+      valor_limite_inicial: VALOR_LIMITE_INICIAL
+      valor_limite_final: VALOR_LIMITE_FINAL
+      acrescentar_os_dias_indenizados_somente: {coluna: ACRESCENTAR_DIAS_INDENIZADOS_SOMENTE_A_PARTIR_INICIO_SEGUNDO_ANO_EMPRESA, dominio: fosindicatos_indenizacao_especial_acrescentar}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      sequencial_da_regra:
+        coluna: I_REGRASEQ
+        ops: [eq, in]
+      data_para_considerar_na_regra:
+        coluna: DATA_CONSIDERAR
+        ops: [entre, gte, lte]
+      periodo_inicial:
+        coluna: PERIODO_INICIAL
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FINAL
+        ops: [entre, gte, lte]
+      valor_de_comparacao:
+        coluna: VALOR_COMPARACAO
+        ops: [eq, in]
+      tipo_de_indenizacao_1_rescisao_2_afastam:
+        coluna: TIPO_INDENIZACAO
+        ops: [eq, in]
+      tipo_de_folha_1_folha_mensal_do_inicio_d:
+        coluna: TIPO_FOLHA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27 linhas.', 'Colunas expostas nulas em 100% das linhas (8): limite, vinculo_empregaticio_1_cel_3_trab_avulso, data_para_considerar_na_regra,
+        quantidade_de_parcelas, acrescentar_dias_informados_para_cada_an, considerar_ano_de_idade_completo_a_parti, periodo_inicial, periodo_final.', 'campo_1_idade_2_meses_trabalhados_3_moti:
+        todos os valores reais estão no comentário do banco (2=12, 3=12, 1=3).', 'operador_de_comparacao_1_igual_2_maior_q: todos os valores reais estão no comentário
+        do banco (4=15, 1=12).', 'operador_logico_1_e_2_ou_3_resultado: todos os valores reais estão no comentário do banco (1=15, 3=12).', 'base_de_calculo_1_salario_contratual_2_s:
+        todos os valores reais estão no comentário do banco (nulo=15, 4=7, 1=5).', 'tipo_de_indenizacao_1_rescisao_2_afastam: todos os valores reais estão no comentário
+        do banco (1=17, 3=10).', 'unidade_do_resultado_1_dias_2_valor_3_pe: todos os valores reais estão no comentário do banco (1=22, 3=5).', 'tipo_de_folha_1_folha_mensal_do_inicio_d:
+        todos os valores reais estão no comentário do banco (1=27).', 'vinculo_empregaticio_1_cel_3_trab_avulso: coluna sem nenhum valor preenchido; o domínio do
+        comentário do banco não pôde ser verificado.', 'parcelar_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=27).', 'inicio_do_parcelamento_1_na_rescisao_nor:
+        todos os valores reais estão no comentário do banco (1=27).', 'acrescentar_dias_informados_para_cada_an: coluna sem nenhum valor preenchido; o domínio do
+        comentário do banco não pôde ser verificado.', 'considerar_ano_de_idade_completo_a_parti: coluna sem nenhum valor preenchido; o domínio do comentário do banco
+        não pôde ser verificado.', 'somar_condicoes_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=26, 1=1).', 'acrescentar_os_dias_informados_a_cada_an:
+        todos os valores reais estão no comentário do banco (0=27).', 'acrescentar_o_percentual_informado_a_cad: todos os valores reais estão no comentário do banco
+        (0=27).', 'informar_periodo_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=27).', 'definir_limite_para_o_valor_de_indenizac: todos os
+        valores reais estão no comentário do banco (0=27).', 'acrescentar_os_dias_indenizados_somente: todos os valores reais estão no comentário do banco (0=27).',
+      'Vínculo fosindicatos (fosindicatos): 0 de 27 linhas sem registro relacionado.']
+  fosindicatos_estabilidade_afastamentos:
+    titulo: Cadastro de Sindicatos - Estabilidade Afastamentos
+    descricao: 'Cadastro de Sindicatos - Estabilidade Afastamentos. 17 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, I_REGRASEQ.'
+    tabela: FOSINDICATOS_ESTABILIDADE_AFASTAMENTOS
+    chave: [I_SINDICATOS, I_REGRAS, I_REGRASEQ]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_da_regra: I_REGRAS
+      sequencial_da_regra: I_REGRASEQ
+      codigo_do_afastamento: I_AFASTAMENTOS
+      operador_de_comparacao_1_igual_2_maior_q: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_estabilidade_afastamentos_operador_de}
+      quantidade_de_dias_afastamento: DIAS_AFASTAMENTO
+      operador_logico_1_e_2_ou_3_resultado: {coluna: OPERADOR_LOGICO, dominio: fosindicatos_estabilidade_afastamentos_operador_lo}
+      quantidade_de_dias_apos_o_retorno: DIAS_APOS_RETORNO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosindicatos_estabilidade_afastamentos_origem_do_r}
+      campo_1_meses_trabalhados_2_afastamento: {coluna: CAMPO, dominio: fosindicatos_estabilidade_afastamentos_campo_1_mes}
+      quantidade_limite_de_dias_de_estabilidad: LIMITE
+      forma_de_calculo_quando_indenizado_1_val: {coluna: FORMA_CALCULO_INDENIZACAO, dominio: fosindicatos_estabilidade_afastamentos_forma_de_ca}
+      base_de_calculo_quando_indenizado_1_sala: {coluna: BASE_CALCULO_INDENIZACAO, dominio: fosindicatos_estabilidade_afastamentos_base_de_cal}
+      valor_quando_indenizado: VALOR_INDENIZACAO
+      utilizar_os_dias_afastados_como_dias_de: {coluna: UTILIZAR_DIAS_AFASTADOS, dominio: fosindicatos_estabilidade_afastamentos_utilizar_os}
+      definir_a_unidade_de_calculo_0_nao_1_sim: {coluna: DEFINIR_UNIDADE_CALCULO, dominio: fosindicatos_estabilidade_afastamentos_definir_a_u}
+      unidade_de_calculo_1_percentual: UNIDADE_CALCULO
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+      foafastamentos_tipos:
+        tabela: FOAFASTAMENTOS_TIPOS
+        liga: {i_afastamentos: i_afastamentos}
+        colunas: {foafastamentos_tipos_nome: DESCRICAO}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      sequencial_da_regra:
+        coluna: I_REGRASEQ
+        ops: [eq, in]
+      codigo_do_afastamento:
+        coluna: I_AFASTAMENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17 linhas.', 'Colunas expostas nulas em 100% das linhas (1): valor_quando_indenizado.', 'operador_de_comparacao_1_igual_2_maior_q:
+        todos os valores reais estão no comentário do banco (4=9, 1=8).', 'operador_logico_1_e_2_ou_3_resultado: todos os valores reais estão no comentário do banco
+        (3=17).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=17).', 'campo_1_meses_trabalhados_2_afastamento:
+        todos os valores reais estão no comentário do banco (2=16, 3=1).', 'forma_de_calculo_quando_indenizado_1_val: todos os valores reais estão no comentário do
+        banco (2=17).', 'base_de_calculo_quando_indenizado_1_sala: todos os valores reais estão no comentário do banco (2=15, 3=2).', 'utilizar_os_dias_afastados_como_dias_de:
+        todos os valores reais estão no comentário do banco (0=14, 1=3).', 'definir_a_unidade_de_calculo_0_nao_1_sim: todos os valores reais estão no comentário do
+        banco (0=17).', 'Vínculo fosindicatos (fosindicatos): 0 de 17 linhas sem registro relacionado.', 'Vínculo foafastamentos_tipos (FOAFASTAMENTOS_TIPOS): 0 de
+        17 linhas sem registro relacionado.']
+  fosindicatos_plr:
+    titulo: Configuração das regras para pagamento de PLR.
+    descricao: 'Configuração das regras para pagamento de PLR.. 8 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, SEQUENCIAL, TIPO.'
+    tabela: FOSINDICATOS_PLR
+    chave: [I_SINDICATOS, I_REGRAS, SEQUENCIAL, TIPO]
+    acesso: {empresa: null, periodo: DATA_ADMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_ADMISSAO, desc]
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_da_regra: I_REGRAS
+      codigo_sequencial_da_regra: SEQUENCIAL
+      tipo_de_configuracao_1_pagamento_2_desco: {coluna: TIPO, dominio: fosindicatos_plr_tipo_de_con}
+      vigencia_inicial: VIGENCIA_INICIAL
+      vigencia_final: VIGENCIA_FINAL
+      campo_1_faltas_justificadas_2_faltas_inj: {coluna: CAMPO, dominio: fosindicatos_plr_campo_1_fal}
+      operador_de_comparacao_1_igual_2_diferen: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_plr_operador_de}
+      operador_logico_1_e_2_ou_3_resultado: {coluna: OPERADOR_LOGICO, dominio: fosindicatos_plr_operador_lo}
+      valor_de_comparacao: VALOR_COMPARACAO
+      unidade_1_valor_2_percentual_3_dias_4_me: {coluna: UNIDADE, dominio: fosindicatos_plr_unidade_1_v}
+      valor_da_unidade: VALOR_UNIDADE
+      base_de_calculo_1_salario_contratual_2_s: {coluna: BASE_CALCULO, dominio: fosindicatos_plr_base_de_cal}
+      competencia_de_pagamento: COMPETENCIA_PAGAMENTO
+      tipo_processo_pagamento_11_mensal_42_com: {coluna: TIPO_PROCESSO_PAGAMENTO, dominio: fosindicatos_plr_tipo_proces}
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosindicatos_plr_origem_do_r}
+      data_de_admissao_para_consideracao_na_re: DATA_ADMISSAO
+      desocntar_o_correspondente_a_1_365_avos: {coluna: DESCONTAR_1_365_AVOS_VALOR_POR_CADA_FALTA_INJUSTIFICADA_PERIODO_VIGENCIA, dominio: fosindicatos_plr_desocntar_o}
+      definir_limite_0_nao_1_sim: {coluna: DEFINIR_LIMITE, dominio: fosindicatos_plr_definir_lim}
+      valor_limite_para_pagamento_do_plr: VALOR_LIMITE
+      unidade_limite: {coluna: UNIDADE_LIMITE, dominio: fosindicatos_plr_unidade_1_v}
+      calcular_proporcional_ao_mes_de_admissao: {coluna: CALCULAR_PROPORCIONAL_MES_ADMISSAO, dominio: fosindicatos_plr_calcular_pr}
+      percentual_proporcional_para_01_mes_trab: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_01
+      percentual_proporcional_para_02_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_02
+      percentual_proporcional_para_03_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_03
+      percentual_proporcional_para_04_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_04
+      percentual_proporcional_para_05_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_05
+      percentual_proporcional_para_06_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_06
+      percentual_proporcional_para_07_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_07
+      percentual_proporcional_para_08_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_08
+      percentual_proporcional_para_09_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_09
+      percentual_proporcional_para_10_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_10
+      percentual_proporcional_para_11_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_11
+      percentual_proporcional_para_12_meses_tr: PERCENTUAL_PROPORCIONAL_ADMISSAO_MES_12
+      descontar_20_do_valor_total_do_plr_a_cad: {coluna: DESCONTAR_20_POR_CENTO_VALOR_TOTAL_PLR_POR_CADA_FALTA_PERIODO_VIGENCIA, dominio: fosindicatos_plr_descontar_2}
+      competencia_do_salario_para_a_base_de_ca: COMPETENCIA_SALARIO_BASE_CALCULO
+      calcular_em_avos_0_nao_1_sim: {coluna: CALCULAR_AVOS, dominio: fosindicatos_plr_calcular_em}
+      tipo_desconto_avos: TIPO_DESCONTO_AVOS
+      salario_inicial: {coluna: SALARIO_INICIAL, sensivel: financeiro}
+      salario_final: {coluna: SALARIO_FINAL, sensivel: financeiro}
+      valor_final_do_limite: VALOR_LIMITE_FINAL
+      pagamento_parcelado_0_nao_1_sim: {coluna: PAGAMENTO_PARCELADO, dominio: fosindicatos_plr_pagamento_p}
+      quantidade_de_parcelas: QUANTIDADE_PARCELAS
+      soma_binaria_dos_meses_para_pagamento_do: MESES_PAGAMENTO_PARCELAMENTO
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      codigo_sequencial_da_regra:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_configuracao_1_pagamento_2_desco:
+        coluna: TIPO
+        ops: [eq, in]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      competencia_de_pagamento:
+        coluna: COMPETENCIA_PAGAMENTO
+        ops: [entre, gte, lte]
+      data_de_admissao_para_consideracao_na_re:
+        coluna: DATA_ADMISSAO
+        ops: [entre, gte, lte]
+      competencia_do_salario_para_a_base_de_ca:
+        coluna: COMPETENCIA_SALARIO_BASE_CALCULO
+        ops: [entre, gte, lte]
+      tipo_processo_pagamento_11_mensal_42_com:
+        coluna: TIPO_PROCESSO_PAGAMENTO
+        ops: [eq, in]
+      tipo_desconto_avos:
+        coluna: TIPO_DESCONTO_AVOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas.', 'Colunas expostas nulas em 100% das linhas (2): data_de_admissao_para_consideracao_na_re, tipo_desconto_avos.', 'tipo_de_configuracao_1_pagamento_2_desco:
+        todos os valores reais estão no comentário do banco (1=6, 2=2).', 'campo_1_faltas_justificadas_2_faltas_inj: todos os valores reais estão no comentário do
+        banco (1=2, 7=2, 9=2, 3=2).', 'operador_de_comparacao_1_igual_2_diferen: todos os valores reais estão no comentário do banco (7=2, 6=2, 5=2, 1=2).', 'operador_logico_1_e_2_ou_3_resultado:
+        todos os valores reais estão no comentário do banco (3=8).', 'unidade_1_valor_2_percentual_3_dias_4_me: todos os valores reais estão no comentário do banco
+        (1=6, 2=2).', 'base_de_calculo_1_salario_contratual_2_s: todos os valores reais estão no comentário do banco (1=6, nulo=2).', 'tipo_processo_pagamento_11_mensal_42_com:
+        todos os valores reais estão no comentário do banco (70=6, nulo=2).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário
+        do banco (0=8).', 'desocntar_o_correspondente_a_1_365_avos: todos os valores reais estão no comentário do banco (0=8).', 'definir_limite_0_nao_1_sim: todos
+        os valores reais estão no comentário do banco (0=8).', 'unidade_limite: todos os valores reais estão no comentário do banco (2=6, 1=2).', 'calcular_proporcional_ao_mes_de_admissao:
+        todos os valores reais estão no comentário do banco (0=8).', 'descontar_20_do_valor_total_do_plr_a_cad: todos os valores reais estão no comentário do banco
+        (0=6, 1=2).', 'calcular_em_avos_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=8).', 'pagamento_parcelado_0_nao_1_sim: todos os valores
+        reais estão no comentário do banco (0=5, 1=3).', 'Vínculo fosindicatos (fosindicatos): 0 de 8 linhas sem registro relacionado.']
+  fosindicatos_diasaviso:
+    titulo: SINDICATO - CADASTRO - AVISO PREVIO
+    descricao: 'SINDICATO - CADASTRO - AVISO PREVIO. 5 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, I_REGRASEQ.'
+    tabela: FOSINDICATOS_DIASAVISO
+    chave: [I_SINDICATOS, I_REGRAS, I_REGRASEQ]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      numero_da_regra: I_REGRAS
+      sequencial_de_expressoes_da_regra: I_REGRASEQ
+      codigo_do_campo_da_empressao_1_idade_2_m: {coluna: CAMPO, dominio: fosindicatos_diasaviso_codigo_do_campo_da, sensivel: financeiro}
+      forma_de_comparacao_entre_campo_e_valor: OPER_COMPARACAO
+      operador_logico_que_liga_uma_expressao_a: OPER_LOGICO
+      valor_a_ser_comparado_com_a_coluna: {coluna: VALOR_COMPARACAO, sensivel: pessoal}
+      resultado_da_regra: VALOR_RESULTADO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      faixa_salarial_final: VALOR_COMPARACAO_FINAL
+      somar_condicoes_0_nao_1_sim: {coluna: SOMAR_CONDICOES, dominio: fosindicatos_diasaviso_somar_condicoes_0_}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      numero_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      sequencial_de_expressoes_da_regra:
+        coluna: I_REGRASEQ
+        ops: [eq, in]
+      valor_a_ser_comparado_com_a_coluna:
+        coluna: VALOR_COMPARACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas.', 'Colunas expostas nulas em 100% das linhas (1): faixa_salarial_final.', 'codigo_do_campo_da_empressao_1_idade_2_m:
+        todos os valores reais estão no comentário do banco (2=3, 5=1, 1=1).', 'somar_condicoes_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=4,
+        1=1).', 'Vínculo fosindicatos (fosindicatos): 0 de 5 linhas sem registro relacionado.']
+  fosindicatos_garantia_comissionados:
+    titulo: Regras para o cálculo da garantia mínima para empregados comissionados.
+    descricao: 'Regras para o cálculo da garantia mínima para empregados comissionados.. 4 linhas no catálogo; chave: I_SINDICATOS, I_REGRA.'
+    tabela: FOSINDICATOS_GARANTIA_COMISSIONADOS
+    chave: [I_SINDICATOS, I_REGRA]
+    acesso: {empresa: null, periodo: COMPETENCIA_INICIO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIO, desc]
+    - [I_SINDICATOS, asc]
+    - [I_REGRA, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      sequencial_da_regra: I_REGRA
+      competencia_de_inicio_da_regra: COMPETENCIA_INICIO
+      forma_de_calculo_1_piso_salarial_2_valor: FORMA_CALCULO
+      valor_da_garantia_minima_da_regra: VALOR
+      calcular_no_13o_salario_0_nao_1_sim: {coluna: CALCULAR_NO_13_SALARIO, dominio: fosindicatos_garantia_comissionados_calcular_no}
+      calcular_nas_ferias_0_nao_1_sim: {coluna: CALCULAR_NAS_FERIAS, dominio: fosindicatos_garantia_comissionados_calcular_na}
+      calcular_no_aviso_previo_0_nao_1_sim: {coluna: CALCULAR_NO_AVISO_PREVIO, dominio: fosindicatos_garantia_comissionados_calcular_no}
+      determinar_competencia_para_o_fim_da_reg: {coluna: DETERMINAR_FIM, dominio: fosindicatos_garantia_comissionados_determinar_}
+      competencia_para_o_fim_da_regra: COMPETENCIA_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      calcular_no_13o_adiantamento_0_nao_1_sim: {coluna: CALCULAR_NO_13_ADIANTAMENTO, dominio: fosindicatos_garantia_comissionados_calcular_no}
+      calcular_multa_estabilidade: {coluna: CALCULAR_MULTA_ESTABILIDADE, dominio: fosindicatos_garantia_comissionados_calcular_mu}
+      utilizar_para_o_calculo_de_rubricas_de_f: {coluna: UTILIZAR_PARA_FALTAS, dominio: fosindicatos_garantia_comissionados_utilizar_pa}
+      regime_federal: {coluna: REGIME_FEDERAL, dominio: fosindicatos_garantia_comissionados_regime_fede}
+      calcular_no_aviso_previo_reavido: {coluna: CALCULAR_NO_AVISO_PREVIO_REAVIDO, dominio: fosindicatos_garantia_comissionados_calcular_no}
+      campo_1_meses_trabalhados: CAMPO
+      operador_de_comparacao_1_igual_3_maior_q: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_garantia_comissionados_operador_de}
+      valor_de_comparacao: VALOR_COMPARACAO
+      calcular_proporcional_mp_936: CALCULAR_PROPORCIONAL_MP_936
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      sequencial_da_regra:
+        coluna: I_REGRA
+        ops: [eq, in]
+      competencia_de_inicio_da_regra:
+        coluna: COMPETENCIA_INICIO
+        ops: [entre, gte, lte]
+      competencia_para_o_fim_da_regra:
+        coluna: COMPETENCIA_FIM
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 4 linhas, COMPETENCIA_INICIO de 2016-11-01 a 2025-11-01.', 'Colunas expostas nulas em 100% das linhas (4): regime_federal, campo_1_meses_trabalhados,
+        operador_de_comparacao_1_igual_3_maior_q, valor_de_comparacao.', 'calcular_no_13o_salario_0_nao_1_sim: todos os valores reais estão no comentário do banco
+        (1=4).', 'calcular_nas_ferias_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=4).', 'calcular_no_aviso_previo_0_nao_1_sim: todos os valores
+        reais estão no comentário do banco (1=4).', 'determinar_competencia_para_o_fim_da_reg: todos os valores reais estão no comentário do banco (1=3, 0=1).', 'calcular_no_13o_adiantamento_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (1=4).', 'calcular_multa_estabilidade: todos os valores reais estão no comentário do banco (0=4).', 'utilizar_para_o_calculo_de_rubricas_de_f:
+        todos os valores reais estão no comentário do banco (0=4).', 'regime_federal: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde
+        ser verificado.', 'calcular_no_aviso_previo_reavido: todos os valores reais estão no comentário do banco (0=4).', 'operador_de_comparacao_1_igual_3_maior_q:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'Vínculo fosindicatos (fosindicatos): 0 de 4 linhas sem registro
+        relacionado.']
+  fosindicatos_garantia_semestral:
+    titulo: Garantia semestral.
+    descricao: 'Garantia semestral.. 4 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, I_REGRASEQ.'
+    tabela: FOSINDICATOS_GARANTIA_SEMESTRAL
+    chave: [I_SINDICATOS, I_REGRAS, I_REGRASEQ]
+    acesso: {empresa: null, periodo: DATA_COMPARACAO, volume: pequeno}
+    ordem:
+    - [DATA_COMPARACAO, desc]
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_da_regra: I_REGRAS
+      sequencial_da_regra: I_REGRASEQ
+      campo_1_motivo_da_rescisao_2_meses_traba: {coluna: CAMPO, dominio: fosindicatos_garantia_semestral_campo_1_motivo_da_rescisao_2_me}
+      quantidade_de_meses_trabalhados_motivo_d: QUANTIDADE
+      operador_de_comparacao_1_igual_2_maior_q: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_garantia_semestral_operador_de_comparacao_1_igual_}
+      operador_logico_1_e_2_ou_3_resultado: {coluna: OPERADOR_LOGICO, dominio: fosindicatos_garantia_semestral_operador_logico_1_e_2_ou_3_resu}
+      tipo_de_pagamento_1_dias_restantes_do_se: {coluna: TIPO_PAGAMENTO, dominio: fosindicatos_garantia_semestral_tipo_de_pagamento_1_dias_restan}
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosindicatos_garantia_semestral_origem_do_registro_0_sistema_1_}
+      data_para_comparaaao: {coluna: DATA_COMPARACAO, sensivel: pessoal}
+      vigencia_inicial: VIGENCIA_INICIAL
+      vigencia_final: VIGENCIA_FINAL
+      inicio_pagamento: INICIO_PAGAMENTO
+      fim_pagamento: FIM_PAGAMENTO
+      somar_condicoes_0_nao_1_sim: {coluna: SOMAR_CONDICOES, dominio: fosindicatos_garantia_semestral_somar_condicoes_0_nao_1_sim}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      sequencial_da_regra:
+        coluna: I_REGRASEQ
+        ops: [eq, in]
+      data_para_comparaaao:
+        coluna: DATA_COMPARACAO
+        ops: [entre, gte, lte]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      inicio_pagamento:
+        coluna: INICIO_PAGAMENTO
+        ops: [entre, gte, lte]
+      fim_pagamento:
+        coluna: FIM_PAGAMENTO
+        ops: [entre, gte, lte]
+      tipo_de_pagamento_1_dias_restantes_do_se:
+        coluna: TIPO_PAGAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas.', 'Colunas expostas nulas em 100% das linhas (5): data_para_comparaaao, vigencia_inicial, vigencia_final, inicio_pagamento,
+        fim_pagamento.', 'campo_1_motivo_da_rescisao_2_meses_traba: todos os valores reais estão no comentário do banco (1=2, 2=2).', 'operador_de_comparacao_1_igual_2_maior_q:
+        todos os valores reais estão no comentário do banco (4=2, 1=2).', 'operador_logico_1_e_2_ou_3_resultado: todos os valores reais estão no comentário do banco
+        (1=2, 3=2).', 'tipo_de_pagamento_1_dias_restantes_do_se: todos os valores reais estão no comentário do banco (1=4).', 'origem_do_registro_0_sistema_1_importaca:
+        todos os valores reais estão no comentário do banco (0=4).', 'somar_condicoes_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=4).']
+  fosindicatos_config_motivos_rescisao_estab_afast:
+    titulo: Configuração dos motivos de rescisão que utilizam a estabilidade por afastamento informada no sindicato.
+    descricao: 'Configuração dos motivos de rescisão que utilizam a estabilidade por afastamento informada no sindicato.. 3 linhas no catálogo; chave: I_SINDICATOS,
+      MOTIVO_RESCISAO.'
+    tabela: FOSINDICATOS_CONFIG_MOTIVOS_RESCISAO_ESTAB_AFAST
+    chave: [I_SINDICATOS, MOTIVO_RESCISAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SINDICATOS, asc]
+    - [MOTIVO_RESCISAO, asc]
+    colunas: {codigo_do_sindicato: I_SINDICATOS, codigo_do_motivo_de_rescisao: MOTIVO_RESCISAO}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_do_motivo_de_rescisao:
+        coluna: MOTIVO_RESCISAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas.', 'Vínculo fosindicatos (fosindicatos): 0 de 3 linhas sem registro relacionado.']
+  fosindicatos_adicional_ferias:
+    titulo: Cadastro de sindicatos - Percentual de adicional de férias
+    descricao: 'Cadastro de sindicatos - Percentual de adicional de férias. 1 linhas no catálogo; chave: I_SINDICATOS, I_REGRAS, I_REGRASEQ.'
+    tabela: FOSINDICATOS_ADICIONAL_FERIAS
+    chave: [I_SINDICATOS, I_REGRAS, I_REGRASEQ]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SINDICATOS, asc]
+    - [I_REGRAS, asc]
+    colunas:
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_da_regra: I_REGRAS
+      sequencial_da_regra: I_REGRASEQ
+      campo_1_meses_trabalhados_2_falta_justif: {coluna: CAMPO, dominio: fosindicatos_adicional_ferias_campo_1_mes}
+      operador_de_comparacao_1_igual_2_diferen: {coluna: OPERADOR_COMPARACAO, dominio: fosindicatos_adicional_ferias_operador_de}
+      valor_de_comparacao: VALOR_COMPARACAO
+      operador_logico_1_e_2_ou_3_resultado: {coluna: OPERADOR_LOGICO, dominio: fosindicatos_adicional_ferias_operador_lo}
+      adicional_de_ferias: VALOR_RESULTADO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosindicatos_adicional_ferias_origem_do_r}
+      base_de_calculo_1_salario_contratual_2_s: {coluna: BASE_CALCULO, dominio: fosindicatos_adicional_ferias_base_de_cal}
+    vinculos:
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: I_REGRAS
+        ops: [eq, in]
+      sequencial_da_regra:
+        coluna: I_REGRASEQ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'campo_1_meses_trabalhados_2_falta_justif: todos os valores reais estão no comentário do banco (1=1).', 'operador_de_comparacao_1_igual_2_diferen:
+        todos os valores reais estão no comentário do banco (5=1).', 'operador_logico_1_e_2_ou_3_resultado: todos os valores reais estão no comentário do banco (3=1).',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (3=1).', 'base_de_calculo_1_salario_contratual_2_s: todos os
+        valores reais estão no comentário do banco (10=1).', 'Vínculo fosindicatos (fosindicatos): 0 de 1 linhas sem registro relacionado.']

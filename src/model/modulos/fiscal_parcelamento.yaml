@@ -1,0 +1,252 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_parcelamento
+titulo: Fiscal - parcelamento (rascunho em lote)
+entidades:
+  efparcelamento_imposto_sn_parcela_parcela:
+    titulo: Parcelamento de Impostos Simples Nacional - Parcela
+    descricao: 'Parcelamento de Impostos Simples Nacional - Parcela. 60 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_PARCELA_PARCELA,
+      TIPO_PARCELAMENTO.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_PARCELA_PARCELA
+    chave: [CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_PARCELA_PARCELA, TIPO_PARCELAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO, volume: pequeno}
+    ordem:
+    - [VENCIMENTO, desc]
+    - [I_PARCELAMENTO_SN, asc]
+    - [I_PARCELAMENTO_SN_PARCELA_PARCELA, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN, sequencial_da_parcela_do_parcelamento_si: I_PARCELAMENTO_SN_PARCELA_PARCELA,
+      tipo_parcela_1_parcela_2_parcela_da_entr: TIPO_PARCELAMENTO, numero_da_parcela: NUMERO_PARCELA, data_de_vencimento: VENCIMENTO, valor_principal: VALOR_PRINCIPAL,
+      valor_multa: VALOR_MULTA, valor_juros: VALOR_JURO, valor_total: VALOR_TOTAL, valor_pago: VALOR_PAGO, competencia: COMPETENCIA, valor_encargos_honorarios: VALOR_ENCARGOS_HONORARIOS}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {codi_emp: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      sequencial_da_parcela_do_parcelamento_si:
+        coluna: I_PARCELAMENTO_SN_PARCELA_PARCELA
+        ops: [eq, in]
+      tipo_parcela_1_parcela_2_parcela_da_entr:
+        coluna: TIPO_PARCELAMENTO
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 60 linhas, 1 empresa(s), VENCIMENTO de 2019-01-23 a 2023-12-29.', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN):
+        0 de 60 linhas sem registro relacionado (empresa 596).']
+  efparcelamento_imposto_sn_parcela_parcelamento:
+    titulo: Parcelamento de Impostos Simples Nacional - Parcelamento
+    descricao: 'Parcelamento de Impostos Simples Nacional - Parcelamento. 12 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_PARCELA_PARCELAMENTO,
+      TIPO_PARCELAMENTO.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_PARCELA_PARCELAMENTO
+    chave: [CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_PARCELA_PARCELAMENTO, TIPO_PARCELAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [I_PARCELAMENTO_SN, asc]
+    - [I_PARCELAMENTO_SN_PARCELA_PARCELAMENTO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN, sequencial_da_parcela_do_parcelamento_si: I_PARCELAMENTO_SN_PARCELA_PARCELAMENTO,
+      tipo_parcela_1_parcela_2_parcela_da_entr: TIPO_PARCELAMENTO, competencia: COMPETENCIA, vencimento: DATA_VENCIMENTO, valor_principal: VALOR_PRINCIPAL, valor_multa: VALOR_MULTA,
+      valor_juros: VALOR_JURO, valor_total: VALOR_TOTAL, valor_encargos_honorarios: VALOR_ENCARGOS_HONORARIOS}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {codi_emp: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      sequencial_da_parcela_do_parcelamento_si:
+        coluna: I_PARCELAMENTO_SN_PARCELA_PARCELAMENTO
+        ops: [eq, in]
+      tipo_parcela_1_parcela_2_parcela_da_entr:
+        coluna: TIPO_PARCELAMENTO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 12 linhas, 1 empresa(s), DATA_VENCIMENTO de 2016-08-22 a 2018-12-20.', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN):
+        0 de 12 linhas sem registro relacionado (empresa 596).']
+  efparcelamento_imposto_sn_selecao:
+    titulo: Parcelamento de Impostos Simples Nacional - Seleção
+    descricao: 'Parcelamento de Impostos Simples Nacional - Seleção. 12 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_SELECAO.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_SELECAO
+    chave: [CODI_EMP, I_PARCELAMENTO_SN, I_PARCELAMENTO_SN_SELECAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [I_PARCELAMENTO_SN, asc]
+    - [I_PARCELAMENTO_SN_SELECAO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN, sequencial_da_selecao_do_parcelamento_si: I_PARCELAMENTO_SN_SELECAO,
+      competencia: COMPETENCIA, vencimento: DATA_VENCIMENTO, saldo_devedor: SALDO_DEVEDOR, valo_em_aberto: VALOR_EM_ABERTO, valor_nao_parcelar: VALOR_NAO_PARCELAR,
+      valor_parcelar: VALOR_PARCELAR, codigo_do_parcelamento: I_PARCELAMENTO_DEBITO_NAO_CALCULADO}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {codi_emp: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      sequencial_da_selecao_do_parcelamento_si:
+        coluna: I_PARCELAMENTO_SN_SELECAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      codigo_do_parcelamento:
+        coluna: I_PARCELAMENTO_DEBITO_NAO_CALCULADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12 linhas, 1 empresa(s), DATA_VENCIMENTO de 2016-08-22 a 2018-12-20.', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN):
+        0 de 12 linhas sem registro relacionado (empresa 596).']
+  efparcelamento_imposto_sn:
+    titulo: Parcelamento de Impostos Simples Nacional
+    descricao: 'Parcelamento de Impostos Simples Nacional. 1 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN
+    chave: [CODI_EMP, I_PARCELAMENTO_SN]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PARCELAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PARCELAMENTO, desc]
+    - [I_PARCELAMENTO_SN, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN, descricao: DESCRICAO, data_do_parcelamento: DATA_PARCELAMENTO, parcelar_somente_imposto: PARCELAR_SOMENTE_IMPOSTO,
+      estado: CODIGO_UF, municipio: CODIGO_MUNICIPIO, c_1_em_parcelamento_2_encerrado_a_pedido: SITUACAO, data_situacao: DATA_SITUACAO, c_1_normal_ate_60_parcelas_2_especial_at: TIPO_PARCELAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      data_do_parcelamento:
+        coluna: DATA_PARCELAMENTO
+        ops: [entre, gte, lte]
+      data_situacao:
+        coluna: DATA_SITUACAO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+      c_1_em_parcelamento_2_encerrado_a_pedido:
+        coluna: SITUACAO
+        ops: [eq, in]
+      c_1_normal_ate_60_parcelas_2_especial_at:
+        coluna: TIPO_PARCELAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_PARCELAMENTO de 2019-01-23 a 2019-01-23.', 'Colunas expostas nulas em 100% das linhas (3): estado,
+        municipio, data_situacao.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 596).', 'Vínculo geestado (geestado): 0 de 1 linhas
+        sem registro relacionado (empresa 596).', 'Vínculo gemunicipio (gemunicipio): 0 de 1 linhas sem registro relacionado (empresa 596).']
+  efparcelamento_imposto_sn_lancto:
+    titulo: Parcelamento de Impostos Simples Nacional - Lançamentos
+    descricao: 'Parcelamento de Impostos Simples Nacional - Lançamentos. 1 linhas no catálogo; chave: CODI_EMP, NUME_LAN, FILI_LAN, I_PARCELAMENTO_SN.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_LANCTO
+    chave: [CODI_EMP, NUME_LAN, FILI_LAN, I_PARCELAMENTO_SN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NUME_LAN, asc]
+    - [FILI_LAN, asc]
+    colunas: {empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, empresa_do_parcelamento: FILI_LAN, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN,
+      tipo_do_lancamento: TIPO}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {fili_lan: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      empresa_do_parcelamento:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN): 0 de 1 linhas sem registro relacionado
+        (empresa 596).']
+  efparcelamento_imposto_sn_parcela_dados:
+    titulo: Parcelamento de Impostos Simples Nacional - Dados
+    descricao: 'Parcelamento de Impostos Simples Nacional - Dados. 1 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN, TIPO_PARCELAMENTO.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_PARCELA_DADOS
+    chave: [CODI_EMP, I_PARCELAMENTO_SN, TIPO_PARCELAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO_INICIAL, volume: pequeno}
+    ordem:
+    - [VENCIMENTO_INICIAL, desc]
+    - [I_PARCELAMENTO_SN, asc]
+    - [TIPO_PARCELAMENTO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacin: I_PARCELAMENTO_SN, tipo_parcela_1_parcela_2_parcela_da_entr: TIPO_PARCELAMENTO, total_parcelado: TOTAL_PARCELADO,
+      numero_de_parcelas: NUMERO_DE_PARCELA, valor_da_parcela: VALOR_PARCELA, vencimento_inicial: VENCIMENTO_INICIAL, percentual_da_entrada: PERCENTUAL_ENTRADA, percentual_da_entrada_todas_casas_decima: PERCENTUAL_ENTRADA_CALCULADO,
+      valor_principal: VALOR_PRINCIPAL, valor_multa: VALOR_MULTA, valor_juros: VALOR_JURO, valor_encargos_honorarios: VALOR_ENCARGOS_HONORARIOS, valor_total: VALOR_TOTAL,
+      percentual_da_primeira_parcela: PERCENTUAL_PRIMEIRA_PARCELA, valor_da_primeira_parcela: VALOR_PRIMEIRA_PARCELA}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {codi_emp: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_parcelamento_simples_nacin:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      tipo_parcela_1_parcela_2_parcela_da_entr:
+        coluna: TIPO_PARCELAMENTO
+        ops: [eq, in]
+      vencimento_inicial:
+        coluna: VENCIMENTO_INICIAL
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), VENCIMENTO_INICIAL de 2019-01-23 a 2019-01-23.', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN):
+        0 de 1 linhas sem registro relacionado (empresa 596).']
+  efparcelamento_imposto_sn_historico:
+    titulo: Parcelamento de Impostos Simples Nacional - Histórico
+    descricao: 'Parcelamento de Impostos Simples Nacional - Histórico. 1 linhas no catálogo; chave: CODI_EMP, I_PARCELAMENTO_SN.'
+    tabela: EFPARCELAMENTO_IMPOSTO_SN_HISTORICO
+    chave: [CODI_EMP, I_PARCELAMENTO_SN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PARCELAMENTO_SN, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_parcelamento_simples_nacio: I_PARCELAMENTO_SN, observacao: OBSERVACAO}
+    vinculos:
+      efparcelamento_imposto_s:
+        tabela: EFPARCELAMENTO_IMPOSTO_SN
+        liga: {codi_emp: codi_emp, i_parcelamento_sn: i_parcelamento_sn}
+        colunas: {efparcelamento_imposto_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_parcelamento_simples_nacio:
+        coluna: I_PARCELAMENTO_SN
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo efparcelamento_imposto_s (EFPARCELAMENTO_IMPOSTO_SN): 0 de 1 linhas sem registro relacionado
+        (empresa 596).']

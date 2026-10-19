@@ -1,0 +1,318 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_simulacao
+titulo: Fiscal - simulacao (rascunho em lote)
+dominios:
+  efsimulacao_reforma_tributaria_base_por_acumulador_tipo_movimen:
+    confirmado: true
+    nota: 'Todos os valores observados em EFSIMULACAO_REFORMA_TRIBUTARIA_BASE_POR_ACUMULADOR.TIPO_MOVIMENTO estão no comentário do banco (2026-10-18). Distribuição:
+      CE=63, DS=57, DE=1.'
+    valores: {CE: CREDITO ENTRADA, DE: DEBITO ENTRADA, DS: DEBITO SAIDA}
+  efsimulacao_reforma_tributaria_base_por_regime_fornecedor_tipo_movimen:
+    confirmado: true
+    nota: 'Todos os valores observados em EFSIMULACAO_REFORMA_TRIBUTARIA_BASE_POR_REGIME_FORNECEDOR.TIPO_MOVIMENTO estão no comentário do banco (2026-10-18). Distribuição:
+      DS=58, CE=53.'
+    valores: {CE: Credito Entrada, DS: Debito Saida}
+entidades:
+  efsimulacao_reforma_tributaria_cfop_sem_credito:
+    titulo: Simulador Reforma Tributária - Configuração CFOP
+    descricao: 'Simulador Reforma Tributária - Configuração CFOP. 146.940 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_CFOP.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_CFOP_SEM_CREDITO
+    chave: [CODI_EMP, I_CONFIGURACAO_CFOP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_CONFIGURACAO_CFOP, asc]
+    colunas: {empresa: CODI_EMP, sequencial_configuracao_cfop: I_CONFIGURACAO_CFOP, cfop: CODI_NAT, versao_do_cfop: VERSAO_NAT}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efnatureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      sequencial_configuracao_cfop:
+        coluna: I_CONFIGURACAO_CFOP
+        ops: [eq, in]
+      cfop:
+        coluna: CODI_NAT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 146.940 linhas, 1.860 empresa(s).', 'Vínculo geempre (geempre): 0 de 79 linhas sem registro relacionado (empresa 117).', 'Vínculo
+        efnatureza (efnatureza): 0 de 79 linhas sem registro relacionado (empresa 117).']
+  efsimulacao_reforma_tributaria_impostos:
+    titulo: Simulador Reforma Tributaria - Impostos Apuracao
+    descricao: 'Simulador Reforma Tributaria - Impostos Apuracao. 131 linhas no catálogo; chave: CODI_EMP, PERIODO, CODI_IMP.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_IMPOSTOS
+    chave: [CODI_EMP, PERIODO, CODI_IMP]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, codigo_imposto: CODI_IMP, competencia_da_tributacao_f_federal_e_es: COMPETENCIA_TRIBUTACAO, valor_do_imposto: VALOR_IMPOSTO,
+      valor_do_imposto_retido: VALOR_IMPOSTO_RETIDO}
+    vinculos:
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      codigo_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      competencia_da_tributacao_f_federal_e_es:
+        coluna: COMPETENCIA_TRIBUTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 131 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.', 'Vínculo geimposto (geimposto): 0 de 10 linhas sem registro relacionado
+        (empresa 317).']
+  efsimulacao_reforma_tributaria_ano_iva:
+    titulo: Simulador Reforma Tributaria - Impostos IVA
+    descricao: 'Simulador Reforma Tributaria - Impostos IVA. 128 linhas no catálogo; chave: CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IVA, REDUCAO_ALIQUOTA,
+      REDUCAO_ALIQUOTA_AGRUPADOR.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_ANO_IVA
+    chave: [CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IVA, REDUCAO_ALIQUOTA, REDUCAO_ALIQUOTA_AGRUPADOR]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REFORMA_TRIBUTARIA_ANO, asc]
+    - [CODI_IVA, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, reforma_tributaria_conforme_ano: REFORMA_TRIBUTARIA_ANO, codigo_imposto_iva: CODI_IVA, reducao_aliquota: REDUCAO_ALIQUOTA,
+      agrupador_de_reducao_de_aliquota: REDUCAO_ALIQUOTA_AGRUPADOR, competencia_da_tributacao_f_federal_e_es: COMPETENCIA_TRIBUTACAO, base_de_credito_pelas_entradas: BASE_CREDITO_ENTRADAS,
+      base_de_debito_pelas_saidas: BASE_DEBITO_SAIDAS, aliquota: ALIQUOTA, valor_de_credito_pelas_entradas: CREDITO_ENTRADAS, valor_de_debito_pelas_saidas: DEBITO_SAIDAS,
+      valor_do_imposto: VALOR_IMPOSTO, base_de_debito_pelas_entradas: BASE_DEBITO_ENTRADAS, valor_de_debito_pelas_entradas: DEBITO_ENTRADAS}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      reforma_tributaria_conforme_ano:
+        coluna: REFORMA_TRIBUTARIA_ANO
+        ops: [eq, in]
+      codigo_imposto_iva:
+        coluna: CODI_IVA
+        ops: [eq, in]
+      reducao_aliquota:
+        coluna: REDUCAO_ALIQUOTA
+        ops: [eq, in]
+      agrupador_de_reducao_de_aliquota:
+        coluna: REDUCAO_ALIQUOTA_AGRUPADOR
+        ops: [eq, in]
+      competencia_da_tributacao_f_federal_e_es:
+        coluna: COMPETENCIA_TRIBUTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 128 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.']
+  efsimulacao_reforma_tributaria_base_por_acumulador:
+    titulo: Simulador Reforma Tributaria - Base por Acumulador
+    descricao: 'Simulador Reforma Tributaria - Base por Acumulador. 121 linhas no catálogo; chave: CODI_EMP, PERIODO, FILIAL, CODI_ACU, TIPO_MOVIMENTO.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_BASE_POR_ACUMULADOR
+    chave: [CODI_EMP, PERIODO, FILIAL, CODI_ACU, TIPO_MOVIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [FILIAL, asc]
+    - [CODI_ACU, asc]
+    colunas:
+      empresa: CODI_EMP
+      periodo_competencia: PERIODO
+      filial: FILIAL
+      codigo_acumulador: CODI_ACU
+      tipo_movimento_ce_credito_entrada_de_deb: {coluna: TIPO_MOVIMENTO, dominio: efsimulacao_reforma_tributaria_base_por_acumulador_tipo_movimen}
+      valor_contabil: VALOR_CONTABIL
+      valor_icms: VALOR_ICMS
+      valor_difal: VALOR_DIFAL
+      valor_icms_st: VALOR_ICMS_ST
+      valor_iss: VALOR_ISS
+      valor_pis: VALOR_PIS
+      valor_cofins: VALOR_COFINS
+      valor_liquido: VALOR_LIQUIDO
+      valor_liquido_2027: VALOR_LIQUIDO_2027
+      valor_liquido_2033: VALOR_LIQUIDO_2033
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      filial:
+        coluna: FILIAL
+        ops: [eq, in]
+      codigo_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      tipo_movimento_ce_credito_entrada_de_deb:
+        coluna: TIPO_MOVIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 121 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.', 'tipo_movimento_ce_credito_entrada_de_deb: todos os valores reais
+        estão no comentário do banco (CE=63, DS=57, DE=1).']
+  efsimulacao_reforma_tributaria_ano_impostos:
+    titulo: Simulador Reforma Tributaria - Impostos nova tributacao
+    descricao: 'Simulador Reforma Tributaria - Impostos nova tributacao. 118 linhas no catálogo; chave: CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IMP.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_ANO_IMPOSTOS
+    chave: [CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IMP]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REFORMA_TRIBUTARIA_ANO, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, reforma_tributaria_conforme_ano: REFORMA_TRIBUTARIA_ANO, codigo_imposto: CODI_IMP, competencia_da_tributacao_f_federal_e_es: COMPETENCIA_TRIBUTACAO,
+      valor_do_imposto: VALOR_IMPOSTO, valor_do_imposto_retido: VALOR_IMPOSTO_RETIDO}
+    vinculos:
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      reforma_tributaria_conforme_ano:
+        coluna: REFORMA_TRIBUTARIA_ANO
+        ops: [eq, in]
+      codigo_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      competencia_da_tributacao_f_federal_e_es:
+        coluna: COMPETENCIA_TRIBUTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 118 linhas, 4 empresa(s), PERIODO de 2024-01-01 a 2025-08-01.', 'Vínculo geimposto (geimposto): 0 de 32 linhas sem registro relacionado
+        (empresa 236).']
+  efsimulacao_reforma_tributaria_base_por_regime_fornecedor:
+    titulo: Simulador Reforma Tributaria - Base por Regime de Fornecedor/Cliente
+    descricao: 'Simulador Reforma Tributaria - Base por Regime de Fornecedor/Cliente. 111 linhas no catálogo; chave: CODI_EMP, PERIODO, FILIAL, CLI_FOR, TIPO_REGIME,
+      TIPO_MOVIMENTO.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_BASE_POR_REGIME_FORNECEDOR
+    chave: [CODI_EMP, PERIODO, FILIAL, CLI_FOR, TIPO_REGIME, TIPO_MOVIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [FILIAL, asc]
+    - [CLI_FOR, asc]
+    colunas:
+      empresa: CODI_EMP
+      periodo_competencia: PERIODO
+      filial: FILIAL
+      cliente_ou_fornecedor: CLI_FOR
+      regime_fornecedor: TIPO_REGIME
+      tipo_movimento_ce_credito_entrada_ds_deb: {coluna: TIPO_MOVIMENTO, dominio: efsimulacao_reforma_tributaria_base_por_regime_fornecedor_tipo_movimen}
+      valor_contabil: VALOR_CONTABIL
+      percentual_representacao: PERCENTUAL
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      filial:
+        coluna: FILIAL
+        ops: [eq, in]
+      cliente_ou_fornecedor:
+        coluna: CLI_FOR
+        ops: [eq, in]
+      regime_fornecedor:
+        coluna: TIPO_REGIME
+        ops: [eq, in]
+      tipo_movimento_ce_credito_entrada_ds_deb:
+        coluna: TIPO_MOVIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 111 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.', 'tipo_movimento_ce_credito_entrada_ds_deb: todos os valores reais
+        estão no comentário do banco (DS=58, CE=53).']
+  efsimulacao_reforma_tributaria_ano:
+    titulo: Simulador Reforma Tributaria
+    descricao: 'Simulador Reforma Tributaria. 76 linhas no catálogo; chave: CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_ANO
+    chave: [CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REFORMA_TRIBUTARIA_ANO, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, reforma_tributaria_conforme_ano: REFORMA_TRIBUTARIA_ANO, valor_tributos_atuais: TRIBUTOS_ATUAIS, valor_tributos_apos_reforma: TRIBUTOS_APOS_REFORMA,
+      diferenca_apos_reforma_tributaria: DIFERENCA_APOS_REFORMA, diferenca_apos_reforma_tributaria_percen: DIFERENCA_APOS_REFORMA_PERCENTUAL}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      reforma_tributaria_conforme_ano:
+        coluna: REFORMA_TRIBUTARIA_ANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 76 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.']
+  efsimulacao_reforma_tributaria:
+    titulo: Simulador Reforma Tributaria
+    descricao: 'Simulador Reforma Tributaria. 38 linhas no catálogo; chave: CODI_EMP, PERIODO.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA
+    chave: [CODI_EMP, PERIODO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, tipo_calculo_simples_normal: TIPO_CALCULO, aliquota_cbs: ALIQUOTA_CBS, aliquota_ibs: ALIQUOTA_IBS,
+      base_calculo_iva: BASE_CALCULO_IVA, reducao_aliquota: REDUCAO_ALIQUOTA, calcular_credito_de_iva_para_fornecedor: CALCULAR_CREDITO_FORNECEDOR_SIMPLES, forma_calculo: FORMA_CALCULO,
+      produtos_com_reducao_de_aliquota: PRODUTOS_REDUCAO_ALIQUOTA, considerar_os_impostos_retidos_a_compens: CONSIDERA_IMPOSTOS_RETIDOS_COMPENSAR, atividade_com_reducao_de_aliquota: ATIVIDADE_REDUCAO_ALIQUOTA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      tipo_calculo_simples_normal:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      base_calculo_iva:
+        coluna: BASE_CALCULO_IVA
+        ops: [eq, in]
+      calcular_credito_de_iva_para_fornecedor:
+        coluna: CALCULAR_CREDITO_FORNECEDOR_SIMPLES
+        ops: [eq, in]
+      produtos_com_reducao_de_aliquota:
+        coluna: PRODUTOS_REDUCAO_ALIQUOTA
+        ops: [eq, in]
+      considerar_os_impostos_retidos_a_compens:
+        coluna: CONSIDERA_IMPOSTOS_RETIDOS_COMPENSAR
+        ops: [eq, in]
+      atividade_com_reducao_de_aliquota:
+        coluna: ATIVIDADE_REDUCAO_ALIQUOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38 linhas, 6 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado
+        (empresa 1649).']
+  efsimulacao_reforma_tributaria_ano_iva_simples:
+    titulo: Simulador Reforma Tributaria - IVA Detalhamento Simples Nacional
+    descricao: 'Simulador Reforma Tributaria - IVA Detalhamento Simples Nacional. 14 linhas no catálogo; chave: CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IVA.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_ANO_IVA_SIMPLES
+    chave: [CODI_EMP, PERIODO, REFORMA_TRIBUTARIA_ANO, CODI_IVA]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REFORMA_TRIBUTARIA_ANO, asc]
+    - [CODI_IVA, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, reforma_tributaria_conforme_ano: REFORMA_TRIBUTARIA_ANO, codigo_imposto_iva: CODI_IVA, valor_irpj: VALOR_IRPJ,
+      valor_csll: VALOR_CSLL, valor_inss: VALOR_INSS, valor_ipi: VALOR_IPI, valor_icms: VALOR_ICMS, valor_iss: VALOR_ISS}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      reforma_tributaria_conforme_ano:
+        coluna: REFORMA_TRIBUTARIA_ANO
+        ops: [eq, in]
+      codigo_imposto_iva:
+        coluna: CODI_IVA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, 3 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.']
+  efsimulacao_reforma_tributaria_impostos_simples_nacional:
+    titulo: Simulador Reforma Tributaria - Impostos Apuracao
+    descricao: 'Simulador Reforma Tributaria - Impostos Apuracao. 7 linhas no catálogo; chave: CODI_EMP, PERIODO, CODI_IMP.'
+    tabela: EFSIMULACAO_REFORMA_TRIBUTARIA_IMPOSTOS_SIMPLES_NACIONAL
+    chave: [CODI_EMP, PERIODO, CODI_IMP]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, periodo_competencia: PERIODO, codigo_imposto: CODI_IMP, valor_irpj: VALOR_IRPJ, valor_csll: VALOR_CSLL, valor_inss: VALOR_INSS, valor_ipi: VALOR_IPI,
+      valor_icms: VALOR_ICMS, valor_iss: VALOR_ISS, valor_pis: VALOR_PIS, valor_cofins: VALOR_COFINS}
+    filtros:
+      periodo_competencia:
+        coluna: PERIODO
+        ops: [eq, in]
+      codigo_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 3 empresa(s), PERIODO de 2024-01-01 a 2026-05-01.']

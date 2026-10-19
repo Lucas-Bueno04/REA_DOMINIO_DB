@@ -11,14 +11,17 @@ claude mcp add dominio-db --scope user -- "C:\Users\Administrator\Desktop\REA_DO
 Rede interna (HTTP): `executar_servidor.cmd --transport streamable-http --host 127.0.0.1 --port 8765` e conectar em `http://127.0.0.1:8765/mcp`.
 **Atenção:** o modo HTTP **não tem autenticação**; não exponha a porta fora de `127.0.0.1` antes de implementar token/papéis (versões futuras).
 
-## Ferramentas (12)
+## Ferramentas (13)
 | Camada | Ferramenta | Para quê |
 |---|---|---|
-| Descoberta | `listar_modulos`, `listar_entidades`, `descrever_entidade`, `dominio` | o que existe, regras de negócio validadas, significado dos códigos |
+| Descoberta | `listar_modulos`, `buscar_entidades`, `listar_entidades`, `descrever_entidade`, `dominio` | **achar a entidade certa entre as 2.117** (use `buscar_entidades`), ver regras de negócio e significado dos códigos |
 | | `buscar_tabelas`, `descrever_tabela`, `relacionamentos`, `caminho_entre` | achar qualquer tabela, colunas/índices, JOINs (com confiança) |
-| Consulta | `consultar_entidade` | **75 entidades de negócio** (preferir sempre) |
+| Consulta | `consultar_entidade` | **2.117 entidades de negócio**: 107 curadas à mão (regras conciliadas com totais da Domínio) e 2.010 geradas em lote (regras = fatos medidos; `buscar_entidades` mostra a `origem`). Preferir sempre a entidade à tabela |
 | | `consultar_tabela` | qualquer das ~4.700 tabelas legíveis |
 | Prontas | `balancete`, `contas_a_receber` | consultas agregadas validadas |
+
+### Entidades curadas x geradas em lote
+Toda tabela útil do banco tem entidade. As **curadas** têm nomes legíveis, descrições e regras de negócio conferidas contra um total que a Domínio calcula (ex.: `nota_saida`, `saldo_produto`, `cupom_fiscal_eletronico`). As **geradas em lote** (módulos `fiscal_*`, `pessoal_*`, `contabil_*`, `geral_*`, `financeiro_*`, `processos_*`, `societario_*`, `sistema_*`, `outros_*`) usam o nome da tabela e as regras são fatos estruturais medidos (volume, período, colunas vazias, domínios, linhas sem pai). Leia `descrever_entidade` antes de confiar numa coluna.
 
 ### Formato dos filtros
 `filtros` = `{nome: valor | [lista] | {"entre": [a, b]} | {"gte": v} | {"lte": v} | {"contem": "x"} | {"prefixo": "x"} | {"in": [...]}}`.
@@ -51,3 +54,10 @@ buscar_tabelas(termo="cupom fiscal")  →  consultar_tabela(tabela="EFCUPOM_FISC
 
 ## Atualização do catálogo
 Quando a Domínio atualizar a versão do banco, regenere na ordem (ver `STATUS.md`): `catalogo.py` → `indices.py` → `joins_sql.py` → `relacoes.py` → `perfil_colunas.py`; rode `validar_modelo.py` e `pytest`.
+
+
+## Biblioteca de tools por tabela (gateway)
+
+Além das 13 ferramentas acima, o servidor expõe a biblioteca (`docs/biblioteca.md`): cada tabela mapeada tem `*_consultar`, `*_obter` e `*_totais`, e os casos de uso (`receita_bruta_simples`, `resumo_folha`, ...) aparecem direto na lista.
+Por padrão (`--perfil compacto`) o cliente vê 3 ferramentas de gateway: `buscar_ferramentas(termo)` -> `descrever_ferramenta(nome)` -> `executar_ferramenta(nome, argumentos)`.
+`--perfil completo` registra todas (≈ 4.900; use `--modulos estoque,cfe` para um servidor dedicado a poucos módulos).

@@ -1,0 +1,185 @@
+# Modelo de entidades do SIMPLES NACIONAL: apuração mensal (EFSDOIMP_SIMPLES_NACIONAL*) e receita bruta de períodos anteriores.
+# Curado à mão e conciliado com os documentos fiscais (ver scripts/conciliar_receita_simples.py). Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada): EFSDOIMP_SIMPLES_NACIONAL_BASE_NEGATIVA (13 mil), _SALAO_PARCEIRO (13 mil), _PRORROGACAO,
+#   _DETALHAMENTO (exigibilidade suspensa), efsimples_nacional_folha_anterior (12,5 mil, folha para o fator R), integração DAS/PGDAS-D por API
+#   (EFDAS_API_*, contém tokens/mensagens técnicas) e DASN (efdasn_*).
+modulo: simples
+titulo: Simples Nacional
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  periodicidade_simples:
+    descricao: Periodicidade do saldo (efsdoimp_simples_nacional.pdic_sim). Mesma codificação de efsdoimp.pdic_sim (6 = mensal), diferente de geimposto_vigencia.pdic_imp.
+    confirmado: true
+    nota: "Na tabela do Simples só existe 6 (mensal): 31.758 de 31.758 linhas."
+    valores: {6: Mensal}
+  tipo_receita_simples:
+    descricao: Tipo de receita (tipo_receita)
+    confirmado: true      # comentário do banco; os dois valores existem nos dados (mercado interno 30.701, exportação 1.057)
+    valores: {1: Mercado interno, 2: Exportação}
+  codigo_imposto_simples:
+    descricao: Código do imposto (codi_imp) nesta tabela
+    confirmado: true
+    nota: A tabela só tem o código 44, cujo nome no cadastro de impostos (geimposto) é SIMPLES NACIONAL (sigla SIMPLESN).
+    valores: {44: Simples Nacional}
+
+entidades:
+  apuracao_simples_nacional:
+    titulo: Apuração mensal do Simples Nacional
+    descricao: >
+      Resultado da apuração do Simples de cada empresa e competência: base de cálculo (receita bruta) e imposto por anexo, seção e tabela,
+      com a repartição por tributo (IRPJ, CSLL, COFINS, PIS, INSS, IPI, ICMS, ISS), as alíquotas efetivas, o excedente do sublimite e as
+      devoluções de venda. 31.758 linhas, 503 empresas, 2015-01 a 2026-09. Para cada filial e tipo de receita há uma LINHA DE TOTAL
+      (anexo, seção e tabela = 0) além das linhas de detalhe: nunca some todas as linhas juntas (dobra o valor).
+    tabela: efsdoimp_simples_nacional
+    chave: [codi_emp, codi_imp, data_sim, pdic_sim, filial, anexo, secao, tabela, arbcicms, arbciss, SITUACOES, SEQUENCIAL, MUNICIPIO, ARBCPIS, ARBCCOFINS, TIPO_RECEITA, ANEXO_ORIGEM, SECAO_ORIGEM, TABELA_ORIGEM, APLICA_REDUCAO_BASE_CALCULO_ICMS, APLICA_REDUCAO_ISS]
+    acesso: {empresa: codi_emp, periodo: data_sim, volume: medio}
+    ordem: [[data_sim, desc], [filial, asc], [anexo, asc]]
+    colunas:
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto_simples}
+      competencia: data_sim
+      periodicidade: {coluna: pdic_sim, dominio: periodicidade_simples}
+      filial: filial
+      anexo: anexo
+      secao: secao
+      tabela_aliquota: tabela
+      tipo_receita: {coluna: TIPO_RECEITA, dominio: tipo_receita_simples}
+      anexo_origem: ANEXO_ORIGEM
+      secao_origem: SECAO_ORIGEM
+      tabela_origem: TABELA_ORIGEM
+      situacoes: SITUACOES
+      sequencial: SEQUENCIAL
+      municipio: MUNICIPIO
+      reducao_icms_aliquota: arbcicms
+      reducao_iss_aliquota: arbciss
+      reducao_pis_aliquota: ARBCPIS
+      reducao_cofins_aliquota: ARBCCOFINS
+      aplica_reducao_icms: {coluna: APLICA_REDUCAO_BASE_CALCULO_ICMS, dominio: sim_nao_texto}
+      aplica_reducao_iss: {coluna: APLICA_REDUCAO_ISS, dominio: sim_nao_texto}
+      incidencia: incidencia
+      faixa: faixa
+      base_calculo: basen
+      base_excedente_sublimite: bases
+      base_excedente: basee
+      valor_imposto: valorn
+      valor_imposto_excedente_sublimite: valors
+      valor_imposto_excedente: valore
+      aliquota: aliquotan
+      aliquota_excedente_sublimite: aliquotas
+      aliquota_excedente: aliquotae
+      aliquota_efetiva_calculada: ALIQUOTA_EFETIVA_CALCULADA
+      base_irpj: birpj
+      valor_irpj: virpj
+      aliquota_irpj: airpj
+      base_csll: bcsll
+      valor_csll: vcsll
+      aliquota_csll: acsll
+      base_pis: bpis
+      valor_pis: vpis
+      aliquota_pis: apis
+      base_cofins: bcofins
+      valor_cofins: vcofins
+      aliquota_cofins: acofins
+      base_inss: binss
+      valor_inss: vinss
+      aliquota_inss: ainss
+      base_ipi: bipi
+      valor_ipi: vipi
+      aliquota_ipi: aipi
+      base_icms: bicms
+      valor_icms: vicms
+      aliquota_icms: aicms
+      base_iss: biss
+      valor_iss: viss
+      aliquota_iss: aiss
+      valor_iss_retido: vissr
+      isentas_icms: iicms
+      isentas_iss: iiss
+      icms_fixo: icms_fixo
+      iss_fixo: iss_fixo
+      valor_devolucao_venda: VALOR_DEVOLUCAO_VENDA
+      receita_excedente_estadual: RECEITA_EXCEDENTE_ESTADUAL
+      fator_federal: FATOR_FEDERAL
+      fator_estadual: FATOR_ESTADUAL
+      base_negativa: base_negativa
+      base_negativa_secundaria: BASE_NEGATIVA_SECUNDARIA
+      valor_estoque: valor_estoque
+      estoque_disponivel: estoque_disponivel
+      deducao_emissoras_radio_tv: {coluna: DEDUCAO_EMISSORAS_RADIO_TV, dominio: sim_nao_texto}
+    calculadas:
+      soma_tributos: "virpj + vcsll + vcofins + vpis + vinss + vipi + vicms + viss"
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      competencia: {coluna: data_sim, ops: [eq, entre, gte, lte]}
+      filial: {coluna: filial, ops: [eq, in]}
+      anexo: {coluna: anexo, ops: [eq, in]}
+      secao: {coluna: secao, ops: [eq, in]}
+      tipo_receita: {coluna: TIPO_RECEITA, ops: [eq]}
+    filhos:
+      aliquotas: {entidade: aliquota_simples_nacional, liga: {codi_emp: codi_emp, codi_imp: imposto_codigo, data_sim: competencia, pdic_sim: periodicidade, anexo: anexo, secao: secao, tabela: tabela_aliquota}}
+    regras:
+      - "Linha de total x detalhes: para cada (empresa, competência, filial, tipo de receita) existe uma linha de TOTAL (anexo = seção = tabela = 0) cuja base e cujo imposto são iguais à soma das linhas de detalhe (anexo > 0) em 18.355 de 18.355 grupos. Some só os detalhes OU só o total; somar tudo dobra."
+      - "Imposto: valor_imposto é a soma dos tributos (IRPJ + CSLL + COFINS + PIS + INSS + IPI + ICMS + ISS) em 13.403 de 13.403 linhas de detalhe (tolerância 0,02); `soma_tributos` recalcula."
+      - "Receita bruta (base_calculo) = saídas não canceladas de acumuladores que incidem sobre receita bruta (IREC_ACU = S) + serviços (idem) + cupons fiscais (CF-e vigentes, acumulador idem) - devoluções de venda lançadas em entradas com acumulador que incide sobre devolução (IDEV_ACU = S); a vigência do acumulador é a mais recente até a data da nota. Conferido numa amostra aleatória de 40 empresa/competências (mensal, desde 2023): 38 fecham ao centavo; 1110/2025-10 tem receita de serviços maior que a base em 87.948,65 e 1649/2026-03 difere em 198,27 no grupo de substituição tributária (causas não apuradas)."
+      - "valor_devolucao_venda é a soma das devoluções de venda do mês: empresa 644, 2026-09: 10.355,94 = devoluções lançadas em entradas com CFOP de devolução de venda; vendas 48.850,63 - 10.355,94 = base 38.494,69."
+      - "Competência sem movimento: dos 17.613 pares empresa/competência com apuração, 6.654 têm SÓ a linha de total (anexo = 0) e, destes, 6.654 com base zero (declaração sem receita). Ao testar 'existe apuração', não exija linhas de detalhe (anexo > 0)."
+      - "A periodicidade é sempre 6 (mensal); só há o imposto 44 (Simples Nacional); tipo de receita 1 (mercado interno) em 30.701 linhas e 2 (exportação) em 1.057."
+
+  aliquota_simples_nacional:
+    titulo: Alíquotas efetivas do Simples Nacional por anexo
+    descricao: Alíquota efetiva de cada tributo na competência, por anexo, seção e tabela (34.090 linhas, 493 empresas, 2018-01 a 2026-09). Complementa a apuração. Só existem os anexos 1 e 2.
+    tabela: EFSDOIMP_SIMPLES_NACIONAL_ALIQUOTAS
+    chave: [CODI_EMP, CODI_IMP, DATA_SIM, PDIC_SIM, ANEXO, SECAO, TABELA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_SIM, volume: medio}
+    ordem: [[DATA_SIM, desc], [ANEXO, asc], [SECAO, asc]]
+    colunas:
+      imposto_codigo: {coluna: CODI_IMP, dominio: codigo_imposto_simples}
+      competencia: DATA_SIM
+      periodicidade: {coluna: PDIC_SIM, dominio: periodicidade_simples}
+      anexo: ANEXO
+      secao: SECAO
+      tabela_aliquota: TABELA
+      aliquota_irpj: ALIQUOTA_IRPJ
+      aliquota_csll: ALIQUOTA_CSLL
+      aliquota_cofins: ALIQUOTA_COFINS
+      aliquota_pis: ALIQUOTA_PIS
+      aliquota_inss: ALIQUOTA_INSS
+      aliquota_icms: ALIQUOTA_ICMS
+      aliquota_iss: ALIQUOTA_ISS
+      aliquota_total: ALIQUOTA_TOTAL
+    calculadas:
+      soma_aliquotas: "ALIQUOTA_IRPJ + ALIQUOTA_CSLL + ALIQUOTA_COFINS + ALIQUOTA_PIS + ALIQUOTA_INSS + ALIQUOTA_ICMS + ALIQUOTA_ISS"
+    filtros:
+      competencia: {coluna: DATA_SIM, ops: [eq, entre, gte, lte]}
+      anexo: {coluna: ANEXO, ops: [eq, in]}
+      secao: {coluna: SECAO, ops: [eq, in]}
+    regras:
+      - "Chave (empresa, imposto, competência, periodicidade, anexo, seção, tabela) é a PK; as colunas GUID de integração (Contábil e Onvio) ficam fora da entidade."
+      - "Soma das partes: aliquota_total é igual à soma das alíquotas de IRPJ, CSLL, COFINS, PIS, INSS, ICMS e ISS em 17.045 de 17.045 linhas do anexo 1 e em 0 de 17.045 do anexo 2 (no anexo 2 o total é maior que a soma das partes; a causa não foi apurada — a tabela não tem coluna de IPI). Use aliquota_total, não `soma_aliquotas`, como alíquota efetiva."
+      - "Conferência com a apuração: nas empresas 644, 679, 718 e 762, a alíquota efetiva da apuração (apuracao_simples_nacional.aliquota) é igual a aliquota_total em 397 de 397 linhas de detalhe cruzadas."
+
+  receita_bruta_anterior_simples:
+    titulo: Receita bruta de períodos anteriores (Simples Nacional)
+    descricao: >
+      Receita bruta informada manualmente para períodos anteriores ao uso do sistema, que entra no RBT12 do Simples (mercado interno e
+      exportação). 5.347 linhas, 342 empresas, por empresa e mês, de 2016-07 a 2026 (mais 12 linhas com período em 2170-2171).
+    tabela: efsimples_nacional_receita_bruta_anterior
+    chave: [codi_emp, periodo]
+    acesso: {empresa: codi_emp, periodo: periodo, volume: pequeno}
+    ordem: [[periodo, desc]]
+    colunas:
+      periodo: periodo
+      receita_bruta: valor
+      receita_mercado_interno: RECEITA_BRUTA_MERCADO_INTERNO
+      receita_exportacao: RECEITA_BRUTA_EXPORTACAO
+    calculadas:
+      mercado_interno_mais_exportacao: "RECEITA_BRUTA_MERCADO_INTERNO + RECEITA_BRUTA_EXPORTACAO"
+    filtros:
+      periodo: {coluna: periodo, ops: [eq, entre, gte, lte]}
+    regras:
+      - "receita_bruta = receita_mercado_interno + receita_exportacao em 5.347 de 5.347 linhas (tolerância 0,01); 134 linhas têm exportação diferente de zero."
+      - "Dado suspeito: 12 linhas da empresa 715 têm período de 2170-10 a 2171-09 (valor 0), provável erro de digitação do ano; filtre `periodo` até a data atual para ignorá-las."

@@ -1,0 +1,200 @@
+# Modelo de entidades do LALUR (lucro real): cálculo de IRPJ e CSLL (LRCALCULO*) e lucro antes da CSLL/IRPJ (LRLUCRO_ANTES_CSLL_IRPJ).
+# Curado à mão e CONCILIADO por identidades aritméticas no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada): estimativa (LRCALCULO_IRPJ_ESTIMADO / CSLL_ESTIMADO), lançamentos de adições e exclusões (LRIRPJ_REAL_*, LRCSLL_REAL_*),
+# Parte B (LRIRPJ_REAL_PARTE_B), base negativa, parcelas dos impostos (LRPARCELA_IMPOSTO), opções de cálculo e as tabelas LRTABELA_* (grupos de adição/exclusão
+# por vigência, que o código dos registros do SPED ECF - Lalur referencia; ver sped_ecf.valor_lalur_ecf).
+modulo: lalur
+titulo: Lalur (IRPJ e CSLL do lucro real)
+dominios:
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+  ajuste_anual:
+    descricao: Indica se a linha é o ajuste anual do cálculo (lrcalculo_irpj_real.ajuste_anual e lrcalculo_csll_real.ajuste_anual)
+    confirmado: parcial
+    nota: "O comentário só diz 'Ajuste Anual'. Em IRPJ: 224 linhas com 1 e 2.884 com 0 (de 3.108). É parte da chave: o mesmo cálculo tem uma linha normal (0) e uma de ajuste anual (1)."
+    valores: {0: Cálculo do período, 1: Ajuste anual}
+
+entidades:
+  calculo_lalur:
+    titulo: Cálculos do Lalur (cabeçalho)
+    descricao: >
+      Cada vez que o Lalur é calculado para uma empresa e competência fica um registro com o usuário e a hora. 2.884 cálculos, 76 empresas, de 2015-01 a 2026-09,
+      feitos por 22 usuários. As apurações de IRPJ e CSLL ficam em apuracao_irpj_real e apuracao_csll_real, ligadas por (empresa, cálculo).
+    tabela: lrcalculo
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem: [[COMPETENCIA, desc], [I_CALCULO, desc]]
+    colunas:
+      calculo: I_CALCULO
+      competencia: COMPETENCIA
+      usuario: USUARIO
+      calculado_em: DATA_HORA
+      scp_codigo: I_SCP
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {CODI_EMP: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      calculo: {coluna: I_CALCULO, ops: [eq, in]}
+      competencia: {coluna: COMPETENCIA, ops: [eq, entre, gte, lte]}
+    filhos:
+      irpj: {entidade: apuracao_irpj_real, liga: {CODI_EMP: codi_emp, I_CALCULO: calculo}}
+      csll: {entidade: apuracao_csll_real, liga: {CODI_EMP: codi_emp, I_CALCULO: calculo}}
+    regras:
+      - "Cada cálculo de IRPJ real tem o cabeçalho (0 sem cabeçalho em 3.108) e cada um tem também o cálculo de CSLL (3.108 de 3.108). As competências cobrem todos os meses (~240 por mês); dezembro tem 464 por incluir as 224 linhas de ajuste anual."
+
+  apuracao_irpj_real:
+    titulo: Apuração do IRPJ pelo lucro real
+    descricao: >
+      Cadeia completa do IRPJ de um cálculo do Lalur: lucro líquido antes do IRPJ, adições, exclusões, lucro real antes e depois da compensação de prejuízos, IRPJ devido (15%),
+      adicional (10%), deduções, incentivos, diferimento e valor a recolher; há os mesmos blocos para a atividade geral e a rural. 3.108 linhas, 76 empresas.
+      Usa 38 das 62 colunas.
+    tabela: lrcalculo_irpj_real
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, exige_algum: [calculo], volume: medio}
+    ordem: [[I_CALCULO, desc], [AJUSTE_ANUAL, asc]]
+    privacidade: Resultado tributário da empresa (financeiro).
+    colunas:
+      calculo: I_CALCULO
+      ajuste_anual: {coluna: AJUSTE_ANUAL, dominio: ajuste_anual}
+      lucro_liquido_antes_irpj: VALOR_LUCRO_LIQUIDO_ANTES_IRPJ
+      adicoes: VALOR_ADICAO
+      exclusoes: VALOR_EXCLUSAO
+      lucro_real_antes_compensacao: VALOR_LUCRO_REAL_ANTES_COMPENSACAO
+      compensacao_prejuizo: VALOR_COMPENSACAO
+      lucro_real: VALOR_LUCRO_REAL
+      prejuizo_periodo: VALOR_PREJUIZO_PERIODO
+      lucro_liquido_antes_irpj_geral: VALOR_LUCRO_LIQUIDO_ANTES_IRPJ_GERAL
+      adicoes_geral: VALOR_ADICAO_GERAL
+      exclusoes_geral: VALOR_EXCLUSAO_GERAL
+      lucro_real_geral: VALOR_LUCRO_REAL_GERAL
+      lucro_liquido_antes_irpj_rural: VALOR_LUCRO_LIQUIDO_ANTES_IRPJ_RURAL
+      adicoes_rural: VALOR_ADICAO_RURAL
+      exclusoes_rural: VALOR_EXCLUSAO_RURAL
+      lucro_real_rural: VALOR_LUCRO_REAL_RURAL
+      irpj_devido: VALOR_IRPJ_DEVIDO
+      adicional: VALOR_ADICIONAL
+      deducoes: VALOR_DEDUCAO
+      deducao_pago_em_meses_anteriores: VALOR_DEDUCAO_PAGO_EM_MES_ANTERIOR
+      deducao_irrf: VALOR_DEDUCAO_IRRF
+      deducao_irrf_orgao_publico_federal: VALOR_DEDUCAO_ORGAO_PUBLICO_FEDERAL
+      deducao_irrf_administracao_publica: VALOR_DEDUCAO_ADMINISTRACAO_PUBLICA
+      deducao_outras: VALOR_DEDUCAO_OUTRA_DEDUCAO
+      deducao_pago_exterior: VALOR_DEDUCAO_PAGO_EXTERIOR
+      deducao_ganhos_renda_variavel: VALOR_DEDUCAO_PAGO_INCIDENTE_SOBRE_GANHOS
+      deducao_parcelamento_formalizado: VALOR_DEDUCAO_PARCELAMENTO_FORMALIZADO
+      deducao_compensacao_federal_periodo_anterior: VALOR_DEDUCAO_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR
+      deducao_saldo_periodo_anterior: VALOR_DEDUCAO_SALDO_PERIODO_ANTERIOR
+      incentivo_fiscal: VALOR_INCENTIVO_FISCAL
+      reducao_lucro_exploracao: VALOR_REDUCAO_LUCRO_EXPLORACAO
+      reducao_por_reinvestimento: VALOR_REDUCAO_POR_REINVESTIMENTO
+      diferido_periodo_anterior: VALOR_DIFERIDO_PERIODO_ANTERIOR
+      diferido_periodo: VALOR_DIFERIDO_PERIODO
+      a_recolher: VALOR_A_RECOLHER
+      compensar_periodo_seguinte: VALOR_COMPENSAR_PERIODO_SEGUINTE
+      deduzir_periodo_seguinte: VALOR_DEDUZIR_PERIODO_SEGUINTE
+    calculadas:
+      lucro_real_recalculado: "VALOR_LUCRO_LIQUIDO_ANTES_IRPJ + VALOR_ADICAO - VALOR_EXCLUSAO - VALOR_COMPENSACAO"
+    vinculos:
+      calculo_ref:
+        tabela: lrcalculo
+        liga: {CODI_EMP: CODI_EMP, I_CALCULO: I_CALCULO}
+        colunas: {competencia: COMPETENCIA, calculado_em: DATA_HORA}
+    filtros:
+      calculo: {coluna: I_CALCULO, ops: [eq, in]}
+      ajuste_anual: {coluna: AJUSTE_ANUAL, ops: [eq]}
+      lucro_real: {coluna: VALOR_LUCRO_REAL, ops: [gte, lte, entre]}
+      a_recolher: {coluna: VALOR_A_RECOLHER, ops: [gte, lte, entre]}
+    regras:
+      - "Lucro real antes da compensação = lucro líquido antes do IRPJ + adições − exclusões em 3.108 de 3.108 linhas; lucro real = antes da compensação − compensação em 3.108 de 3.108 (tolerância 0,02)."
+      - "IRPJ devido = 15% do lucro real em 278 de 278 linhas com lucro real positivo; nas 2.830 linhas com lucro real zero ou negativo o IRPJ devido é 0 em todas."
+      - "Adicional = 10% × (lucro real − 20.000 × m), com m inteiro entre 1 e 12 em 167 de 167 linhas com adicional (m = nº de meses do período; mais comuns 3 e 12). Não use um limite fixo."
+      - "Deduções (total) = soma das 10 parcelas em 3.108 de 3.108."
+      - "Valor a recolher = max(0, IRPJ devido + adicional − deduções − incentivos fiscais − redução do lucro da exploração − redução por reinvestimento + diferido do período anterior − diferido do período) em 278 de 278 linhas com imposto devido; em 96 delas as deduções cobrem o imposto e o valor a recolher é 0. Nas 2.830 linhas sem imposto devido, o valor a recolher é 0."
+      - "Cálculos de dezembro são o dobro dos demais meses porque incluem o ajuste anual (224 linhas com ajuste_anual = 1 e 2.884 com 0)."
+
+  apuracao_csll_real:
+    titulo: Apuração da CSLL pelo lucro real
+    descricao: >
+      Cadeia da CSLL de um cálculo do Lalur: lucro antes, adições, exclusões, base de cálculo antes e depois da compensação da base negativa, CSLL devida (9%), deduções
+      e valor a recolher; geral e rural. 3.108 linhas, 76 empresas. Usa 26 das 60 colunas.
+    tabela: lrcalculo_csll_real
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, exige_algum: [calculo], volume: medio}
+    ordem: [[I_CALCULO, desc], [AJUSTE_ANUAL, asc]]
+    privacidade: Resultado tributário da empresa (financeiro).
+    colunas:
+      calculo: I_CALCULO
+      ajuste_anual: {coluna: AJUSTE_ANUAL, dominio: ajuste_anual}
+      lucro_liquido_antes_csll_irpj: VALOR_LUCRO_LIQUIDO_ANTES_CSLL_IRPJ
+      adicoes: VALOR_ADICAO
+      exclusoes: VALOR_EXCLUSAO
+      base_calculo_antes_compensacao: VALOR_BASE_CALCULO_ANTES_COMPENSACAO
+      compensacao_base_negativa: VALOR_COMPENSACAO
+      base_calculo: VALOR_BASE_CALCULO
+      base_calculo_geral: VALOR_BASE_CALCULO_GERAL
+      base_calculo_rural: VALOR_BASE_CALCULO_RURAL
+      csll_devida: VALOR_CSLL_DEVIDA
+      deducoes: VALOR_DEDUCAO
+      deducao_orgao_publico_federal: VALOR_DEDUCAO_ORGAO_PUBLICO_FEDERAL
+      deducao_pago_em_meses_anteriores: VALOR_DEDUCAO_PAGO_EM_MES_ANTERIOR
+      deducao_outras_pessoas_juridicas: VALOR_DEDUCAO_OUTRA_PESSOA_JURIDICA
+      deducao_estado_municipio: VALOR_DEDUCAO_ESTADO_MUNICIPIO
+      deducao_administracao_publica: VALOR_DEDUCAO_ADMINISTRACAO_PUBLICA
+      deducao_outras: VALOR_DEDUCAO_OUTRA_DEDUCAO
+      isencao_prouni: VALOR_ISENCAO_PROUNI
+      isencao_perse_pgsc: VALOR_ISENCAO_PERSE_PGSC
+      bonus_adimplencia: VALOR_BONUS_ADIMPLENCIA
+      diferido_periodo_anterior: VALOR_DIFERIDO_PERIODO_ANTERIOR
+      diferido_periodo: VALOR_DIFERIDO_PERIODO
+      a_recolher: VALOR_A_RECOLHER
+      compensar_periodo_seguinte: VALOR_COMPENSAR_PERIODO_SEGUINTE
+      deduzir_periodo_seguinte: VALOR_DEDUZIR_PERIODO_SEGUINTE
+    calculadas:
+      base_recalculada: "VALOR_LUCRO_LIQUIDO_ANTES_CSLL_IRPJ + VALOR_ADICAO - VALOR_EXCLUSAO - VALOR_COMPENSACAO"
+    vinculos:
+      calculo_ref:
+        tabela: lrcalculo
+        liga: {CODI_EMP: CODI_EMP, I_CALCULO: I_CALCULO}
+        colunas: {competencia: COMPETENCIA, calculado_em: DATA_HORA}
+    filtros:
+      calculo: {coluna: I_CALCULO, ops: [eq, in]}
+      ajuste_anual: {coluna: AJUSTE_ANUAL, ops: [eq]}
+      a_recolher: {coluna: VALOR_A_RECOLHER, ops: [gte, lte, entre]}
+    regras:
+      - "Base antes da compensação = lucro antes + adições − exclusões e base = antes − compensação, ambas em 3.108 de 3.108 linhas (tolerância 0,02)."
+      - "CSLL devida = 9% da base positiva em 277 das 278 linhas com base positiva (a outra é 9,03%, arredondamento); nas 2.830 linhas com base zero ou negativa a CSLL devida é 0 em todas."
+      - "Deduções (total) = soma das 6 parcelas em 3.103 de 3.108 linhas; as 5 restantes não fecham nem somando o Perse/PGSC (causa não apurada)."
+      - "Valor a recolher = max(0, CSLL devida − deduções − isenção Prouni − bônus de adimplência + diferido do período anterior − diferido do período) em 278 de 278 linhas com CSLL devida."
+
+  lucro_antes_irpj_csll:
+    titulo: Lucro antes da CSLL e do IRPJ (apurado na contabilidade)
+    descricao: >
+      Lucro ou prejuízo contábil, operacional e não operacional, geral e rural, que alimenta o cálculo do Lalur numa competência. 2.813 linhas, 78 empresas,
+      de 2013-01 a 2026-10.
+    tabela: lrlucro_antes_csll_irpj
+    chave: [CODI_EMP, I_LUCRO_ANTES]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem: [[COMPETENCIA, desc], [I_LUCRO_ANTES, desc]]
+    privacidade: Resultado contábil da empresa (financeiro).
+    colunas:
+      lucro_antes: I_LUCRO_ANTES
+      competencia: COMPETENCIA
+      lucro_operacional: VALOR_LUCRO_OPERACIONAL
+      prejuizo_operacional: VALOR_PREJUIZO_OPERACIONAL
+      lucro_nao_operacional: VALOR_LUCRO_NAO_OPERACIONAL
+      prejuizo_nao_operacional: VALOR_PREJUIZO_NAO_OPERACIONAL
+      lucro_operacional_geral: VALOR_LUCRO_OPERACIONAL_GERAL
+      prejuizo_operacional_geral: VALOR_PREJUIZO_OPERACIONAL_GERAL
+      lucro_nao_operacional_geral: VALOR_LUCRO_NAO_OPERACIONAL_GERAL
+      prejuizo_nao_operacional_geral: VALOR_PREJUIZO_NAO_OPERACIONAL_GERAL
+      lucro_operacional_rural: VALOR_LUCRO_OPERACIONAL_RURAL
+      prejuizo_operacional_rural: VALOR_PREJUIZO_OPERACIONAL_RURAL
+      scp_codigo: I_SCP
+      historico_geral: HISTORICO_GERAL
+      historico_rural: HISTORICO_RURAL
+    filtros:
+      competencia: {coluna: COMPETENCIA, ops: [eq, entre, gte, lte]}
+    regras:
+      - "Nunca há lucro e prejuízo operacionais ao mesmo tempo na mesma linha (0 de 2.813); nenhuma linha é de SCP."

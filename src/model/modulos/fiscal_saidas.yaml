@@ -1,0 +1,776 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_saidas
+titulo: Fiscal - saidas (rascunho em lote)
+dominios:
+  efsaidas_documentos_fiscais_referenciados_operacao_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFSAIDAS_DOCUMENTOS_FISCAIS_REFERENCIADOS.OPERACAO_DFSAI estão no comentário do banco (2026-10-18). Distribuição: 1=618.'
+    valores: {'0': Entrada, '1': Saída}
+  efsaidas_documentos_fiscais_referenciados_emitente_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFSAIDAS_DOCUMENTOS_FISCAIS_REFERENCIADOS.EMITENTE_DFSAI estão no comentário do banco (2026-10-18). Distribuição: 0=618.'
+    valores: {'0': Emissão própria, '1': Terceiros}
+  efsaidas_frete_tipo_da_inscricao_1_cnpj_2_c:
+    confirmado: parcial
+    nota: 'Coluna efsaidas_frete.TIPO_INSC_LOCAL_SAIF só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {'1': CNPJ, '2': CPF, '3': CEI, '4': Outros}
+  efsaidas_exportacao_natureza_de:
+    confirmado: true
+    nota: 'Todos os valores observados em efsaidas_exportacao.natureza_exportacao estão no comentário do banco (2026-10-18). Distribuição: DD=45, D=8.'
+    valores: {D: DIRETA, I: INDIRETA, DS: DIRETA SIMPLIFICADA, IS: INDIRETA SIMPLIFICADA, S: SEM DECLARAÇÃO, DD: E DIRETA, DI: E INDIRETA}
+  efsaidas_estadual_mg_tipo_do_tra:
+    confirmado: true
+    nota: 'Todos os valores observados em EFSAIDAS_ESTADUAL_MG.TIPO_TRANSPORTE_REALIZADO estão no comentário do banco (2026-10-18). Distribuição: S=35.'
+    valores: {C: Com Conhecimento de Transportes - CTRC, S: Sem Conhecimento de Transportes - CTRC}
+entidades:
+  efsaidas_info_comp_contrib:
+    titulo: Notas Fiscais de Saídas - Informação complementar de interesse do contribuinte
+    descricao: 'Notas Fiscais de Saídas - Informação complementar de interesse do contribuinte. 426.402 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_SEQUENCIAL_CONTRIB.'
+    tabela: EFSAIDAS_INFO_COMP_CONTRIB
+    chave: [CODI_EMP, CODI_SAI, I_SEQUENCIAL_CONTRIB]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_SEQUENCIAL_CONTRIB, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, sequencial: I_SEQUENCIAL_CONTRIB, codigo_da_informacao_complementar: I_INFO_COMP_CONTRIB, descricao_da_informacao_complementar: DESCRICAO_CONTRIB}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTRIB
+        ops: [eq, in]
+      codigo_da_informacao_complementar:
+        coluna: I_INFO_COMP_CONTRIB
+        ops: [eq, in]
+      descricao_da_informacao_complementar:
+        coluna: DESCRICAO_CONTRIB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 427.133 linhas, 130 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_informacao_complementar.']
+  efsaidas_info_comp_fisco:
+    titulo: Notas Fiscais de Saídas - Informação complementar de interesse do fisco
+    descricao: 'Notas Fiscais de Saídas - Informação complementar de interesse do fisco. 101.415 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_SEQUENCIAL_FISCO.'
+    tabela: EFSAIDAS_INFO_COMP_FISCO
+    chave: [CODI_EMP, CODI_SAI, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, sequencial: I_SEQUENCIAL_FISCO, codigo_da_informacao_complementar: I_INFO_COMP_FISCO, descricao_da_informacao_complementar: DESCRICAO_FISCO,
+      identificador: IDENTIFICADOR_SPED}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_informacao_complementar:
+        coluna: I_INFO_COMP_FISCO
+        ops: [eq, in]
+      descricao_da_informacao_complementar:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+      identificador:
+        coluna: IDENTIFICADOR_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 101.425 linhas, 41 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): codigo_da_informacao_complementar, identificador.']
+  efsaidas_pis_cofins:
+    titulo: Notas Fiscais de Saida - PIS/COFINS
+    descricao: 'Notas Fiscais de Saida - PIS/COFINS. 70.092 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_PIS_COFINS.'
+    tabela: EFSAIDAS_PIS_COFINS
+    chave: [CODI_EMP, CODI_SAI, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_PIS_COFINS, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_saida: CODI_SAI, sequencial: I_PIS_COFINS, cst: CST, natureza_da_receita: NATUREZA_RECEITA, valor_contabil: VALOR_CONTABIL,
+      exclusoes: EXCLUSOES, base_de_calculo: BASE_CALCULO, aliquota_do_pis: ALIQUOTA_PIS, aliquota_da_cofins: ALIQUOTA_COFINS, quantidade_tributada: QUANTIDADE_TRIBUTADA,
+      valor_por_unidade_do_pis_por_unidade_de: VALOR_UNIDADE_MEDIDA_PIS, valor_por_unidade_da_cofins_por_unidade: VALOR_UNIDADE_MEDIDA_COFINS, valor_do_pis: VALOR_PIS,
+      valor_da_cofins: VALOR_COFINS, exclusao_cooperativa: EXCLUSAO_COOPERATIVA, percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS,
+      codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS, codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS, codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS,
+      codigo_do_beneficio_dirbi: CODIGO_BENEFICIO_DIRBI, calcular_reducao_linear_lc224: CALCULAR_REDUCAO_LINEAR_LC224}
+    vinculos:
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita: codigo, cst: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_beneficio_dirbi:
+        coluna: CODIGO_BENEFICIO_DIRBI
+        ops: [eq, in]
+      calcular_reducao_linear_lc224:
+        coluna: CALCULAR_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70.100 linhas, 69 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_beneficio_dirbi.', 'Vínculo eftabela_natureza_receit
+        (EFTABELA_NATUREZA_RECEITA): 0 de 20 linhas sem registro relacionado (empresa 662).']
+  efsaidas_observacao_contrib:
+    titulo: Notas Fiscais de Saídas - Obseração de interesse do contribuinte
+    descricao: 'Notas Fiscais de Saídas - Obseração de interesse do contribuinte. 39.572 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_SEQUENCIAL_CONTRIB.'
+    tabela: EFSAIDAS_OBSERVACAO_CONTRIB
+    chave: [CODI_EMP, CODI_SAI, I_SEQUENCIAL_CONTRIB]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_SEQUENCIAL_CONTRIB, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, sequencial: I_SEQUENCIAL_CONTRIB, codigo_da_observacao: I_OBSERVACAO_CONTRIB, descricao_da_observacao: DESCRICAO_CONTRIB}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTRIB
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_CONTRIB
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_CONTRIB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 39.801 linhas, 13 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_observacao.']
+  efsaidas_difal_nc:
+    titulo: Notas Fiscais de Saida - DIFAL NC
+    descricao: 'Notas Fiscais de Saida - DIFAL NC. 31.780 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_DIFAL_NC
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, base_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor_uf_origem: VALOR_UF_ORIGEM, valor_uf_destino: VALOR_UF_DESTINO,
+      valor_total: VALOR_TOTAL, valor_fcp: VALOR_FCP}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 32.016 linhas, 24 empresa(s).']
+  efsaidas_detalhamento_mg:
+    titulo: Notas Fiscais de Saidas - Detalhamentos - MG
+    descricao: 'Notas Fiscais de Saidas - Detalhamentos - MG. 27.581 linhas no catálogo; chave: codi_emp, codi_sai.'
+    tabela: efsaidas_detalhamento_mg
+    chave: [codi_emp, codi_sai]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [codi_sai, asc]
+    colunas: {empresa: codi_emp, nota: codi_sai, isentas: isentas, nao_tributadas: nao_tributadas, parcela_de_base_de_calculo_reduzida: base_reduzida, diferidas: diferidas,
+      suspensas: suspensas, substituicao_tributaria: substituicao, outras: outras}
+    filtros:
+      nota:
+        coluna: codi_sai
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27.581 linhas, 4 empresa(s).']
+  efsaidas_info_pag:
+    titulo: Notas Fiscais de Saidas - Informação Pagamento
+    descricao: 'Notas Fiscais de Saidas - Informação Pagamento. 21.809 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_SEQUENCIAL.'
+    tabela: EFSAIDAS_INFO_PAG
+    chave: [CODI_EMP, CODI_SAI, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_SAI
+      sequencial: I_SEQUENCIAL
+      indicador_da_forma_de_pagamento: INDICADOR_FORMA_PAGAMENTO
+      meio_de_pagamento: MEIO_PAGAMENTO
+      valor_do_pagamento: VALOR_PAGAMENTO
+      tipo_de_integracao_para_pagamento: TIPO_INTEGRACAO_PAGAMENTO
+      cnpj_da_instituicao_de_pagamento: {coluna: CNPJ_INSTITUICAO_PAGAMENTO, sensivel: parcial}
+      bandeira_da_operadora_de_cartao_de_credi: BANDEIRA_OPERADORA_CARTAO_CRED_DEB
+      numero_de_autorizacao_da_operacao_cartao: NUMERO_AUTORIZACAO_OPERACAO_CARTAO_CRED_DEB
+      valor_do_troco: VALOR_TROCO
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_integracao_para_pagamento:
+        coluna: TIPO_INTEGRACAO_PAGAMENTO
+        ops: [eq, in]
+      cnpj_da_instituicao_de_pagamento:
+        coluna: CNPJ_INSTITUICAO_PAGAMENTO
+        ops: [eq, in]
+      numero_de_autorizacao_da_operacao_cartao:
+        coluna: NUMERO_AUTORIZACAO_OPERACAO_CARTAO_CRED_DEB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22.587 linhas, 37 empresa(s).']
+  efsaidas_estadual_sp:
+    titulo: Notas Fiscais de Saídas - Dados Estaduais - SP
+    descricao: 'Notas Fiscais de Saídas - Dados Estaduais - SP. 9.350 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_SP
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN, valor_dispensado_de_escrituracao_dipam: VALOR_DISPENSADO_DIPAM}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9.364 linhas, 129 empresa(s).']
+  efsaidas_estadual_rj:
+    titulo: Notas Fiscais de Saídas - Dados estaduais - RJ
+    descricao: 'Notas Fiscais de Saídas - Dados estaduais - RJ. 8.745 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_RJ
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_saida: CODI_SAI, codigo_do_valor_adicionado_para_a_declan: CODIGO_VALOR_ADICIONADO, valor_adicionado_para_a_declan_ipm: VALOR_ADICIONADO,
+      preco_da_mercadoria_sem_abatimento: PRECO_SEM_ABATIMENTO, valor_do_icms_abatido: VALOR_ICMS_ABATIDO, outros_beneficios_para_informacao_no_dub: I_DUB_ICMS, dub_icms_valor_operacao: DUB_ICMS_VALOR_OPERACAO,
+      dub_icms_aliquota: DUB_ICMS_ALIQUOTA, dub_icms_valor_icms_nao_recolhido: DUB_ICMS_VALOR_ICMS_NAO_RECOLHIDO}
+    vinculos:
+      eftabela_rj_dub_icms:
+        tabela: EFTABELA_RJ_DUB_ICMS
+        liga: {codi_emp: codi_emp, i_dub_icms: i_dub_icms}
+        colunas: {eftabela_rj_dub_icms_nome: DESCRICAO_RESUMIDA}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_do_valor_adicionado_para_a_declan:
+        coluna: CODIGO_VALOR_ADICIONADO
+        ops: [eq, in]
+      outros_beneficios_para_informacao_no_dub:
+        coluna: I_DUB_ICMS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.745 linhas, 8 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): outros_beneficios_para_informacao_no_dub.', 'Vínculo
+        eftabela_rj_dub_icms (EFTABELA_RJ_DUB_ICMS): 75 de 75 linhas sem registro relacionado (empresa 1682).']
+  efsaidas_inss_rb:
+    titulo: Notas Fiscais de Saídas - INSS Receita Bruta
+    descricao: 'Notas Fiscais de Saídas - INSS Receita Bruta. 2.296 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_INSS_RB
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, valor_contabil: VALOR_CONTABIL_INSS_RB, deducoes: DEDUCOES_INSS_RB, receita_bruta: RECEITA_BRUTA_INSS_RB, valor_desonerada: DESONERADA_INSS_RB,
+      valor_nao_desonerada: NAO_DESONERADA_INSS_RB, valor_total: TOTAL_INSS_RB, receita_bruta_reinf: RECEITA_BRUTA_TOTAL_REINF, desconto_reinf: DESCONTO_REINF, valor_desonerada_reinf: DESONERADA_INSS_RB_REINF,
+      valor_nao_desonerada_reinf: NAO_DESONERADA_INSS_RB_REINF, valor_total_reinf: TOTAL_INSS_RB_REINF}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.296 linhas, 114 empresa(s).']
+  efsaidas_efd_reinf:
+    titulo: Notas Fiscais de Saída - EFD Reinf
+    descricao: 'Notas Fiscais de Saída - EFD Reinf. 961 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_EFD_REINF
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, tipo_de_servico: TIPO_SERVICO, indicativo_de_prestacao_de_servico: INDICATIVO_PRESTACAO_SERVICOS, possui_paj: POSSUI_PAJ_SAI}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      tipo_de_servico:
+        coluna: TIPO_SERVICO
+        ops: [eq, in]
+      possui_paj:
+        coluna: POSSUI_PAJ_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 961 linhas, 8 empresa(s).']
+  efsaidas_documentos_fiscais_referenciados:
+    titulo: Notas Fiscais de Saída - Documentos fiscais referenciados
+    descricao: 'Notas Fiscais de Saída - Documentos fiscais referenciados. 618 linhas no catálogo; chave: CODI_EMP, CODI_SAI, DOCUMENTO_DFSAI.'
+    tabela: EFSAIDAS_DOCUMENTOS_FISCAIS_REFERENCIADOS
+    chave: [CODI_EMP, CODI_SAI, DOCUMENTO_DFSAI]
+    acesso: {empresa: CODI_EMP, periodo: EMISSAO_DFSAI, volume: pequeno}
+    ordem:
+    - [EMISSAO_DFSAI, desc]
+    - [CODI_SAI, asc]
+    - [DOCUMENTO_DFSAI, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_SAI
+      sequencial: DOCUMENTO_DFSAI
+      operacao_0_entrada_1_saida: {coluna: OPERACAO_DFSAI, dominio: efsaidas_documentos_fiscais_referenciados_operacao_0_}
+      emitente_0_emissao_propria_1_terceiros: {coluna: EMITENTE_DFSAI, dominio: efsaidas_documentos_fiscais_referenciados_emitente_0_}
+      participante: PARTICIPANTE_DFSAI
+      modelo_da_especie: ESPECIE_DFSAI
+      serie: SERIE_DFSAI
+      sub_serie: SUBSERIE_DFSAI
+      numero_do_documento: NUMERO_DFSAI
+      data_de_emissao: EMISSAO_DFSAI
+      saida: SAIDA_DFSAI
+      valor_da_nota: VALOR_NOTA_DFSAI
+      situacao: SITUACAO_DFSAI
+      valor_do_iss: VALOR_ISS_DFSAI
+      valor_do_iss_retido: VALOR_ISS_RETIDO_DFSAI
+      valor_do_icms: VALOR_ICMS_DFSAI
+      valor_do_icms_st: VALOR_ICMS_ST_DFSAI
+      valor_do_ipi: VALOR_IPI_DFSAI
+      chave_nfe_ou_cte: CHAVE_NFE_CTE
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: DOCUMENTO_DFSAI
+        ops: [eq, in]
+      data_de_emissao:
+        coluna: EMISSAO_DFSAI
+        ops: [entre, gte, lte]
+      saida:
+        coluna: SAIDA_DFSAI
+        ops: [entre, gte, lte]
+      operacao_0_entrada_1_saida:
+        coluna: OPERACAO_DFSAI
+        ops: [eq, in]
+      emitente_0_emissao_propria_1_terceiros:
+        coluna: EMITENTE_DFSAI
+        ops: [eq, in]
+      serie:
+        coluna: SERIE_DFSAI
+        ops: [eq, in]
+      situacao:
+        coluna: SITUACAO_DFSAI
+        ops: [eq, in]
+      chave_nfe_ou_cte:
+        coluna: CHAVE_NFE_CTE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 618 linhas, 1 empresa(s), EMISSAO_DFSAI de 2025-05-01 a 2025-06-01.', 'operacao_0_entrada_1_saida: todos os valores reais estão
+        no comentário do banco (1=618).', 'emitente_0_emissao_propria_1_terceiros: todos os valores reais estão no comentário do banco (0=618).']
+  efsaidas_estadual_pe:
+    titulo: Notas Fiscais de Saídas - Dados estaduais - PE
+    descricao: 'Notas Fiscais de Saídas - Dados estaduais - PE. 102 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_PE
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota: CODI_SAI, tipo_combustivel: TIPO_COMBUSTIVEL}
+    filtros:
+      codigo_da_nota:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      tipo_combustivel:
+        coluna: TIPO_COMBUSTIVEL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 102 linhas, 3 empresa(s).']
+  efsaidas_icms_desonerado:
+    titulo: ICMS desonerado
+    descricao: 'ICMS desonerado. 72 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_ICMS_DESONERADO.'
+    tabela: EFSAIDAS_ICMS_DESONERADO
+    chave: [CODI_EMP, CODI_SAI, I_ICMS_DESONERADO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_ICMS_DESONERADO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_nota: CODI_SAI, sequencial: I_ICMS_DESONERADO, cst_do_icms_desonerado: CST_ICMS_DESONERADO, valor_desonerado: VALOR_DESONERADO,
+      i_motivo_desoneracao: I_MOTIVO_DESONERACAO}
+    filtros:
+      codigo_da_nota:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ICMS_DESONERADO
+        ops: [eq, in]
+      i_motivo_desoneracao:
+        coluna: I_MOTIVO_DESONERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 72 linhas, 7 empresa(s).']
+  efsaidas_frete:
+    titulo: Saidas - Dados do frete
+    descricao: 'Saidas - Dados do frete. 61 linhas no catálogo; chave: codi_emp, codi_sai.'
+    tabela: efsaidas_frete
+    chave: [codi_emp, codi_sai]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [codi_sai, asc]
+    colunas:
+      empresa: codi_emp
+      codigo: codi_sai
+      modalidade_do_frete_cif_fob: modfrete_saif
+      modtransp_saif: modtransp_saif
+      transportador_emitente_destinatario_outr: transportador_saif
+      cnpj_do_transportador: {coluna: cnpj_transp_saif, sensivel: parcial}
+      uf_do_transportador: uf_transp_saif
+      inscricao_estadual_do_transportador: {coluna: iest_transp_saif, sensivel: parcial}
+      placa1_saif: placa1_saif
+      uf_placa1_saif: uf_placa1_saif
+      placa2_saif: placa2_saif
+      uf_placa2_saif: uf_placa2_saif
+      placa3_saif: placa3_saif
+      uf_placa3_saif: uf_placa3_saif
+      local_recebimento_destinatario_outro: local_saif
+      cnpj_do_local_do_recebimento: {coluna: cnpj_local_saif, sensivel: parcial}
+      uf_do_local_do_recebimento: uf_local_saif
+      inscricao_estadual_do_local_do_recebimen: {coluna: iest_local_saif, sensivel: parcial}
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      local_da_saida_emitente_outro: local_saida_saif
+      cnpj_do_local_da_saida: {coluna: cnpj_local_saida_saif, sensivel: parcial}
+      uf_do_local_da_saida: uf_local_saida_saif
+      inscricao_estadual_do_local_da_saida: {coluna: iest_local_saida_saif, sensivel: parcial}
+      valor_do_frete: valor_frete_saif
+      aliquota_do_icms_do_frete: aliq_icms_frete_saif
+      valor_do_icms_do_frete: icms_frete_saif
+      codigo_do_municipio: codigo_municipio
+      razao_social: {coluna: razao_social_saif, sensivel: parcial}
+      endereco: {coluna: endereco_saif, sensivel: parcial}
+      numero: numero_saif
+      bairro: {coluna: bairro_saif, sensivel: parcial}
+      complemento: complemento_saif
+      cep: {coluna: cep_saif, sensivel: parcial}
+      quantidade: quantidade_saif
+      especie: especie_saif
+      marca: marca_saif
+      numeracao: numeracao_saif
+      peso_liquido: peso_liquido_saif
+      peso_bruto: peso_bruto_saif
+      tipo_da_inscricao_1_cnpj_2_cpf: {coluna: TIPO_INSC_SAIF, dominio: efsaidas_frete_tipo_da_inscricao_1_cnpj_2_c, sensivel: parcial}
+      tipo_da_inscricao_1_cnpj_2_cpf_3_cei_4_o: {coluna: TIPO_INSC_LOCAL_SAIDA_SAIF, dominio: efsaidas_frete_tipo_da_inscricao_1_cnpj_2_c, sensivel: parcial}
+      tipo_insc_local_saif: {coluna: TIPO_INSC_LOCAL_SAIF, dominio: efsaidas_frete_tipo_da_inscricao_1_cnpj_2_c, sensivel: parcial}
+      codigo_do_municipio_local_da_coleta: CODIGO_MUNICIPIO_LOCAL_SAIDA_SAIF
+      codigo_do_municipio_local_da_entrega: CODIGO_MUNICIPIO_LOCAL_SAIF
+    vinculos:
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      codigo:
+        coluna: codi_sai
+        ops: [eq, in]
+      modalidade_do_frete_cif_fob:
+        coluna: modfrete_saif
+        ops: [eq, in]
+      transportador_emitente_destinatario_outr:
+        coluna: transportador_saif
+        ops: [eq, in]
+      cnpj_do_transportador:
+        coluna: cnpj_transp_saif
+        ops: [eq, in]
+      uf_do_transportador:
+        coluna: uf_transp_saif
+        ops: [eq, in]
+      inscricao_estadual_do_transportador:
+        coluna: iest_transp_saif
+        ops: [eq, in]
+      placa1_saif:
+        coluna: placa1_saif
+        ops: [eq, in]
+      uf_placa1_saif:
+        coluna: uf_placa1_saif
+        ops: [eq, in]
+      placa2_saif:
+        coluna: placa2_saif
+        ops: [eq, in]
+      uf_placa2_saif:
+        coluna: uf_placa2_saif
+        ops: [eq, in]
+      placa3_saif:
+        coluna: placa3_saif
+        ops: [eq, in]
+      uf_placa3_saif:
+        coluna: uf_placa3_saif
+        ops: [eq, in]
+      local_recebimento_destinatario_outro:
+        coluna: local_saif
+        ops: [eq, in]
+      cnpj_do_local_do_recebimento:
+        coluna: cnpj_local_saif
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 61 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (25): uf_do_transportador, placa1_saif, uf_placa1_saif,
+        placa2_saif, uf_placa2_saif, placa3_saif, uf_placa3_saif, cnpj_do_local_do_recebimento, uf_do_local_do_recebimento, inscricao_estadual_do_local_do_recebimen,
+        cnpj_do_local_da_saida, uf_do_local_da_saida ....', 'tipo_da_inscricao_1_cnpj_2_cpf: todos os valores reais estão no comentário do banco (1=61).', 'tipo_da_inscricao_1_cnpj_2_cpf_3_cei_4_o:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'tipo_insc_local_saif: coluna sem nenhum valor preenchido;
+        o domínio do comentário do banco não pôde ser verificado.', 'Vínculo gemunicipio (gemunicipio): 0 de 61 linhas sem registro relacionado (empresa 10).']
+  efsaidas_exportacao:
+    titulo: Notas Fiscais de Saida - Exportacao do PER/DCOMP
+    descricao: 'Notas Fiscais de Saida - Exportacao do PER/DCOMP. 53 linhas no catálogo; chave: codi_emp, codi_sai.'
+    tabela: efsaidas_exportacao
+    chave: [codi_emp, codi_sai]
+    acesso: {empresa: codi_emp, periodo: data_declaracao, volume: pequeno}
+    ordem:
+    - [data_declaracao, desc]
+    - [codi_sai, asc]
+    colunas:
+      empresa: codi_emp
+      saida: codi_sai
+      numero_re: numero_re
+      codigo_do_pais: cod_pais
+      numero_do_despacho: despacho
+      data_do_embarque: embarque
+      valor_do_despacho: valor_despacho
+      codigo_da_moeda: cod_moeda
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      data_da_declaracao_de_exportacao: data_declaracao
+      data_de_averbacao: data_averbacao
+      natureza_de_exportacao_d_direta_i_indire: {coluna: natureza_exportacao, dominio: efsaidas_exportacao_natureza_de}
+      numero_do_embarque: numero_embarque
+      tipo_do_conhecimento: tipo
+      data_do_registro_de_exportacao: data_registro
+      sequencial_do_siscomex: I_SISCOMEX
+      peso_liquido: PESO_LIQUIDO
+      exportacao_concluida: EXPORTACAO_CONCLUIDA
+      destino_diferente_cliente: DESTINO_DIFERE_CLIENTE
+      pais_destino_diferente_cliente: DESTINO_DIFERE_CLIENTE_PAIS
+    vinculos:
+      eftabela_tipo_conhecimen:
+        tabela: eftabela_tipo_conhecimento
+        liga: {tipo: codigo}
+        colunas: {eftabela_tipo_conhecimen_nome: descricao}
+      eftabela_siscomex:
+        tabela: EFTABELA_SISCOMEX
+        liga: {i_siscomex: i_siscomex}
+        colunas: {eftabela_siscomex_nome: DESCRICAO}
+      gepais:
+        tabela: gepais
+        liga: {destino_difere_cliente_pais: codigo_pais}
+        colunas: {gepais_nome: nome_pais}
+    filtros:
+      saida:
+        coluna: codi_sai
+        ops: [eq, in]
+      data_do_embarque:
+        coluna: embarque
+        ops: [entre, gte, lte]
+      data_da_declaracao_de_exportacao:
+        coluna: data_declaracao
+        ops: [entre, gte, lte]
+      data_de_averbacao:
+        coluna: data_averbacao
+        ops: [entre, gte, lte]
+      data_do_registro_de_exportacao:
+        coluna: data_registro
+        ops: [entre, gte, lte]
+      codigo_do_pais:
+        coluna: cod_pais
+        ops: [eq, in]
+      numero_do_despacho:
+        coluna: despacho
+        ops: [eq, in]
+      codigo_da_moeda:
+        coluna: cod_moeda
+        ops: [eq, in]
+      natureza_de_exportacao_d_direta_i_indire:
+        coluna: natureza_exportacao
+        ops: [eq, in]
+      numero_do_embarque:
+        coluna: numero_embarque
+        ops: [eq, in]
+      tipo_do_conhecimento:
+        coluna: tipo
+        ops: [eq, in]
+      sequencial_do_siscomex:
+        coluna: I_SISCOMEX
+        ops: [eq, in]
+      exportacao_concluida:
+        coluna: EXPORTACAO_CONCLUIDA
+        ops: [eq, in]
+      destino_diferente_cliente:
+        coluna: DESTINO_DIFERE_CLIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 53 linhas, 11 empresa(s).', 'Colunas expostas nulas em 100% das linhas (6): data_do_embarque, data_da_declaracao_de_exportacao,
+        data_de_averbacao, data_do_registro_de_exportacao, sequencial_do_siscomex, pais_destino_diferente_cliente.', 'natureza_de_exportacao_d_direta_i_indire: todos
+        os valores reais estão no comentário do banco (DD=45, D=8).', 'Vínculo eftabela_tipo_conhecimen (eftabela_tipo_conhecimento): 0 de 3 linhas sem registro relacionado
+        (empresa 1359).', 'Vínculo eftabela_siscomex (EFTABELA_SISCOMEX): 0 de 3 linhas sem registro relacionado (empresa 1359).', 'Vínculo gepais (gepais): 0 de
+        3 linhas sem registro relacionado (empresa 1359).']
+  efsaidas_estadual_mg:
+    titulo: Notas Fiscais de Saídas - Dados estaduais - MG
+    descricao: 'Notas Fiscais de Saídas - Dados estaduais - MG. 35 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_MG
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_saida: CODI_SAI
+      tipo_do_transporte_realizado_c_com_conhe: {coluna: TIPO_TRANSPORTE_REALIZADO, dominio: efsaidas_estadual_mg_tipo_do_tra}
+      base_de_calculo: BASE_CALCULO_ICMS_SN
+      aliquota: ALIQUOTA_ICMS_SN
+      valor: VALOR_ICMS_SN
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      tipo_do_transporte_realizado_c_com_conhe:
+        coluna: TIPO_TRANSPORTE_REALIZADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 35 linhas, 3 empresa(s).', 'tipo_do_transporte_realizado_c_com_conhe: todos os valores reais estão no comentário do banco (S=35).']
+  efsaidas_estadual_sc:
+    titulo: Notas Fiscais de Saídas - Dados estaduais - SC
+    descricao: 'Notas Fiscais de Saídas - Dados estaduais - SC. 34 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_SC
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_saida: CODI_SAI, detalhamento_de_outros_do_icms_diferidas: DIFERIDAS, detalhamento_de_outros_do_icms_suspencao: SUSPENSAO,
+      detalhamento_de_outros_do_icms_substitui: SUBSTITUICAO_TRIBUTARIA, detalhamento_de_outros_do_icms_outras: OUTRAS, detalhamento_de_outros_do_icms_total: TOTAL_OUTRAS,
+      informacoes_para_dime_tipo_de_atividade: SC_TIPO_ATIVIDADE_VALOR_ADICIONADO_DIME}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      informacoes_para_dime_tipo_de_atividade:
+        coluna: SC_TIPO_ATIVIDADE_VALOR_ADICIONADO_DIME
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 34 linhas, 6 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): informacoes_para_dime_tipo_de_atividade.']
+  efsaidas_estadual_ba:
+    titulo: Notas Fiscais de Saídas - Dados estaduais - BA
+    descricao: 'Notas Fiscais de Saídas - Dados estaduais - BA. 13 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_BA
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_saida: CODI_SAI, tipo_da_operacao: TIPO_OPERACAO, aquisicao_efetuada_com_recursos_convenia: AQUISICAO_EFETUADA_RECURSO_CONVENIADO,
+      aquisicao_efetuada_recurso_conveniado_ti: AQUISICAO_EFETUADA_RECURSO_CONVENIADO_TIPO, numero_convenio: NUMERO_CONVENIO, numero_empenho: NUMERO_EMPENHO, codigo_sequencial_do_municipio: CODIGO_MUNICIPIO,
+      base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN}
+    vinculos:
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      tipo_da_operacao:
+        coluna: TIPO_OPERACAO
+        ops: [eq, in]
+      aquisicao_efetuada_com_recursos_convenia:
+        coluna: AQUISICAO_EFETUADA_RECURSO_CONVENIADO
+        ops: [eq, in]
+      aquisicao_efetuada_recurso_conveniado_ti:
+        coluna: AQUISICAO_EFETUADA_RECURSO_CONVENIADO_TIPO
+        ops: [eq, in]
+      numero_convenio:
+        coluna: NUMERO_CONVENIO
+        ops: [eq, in]
+      numero_empenho:
+        coluna: NUMERO_EMPENHO
+        ops: [eq, in]
+      codigo_sequencial_do_municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_sequencial_do_municipio.', 'Vínculo gemunicipio
+        (gemunicipio): 0 de 3 linhas sem registro relacionado (empresa 9999).']
+  efsaidas_nota_devolvida:
+    titulo: Notas Fiscais de Saída - Complementar - Geral - Nota Devolvida
+    descricao: 'Notas Fiscais de Saída - Complementar - Geral - Nota Devolvida. 8 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_NOTA_DEVOLVIDA.'
+    tabela: EFSAIDAS_NOTA_DEVOLVIDA
+    chave: [CODI_EMP, CODI_SAI, I_NOTA_DEVOLVIDA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_DEVOLVIDA, volume: pequeno}
+    ordem:
+    - [DATA_DEVOLVIDA, desc]
+    - [CODI_SAI, asc]
+    - [I_NOTA_DEVOLVIDA, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_saida: CODI_SAI, sequencial: I_NOTA_DEVOLVIDA, codigo_da_entrada: I_ENTRADA_DEVOLVIDA, data_da_devolucao: DATA_DEVOLVIDA,
+      valor_da_nota: VALOR_NOTA, valor_pago: VALOR_PAGO, valor_em_aberto: VALOR_ABERTO, valor_da_devolucao: VALOR_DEVOLUCAO, valor_da_deducao: VALOR_DEDUCAO, valor_baixa: VALOR_BAIXA,
+      valor_ja_devolvido: VALOR_JA_DEVOLVIDO, valor_retencoes: VALOR_RETENCOES}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_NOTA_DEVOLVIDA
+        ops: [eq, in]
+      data_da_devolucao:
+        coluna: DATA_DEVOLVIDA
+        ops: [entre, gte, lte]
+      codigo_da_entrada:
+        coluna: I_ENTRADA_DEVOLVIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 4 empresa(s), DATA_DEVOLVIDA de 2023-04-27 a 2024-08-22.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_entrada.']
+  efsaidas_valor_presente_provisao:
+    titulo: Notas Fiscais de Saida - Valor Presente Provisao
+    descricao: 'Notas Fiscais de Saida - Valor Presente Provisao. 5 linhas no catálogo; chave: CODI_EMP, CODI_SAI, DATA_PROVISAO.'
+    tabela: EFSAIDAS_VALOR_PRESENTE_PROVISAO
+    chave: [CODI_EMP, CODI_SAI, DATA_PROVISAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [CODI_SAI, asc]
+    - [DATA_PROVISAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_nota_de_saida: CODI_SAI, data_da_provisao: DATA_PROVISAO, data_do_lancamento: DATA_LANCAMENTO, numero_de_dias: NUMERO_DIAS,
+      valor_presente: VALOR_PRESENTE, valor_da_taxa: VALOR_TAXA, valor_de_juros: VALOR_JUROS, valor_de_devolucao: VALOR_DEVOLUCAO, valor_futuro: VALOR_FUTURO, valor_de_saldo_juros: VALOR_SALDO_JUROS}
+    filtros:
+      codigo_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      data_da_provisao:
+        coluna: DATA_PROVISAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 5 linhas, 2 empresa(s), DATA_LANCAMENTO de 2013-02-28 a 2013-05-31.']
+  efsaidas_estadual_ro:
+    titulo: Notas Fiscais de Saídas - Dados Estaduais - RO
+    descricao: 'Notas Fiscais de Saídas - Dados Estaduais - RO. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_RO
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, transferencia_de_credito_de_icms_numero: NUMERO_CND, transferencia_de_credito_de_icms_no_ato: TRANSFERENCIA_CREDITO_ICMS_ATO_CONCESSORIO}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).']
+  efsaidas_observacao_fisco:
+    titulo: Notas Fiscais de Saídas - Observação de interesse do fisco
+    descricao: 'Notas Fiscais de Saídas - Observação de interesse do fisco. 1 linhas no catálogo; chave: CODI_EMP, CODI_SAI, I_SEQUENCIAL_FISCO.'
+    tabela: EFSAIDAS_OBSERVACAO_FISCO
+    chave: [CODI_EMP, CODI_SAI, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, sequencial: I_SEQUENCIAL_FISCO, codigo_da_observacao: I_OBSERVACAO_FISCO, descricao_da_observacao: DESCRICAO_FISCO}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_FISCO
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_observacao.']
+  efsaidas_estadual_ac:
+    titulo: Notas Fiscais de Sa?das - Dados Estaduais - AC
+    descricao: 'Notas Fiscais de Sa?das - Dados Estaduais - AC. 1 linhas no catálogo; chave: CODI_EMP, CODI_SAI.'
+    tabela: EFSAIDAS_ESTADUAL_AC
+    chave: [CODI_EMP, CODI_SAI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SAI, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN}
+    filtros:
+      codigo:
+        coluna: CODI_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).']

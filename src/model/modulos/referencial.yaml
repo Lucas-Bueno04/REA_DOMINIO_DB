@@ -1,0 +1,365 @@
+# Modelo de entidades da CONTABILIDADE REFERENCIAL: planos de contas referenciais (SPED ECF e SRF), mapeamento das contas de cada
+# empresa para eles e lançamentos referenciais (as "pernas" do livro diário em contas referenciais), mais o lançamento de SCP.
+# Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO:
+#   Tabelas CTLANCTO_* vazias (COSIF, FCONT, DSP, ANS, Banco Central, sistema financeiro, seguradora, partido político, entidade
+#   fechada, TEF, conglomerado, participante, produtor rural, saldo e processamento) e os planos referenciais de setores
+#   regulados (ANS, ANEEL, SUSEP, COSIF, Banco Central, sistema financeiro, partido político).
+#   CTCONTAS_*_REF_SA_SCP (saldo anterior por SCP), CTSPED_ECF_OD_* e CTSPED_CONTABIL_OD_* (outros dados do SPED, próxima rodada).
+modulo: referencial
+titulo: Contabilidade referencial (SPED ECF e SRF)
+dominios:
+  tipo_conta_referencial:
+    descricao: Tipo da conta do plano referencial (tipo)
+    confirmado: true     # comentário do banco; no plano ECF Geral há 625+360 analíticas e 148 sintéticas
+    valores: {A: Analítica, S: Sintética}
+  natureza_conta_referencial:
+    descricao: Natureza da conta do plano referencial SPED ECF (natureza)
+    confirmado: true     # comentário do banco
+    valores: {1: Ativo, 2: Passivo, 3: Patrimônio Líquido, 4: Resultado}
+  utilizacao_ecf:
+    descricao: Para quais regimes a conta do plano ECF Geral se aplica (utilizacao)
+    confirmado: parcial
+    nota: O comentário lista 1, 2 e 3, mas só 1 (1.025 contas) e 2 (108 contas) existem nos dados; o 3 nunca aparece.
+    valores: {1: Real e Presumido, 2: Somente Real, 3: Somente Presumido}
+  utilizacao_srf:
+    descricao: Utilização da conta do plano SRF (utilizacao_srf)
+    confirmado: true     # comentário do banco; os três valores existem nos dados
+    valores: {F: Fiscal, S: Societária, A: Ambas}
+  natureza_srf:
+    descricao: Natureza (tipo) da conta do plano SRF (natureza_srf). Apesar do nome, é analítica/sintética.
+    confirmado: true     # comentário do banco
+    valores: {S: Sintética, A: Analítica}
+  tipo_partida:
+    descricao: Lado da partida do lançamento de SCP (ctlancto_scp.tipo)
+    confirmado: true     # comentário do banco
+    valores: {D: Débito, C: Crédito}
+  origem_registro_referencial:
+    descricao: Origem do registro (origem_reg) dos lançamentos referenciais e de SCP
+    confirmado: parcial
+    nota: >
+      Valores do comentário do banco. Nos lançamentos referenciais só aparece 0: SRF 1.152.043 de 1.152.043, ECF Imunes e Isentas
+      469.645 de 469.645 e ECF Geral nas empresas 1010 e 1017 (2.606.454 de 2.606.454). Em SCP há 0 (2.672) e 2 (70, de uma só empresa).
+    valores: {0: Sistema, 1: Importação de tabelas, 2: Importação de layout, 3: Importação de tabelas concorrentes}
+
+entidades:
+  # ================================================= PLANOS REFERENCIAIS (globais) ==================================
+  plano_referencial_ecf:
+    titulo: Plano de contas referencial SPED ECF (Geral)
+    descricao: Plano referencial da Receita para a ECF (1.133 contas), com vigência e regime de utilização. Tabela global.
+    tabela: ctcontas_sped_ecf_geral
+    chave: [codigo_cta_sped_ecf_geral]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[classificacao_sped_ecf_geral, asc]]
+    colunas:
+      codigo: codigo_cta_sped_ecf_geral
+      classificacao: classificacao_sped_ecf_geral
+      descricao: descricao
+      tipo: {coluna: tipo, dominio: tipo_conta_referencial}
+      nivel: nivel
+      conta_superior: conta_superior
+      natureza: {coluna: natureza, dominio: natureza_conta_referencial}
+      utilizacao: {coluna: utilizacao, dominio: utilizacao_ecf}
+      validade_inicio: validade_inicio
+      validade_fim: validade_fim
+      layout_inicio: layout_inicio
+      layout_fim: layout_fim
+    filtros:
+      codigo: {coluna: codigo_cta_sped_ecf_geral, ops: [eq, in]}
+      classificacao: {coluna: classificacao_sped_ecf_geral, ops: [eq, prefixo]}
+      descricao: {coluna: descricao, ops: [contem]}
+      tipo: {coluna: tipo, ops: [eq]}
+      natureza: {coluna: natureza, ops: [eq, in]}
+      utilizacao: {coluna: utilizacao, ops: [eq, in]}
+    regras:
+      - "Estrutura (1.133 contas): 985 analíticas (níveis 5 e 6) e 148 sintéticas (níveis 1 a 5). A natureza 4 (Resultado) tem 399 contas, a 1 (Ativo) 474, a 2 (Passivo) 200 e a 3 (PL) 60."
+
+  plano_referencial_srf:
+    titulo: Plano de contas referencial SRF
+    descricao: Plano referencial da Receita Federal (809 contas) usado no lançamento referencial SRF. Tabela global.
+    tabela: ctcontas_srf
+    chave: [codigo_cta_srf]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[classificacao_srf, asc]]
+    colunas:
+      codigo: codigo_cta_srf
+      classificacao: classificacao_srf
+      descricao: descricao_srf
+      utilizacao: {coluna: utilizacao_srf, dominio: utilizacao_srf}
+      tipo: {coluna: natureza_srf, dominio: natureza_srf}
+      validade_inicio: validade_inicio_srf
+      validade_fim: validade_fim_srf
+    filtros:
+      codigo: {coluna: codigo_cta_srf, ops: [eq, in]}
+      classificacao: {coluna: classificacao_srf, ops: [eq, prefixo]}
+      descricao: {coluna: descricao_srf, ops: [contem]}
+      utilizacao: {coluna: utilizacao_srf, ops: [eq, in]}
+      tipo: {coluna: natureza_srf, ops: [eq]}
+    regras:
+      - "Utilização x tipo: A/A 589, A/S 109, F/A 44, F/S 12, S/A 45, S/S 10 (total 809). A coluna `natureza_srf` indica analítica/sintética, não ativo/passivo."
+
+  plano_referencial_ecf_imune_isenta:
+    titulo: Plano de contas referencial SPED ECF - Imunes e Isentas
+    descricao: Plano referencial da ECF para entidades imunes e isentas (515 contas). Tabela global.
+    tabela: ctcontas_sped_ecf_imune_isenta
+    chave: [codigo_cta_sped_ecf_imune_isenta]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[ordem, asc]]
+    colunas:
+      codigo: codigo_cta_sped_ecf_imune_isenta
+      classificacao: classificacao_sped_ecf_imune_isenta
+      descricao: descricao
+      tipo: {coluna: tipo, dominio: tipo_conta_referencial}
+      nivel: nivel
+      conta_superior: conta_superior
+      natureza: {coluna: natureza, dominio: natureza_conta_referencial}
+      ordem: ordem
+      validade_inicio: validade_inicio
+      validade_fim: validade_fim
+    filtros:
+      codigo: {coluna: codigo_cta_sped_ecf_imune_isenta, ops: [eq, in]}
+      classificacao: {coluna: classificacao_sped_ecf_imune_isenta, ops: [eq, prefixo]}
+      descricao: {coluna: descricao, ops: [contem]}
+      tipo: {coluna: tipo, ops: [eq]}
+      natureza: {coluna: natureza, ops: [eq, in]}
+
+  # ================================================= MAPEAMENTO conta da empresa -> conta referencial ==================
+  conta_referencial_ecf:
+    titulo: Mapeamento das contas da empresa para o plano ECF Geral
+    descricao: >
+      Liga cada conta contábil da empresa (ctcontas) à conta do plano referencial ECF. Chave completa (empresa, conta, conta ECF):
+      uma conta do livro pode apontar para mais de uma conta ECF (922 pares para 920 contas na empresa 1017).
+    tabela: ctcontas_sped_ecf_geral_ref
+    chave: [codi_emp, codi_cta, codigo_cta_sped_ecf_geral]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_cta, asc], [codigo_cta_sped_ecf_geral, asc]]
+    colunas:
+      conta_codigo: codi_cta
+      conta_referencial_codigo: codigo_cta_sped_ecf_geral
+    vinculos:
+      conta:
+        tabela: ctcontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {conta_classificacao: clas_cta, conta_nome: nome_cta}
+      conta_referencial:
+        tabela: ctcontas_sped_ecf_geral
+        liga: {codigo_cta_sped_ecf_geral: codigo_cta_sped_ecf_geral}
+        colunas: {conta_referencial_classificacao: classificacao_sped_ecf_geral, conta_referencial_descricao: descricao}
+    filtros:
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+      conta_referencial_codigo: {coluna: codigo_cta_sped_ecf_geral, ops: [eq, in]}
+    regras:
+      - "Empresa 1017: 4.500 contas no plano, 920 com mapeamento ECF (922 pares). Só as contas mapeadas geram partida no lançamento referencial."
+
+  conta_referencial_srf:
+    titulo: Mapeamento das contas da empresa para o plano SRF
+    descricao: Liga cada conta contábil da empresa ao plano referencial SRF (635.418 pares).
+    tabela: ctcontas_srf_ref
+    chave: [codi_emp, codi_cta, codigo_cta_srf]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_cta, asc], [codigo_cta_srf, asc]]
+    colunas:
+      conta_codigo: codi_cta
+      conta_referencial_codigo: codigo_cta_srf
+    vinculos:
+      conta:
+        tabela: ctcontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {conta_classificacao: clas_cta, conta_nome: nome_cta}
+      conta_referencial:
+        tabela: ctcontas_srf
+        liga: {codigo_cta_srf: codigo_cta_srf}
+        colunas: {conta_referencial_classificacao: classificacao_srf, conta_referencial_descricao: descricao_srf}
+    filtros:
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+      conta_referencial_codigo: {coluna: codigo_cta_srf, ops: [eq, in]}
+    regras:
+      - "Empresa 596: 5.260 contas no plano, 515 com mapeamento SRF (539 pares)."
+
+  conta_referencial_ecf_imune_isenta:
+    titulo: Mapeamento das contas da empresa para o plano ECF Imunes e Isentas
+    descricao: Liga cada conta contábil da empresa ao plano referencial ECF de imunes e isentas (17.511 pares).
+    tabela: ctcontas_sped_ecf_imune_isenta_ref
+    chave: [codi_emp, codi_cta, codigo_cta_sped_ecf_imune_isenta]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_cta, asc], [codigo_cta_sped_ecf_imune_isenta, asc]]
+    colunas:
+      conta_codigo: codi_cta
+      conta_referencial_codigo: codigo_cta_sped_ecf_imune_isenta
+    vinculos:
+      conta:
+        tabela: ctcontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {conta_classificacao: clas_cta, conta_nome: nome_cta}
+      conta_referencial:
+        tabela: ctcontas_sped_ecf_imune_isenta
+        liga: {codigo_cta_sped_ecf_imune_isenta: codigo_cta_sped_ecf_imune_isenta}
+        colunas: {conta_referencial_classificacao: classificacao_sped_ecf_imune_isenta, conta_referencial_descricao: descricao}
+    filtros:
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+      conta_referencial_codigo: {coluna: codigo_cta_sped_ecf_imune_isenta, ops: [eq, in]}
+
+  # ================================================= LANÇAMENTOS REFERENCIAIS ======================================
+  lancamento_referencial_ecf:
+    titulo: Lançamentos referenciais SPED ECF (Geral)
+    descricao: >
+      Partidas do livro diário traduzidas para o plano referencial ECF Geral: cada linha é UMA perna do lançamento (débito OU
+      crédito; a outra conta vale 0), identificada por (lançamento, sequencial). 21,7 milhões de linhas em 754 empresas.
+    tabela: ctlancto_sped_ecf_geral
+    chave: [codi_emp, nume_lan, sequencial]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: lancamento, coluna: data_lan}
+      exige_algum: [lancamento_numero, lote_codigo, periodo]
+      volume: grande
+    ordem: [[nume_lan, asc], [sequencial, asc]]
+    colunas:
+      lancamento_numero: nume_lan
+      sequencial: sequencial
+      lote_codigo: codi_lote
+      valor: valor
+      conta_debito: conta_debito
+      conta_credito: conta_credito
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_referencial}
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {codi_emp: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+      conta_debito_referencial:
+        tabela: ctcontas_sped_ecf_geral
+        liga: {conta_debito: codigo_cta_sped_ecf_geral}
+        colunas: {conta_debito_classificacao: classificacao_sped_ecf_geral, conta_debito_descricao: descricao}
+      conta_credito_referencial:
+        tabela: ctcontas_sped_ecf_geral
+        liga: {conta_credito: codigo_cta_sped_ecf_geral}
+        colunas: {conta_credito_classificacao: classificacao_sped_ecf_geral, conta_credito_descricao: descricao}
+    filtros:
+      lancamento_numero: {coluna: nume_lan, ops: [eq, in, entre]}
+      lote_codigo: {coluna: codi_lote, ops: [eq, in]}
+      conta_debito: {coluna: conta_debito, ops: [eq, in]}
+      conta_credito: {coluna: conta_credito, ops: [eq, in]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+    regras:
+      - "Cada linha é uma perna: na empresa 1017 todas as 1.158.926 linhas têm só o débito (579.198) ou só o crédito (579.728) preenchido; valor nunca é 0. Um lançamento tem 2 linhas (578.660) ou 1 (1.606)."
+      - "Conciliação com o livro (empresa 1017, 580.266 lançamentos): a soma das pernas de débito é igual a ctlancto.vlor_lan em 579.198 e a das pernas de crédito em 579.728; todo lançamento do livro tem linha referencial. Não some `valor` direto como se fosse o valor do lançamento: soma as duas pernas, o dobro."
+      - "Conta referencial = conta do livro mapeada em conta_referencial_ecf: em 100% das pernas de débito (579.198) a conta do livro (cdeb_lan) tem o par (conta, conta_debito) no mapeamento."
+      - "Integridade: 0 contas fora do plano referencial, 0 lançamentos órfãos, 0 lotes órfãos, e codi_lote igual ao do lançamento em 100%."
+
+  lancamento_referencial_srf:
+    titulo: Lançamentos referenciais SRF
+    descricao: >
+      Partidas do livro diário no plano referencial SRF (1,15 milhão de linhas, 573 empresas). Mesma estrutura do ECF, porém só
+      existe partida para contas que têm mapeamento SRF, então muitos lançamentos têm uma só perna.
+    tabela: ctlancto_referencial_srf
+    chave: [codi_emp, nume_lan, sequencial]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: lancamento, coluna: data_lan}
+      exige_algum: [lancamento_numero, lote_codigo, periodo]
+      volume: grande
+    ordem: [[nume_lan, asc], [sequencial, asc]]
+    colunas:
+      lancamento_numero: nume_lan
+      sequencial: sequencial
+      lote_codigo: codi_lote
+      valor: valor
+      conta_debito: conta_debito
+      conta_credito: conta_credito
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_referencial}
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {codi_emp: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+      conta_debito_referencial:
+        tabela: ctcontas_srf
+        liga: {conta_debito: codigo_cta_srf}
+        colunas: {conta_debito_classificacao: classificacao_srf, conta_debito_descricao: descricao_srf}
+      conta_credito_referencial:
+        tabela: ctcontas_srf
+        liga: {conta_credito: codigo_cta_srf}
+        colunas: {conta_credito_classificacao: classificacao_srf, conta_credito_descricao: descricao_srf}
+    filtros:
+      lancamento_numero: {coluna: nume_lan, ops: [eq, in, entre]}
+      lote_codigo: {coluna: codi_lote, ops: [eq, in]}
+      conta_debito: {coluna: conta_debito, ops: [eq, in]}
+      conta_credito: {coluna: conta_credito, ops: [eq, in]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+    regras:
+      - "Cada linha é uma perna (débito OU crédito). Empresa 596 (55.423 linhas, 52.961 lançamentos): 52.275 pernas de débito e 3.148 de crédito; 50.499 lançamentos têm 1 linha e 2.462 têm 2. A perna só existe se a conta do livro tem mapeamento SRF (52.961 de 54.974 lançamentos do livro têm linha referencial)."
+      - "Conciliação (empresa 596): a soma das pernas de débito é igual a ctlancto.vlor_lan em 52.238 de 52.961 lançamentos e a das pernas de crédito em 3.111."
+      - "Integridade: 0 contas fora do plano SRF, 0 lançamentos órfãos e 0 lotes órfãos; origem_registro é sempre 0."
+
+  lancamento_referencial_ecf_imune_isenta:
+    titulo: Lançamentos referenciais SPED ECF - Imunes e Isentas
+    descricao: Partidas do livro diário no plano referencial ECF de imunes e isentas (469.590 linhas, 32 empresas). Mesma estrutura do ECF Geral.
+    tabela: ctlancto_sped_ecf_imune_isenta
+    chave: [codi_emp, nume_lan, sequencial]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: lancamento, coluna: data_lan}
+      exige_algum: [lancamento_numero, lote_codigo, periodo]
+      volume: medio
+    ordem: [[nume_lan, asc], [sequencial, asc]]
+    colunas:
+      lancamento_numero: nume_lan
+      sequencial: sequencial
+      lote_codigo: codi_lote
+      valor: valor
+      conta_debito: conta_debito
+      conta_credito: conta_credito
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_referencial}
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {codi_emp: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+      conta_debito_referencial:
+        tabela: ctcontas_sped_ecf_imune_isenta
+        liga: {conta_debito: codigo_cta_sped_ecf_imune_isenta}
+        colunas: {conta_debito_classificacao: classificacao_sped_ecf_imune_isenta, conta_debito_descricao: descricao}
+      conta_credito_referencial:
+        tabela: ctcontas_sped_ecf_imune_isenta
+        liga: {conta_credito: codigo_cta_sped_ecf_imune_isenta}
+        colunas: {conta_credito_classificacao: classificacao_sped_ecf_imune_isenta, conta_credito_descricao: descricao}
+    filtros:
+      lancamento_numero: {coluna: nume_lan, ops: [eq, in, entre]}
+      lote_codigo: {coluna: codi_lote, ops: [eq, in]}
+      conta_debito: {coluna: conta_debito, ops: [eq, in]}
+      conta_credito: {coluna: conta_credito, ops: [eq, in]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+
+  # ================================================= SCP ==========================================================
+  lancamento_scp:
+    titulo: Lançamentos de SCP (Sociedade em Conta de Participação)
+    descricao: >
+      Marca os lançamentos do livro que pertencem a uma SCP: um registro por lançamento e lado (débito ou crédito), com o código
+      do SCP e a empresa do SCP. 2.742 linhas, 6 empresas, 11 SCPs.
+    tabela: ctlancto_scp
+    chave: [codi_emp, nume_lan, tipo]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: lancamento, coluna: data_lan}
+      volume: pequeno
+    ordem: [[nume_lan, asc], [tipo, asc]]
+    colunas:
+      lancamento_numero: nume_lan
+      tipo: {coluna: tipo, dominio: tipo_partida}
+      lote_codigo: codi_lote
+      empresa_scp: filial
+      scp_codigo: i_scp
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_referencial}
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {codi_emp: codi_emp, nume_lan: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan, lancamento_conta_debito: cdeb_lan, lancamento_conta_credito: ccre_lan}
+    filtros:
+      lancamento_numero: {coluna: nume_lan, ops: [eq, in, entre]}
+      tipo: {coluna: tipo, ops: [eq]}
+      scp_codigo: {coluna: i_scp, ops: [eq, in]}
+      lote_codigo: {coluna: codi_lote, ops: [eq, in]}
+    regras:
+      - "Distribuição: 1.374 registros de débito e 1.298 de crédito de origem 0 (6 empresas, 11 SCPs) e 35 de cada lado de origem 2 (1 empresa, 1 SCP)."

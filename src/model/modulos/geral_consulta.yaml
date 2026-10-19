@@ -1,0 +1,267 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_consulta
+titulo: Geral - consulta (rascunho em lote)
+entidades:
+  geconsulta_web_service_portal_federal_catalogo:
+    titulo: Consulta NF-e Webservice Portal Federal - Catálogo
+    descricao: 'Consulta NF-e Webservice Portal Federal - Catálogo. 1.612 linhas no catálogo; chave: I_CATALOGO.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_FEDERAL_CATALOGO
+    chave: [I_CATALOGO]
+    acesso: {empresa: null, periodo: DATA_EMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO, desc]
+    - [I_CATALOGO, asc]
+    colunas:
+      codigo_sequencial: I_CATALOGO
+      cnpj_emitente: {coluna: CNPJ_EMITENTE, sensivel: parcial}
+      cnpj_destinatario: {coluna: CNPJ_DESTINATARIO, sensivel: parcial}
+      data_emissao: DATA_EMISSAO
+      situacao_manifestacao: SITUACAO_MANIFESTACAO
+      situacao_nota: SITUACAO_NOTA
+      cstat_manifesto: CSTAT_MANIFESTO
+      xmotivo_manifesto: XMOTIVO_MANIFESTO
+      realizar_download: REALIZAR_DOWNLOAD
+      cstat_download: CSTAT_DOWNLOAD
+      xmotivo_download: XMOTIVO_DOWNLOAD
+      data_download: DATA_DOWNLOAD
+      enviou_box_e: ENVIOU_BOXE
+      data_envio_ao_box_e: DATA_ENVIO
+      quantidade_de_tentativas_da_manifestacao: QUANTIDADE_TENTATIVAS_MANIFESTACAO
+      c_1_entrada_2_saida_4_servico: TIPO_NOTA
+      nsu_da_nota: NSU_NOTA
+      c_1_nf_e_2_ct_e_3_nfs_e: MODELO_NOTA
+      quantidade_de_tentativas_de_envios_ao_bo: QUANTIDADE_TENTATIVAS_BOXE
+      protocolo: PROTOCOLO_BOXE
+      motivo: MOTIVO_BOXE
+      chave_nota: CHAVE_NOTA
+    filtros:
+      codigo_sequencial:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+      data_emissao:
+        coluna: DATA_EMISSAO
+        ops: [entre, gte, lte]
+      data_download:
+        coluna: DATA_DOWNLOAD
+        ops: [entre, gte, lte]
+      data_envio_ao_box_e:
+        coluna: DATA_ENVIO
+        ops: [entre, gte, lte]
+      cnpj_emitente:
+        coluna: CNPJ_EMITENTE
+        ops: [eq, in]
+      cnpj_destinatario:
+        coluna: CNPJ_DESTINATARIO
+        ops: [eq, in]
+      situacao_manifestacao:
+        coluna: SITUACAO_MANIFESTACAO
+        ops: [eq, in]
+      situacao_nota:
+        coluna: SITUACAO_NOTA
+        ops: [eq, in]
+      xmotivo_manifesto:
+        coluna: XMOTIVO_MANIFESTO
+        ops: [contem, prefixo]
+      realizar_download:
+        coluna: REALIZAR_DOWNLOAD
+        ops: [eq, in]
+      xmotivo_download:
+        coluna: XMOTIVO_DOWNLOAD
+        ops: [contem, prefixo]
+      enviou_box_e:
+        coluna: ENVIOU_BOXE
+        ops: [eq, in]
+      c_1_entrada_2_saida_4_servico:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      protocolo:
+        coluna: PROTOCOLO_BOXE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.612 linhas, DATA_EMISSAO de 2017-05-17 a 2018-08-23.', 'Colunas expostas nulas em 100% das linhas (4): nsu_da_nota, quantidade_de_tentativas_de_envios_ao_bo,
+        protocolo, motivo.']
+  geconsulta_web_service_portal_federal_comunicacao:
+    titulo: Consulta NF-e Webservice Portal Federal - Comunicação
+    descricao: 'Consulta NF-e Webservice Portal Federal - Comunicação. 1.000 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_FEDERAL_COMUNICACAO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, periodo: DATA_SITUACAO, volume: pequeno}
+    ordem:
+    - [DATA_SITUACAO, desc]
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, data_da_situacao: DATA_SITUACAO, situacao: SITUACAO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_da_situacao:
+        coluna: DATA_SITUACAO
+        ops: [entre, gte, lte]
+      situacao:
+        coluna: SITUACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.000 linhas, DATA_SITUACAO de 2019-02-07 a 2019-02-18.']
+  geconsulta_busca:
+    titulo: Configuração do modo de consulta
+    descricao: 'Configuração do modo de consulta. 84 linhas no catálogo; chave: I_CONFUSUARIO, TIPO_USUARIO, I_MODULO.'
+    tabela: GECONSULTA_BUSCA
+    chave: [I_CONFUSUARIO, TIPO_USUARIO, I_MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CONFUSUARIO, asc]
+    - [TIPO_USUARIO, asc]
+    colunas: {codigo_do_usuario: I_CONFUSUARIO, tipo_do_usuario: TIPO_USUARIO, codigo_do_modulo: I_MODULO, c_1_pelo_inicio_da_descricao_2_em_qualqu: MODO_BUSCA}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {tipo_usuario: tipo, i_confusuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_usuario:
+        coluna: I_CONFUSUARIO
+        ops: [eq, in]
+      tipo_do_usuario:
+        coluna: TIPO_USUARIO
+        ops: [eq, in]
+      codigo_do_modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 84 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 84 linhas sem registro relacionado.']
+  geconsulta_web_service_portal_federal_erros_comunicacao:
+    titulo: Consulta NF-e Webservice Portal Federal - Erros de comunicação
+    descricao: 'Consulta NF-e Webservice Portal Federal - Erros de comunicação. 46 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_FEDERAL_ERROS_COMUNICACAO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, periodo: DATA_ERRO, volume: pequeno}
+    ordem:
+    - [DATA_ERRO, desc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      sequencial: SEQUENCIAL
+      cnpj_destinatario: {coluna: CNPJ_DESTINATARIO, sensivel: parcial}
+      data_do_erro: DATA_ERRO
+      codigo_da_situacao: CODIGO_SITUACAO
+      situacao: SITUACAO
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_do_erro:
+        coluna: DATA_ERRO
+        ops: [entre, gte, lte]
+      cnpj_destinatario:
+        coluna: CNPJ_DESTINATARIO
+        ops: [eq, in]
+      codigo_da_situacao:
+        coluna: CODIGO_SITUACAO
+        ops: [eq, in]
+      situacao:
+        coluna: SITUACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 46 linhas, DATA_ERRO de 2018-06-01 a 2018-09-26.']
+  geconsulta_web_service_portal_federal:
+    titulo: Consulta NF-e Webservice Portal Federal
+    descricao: 'Consulta NF-e Webservice Portal Federal. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_FEDERAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas:
+      codigo: CODIGO
+      nome_da_conexao: NOME_CONEXAO
+      horario_para_download_do_xml: HORARIO_DOWNLOAD_XML
+      horario_inicio_para_download_do_xml: HORARIO_DOWNLOAD_XML_INICIO
+      horario_fim_para_download_do_xml: HORARIO_DOWNLOAD_XML_FIM
+      envio_de_notas_para_o_box_e: ENVIO_BOXE
+      horario_inicio_para_envio_de_notas_para: HORARIO_ENVIO_BOXE_INICIO
+      horario_fim_para_envio_de_notas_para_o_b: HORARIO_ENVIO_BOXE_FIM
+      e_mail_de_retorno: {coluna: EMAIL_RETORNO, sensivel: parcial}
+      tipo_de_inicializacao: TIPO_INICIALIZACAO
+      iniciar_parar_agora: INICIAR_PARAR
+      configurar_proxy: CONFIGURAR_PROXY
+      endereco_do_proxy: {coluna: ENDERECO_PROXY, sensivel: parcial}
+      porta_do_proxy: PORTA_PROXY
+      usuario_do_proxy: USUARIO_PROXY
+      numero_da_porta_a_ser_utilizada_nas_cone: NUMERO_PORTA_CONEXOES_ENTRADA
+      desativar_upnp: DESATIVAR_UPNP
+      codigo_identificador_gerado_em_cima_do_n: CODIGO_IDENTIFICADOR
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      nome_da_conexao:
+        coluna: NOME_CONEXAO
+        ops: [contem, prefixo]
+      horario_para_download_do_xml:
+        coluna: HORARIO_DOWNLOAD_XML
+        ops: [eq, in]
+      envio_de_notas_para_o_box_e:
+        coluna: ENVIO_BOXE
+        ops: [eq, in]
+      e_mail_de_retorno:
+        coluna: EMAIL_RETORNO
+        ops: [contem, prefixo]
+      tipo_de_inicializacao:
+        coluna: TIPO_INICIALIZACAO
+        ops: [eq, in]
+      configurar_proxy:
+        coluna: CONFIGURAR_PROXY
+        ops: [eq, in]
+      endereco_do_proxy:
+        coluna: ENDERECO_PROXY
+        ops: [contem, prefixo]
+      usuario_do_proxy:
+        coluna: USUARIO_PROXY
+        ops: [contem, prefixo]
+      desativar_upnp:
+        coluna: DESATIVAR_UPNP
+        ops: [eq, in]
+      codigo_identificador_gerado_em_cima_do_n:
+        coluna: CODIGO_IDENTIFICADOR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (3): e_mail_de_retorno, endereco_do_proxy, usuario_do_proxy.']
+  geconsulta_web_service_portal_federal_versao:
+    titulo: Consulta NF-e Webservice Portal Federal - Versão
+    descricao: 'Consulta NF-e Webservice Portal Federal - Versão. 1 linhas no catálogo; chave: I_VERSAO.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_FEDERAL_VERSAO
+    chave: [I_VERSAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_VERSAO, asc]
+    colunas: {codigo: I_VERSAO, versao_necessaria: VERSAO_NECESSARIA, versao_atual: VERSAO_ATUAL, indicacao_de_que_o_programa_conseguiu_se: CONECTOU_SERVIDOR_PRINCIPAL,
+      nova_versao_baixada: NOVA_VERSAO_BAIXADA, executando_atualizacao: EXECUTANDO_ATUALIZACAO, versao_atual_servico: VERSAO_ATUAL_SERVICO}
+    filtros:
+      codigo:
+        coluna: I_VERSAO
+        ops: [eq, in]
+      versao_necessaria:
+        coluna: VERSAO_NECESSARIA
+        ops: [eq, in]
+      versao_atual:
+        coluna: VERSAO_ATUAL
+        ops: [eq, in]
+      versao_atual_servico:
+        coluna: VERSAO_ATUAL_SERVICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (2): versao_necessaria, versao_atual_servico.']
+  geconsulta_web_service_portal_estadual_versao:
+    titulo: Tabela de controle de versão do SEFAZ RS.
+    descricao: 'Tabela de controle de versão do SEFAZ RS.. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONSULTA_WEB_SERVICE_PORTAL_ESTADUAL_VERSAO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {chave_primaria_para_linha_unica: CODIGO, versao_atual_do_sefaz_rs: VERSAO_ATUAL, versao_desejada_do_sefaz_rs_pelo_contabi: VERSAO_DESEJADA}
+    filtros:
+      chave_primaria_para_linha_unica:
+        coluna: CODIGO
+        ops: [eq, in]
+      versao_atual_do_sefaz_rs:
+        coluna: VERSAO_ATUAL
+        ops: [eq, in]
+      versao_desejada_do_sefaz_rs_pelo_contabi:
+        coluna: VERSAO_DESEJADA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): versao_atual_do_sefaz_rs.']

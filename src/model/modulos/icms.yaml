@@ -1,0 +1,113 @@
+# Modelo de entidades do ICMS-ST por UF (EFSDOIMP_SUBTRI_POR_UF) e do cadastro de ajustes da apuração (EFAJUSTES). Curado à mão e conciliado por identidade no banco (só leitura).
+# Formato: docs/formato-modelo.md
+#
+# A apuração de ICMS "normal" por empresa está em fiscal.apuracao_imposto (efsdoimp). Aqui ficam o desdobramento da substituição tributária por UF e os códigos de ajuste.
+modulo: icms
+titulo: ICMS - substituição tributária por UF e ajustes da apuração
+dominios:
+  periodicidade_apuracao:
+    descricao: Periodicidade da apuração (pdic_sim)
+    confirmado: true      # comentário da coluna
+    valores: {1: 1º decêndio, 2: 2º decêndio, 3: 3º decêndio, 4: 1ª quinzena, 5: 2ª quinzena, 6: Mensal, 7: Trimestral, 11: 1ª semana, 12: 2ª semana, 13: 3ª semana, 14: 4ª semana, 15: 5ª semana, 51: Complementar, 52: 13º salário}
+  operacao_ajuste:
+    descricao: Tipo de ajuste da apuração (efajustes.oper_aju)
+    confirmado: parcial
+    nota: >
+      O comentário diz só "Operacao". A legenda vem dos nomes padrão dos ajustes (idênticos em 1.429 empresas) e das colunas da apuração a que correspondem: 1 = outros créditos
+      (créditos por importação, compensação, benefícios fiscais, ajustes CAE 806, crédito de ICMS), 2 = estorno de débitos, 3 = outros débitos (por importação, compensação, de
+      responsabilidade, ajustes CAE 803), 4 = estorno de créditos, 5 = outras deduções (de ICMS, IPI e ISS), 6 = outros acréscimos (ICMS e IPI), 7 = outros recolhimentos,
+      43 = créditos do ativo permanente e 18 = pagamento antecipado do mês anterior (1 registro). Por evidência dos nomes, não documentada pelo banco.
+    valores: {1: Outros créditos, 2: Estorno de débitos, 3: Outros débitos, 4: Estorno de créditos, 5: Outras deduções, 6: Outros acréscimos, 7: Outros recolhimentos, 18: Pagamento antecipado do mês anterior, 43: Créditos do ativo permanente}
+
+entidades:
+  apuracao_icms_st_uf:
+    titulo: Apuração do ICMS-ST por UF
+    descricao: >
+      Desdobra a apuração da substituição tributária por UF favorecida (27 UFs) em cada empresa, competência e recolhimento: débitos e créditos, estornos, deduções, saldo devedor ou
+      credor, valor pago e vencimento. A tabela guarda uma linha para TODAS as UFs de cada apuração: de 706.590 linhas só 1.076 têm saldo. 633 empresas, de 2007-04 a 2026-09.
+    tabela: efsdoimp_subtri_por_uf
+    chave: [CODI_EMP, CODI_IMP, DATA_SIM, PDIC_SIM, SIGLA_UF, I_RECOLHIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_SIM, exige_algum: [periodo, uf], volume: grande}
+    ordem: [[DATA_SIM, desc], [SIGLA_UF, asc]]
+    colunas:
+      imposto_codigo: CODI_IMP
+      competencia: DATA_SIM
+      periodicidade: {coluna: PDIC_SIM, dominio: periodicidade_apuracao}
+      uf: SIGLA_UF
+      recolhimento_sequencial: I_RECOLHIMENTO
+      valor_contabil_entradas: VALOR_CONTABIL_ENTRADAS
+      base_calculo_entradas: BASE_CALCULO_ENTRADAS
+      imposto_entradas: VALOR_IMPOSTO_ENTRADAS
+      valor_contabil_saidas: VALOR_CONTABIL_SAIDAS
+      base_calculo_saidas: BASE_CALCULO_SAIDAS
+      imposto_saidas: VALOR_IMPOSTO_SAIDAS
+      outros_debitos: OUTROS_DEBITOS
+      estorno_creditos: ESTORNO_CREDITOS
+      outros_creditos: OUTROS_CREDITOS
+      estorno_debitos: ESTORNO_DEBITOS
+      acrescimos: ACRESCIMOS
+      deducoes: DEDUCOES
+      saldo_credor_anterior: SALDO_CREDOR_ANTERIOR
+      saldo_diferido_anterior: SALDO_DIFERIDO_ANTERIOR
+      saldo_diferido: SALDO_DIFERIDO
+      ressarcimento_cfop_1603_2603: RESSARCIMENTO_CFOP_1603_2603
+      ressarcimento_cfop_5603_6603: RESSARCIMENTO_CFOP_5603_6603
+      icms_ressarcimento_st: VALOR_ICMS_RESSARCIMENTO_ST
+      saldo_devedor: SALDO_DEVEDOR
+      saldo_credor: SALDO_CREDOR
+      saldo_devedor_complementacao: SALDO_DEVEDOR_COMPLEMENTACAO
+      outros_recolhimentos: OUTROS_RECOLHIMENTOS
+      valor_pago: VALOR_PAGO
+      vencimento: DATA_VENCIMENTO
+      estorno_fcp_interestadual: ESTORNO_FCP_INTERESTADUAL
+      estorno_devolucoes_fcp_interestadual: ESTORNO_DEVOLUCOES_FCP_INTERESTADUAL
+      deducao_fcp_interestadual: DEDUCAO_REF_FCP_INTERESTADUAL
+    calculadas:
+      saldo_liquido: "SALDO_DEVEDOR - SALDO_CREDOR"
+      debitos: "VALOR_IMPOSTO_SAIDAS + OUTROS_DEBITOS + ESTORNO_CREDITOS + ACRESCIMOS"
+      creditos: "VALOR_IMPOSTO_ENTRADAS + OUTROS_CREDITOS + ESTORNO_DEBITOS + SALDO_CREDOR_ANTERIOR + DEDUCOES"
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      competencia: {coluna: DATA_SIM, ops: [eq, entre, gte, lte]}
+      uf: {coluna: SIGLA_UF, ops: [eq, in]}
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      saldo_devedor: {coluna: SALDO_DEVEDOR, ops: [gte, lte, entre]}
+    regras:
+      - "Identidade da apuração: saldo devedor − saldo credor = (imposto das saídas + outros débitos + estorno de créditos + acréscimos) − (imposto das entradas + outros créditos + estorno de débitos + saldo credor anterior + deduções) em 706.590 de 706.590 linhas (tolerância 0,02); as colunas calculadas `debitos`, `creditos` e `saldo_liquido` reproduzem isso. Os ressarcimentos (CFOP 1603/2603/5603/6603 e de ST) não alteram a identidade: a fórmula fecha com e sem eles nas 706.590 linhas, ou seja, somam zero."
+      - "Esparsidade: das 706.590 linhas, só 1.022 têm saldo devedor e 54 têm saldo credor; as outras 705.514 são zero. Para ver o que importa filtre `saldo_devedor` maior que zero (ou o saldo credor)."
+      - "Cobre as 27 UFs, 633 empresas e competências de 2007-04 a 2026-09."
+
+  ajuste_apuracao:
+    titulo: Códigos de ajuste da apuração
+    descricao: >
+      Cadastro de códigos de ajuste da apuração por empresa (nome, imposto, tipo de operação e as contas e o histórico usados na contabilização). Cada empresa tem 35 códigos padrão
+      (1.418 empresas), mais os que cria. 50.027 linhas.
+    tabela: efajustes
+    chave: [codi_emp, codi_aju]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[oper_aju, asc], [codi_aju, asc]]
+    colunas:
+      ajuste_codigo: codi_aju
+      nome: nome_aju
+      imposto_codigo: codi_imp
+      operacao: {coluna: oper_aju, dominio: operacao_ajuste}
+      conta_debito: cdeb_aju
+      conta_credito: ccre_aju
+      historico_padrao: chis_aju
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      ajuste_codigo: {coluna: codi_aju, ops: [eq, in]}
+      nome: {coluna: nome_aju, ops: [contem, prefixo]}
+      operacao: {coluna: oper_aju, ops: [eq, in]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+    regras:
+      - "Por operação: 1 (outros créditos) 18.585 · 3 (outros débitos) 14.290 · 5 (outras deduções) 4.288 · 2 (estorno de débitos) 2.860 · 4 (estorno de créditos) 2.858 · 6 (outros acréscimos) 2.858 · 7 (outros recolhimentos) 2.858 · 43 (créditos do ativo permanente) 1.429 · 18 (1). 1.429 empresas têm os códigos padrão."
+      - "Contas de débito e crédito estão preenchidas em 50.015 dos 50.027 ajustes."

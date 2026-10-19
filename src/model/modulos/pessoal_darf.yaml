@@ -1,0 +1,192 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_darf
+titulo: Pessoal - darf (rascunho em lote)
+dominios:
+  fodarf_dctfweb_api_envio_arquivos_json_tipo_do_arquivo_e_:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_ENVIO_ARQUIVOS_JSON.TIPO_ARQUIVO estão no comentário do banco (2026-10-18). Distribuição: R=38.456, E=36.624.'
+    valores: {E: Envio, R: Resposta}
+  fodarf_dctfweb_api_envio_arquivos_tipo_de_envio_:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_ENVIO_ARQUIVOS.TIPO_ENVIO estão no comentário do banco (2026-10-18). Distribuição: 4=13.063, 1=11.369,
+      5=7.102, 2=6.239, 3=683.'
+    valores: {'1': Transmissão Mensal, '2': Gerar DCTFWeb, '3': Relatório DCTFWeb, '4': Consulta XML declaração, '5': Gerar DCTFWeb Parcial}
+  fodarf_dctfweb_api_envio_arquivos_situacao_proce:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_ENVIO_ARQUIVOS.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: 1=32.723, 2=3.732, 0=1.832,
+      3=169.'
+    valores: {'0': Processando, '1': Sucesso, '2': Insucesso, '3': Falha, '4': Não autenticado}
+  fodarf_dctfweb_api_envio_arquivos_tipo_do_proces:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_ENVIO_ARQUIVOS.TIPO_PROCESSO estão no comentário do banco (2026-10-18). Distribuição: 1=38.124, 2=332.'
+    valores: {'1': Mensal, '2': 13º Salário, '3': Reclamatória trabalhista}
+  fodarf_dctfweb_api_bilhetagem_tipo_de_ser:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_BILHETAGEM.TIPO_ENVIO estão no comentário do banco (2026-10-18). Distribuição: 4=13.063, 1=11.369, 5=7.102,
+      2=6.239, 3=683.'
+    valores: {'1': Transmissão Mensal, '2': Gerar DCTFWeb, '3': Relatório DCTFWeb, '4': Consulta XML declaração, '5': Gerar DCTFWeb Parcial}
+  fodarf_dctfweb_api_bilhetagem_operacao_ge:
+    confirmado: true
+    nota: 'Todos os valores observados em FODARF_DCTFWEB_API_BILHETAGEM.GEROU_CUSTO estão no comentário do banco (2026-10-18). Distribuição: S=35.716, N=2.740.'
+    valores: {S: Sim, N: Não}
+entidades:
+  fodarf_dctfweb_api_envio_arquivos_mensagem:
+    titulo: DARF DCTFWeb Api - Envio dos Arquivos - Retorno
+    descricao: 'DARF DCTFWeb Api - Envio dos Arquivos - Retorno. 91.719 linhas no catálogo; chave: CODI_EMP, I_ENVIO, SEQUENCIAL_MENSAGEM.'
+    tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS_MENSAGEM
+    chave: [CODI_EMP, I_ENVIO, SEQUENCIAL_MENSAGEM]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [SEQUENCIAL_MENSAGEM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, codigo_sequencial: SEQUENCIAL_MENSAGEM, codigo_da_mensagem_de_retorno: CODIGO_MENSAGEM,
+      titulo_da_mensagem_de_retorno: TITULO_MENSAGEM, descricao_do_titulo: DESCRICAO_MENSAGEM}
+    vinculos:
+      fodarf_dctfweb_api_envio:
+        tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {fodarf_dctfweb_api_envio_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL_MENSAGEM
+        ops: [eq, in]
+      codigo_da_mensagem_de_retorno:
+        coluna: CODIGO_MENSAGEM
+        ops: [eq, in]
+      titulo_da_mensagem_de_retorno:
+        coluna: TITULO_MENSAGEM
+        ops: [contem, prefixo]
+      descricao_do_titulo:
+        coluna: DESCRICAO_MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 91.873 linhas, 728 empresa(s).', 'Vínculo fodarf_dctfweb_api_envio (FODARF_DCTFWEB_API_ENVIO_ARQUIVOS): 0 de 129 linhas sem registro
+        relacionado (empresa 421).']
+  fodarf_dctfweb_api_envio_arquivos_json:
+    titulo: DAS Api - Envio dos Arquivos - JSON
+    descricao: 'DAS Api - Envio dos Arquivos - JSON. 74.924 linhas no catálogo; chave: CODI_EMP, I_ENVIO, TIPO_ARQUIVO.'
+    tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS_JSON
+    chave: [CODI_EMP, I_ENVIO, TIPO_ARQUIVO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [TIPO_ARQUIVO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_sequencial_de_envio_dos_arquivos: I_ENVIO
+      tipo_do_arquivo_e_envio_r_resposta: {coluna: TIPO_ARQUIVO, dominio: fodarf_dctfweb_api_envio_arquivos_json_tipo_do_arquivo_e_}
+    vinculos:
+      fodarf_dctfweb_api_envio:
+        tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {fodarf_dctfweb_api_envio_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      tipo_do_arquivo_e_envio_r_resposta:
+        coluna: TIPO_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 75.080 linhas, 728 empresa(s).', 'tipo_do_arquivo_e_envio_r_resposta: todos os valores reais estão no comentário do banco (R=38.456,
+        E=36.624).', 'Vínculo fodarf_dctfweb_api_envio (FODARF_DCTFWEB_API_ENVIO_ARQUIVOS): 0 de 102 linhas sem registro relacionado (empresa 811).']
+  fodarf_dctfweb_api_envio_arquivos:
+    titulo: DARF DCTFWeb Api - Envio dos Arquivos
+    descricao: 'DARF DCTFWeb Api - Envio dos Arquivos. 38.378 linhas no catálogo; chave: CODI_EMP, I_ENVIO.'
+    tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS
+    chave: [CODI_EMP, I_ENVIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ENVIO, volume: medio}
+    ordem:
+    - [DATA_ENVIO, desc]
+    - [I_ENVIO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_sequencial_de_envio_dos_arquivos: I_ENVIO
+      competencia: COMPETENCIA
+      tipo_de_envio_1_transmissao_mensal_2_ger: {coluna: TIPO_ENVIO, dominio: fodarf_dctfweb_api_envio_arquivos_tipo_de_envio_}
+      situacao_processo_0_processando_1_sucess: {coluna: SITUACAO, dominio: fodarf_dctfweb_api_envio_arquivos_situacao_proce}
+      tipo_do_processo_1_mensal_2_13o_salario: {coluna: TIPO_PROCESSO, dominio: fodarf_dctfweb_api_envio_arquivos_tipo_do_proces, sensivel: financeiro}
+      nome_do_arquivo: NOME_ARQUIVO
+      data_de_envio: DATA_ENVIO
+      hora_de_envio: HORARIO_ENVIO
+      numero_do_processo: NUMERO_PROCESSO
+      envio_de_guia_parcial_origem_dos_imposto: ORIGEM_IMPOSTO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_envio:
+        coluna: DATA_ENVIO
+        ops: [entre, gte, lte]
+      tipo_de_envio_1_transmissao_mensal_2_ger:
+        coluna: TIPO_ENVIO
+        ops: [eq, in]
+      situacao_processo_0_processando_1_sucess:
+        coluna: SITUACAO
+        ops: [eq, in]
+      tipo_do_processo_1_mensal_2_13o_salario:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      nome_do_arquivo:
+        coluna: NOME_ARQUIVO
+        ops: [contem, prefixo]
+      numero_do_processo:
+        coluna: NUMERO_PROCESSO
+        ops: [eq, in]
+      envio_de_guia_parcial_origem_dos_imposto:
+        coluna: ORIGEM_IMPOSTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38.456 linhas, 728 empresa(s), DATA_ENVIO de 2024-10-22 a 2026-10-16.', 'tipo_de_envio_1_transmissao_mensal_2_ger: todos os valores
+        reais estão no comentário do banco (4=13.063, 1=11.369, 5=7.102, 2=6.239, 3=683).', 'situacao_processo_0_processando_1_sucess: todos os valores reais estão
+        no comentário do banco (1=32.723, 2=3.732, 0=1.832, 3=169).', 'tipo_do_processo_1_mensal_2_13o_salario: todos os valores reais estão no comentário do banco
+        (1=38.124, 2=332).', 'Vínculo geempre (geempre): 0 de 51 linhas sem registro relacionado (empresa 649).']
+  fodarf_dctfweb_api_bilhetagem:
+    titulo: DARF DCTFWeb Api - Envio dos Arquivos - Bilhetagem de custos
+    descricao: 'DARF DCTFWeb Api - Envio dos Arquivos - Bilhetagem de custos. 38.378 linhas no catálogo; chave: CODI_EMP, I_ENVIO, CODI_CON, SEQUENCIAL_BILHETAGEM.'
+    tabela: FODARF_DCTFWEB_API_BILHETAGEM
+    chave: [CODI_EMP, I_ENVIO, CODI_CON, SEQUENCIAL_BILHETAGEM]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [CODI_CON, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_sequencial_de_envio_dos_arquivos: I_ENVIO
+      codigo_do_contador: CODI_CON
+      codigo_sequencial: SEQUENCIAL_BILHETAGEM
+      tipo_de_servico_realizado_1_transmissao: {coluna: TIPO_ENVIO, dominio: fodarf_dctfweb_api_bilhetagem_tipo_de_ser}
+      operacao_gerou_custo_s_sim_n_nao: {coluna: GEROU_CUSTO, dominio: fodarf_dctfweb_api_bilhetagem_operacao_ge}
+    vinculos:
+      fodarf_dctfweb_api_envio:
+        tabela: FODARF_DCTFWEB_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {fodarf_dctfweb_api_envio_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      codigo_do_contador:
+        coluna: CODI_CON
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL_BILHETAGEM
+        ops: [eq, in]
+      tipo_de_servico_realizado_1_transmissao:
+        coluna: TIPO_ENVIO
+        ops: [eq, in]
+      operacao_gerou_custo_s_sim_n_nao:
+        coluna: GEROU_CUSTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38.456 linhas, 728 empresa(s).', 'tipo_de_servico_realizado_1_transmissao: todos os valores reais estão no comentário do banco
+        (4=13.063, 1=11.369, 5=7.102, 2=6.239, 3=683).', 'operacao_gerou_custo_s_sim_n_nao: todos os valores reais estão no comentário do banco (S=35.716, N=2.740).',
+      'Vínculo fodarf_dctfweb_api_envio (FODARF_DCTFWEB_API_ENVIO_ARQUIVOS): 0 de 51 linhas sem registro relacionado (empresa 649).']

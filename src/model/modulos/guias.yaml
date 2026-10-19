@@ -1,0 +1,234 @@
+# Modelo de entidades das GUIAS DE IMPOSTOS: apuração por código de recolhimento (EFSDOIMP_POR_RECOLHIMENTO) e pagamentos (EFPAGIMP).
+# Curado à mão e medido no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# ATENÇÃO: o registro de pagamentos no sistema está praticamente parado desde 2023 (ver regras). "Sem pagamento registrado" NÃO significa "guia em aberto".
+#
+# NÃO EXPOSTO DE PROPÓSITO: ~100 das 137 colunas de guia_imposto são parcelas de regras estaduais (FUNRURAL, diferimento, regime especial, STAT, PIS/COFINS
+# específico); ficam em consultar_tabela('EFSDOIMP_POR_RECOLHIMENTO', colunas=[...]).
+modulo: guias
+titulo: Guias de impostos (apuração por recolhimento e pagamentos)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  periodicidade_guia:
+    descricao: Periodicidade da apuração (pdic_sim / pdic_pim)
+    confirmado: true      # comentário da coluna
+    valores: {1: 1º decêndio, 2: 2º decêndio, 3: 3º decêndio, 4: 1ª quinzena, 5: 2ª quinzena, 6: Mensal, 7: Trimestral, 11: 1ª semana, 12: 2ª semana, 13: 3ª semana, 14: 4ª semana, 15: 5ª semana, 51: Complementar, 52: 13º salário}
+  origem_pagamento_imposto:
+    descricao: Origem do registro (efpagimp.origem_reg)
+    confirmado: parcial
+    nota: "O comentário lista 0 a 5 (0 Sistema; 1 a 3 importações; 4 importação por API; 5 truncado no catálogo). Nos dados: 0 em 35.244 linhas e 5 em 4."
+    valores: {0: Sistema, 1: Importação de tabelas, 2: Importação de layout, 3: Importação de tabelas concorrentes, 4: Importação por API, 5: Não documentado}
+
+  tipo_guia_estadual:
+    confirmado: parcial
+    nota: O comentário lista 1 (GARE-ICMS SP ou DARE SC) e 2 (GNRE). Nos dados só existe 1 (315.670 de 315.670).
+    valores: {1: GARE-ICMS (SP) ou DARE (SC), 2: GNRE}
+  periodicidade_recolhimento:
+    descricao: Periodicidade da regra de recolhimento (geimposto_vigencia_recolhimento.periodicidade)
+    confirmado: parcial
+    nota: >
+      O comentário está truncado ("... 7-Por Nota/8-Trimestral/Mensal..."). Em uso: 7 (177.417 regras), 1 (133.662), 2 (3.177), 3 (1.397), 5 (12) e 10 (5, sem legenda); 4, 6 e 8 não aparecem.
+    valores: {1: Mensal, 2: Quinzenal, 3: Decendial, 4: Trimestral, 5: Semanal, 6: Semestral, 7: Por nota, 10: Sem legenda}
+  tipo_regra_recolhimento:
+    confirmado: true      # comentário do banco: 1 normal, 2 TTD (314.011 e 1.659)
+    valores: {1: Normal, 2: TTD (regime especial)}
+  forma_recolhimento_icms:
+    confirmado: parcial
+    nota: O comentário lista 1 (junto com o ICMS normal) e 2 (guia de recolhimentos especiais); todas as 315.670 regras têm 1.
+    valores: {1: Junto com o ICMS normal, 2: Guia de recolhimentos especiais}
+
+entidades:
+  guia_imposto:
+    titulo: Guias de impostos (apuração por código de recolhimento)
+    descricao: >
+      Desdobra a apuração de cada imposto (empresa, imposto, competência e periodicidade) em um registro por código de recolhimento: saldo a recolher, vencimento,
+      valor já pago, créditos, débitos, estornos e deduções. É a base das guias (DARF, DAS, DAE, GPS...). 408.276 linhas, 1.312 empresas, de 2007-04 a 2026-09;
+      só 28.910 têm saldo a recolher (as demais têm saldo credor ou zero). Usa 39 das 137 colunas.
+    tabela: efsdoimp_por_recolhimento
+    chave: [CODI_EMP, CODI_IMP, DATA_SIM, PDIC_SIM, I_RECOLHIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_SIM, volume: grande}
+    ordem: [[DATA_SIM, desc], [CODI_IMP, asc], [I_RECOLHIMENTO, asc]]
+    colunas:
+      imposto_codigo: CODI_IMP
+      competencia: DATA_SIM
+      periodicidade: {coluna: PDIC_SIM, dominio: periodicidade_guia}
+      recolhimento_sequencial: I_RECOLHIMENTO
+      codigo_recolhimento: CODIGO_RECOLHIMENTO
+      parcela: PARCELA
+      vencimento: DATA_VENCIMENTO
+      classe_vencimento: CLASSE_VENCIMENTO
+      saldo_a_recolher: SALDO_RECOLHER
+      valor_pago: VALOR_PAGO
+      saldo_devedor: SALDO_DEVEDOR
+      saldo_credor: SALDO_CREDOR
+      saldo_credor_anterior: SALDO_CREDOR_ANTERIOR
+      valor_contabil_saida: VALOR_CONTABIL_SAIDA
+      base_calculo_saida: BASE_CALCULO_SAIDA
+      imposto_saida: VALOR_IMPOSTO_SAIDA
+      valor_contabil_entrada: VALOR_CONTABIL_ENTRADA
+      base_calculo_entrada: BASE_CALCULO_ENTRADA
+      imposto_entrada: VALOR_IMPOSTO_ENTRADA
+      outros_creditos: OUTROS_CREDITOS
+      outros_debitos: OUTROS_DEBITOS
+      estorno_creditos: ESTORNO_CREDITOS
+      estorno_debitos: ESTORNO_DEBITOS
+      outras_deducoes: OUTRAS_DEDUCOES
+      outros_acrescimos: OUTROS_ACRESCIMOS
+      isentas_saida: VALOR_ISENTAS_SAIDA
+      outras_saida: VALOR_OUTRAS_SAIDA
+      isentas_entrada: VALOR_ISENTAS_ENTRADA
+      outras_entrada: VALOR_OUTRAS_ENTRADA
+      credito_presumido: VALOR_CREDITO_PRESUMIDO
+      estorno_credito_presumido: VALOR_ESTORNO_CREDITO_PRESUMIDO
+      regime_especial: VALOR_REGIME_ESPECIAL
+      estorno_regime_especial: VALOR_ESTORNO_REGIME_ESPECIAL
+      compensacao_pagamento_indevido: COMPENSACAO_PAGAMENTO_INDEVIDO_MAIOR
+      outras_compensacoes: OUTRAS_COMPENSACOES
+      creditos_devolucao_entradas: CREDITOS_DEVOLUCAO_ENTRADAS
+      creditos_devolucao_saidas: CREDITOS_DEVOLUCAO_SAIDAS
+      valor_diferido: VALOR_DIFERIDO
+      valor_diferido_anterior: VALOR_DIFERIDO_ANTERIOR
+    calculadas:
+      saldo_em_aberto: "SALDO_RECOLHER - VALOR_PAGO"
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      competencia: {coluna: DATA_SIM, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      periodicidade: {coluna: PDIC_SIM, ops: [eq, in]}
+      codigo_recolhimento: {coluna: CODIGO_RECOLHIMENTO, ops: [eq, in]}
+      vencimento: {coluna: DATA_VENCIMENTO, ops: [eq, entre, gte, lte]}
+      saldo_a_recolher: {coluna: SALDO_RECOLHER, ops: [gte, lte, entre]}
+    filhos:
+      pagamentos: {entidade: pagamento_imposto, liga: {CODI_EMP: codi_emp, CODI_IMP: imposto_codigo, DATA_SIM: competencia, PDIC_SIM: periodicidade}}
+    regras:
+      - "Saldo a recolher: em 17.951 linhas de 2024 em diante com saldo a recolher, 17.926 (99,9%) têm saldo_a_recolher = saldo_devedor; só 2 têm saldo devedor zero. 28.910 de 408.276 linhas têm saldo a recolher."
+      - "O REGISTRO DE PAGAMENTOS PAROU: linhas com saldo a recolher e valor pago: 2018 733 de 877 · 2019 1.125 de 1.260 · 2020 1.313 de 1.460 · 2021 1.784 de 2.122 · 2022 1.874 de 2.442 · 2023 1.525 de 2.738 · 2024 17 de 6.347 · 2025 6 de 6.742 · 2026 0 de 4.862. Não conclua que uma guia de 2024 em diante está em aberto só porque não tem valor pago."
+      - "Pagamento: nas 60 empresas com mais pagamentos em 2023-2024, valor_pago desta tabela é igual à soma de pagamento_imposto (vpag) por imposto, competência e periodicidade em 2.044 de 2.082 guias com saldo (98,2%); em 37 a soma dos pagamentos é MAIOR que o valor_pago e em nenhuma é menor (1 guia não entrou na comparação)."
+      - "Vencimento: a classe de vencimento é 0 em 407.652 linhas e 10049 em 624. Todas as linhas têm data de vencimento (0 nulas)."
+      - "Chave: (empresa, imposto, competência, periodicidade, sequencial do recolhimento) é a PK. Um imposto pode ter vários códigos de recolhimento na mesma competência."
+
+  pagamento_imposto:
+    titulo: Pagamentos de impostos
+    descricao: >
+      Baixas de pagamento de cada imposto: data, valor, juros, multa, banco, DARE e a ligação com Honorários e parcelamentos. 35.248 linhas, 521 empresas,
+      de 2013-01 a 2025-04 (o registro termina em 2025-04). O órgão arrecadador, o número do DARE e a descrição complementar estão vazios em todas as linhas.
+    tabela: efpagimp
+    chave: [codi_emp, codi_imp, data_pim, pdic_pim, parc_pim, nbaixa_pim, I_PARCELAMENTO, I_PARCELAMENTO_PARCELA_PARCELAMENTO, IMPOSTO_PARCELADO, I_PARCELAMENTO_PARCELA_PARCELA]
+    acesso: {empresa: codi_emp, periodo: data_pim, volume: medio}
+    ordem: [[data_pim, desc], [codi_imp, asc], [parc_pim, asc]]
+    colunas:
+      imposto_codigo: codi_imp
+      competencia: data_pim
+      periodicidade: {coluna: pdic_pim, dominio: periodicidade_guia}
+      parcela: parc_pim
+      baixa: nbaixa_pim
+      data_pagamento: dpag_pim
+      valor: vpag_pim
+      juros: vjur_pim
+      multa: vmul_pim
+      valor_pago_a_maior: VALOR_PAGO_A_MAIOR
+      banco: banco_pim
+      codigo_receita_irrf: crec_pim
+      recolhimento_sequencial: I_RECOLHIMENTO
+      pagamento_operacoes: PAGTO_OPERACOES_PIM
+      nota_saida_codigo: CODI_SAI_PIM
+      escritorio_honorarios: CODIGO_ESCRITORIO
+      historico_honorarios: HISTORICO_HR
+      periodo: PERIODO
+      imposto_parcelado: {coluna: IMPOSTO_PARCELADO, dominio: sim_nao_texto}
+      origem_registro: {coluna: origem_reg, dominio: origem_pagamento_imposto}
+    calculadas:
+      total_pago_com_encargos: "vpag_pim + vjur_pim + vmul_pim"
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      competencia: {coluna: data_pim, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+      data_pagamento: {coluna: dpag_pim, ops: [eq, entre, gte, lte]}
+      banco: {coluna: banco_pim, ops: [eq, in]}
+    regras:
+      - "Todos os 35.248 pagamentos têm valor (vpag > 0); origem 0 (sistema) em 35.244 e 5 em 4. Nenhum tem DARE, órgão arrecadador ou imposto parcelado = S."
+      - "O registro vai de 2013-01 a 2025-04: não há pagamentos mais recentes; para saber se uma guia recente foi paga consulte o banco/Honorários, não esta tabela."
+      - "Impostos com mais pagamentos: 25 (contribuição retida na fonte) 6.571 · 16 (IRRF) 5.531 · 5 (COFINS) 4.879 · 4 (PIS) 4.776 · 6 (CSLL) 3.445."
+
+  regra_recolhimento:
+    titulo: Regras de recolhimento por imposto e vigência
+    descricao: >
+      Para cada imposto de uma empresa e vigência: código de recolhimento (receita), periodicidade, dias de vencimento (até 5), classes de vencimento, alíquota, forma de recolhimento e
+      se gera crédito de ICMS. É a regra que gera as guias de guia_imposto. 315.670 linhas, 1.503 empresas; 177.414 (56%) têm periodicidade "por nota". Usa 29 das 45 colunas.
+    tabela: geimposto_vigencia_recolhimento
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_RECOLHIMENTO]
+    acesso: {empresa: CODI_EMP, exige_algum: [imposto_codigo], volume: medio}
+    ordem: [[CODI_IMP, asc], [VIGENCIA_IMP, desc], [I_RECOLHIMENTO, asc]]
+    colunas:
+      imposto_codigo: CODI_IMP
+      vigencia: VIGENCIA_IMP
+      recolhimento_sequencial: I_RECOLHIMENTO
+      codigo_recolhimento: CODIGO_RECOLHIMENTO
+      descricao: DESCRICAO
+      tipo_guia: {coluna: GUIA, dominio: tipo_guia_estadual}
+      periodicidade: {coluna: PERIODICIDADE, dominio: periodicidade_recolhimento}
+      periodo_subsequente: PERIODO_SUBSEQUENTE
+      forma_vencimento: FORMA_VENCIMENTO
+      dia_vencimento_1: DIA_VENCIMENTO_1
+      dia_vencimento_2: DIA_VENCIMENTO_2
+      dia_vencimento_3: DIA_VENCIMENTO_3
+      dia_vencimento_4: DIA_VENCIMENTO_4
+      dia_vencimento_5: DIA_VENCIMENTO_5
+      classe_vencimento_1: CLASSE_VENCIMENTO_1
+      classe_vencimento_2: CLASSE_VENCIMENTO_2
+      aliquota: ALIQUOTA
+      tipo: {coluna: TIPO, dominio: tipo_regra_recolhimento}
+      forma_recolhimento: {coluna: FORMA_RECOLHIMENTO, dominio: forma_recolhimento_icms}
+      gera_credito_icms: {coluna: GERA_CREDITO_ICMS, dominio: sim_nao_texto}
+      utilizar_credito_na_apuracao_icms: UTILIZAR_CREDITO_APURACAO_ICMS
+      apropriacao_credito: APROPRIACAO_CREDITO
+      tipo_antecipacao: TIPO_ANTECIPACAO
+      uf_favorecida: UF_FAVORECIDA
+      calcula_adicional_fcp: {coluna: CALCULA_ADICIONAL_FCP, dominio: sim_nao_texto}
+      irrf_cooperativa: {coluna: IRRF_COOPERATIVA, dominio: sim_nao_texto}
+      codigo_sped_fiscal: I_RECOLHIMENTO_SPED_FISCAL
+      fundamentacao_legal: FUNDAMENTACAO_LEGAL
+      numero_ttd_1: NUMERO_TTD_1
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_IMP, ops: [eq, entre, gte, lte]}
+      codigo_recolhimento: {coluna: CODIGO_RECOLHIMENTO, ops: [eq, in]}
+      periodicidade: {coluna: PERIODICIDADE, ops: [eq, in]}
+    regras:
+      - "Código de recolhimento: a guia (guia_imposto) herda o código da regra (mesma empresa, imposto e sequência, vigência mais recente até a competência): 7.426 de 7.427 guias de 2023 das 80 empresas com mais guias."
+      - "Vencimento (guias de 2022-2023 com saldo, 3.316): 2.072 (62,5%) vencem exatamente num dos dias configurados; 939 (28,3%) vencem ANTECIPADOS para o dia útil anterior quando o dia configurado cai no sábado ou domingo (ex.: dia 20 vira sexta 18 ou 19); 305 (9,2%) não foram explicados (provavelmente feriados, não modelados). Aparece nos impostos de maior volume (25 e 16); a regra de antecipação não está gravada no banco, é inferida."
+      - "Periodicidades em uso: 7 (por nota) 177.417 · 1 (mensal) 133.662 · 2 (quinzenal) 3.177 · 3 (decendial) 1.397 · 5 (semanal) 12 · 10 (sem legenda) 5. Tipo de guia sempre 1. Combinações com a forma de vencimento mais comuns: 7 (por nota) com forma 6 · 177.414; 1 (mensal) com forma 4 · 92.010; 1 com forma 1 · 40.705; 2 (quinzenal) com forma 5 · 3.177; 3 (decendial) com forma 3 · 1.397. O comentário da forma de vencimento não traz legenda."
+      - "Tipo da regra: normal (1) em 314.011 e TTD (2) em 1.659; forma de recolhimento sempre 1 (junto com o ICMS normal). A vigência mais antiga é 1964-06-01 (valor padrão)."
+
+  codigo_receita_imposto:
+    titulo: Códigos de receita permitidos por imposto e vigência
+    descricao: Códigos de receita selecionáveis para os impostos que restringem o código, por empresa e vigência, com descrição. 38.319 linhas, 1.504 empresas, mas só 19 códigos distintos.
+    tabela: geimposto_vigencia_codrec
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, CODI_REC]
+    acesso: {empresa: CODI_EMP, exige_algum: [imposto_codigo], volume: medio}
+    ordem: [[CODI_IMP, asc], [VIGENCIA_IMP, desc], [CODI_REC, asc]]
+    colunas:
+      imposto_codigo: CODI_IMP
+      vigencia: VIGENCIA_IMP
+      codigo_receita: CODI_REC
+      descricao: DESCRICAO
+    filtros:
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_IMP, ops: [eq, entre, gte, lte]}
+      codigo_receita: {coluna: CODI_REC, ops: [eq, in, prefixo]}
+      descricao: {coluna: DESCRICAO, ops: [contem]}
+    regras:
+      - "Só 19 códigos de receita distintos em 38.319 linhas. A lista é usada por poucas regras: nas 40 empresas com mais regras, só 241 de 17.343 regras de recolhimento têm o código na lista (1,4%); para a maioria dos impostos o código é digitado direto na regra."

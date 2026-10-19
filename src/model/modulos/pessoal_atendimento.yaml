@@ -1,0 +1,375 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_atendimento
+titulo: Pessoal - atendimento (rascunho em lote)
+dominios:
+  foatendimento_eventos_itens_tipo_provent:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS_ITENS.PROV_DESC estão no comentário do banco (2026-10-18). Distribuição: P=1.003, D=789, I=33.'
+    valores: {I: Informativa, P: Provento, D: Desconto, ID: Informativa dedutora}
+  foatendimento_eventos_itens_unidade_h_ho:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS_ITENS.TIPO_INF estão no comentário do banco (2026-10-18). Distribuição: H=927, V=595, D=273, P=30.'
+    valores: {H: Horas, V: Valor, D: Dias, P: Percentual, A: Automático, G: Horas-Aulas}
+  foatendimento_eventos_tipo_da_folha_11_mensa:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS.TIPO_PROCESO estão no comentário do banco (2026-10-18). Distribuição: 11=236, 41=2.'
+    valores: {'11': Mensal, '41': Adiantamento, '70': Participação de lucros}
+  foatendimento_eventos_lancamento_de_hora_d_h:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS.TIPO_LACAMENTO_HORAS estão no comentário do banco (2026-10-18). Distribuição: M=232, D=6.'
+    valores: {D: Horas decimais, M: Horas minutos}
+  foatendimento_acoes_tipo_da_acao_1_inserir_2:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_ACOES.ACAO estão no comentário do banco (2026-10-18). Distribuição: 2=28, 1=26.'
+    valores: {'1': Inserir, '2': Excluir, '3': Desabilitar, '4': Carga Inicial}
+  foatendimento_acoes_acao_concluida_0_nao_1_s:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_ACOES.CONCLUIDO estão no comentário do banco (2026-10-18). Distribuição: 0=54.'
+    valores: {'0': Não, '1': Sim}
+  foatendimento_solicitacoes_abertas_rubrica_possui_lanc:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_SOLICITACOES_ABERTAS_RUBRICA.POSSUI_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=22,
+      0=9.'
+    valores: {'0': Não, '1': Sim}
+  foatendimento_eventos_backup_tipo_da_folha_1:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS_BACKUP.TIPO_PROCESO estão no comentário do banco (2026-10-18). Distribuição: 11=6.'
+    valores: {'11': Mensal, '41': Adiantamento, '70': Participação de lucros}
+  foatendimento_eventos_backup_lancamento_de_h:
+    confirmado: true
+    nota: 'Todos os valores observados em FOATENDIMENTO_EVENTOS_BACKUP.TIPO_LACAMENTO_HORAS estão no comentário do banco (2026-10-18). Distribuição: M=5, D=1.'
+    valores: {D: Horas decimais, M: Horas minutos}
+entidades:
+  foatendimento_eventos_itens:
+    titulo: ITENS DOS EVENTOS DOMINIO ATENDIMENTO
+    descricao: 'ITENS DOS EVENTOS DOMINIO ATENDIMENTO. 1.825 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS.'
+    tabela: FOATENDIMENTO_EVENTOS_ITENS
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ATENDIMENTO_EVENTO, asc]
+    - [I_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_atendimento_referente_a_foaten: I_ATENDIMENTO_EVENTO
+      codigo_do_evento_referente_a_foeventos: I_EVENTOS
+      codigo_da_empresa_referente_a_foeventos: CODI_EMP_EVE
+      nome: NOME
+      tipo_provento_i_informativa_p_provento_d: {coluna: PROV_DESC, dominio: foatendimento_eventos_itens_tipo_provent}
+      unidade_h_horas_v_valor_d_dias_p_percent: {coluna: TIPO_INF, dominio: foatendimento_eventos_itens_unidade_h_ho}
+      ordem: ORDEM
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO
+    vinculos:
+      foatendimento_eventos:
+        tabela: FOATENDIMENTO_EVENTOS
+        liga: {codi_emp: codi_emp, i_atendimento_evento: i_atendimento_evento}
+        colunas: {foatendimento_eventos_nome: NOME}
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp_eve: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+    filtros:
+      codigo_do_atendimento_referente_a_foaten:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foeventos:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foeventos:
+        coluna: CODI_EMP_EVE
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_provento_i_informativa_p_provento_d:
+        coluna: PROV_DESC
+        ops: [eq, in]
+      unidade_h_horas_v_valor_d_dias_p_percent:
+        coluna: TIPO_INF
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.825 linhas, 186 empresa(s).', 'tipo_provento_i_informativa_p_provento_d: todos os valores reais estão no comentário do banco
+        (P=1.003, D=789, I=33).', 'unidade_h_horas_v_valor_d_dias_p_percent: todos os valores reais estão no comentário do banco (H=927, V=595, D=273, P=30).', 'Vínculo
+        foatendimento_eventos (FOATENDIMENTO_EVENTOS): 0 de 6 linhas sem registro relacionado (empresa 46).', 'Vínculo foeventos (foeventos): 0 de 6 linhas sem registro
+        relacionado (empresa 46).']
+  foatendimento_eventos_itens_filiais:
+    titulo: ITENS DOS EVENTOS DOMINIO ATENDIMENTO
+    descricao: 'ITENS DOS EVENTOS DOMINIO ATENDIMENTO. 1.825 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS, I_FILIAIS.'
+    tabela: FOATENDIMENTO_EVENTOS_ITENS_FILIAIS
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS, I_FILIAIS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ATENDIMENTO_EVENTO, asc]
+    - [I_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_atendimento_referente_a_foaten: I_ATENDIMENTO_EVENTO, codigo_do_evento_referente_a_foatendimen: I_EVENTOS, codigo_filial: I_FILIAIS,
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO}
+    vinculos:
+      foatendimento_eventos_it:
+        tabela: FOATENDIMENTO_EVENTOS_ITENS
+        liga: {codi_emp: codi_emp, i_atendimento_evento: i_atendimento_evento, i_eventos: i_eventos}
+        colunas: {foatendimento_eventos_it_nome: NOME}
+    filtros:
+      codigo_do_atendimento_referente_a_foaten:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foatendimen:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      codigo_filial:
+        coluna: I_FILIAIS
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.825 linhas, 186 empresa(s).', 'Vínculo foatendimento_eventos_it (FOATENDIMENTO_EVENTOS_ITENS): 0 de 6 linhas sem registro relacionado
+        (empresa 46).']
+  foatendimento_servicos_empresa_onvio:
+    titulo: Tabela para controle das GUIDs de envio pro ONVIO, mantendo comportamento do DA antigo que era feito select envolvendo multiplas tabelas.
+    descricao: 'Tabela para controle das GUIDs de envio pro ONVIO, mantendo comportamento do DA antigo que era feito select envolvendo multiplas tabelas.. 1.494 linhas
+      no catálogo; chave: SEQUENCIAL.'
+    tabela: FOATENDIMENTO_SERVICOS_EMPRESA_ONVIO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, codigo_da_empresa: CODI_EMP, codigo_do_servico: I_SERVICOS, nome: NOME, codigo_da_empresa_no_onvio: CODI_EMP_ATENDIMENTO, endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      codigo_da_empresa_no_onvio:
+        coluna: CODI_EMP_ATENDIMENTO
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.499 linhas, 1.392 empresa(s).']
+  foatendimento_sindicato_empresa_onvio:
+    titulo: Tabela referente a view BETHADBA.SINDICATO_EMPRESA_ATENDIMENTO do DA antigo.
+    descricao: 'Tabela referente a view BETHADBA.SINDICATO_EMPRESA_ATENDIMENTO do DA antigo.. 398 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: FOATENDIMENTO_SINDICATO_EMPRESA_ONVIO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, codigo_da_empresa: CODIGO_EMPRESA, codigo_da_filial: CODIGO_FILIAL, codigo_da_empresa_no_onvio: CODIGO_EMPRESA_ATENDIMENTO,
+      codigo_do_sindicato: CODIGO_SINDICATO, endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_empresa:
+        coluna: CODIGO_EMPRESA
+        ops: [eq, in]
+      codigo_da_filial:
+        coluna: CODIGO_FILIAL
+        ops: [eq, in]
+      codigo_da_empresa_no_onvio:
+        coluna: CODIGO_EMPRESA_ATENDIMENTO
+        ops: [eq, in]
+      codigo_do_sindicato:
+        coluna: CODIGO_SINDICATO
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 399 linhas.']
+  foatendimento_eventos:
+    titulo: EVENTOS DOMINIO ATENDIMENTO
+    descricao: 'EVENTOS DOMINIO ATENDIMENTO. 238 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO.'
+    tabela: FOATENDIMENTO_EVENTOS
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_ATENDIMENTO_EVENTO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_atendimento: I_ATENDIMENTO_EVENTO
+      nome: NOME
+      tipo_da_folha_11_mensal_41_adiantamento: {coluna: TIPO_PROCESO, dominio: foatendimento_eventos_tipo_da_folha_11_mensa}
+      competencia: COMPETENCIA
+      lancamento_de_hora_d_horas_decimais_m_ho: {coluna: TIPO_LACAMENTO_HORAS, dominio: foatendimento_eventos_lancamento_de_hora_d_h}
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_do_atendimento:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_da_folha_11_mensal_41_adiantamento:
+        coluna: TIPO_PROCESO
+        ops: [eq, in]
+      lancamento_de_hora_d_horas_decimais_m_ho:
+        coluna: TIPO_LACAMENTO_HORAS
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 238 linhas, 186 empresa(s), COMPETENCIA de 2010-01-01 a 2026-08-01.', 'tipo_da_folha_11_mensal_41_adiantamento: todos os valores
+        reais estão no comentário do banco (11=236, 41=2).', 'lancamento_de_hora_d_horas_decimais_m_ho: todos os valores reais estão no comentário do banco (M=232,
+        D=6).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 652).']
+  foatendimento_acoes:
+    titulo: Acoes Dominio Atendimento
+    descricao: 'Acoes Dominio Atendimento. 54 linhas no catálogo; chave: I_ACOES, CODI_EMP, I_EMPREGADOS, CODI_EMP_ATENDIMENTO, ACAO.'
+    tabela: FOATENDIMENTO_ACOES
+    chave: [I_ACOES, CODI_EMP, I_EMPREGADOS, CODI_EMP_ATENDIMENTO, ACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACOES, asc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_sequencial_da_acao: I_ACOES
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_da_empresa_do_atendimento: CODI_EMP_ATENDIMENTO
+      tipo_da_acao_1_inserir_2_excluir_3_desab: {coluna: ACAO, dominio: foatendimento_acoes_tipo_da_acao_1_inserir_2}
+      acao_concluida_0_nao_1_sim: {coluna: CONCLUIDO, dominio: foatendimento_acoes_acao_concluida_0_nao_1_s}
+    filtros:
+      codigo_sequencial_da_acao:
+        coluna: I_ACOES
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_empresa_do_atendimento:
+        coluna: CODI_EMP_ATENDIMENTO
+        ops: [eq, in]
+      tipo_da_acao_1_inserir_2_excluir_3_desab:
+        coluna: ACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 54 linhas, 4 empresa(s).', 'tipo_da_acao_1_inserir_2_excluir_3_desab: todos os valores reais estão no comentário do banco (2=28,
+        1=26).', 'acao_concluida_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=54).']
+  foatendimento_solicitacoes_abertas_rubrica:
+    titulo: Tabela que indica rubricas com lançamentos no portal do cliente
+    descricao: 'Tabela que indica rubricas com lançamentos no portal do cliente. 31 linhas no catálogo; chave: CODI_EMP, RUBRICA.'
+    tabela: FOATENDIMENTO_SOLICITACOES_ABERTAS_RUBRICA
+    chave: [CODI_EMP, RUBRICA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [RUBRICA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      rubrica: RUBRICA
+      possui_lancamento_0_nao_1_sim: {coluna: POSSUI_LANCAMENTO, dominio: foatendimento_solicitacoes_abertas_rubrica_possui_lanc}
+      flag_que_indica_se_o_registro_vem_do_da: ORIGEM_ATENDIMENTO
+    filtros:
+      rubrica:
+        coluna: RUBRICA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 31 linhas, 28 empresa(s).', 'possui_lancamento_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=22, 0=9).']
+  foatendimento_eventos_itens_backup:
+    titulo: Tabela apenas para backup de dados
+    descricao: 'Tabela apenas para backup de dados. 16 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS.'
+    tabela: FOATENDIMENTO_EVENTOS_ITENS_BACKUP
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ATENDIMENTO_EVENTO, asc]
+    - [I_EVENTOS, asc]
+    colunas: {codi_emp: CODI_EMP, i_atendimento_evento: I_ATENDIMENTO_EVENTO, i_eventos: I_EVENTOS, codi_emp_eve: CODI_EMP_EVE, nome: NOME, prov_desc: PROV_DESC,
+      tipo_inf: TIPO_INF, ordem: ORDEM, endpoint_exclusao: ENDPOINT_EXCLUSAO}
+    filtros:
+      i_atendimento_evento:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      i_eventos:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      codi_emp_eve:
+        coluna: CODI_EMP_EVE
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      prov_desc:
+        coluna: PROV_DESC
+        ops: [eq, in]
+      tipo_inf:
+        coluna: TIPO_INF
+        ops: [eq, in]
+      endpoint_exclusao:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): endpoint_exclusao.']
+  foatendimento_eventos_itens_filiais_backup:
+    titulo: Tabela apenas para backup de dados
+    descricao: 'Tabela apenas para backup de dados. 16 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS, I_FILIAIS.'
+    tabela: FOATENDIMENTO_EVENTOS_ITENS_FILIAIS_BACKUP
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO, I_EVENTOS, I_FILIAIS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ATENDIMENTO_EVENTO, asc]
+    - [I_EVENTOS, asc]
+    colunas: {codi_emp: CODI_EMP, i_atendimento_evento: I_ATENDIMENTO_EVENTO, i_eventos: I_EVENTOS, i_filiais: I_FILIAIS, endpoint_exclusao: ENDPOINT_EXCLUSAO}
+    filtros:
+      i_atendimento_evento:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      i_eventos:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      i_filiais:
+        coluna: I_FILIAIS
+        ops: [eq, in]
+      endpoint_exclusao:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): endpoint_exclusao.']
+  foatendimento_eventos_backup:
+    titulo: Tabela apenas para backup de dados
+    descricao: 'Tabela apenas para backup de dados. 6 linhas no catálogo; chave: CODI_EMP, I_ATENDIMENTO_EVENTO.'
+    tabela: FOATENDIMENTO_EVENTOS_BACKUP
+    chave: [CODI_EMP, I_ATENDIMENTO_EVENTO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_ATENDIMENTO_EVENTO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_atendimento: I_ATENDIMENTO_EVENTO
+      nome: NOME
+      tipo_da_folha_11_mensal_41_adiantamento: {coluna: TIPO_PROCESO, dominio: foatendimento_eventos_backup_tipo_da_folha_1}
+      competencia: COMPETENCIA
+      lancamento_de_hora_d_horas_decimais_m_ho: {coluna: TIPO_LACAMENTO_HORAS, dominio: foatendimento_eventos_backup_lancamento_de_h}
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO
+    filtros:
+      codigo_do_atendimento:
+        coluna: I_ATENDIMENTO_EVENTO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_da_folha_11_mensal_41_adiantamento:
+        coluna: TIPO_PROCESO
+        ops: [eq, in]
+      lancamento_de_hora_d_horas_decimais_m_ho:
+        coluna: TIPO_LACAMENTO_HORAS
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas, 3 empresa(s), COMPETENCIA de 2016-06-01 a 2019-05-01.', 'Colunas expostas nulas em 100% das linhas (1): endpoint_utilizado_para_a_exclusao_do_re.',
+      'tipo_da_folha_11_mensal_41_adiantamento: todos os valores reais estão no comentário do banco (11=6).', 'lancamento_de_hora_d_horas_decimais_m_ho: todos os
+        valores reais estão no comentário do banco (M=5, D=1).']

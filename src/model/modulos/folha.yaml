@@ -55,7 +55,7 @@ entidades:
     descricao: >
       Dados funcionais do empregado. Apenas colunas necessárias ao uso de DP; veja o bloco de privacidade no topo do arquivo.
       A tabela tem 416 colunas (27 marcadas pelo próprio banco como "SEM USO"); só um subconjunto é exposto.
-    privacidade: "Contém dado pessoal (nome, CPF, PIS, identidade, nascimento) e salário. Mascarar por padrão."
+    privacidade: "Contém dado pessoal (nome, CPF, PIS, identidade, nascimento) e salário. Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: foempregados
     chave: [codi_emp, i_empregados]
     acesso: {empresa: codi_emp, volume: medio}
@@ -324,7 +324,7 @@ entidades:
     descricao: >
       Uma linha por evento (rubrica) calculado de cada empregado, competência e tipo de folha — o "recibo" aberto.
       O identificador do cálculo (calculo) é um GUID e faz parte da chave.
-    privacidade: "Valores pagos por empregado identificável (financeiro). Mascarar por padrão."
+    privacidade: "Valores pagos por empregado identificável (financeiro). Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: fomovtoserv
     chave: [codi_emp, i_empregados, data, tipo_proces, i_eventos, rateio, i_servicos, I_CALCULOS]
     acesso:
@@ -384,7 +384,7 @@ entidades:
       Uma linha por empregado, competência, tipo de folha, serviço e cálculo, com os totais já calculados pela Domínio:
       proventos, descontos e o líquido (calculado pelo modelo = proventos − descontos). Das ~35 colunas, o banco marca
       ~25 como "SEM USO" (IRRF, INSS, FGTS ficam em outras tabelas); só as vivas são expostas.
-    privacidade: "Totais de remuneração por empregado identificável (financeiro). Mascarar por padrão."
+    privacidade: "Totais de remuneração por empregado identificável (financeiro). Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: fobasesserv
     chave: [codi_emp, i_empregados, competencia, tipo_process, i_servicos, rateio, I_CALCULOS]
     acesso:
@@ -435,7 +435,9 @@ entidades:
       departamento_codigo: {coluna: i_depto, ops: [eq, in]}
       centro_custo_codigo: {coluna: i_ccustos, ops: [eq, in]}
       cargo_codigo: {coluna: i_cargos, ops: [eq, in]}
+      rateio: {coluna: rateio, ops: [eq, in]}
     regras:
+      - "ATENÇÃO AO SOMAR: cada cálculo aparece em DUAS linhas com os mesmos proventos e descontos quando a empresa tem rateio por serviço: rateio = 0 é a linha principal (a que tem o líquido em foliquidosfilepr) e rateio = 1 repete o total por serviço; somar tudo DOBRA os valores (empresa 354, 2026-08, folha mensal: proventos 89.783,78 com rateio = 0 e 179.567,56 somando as duas). Para totais use o filtro rateio = 0 (empresa 354: líquido gravado 67.938,00 = proventos − descontos das linhas rateio 0). Em 2026-08 há ainda 60 cálculos só com rateio = 2 (significado não confirmado), que o filtro rateio = 0 deixa de fora."
       - "proventos = Σ valor_calculado dos eventos P que aparecem no recibo; descontos = Σ dos eventos D que aparecem no recibo (validado: 99,99% e 99,4% de 56.026 linhas, 5 empresas)."
       - "liquido = proventos − descontos coincide com o líquido registrado pela Domínio em foliquidosfilepr em 99,8% dos pares empregado×cálculo."
       - "situacao_mes (valores 1, 9, 8, 6, 5, 59, 3, 16...) não tem descrição no banco: significado não confirmado."
@@ -444,7 +446,7 @@ entidades:
   liquido_folha:
     titulo: Líquido a pagar
     descricao: Líquido registrado pela Domínio para pagamento, por empregado e cálculo.
-    privacidade: "Valor líquido por empregado identificável (financeiro). Mascarar por padrão."
+    privacidade: "Valor líquido por empregado identificável (financeiro). Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: foliquidosfilepr
     chave: [codi_emp, i_empregados, SEQUENCIAL, I_LIQUIDOSFIL]
     acesso:
@@ -472,7 +474,7 @@ entidades:
   # ================================================ EVENTOS DO VÍNCULO ==================================================
   rescisao:
     titulo: Rescisões
-    privacidade: "Verbas rescisórias por empregado identificável (financeiro). Mascarar por padrão."
+    privacidade: "Verbas rescisórias por empregado identificável (financeiro). Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: forescisoes
     chave: [codi_emp, i_calculos, i_empregados, tipo]
     acesso: {empresa: codi_emp, periodo: demissao, volume: pequeno}

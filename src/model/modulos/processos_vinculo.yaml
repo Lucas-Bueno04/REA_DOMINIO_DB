@@ -1,0 +1,216 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: processos_vinculo
+titulo: Processos - vinculo (rascunho em lote)
+dominios:
+  pcvinculo_processo_atividade_vencimento_:
+    confirmado: true
+    nota: 'Todos os valores observados em PCVINCULO_PROCESSO_ATIVIDADE.VENCIMENTO_TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=3.'
+    valores: {'1': Dias corridos direto, '2': Dias corridos antecipados, '3': Dias corridos adiado, '4': Dias úteis}
+  pcvinculo_processo_atividade_inicio_mes_:
+    confirmado: true
+    nota: 'Todos os valores observados em PCVINCULO_PROCESSO_ATIVIDADE.INICIO_MES estão no comentário do banco (2026-10-18). Distribuição: 1=2, 3=1.'
+    valores: {'1': Anterior ao vencimento, '2': Informar quantidade de meses anteriores ao vencimento, '3': No mesmo do vencimento}
+  pcvinculo_processo_atividade_competencia:
+    confirmado: true
+    nota: 'Todos os valores observados em PCVINCULO_PROCESSO_ATIVIDADE.COMPETENCIA_MES estão no comentário do banco (2026-10-18). Distribuição: 1=2, 3=1.'
+    valores: {'1': Anterior ao vencimento, '2': Informar quantidade de meses anteriores ao vencimento, '3': No mesmo do vencimento}
+entidades:
+  pcvinculo_processo:
+    titulo: Vínculo entre processos e empresas
+    descricao: 'Vínculo entre processos e empresas. 3 linhas no catálogo; chave: I_VINCULO.'
+    tabela: PCVINCULO_PROCESSO
+    chave: [I_VINCULO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_INICIO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIO, desc]
+    - [I_VINCULO, asc]
+    colunas: {codigo: I_VINCULO, ordem: ORDEM, codigo_do_processo: CODI_EMP, codigo_da_empresa: I_PROCESSO, a_partir_de: COMPETENCIA_INICIO, encerrar_s_n: ENCERRAR,
+      competencia_de_encerramento: COMPETENCIA_ENCERRAMENTO, usuario_que_encerrou: USUARIO_ENCERRAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      pcprocesso:
+        tabela: PCPROCESSO
+        liga: {i_processo: i_processo}
+        colunas: {pcprocesso_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      a_partir_de:
+        coluna: COMPETENCIA_INICIO
+        ops: [entre, gte, lte]
+      competencia_de_encerramento:
+        coluna: COMPETENCIA_ENCERRAMENTO
+        ops: [entre, gte, lte]
+      codigo_da_empresa:
+        coluna: I_PROCESSO
+        ops: [eq, in]
+      encerrar_s_n:
+        coluna: ENCERRAR
+        ops: [eq, in]
+      usuario_que_encerrou:
+        coluna: USUARIO_ENCERRAMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s), COMPETENCIA_INICIO de 2018-02-01 a 2018-02-01.', 'Colunas expostas nulas em 100% das linhas (2): competencia_de_encerramento,
+        usuario_que_encerrou.', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 1).', 'Vínculo pcprocesso (PCPROCESSO): 0 de 3 linhas
+        sem registro relacionado (empresa 1).']
+  pcvinculo_processo_responsavel:
+    titulo: Vínculo entre processos e empresas - Responsáveis
+    descricao: 'Vínculo entre processos e empresas - Responsáveis. 3 linhas no catálogo; chave: I_VINCULO, I_SEQUENCIAL_RESPONSAVEL.'
+    tabela: PCVINCULO_PROCESSO_RESPONSAVEL
+    chave: [I_VINCULO, I_SEQUENCIAL_RESPONSAVEL]
+    acesso: {empresa: null, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_VINCULO, asc]
+    - [I_SEQUENCIAL_RESPONSAVEL, asc]
+    colunas: {codigo_do_vinculo: I_VINCULO, sequencial: I_SEQUENCIAL_RESPONSAVEL, competencia: COMPETENCIA, codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_vinculo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_RESPONSAVEL
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, COMPETENCIA de 2017-12-01 a 2018-02-01.', 'Vínculo usconfusuario (usConfUsuario): 0 de 3 linhas sem registro relacionado.']
+  pcvinculo_processo_atividade:
+    titulo: Vínculo entre processos e empresas - Atividades
+    descricao: 'Vínculo entre processos e empresas - Atividades. 3 linhas no catálogo; chave: I_VINCULO, I_SEQUENCIAL_ATIVIDADE.'
+    tabela: PCVINCULO_PROCESSO_ATIVIDADE
+    chave: [I_VINCULO, I_SEQUENCIAL_ATIVIDADE]
+    acesso: {empresa: null, periodo: COMPETENCIA_INICIO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIO, desc]
+    - [I_VINCULO, asc]
+    - [I_SEQUENCIAL_ATIVIDADE, asc]
+    colunas:
+      codigo_do_vinculo: I_VINCULO
+      sequencial: I_SEQUENCIAL_ATIVIDADE
+      ordem: ORDEM
+      codigo_da_atividade: I_ATIVIDADE
+      a_partir_de: COMPETENCIA_INICIO
+      vencimento_dias: VENCIMENTO_DIA
+      vencimento_tipo: {coluna: VENCIMENTO_TIPO, dominio: pcvinculo_processo_atividade_vencimento_}
+      vencimento_mes_1o_bimestre: VENCIMENTO_BIMESTRE1
+      vencimento_mes_2o_bimestre: VENCIMENTO_BIMESTRE2
+      vencimento_mes_3o_bimestre: VENCIMENTO_BIMESTRE3
+      vencimento_mes_4o_bimestre: VENCIMENTO_BIMESTRE4
+      vencimento_mes_5o_bimestre: VENCIMENTO_BIMESTRE5
+      vencimento_mes_6o_bimestre: VENCIMENTO_BIMESTRE6
+      vencimento_mes_1o_trimestre: VENCIMENTO_TRIMESTRE1
+      vencimento_mes_2o_trimestre: VENCIMENTO_TRIMESTRE2
+      vencimento_mes_3o_trimestre: VENCIMENTO_TRIMESTRE3
+      vencimento_mes_4o_trimestre: VENCIMENTO_TRIMESTRE4
+      vencimento_mes_1o_quadrimestre: VENCIMENTO_QUADRIMESTRE1
+      vencimento_mes_2o_quadrimestre: VENCIMENTO_QUADRIMESTRE2
+      vencimento_mes_3o_quadrimestre: VENCIMENTO_QUADRIMESTRE3
+      vencimento_mes_1o_semestre: VENCIMENTO_SEMESTRE1
+      vencimento_mes_2o_semestre: VENCIMENTO_SEMESTRE2
+      vencimento_mes_ano: VENCIMENTO_ANUAL
+      inicio_dias: INICIO_DIA
+      inicio_mes_1_anterior_ao_vencimento_2_in: {coluna: INICIO_MES, dominio: pcvinculo_processo_atividade_inicio_mes_}
+      inicio_meses_anteriores: INICIO_MES_ANTERIOR
+      competencia_de_referencia_mes_1_anterior: {coluna: COMPETENCIA_MES, dominio: pcvinculo_processo_atividade_competencia}
+      competencia_de_referencia_meses_anterior: COMPETENCIA_MES_ANTERIOR
+      atividade_dependente_s_n: DEPENDENTE
+      encerrar_s_n: ENCERRAR
+      competencia_de_encerramento: COMPETENCIA_ENCERRAMENTO
+      usuario_que_encerrou: USUARIO_ENCERRAMENTO
+      vencimento_mes: VENCIMENTO_MES
+      vencimento_ano: VENCIMENTO_ANO
+    vinculos:
+      pcatividade:
+        tabela: PCATIVIDADE
+        liga: {i_atividade: i_atividade}
+        colunas: {pcatividade_nome: NOME}
+    filtros:
+      codigo_do_vinculo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_ATIVIDADE
+        ops: [eq, in]
+      a_partir_de:
+        coluna: COMPETENCIA_INICIO
+        ops: [entre, gte, lte]
+      competencia_de_encerramento:
+        coluna: COMPETENCIA_ENCERRAMENTO
+        ops: [entre, gte, lte]
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      vencimento_tipo:
+        coluna: VENCIMENTO_TIPO
+        ops: [eq, in]
+      atividade_dependente_s_n:
+        coluna: DEPENDENTE
+        ops: [eq, in]
+      encerrar_s_n:
+        coluna: ENCERRAR
+        ops: [eq, in]
+      usuario_que_encerrou:
+        coluna: USUARIO_ENCERRAMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, COMPETENCIA_INICIO de 2018-02-01 a 2018-02-01.', 'Colunas expostas nulas em 100% das linhas (2): competencia_de_encerramento,
+        usuario_que_encerrou.', 'vencimento_tipo: todos os valores reais estão no comentário do banco (2=3).', 'inicio_mes_1_anterior_ao_vencimento_2_in: todos os
+        valores reais estão no comentário do banco (1=2, 3=1).', 'competencia_de_referencia_mes_1_anterior: todos os valores reais estão no comentário do banco (1=2,
+        3=1).', 'Vínculo pcatividade (PCATIVIDADE): 0 de 3 linhas sem registro relacionado.']
+  pcvinculo_processo_atividade_responsavel:
+    titulo: Vínculo entre processos e empresas - Atividades - Responsáveis
+    descricao: 'Vínculo entre processos e empresas - Atividades - Responsáveis. 3 linhas no catálogo; chave: I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_RESPONSAVEL.'
+    tabela: PCVINCULO_PROCESSO_ATIVIDADE_RESPONSAVEL
+    chave: [I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_RESPONSAVEL]
+    acesso: {empresa: null, periodo: A_PARTIR_DE, volume: pequeno}
+    ordem:
+    - [A_PARTIR_DE, desc]
+    - [I_VINCULO, asc]
+    - [I_SEQUENCIAL_ATIVIDADE, asc]
+    colunas: {codigo_do_vinculo: I_VINCULO, sequencial_da_atividade: I_SEQUENCIAL_ATIVIDADE, sequencial: I_SEQUENCIAL_RESPONSAVEL, codigo_do_responsavel: I_RESPONSAVEL,
+      responsavel_tipo: RESPONSAVEL_TIPO, a_partir_de: A_PARTIR_DE, encerrado_em: ENCERRADO_EM}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_vinculo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      sequencial_da_atividade:
+        coluna: I_SEQUENCIAL_ATIVIDADE
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_RESPONSAVEL
+        ops: [eq, in]
+      a_partir_de:
+        coluna: A_PARTIR_DE
+        ops: [entre, gte, lte]
+      encerrado_em:
+        coluna: ENCERRADO_EM
+        ops: [entre, gte, lte]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, A_PARTIR_DE de 2017-12-01 a 2018-02-01.', 'Colunas expostas nulas em 100% das linhas (1): encerrado_em.', 'Vínculo usconfusuario
+        (usConfUsuario): 0 de 3 linhas sem registro relacionado.']

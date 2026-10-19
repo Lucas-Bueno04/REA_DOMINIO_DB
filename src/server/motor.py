@@ -11,6 +11,7 @@ filtro por coluna líder de índice, SELECT-only, valores sempre como parâmetro
 from __future__ import annotations
 
 import collections
+import unicodedata
 import datetime
 import decimal
 import difflib
@@ -134,6 +135,35 @@ class Motor:
     def _colunas(self, tabela: str) -> list[dict]:
         return [dict(r) for r in self.cat.execute("select * from colunas where tabela=? collate nocase order by ordem", (tabela,))]
 
+    def _variantes(self, tabela: str, coluna: str, valor, op: str):
+        """(op, valor) a usar no WHERE. Os CHAR(n) do banco guardam textos com brancos no fim ('0101    ') ou à esquerda ('             1') em algumas linhas e sem brancos em
+        outras da MESMA coluna, e a igualdade não ignora brancos: `NCM = '0101'` não acha '0101    '. Para igualdade e lista, testa as três formas (como veio, completada
+        à direita e à esquerda até o tamanho da coluna) com IN, que mantém o uso do índice (RTRIM não manteria). LIKE (contem/prefixo) e intervalos ficam como estão."""
+        if op not in ("eq", "in"):
+            return op, valor
+        cache = self.__dict__.setdefault("_tam_char", {})
+        chave = tabela.lower()
+        if chave not in cache:
+            cache[chave] = {c["nome"].lower(): int(c["tamanho"] or 0) for c in self._colunas(tabela) if (c["tipo"] or "").lower() == "char"}
+        n = cache[chave].get(str(coluna).lower(), 0)
+        if op == "eq" and valor == "" and self._eh_texto(tabela, coluna):
+            return "branco", None             # texto vazio: o banco tem '' e ' ' misturados; a comparação ignora os brancos (TRIM)
+        vals = list(valor) if op == "in" else [valor]
+        if n <= 1 or not any(isinstance(v, str) and len(v) < n for v in vals):
+            return op, valor
+        if len(vals) > self.lim["valores_em_in_maximo"]:
+            raise ErroUso(f"Lista de valores grande demais (máximo {self.lim['valores_em_in_maximo']}).")
+        out = []
+        for v in vals:
+            for x in ([v, v.ljust(n), v.rjust(n)] + ([" "] if v == "" else []) if isinstance(v, str) and len(v) < n else [v]):
+                if x not in out:
+                    out.append(x)
+        return "in_pad", out
+
+    def _eh_texto(self, tabela: str, coluna: str) -> bool:
+        c = next((c for c in self._colunas(tabela) if c["nome"].lower() == str(coluna).lower()), None)
+        return bool(c) and (c["tipo"] or "").lower() in ("char", "varchar")
+
     def _pk(self, tabela: str) -> list[str]:
         return [r[0] for r in self.cat.execute("select nome from colunas where tabela=? collate nocase and pk=1 order by ordem", (tabela,))]
 
@@ -161,24 +191,62 @@ class Motor:
         deps = self.cat.execute("""select departamento, count(*) as tabelas, sum(linhas) as linhas from tabelas
                                    where tipo='BASE' and legivel=1 and na_lista_gerador=1 group by 1 order by 2 desc""").fetchall()
         return {
-            "modulos_modelados": {m: {"entidades": len(v), "nomes": v} for m, v in sorted(mods.items())},
+            "modulos_modelados": {m: {"entidades": len(v), "exemplos": v[:6]} for m, v in sorted(mods.items())},
+            "total_entidades": len(self.ents),
             "departamentos_do_banco": [{"departamento": r["departamento"], "tabelas": r["tabelas"], "linhas": r["linhas"]} for r in deps],
             "consultas_agregadas": ["balancete", "contas_a_receber"],
-            "dica": "Use listar_entidades/descrever_entidade para consultas curadas; buscar_tabelas/descrever_tabela/consultar_tabela para qualquer outra tabela.",
+            "dica": "Use buscar_entidades(termo) para achar a entidade certa entre as centenas modeladas, depois descrever_entidade e consultar_entidade; buscar_tabelas/descrever_tabela/consultar_tabela para qualquer outra tabela.",
         }
 
-    def listar_entidades(self, modulo: str | None = None) -> dict:
-        out = []
+    def _resumo_entidade(self, n: str, e: dict) -> dict:
+        ac = e.get("acesso", {})
+        return {"entidade": n, "modulo": e["_modulo"], "titulo": e.get("titulo"), "tabela": e["tabela"], "volume": ac.get("volume"),
+                "exige_empresa": bool(ac.get("empresa")), "exige_algum_destes": ac.get("exige_algum"), "periodo": bool(ac.get("periodo")),
+                "filtros": list(e.get("filtros", {}))}
+
+    def listar_entidades(self, modulo: str | None = None, limite: int = 100, offset: int = 0) -> dict:
+        if modulo and modulo not in {e["_modulo"] for e in self.ents.values()}:
+            raise ErroUso(f"Módulo '{modulo}' sem entidades.{_sugerir(modulo, {e['_modulo'] for e in self.ents.values()})}")
+        todas = [(n, e) for n, e in self.ents.items() if not modulo or e["_modulo"] == modulo]
+        limite = max(1, min(int(limite), 500)); offset = max(0, int(offset))
+        pag = todas[offset: offset + limite]
+        r = {"total": len(todas), "entidades": [self._resumo_entidade(n, e) for n, e in pag]}
+        if offset + limite < len(todas):
+            r["proximo_offset"] = offset + limite
+        return r
+
+    @staticmethod
+    def _norm(t: str) -> str:
+        return "".join(c for c in unicodedata.normalize("NFKD", (t or "").lower()) if not unicodedata.combining(c))
+
+    def buscar_entidades(self, termo: str, modulo: str | None = None, limite: int = 25) -> dict:
+        """Busca entidades por palavras (todas devem aparecer) em nome, título, descrição, tabela, nomes de campos e comentários do banco."""
+        palavras = [w for w in re.split(r"[^a-z0-9]+", self._norm(termo)) if len(w) >= 2]
+        if not palavras:
+            raise ErroUso("Informe ao menos uma palavra (2+ letras) em 'termo'.")
+        achados = []
         for n, e in self.ents.items():
             if modulo and e["_modulo"] != modulo:
                 continue
-            ac = e.get("acesso", {})
-            out.append({"entidade": n, "modulo": e["_modulo"], "titulo": e.get("titulo"), "tabela": e["tabela"], "volume": ac.get("volume"),
-                        "exige_empresa": bool(ac.get("empresa")), "exige_algum_destes": ac.get("exige_algum"), "periodo": bool(ac.get("periodo")),
-                        "filtros": list(e.get("filtros", {}))})
-        if modulo and not out:
-            raise ErroUso(f"Módulo '{modulo}' sem entidades.{_sugerir(modulo, {e['_modulo'] for e in self.ents.values()})}")
-        return {"total": len(out), "entidades": out}
+            campos = " ".join(e["colunas"])
+            alto = self._norm(f"{n} {e.get('titulo') or ''} {e['tabela']}")
+            medio = self._norm(f"{e.get('descricao') or ''} {campos}")
+            pontos, todas = 0, True
+            for w in palavras:
+                if w in alto:
+                    pontos += 3
+                elif w in medio:
+                    pontos += 1
+                else:
+                    todas = False; break
+            if todas:
+                pontos += 0 if e.get("_gerada") else 1      # curadas à mão vencem as geradas em lote em caso de empate
+                achados.append((pontos, len(n), n, e))
+        achados.sort(key=lambda x: (-x[0], x[1], x[2]))
+        limite = max(1, min(int(limite), 100))
+        return {"termo": termo, "total": len(achados), "entidades": [self._resumo_entidade(n, e) | {"pontos": p, "origem": "gerada em lote" if e.get("_gerada") else "curada"} for p, _, n, e in achados[:limite]],
+                "dica": "Use descrever_entidade(nome) para ver campos, filtros obrigatórios e regras antes de consultar_entidade." if achados else
+                        "Nada encontrado: tente outra palavra ou use buscar_tabelas(termo) para qualquer tabela do banco."}
 
     def descrever_entidade(self, entidade: str) -> dict:
         e = self._entidade(entidade)
@@ -293,7 +361,7 @@ class Motor:
     def _entidade(self, nome: str) -> dict:
         e = self.ents.get(nome)
         if not e:
-            raise ErroUso(f"Entidade '{nome}' não existe.{_sugerir(nome, self.ents)} Use listar_entidades.")
+            raise ErroUso(f"Entidade '{nome}' não existe.{_sugerir(nome, self.ents)} Use buscar_entidades(termo) ou listar_entidades.")
         return e
 
     def _filtros_entidade(self, e: dict, empresa, filtros) -> dict:
@@ -306,10 +374,17 @@ class Motor:
         for nome, v in (filtros or {}).items():
             if nome == "empresa":
                 out["empresa"] = v; continue
-            op, val = self._par(v, periodo=(nome == "periodo"))
-            if nome != "periodo" and nome not in e.get("filtros", {}):
+            eh_periodo = nome == "periodo" and bool(ac.get("periodo"))        # 'periodo' só é o período da tabela quando ela tem coluna de período (senão é um filtro comum)
+            op, val = self._par(v, periodo=eh_periodo)
+            if not eh_periodo and nome not in e.get("filtros", {}):
                 raise ErroUso(f"Filtro '{nome}' não existe nesta entidade.{_sugerir(nome, e.get('filtros', {}))} Filtros: {', '.join(e.get('filtros', {}))}")
-            out[nome] = (op, _coagir(val))
+            fcol = e["filtros"][nome]["coluna"] if not eh_periodo else None
+            val = _coagir(val)
+            if not eh_periodo and op not in e["filtros"][nome]["ops"]:
+                raise ErroUso(f"Operador '{op}' não permitido no filtro '{nome}' (permitidos: {', '.join(e['filtros'][nome]['ops'])}).")
+            if fcol and not isinstance(fcol, list):
+                op, val = self._variantes(e["tabela"], fcol, val, op)
+            out[nome] = (op, val)
         return out
 
     def _par(self, v, periodo: bool = False):
@@ -377,6 +452,55 @@ class Motor:
             res["dica"] = "Veja descrever_entidade para as regras de negócio validadas desta entidade."
         return res
 
+    # ------------------------------------------------------------------ totais por grupo (agregação)
+    def campos_numericos(self, entidade: str) -> list[str]:
+        """Campos somáveis da entidade (ver sqlbuilder.campos_somaveis) mais as colunas calculadas."""
+        e = self._entidade(entidade)
+        cols = {c["nome"].lower(): c for c in self._colunas(e["tabela"])}
+        return sb.campos_somaveis(e, cols) + list(e.get("calculadas", {}))
+
+    def agregar_entidade(self, entidade: str, empresa=None, filtros: dict | None = None, agrupar_por: list[str] | None = None,
+                         metricas: list[str] | None = None, funcao: str = "soma", limite: int = 100, decrescente: bool = False) -> dict:
+        args = {"entidade": entidade, "empresa": empresa, "filtros": filtros, "agrupar_por": agrupar_por, "metricas": metricas, "funcao": funcao}
+        return self._executar("agregar_entidade", args, lambda: self._agregar_entidade(entidade, empresa, filtros, agrupar_por, metricas, funcao, limite, decrescente))
+
+    def _agregar_entidade(self, entidade, empresa, filtros, agrupar_por, metricas, funcao, limite, decrescente):
+        e = self._entidade(entidade)
+        f = self._filtros_entidade(e, empresa, filtros)
+        num = self.campos_numericos(entidade)
+        calc = e.get("calculadas", {})
+        metricas = list(metricas or [])
+        for m in metricas:
+            if m not in num or m in calc:
+                raise ErroUso(f"'{m}' não é um campo somável desta entidade. Campos numéricos: {', '.join(x for x in num if x not in calc) or 'nenhum'}.")
+        grupos = []
+        for item in agrupar_por or []:
+            campo, _, gran = item.partition(":")
+            grupos.append((campo.strip(), gran.strip() or None))
+        reais = {api: (v["coluna"] if isinstance(v, dict) else v) for api, v in e["colunas"].items()}
+        cols = {c["nome"].lower(): c for c in self._colunas(e["tabela"])}
+        for campo, gran in grupos:
+            if campo not in reais:
+                raise ErroUso(f"Agrupamento por '{campo}' não permitido: use um campo da entidade ({', '.join(reais)}).")
+            tipo = (cols.get(reais[campo].lower(), {}).get("tipo") or "").lower()
+            if gran and not tipo.startswith(("date", "timestamp")):
+                raise ErroUso(f"'{campo}' não é data: use '{campo}' sem granularidade (a granularidade mes/ano/dia é só para datas).")
+            if not gran and tipo.startswith(("date", "timestamp")):
+                raise ErroUso(f"'{campo}' é data: agrupe por '{campo}:mes', '{campo}:ano' ou '{campo}:dia'.")
+        if funcao not in sb.FUNCOES_AGREGADAS:
+            raise ErroUso(f"Função '{funcao}' desconhecida. Use: {', '.join(sb.FUNCOES_AGREGADAS)}.")
+        mets = [(funcao, m) for m in metricas]
+        limite = max(1, min(int(limite or 100), self.lim["linhas_maximo"]))
+        try:
+            sql, par = sb.montar_agregado(e, f, agrupar=grupos, metricas=mets, limite=limite, ordem_desc=decrescente)
+            linhas = [_linha(r) for r in self._sql(sql, par)]
+            sg, pg = sb.montar_agregado(e, f, agrupar=[], metricas=mets, limite=1)
+            geral = _linha(self._sql(sg, pg)[0])
+        except sb.ErroConsulta as ex:
+            raise ErroUso(str(ex)) from None
+        return {"entidade": entidade, "tabela": e["tabela"], "agrupado_por": agrupar_por or [], "funcao": funcao, "grupos": linhas, "retornados": len(linhas),
+                "truncado": len(linhas) == limite and bool(grupos), "total_geral": geral}
+
     # ------------------------------------------------------------------ tabela genérica
     def consultar_tabela(self, tabela: str, empresa=None, filtros=None, colunas: list[str] | None = None, ordem: list[str] | None = None,
                          limite: int = 50, offset: int = 0, contar: bool = False) -> dict:
@@ -430,6 +554,7 @@ class Motor:
             op, val = self._par(it["valor"]) if "op" not in it else (ALIAS_OPS.get(it["op"]), it.get("valor"))
             if op not in OPS_GENERICOS:
                 raise ErroUso(f"Operador inválido em '{col}'. Use: {', '.join(sorted(OPS_GENERICOS))}.")
+            op, val = self._variantes(t["nome"], col, val, op)
             expr = f"t.{por_nome[col]['nome']}"
             if op == "nulo":
                 conds.append(f"{expr} IS {'NULL' if val in (True, 'sim', 1, 'S') else 'NOT NULL'}")

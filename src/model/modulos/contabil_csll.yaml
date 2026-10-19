@@ -1,0 +1,504 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_csll
+titulo: Contábil - csll (rascunho em lote)
+dominios:
+  lrcsll_real_base_negativa_origem_do_lancamento_m_manual_s_sist:
+    confirmado: true
+    nota: 'Todos os valores observados em LRCSLL_REAL_BASE_NEGATIVA.ORIGEM_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: S=2.551, M=1.'
+    valores: {M: Manual, S: Sistema, C: Cisão, I: Incorporação}
+  lrcsll_real_base_negativa_origem_do_lancamento_p_prejuizo_c_co:
+    confirmado: true
+    nota: 'Todos os valores observados em LRCSLL_REAL_BASE_NEGATIVA.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: P=2.449, C=80, O=23.'
+    valores: {P: Prejuízo, C: Compensação, O: Outros, L: Liquid. Parc. IN 1687, T: Pert. Lei 13.496}
+entidades:
+  lrcsll_real_adicao_lancamento:
+    titulo: Lançamentos de Adições da Contribuição Social - Lancamentos Contábeis
+    descricao: 'Lançamentos de Adições da Contribuição Social - Lancamentos Contábeis. 2.569 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_ADICAO, I_ITEM, I_LANCAMENTO.'
+    tabela: LRCSLL_REAL_ADICAO_LANCAMENTO
+    chave: [CODI_EMP, I_CSLL_REAL_ADICAO, I_ITEM, I_LANCAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CSLL_REAL_ADICAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_adicao_da_csll: I_CSLL_REAL_ADICAO, sequencial_da_adicao: I_ITEM, sequencial: I_LANCAMENTO, numero_lote_lancamento: NUMERO_LOTE,
+      data: DATA_LANCAMENTO, conta: CONTA, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_historico: CODIGO_HISTORICO, historico: HISTORICO,
+      tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrcsll_real_adicao_item:
+        tabela: LRCSLL_REAL_ADICAO_ITEM
+        liga: {codi_emp: codi_emp, i_csll_real_adicao: i_csll_real_adicao, i_item: i_item}
+        colunas: {lrcsll_real_adicao_item_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_adicao_da_csll:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+      sequencial_da_adicao:
+        coluna: I_ITEM
+        ops: [eq, in]
+      sequencial:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_historico:
+        coluna: CODIGO_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.569 linhas, 44 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-08-31.', 'Vínculo lrcsll_real_adicao_item (LRCSLL_REAL_ADICAO_ITEM):
+        0 de 15 linhas sem registro relacionado (empresa 1022).']
+  lrcsll_real_base_negativa:
+    titulo: Base Negativa
+    descricao: 'Base Negativa. 2.552 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_BASE_NEGATIVA.'
+    tabela: LRCSLL_REAL_BASE_NEGATIVA
+    chave: [CODI_EMP, I_CSLL_REAL_BASE_NEGATIVA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_CSLL_REAL_BASE_NEGATIVA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_CSLL_REAL_BASE_NEGATIVA
+      competencia: COMPETENCIA
+      conta_base_negativa: I_BASE_NEGATIVA
+      historico: HISTORICO
+      debito: VALOR_DEBITO
+      credito: VALOR_CREDITO
+      origem_do_lancamento_m_manual_s_sistema: {coluna: ORIGEM_LANCAMENTO, dominio: lrcsll_real_base_negativa_origem_do_lancamento_m_manual_s_sist}
+      scp: I_SCP
+      origem_do_lancamento_p_prejuizo_c_compen: {coluna: TIPO_LANCAMENTO, dominio: lrcsll_real_base_negativa_origem_do_lancamento_p_prejuizo_c_co}
+      codigo_do_lancamento_de_adicao: I_CSLL_REAL_ADICAO
+      codigo_do_lancamento_de_adicao_item: I_CSLL_REAL_ADICAO_ITEM
+      codigo_do_lancamento_de_exclusao: I_CSLL_REAL_EXCLUSAO
+      codigo_do_lancamento_de_exclusao_item: I_CSLL_REAL_EXCLUSAO_ITEM
+      tipo_atividade: TIPO_ATIVIDADE
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrbase_negativa_parte_b:
+        tabela: LRBASE_NEGATIVA_PARTE_B
+        liga: {codi_emp: codi_emp, i_base_negativa: i_base_negativa_parte_b}
+        colunas: {lrbase_negativa_parte_b_nome: DESCRICAO}
+      lrcsll_real_adicao_item:
+        tabela: LRCSLL_REAL_ADICAO_ITEM
+        liga: {codi_emp: codi_emp, i_csll_real_adicao: i_csll_real_adicao, i_csll_real_adicao_item: i_item}
+        colunas: {lrcsll_real_adicao_item_nome: DESCRICAO}
+      lrcsll_real_exclusao_ite:
+        tabela: LRCSLL_REAL_EXCLUSAO_ITEM
+        liga: {codi_emp: codi_emp, i_csll_real_exclusao: i_csll_real_exclusao, i_csll_real_exclusao_item: i_item}
+        colunas: {lrcsll_real_exclusao_ite_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CSLL_REAL_BASE_NEGATIVA
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      conta_base_negativa:
+        coluna: I_BASE_NEGATIVA
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      origem_do_lancamento_m_manual_s_sistema:
+        coluna: ORIGEM_LANCAMENTO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      origem_do_lancamento_p_prejuizo_c_compen:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      codigo_do_lancamento_de_adicao:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+      codigo_do_lancamento_de_adicao_item:
+        coluna: I_CSLL_REAL_ADICAO_ITEM
+        ops: [eq, in]
+      codigo_do_lancamento_de_exclusao:
+        coluna: I_CSLL_REAL_EXCLUSAO
+        ops: [eq, in]
+      codigo_do_lancamento_de_exclusao_item:
+        coluna: I_CSLL_REAL_EXCLUSAO_ITEM
+        ops: [eq, in]
+      tipo_atividade:
+        coluna: TIPO_ATIVIDADE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.552 linhas, 65 empresa(s), COMPETENCIA de 2018-03-01 a 2026-08-01.', 'Colunas expostas nulas em 100% das linhas (3): scp, codigo_do_lancamento_de_adicao,
+        codigo_do_lancamento_de_adicao_item.', 'origem_do_lancamento_m_manual_s_sistema: todos os valores reais estão no comentário do banco (S=2.551, M=1).', 'origem_do_lancamento_p_prejuizo_c_compen:
+        todos os valores reais estão no comentário do banco (P=2.449, C=80, O=23).', 'Vínculo geempre (geempre): 0 de 25 linhas sem registro relacionado (empresa
+        648).', 'Vínculo gescp (GESCP): 25 de 25 linhas sem registro relacionado (empresa 648).', 'Vínculo lrbase_negativa_parte_b (LRBASE_NEGATIVA_PARTE_B): 0 de
+        25 linhas sem registro relacionado (empresa 648).', 'Vínculo lrcsll_real_adicao_item (LRCSLL_REAL_ADICAO_ITEM): 25 de 25 linhas sem registro relacionado (empresa
+        648).', 'Vínculo lrcsll_real_exclusao_ite (LRCSLL_REAL_EXCLUSAO_ITEM): 25 de 25 linhas sem registro relacionado (empresa 648).']
+  lrcsll_real_deducao:
+    titulo: Deduções da Contribuição Social (Real)
+    descricao: 'Deduções da Contribuição Social (Real). 346 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_DEDUCAO.'
+    tabela: LRCSLL_REAL_DEDUCAO
+    chave: [CODI_EMP, I_CSLL_REAL_DEDUCAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_SALDO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_SALDO, desc]
+    - [I_CSLL_REAL_DEDUCAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CSLL_REAL_DEDUCAO, competencia: COMPETENCIA, pago_em_meses_anteriores: VALOR_PAGO_EM_MES_ANTERIOR, orgaos_publicos_federais: VALOR_ORGAO_PUBLICO_FEDERAL,
+      outras_pessoas_juridicas: VALOR_OUTRA_PESSOA_JURIDICA, estados_e_municipios: VALOR_ESTADO_MUNICIPIO, administracao_publica: VALOR_ADMINISTRACAO_PUBLICA, outras_deducoes: VALOR_OUTRA_DEDUCAO,
+      scp: I_SCP, pago_no_exterior_sobre_lucros_rendimento: VALOR_PAGO_EXTERIOR, parcelamento_formalizado_de_csll_sobre_a: VALOR_PARCELAMENTO_FORMALIZADO, compensacao_de_impostos_federais_de_peri: VALOR_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR,
+      ajuste_anual: AJUSTE_ANUAL, valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC, importar_retencoes_como_valor_pago_em_me: RETENCOES_PAGO_MESES_ANT, data_de_inicio_do_controle_de_saldo: DATA_INICIO_SALDO,
+      desconsiderar_saldo_de_dezembro: DESCONSIDERAR_SALDO_DEZEMBRO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CSLL_REAL_DEDUCAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_inicio_do_controle_de_saldo:
+        coluna: DATA_INICIO_SALDO
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      importar_retencoes_como_valor_pago_em_me:
+        coluna: RETENCOES_PAGO_MESES_ANT
+        ops: [eq, in]
+      desconsiderar_saldo_de_dezembro:
+        coluna: DESCONSIDERAR_SALDO_DEZEMBRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 346 linhas, 24 empresa(s), DATA_INICIO_SALDO de 2024-12-17 a 2026-09-25.', 'Colunas expostas nulas em 100% das linhas (1): scp.',
+      'Vínculo geempre (geempre): 0 de 8 linhas sem registro relacionado (empresa 758).', 'Vínculo gescp (GESCP): 8 de 8 linhas sem registro relacionado (empresa
+        758).']
+  lrcsll_real_adicao_item:
+    titulo: Lançamentos de Adições da Contribuição Social - Adições
+    descricao: 'Lançamentos de Adições da Contribuição Social - Adições. 310 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_ADICAO, I_ITEM.'
+    tabela: LRCSLL_REAL_ADICAO_ITEM
+    chave: [CODI_EMP, I_CSLL_REAL_ADICAO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CSLL_REAL_ADICAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_adicao_da_csll: I_CSLL_REAL_ADICAO, sequencial: I_ITEM, adicao: I_ADICAO, descricao: DESCRICAO, valor: VALOR,
+      valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_lancamento_de_adicao_da_irpj: I_IRPJ_REAL_ADICAO, tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_adicao_da_csll:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_lancamento_de_adicao_da_irpj:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 310 linhas, 46 empresa(s).', 'Vínculo lradicao (LRADICAO): 0 de 4 linhas sem registro relacionado (empresa 1011).']
+  lrcsll_real_adicao:
+    titulo: Lançamentos de Adições da Contribuição Social
+    descricao: 'Lançamentos de Adições da Contribuição Social. 307 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_ADICAO.'
+    tabela: LRCSLL_REAL_ADICAO
+    chave: [CODI_EMP, I_CSLL_REAL_ADICAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CSLL_REAL_ADICAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CSLL_REAL_ADICAO, data_do_lancamento: DATA_LANCAMENTO, complemento: COMPLEMENTO, scp: I_SCP, grupo_geral: I_GRUPO_CSLL_ADICAO_GERAL,
+      grupo_sistema_financeiro: I_GRUPO_CSLL_ADICAO_SF, grupo_sociedade_seguradora: I_GRUPO_CSLL_ADICAO_S, tipo_de_lancamento_g_geral_r_rural: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrtabela_grupo_csll_adic:
+        tabela: LRTABELA_GRUPO_CSLL_ADICAO_SEGURADORA
+        liga: {i_grupo_csll_adicao_s: i_grupo_csll_adicao_s}
+        colunas: {lrtabela_grupo_csll_adic_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      grupo_geral:
+        coluna: I_GRUPO_CSLL_ADICAO_GERAL
+        ops: [eq, in]
+      grupo_sistema_financeiro:
+        coluna: I_GRUPO_CSLL_ADICAO_SF
+        ops: [eq, in]
+      grupo_sociedade_seguradora:
+        coluna: I_GRUPO_CSLL_ADICAO_S
+        ops: [eq, in]
+      tipo_de_lancamento_g_geral_r_rural:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 307 linhas, 46 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-08-31.', 'Colunas expostas nulas em 100% das linhas (3): scp,
+        grupo_sistema_financeiro, grupo_sociedade_seguradora.', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 1011).', 'Vínculo gescp
+        (GESCP): 4 de 4 linhas sem registro relacionado (empresa 1011).', 'Vínculo lrtabela_grupo_csll_adic (LRTABELA_GRUPO_CSLL_ADICAO_SEGURADORA): 0 de 4 linhas
+        sem registro relacionado (empresa 1011).']
+  lrcsll_estimado_deducao:
+    titulo: Deduções da Contribuição Social (Estimado)
+    descricao: 'Deduções da Contribuição Social (Estimado). 152 linhas no catálogo; chave: CODI_EMP, I_CSLL_ESTIMADO_DEDUCAO.'
+    tabela: LRCSLL_ESTIMADO_DEDUCAO
+    chave: [CODI_EMP, I_CSLL_ESTIMADO_DEDUCAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_SALDO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_SALDO, desc]
+    - [I_CSLL_ESTIMADO_DEDUCAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CSLL_ESTIMADO_DEDUCAO, competencia: COMPETENCIA, pago_em_meses_anteriores: VALOR_PAGO_EM_MES_ANTERIOR, orgaos_publicos_federais: VALOR_ORGAO_PUBLICO_FEDERAL,
+      outras_pessoas_juridicas: VALOR_OUTRA_PESSOA_JURIDICA, estados_e_municipios: VALOR_ESTADO_MUNICIPIO, administracao_publica: VALOR_ADMINISTRACAO_PUBLICA, outras_deducoes: VALOR_OUTRA_DEDUCAO,
+      scp: I_SCP, pago_no_exterior_sobre_lucros_rendimento: VALOR_PAGO_EXTERIOR, recuperacao_de_credito_de_csll: VALOR_RECUPERACAO_CREDITO, creditos_sobre_depreciacao_de_imobilizad: VALOR_CREDITO_DEPRECIACAO_IMOBILIZADO,
+      compensacao_de_impostos_federais_de_peri: VALOR_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR, valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC, data_de_inicio_do_controle_de_saldo: DATA_INICIO_SALDO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CSLL_ESTIMADO_DEDUCAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_inicio_do_controle_de_saldo:
+        coluna: DATA_INICIO_SALDO
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 152 linhas, 14 empresa(s), DATA_INICIO_SALDO de 2024-12-17 a 2026-09-25.', 'Colunas expostas nulas em 100% das linhas (1): scp.',
+      'Vínculo geempre (geempre): 0 de 6 linhas sem registro relacionado (empresa 1385).', 'Vínculo gescp (GESCP): 6 de 6 linhas sem registro relacionado (empresa
+        1385).']
+  lrcsll_real_exclusao_lancamento:
+    titulo: Lançamentos de Exclusões da Contribuição Social - Lancamentos Contábeis
+    descricao: 'Lançamentos de Exclusões da Contribuição Social - Lancamentos Contábeis. 150 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_EXCLUSAO, I_ITEM, I_LANCAMENTO.'
+    tabela: LRCSLL_REAL_EXCLUSAO_LANCAMENTO
+    chave: [CODI_EMP, I_CSLL_REAL_EXCLUSAO, I_ITEM, I_LANCAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CSLL_REAL_EXCLUSAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_exclusao_da_csll: I_CSLL_REAL_EXCLUSAO, sequencial_da_exclusao: I_ITEM, sequencial: I_LANCAMENTO, numero_lote_lancamento: NUMERO_LOTE,
+      data: DATA_LANCAMENTO, conta: CONTA, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_historico: CODIGO_HISTORICO, historico: HISTORICO,
+      tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrcsll_real_exclusao_ite:
+        tabela: LRCSLL_REAL_EXCLUSAO_ITEM
+        liga: {codi_emp: codi_emp, i_csll_real_exclusao: i_csll_real_exclusao, i_item: i_item}
+        colunas: {lrcsll_real_exclusao_ite_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_exclusao_da_csll:
+        coluna: I_CSLL_REAL_EXCLUSAO
+        ops: [eq, in]
+      sequencial_da_exclusao:
+        coluna: I_ITEM
+        ops: [eq, in]
+      sequencial:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_historico:
+        coluna: CODIGO_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 150 linhas, 8 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-06-30.', 'Vínculo lrcsll_real_exclusao_ite (LRCSLL_REAL_EXCLUSAO_ITEM):
+        0 de 16 linhas sem registro relacionado (empresa 1548).']
+  lrcsll_real_exclusao:
+    titulo: Lançamentos de Exclusões da Contribuição Social
+    descricao: 'Lançamentos de Exclusões da Contribuição Social. 119 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_EXCLUSAO.'
+    tabela: LRCSLL_REAL_EXCLUSAO
+    chave: [CODI_EMP, I_CSLL_REAL_EXCLUSAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CSLL_REAL_EXCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CSLL_REAL_EXCLUSAO, data_do_lancamento: DATA_LANCAMENTO, complemento: COMPLEMENTO, scp: I_SCP, grupo_geral: I_GRUPO_CSLL_EXCLUSAO_GERAL,
+      grupo_sistema_financeiro: I_GRUPO_CSLL_EXCLUSAO_SF, grupo_sociedade_seguradora: I_GRUPO_CSLL_EXCLUSAO_S, tipo_de_lancamento_g_geral_r_rural: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrtabela_grupo_csll_excl:
+        tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_SEGURADORA
+        liga: {i_grupo_csll_exclusao_s: i_grupo_csll_exclusao_s}
+        colunas: {lrtabela_grupo_csll_excl_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CSLL_REAL_EXCLUSAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      grupo_geral:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_GERAL
+        ops: [eq, in]
+      grupo_sistema_financeiro:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_SF
+        ops: [eq, in]
+      grupo_sociedade_seguradora:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_S
+        ops: [eq, in]
+      tipo_de_lancamento_g_geral_r_rural:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 119 linhas, 9 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-06-30.', 'Colunas expostas nulas em 100% das linhas (3): scp, grupo_sistema_financeiro,
+        grupo_sociedade_seguradora.', 'Vínculo geempre (geempre): 0 de 8 linhas sem registro relacionado (empresa 1619).', 'Vínculo gescp (GESCP): 8 de 8 linhas sem
+        registro relacionado (empresa 1619).', 'Vínculo lrtabela_grupo_csll_excl (LRTABELA_GRUPO_CSLL_EXCLUSAO_SEGURADORA): 0 de 8 linhas sem registro relacionado
+        (empresa 1619).']
+  lrcsll_real_exclusao_item:
+    titulo: Lançamentos de Exclusões da Contribuição Social - Exclusões
+    descricao: 'Lançamentos de Exclusões da Contribuição Social - Exclusões. 119 linhas no catálogo; chave: CODI_EMP, I_CSLL_REAL_EXCLUSAO, I_ITEM.'
+    tabela: LRCSLL_REAL_EXCLUSAO_ITEM
+    chave: [CODI_EMP, I_CSLL_REAL_EXCLUSAO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CSLL_REAL_EXCLUSAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_exclusoes_da_csl: I_CSLL_REAL_EXCLUSAO, sequencial: I_ITEM, exclusao: I_EXCLUSAO, descricao: DESCRICAO, valor: VALOR,
+      valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_lancamento_de_exclusoes_da_irp: I_IRPJ_REAL_EXCLUSAO, tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrexclusao:
+        tabela: LREXCLUSAO
+        liga: {codi_emp: codi_emp, i_exclusao: i_exclusao}
+        colunas: {lrexclusao_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_exclusoes_da_csl:
+        coluna: I_CSLL_REAL_EXCLUSAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      exclusao:
+        coluna: I_EXCLUSAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_lancamento_de_exclusoes_da_irp:
+        coluna: I_IRPJ_REAL_EXCLUSAO
+        ops: [eq, in]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 119 linhas, 9 empresa(s).', 'Vínculo lrexclusao (LREXCLUSAO): 0 de 8 linhas sem registro relacionado (empresa 1619).']
+  lrcsll_estimado_ganho:
+    titulo: Lançamentos de Ganhos da Contribuição Social
+    descricao: 'Lançamentos de Ganhos da Contribuição Social. 2 linhas no catálogo; chave: CODI_EMP, I_CSLL_ESTIMADO_GANHO.'
+    tabela: LRCSLL_ESTIMADO_GANHO
+    chave: [CODI_EMP, I_CSLL_ESTIMADO_GANHO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_CSLL_ESTIMADO_GANHO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CSLL_ESTIMADO_GANHO, competencia: COMPETENCIA, scp: I_SCP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_CSLL_ESTIMADO_GANHO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s), COMPETENCIA de 2013-03-31 a 2013-10-31.', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'Vínculo
+        geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 9997).']
+  lrcsll_estimado_ganho_item:
+    titulo: Lançamentos de Ganhos da Contribuição Social - Ganhos
+    descricao: 'Lançamentos de Ganhos da Contribuição Social - Ganhos. 2 linhas no catálogo; chave: CODI_EMP, I_CSLL_ESTIMADO_GANHO, I_ITEM.'
+    tabela: LRCSLL_ESTIMADO_GANHO_ITEM
+    chave: [CODI_EMP, I_CSLL_ESTIMADO_GANHO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CSLL_ESTIMADO_GANHO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_ganho_da_csll: I_CSLL_ESTIMADO_GANHO, sequencial: I_ITEM, ganho: I_GANHO, descricao: DESCRICAO, valor: VALOR}
+    vinculos:
+      lrganho:
+        tabela: LRGANHO
+        liga: {codi_emp: codi_emp, i_ganho: i_ganho}
+        colunas: {lrganho_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_ganho_da_csll:
+        coluna: I_CSLL_ESTIMADO_GANHO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      ganho:
+        coluna: I_GANHO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo lrganho (LRGANHO): 0 de 2 linhas sem registro relacionado (empresa 9997).']

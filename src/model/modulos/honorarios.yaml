@@ -394,7 +394,7 @@ entidades:
     descricao: >
       Razão do cliente: faturamento entra (E, origem F), pagamento/adiantamento sai (S). Cada movimento principal (P) pode ter
       desdobramentos (juros e multa, desconto, retenções) pelo sequencial.
-    privacidade: "Movimentação financeira por cliente. Mascarar por padrão."
+    privacidade: "Movimentação financeira por cliente. Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: hrconta_corrente_cliente
     chave: [codi_emp, I_MOVIMENTO_CLIENTE, I_MOVIMENTO_CLIENTE_SEQ]
     acesso: {empresa: codi_emp, periodo: DATA_MOVIMENTO, volume: medio}

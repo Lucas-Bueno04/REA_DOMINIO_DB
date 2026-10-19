@@ -1,0 +1,114 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_incidencia
+titulo: Pessoal - incidencia (rascunho em lote)
+entidades:
+  foincidencia_irrf_rubrica_esocial:
+    titulo: Tabela de códigos de incidência de IRRF para o eSocial.
+    descricao: 'Tabela de códigos de incidência de IRRF para o eSocial.. 90 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_IRRF_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: COMPETENCIA_INICIO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIO, desc]
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO, competencia_inicio_para_incidencia_tribu: COMPETENCIA_INICIO, competencia_termino_para_incidencia_trib: COMPETENCIA_TERMINO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      competencia_inicio_para_incidencia_tribu:
+        coluna: COMPETENCIA_INICIO
+        ops: [entre, gte, lte]
+      competencia_termino_para_incidencia_trib:
+        coluna: COMPETENCIA_TERMINO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 90 linhas, COMPETENCIA_INICIO de 2015-10-01 a 2015-10-01.']
+  foincidencia_inss_rubrica_esocial:
+    titulo: Tabela de códigos de incidência de INSS para o eSocial.
+    descricao: 'Tabela de códigos de incidência de INSS para o eSocial.. 28 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_INSS_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 28 linhas.']
+  foincidencia_fgts_rubrica_esocial:
+    titulo: Incidência de FGTS da rubrica para o eSocial.
+    descricao: 'Incidência de FGTS da rubrica para o eSocial.. 8 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_FGTS_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  foincidencia_rpps_rubrica_esocial:
+    titulo: Incidência de RPPS da rubrica para o eSocial.
+    descricao: 'Incidência de RPPS da rubrica para o eSocial.. 7 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_RPPS_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas.']
+  foincidencia_pis_rubrica_esocial:
+    titulo: Tabela de códigos de incidência de PIS para o eSocial.
+    descricao: 'Tabela de códigos de incidência de PIS para o eSocial.. 5 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_PIS_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5 linhas.']
+  foincidencia_sindical_rubrica_esocial:
+    titulo: Códigos de incidência sindical das rubricas para o eSocial.
+    descricao: 'Códigos de incidência sindical das rubricas para o eSocial.. 4 linhas no catálogo; chave: CODIGO.'
+    tabela: FOINCIDENCIA_SINDICAL_RUBRICA_ESOCIAL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_incidencia: CODIGO, descricao_da_incidencia: DESCRICAO}
+    filtros:
+      codigo_da_incidencia:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_incidencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']

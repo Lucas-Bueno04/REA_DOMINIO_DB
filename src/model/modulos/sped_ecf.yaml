@@ -1,0 +1,446 @@
+# Modelo de entidades do SPED ECF - "Outros Dados" (tabelas CTSPED_ECF_*): parâmetros da escrituração, valores dos registros por
+# competência, cadeia do Lalur (Parte B) e signatários. Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada):
+#   registros específicos CTSPED_ECF_OD_Y570/Y600/Y612/Y620/Y640/Y671/Y672/Y720/Y800/W100/L200/M010/M410(+origem de importação)/
+#   X360/X430/X450(+registro)/X480 (cada um tem colunas próprias, 6 a 18 mil linhas), CTSPED_CONTABIL_OD* (SPED Contábil) e
+#   CTSPED_*_SIGNATARIO do SPED Contábil.
+#   E-mail e telefone dos signatários (dado pessoal, sem valor para consulta fiscal).
+modulo: sped_ecf
+titulo: SPED ECF - Outros Dados
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  forma_tributacao_ecf:
+    descricao: Forma de tributação do lucro (forma_tributacao e forma_tributacao_trimestre_1 a 4)
+    confirmado: true      # comentário do banco
+    nota: Nos dados aparecem 1, 5, 8 e 9; os demais códigos do comentário não ocorrem.
+    valores: {1: Lucro real, 2: Lucro real/arbitrado, 3: Lucro presumido/real, 5: Lucro presumido, 6: Lucro arbitrado, 7: Lucro presumido/arbitrado, 8: Imune de IRPJ, 9: Isento do IRPJ}
+  periodo_apuracao_ecf:
+    descricao: Período de apuração do IRPJ e da CSLL
+    confirmado: true
+    valores: {T: Trimestral, A: Anual}
+  retificadora_ecf:
+    descricao: Tipo da escrituração (retificadora)
+    confirmado: true
+    valores: {N: ECF original, S: ECF retificadora, F: ECF original com mudança de forma de tributação (IN 166/1999)}
+  tipo_escrituracao_ecf:
+    confirmado: true
+    valores: {L: Livro caixa (lucro presumido) ou sem escrituração, C: Contábil (lucro presumido, imunes ou isentas)}
+  qualificacao_pj_ecf:
+    confirmado: true
+    nota: Só 1 existe nos dados (2.533 de 2.533).
+    valores: {1: PJ em geral, 2: PJ componente do sistema financeiro, 3: Seguradoras, capitalização ou previdência complementar aberta, 4: Sociedade anônima do futebol}
+  evento_situacao_especial_ecf:
+    confirmado: true      # comentário do banco
+    valores: {1: Extinção, 2: Fusão, 3: Incorporação/incorporada, 4: Incorporação/incorporadora, 5: Cisão total, 6: Cisão parcial, 7: Transformação, 8: Desenquadramento de imune/isenta, 9: Inclusão no Simples Nacional}
+  criterio_receita_ecf:
+    confirmado: true
+    valores: {1: Regime de caixa, 2: Regime de competência}
+  tipo_registro_layout_ecf:
+    descricao: Tipo da linha do layout (cttabela_sped_ecf_od_registro.tipo)
+    confirmado: true      # comentário do banco
+    valores: {1: Título, 2: Valor, 3: Calculado, 4: Valor de outro registro, 5: Fórmula condicional com valor de outro registro, 6: Valor conta desabilitada, 7: Fórmula condicional com valor de outro registro habilitado}
+  tipo_lancamento_lalur:
+    confirmado: true
+    valores: {R: Rótulo, L: Lucro, A: Adição, E: Exclusão, P: Compensação de prejuízo}
+  forma_importacao_saldo:
+    descricao: Como o valor do registro é obtido das contas contábeis
+    confirmado: parcial
+    nota: >
+      O comentário de ctsped_ecf_od_registro lista 1 a 4 e o de ctsped_ecf_od_registro_conta lista 1 a 5. Em ctsped_ecf_od_registro
+      99,97% das linhas têm 1 (8.581.577 de 8.584.047), sempre com o indicador "determinar forma" = N, ou seja, é o padrão.
+    valores: {1: Total débito, 2: Total crédito, 3: Saldo do período, 4: Saldo do exercício, 5: Saldo anterior}
+  operacao_conta_ecf:
+    confirmado: true
+    valores: {1: Somar (+), 2: Subtrair (-)}
+  tipo_saldo:
+    confirmado: parcial
+    nota: O comentário diz D (devedor) ou C (credor); o valor vazio (''), que não consta no comentário, aparece em 617 contas e 4.384 lançamentos do Lalur.
+    valores: {D: Devedor, C: Credor, "": Não informado}
+  tipo_inscricao_signatario:
+    confirmado: true
+    valores: {1: CNPJ, 2: CPF}
+  registro_sped_qualificacao:
+    confirmado: true
+    valores: {A: Ambos, E: SPED ECF, C: SPED Contábil}
+
+entidades:
+  ecf_outros_dados:
+    titulo: ECF - Parâmetros da escrituração (Outros Dados)
+    descricao: >
+      Um registro por empresa, ano-calendário e SCP, com os parâmetros que a Domínio usa para gerar a ECF: forma de tributação,
+      período de apuração, retificação, situação especial e as respostas S/N das fichas de operações. 2.533 registros, 613
+      empresas, anos-calendário 2017 a 2025. Usa 56 dos 110 campos do cadastro (as respostas S/N de regimes especiais mais raros
+      ficaram fora).
+    tabela: ctsped_ecf_od
+    chave: [codi_emp, i_outros_dados]
+    acesso: {empresa: codi_emp, periodo: ano_calendario, volume: medio}
+    ordem: [[ano_calendario, desc], [i_outros_dados, desc]]
+    colunas:
+      codigo: i_outros_dados
+      ano_calendario: ano_calendario
+      scp_codigo: i_scp
+      empresa_scp: codi_emp_i_scp
+      situacao_especial: {coluna: indicador_situacao_especial, dominio: sim_nao_texto}
+      situacao_especial_evento: {coluna: indicador_situacao_especial_evento, dominio: evento_situacao_especial_ecf}
+      situacao_especial_data: indicador_situacao_especial_data_evento
+      patrimonio_remanescente_cisao: patrimonio_remanescente_cisao
+      retificadora: {coluna: retificadora, dominio: retificadora_ecf}
+      numero_recibo_retificadora: retificadora_numero_recibo
+      indicador_inicio_periodo: indicador_inicio_periodo
+      forma_tributacao: {coluna: forma_tributacao, dominio: forma_tributacao_ecf}
+      forma_tributacao_trimestre_1: {coluna: forma_tributacao_trimestre_1, dominio: forma_tributacao_ecf}
+      forma_tributacao_trimestre_2: {coluna: forma_tributacao_trimestre_2, dominio: forma_tributacao_ecf}
+      forma_tributacao_trimestre_3: {coluna: forma_tributacao_trimestre_3, dominio: forma_tributacao_ecf}
+      forma_tributacao_trimestre_4: {coluna: forma_tributacao_trimestre_4, dominio: forma_tributacao_ecf}
+      periodo_apuracao: {coluna: periodo_apuracao_irpj_csll, dominio: periodo_apuracao_ecf}
+      qualificacao_pj: {coluna: qualificacao_pessoa_juridica, dominio: qualificacao_pj_ecf}
+      tipo_entidade_isenta_imune: tipo_entidade_isenta_imune
+      tipo_escrituracao: {coluna: tipo_escrituracao, dominio: tipo_escrituracao_ecf}
+      criterio_reconhecimento_receita: {coluna: criterio_de_reconhecimento_de_receitas, dominio: criterio_receita_ecf}
+      atividade_tributada_irpj_csll: {coluna: existencia_atividade_tributada_irpj_csll, dominio: sim_nao_texto}
+      aliquota_csll_2019: pj_sujeita_aliquota_csll_2019
+      optante_refis: {coluna: optante_refis, dominio: sim_nao_texto}
+      optante_paes: {coluna: optante_paes, dominio: sim_nao_texto}
+      optante_extincao_rtt_2014: {coluna: optante_extincao_rtt_2014, dominio: sim_nao_texto}
+      gerar_contas_por_centro_custo: {coluna: gerar_contas_ccu, dominio: sim_nao_texto}
+      gerar_somente_contas_com_movimento: {coluna: gerar_somente_contas_com_movimento, dominio: sim_nao_texto}
+      gerar_somente_tabelas_com_movimento: {coluna: gerar_somente_tabelas_com_movimento, dominio: sim_nao_texto}
+      gerar_bloco_q_livro_caixa: {coluna: gerar_bloco_q_livro_caixa, dominio: sim_nao_texto}
+      gerar_registros_u100_u150: {coluna: gerar_registro_u100_u150_balanco_patrimonial, dominio: sim_nao_texto}
+      operacao_exterior: {coluna: operacao_exterior, dominio: sim_nao_texto}
+      operacao_pessoa_vinculada: {coluna: operacao_pessoa_vinculada, dominio: sim_nao_texto}
+      participacao_exterior: {coluna: participacao_exterior, dominio: sim_nao_texto}
+      participacao_coligada_controlada: {coluna: participacao_permanente_coligada, dominio: sim_nao_texto}
+      participacao_consorcio: {coluna: participacao_consorcio, dominio: sim_nao_texto}
+      vendas_exportacao: {coluna: pj_efetuou_vendas_exportacao, dominio: sim_nao_texto}
+      recebimento_exterior: {coluna: recebimento_exterior, dominio: sim_nao_texto}
+      pagamento_exterior: {coluna: pagamento_exterior, dominio: sim_nao_texto}
+      ativo_exterior: {coluna: ativo_exterior, dominio: sim_nao_texto}
+      atividade_rural: {coluna: atividade_rural, dominio: sim_nao_texto}
+      lucro_exploracao: {coluna: lucro_exploracao, dominio: sim_nao_texto}
+      doacao_campanha_eleitoral: {coluna: doacao_campanha_eleitoral, dominio: sim_nao_texto}
+      comercio_eletronico_ti: {coluna: comercio_eletronico_tecnologia_informacao, dominio: sim_nao_texto}
+      inovacao_tecnologica: {coluna: inovacao_tecnologica, dominio: sim_nao_texto}
+      pj_comercial_exportadora: {coluna: pj_comercial_exportadora, dominio: sim_nao_texto}
+      royalties_recebidos: {coluna: royalties_recebido_brasil_exterior, dominio: sim_nao_texto}
+      royalties_pagos: {coluna: royalties_pago_brasil_exterior, dominio: sim_nao_texto}
+      zona_franca_manaus: {coluna: polo_industrial_manaus_amazonia_ocidental, dominio: sim_nao_texto}
+      area_livre_comercio: {coluna: area_livre_comercio, dominio: sim_nao_texto}
+      zona_processamento_exportacao: {coluna: zona_processamento_exportacao, dominio: sim_nao_texto}
+      regime_repes_recap_padis: {coluna: repes_recap_padis, dominio: sim_nao_texto}
+      pais_a_pais: {coluna: obrigado_entrega_declaracao_pais_a_pais, dominio: sim_nao_texto}
+      preco_transferencia_2023: {coluna: preco_transferencia, dominio: sim_nao_texto}
+      possui_cebas: {coluna: possui_cebas, dominio: sim_nao_texto}
+      cebas: cebas
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {empresa_nome: nome_emp, empresa_cnpj_cpf: cgce_emp}
+        sensiveis: [empresa_cnpj_cpf]
+    filtros:
+      codigo: {coluna: i_outros_dados, ops: [eq, in]}
+      ano_calendario: {coluna: ano_calendario, ops: [eq, entre, gte, lte]}
+      scp_codigo: {coluna: i_scp, ops: [eq, in]}
+      forma_tributacao: {coluna: forma_tributacao, ops: [eq, in]}
+      periodo_apuracao: {coluna: periodo_apuracao_irpj_csll, ops: [eq]}
+      retificadora: {coluna: retificadora, ops: [eq, in]}
+      tipo_escrituracao: {coluna: tipo_escrituracao, ops: [eq]}
+    filhos:
+      valores: {entidade: valor_registro_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados}}
+      valores_mensais: {entidade: valor_mes_registro_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados}}
+      lalur: {entidade: valor_lalur_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados}}
+    regras:
+      - "Chave de negócio: há exatamente um registro por (empresa, ano-calendário, SCP): os 2.533 grupos têm 1 linha. 65 registros são de SCP (`scp_codigo` preenchido)."
+      - "Forma de tributação x período: lucro presumido (5) é trimestral em 2.112 registros; lucro real (1) é anual em 229 e trimestral em 9; isento (9) 170 e imune (8) 13."
+      - "Retificação: 2.454 originais (N), 78 retificadoras (S) e 1 original com mudança de forma de tributação (F). 67 registros têm situação especial."
+      - "Critério de reconhecimento da receita: 1.556 por competência (2) e 977 por caixa (1)."
+
+  layout_registro_ecf:
+    titulo: Layout dos registros do SPED ECF (tabela de colunas)
+    descricao: >
+      Catálogo global das linhas de cada registro da ECF, por vigência do layout: descrição, tipo da linha, fórmula e, para o
+      Lalur, o tipo de lançamento. 10.776 linhas, 52 registros, 14 vigências. É a "legenda" de `valor_registro_ecf`; as linhas do Lalur (`valor_lalur_ecf`) NÃO usam este layout (ver regras).
+    tabela: cttabela_sped_ecf_od_registro
+    chave: [registro, codigo, vigencia]
+    acesso: {empresa: null, volume: medio}
+    ordem: [[registro, asc], [vigencia, desc], [codigo, asc]]
+    colunas:
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      descricao: descricao
+      tipo: {coluna: tipo, dominio: tipo_registro_layout_ecf}
+      formula: formula
+      tipo_lancamento_lalur: {coluna: tipo_lancamento_lalur, dominio: tipo_lancamento_lalur}
+      mascara: mascara_campo
+    filtros:
+      registro: {coluna: registro, ops: [eq, in]}
+      codigo: {coluna: codigo, ops: [eq, in]}
+      vigencia: {coluna: vigencia, ops: [eq, gte, lte]}
+      descricao: {coluna: descricao, ops: [contem]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    regras:
+      - "Todo valor de registro (`valor_registro_ecf`) tem a linha correspondente neste layout pela chave (registro, código, vigência): 0 sem layout em 149.616 valores conferidos (3 empresas mais recentes)."
+
+  valor_registro_ecf:
+    titulo: ECF - Valores dos registros por competência
+    descricao: >
+      Cada linha é o valor de uma linha do layout (registro + código + vigência) numa competência do Outros Dados. 8,58 milhões
+      de linhas, 2017 a 2025. 99% valem 0 (8.496.748), pois o sistema grava todas as linhas do layout. Registros mais frequentes:
+      L210 (1,69 mi), N610, X480, N600, Y681, U182, P130.
+    tabela: ctsped_ecf_od_registro
+    chave: [codi_emp, i_outros_dados, competencia, registro, codigo, vigencia]
+    acesso:
+      empresa: codi_emp
+      periodo: competencia
+      exige_algum: [outros_dados, periodo]
+      volume: grande
+    ordem: [[competencia, desc], [registro, asc], [codigo, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      valor: valor
+      saldo_anterior: saldo_anterior
+      contas: contas
+      determinar_forma_importacao: {coluna: determinar_forma_importar_saldo_conta_contabil, dominio: sim_nao_texto}
+      forma_importacao: {coluna: forma_importacao, dominio: forma_importacao_saldo}
+    vinculos:
+      layout:
+        tabela: cttabela_sped_ecf_od_registro
+        liga: {registro: registro, codigo: codigo, vigencia: vigencia}
+        colunas: {layout_descricao: descricao, layout_tipo: tipo}
+      cabecalho:
+        tabela: ctsped_ecf_od
+        liga: {codi_emp: codi_emp, i_outros_dados: i_outros_dados}
+        colunas: {ano_calendario: ano_calendario, forma_tributacao: forma_tributacao}
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      registro: {coluna: registro, ops: [eq, in]}
+      codigo: {coluna: codigo, ops: [eq, in]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+    filhos:
+      contas_registro: {entidade: conta_registro_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados, competencia: competencia, registro: registro, codigo: codigo, vigencia: vigencia}}
+    regras:
+      - "Volume: 99% das linhas têm valor 0 (8.496.748 de 8.584.047). Para ver só o que foi declarado, filtre `valor` diferente de zero (use `gte`/`lte`)."
+      - "Origem do valor: 8.581.577 linhas têm forma de importação 1 com indicador 'determinar forma' = N (padrão); só 2.470 têm forma definida (4: 1.165, 1: 556, 3: 416, 2: 333) e 3.223 trazem a lista de contas."
+      - "Sem órfãos: 0 valores sem cabeçalho (`ecf_outros_dados`) e 0 sem layout, em 149.616 valores das 3 empresas mais recentes."
+
+  conta_registro_ecf:
+    titulo: ECF - Contas contábeis que compõem um valor de registro
+    descricao: >
+      Detalha de quais contas contábeis da empresa vem o valor de uma linha do registro (forma de importação e operação de somar ou
+      subtrair). 4.866 linhas. `plano_empresa` é a empresa dona do plano de contas, que pode ser outra.
+    tabela: ctsped_ecf_od_registro_conta
+    chave: [i_conta, codi_emp, i_outros_dados, competencia, registro, codigo, vigencia]
+    acesso: {empresa: codi_emp, exige_algum: [outros_dados], volume: medio}
+    ordem: [[competencia, desc], [registro, asc], [codigo, asc], [i_conta, asc]]
+    colunas:
+      sequencial: i_conta
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      conta_codigo: codi_cta
+      plano_empresa: codi_emp_plano
+      forma_importacao: {coluna: forma_importacao, dominio: forma_importacao_saldo}
+      operacao: {coluna: operacao, dominio: operacao_conta_ecf}
+    vinculos:
+      conta:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {conta_classificacao: clas_cta, conta_nome: nome_cta}
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      registro: {coluna: registro, ops: [eq, in]}
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+    regras:
+      - "Forma de importação x operação: 5 (saldo anterior) com somar: 2.808; 1 (total débito) sem operação 858, somar 832, subtrair 26; 4 (saldo do exercício) somar 221; 2 (total crédito) sem operação 69, somar 26; 3 (saldo do período) sem operação 13, somar 13. A operação só é nula nas formas 1, 2 e 3."
+
+  valor_mes_registro_ecf:
+    titulo: ECF - Valores mensais de registros
+    descricao: Valor por mês (1 a 12) de registros que têm colunas mensais. 32.556 linhas, só dos registros Y690 (30.372) e Y682 (2.184).
+    tabela: ctsped_ecf_od_mes
+    chave: [codi_emp, i_outros_dados, registro, i_mes]
+    acesso: {empresa: codi_emp, exige_algum: [outros_dados, registro], volume: medio}
+    ordem: [[i_outros_dados, desc], [registro, asc], [i_mes, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      registro: registro
+      mes: i_mes
+      valor: valor
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      registro: {coluna: registro, ops: [eq, in]}
+      mes: {coluna: i_mes, ops: [eq, in, entre]}
+
+  valor_lalur_ecf:
+    titulo: ECF - Registros do Lalur (Parte A/B)
+    descricao: >
+      Valores e históricos das linhas de Lalur da ECF. 4,08 milhões de linhas, só dos registros M30G (2.144.041) e M35G (1.934.320);
+      só 3.359 e 3.090 têm histórico preenchido.
+    tabela: ctsped_ecf_od_registro_lalur
+    chave: [codi_emp, i_outros_dados, competencia, registro, codigo, vigencia]
+    acesso:
+      empresa: codi_emp
+      periodo: competencia
+      exige_algum: [outros_dados, periodo]
+      volume: grande
+    ordem: [[competencia, desc], [registro, asc], [codigo, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      valor: valor
+      historico: historico
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      registro: {coluna: registro, ops: [eq, in]}
+      codigo: {coluna: codigo, ops: [eq, in]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+    filhos:
+      contas: {entidade: conta_lalur_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados, competencia: competencia, registro: registro, codigo: codigo, vigencia: vigencia}}
+      base_negativa: {entidade: base_negativa_parte_b_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados, competencia: competencia, registro: registro, codigo: codigo, vigencia: vigencia}}
+    regras:
+      - "O `codigo` do Lalur NÃO é o código do layout `layout_registro_ecf`: na empresa 1420 só 2.067 de 53.508 linhas casam por (registro, código, vigência) e é coincidência numérica (726 códigos distintos em M30G contra ~330 no layout), por isso o vínculo foi removido. Os programas da Domínio ligam este código às tabelas LRTABELA_GRUPO_* (IRPJ/CSLL, adição/exclusão, geral/rural/seguradora/sistema financeiro), que ainda não estão modeladas (módulo Lalur)."
+      - "Só 192 das 53.508 linhas da empresa 1420 têm valor diferente de 0."
+
+  conta_lalur_ecf:
+    titulo: ECF - Contas do Lalur
+    descricao: Contas contábeis (da Parte B) ligadas a uma linha do Lalur, com valor e tipo de saldo. 1.825 linhas.
+    tabela: ctsped_ecf_od_registro_lalur_conta
+    chave: [codi_emp, i_outros_dados, competencia, registro, codigo, vigencia, i_conta]
+    acesso: {empresa: codi_emp, exige_algum: [outros_dados], volume: medio}
+    ordem: [[competencia, desc], [registro, asc], [codigo, asc], [i_conta, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      sequencial: i_conta
+      conta_codigo: codi_cta
+      plano_empresa: codi_emp_plano
+      valor: valor
+      tipo_saldo: {coluna: tipo_saldo, dominio: tipo_saldo}
+    vinculos:
+      conta:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {conta_classificacao: clas_cta, conta_nome: nome_cta}
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      registro: {coluna: registro, ops: [eq, in]}
+      conta_codigo: {coluna: codi_cta, ops: [eq, in]}
+      tipo_saldo: {coluna: tipo_saldo, ops: [eq]}
+    filhos:
+      lancamentos: {entidade: lancamento_lalur_ecf, liga: {codi_emp: codi_emp, i_outros_dados: outros_dados, competencia: competencia, registro: registro, codigo: codigo, vigencia: vigencia, i_conta: sequencial}}
+    regras:
+      - "Tipo de saldo: devedor (D) em 974 contas, credor (C) em 234 e vazio em 617. O vazio não consta no comentário do banco."
+
+  lancamento_lalur_ecf:
+    titulo: ECF - Lançamentos contábeis do Lalur
+    descricao: Lançamentos (data, lote, histórico, valor) que compõem a conta do Lalur. 14.978 linhas, de 2019-01 a 2025-12.
+    tabela: ctsped_ecf_od_registro_lalur_lancamento
+    chave: [codi_emp, i_outros_dados, competencia, registro, codigo, vigencia, i_lancamento, i_conta]
+    acesso: {empresa: codi_emp, exige_algum: [outros_dados], volume: medio}
+    ordem: [[competencia, desc], [registro, asc], [i_conta, asc], [i_lancamento, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      sequencial_conta: i_conta
+      sequencial: i_lancamento
+      lote_numero: numero_lote
+      data: data_lancamento
+      valor: valor
+      historico_codigo: codigo_historico
+      historico: historico
+      tipo_saldo: {coluna: tipo_saldo, dominio: tipo_saldo}
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      registro: {coluna: registro, ops: [eq, in]}
+      data: {coluna: data_lancamento, ops: [eq, entre, gte, lte]}
+      valor: {coluna: valor, ops: [gte, lte, entre]}
+    regras:
+      - "Tipo de saldo: devedor (D) 9.022, credor (C) 1.572 e vazio 4.384. Os lançamentos com saldo D vão de 2024-01 a 2025-12 e com C de 2024-07 a 2025-12; os vazios cobrem 2019-01 a 2024-12 (a explicação provável, tipo gravado só nas versões recentes, não foi confirmada)."
+
+  base_negativa_parte_b_ecf:
+    titulo: ECF - Base negativa da Parte B do Lalur
+    descricao: Saldos de base de cálculo negativa da CSLL na Parte B do Lalur (194 linhas, indicador sempre C).
+    tabela: ctsped_ecf_od_registro_lalur_base_negativa_parte_b
+    chave: [codi_emp, i_outros_dados, competencia, registro, codigo, vigencia, i_base_negativa_parte_b]
+    acesso: {empresa: codi_emp, exige_algum: [outros_dados], volume: pequeno}
+    ordem: [[competencia, desc], [registro, asc], [i_base_negativa_parte_b, asc]]
+    colunas:
+      outros_dados: i_outros_dados
+      competencia: competencia
+      registro: registro
+      codigo: codigo
+      vigencia: vigencia
+      sequencial: i_base_negativa_parte_b
+      valor: valor
+      descricao: descricao
+      indicador_lancamento: indicador_lancamento
+      identificador_sped_ecf: identificador_sped_ecf
+    filtros:
+      outros_dados: {coluna: i_outros_dados, ops: [eq, in]}
+      registro: {coluna: registro, ops: [eq, in]}
+
+  signatario_ecf:
+    titulo: ECF - Signatários
+    descricao: >
+      Pessoas e empresas que assinam a ECF por empresa, com a qualificação (contador, diretor etc.). 1.051 linhas. Só identificação
+      e qualificação: e-mail e telefone ficaram de fora.
+    tabela: ctsped_ecf_signatario
+    chave: [i_signatario, codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[i_signatario, asc]]
+    privacidade: Contém nome, CPF/CNPJ e CRC de pessoas físicas (contadores e administradores).
+    colunas:
+      codigo: i_signatario
+      tipo_inscricao: {coluna: tipo_inscricao, dominio: tipo_inscricao_signatario}
+      inscricao: {coluna: inscricao, sensivel: parcial}
+      nome: {coluna: razao, sensivel: pessoal}
+      qualificacao_codigo: i_qualificacao
+      crc: {coluna: crc, sensivel: pessoal}
+    vinculos:
+      qualificacao:
+        tabela: ctsped_signatario_qualificacao
+        liga: {i_qualificacao: i_qualificacao}
+        colunas: {qualificacao_codigo_sped: codigo, qualificacao_descricao: descricao, qualificacao_registro_sped: registro_sped}
+    filtros:
+      codigo: {coluna: i_signatario, ops: [eq, in]}
+      tipo_inscricao: {coluna: tipo_inscricao, ops: [eq]}
+      qualificacao_codigo: {coluna: i_qualificacao, ops: [eq, in]}
+    regras:
+      - "Qualificação mais comum: 16 (Contador), com 587 dos 1.051 signatários (583 por CPF e 4 por CNPJ); 18 (Outros) 308; 1 (Diretor) 131."
+
+  qualificacao_signatario:
+    titulo: Qualificações de signatário (SPED Contábil e ECF)
+    descricao: Catálogo global das 21 qualificações de signatário. `registro_sped` diz em qual SPED a qualificação vale (A ambos, E ECF, C Contábil).
+    tabela: ctsped_signatario_qualificacao
+    chave: [i_qualificacao]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_qualificacao, asc]]
+    colunas:
+      codigo: i_qualificacao
+      codigo_sped: codigo
+      descricao: descricao
+      registro_sped: {coluna: registro_sped, dominio: registro_sped_qualificacao}
+    filtros:
+      codigo: {coluna: i_qualificacao, ops: [eq, in]}
+      registro_sped: {coluna: registro_sped, ops: [eq, in]}
+    regras:
+      - "O código SPED não é único: 900 aparece para Contador (E), Contabilista (E) e Contador/Contabilista (C). Identifique a qualificação pelo código sequencial."

@@ -1,0 +1,787 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_mvspro
+titulo: Fiscal - mvspro (rascunho em lote)
+entidades:
+  efmvspro_apuracao_estoque:
+    titulo: Notas Fiscais de Saída - Produtos - Apuração de estoque
+    descricao: 'Notas Fiscais de Saída - Produtos - Apuração de estoque. 1.328.105 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_APURACAO_ESTOQUE
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso:
+      empresa: CODI_EMP
+      periodo: DATA_MOVIMENTACAO
+      exige_algum: [codigo_sequencial_da_nota_de_saida]
+      volume: grande
+    ordem:
+    - [DATA_MOVIMENTACAO, desc]
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, data_da_movimentacao: DATA_MOVIMENTACAO,
+      codigo_do_produto: CODI_PDI, quantidade: QUANTIDADE, valor_unitario: VALOR_UNITARIO, valor_total: VALOR_TOTAL, quantidade_acumulada: QUANTIDADE_ACUMULADA, valor_unitario_medio: VALOR_UNITARIO_MEDIO,
+      valor_acumulado: VALOR_ACUMULADO, valor_do_icms_unitario: ICMS_UNITARIO, valor_do_icms_total: ICMS_TOTAL, valor_do_icms_unitario_medio: ICMS_UNITARIO_MEDIO,
+      valor_do_icms_acumulado: ICMS_ACUMULADO, quantidade_icms_st: ICMS_ST_QUANTIDADE, valor_do_icms_st_unitario: ICMS_ST_UNITARIO, valor_do_icms_st_total: ICMS_ST_TOTAL,
+      quantidade_icms_st_acumulado: ICMS_ST_QUANTIDADE_ACUMULADO, valor_do_icms_st_unitario_medio: ICMS_ST_UNITARIO_MEDIO, icms_st_acumulado: ICMS_ST_ACUMULADO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      data_da_movimentacao:
+        coluna: DATA_MOVIMENTACAO
+        ops: [entre, gte, lte]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.333.614 linhas, 145 empresa(s), DATA_MOVIMENTACAO de 2015-02-09 a 2026-09-30.', 'Vínculo efmvspro (efmvspro): 0 de 303 linhas
+        sem registro relacionado (empresa 442).']
+  efmvspro_difal_nc:
+    titulo: Notas Fiscais de Saida - Produtos - DIFAL NC
+    descricao: 'Notas Fiscais de Saida - Produtos - DIFAL NC. 64.689 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_DIFAL_NC
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {empresa: CODI_EMP, saida: CODI_SAI, sequencial: NUME_MSP, produto: CODI_PDI, base_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor_uf_origem: VALOR_UF_ORIGEM,
+      valor_uf_destino: VALOR_UF_DESTINO, valor_total: VALOR_TOTAL, valor_fcp: VALOR_FCP}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 65.330 linhas, 22 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 26 linhas sem registro relacionado (empresa 1676).']
+  efmvspro_ibs_iva:
+    titulo: Valorer IBS Estoque - Saidas
+    descricao: 'Valorer IBS Estoque - Saidas. 37.465 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_IBS_IVA
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_cclasstrib: I_CCLASSTRIB, base_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor: VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37.465 linhas, 8 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 222 linhas sem registro relacionado (empresa 1729).']
+  efmvspro_cbs_iva:
+    titulo: Valorer CBS Estoque - Saidas
+    descricao: 'Valorer CBS Estoque - Saidas. 37.421 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_CBS_IVA
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_cclasstrib: I_CCLASSTRIB, base_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor: VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_cclasstrib:
+        coluna: I_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37.421 linhas, 8 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 222 linhas sem registro relacionado (empresa 1729).']
+  efmvspro_federal:
+    titulo: Notas Fiscais de Saida - Produtos - Federal
+    descricao: 'Notas Fiscais de Saida - Produtos - Federal. 862 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_FEDERAL
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_saida: CODI_SAI, numero_sequencial_do_estoque: NUME_MSP, valores_repassados_pelas_agencias_de_pro: VALOR_DEDUCAO_PROPAGANDA_PUBLICIDADE,
+      valor_desonerado: VALOR_ICMS_DESONERADO, motivo_da_desoneracao: I_MOTIVO_DESONERACAO, percentual_icms_diferido: PERCENTUAL_ICMS_DIFERIDO, valor_icms_diferido: VALOR_ICMS_DIFERIDO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      numero_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      motivo_da_desoneracao:
+        coluna: I_MOTIVO_DESONERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 862 linhas, 5 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 58 linhas sem registro relacionado (empresa 808).']
+  efmvspro_simples_nacional_monofasico:
+    titulo: Notas Fiscais de Saída - Produtos - Simples Nacional Produto Monofasico
+    descricao: 'Notas Fiscais de Saída - Produtos - Simples Nacional Produto Monofasico. 377 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP, ANEXO, SECAO,
+      TABELA, CODI_ACU, TRIBUTACAO_PISCOFINS_TIPO.'
+    tabela: EFMVSPRO_SIMPLES_NACIONAL_MONOFASICO
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP, ANEXO, SECAO, TABELA, CODI_ACU, TRIBUTACAO_PISCOFINS_TIPO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {empresa: CODI_EMP, saida: CODI_SAI, sequencial: NUME_MSP, anexo: ANEXO, secao: SECAO, tabela: TABELA, acumulador: CODI_ACU, tributacao_piscofins_tipo: TRIBUTACAO_PISCOFINS_TIPO,
+      valor: VALOR, competencia: COMPETENCIA}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      anexo:
+        coluna: ANEXO
+        ops: [eq, in]
+      secao:
+        coluna: SECAO
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      tributacao_piscofins_tipo:
+        coluna: TRIBUTACAO_PISCOFINS_TIPO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 327 linhas, 1 empresa(s), COMPETENCIA de 2026-07-01 a 2026-09-01.', 'Vínculo efmvspro (efmvspro): 0 de 327 linhas sem registro
+        relacionado (empresa 718).']
+  efmvspro_difali:
+    titulo: Notas Fiscais de Saída - Produtos - DIFALI
+    descricao: 'Notas Fiscais de Saída - Produtos - DIFALI. 224 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_DIFALI
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_de_calculo: BASE_CALCULO_DIFALI,
+      aliquota: ALIQUOTA_DIFALI, valor: VALOR_DIFALI}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 224 linhas, 7 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 10 linhas sem registro relacionado (empresa 1575).', 'Vínculo efprodutos
+        (efprodutos): 0 de 10 linhas sem registro relacionado (empresa 1575).']
+  efmvspro_estadual_rj:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual RS
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual RS. 199 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_RJ
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_produto: CODI_PDI, base_de_calculo: BASE_CALCULO_ICMS_EFETIVO,
+      aliquota: ALIQUOTA_ICMS_EFETIVO, valor: VALOR_ICMS_EFETIVO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 199 linhas, 4 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 84 linhas sem registro relacionado (empresa 1566).', 'Vínculo efprodutos
+        (efprodutos): 0 de 84 linhas sem registro relacionado (empresa 1566).']
+  efmvspro_estadual_ce:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual CE
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual CE. 24 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_CE
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, fecop_ce_base_de_calculo: FECOP_CE_ICMS_BASE_CALCULO,
+      fecop_ce_aliquota: FECOP_CE_ICMS_ALIQUOTA, fecop_ce_valor: FECOP_CE_ICMS_VALOR, fecop_ce_st_base_de_calculo: FECOP_CE_ICMS_ST_BASE_CALCULO, fecop_ce_st_aliquota: FECOP_CE_ICMS_ST_ALIQUOTA,
+      fecop_ce_st_valor: FECOP_CE_ICMS_ST_VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24 linhas, 2 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 21 linhas sem registro relacionado (empresa 1474).']
+  efmvspro_fundo_ampara:
+    titulo: Notas Fiscais de Saída - Produtos - Ampara RS
+    descricao: 'Notas Fiscais de Saída - Produtos - Ampara RS. 8 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP, CODI_PDI.'
+    tabela: EFMVSPRO_FUNDO_AMPARA
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP, CODI_PDI]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_calculo_icms: BASE_ICMS_PROPRIO,
+      aliquota_icms: ALIQUOTA_ICMS_PROPRIO, valor_icms: VALOR_ICMS_PROPRIO, base_calculo_icms_st: BASE_ICMS_ST, aliquota_icms_st: ALIQUOTA_ST_PROPRIO, valor_icms_st: VALOR_ICMS_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 4 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_icms_stat:
+    titulo: Notas Fiscais de Saída - Produtos - ICMS STAT
+    descricao: 'Notas Fiscais de Saída - Produtos - ICMS STAT. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ICMS_STAT
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_de_calculo_icms_st_antecipacao_tota: BASE_CALCULO,
+      aliquota_icms_st_antecipacao_total: ALIQUOTA, valor_icms_st_antecipacao_total: VALOR_IMPOSTO, codigo_do_recolhimento_substituicao_trib: CODIGO_RECOLHIMENTO,
+      codigo_sequencial_do_recolhimento_substi: I_RECOLHIMENTO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_do_recolhimento_substituicao_trib:
+        coluna: CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_substi:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_sp:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual SP
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual SP. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_SP
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, fecoep_icms_proprio_base_de_calculo: BASE_CALCULO_FECOEP_PROPRIO,
+      fecoep_icms_proprio_aliquota: ALIQUOTA_FECOEP_PROPRIO, fecoep_icms_proprio_valor: VALOR_FECOEP_PROPRIO, fecoep_icms_st_base_de_calculo: BASE_CALCULO_FECOEP_ST,
+      fecoep_icms_st_aliquota: ALIQUOTA_FECOEP_ST, fecoep_icms_st_valor: VALOR_FECOEP_ST, fcp_st_base_de_calculo: BASE_CALCULO_FCP_ST, fcp_st_aliquota: ALIQUOTA_FCP_ST,
+      fcp_st_valor: VALOR_FCP_ST}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efprodutos (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo
+        efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_to:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual TO
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual TO. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_TO
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, fecoep_icms_proprio_base_de_calculo: BASE_CALCULO_FECOEP_PROPRIO,
+      fecoep_icms_proprio_aliquota: ALIQUOTA_FECOEP_PROPRIO, fecoep_icms_proprio_valor: VALOR_FECOEP_PROPRIO, fecoep_icms_st_base_de_calculo: BASE_CALCULO_FECOEP_ST,
+      fecoep_icms_st_aliquota: ALIQUOTA_FECOEP_ST, fecoep_icms_st_valor: VALOR_FECOEP_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estorno_credito_presumido_pis_cofins:
+    titulo: Notas Fiscais de Saída - Produtos - Estorno Crédito Presumido PIS/COFINS
+    descricao: 'Notas Fiscais de Saída - Produtos - Estorno Crédito Presumido PIS/COFINS. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTORNO_CREDITO_PRESUMIDO_PIS_COFINS
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, valor_pis: VALOR_PIS,
+      valor_cofins: VALOR_COFINS}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_pr:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual PR
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual PR. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_PR
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, fecop_icms_proprio_base_de_calculo: BASE_CALCULO_FECOP_PROPRIO,
+      fecop_icms_proprio_aliquota: ALIQUOTA_FECOP_PROPRIO, fecop_icms_proprio_valor: VALOR_FECOP_PROPRIO, fecop_icms_st_base_de_calculo: BASE_CALCULO_FECOP_ST, fecop_icms_st_aliquota: ALIQUOTA_FECOP_ST,
+      fecop_icms_st_valor: VALOR_FECOP_ST, fcp_st_base_de_calculo: BASE_CALCULO_FCP_ST, fcp_st_aliquota: ALIQUOTA_FCP_ST, fcp_st_valor: VALOR_FCP_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_da_nota:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_fecomp_ms_icms_proprio:
+    titulo: Notas Fiscais de Saída - Produtos - FECOMP MS
+    descricao: 'Notas Fiscais de Saída - Produtos - FECOMP MS. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_FECOMP_MS_ICMS_PROPRIO
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_calculo_icms: BASE_CALCULO_FECOMP_MS_ICMS_PROPRIO,
+      aliquota_icms: ALIQUOTA_FECOMP_MS_ICMS_PROPRIO, valor_icms: VALOR_FECOMP_MS_ICMS_PROPRIO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_fecomp_ms_icms_st:
+    titulo: Notas Fiscais de Saída - Produtos - FECOMP ST MS
+    descricao: 'Notas Fiscais de Saída - Produtos - FECOMP ST MS. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_FECOMP_MS_ICMS_ST
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_calculo_icms_st: BASE_CALCULO_FECOMP_MS_ICMS_ST,
+      aliquota_icms_st: ALIQUOTA_FECOMP_MS_ICMS_ST, valor_icms_st: VALOR_FECOMP_MS_ICMS_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_ro:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual RO
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual RO. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_RO
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, fecoep_icms_proprio_base_de_calculo: BASE_CALCULO_FECOEP_PROPRIO,
+      fecoep_icms_proprio_aliquota: ALIQUOTA_FECOEP_PROPRIO, fecoep_icms_proprio_valor: VALOR_FECOEP_PROPRIO, fecoep_icms_st_base_de_calculo: BASE_CALCULO_FECOEP_ST,
+      fecoep_icms_st_aliquota: ALIQUOTA_FECOEP_ST, fecoep_icms_st_valor: VALOR_FECOEP_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_mg:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual MG
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual MG. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_MG
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, base_de_calculo_recali: RECALI_BASE_CALCULO,
+      aliquota_recali: RECALI_ALIQUOTA, valor_recali: RECALI_VALOR, codigo_recolhimento_recali: RECALI_CODIGO_RECOLHIMENTO, sequencial_recolhimento_recali: RECALI_I_RECOLHIMENTO}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_recolhimento_recali:
+        coluna: RECALI_CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_icmsa:
+    titulo: Notas Fiscais de Saída - Produtos - ICMSA
+    descricao: 'Notas Fiscais de Saída - Produtos - ICMSA. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ICMSA
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {empresa: CODI_EMP, saida: CODI_SAI, sequencial: NUME_MSP, produto: CODI_PDI, base_de_calculo_icmsa: BASE_CALCULO_ICMSA, aliquota_icmsa: ALIQUOTA_ICMSA,
+      valor_icmsa: VALOR_ICMSA}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_rn:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual RN
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual RN. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_RN
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_produto: CODI_PDI, fecop_icms_proprio_base_de_calculo: BASE_CALCULO_FECOP_PROPRIO,
+      fecop_icms_proprio_aliquota: ALIQUOTA_FECOP_PROPRIO, fecop_icms_proprio_valor: VALOR_FECOP_PROPRIO, fecop_icms_st_base_de_calculo: BASE_CALCULO_FECOP_ST, fecop_icms_st_aliquota: ALIQUOTA_FECOP_ST,
+      fecop_icms_st_valor: VALOR_FECOP_ST}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_estadual_al:
+    titulo: Notas Fiscais de Saída - Produtos - Estadual AL
+    descricao: 'Notas Fiscais de Saída - Produtos - Estadual AL. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ESTADUAL_AL
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, fecoep_al_st_base_de_calculo: FECOEP_AL_ICMS_ST_BASE_CALCULO,
+      fecoep_al_st_aliquota: FECOEP_AL_ICMS_ST_ALIQUOTA, fecoep_al_st_valor: FECOEP_AL_ICMS_ST_VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_fundeinfra:
+    titulo: Notas Fiscais de Saída - Produtos - FUNDEINFRA
+    descricao: 'Notas Fiscais de Saída - Produtos - FUNDEINFRA. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_FUNDEINFRA
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_do_produto: CODI_PDI, base_de_calculo_fundeinfra: BASE_CALCULO_FUNDEINFRA,
+      aliquota_do_fundeinfra: ALIQUOTA_FUNDEINFRA, valor_do_fundeinfra: VALOR_FUNDEINFRA}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_icms_efetivo:
+    titulo: Notas Fiscais de Saída - Produtos - ICMS Efetivo Geral
+    descricao: 'Notas Fiscais de Saída - Produtos - ICMS Efetivo Geral. 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_ICMS_EFETIVO
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_produto: CODI_PDI, base_de_calculo: BASE_CALCULO,
+      aliquota: ALIQUOTA, valor: VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).', 'Vínculo efprodutos
+        (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 1644).']
+  efmvspro_is:
+    titulo: Nota Fiscais de Saidas - Produtos - IS (Imposto Seletivo)
+    descricao: 'Nota Fiscais de Saidas - Produtos - IS (Imposto Seletivo). 2 linhas no catálogo; chave: CODI_EMP, CODI_SAI, NUME_MSP.'
+    tabela: EFMVSPRO_IS
+    chave: [CODI_EMP, CODI_SAI, NUME_MSP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_SAI, asc]
+    - [NUME_MSP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_da_nota_de_saida: CODI_SAI, codigo_sequencial_do_estoque: NUME_MSP, codigo_produto: CODI_PDI, classificacao_tributaria_do_imposto_sele: CCLASS_TRIB_IS,
+      cst_do_imposto_is: CST, base_calculo_is: BASE_CALCULO, aliquota_ad_valorem: ALIQUOTA_AD_VALOREM_IS, quantidade_tributada: QTDE_TRIB, aliquota_ad_rem_fixa: ALIQUOTA_AD_REM_FIXA_IS,
+      valor_imposto: VALOR}
+    vinculos:
+      efmvspro:
+        tabela: efmvspro
+        liga: {codi_emp: codi_emp, codi_sai: codi_sai, nume_msp: nume_msp}
+        colunas: {efmvspro_nome: DESCRICAO_COMPLEMENTAR_MSP}
+    filtros:
+      codigo_sequencial_da_nota_de_saida:
+        coluna: CODI_SAI
+        ops: [eq, in]
+      codigo_sequencial_do_estoque:
+        coluna: NUME_MSP
+        ops: [eq, in]
+      codigo_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      classificacao_tributaria_do_imposto_sele:
+        coluna: CCLASS_TRIB_IS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo efmvspro (efmvspro): 0 de 2 linhas sem registro relacionado (empresa 1644).']

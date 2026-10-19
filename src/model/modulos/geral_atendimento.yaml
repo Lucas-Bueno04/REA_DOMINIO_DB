@@ -1,0 +1,470 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_atendimento
+titulo: Geral - atendimento (rascunho em lote)
+entidades:
+  geatendimento_sgd_notificacoes_usuarios:
+    titulo: Notificações de suporte e notícias por usuário
+    descricao: 'Notificações de suporte e notícias por usuário. 37.928 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_SGD_NOTIFICACOES_USUARIOS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_auto_numeracao: CODIGO, codigo_da_empresa: CODI_EMP, fk_de_notificacoes: CODIGO_NOTIFICACAO, id_do_usuario_no_sgd: ID, status_da_notificacao_1_notificado_2_nao: STATUS_NOTIFICACAO}
+    filtros:
+      codigo_auto_numeracao:
+        coluna: CODIGO
+        ops: [eq, in]
+      fk_de_notificacoes:
+        coluna: CODIGO_NOTIFICACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38.380 linhas, 0 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_empresa.', 'A coluna de empresa (codi_emp)
+        é nula em 100% das linhas: tabela global, sem filtro de empresa (medido em 2026-10-18).']
+  geatendimento_plano_contas_contabilidade:
+    titulo: Envio do plano de contas para a Conta Azul
+    descricao: 'Envio do plano de contas para a Conta Azul. 3.948 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_PLANO_CONTAS_CONTABILIDADE
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CADASTRO, volume: pequeno}
+    ordem:
+    - [DATA_CADASTRO, desc]
+    - [CODIGO, asc]
+    colunas:
+      codigo: CODIGO
+      codi_emp: CODI_EMP
+      permite_inserir_unica_acao_onvio: PERMITE_INSERIR_UNICA_ACAO_ONVIO
+      integration_key: INTEGRATION_KEY
+      c_1_nao_e_para_fazer_o_envio_0_nao_envia: SITUACAO_ENVIO
+      cnpj: {coluna: CNPJ, sensivel: parcial}
+      cpf: {coluna: CPF, sensivel: parcial}
+      razao_social: {coluna: RAZAO_SOCIAL, sensivel: parcial}
+      c_envia_cadastro_de_conta_e_envia_altera: TIPO_ALTERACAO
+      codigo_conta: CODIGO_CONTA
+      classificacao_conta: CLASSIFICACAO_CONTA
+      tipo_conta: TIPO_CONTA
+      descricao_conta: DESCRICAO_CONTA
+      data_cadastro: DATA_CADASTRO
+      situacao_conta: SITUACAO_CONTA
+      data_inativacao: DATA_INATIVACAO
+      codi_emp_plano: CODI_EMP_PLANO
+      codi_emp_filial: CODI_EMP_FILIAL
+      c_0_nao_replicou_1_replicou: REPLICOU_FILIAL
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_cadastro:
+        coluna: DATA_CADASTRO
+        ops: [entre, gte, lte]
+      data_inativacao:
+        coluna: DATA_INATIVACAO
+        ops: [entre, gte, lte]
+      integration_key:
+        coluna: INTEGRATION_KEY
+        ops: [contem, prefixo]
+      c_1_nao_e_para_fazer_o_envio_0_nao_envia:
+        coluna: SITUACAO_ENVIO
+        ops: [eq, in]
+      cnpj:
+        coluna: CNPJ
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      razao_social:
+        coluna: RAZAO_SOCIAL
+        ops: [contem, prefixo]
+      c_envia_cadastro_de_conta_e_envia_altera:
+        coluna: TIPO_ALTERACAO
+        ops: [eq, in]
+      codigo_conta:
+        coluna: CODIGO_CONTA
+        ops: [eq, in]
+      classificacao_conta:
+        coluna: CLASSIFICACAO_CONTA
+        ops: [contem, prefixo]
+      tipo_conta:
+        coluna: TIPO_CONTA
+        ops: [eq, in]
+      descricao_conta:
+        coluna: DESCRICAO_CONTA
+        ops: [contem, prefixo]
+      situacao_conta:
+        coluna: SITUACAO_CONTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.948 linhas, 13 empresa(s), DATA_CADASTRO de 2000-01-01 a 2026-09-21.', 'Colunas expostas nulas em 100% das linhas (2): data_inativacao,
+        codi_emp_filial.']
+  geatendimento_digitalbank_catalogo:
+    titulo: GEATENDIMENTO_DIGITALBANK_CATALOGO
+    descricao: 'GEATENDIMENTO_DIGITALBANK_CATALOGO. 2.155 linhas no catálogo; chave: CODI.'
+    tabela: GEATENDIMENTO_DIGITALBANK_CATALOGO
+    chave: [CODI]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [CODI, asc]
+    colunas:
+      codi: CODI
+      codi_emp: CODI_EMP
+      valor: VALOR
+      id_transacao: ID_TRANSACAO
+      data_vencimento: DATA_VENCIMENTO
+      data_pagamento: DATA_PAGAMENTO
+      acao_processada: ACAO_PROCESSADA
+      cpf: {coluna: CPF, sensivel: parcial}
+      origem: ORIGEM
+      modulo: MODULO
+      codigo_de_identificacao_do_banco: CODIGO_BANCO
+    filtros:
+      codi:
+        coluna: CODI
+        ops: [eq, in]
+      data_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      data_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      id_transacao:
+        coluna: ID_TRANSACAO
+        ops: [contem, prefixo]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      origem:
+        coluna: ORIGEM
+        ops: [contem, prefixo]
+      codigo_de_identificacao_do_banco:
+        coluna: CODIGO_BANCO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.155 linhas, 1 empresa(s), DATA_VENCIMENTO de 2024-01-02 a 2025-08-20.']
+  geatendimento_sgd_notificacoes:
+    titulo: Notificações de suporte e notícias
+    descricao: 'Notificações de suporte e notícias. 2.053 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_SGD_NOTIFICACOES
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_auto_numeracao: CODIGO, codigo_da_empresa: CODI_EMP, classificacao: CLASSIFICACAO, cliente_no_sgd: CLIENTE, status_da_notificacao_1_notificado_2_nao: STATUS,
+      id_da_notificacao_no_sgd: ID}
+    filtros:
+      codigo_auto_numeracao:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.070 linhas, 0 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): codigo_da_empresa, status_da_notificacao_1_notificado_2_nao.',
+      'A coluna de empresa (codi_emp) é nula em 100% das linhas: tabela global, sem filtro de empresa (medido em 2026-10-18).']
+  geatendimento_codigo_empresa:
+    titulo: Relação de empresas no Contábil e Domínio Atendimento
+    descricao: 'Relação de empresas no Contábil e Domínio Atendimento. 2.005 linhas no catálogo; chave: CODI_EMP_CONTABIL, CODI_SEQ_ATENDIMENTO, STATUS.'
+    tabela: GEATENDIMENTO_CODIGO_EMPRESA
+    chave: [CODI_EMP_CONTABIL, CODI_SEQ_ATENDIMENTO, STATUS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_EMP_CONTABIL, asc]
+    colunas: {codi_emp_contabil: CODI_EMP_CONTABIL, codi_seq_atendimento: CODI_SEQ_ATENDIMENTO, c_1_usando_codigo_empresa_ativa_0_empres: STATUS}
+    filtros:
+      codi_emp_contabil:
+        coluna: CODI_EMP_CONTABIL
+        ops: [eq, in]
+      codi_seq_atendimento:
+        coluna: CODI_SEQ_ATENDIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.005 linhas.']
+  geatendimento_mimetype:
+    titulo: Tipos de arquivos que são enviados para ASIS
+    descricao: 'Tipos de arquivos que são enviados para ASIS. 818 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GEATENDIMENTO_MIMETYPE
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {chave_primaria: SEQUENCIAL, extensao_do_arquivo: EXTENSAO, mime_type_equivalente_a_extensao_do_arqu: MIME}
+    filtros:
+      chave_primaria:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      extensao_do_arquivo:
+        coluna: EXTENSAO
+        ops: [contem, prefixo]
+      mime_type_equivalente_a_extensao_do_arqu:
+        coluna: MIME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 818 linhas.']
+  geatendimento_telemetria:
+    titulo: Dados de integração para telemetria
+    descricao: 'Dados de integração para telemetria. 407 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_TELEMETRIA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_unico_na_tabela: CODIGO, situacao_n_nao_enviado_e_enviado_r_erro: STATUS, nome_do_servico_para_telemetria: SERVICO, statuscode_de_retorno_da_requisicao: CODIGO_STATUS,
+      mensagem_de_retorno_da_requisicao: MENSAGEM, nome_do_source_para_a_telemetria: SOURCE}
+    filtros:
+      codigo_unico_na_tabela:
+        coluna: CODIGO
+        ops: [eq, in]
+      situacao_n_nao_enviado_e_enviado_r_erro:
+        coluna: STATUS
+        ops: [eq, in]
+      nome_do_servico_para_telemetria:
+        coluna: SERVICO
+        ops: [contem, prefixo]
+      statuscode_de_retorno_da_requisicao:
+        coluna: CODIGO_STATUS
+        ops: [eq, in]
+      mensagem_de_retorno_da_requisicao:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+      nome_do_source_para_a_telemetria:
+        coluna: SOURCE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 373 linhas.']
+  geatendimento_onvio_empresas_ignoradas:
+    titulo: Erros de empresas enviadas ao Onvio ignorados.
+    descricao: 'Erros de empresas enviadas ao Onvio ignorados.. 345 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_ONVIO_EMPRESAS_IGNORADAS
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {sequencial_autoincremento: CODIGO, codigo_da_acao: CODIGO_ACAO, codigo_da_empresa: CODI_EMP, mensagem_do_erro: MENSAGEM, versao_do_agente_em_que_foi_gerado_o_err: VERSAO_AGENTE}
+    filtros:
+      sequencial_autoincremento:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_da_acao:
+        coluna: CODIGO_ACAO
+        ops: [eq, in]
+      mensagem_do_erro:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+      versao_do_agente_em_que_foi_gerado_o_err:
+        coluna: VERSAO_AGENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 345 linhas, 345 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): mensagem_do_erro.']
+  geatendimento_sincronizar_dados:
+    titulo: Tabela para sincronizar dados com o atendimento
+    descricao: 'Tabela para sincronizar dados com o atendimento. 68 linhas no catálogo; chave: I_ACOES.'
+    tabela: GEATENDIMENTO_SINCRONIZAR_DADOS
+    chave: [I_ACOES]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ACOES, asc]
+    colunas: {i_acoes: I_ACOES, codigo_da_empresa: CODI_EMP, codigo_da_empresa_no_dominio_atendimento: CODI_EMP_ATENDIMENTO, tipo_da_informacao_que_sera_enviada: TIPO,
+      codigo_sequencial_da_tabela_que_armazena: CODIGO, acao_1_novo_atualizar_2_excluir: ACAO, concluido: CONCLUIDO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      i_acoes:
+        coluna: I_ACOES
+        ops: [eq, in]
+      codigo_da_empresa_no_dominio_atendimento:
+        coluna: CODI_EMP_ATENDIMENTO
+        ops: [eq, in]
+      tipo_da_informacao_que_sera_enviada:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_sequencial_da_tabela_que_armazena:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 68 linhas, 27 empresa(s).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 10052).']
+  geatendimento_dados_escritorio_historico:
+    titulo: Tabela de histórico de mudança da tabela GEATENDIMENTO_DADOS_ESCRITORIO
+    descricao: 'Tabela de histórico de mudança da tabela GEATENDIMENTO_DADOS_ESCRITORIO. 17 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GEATENDIMENTO_DADOS_ESCRITORIO_HISTORICO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, codigo_cliente: CODIGO_CLIENTE, situacao_antiga: SITUACAO_ANTIGA, situacao_nova: SITUACAO_NOVA, mensagem_detalhe: MENSAGEM_DETALHE,
+      estagio_migracao_com_dados: ESTAGIO_MIGRACAO_COM_DADOS, estagio_migracao_com_dados_temp: ESTAGIO_MIGRACAO_COM_DADOS_TEMP, indica_que_o_cliente_possui_boxe_ativo_o: BOXE_ATIVO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_cliente:
+        coluna: CODIGO_CLIENTE
+        ops: [eq, in]
+      situacao_antiga:
+        coluna: SITUACAO_ANTIGA
+        ops: [eq, in]
+      situacao_nova:
+        coluna: SITUACAO_NOVA
+        ops: [eq, in]
+      mensagem_detalhe:
+        coluna: MENSAGEM_DETALHE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 17 linhas.']
+  geatendimento_bancos_iceberg:
+    titulo: Cadastro de Instituições Financeiras para o Iceberg
+    descricao: 'Cadastro de Instituições Financeiras para o Iceberg. 15 linhas no catálogo; chave: CODIGO_BANCO.'
+    tabela: GEATENDIMENTO_BANCOS_ICEBERG
+    chave: [CODIGO_BANCO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_BANCO, asc]
+    colunas: {codigo_da_instituicao_financeira: CODIGO_BANCO, nome_da_instituicao_financeira: DESCRICAO_BANCO, identificador_da_instituicao_financeira: NOME_BANCO,
+      identificador_do_banco_central_para_part: NUMERO_CODIGO_BC, informa_se_a_instituicao_usa_conexao_dir: CONEXAO_DIRETA}
+    filtros:
+      codigo_da_instituicao_financeira:
+        coluna: CODIGO_BANCO
+        ops: [eq, in]
+      nome_da_instituicao_financeira:
+        coluna: DESCRICAO_BANCO
+        ops: [contem, prefixo]
+      identificador_da_instituicao_financeira:
+        coluna: NOME_BANCO
+        ops: [contem, prefixo]
+      identificador_do_banco_central_para_part:
+        coluna: NUMERO_CODIGO_BC
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15 linhas.']
+  geatendimento_log_catalogo:
+    titulo: Log dos Catalogos de NF-e retornados do servidor.
+    descricao: 'Log dos Catalogos de NF-e retornados do servidor.. 9 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTO_LOG_CATALOGO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {campo_auto_numeraaao_identificaaao_do_re: CODIGO, xml_do_catalogo_retornado_do_servidor: CATALOGO}
+    filtros:
+      campo_auto_numeraaao_identificaaao_do_re:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas.']
+  geatendimento_escritorio:
+    titulo: DADOS DO ESCRITORIO NO ATENDIMENTO
+    descricao: 'DADOS DO ESCRITORIO NO ATENDIMENTO. 2 linhas no catálogo; chave: CODIGO_CLIENTE.'
+    tabela: GEATENDIMENTO_ESCRITORIO
+    chave: [CODIGO_CLIENTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_CLIENTE, asc]
+    colunas: {coluna_depreciada_nao_representa_o_codig: CODIGO_CLIENTE, usa_servico_nfe: USA_SERVICO_NFE}
+    filtros:
+      coluna_depreciada_nao_representa_o_codig:
+        coluna: CODIGO_CLIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  geatendimento_bloco_informacoes:
+    titulo: Informações para o Onbalance
+    descricao: 'Informações para o Onbalance. 2 linhas no catálogo; chave: ID_BLOCO_INFORMACOES.'
+    tabela: GEATENDIMENTO_BLOCO_INFORMACOES
+    chave: [ID_BLOCO_INFORMACOES]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID_BLOCO_INFORMACOES, asc]
+    colunas: {id_bloco_informacoes: ID_BLOCO_INFORMACOES, nome_tag: NOME_TAG}
+    filtros:
+      id_bloco_informacoes:
+        coluna: ID_BLOCO_INFORMACOES
+        ops: [eq, in]
+      nome_tag:
+        coluna: NOME_TAG
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  geatendimento_controle_requisicoes:
+    titulo: Controle de requisições para download de notas
+    descricao: 'Controle de requisições para download de notas. 1 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: GEATENDIMENTO_CONTROLE_REQUISICOES
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial_unico: I_SEQUENCIAL, nome_maquina: NOME_MAQUINA, id_da_conexao_responsavel_pelo_processo: CONECTION_ID}
+    filtros:
+      sequencial_unico:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      nome_maquina:
+        coluna: NOME_MAQUINA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_parar_servico:
+    titulo: Controle de parada de serviço do Agente de Comunicação
+    descricao: 'Controle de parada de serviço do Agente de Comunicação. 1 linhas no catálogo; chave: PARAR_SERVICO.'
+    tabela: GEATENDIMENTO_PARAR_SERVICO
+    chave: [PARAR_SERVICO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [PARAR_SERVICO, asc]
+    colunas: {c_1_parar_serviao_2_iniciar_serviao_3_pa: PARAR_SERVICO}
+    filtros:
+      c_1_parar_serviao_2_iniciar_serviao_3_pa:
+        coluna: PARAR_SERVICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_status_servico:
+    titulo: Controle de conexão do Agente de Comunicação
+    descricao: 'Controle de conexão do Agente de Comunicação. 1 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: GEATENDIMENTO_STATUS_SERVICO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {pk_sempre_1_para_realizar_o_controle_de: I_SEQUENCIAL, status_da_coneccao_com_o_dominio_atendim: STATUS_CONECTADO, ping_no_website_0_website_offline_1_webs: STATUS_INTERNET_ATENDIMENTO,
+      ping_no_website_integra_0_website_offlin: STATUS_INTERNET_INTEGRA, c_1_login_com_sucesso_1_problema_no_logi: STATUS_LOGIN_ATENDIMENTO, status_login_integra: STATUS_LOGIN_INTEGRA,
+      nome_da_maquina_em_execucao_do_servico: NOME_MAQUINA, coluna_para_realizar_o_controle_de_conco: PENDENTE_ATENDIMENTO, status_login_atendimento_da_legado: STATUS_LOGIN_ATENDIMENTO_DA_LEGADO}
+    filtros:
+      pk_sempre_1_para_realizar_o_controle_de:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      nome_da_maquina_em_execucao_do_servico:
+        coluna: NOME_MAQUINA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_dados_escritorio:
+    titulo: Dados obtidos do SGD à respeito do escritório
+    descricao: 'Dados obtidos do SGD à respeito do escritório. 1 linhas no catálogo; chave: CODIGO_CLIENTE.'
+    tabela: GEATENDIMENTO_DADOS_ESCRITORIO
+    chave: [CODIGO_CLIENTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_CLIENTE, asc]
+    colunas: {codigo_do_cliente_do_sgd: CODIGO_CLIENTE, situacao_do_ambiente_utilizado_do_atendi: SITUACAO, indica_que_os_usuarios_do_sgd_estao_em_c: USUARIOS_EM_CONVERSAO_SGD,
+      c_0_sem_migracao_cadastrada_1_iniciar_mi: ESTAGIO_MIGRACAO_COM_DADOS, estagio_migracao_com_dados_temp: ESTAGIO_MIGRACAO_COM_DADOS_TEMP, ultimo_sequencial_nfe_disponivel_legado: ULTIMO_SEQUENCIAL_NFE_DISPONIVEL_LEGADO,
+      ultimo_sequencial_nfe_baixado_legado: ULTIMO_SEQUENCIAL_NFE_BAIXADO_LEGADO, informacao_de_se_o_cliente_usa_manifesto: BOXE_ATIVO}
+    filtros:
+      codigo_do_cliente_do_sgd:
+        coluna: CODIGO_CLIENTE
+        ops: [eq, in]
+      situacao_do_ambiente_utilizado_do_atendi:
+        coluna: SITUACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_sincronizar_empresas_da:
+    titulo: Tabela para controla de sincronia das empresas do DA para remarcação do módulo Atendimento
+    descricao: 'Tabela para controla de sincronia das empresas do DA para remarcação do módulo Atendimento. 1 linhas no catálogo; chave: SINCRONIZADO, ATIVACAO_USUARIOS_CONCLUIDA.'
+    tabela: GEATENDIMENTO_SINCRONIZAR_EMPRESAS_DA
+    chave: [SINCRONIZADO, ATIVACAO_USUARIOS_CONCLUIDA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SINCRONIZADO, asc]
+    colunas: {sincronizado: SINCRONIZADO, ativacao_usuarios_concluida: ATIVACAO_USUARIOS_CONCLUIDA}
+    filtros:
+      sincronizado:
+        coluna: SINCRONIZADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_status_opcoes_barra_dominio:
+    titulo: No Contábil a thread responsável por habilitar/desabilitar os botões da barra da Domino, verifica os valores nesta tabela.
+    descricao: 'No Contábil a thread responsável por habilitar/desabilitar os botões da barra da Domino, verifica os valores nesta tabela.. 1 linhas no catálogo;
+      chave: CODIGO.'
+    tabela: GEATENDIMENTO_STATUS_OPCOES_BARRA_DOMINIO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_sempre_existira_apenas_uma_linha: CODIGO, c_1_habilitar_2_desabilitar_status_do_fa: HABILITAR_IMPORTACAO_DOCUMENTOS_MODULO_ESCRITA_FISCAL, habilitar_importacao_documentos_modulo_f: HABILITAR_IMPORTACAO_DOCUMENTOS_MODULO_FOLHA}
+    filtros:
+      codigo_sempre_existira_apenas_uma_linha:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

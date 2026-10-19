@@ -1,0 +1,132 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_gnre
+titulo: Fiscal - gnre (rascunho em lote)
+entidades:
+  efgnre_avulsa_receita_produtos:
+    titulo: Produtos - GNRE Avulsa
+    descricao: 'Produtos - GNRE Avulsa. 2.037 linhas no catálogo; chave: UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_PRODUTO_GNRE.'
+    tabela: EFGNRE_AVULSA_RECEITA_PRODUTOS
+    chave: [UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_PRODUTO_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [UF_FAVORECIDA, asc]
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {uf_favorecida: UF_FAVORECIDA, codigo_da_receita: CODIGO_RECEITA_GNRE, codigo_do_produto_da_receitar: CODIGO_PRODUTO_GNRE}
+    vinculos:
+      eftabela_gnre_avulsa_pro:
+        tabela: EFTABELA_GNRE_AVULSA_PRODUTOS
+        liga: {codigo_produto_gnre: codigo_produto_gnre}
+        colunas: {eftabela_gnre_avulsa_pro_nome: DESCRICAO}
+    filtros:
+      uf_favorecida:
+        coluna: UF_FAVORECIDA
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+      codigo_do_produto_da_receitar:
+        coluna: CODIGO_PRODUTO_GNRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.037 linhas.', 'Vínculo eftabela_gnre_avulsa_pro (EFTABELA_GNRE_AVULSA_PRODUTOS): 0 de 2.037 linhas sem registro relacionado.']
+  efgnre_avulsa_receita:
+    titulo: Tabela de receita - GNRE Avulsa
+    descricao: 'Tabela de receita - GNRE Avulsa. 251 linhas no catálogo; chave: UF_FAVORECIDA, CODIGO_RECEITA_GNRE.'
+    tabela: EFGNRE_AVULSA_RECEITA
+    chave: [UF_FAVORECIDA, CODIGO_RECEITA_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [UF_FAVORECIDA, asc]
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {uf_favorecida: UF_FAVORECIDA, codigo_da_receita: CODIGO_RECEITA_GNRE}
+    vinculos:
+      eftabela_gnre_avulsa_rec:
+        tabela: EFTABELA_GNRE_AVULSA_RECEITA
+        liga: {codigo_receita_gnre: codigo_receita_gnre}
+        colunas: {eftabela_gnre_avulsa_rec_nome: DESCRICAO}
+    filtros:
+      uf_favorecida:
+        coluna: UF_FAVORECIDA
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 251 linhas.', 'Vínculo eftabela_gnre_avulsa_rec (EFTABELA_GNRE_AVULSA_RECEITA): 0 de 251 linhas sem registro relacionado.']
+  efgnre_avulsa_receita_documentos_origem:
+    titulo: Documentos de origem - GNRE Avulsa
+    descricao: 'Documentos de origem - GNRE Avulsa. 251 linhas no catálogo; chave: UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_DOCUMENTO_ORIGEM_GNRE.'
+    tabela: EFGNRE_AVULSA_RECEITA_DOCUMENTOS_ORIGEM
+    chave: [UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_DOCUMENTO_ORIGEM_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [UF_FAVORECIDA, asc]
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {uf_favorecida: UF_FAVORECIDA, codigo_da_receita: CODIGO_RECEITA_GNRE, codigo_do_documento_de_origem_da_receita: CODIGO_DOCUMENTO_ORIGEM_GNRE}
+    vinculos:
+      eftabela_gnre_avulsa_doc:
+        tabela: EFTABELA_GNRE_AVULSA_DOCUMENTOS_ORIGEM
+        liga: {codigo_documento_origem_gnre: codigo_documento_origem_gnre}
+        colunas: {eftabela_gnre_avulsa_doc_nome: DESCRICAO}
+    filtros:
+      uf_favorecida:
+        coluna: UF_FAVORECIDA
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+      codigo_do_documento_de_origem_da_receita:
+        coluna: CODIGO_DOCUMENTO_ORIGEM_GNRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 251 linhas.', 'Vínculo eftabela_gnre_avulsa_doc (EFTABELA_GNRE_AVULSA_DOCUMENTOS_ORIGEM): 0 de 251 linhas sem registro relacionado.']
+  efgnre_receita_produtos:
+    titulo: GNRE - Receita
+    descricao: 'GNRE - Receita. 144 linhas no catálogo; chave: UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_PRODUTO_GNRE.'
+    tabela: EFGNRE_RECEITA_PRODUTOS
+    chave: [UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_PRODUTO_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [UF_FAVORECIDA, asc]
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {uf_favorecida: UF_FAVORECIDA, codigo_receita: CODIGO_RECEITA_GNRE, codigo_produto: CODIGO_PRODUTO_GNRE}
+    vinculos:
+      eftabela_gnre_avulsa_pro:
+        tabela: EFTABELA_GNRE_AVULSA_PRODUTOS
+        liga: {codigo_produto_gnre: codigo_produto_gnre}
+        colunas: {eftabela_gnre_avulsa_pro_nome: DESCRICAO}
+    filtros:
+      uf_favorecida:
+        coluna: UF_FAVORECIDA
+        ops: [eq, in]
+      codigo_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+      codigo_produto:
+        coluna: CODIGO_PRODUTO_GNRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 144 linhas.', 'Vínculo eftabela_gnre_avulsa_pro (EFTABELA_GNRE_AVULSA_PRODUTOS): 0 de 144 linhas sem registro relacionado.']
+  efgnre_avulsa_receita_detalhamento:
+    titulo: Detalhamento - GNRE Avulsa
+    descricao: 'Detalhamento - GNRE Avulsa. 122 linhas no catálogo; chave: UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_DETALHAMENTO_RECEITA_GNRE.'
+    tabela: EFGNRE_AVULSA_RECEITA_DETALHAMENTO
+    chave: [UF_FAVORECIDA, CODIGO_RECEITA_GNRE, CODIGO_DETALHAMENTO_RECEITA_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [UF_FAVORECIDA, asc]
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {uf_favorecida: UF_FAVORECIDA, codigo_da_receita: CODIGO_RECEITA_GNRE, codigo_do_detalhamento_da_receita: CODIGO_DETALHAMENTO_RECEITA_GNRE}
+    vinculos:
+      eftabela_gnre_avulsa_det:
+        tabela: EFTABELA_GNRE_AVULSA_DETALHAMENTO
+        liga: {codigo_detalhamento_receita_gnre: codigo_detalhamento_receita_gnre}
+        colunas: {eftabela_gnre_avulsa_det_nome: DESCRICAO}
+    filtros:
+      uf_favorecida:
+        coluna: UF_FAVORECIDA
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+      codigo_do_detalhamento_da_receita:
+        coluna: CODIGO_DETALHAMENTO_RECEITA_GNRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 122 linhas.', 'Vínculo eftabela_gnre_avulsa_det (EFTABELA_GNRE_AVULSA_DETALHAMENTO): 0 de 122 linhas sem registro relacionado.']

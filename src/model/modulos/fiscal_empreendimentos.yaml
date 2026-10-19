@@ -1,0 +1,570 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_empreendimentos
+titulo: Fiscal - empreendimentos (rascunho em lote)
+dominios:
+  efempreendimentos_imobiliarios_origem_do_pr:
+    confirmado: true
+    nota: 'Todos os valores observados em EFEMPREENDIMENTOS_IMOBILIARIOS.ORIGEM_REFERENCIADO estão no comentário do banco (2026-10-18). Distribuição: 9=7.'
+    valores: {'1': Justica Federal, '3': Secretaria da Receita Federal do Brasil, '9': Outros}
+  efempreendimentos_imobiliarios_contratos_venda_pagamentos_origem_do_p:
+    confirmado: true
+    nota: 'Todos os valores observados em EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_PAGAMENTOS.ORIGEM_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição:
+      L=3, B=3.'
+    valores: {B: BAIXA, L: LANÇAMENTO, R: RESCINDIDA}
+entidades:
+  efempreendimentos_imobiliarios_contratos_venda_parcelas:
+    titulo: Empreendimentos imobiliários - Contratos de venda - Parcelas
+    descricao: 'Empreendimentos imobiliários - Contratos de venda - Parcelas. 34 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_PARCELA.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_PARCELAS
+    chave: [CODI_EMP, I_CONTRATO, I_PARCELA]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO, volume: pequeno}
+    ordem:
+    - [VENCIMENTO, desc]
+    - [I_CONTRATO, asc]
+    - [I_PARCELA, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_contrato: I_CONTRATO, codigo_da_parcela: I_PARCELA, vencimento: VENCIMENTO, valor_da_parcela: VALOR_PARCELA}
+    filtros:
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      codigo_da_parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      vencimento:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 34 linhas, 2 empresa(s), VENCIMENTO de 2021-06-01 a 2024-01-28.']
+  efempreendimentos_imobiliarios_unidades:
+    titulo: Empreendimentos imobiliários - unidades - cadastro
+    descricao: 'Empreendimentos imobiliários - unidades - cadastro. 16 linhas no catálogo; chave: CODI_EMP, I_EMPREENDIMENTO, I_UNIDADE.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_UNIDADES
+    chave: [CODI_EMP, I_EMPREENDIMENTO, I_UNIDADE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREENDIMENTO, asc]
+    - [I_UNIDADE, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_do_empreendimento: I_EMPREENDIMENTO
+      codigo_da_unidade: I_UNIDADE
+      descricao_resumida: DESCRICAO_RESUMIDA
+      area_da_unidade: AREA_UNIDADE
+      complemento_endereco: {coluna: COMPLEMENTO_ENDERECO, sensivel: parcial}
+    vinculos:
+      efempreendimentos_imobil:
+        tabela: EFEMPREENDIMENTOS_IMOBILIARIOS
+        liga: {codi_emp: codi_emp, i_empreendimento: i_empreendimento}
+        colunas: {efempreendimentos_imobil_nome: NOME}
+    filtros:
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      codigo_da_unidade:
+        coluna: I_UNIDADE
+        ops: [eq, in]
+      descricao_resumida:
+        coluna: DESCRICAO_RESUMIDA
+        ops: [contem, prefixo]
+      complemento_endereco:
+        coluna: COMPLEMENTO_ENDERECO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas, 7 empresa(s).', 'Vínculo efempreendimentos_imobil (EFEMPREENDIMENTOS_IMOBILIARIOS): 0 de 1 linhas sem registro relacionado
+        (empresa 741).']
+  efempreendimentos_imobiliarios_vigencia_impostos_debito:
+    titulo: Empreendimentos imobiliários - impostos - débito - cadastro Vigência
+    descricao: 'Empreendimentos imobiliários - impostos - débito - cadastro Vigência. 13 linhas no catálogo; chave: CODI_EMP, I_EMPREENDIMENTO, VIGENCIA, CODI_IMP.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_VIGENCIA_IMPOSTOS_DEBITO
+    chave: [CODI_EMP, I_EMPREENDIMENTO, VIGENCIA, CODI_IMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_EMPREENDIMENTO, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_empreendimento: I_EMPREENDIMENTO, vigencia: VIGENCIA, codigo_do_imposto: CODI_IMP, percentual_de_reducao_da_base_de_calculo: PERCENTUAL_REDUCAO_BASE_CALCULO,
+      aliquota_do_imposto: ALIQUOTA}
+    filtros:
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas, 4 empresa(s), VIGENCIA de 2015-01-01 a 2023-07-01.']
+  efempreendimentos_imobiliarios:
+    titulo: Empreendimentos imobiliários - cadastro
+    descricao: 'Empreendimentos imobiliários - cadastro. 7 linhas no catálogo; chave: CODI_EMP, I_EMPREENDIMENTO.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS
+    chave: [CODI_EMP, I_EMPREENDIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREENDIMENTO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_do_empreendimento: I_EMPREENDIMENTO
+      nome: NOME
+      tipo_de_unidade_imobiliaria: TIPO_UNIDADE_IMOBILIARIA
+      natureza_especifica_do_empreendimento: NATUREZA_ESPECIFICA
+      descricao_resumida: DESCRICAO_RESUMIDA
+      data_do_inicio_do_empreendimento: DATA_INICIO
+      area_total: AREA_TOTAL
+      area_com_direito_a_credito: AREA_COM_DIREITO_A_CREDITO
+      calcular_credito_presumido_do_custo_orca: CALCULAR_CREDITO_PRESUMIDO_CUSTO_ORCADO
+      possui_processo_referenciado_s_n: POSSUI_PROCESSO_REFERENCIADO
+      identificacao_do_processo: IDENTIFICACAO_REFERENCIADO
+      origem_do_processo_1_justica_federal_3_s: {coluna: ORIGEM_REFERENCIADO, dominio: efempreendimentos_imobiliarios_origem_do_pr}
+      identificacao_da_secao_judiciaria: SECAO_JUDICIARIA
+      identificacao_da_vara: VARA
+      natureza_da_acao_judicial: NATUREZA_ACAO
+      data_da_sentenca_decisao_judicial: DATA_SENTENCA
+      descricao: DESCRICAO_PROCESSO
+      conta_debito_do_custo_incorrido: CT_DEBITO_CUSTO_INCORRIDO
+      conta_credito_do_custo_incorrido: CT_CREDITO_CUSTO_INCORRIDO
+      historico_do_custo_incorrido: CH_CUSTO_INCORRIDO
+      conta_debito_do_custo_orcado: CT_DEBITO_CUSTO_ORCADO
+      conta_credito_do_custo_orcado: CT_CREDITO_CUSTO_ORCADO
+      historico_do_custo_orcado: CH_CUSTO_ORCADO
+      conta_debito_da_receita_do_contrato_de_v: CT_DEBITO_CONTRATO_RECEITA
+      conta_credito_da_receita_do_contrato_de: CT_CREDITO_CONTRATO_RECEITA
+      historico_da_receita_do_contrato_de_vend: CH_CONTRATO_RECEITA
+      conta_debito_da_atualizacao_monetaria_do: CT_DEBITO_CONTRATO_ATUALIZACAO_MONETARIA
+      conta_credito_da_atualizacao_monetaria_d: CT_CREDITO_CONTRATO_ATUALIZACAO_MONETARIA
+      historico_da_atualizacao_monetaria_do_co: CH_DEBITO_CONTRATO_ATUALIZACAO_MONETARIA
+      conta_da_receita_do_recebimento_de_parce: CT_RECEBIMENTO_RECEITA
+      historico_da_receita_do_recebimento_de_p: CH_RECEBIMENTO_RECEITA
+      conta_dos_juros_do_recebimento_de_parcel: CT_RECEBIMENTO_JUROS
+      historico_dos_juros_do_recebimento_de_pa: CH_RECEBIMENTO_JUROS
+      conta_da_multa_do_recebimento_de_parcela: CT_RECEBIMENTO_MULTA
+      historico_multa_do_recebimento_de_parcel: CH_RECEBIMENTO_MULTA
+      conta_da_desconto_do_recebimento_de_parc: CT_RECEBIMENTO_DESCONTO
+      historico_desconto_do_recebimento_de_par: CH_RECEBIMENTO_DESCONTO
+      conta_da_atualizacao_monetaria_do_recebi: CT_RECEBIMENTO_ATUALIZACAO_MONETARIA
+      historico_da_atualizacao_monetaria_do_re: CH_RECEBIMENTO_ATUALIZACAO_MONETARIA
+      calcular_pis_e_cofins_para_receitas_de_c: CALCULAR_PIS_COFINS_CORRECAO_MONETARIA
+      soma_o_valor_do_desconto_na_base_de_calc: SOMA_VALOR_DESCONTO_BASE_CALCULO_PIS_COFINS
+      conta_da_receita_da_devolucao: CT_DEVOLUCAO_RECEITA
+      historico_da_receita_da_devolucao: CH_DEVOLUCAO_RECEITA
+      conta_da_atualizacao_monetaria_da_devolu: CT_DEVOLUCAO_ATUALIZACAO_MONETARIA
+      historico_da_atualizacao_monetaria_da_de: CH_DEVOLUCAO_ATUALIZACAO_MONETARIA
+      receita_bruta_desse_empreendimento_e_dif: RECEITA_BRUTA_DIFERENTE_CNAE_PRINCIPAL
+      sequencial_do_scp: I_SCP
+      considerar_o_valor_do_desconto_para_o_ca: CONSIDERAR_DESCONTO_CALCULO_IRPJ_LP_CSOC
+      nao_calcular_inss_receita_bruta_para_rec: CALCULAR_INSS_RB_CORRECAO_JURO_MULTA
+      data_da_matricula_no_cei: DATA_MATRICULA_CEI
+      aplicar_o_percentual_de_presuncao_dos_im: APLICAR_PERCENTUAL_PRESUNCAO_IRPJ_CSLL_JURO_MULTA
+      historico_do_desconto_da_devolucao: CH_DEVOLUCAO_DESCONTO
+      contabilizar_os_custos_incorridos_na_ven: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE
+      contabilizar_custo_incorrido_venda_unida: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE_TIPO
+      contabilizar_custos_e_receita_proporcion: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL
+      contabilizar_custo_receita_proporcional: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL_TIPO
+      custo_incorrido_transferencia_de_custo_i: CT_TRANSFERENCIA_CUSTO_INCORRIDO
+      ch_transferencia_custo_incorrido: CH_TRANSFERENCIA_CUSTO_INCORRIDO
+      recebimento_de_parcela_reconhecimento_da: CT_RECEBIMENTO_RECONHECIMENTO_RECEITA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      data_do_inicio_do_empreendimento:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      data_da_sentenca_decisao_judicial:
+        coluna: DATA_SENTENCA
+        ops: [entre, gte, lte]
+      data_da_matricula_no_cei:
+        coluna: DATA_MATRICULA_CEI
+        ops: [entre, gte, lte]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_de_unidade_imobiliaria:
+        coluna: TIPO_UNIDADE_IMOBILIARIA
+        ops: [eq, in]
+      natureza_especifica_do_empreendimento:
+        coluna: NATUREZA_ESPECIFICA
+        ops: [eq, in]
+      descricao_resumida:
+        coluna: DESCRICAO_RESUMIDA
+        ops: [contem, prefixo]
+      calcular_credito_presumido_do_custo_orca:
+        coluna: CALCULAR_CREDITO_PRESUMIDO_CUSTO_ORCADO
+        ops: [eq, in]
+      possui_processo_referenciado_s_n:
+        coluna: POSSUI_PROCESSO_REFERENCIADO
+        ops: [eq, in]
+      identificacao_do_processo:
+        coluna: IDENTIFICACAO_REFERENCIADO
+        ops: [eq, in]
+      origem_do_processo_1_justica_federal_3_s:
+        coluna: ORIGEM_REFERENCIADO
+        ops: [eq, in]
+      identificacao_da_secao_judiciaria:
+        coluna: SECAO_JUDICIARIA
+        ops: [contem, prefixo]
+      identificacao_da_vara:
+        coluna: VARA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 7 empresa(s), DATA_INICIO de 2015-01-01 a 2018-01-01.', 'Colunas expostas nulas em 100% das linhas (7): identificacao_do_processo,
+        identificacao_da_secao_judiciaria, identificacao_da_vara, natureza_da_acao_judicial, data_da_sentenca_decisao_judicial, descricao, sequencial_do_scp.', 'origem_do_processo_1_justica_federal_3_s:
+        todos os valores reais estão no comentário do banco (9=7).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10058).']
+  efempreendimentos_imobiliarios_vigencia:
+    titulo: Empreendimentos imobiliários - Cadastro Vigência
+    descricao: 'Empreendimentos imobiliários - Cadastro Vigência. 7 linhas no catálogo; chave: CODI_EMP, I_EMPREENDIMENTO, VIGENCIA.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_VIGENCIA
+    chave: [CODI_EMP, I_EMPREENDIMENTO, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREENDIMENTO, asc]
+    - [VIGENCIA, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_empreendimento: I_EMPREENDIMENTO, vigencia: VIGENCIA, descricao_vigencia: DESCRICAO, aplicar_o_percentual_de_presuncao_dos_im: APLICAR_PERCENTUAL_PRESUNCAO_IRPJ_CSLL_JURO_MULTA,
+      nao_calcular_inss_receita_bruta_para_rec: CALCULAR_INSS_RB_CORRECAO_JURO_MULTA, historico_da_receita_do_contrato_de_vend: CH_CONTRATO_RECEITA, historico_do_custo_incorrido: CH_CUSTO_INCORRIDO,
+      historico_do_custo_orcado: CH_CUSTO_ORCADO, historico_da_atualizacao_monetaria_do_co: CH_DEBITO_CONTRATO_ATUALIZACAO_MONETARIA, historico_da_atualizacao_monetaria_da_de: CH_DEVOLUCAO_ATUALIZACAO_MONETARIA,
+      historico_do_desconto_da_devolucao: CH_DEVOLUCAO_DESCONTO, historico_da_receita_da_devolucao: CH_DEVOLUCAO_RECEITA, historico_da_atualizacao_monetaria_do_re: CH_RECEBIMENTO_ATUALIZACAO_MONETARIA,
+      historico_desconto_do_recebimento_de_par: CH_RECEBIMENTO_DESCONTO, historico_dos_juros_do_recebimento_de_pa: CH_RECEBIMENTO_JUROS, historico_multa_do_recebimento_de_parcel: CH_RECEBIMENTO_MULTA,
+      historico_da_receita_do_recebimento_de_p: CH_RECEBIMENTO_RECEITA, recebimento_de_parcela_reconhecimento_cu: CH_RECEBIMENTO_RECONHECIMENTO_CUSTO_RECEITA, recebimento_de_parcela_reconhecimento_da: CH_RECEBIMENTO_RECONHECIMENTO_RECEITA,
+      custo_incorrido_transferencia_de_custo_i: CH_TRANSFERENCIA_CUSTO_INCORRIDO, considerar_o_valor_do_desconto_para_o_ca: CONSIDERAR_DESCONTO_CALCULO_IRPJ_LP_CSOC,
+      considerar_as_receitas_de_correcao_monet: CONSIDERAR_RECEITAS_CORRECAO_MONETARIA_CALCULO_PIS_COFINS, contabilizar_os_custos_incorridos_na_ven: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE,
+      contabilizar_custo_incorrido_venda_unida: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE_TIPO, contabilizar_custos_e_receita_proporcion: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL,
+      contabilizar_custo_receita_proporcional: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL_TIPO, conta_credito_da_atualizacao_monetaria_d: CT_CREDITO_CONTRATO_ATUALIZACAO_MONETARIA,
+      conta_credito_da_receita_do_contrato_de: CT_CREDITO_CONTRATO_RECEITA, conta_credito_do_custo_incorrido: CT_CREDITO_CUSTO_INCORRIDO, conta_credito_do_custo_orcado: CT_CREDITO_CUSTO_ORCADO,
+      conta_debito_da_atualizacao_monetaria_do: CT_DEBITO_CONTRATO_ATUALIZACAO_MONETARIA, conta_debito_da_receita_do_contrato_de_v: CT_DEBITO_CONTRATO_RECEITA, conta_debito_do_custo_incorrido: CT_DEBITO_CUSTO_INCORRIDO,
+      conta_debito_do_custo_orcado: CT_DEBITO_CUSTO_ORCADO, conta_da_atualizacao_monetaria_da_devolu: CT_DEVOLUCAO_ATUALIZACAO_MONETARIA, conta_da_receita_da_devolucao: CT_DEVOLUCAO_RECEITA,
+      conta_da_atualizacao_monetaria_do_recebi: CT_RECEBIMENTO_ATUALIZACAO_MONETARIA, conta_da_desconto_do_recebimento_de_parc: CT_RECEBIMENTO_DESCONTO, conta_dos_juros_do_recebimento_de_parcel: CT_RECEBIMENTO_JUROS,
+      conta_da_multa_do_recebimento_de_parcela: CT_RECEBIMENTO_MULTA, conta_da_receita_do_recebimento_de_parce: CT_RECEBIMENTO_RECEITA, ct_recebimento_reconhecimento_custo_rece: CT_RECEBIMENTO_RECONHECIMENTO_CUSTO_RECEITA,
+      ct_recebimento_reconhecimento_receita: CT_RECEBIMENTO_RECONHECIMENTO_RECEITA, ct_transferencia_custo_incorrido: CT_TRANSFERENCIA_CUSTO_INCORRIDO, receita_bruta_desse_empreendimento_e_dif: RECEITA_BRUTA_DIFERENTE_CNAE_PRINCIPAL,
+      somar_o_valor_do_desconto_na_base_de_cal: SOMA_VALOR_DESCONTO_BASE_CALCULO_INSS_RB, soma_o_valor_do_desconto_na_base_de_calc: SOMA_VALOR_DESCONTO_BASE_CALCULO_PIS_COFINS,
+      tipo_de_unidade_imobiliaria: TIPO_UNIDADE_IMOBILIARIA, natureza_especifica_do_empreendimento: NATUREZA_ESPECIFICA, sequencial_do_scp: I_SCP, sequencial_do_cno: I_CNO,
+      descricao_resumida: DESCRICAO_RESUMIDA, data_do_inicio_do_empreendimento: DATA_INICIO, data_da_matricula_no_cei: DATA_MATRICULA_CEI, area_total: AREA_TOTAL,
+      area_com_direito_a_credito: AREA_COM_DIREITO_A_CREDITO, calcular_credito_presumido_do_custo_orca: CALCULAR_CREDITO_PRESUMIDO_CUSTO_ORCADO, contabilizar_o_reconhecimento_da_receita: CONTABILIZAR_RECONHECIMENTO_REC_CTB_POC,
+      conta_debito_contrato_receita_contabil: CT_DEBITO_CONTRATO_REC_CTB}
+    filtros:
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      data_do_inicio_do_empreendimento:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      data_da_matricula_no_cei:
+        coluna: DATA_MATRICULA_CEI
+        ops: [entre, gte, lte]
+      descricao_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      aplicar_o_percentual_de_presuncao_dos_im:
+        coluna: APLICAR_PERCENTUAL_PRESUNCAO_IRPJ_CSLL_JURO_MULTA
+        ops: [eq, in]
+      nao_calcular_inss_receita_bruta_para_rec:
+        coluna: CALCULAR_INSS_RB_CORRECAO_JURO_MULTA
+        ops: [eq, in]
+      considerar_o_valor_do_desconto_para_o_ca:
+        coluna: CONSIDERAR_DESCONTO_CALCULO_IRPJ_LP_CSOC
+        ops: [eq, in]
+      contabilizar_os_custos_incorridos_na_ven:
+        coluna: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE
+        ops: [eq, in]
+      contabilizar_custo_incorrido_venda_unida:
+        coluna: CONTABILIZAR_CUSTO_INCORRIDO_VENDA_UNIDADE_TIPO
+        ops: [eq, in]
+      contabilizar_custos_e_receita_proporcion:
+        coluna: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL
+        ops: [eq, in]
+      contabilizar_custo_receita_proporcional:
+        coluna: CONTABILIZAR_CUSTO_RECEITA_PROPORCIONAL_TIPO
+        ops: [eq, in]
+      receita_bruta_desse_empreendimento_e_dif:
+        coluna: RECEITA_BRUTA_DIFERENTE_CNAE_PRINCIPAL
+        ops: [eq, in]
+      somar_o_valor_do_desconto_na_base_de_cal:
+        coluna: SOMA_VALOR_DESCONTO_BASE_CALCULO_INSS_RB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 7 empresa(s), DATA_INICIO de 2015-01-01 a 2023-07-01.', 'Colunas expostas nulas em 100% das linhas (2): sequencial_do_scp,
+        sequencial_do_cno.']
+  efempreendimentos_imobiliarios_contratos_venda_pagamentos:
+    titulo: Empreendimentos imobiliários - Contratos de venda - Parcelas - Pagamentos
+    descricao: 'Empreendimentos imobiliários - Contratos de venda - Parcelas - Pagamentos. 6 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_PARCELA, I_PAGAMENTO.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_PAGAMENTOS
+    chave: [CODI_EMP, I_CONTRATO, I_PARCELA, I_PAGAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [I_CONTRATO, asc]
+    - [I_PARCELA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_do_contrato: I_CONTRATO
+      codigo_da_parcela: I_PARCELA
+      codigo_do_pagamento: I_PAGAMENTO
+      data_do_pagamento: DATA_PAGAMENTO
+      valor_pago: VALOR_PAGO
+      valor_da_correcao: VALOR_CORRECAO
+      valor_dos_juros: VALOR_JUROS
+      valor_da_multa: VALOR_MULTA
+      valor_do_desconto: VALOR_DESCONTO
+      valor_liquido: VALOR_LIQUIDO
+      base_de_calculo_do_pis: BASE_CALCULO_PIS
+      base_de_calculo_da_cofins: BASE_CALCULO_COFINS
+      origem_do_pagamento_b_baixa_l_lancamento: {coluna: ORIGEM_PAGAMENTO, dominio: efempreendimentos_imobiliarios_contratos_venda_pagamentos_origem_do_p}
+      valor_devolucao: VALOR_DEVOLUCAO
+      cst_receita_financeira_correcao: CST_PIS_COFINS_RECEITA_FINANCEIRA_CORRECAO
+      base_de_pis_e_cofins_receita_financeira: BASE_CALCULO_PIS_COFINS_RECEITA_FINANCEIRA_CORRECAO
+      base_calculo_pis_cofins_receita_financei: BASE_CALCULO_PIS_COFINS_RECEITA_FINANCEIRA_JUROS_MULTA
+      redutor_de_ajuste_do_ibs_cbs: REDUTOR_AJUSTE_IBS_CBS
+      redutor_social_do_ibs_cbs: REDUTOR_SOCIAL_IBS_CBS
+      base_de_calculo_do_ibs: BASE_CALCULO_IBS
+      aliquota_do_ibs: ALIQUOTA_IBS
+      valor_do_ibs: VALOR_IBS
+      base_de_calculo_da_cbs: BASE_CALCULO_CBS
+      aliquota_da_cbs: ALIQUOTA_CBS
+      valor_da_cbs: VALOR_CBS
+    filtros:
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      codigo_da_parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      codigo_do_pagamento:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      data_do_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      origem_do_pagamento_b_baixa_l_lancamento:
+        coluna: ORIGEM_PAGAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 2 empresa(s), DATA_PAGAMENTO de 2021-06-01 a 2021-09-28.', 'Colunas expostas nulas em 100% das linhas (1): cst_receita_financeira_correcao.',
+      'origem_do_pagamento_b_baixa_l_lancamento: todos os valores reais estão no comentário do banco (L=3, B=3).']
+  efempreendimentos_imobiliarios_contratos_venda_cliente:
+    titulo: Empreendimentos Imobiliários - Contratos de Venda - Cliente
+    descricao: 'Empreendimentos Imobiliários - Contratos de Venda - Cliente. 4 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_SEQUENCIAL.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_CLIENTE
+    chave: [CODI_EMP, I_CONTRATO, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTRATO, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_contrato: I_CONTRATO, sequencial: I_SEQUENCIAL, codigo_do_cliente: CODI_CLI, percentual_participacao: PERCENTUAL_PARTICIPACAO}
+    vinculos:
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+    filtros:
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_cliente:
+        coluna: CODI_CLI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 3 empresa(s).', 'Vínculo efclientes (efclientes): 0 de 1 linhas sem registro relacionado (empresa 10058).']
+  efempreendimentos_imobiliarios_contratos_venda:
+    titulo: Empreendimentos imobiliários - Contratos de venda
+    descricao: 'Empreendimentos imobiliários - Contratos de venda. 3 linhas no catálogo; chave: CODI_EMP, I_CONTRATO.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA
+    chave: [CODI_EMP, I_CONTRATO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_OPERACAO, volume: pequeno}
+    ordem:
+    - [DATA_OPERACAO, desc]
+    - [I_CONTRATO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_contrato: I_CONTRATO, codigo_do_empreendimento: I_EMPREENDIMENTO, codigo_do_cliente: CODI_CLI, numero_do_contrato: NUMERO,
+      data_da_operacao: DATA_OPERACAO, valor_de_venda: VALOR_VENDA, tipo_da_operacao: TIPO_OPERACAO, informacoes_complementares: INFORMACOES_COMPLEMENTARES, calcular_correcao_monetaria_s_n: CALCULAR_CORRECAO_MONETARIA,
+      indice_de_calculo_da_correcao_monetaria: INDICE_CORRECAO_MONETARIA, valor_do_contrato_em_indice: VALOR_CONTRATO_EM_INDICE, calcular_juros_s_n: CALCULAR_JUROS,
+      forma_de_calculo_dos_juros: FORMA_CALCULO_JUROS, indice_de_calculo_dos_juros: INDICE_JUROS, taxa_de_juros: TAXA_JUROS, contrato_ja_encerrado_s_n: ENCERRADO,
+      data_de_encerramento_do_contrato: DATA_ENCERRAMENTO, codigo_do_indice_da_correcao_monetaria: I_INDICE_CORRECAO_MONETARIA, codigo_do_indice_do_juros: I_INDICE_JUROS,
+      sequencial_do_contrato_origem: I_CONTRATO_ORIGEM, contrato_renegociado_s_n: CONTRATO_RENEGOCIADO, data_da_renegociacao: DATA_RENEGOCIACAO, contrato_transferido: CONTRATO_TRANSFERIDO,
+      data_transferencia: DATA_TRANSFERENCIA, origem_da_transferencia: ORIGEM_TRANSFERENCIA, aplicar_ret_1_porcento_faixa_urbana_1: APLICAR_RET_1_PORCENTO_FAIXA_URBANA_1,
+      redutor_de_ajuste: REDUTOR_AJUSTE, redutor_social: REDUTOR_SOCIAL}
+    vinculos:
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+      efempreendimentos_imobil:
+        tabela: EFEMPREENDIMENTOS_IMOBILIARIOS
+        liga: {codi_emp: codi_emp, i_empreendimento: i_empreendimento}
+        colunas: {efempreendimentos_imobil_nome: NOME}
+      geindice:
+        tabela: GEINDICE
+        liga: {i_indice_correcao_monetaria: i_indice}
+        colunas: {geindice_nome: DESCRICAO}
+    filtros:
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      data_da_operacao:
+        coluna: DATA_OPERACAO
+        ops: [entre, gte, lte]
+      data_de_encerramento_do_contrato:
+        coluna: DATA_ENCERRAMENTO
+        ops: [entre, gte, lte]
+      data_da_renegociacao:
+        coluna: DATA_RENEGOCIACAO
+        ops: [entre, gte, lte]
+      data_transferencia:
+        coluna: DATA_TRANSFERENCIA
+        ops: [entre, gte, lte]
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      codigo_do_cliente:
+        coluna: CODI_CLI
+        ops: [eq, in]
+      numero_do_contrato:
+        coluna: NUMERO
+        ops: [contem, prefixo]
+      tipo_da_operacao:
+        coluna: TIPO_OPERACAO
+        ops: [eq, in]
+      informacoes_complementares:
+        coluna: INFORMACOES_COMPLEMENTARES
+        ops: [contem, prefixo]
+      calcular_correcao_monetaria_s_n:
+        coluna: CALCULAR_CORRECAO_MONETARIA
+        ops: [eq, in]
+      indice_de_calculo_da_correcao_monetaria:
+        coluna: INDICE_CORRECAO_MONETARIA
+        ops: [eq, in]
+      calcular_juros_s_n:
+        coluna: CALCULAR_JUROS
+        ops: [eq, in]
+      forma_de_calculo_dos_juros:
+        coluna: FORMA_CALCULO_JUROS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s), DATA_OPERACAO de 2015-01-01 a 2021-07-26.', 'Colunas expostas nulas em 100% das linhas (7): indice_de_calculo_da_correcao_monetaria,
+        indice_de_calculo_dos_juros, codigo_do_indice_da_correcao_monetaria, codigo_do_indice_do_juros, sequencial_do_contrato_origem, data_da_renegociacao, data_transferencia.',
+      'Vínculo efclientes (efclientes): 0 de 1 linhas sem registro relacionado (empresa 10058).', 'Vínculo efempreendimentos_imobil (EFEMPREENDIMENTOS_IMOBILIARIOS):
+        0 de 1 linhas sem registro relacionado (empresa 10058).', 'Vínculo geindice (GEINDICE): 0 de 1 linhas sem registro relacionado (empresa 10058).']
+  efempreendimentos_imobiliarios_contratos_venda_unidades:
+    titulo: Empreendimentos imobiliários - Contratos de venda - Unidades
+    descricao: 'Empreendimentos imobiliários - Contratos de venda - Unidades. 3 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_UNIDADE.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_UNIDADES
+    chave: [CODI_EMP, I_CONTRATO, I_UNIDADE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTRATO, asc]
+    - [I_UNIDADE, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_contrato: I_CONTRATO, codigo_da_unidade: I_UNIDADE, codigo_do_empreendimento: I_EMPREENDIMENTO, valor_de_venda: VALOR_VENDA}
+    vinculos:
+      efempreendimentos_imobil:
+        tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_UNIDADES
+        liga: {codi_emp: codi_emp, i_empreendimento: i_empreendimento, i_unidade: i_unidade}
+        colunas: {efempreendimentos_imobil_nome: DESCRICAO_RESUMIDA}
+    filtros:
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      codigo_da_unidade:
+        coluna: I_UNIDADE
+        ops: [eq, in]
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Vínculo efempreendimentos_imobil (EFEMPREENDIMENTOS_IMOBILIARIOS_UNIDADES): 0 de 1 linhas sem registro
+        relacionado (empresa 10058).']
+  efempreendimentos_imobiliarios_contratos_venda_cliente_alter:
+    titulo: Empreendimentos Imobiliários - Contratos de Venda - Alteraçõs de Clientes
+    descricao: 'Empreendimentos Imobiliários - Contratos de Venda - Alteraçõs de Clientes. 2 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_ALTERACAO, DATA_ALTERACAO.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_CLIENTE_ALTERACAO
+    chave: [CODI_EMP, I_CONTRATO, I_ALTERACAO, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: pequeno}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [I_CONTRATO, asc]
+    - [I_ALTERACAO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_contrato_imobiliario: I_CONTRATO, sequencial_da_alteracao: I_ALTERACAO, data_de_alteracao: DATA_ALTERACAO, codigo_do_cliente_de: CODI_CLI_DE,
+      codigo_do_cliente_para: CODI_CLI_PARA, c_1_cliente_2_demais_clientes: CAMPO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli_de: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+    filtros:
+      codigo_do_contrato_imobiliario:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      sequencial_da_alteracao:
+        coluna: I_ALTERACAO
+        ops: [eq, in]
+      data_de_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      codigo_do_cliente_de:
+        coluna: CODI_CLI_DE
+        ops: [eq, in]
+      codigo_do_cliente_para:
+        coluna: CODI_CLI_PARA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s), DATA_ALTERACAO de 2021-08-18 a 2021-08-18.', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado
+        (empresa 741).', 'Vínculo efclientes (efclientes): 1 de 2 linhas sem registro relacionado (empresa 741).']
+  efempreendimentos_imobiliarios_contratos_venda_lancto:
+    titulo: Empreendimentos imobiliários - Contratos de venda X Lançamentos contábeis
+    descricao: 'Empreendimentos imobiliários - Contratos de venda X Lançamentos contábeis. 1 linhas no catálogo; chave: CODI_EMP, NUME_LAN, FILI_LAN, I_CONTRATO.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_CONTRATOS_VENDA_LANCTO
+    chave: [CODI_EMP, NUME_LAN, FILI_LAN, I_CONTRATO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NUME_LAN, asc]
+    - [FILI_LAN, asc]
+    colunas: {empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, empresa_do_contrato: FILI_LAN, codigo_do_contrato: I_CONTRATO, tipo_do_lancamento: TIPO}
+    filtros:
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      empresa_do_contrato:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      codigo_do_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).']
+  efempreendimentos_imobiliarios_impostos_debito:
+    titulo: Empreendimentos imobiliários - impostos - débito - cadastro
+    descricao: 'Empreendimentos imobiliários - impostos - débito - cadastro. 1 linhas no catálogo; chave: CODI_EMP, I_EMPREENDIMENTO, CODI_IMP.'
+    tabela: EFEMPREENDIMENTOS_IMOBILIARIOS_IMPOSTOS_DEBITO
+    chave: [CODI_EMP, I_EMPREENDIMENTO, CODI_IMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREENDIMENTO, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_empreendimento: I_EMPREENDIMENTO, codigo_do_imposto: CODI_IMP, percentual_de_reducao_da_base_de_calculo: PERCENTUAL_REDUCAO_BASE_CALCULO,
+      aliquota_do_imposto: ALIQUOTA}
+    vinculos:
+      efempreendimentos_imobil:
+        tabela: EFEMPREENDIMENTOS_IMOBILIARIOS
+        liga: {codi_emp: codi_emp, i_empreendimento: i_empreendimento}
+        colunas: {efempreendimentos_imobil_nome: NOME}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      codigo_do_empreendimento:
+        coluna: I_EMPREENDIMENTO
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo efempreendimentos_imobil (EFEMPREENDIMENTOS_IMOBILIARIOS): 0 de 1 linhas sem registro relacionado
+        (empresa 10058).', 'Vínculo geimposto (geimposto): 0 de 1 linhas sem registro relacionado (empresa 10058).']

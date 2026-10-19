@@ -1,0 +1,116 @@
+# Modelo de entidades da integração DAS/PGDAS-D por API (Integra Contador): envios de declaração e de guia DAS, mensagens de retorno e bilhetagem de custo.
+# Curado à mão e medido no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO: EFDAS_API_ENVIO_ARQUIVOS_JSON (o JSON enviado/recebido, binário com dados da empresa) e EFDAS_API_TOKENS_REQUISICAO (tokens de acesso:
+# tabela bloqueada por conter credenciais).
+modulo: das_api
+titulo: DAS e PGDAS-D por API (Integra Contador)
+dominios:
+  tipo_envio_das_api:
+    descricao: O que foi pedido à API (efdas_api_envio_arquivos.tipo_envio / efdas_api_bilhetagem.tipo_envio)
+    confirmado: parcial
+    nota: >
+      O comentário do banco diz só "Tipo de envio". Pelos dados: 2 é o único tipo que tem número de guia DAS (3.505 de 5.490 envios bem-sucedidos desse tipo, sempre
+      com 17 posições) e 3 e 1 nunca têm: 1 = transmissão da declaração (PGDAS-D) (7.364 envios); 2 = emissão da guia DAS (5.636); 3 = outro serviço sem guia, provavelmente
+      consulta (320). Por evidência, não documentado.
+    valores: {1: Transmissão da declaração PGDAS-D (por evidência), 2: Emissão da guia DAS (por evidência), 3: Outro serviço, provavelmente consulta (hipótese)}
+  situacao_envio_das_api:
+    descricao: Situação do envio (efdas_api_envio_arquivos.situacao)
+    confirmado: parcial
+    nota: >
+      O comentário diz só "Situação processo". Pelos dados, a situação coincide 1 para 1 com o código HTTP da mensagem de retorno: 0 = só mensagem de código 0 (sem
+      retorno ainda; 950 envios), 1 = código 200 "Sucesso-PGDASD" (11.155), 2 = código 400 "Bad Request" (967) ou 403 "Acesso negado" (126) = recusado, 3 = código 500
+      "Erro no servidor" (121), 4 = código 401 "Unauthorized" (1). Conclusão por evidência.
+    valores: {0: Aguardando retorno, 1: Sucesso, 2: Recusado pela API (400/403), 3: Erro no servidor (500), 4: Não autorizado (401)}
+  tipo_declaracao_das_api:
+    descricao: Tipo da declaração PGDAS-D (efdas_api_envio_arquivos.tipo_declaracao)
+    confirmado: parcial
+    nota: >
+      O comentário diz só "Tipo de declaração". Todos os 1.334 envios bem-sucedidos de declaração a partir do segundo na mesma empresa e competência têm 2, e o primeiro
+      tem 1 em 3.990 de 4.043 (98,7%): 1 = declaração original, 2 = retificadora (por evidência).
+    valores: {1: Original (por evidência), 2: Retificadora (por evidência)}
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+
+entidades:
+  envio_das_api:
+    titulo: Envios à API do DAS/PGDAS-D
+    descricao: >
+      Um registro por chamada à API: transmissão da declaração, emissão da guia DAS ou outro serviço, com situação e número da guia. 13.320 envios, 257 empresas,
+      competências de 2024-04 a 2026-09 (envios de 2024-05 a 2026-10). O JSON trocado não é exposto.
+    tabela: efdas_api_envio_arquivos
+    chave: [CODI_EMP, I_ENVIO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem: [[COMPETENCIA, desc], [I_ENVIO, desc]]
+    colunas:
+      envio: I_ENVIO
+      competencia: COMPETENCIA
+      tipo_envio: {coluna: TIPO_ENVIO, dominio: tipo_envio_das_api}
+      situacao: {coluna: SITUACAO, dominio: situacao_envio_das_api}
+      tipo_declaracao: {coluna: TIPO_DECLARACAO, dominio: tipo_declaracao_das_api}
+      data_envio: DATA_ENVIO
+      horario_envio: HORARIO_ENVIO
+      numero_das: NUMERO_DAS
+      valor_diferente_do_sistema: {coluna: VALOR_DIFERENTE_SISTEMA, dominio: sim_nao_texto}
+      nome_arquivo: NOME_ARQUIVO
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {CODI_EMP: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      envio: {coluna: I_ENVIO, ops: [eq, in]}
+      competencia: {coluna: COMPETENCIA, ops: [eq, entre, gte, lte]}
+      tipo_envio: {coluna: TIPO_ENVIO, ops: [eq, in]}
+      situacao: {coluna: SITUACAO, ops: [eq, in]}
+      data_envio: {coluna: DATA_ENVIO, ops: [eq, entre, gte, lte]}
+      numero_das: {coluna: NUMERO_DAS, ops: [eq]}
+    filhos:
+      mensagens: {entidade: mensagem_envio_das_api, liga: {CODI_EMP: codi_emp, I_ENVIO: envio}}
+      bilhetagem: {entidade: bilhetagem_das_api, liga: {CODI_EMP: codi_emp, I_ENVIO: envio}}
+    regras:
+      - "Situação x mensagem (por envio): situação 0 só tem mensagem de código 0 (950); 1 só 200 (11.155); 2 só 400 (967) ou 403 (126); 3 só 500 (121); 4 só 401 (1). Todo envio tem mensagem (0 sem)."
+      - "Número da guia DAS: só em envios de tipo 2 com sucesso (3.505 de 5.490) e sempre com 17 posições; os outros 1.985 envios de emissão bem-sucedidos não trazem número. Os envios de transmissão (tipo 1) nunca trazem."
+      - "Retificação: 3.312 empresa/competências tiveram 1 transmissão com sucesso, 500 tiveram 2, 109 tiveram 3, 37 tiveram 4 e 59 tiveram 7 (o máximo é 9). A partir da segunda, todas são retificadoras (tipo 2): 1.334 de 1.334."
+      - "Valor diferente do que o sistema calculou: S em 273 envios, N em 2.478 e vazio em 10.569 (só preenchido nas emissões)."
+      - "Integridade: 0 mensagens e 0 bilhetagens sem o envio correspondente; há 1 bilhetagem por envio (13.320 de 13.320)."
+
+  mensagem_envio_das_api:
+    titulo: Mensagens de retorno da API do DAS
+    descricao: Mensagens devolvidas pela API em cada envio (código, título e descrição). 18.777 linhas; 16.612 são "Sucesso-PGDASD" (200).
+    tabela: efdas_api_envio_arquivos_mensagem
+    chave: [CODI_EMP, I_ENVIO, SEQUENCIAL_MENSAGEM]
+    acesso: {empresa: CODI_EMP, exige_algum: [envio], volume: medio}
+    ordem: [[I_ENVIO, desc], [SEQUENCIAL_MENSAGEM, asc]]
+    colunas:
+      envio: I_ENVIO
+      sequencial: SEQUENCIAL_MENSAGEM
+      codigo: CODIGO_MENSAGEM
+      titulo: TITULO_MENSAGEM
+      descricao: DESCRICAO_MENSAGEM
+    filtros:
+      envio: {coluna: I_ENVIO, ops: [eq, in]}
+      codigo: {coluna: CODIGO_MENSAGEM, ops: [eq, in]}
+    regras:
+      - "Códigos: 200 Sucesso-PGDASD 16.612 · 400 Bad Request 967 · 0 (sem título) 950 · 403 Acesso negado (ICGERENCIADOR-032) 126 · 500 Erro no servidor 121 · 401 Unauthorized 1."
+
+  bilhetagem_das_api:
+    titulo: Bilhetagem (custo) das chamadas à API do DAS
+    descricao: Registra cada chamada com o contador que a fez, a hora e se a operação gerou custo. 13.320 linhas, uma por envio.
+    tabela: efdas_api_bilhetagem
+    chave: [CODI_EMP, I_ENVIO, CODI_CON, SEQUENCIAL_BILHETAGEM]
+    acesso: {empresa: CODI_EMP, periodo: DATA_HORA_REQUISICAO, volume: medio}
+    ordem: [[DATA_HORA_REQUISICAO, desc]]
+    colunas:
+      envio: I_ENVIO
+      contador_codigo: CODI_CON
+      sequencial: SEQUENCIAL_BILHETAGEM
+      requisicao_em: DATA_HORA_REQUISICAO
+      tipo_envio: {coluna: TIPO_ENVIO, dominio: tipo_envio_das_api}
+      gerou_custo: {coluna: GEROU_CUSTO, dominio: sim_nao_texto}
+    filtros:
+      envio: {coluna: I_ENVIO, ops: [eq, in]}
+      requisicao_em: {coluna: DATA_HORA_REQUISICAO, ops: [entre, gte, lte]}
+      tipo_envio: {coluna: TIPO_ENVIO, ops: [eq, in]}
+      gerou_custo: {coluna: GEROU_CUSTO, ops: [eq]}
+    regras:
+      - "Gerou custo (S) em 11.281 chamadas e não (N) em 2.039. Por tipo: 1 (transmissão) S 5.494 / N 1.870; 2 (emissão da guia) S 5.499 / N 137; 3 S 288 / N 32. A hipótese de que as chamadas sem custo são as recusadas pela API não foi testada."

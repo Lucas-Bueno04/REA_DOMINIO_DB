@@ -1,0 +1,245 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_afastamentos
+titulo: Pessoal - afastamentos (rascunho em lote)
+dominios:
+  foafastamentos_estabilidade_estabilidad:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_ESTABILIDADE.ESTABILIDADE_CCT estão no comentário do banco (2026-10-18). Distribuição: 1=1.532, 0=36.'
+    valores: {'0': Não, '1': Sim}
+  foafastamentos_periodo_aquisitivo_onus_da_rem:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_PERIODO_AQUISITIVO.ONUS_REMUNERACAO_MANDATO_SINDICAL estão no comentário do banco (2026-10-18). Distribuição:
+      2=409, nulo=71.'
+    valores: {'1': Empregador, '2': Sindicato, '3': Diferença salarial paga pelo sindicato, 'null': 'Sem dados informado, conversao'}
+  foafastamentos_dados_eventos_esocial_evento_de_i:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_DADOS_EVENTOS_ESOCIAL.EVENTO_INCLUSAO_DATA_FIM_AFASTAMENTO estão no comentário do banco (2026-10-18). Distribuição:
+      0=30, 1=12.'
+    valores: {'0': Não, '1': Sim}
+  foafastamentos_dados_eventos_esocial_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_DADOS_EVENTOS_ESOCIAL.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=42.'
+    valores: {'0': Não, '1': Sim}
+  foafastamentos_dados_eventos_esocial_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_DADOS_EVENTOS_ESOCIAL.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=42.'
+    valores: {'0': Não, '1': Sim}
+  foafastamentos_dados_eventos_esocial_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_DADOS_EVENTOS_ESOCIAL.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=42.'
+    valores: {'0': Não, '1': Sim}
+  foafastamentos_somar_dias_afastamento_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOAFASTAMENTOS_SOMAR_DIAS.AFASTAMENTO_DECORRENTE_CONTAMINACAO_CORONAVIRUS estão no comentário do banco (2026-10-18). Distribuição:
+      0=23.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  foafastamentos_envios_esocial:
+    titulo: Envios de afastamentos ao eSocial
+    descricao: 'Envios de afastamentos ao eSocial. 16.173 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOAFASTAMENTOS_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [DATA_REAL_DN, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, data_numerica_do_afastamento: DATA_REAL_DN, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_referente_a_foesocial_dados_event: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_numerica_do_afastamento:
+        coluna: DATA_REAL_DN
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_referente_a_foesocial_dados_event:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 16.176 linhas, 216 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 24 linhas sem registro relacionado
+        (empresa 961).']
+  foafastamentos_estabilidade:
+    titulo: Estabilidades do empregado geradas pelo afastamento.
+    descricao: 'Estabilidades do empregado geradas pelo afastamento.. 1.565 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, I_ESTABILIDADE, SEQUENCIAL.'
+    tabela: FOAFASTAMENTOS_ESTABILIDADE
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, I_ESTABILIDADE, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [DATA_REAL_DN, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_real_do_afastamento: DATA_REAL_DN
+      codigo_do_tipo_de_estabilidade: I_ESTABILIDADE
+      codigo_sequencial_da_estabilidade: SEQUENCIAL
+      estabilidade_gerada_pela_convencao_colet: {coluna: ESTABILIDADE_CCT, dominio: foafastamentos_estabilidade_estabilidad}
+    vinculos:
+      foafastamentos:
+        tabela: FOAFASTAMENTOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_real_dn: data_real_dn}
+        colunas: {foafastamentos_nome: NOME_MEDICO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_real_do_afastamento:
+        coluna: DATA_REAL_DN
+        ops: [eq, in]
+      codigo_do_tipo_de_estabilidade:
+        coluna: I_ESTABILIDADE
+        ops: [eq, in]
+      codigo_sequencial_da_estabilidade:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.568 linhas, 99 empresa(s).', 'estabilidade_gerada_pela_convencao_colet: todos os valores reais estão no comentário do banco
+        (1=1.532, 0=36).', 'Vínculo foafastamentos (FOAFASTAMENTOS): 0 de 4 linhas sem registro relacionado (empresa 291).']
+  foafastamentos_periodo_aquisitivo:
+    titulo: AFASTAMENTOS SEPARADOS POR PERIODO AQUISITIVO
+    descricao: 'AFASTAMENTOS SEPARADOS POR PERIODO AQUISITIVO. 480 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_AQUISITIVOS, DATA_INICIO.'
+    tabela: FOAFASTAMENTOS_PERIODO_AQUISITIVO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_AQUISITIVOS, DATA_INICIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_FIM, volume: pequeno}
+    ordem:
+    - [DATA_FIM, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_AQUISITIVOS, asc]
+    colunas:
+      codigo_empresa: CODI_EMP
+      codigo: I_EMPREGADOS
+      sequencia_de_periodos_aquisitivos: I_FERIAS_AQUISITIVOS
+      data_de_inicio_do_afastamento: DATA_INICIO
+      data_final_do_afastamento: DATA_FIM
+      data_real_do_afastamento: DATA_REAL
+      codigo_do_afastamento: I_AFASTAMENTOS
+      numero_de_dias: NUMERO_DIAS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      data_numerica_do_afastamento: DATA_REAL_DN
+      onus_da_remuneracao_do_exercicio_do_mand: {coluna: ONUS_REMUNERACAO_MANDATO_SINDICAL, dominio: foafastamentos_periodo_aquisitivo_onus_da_rem}
+      dilatar_periodo_aquisitivo_0_nao_1_sim: DILATAR_PERIODO_AQUISITIVO
+    vinculos:
+      foafastamentos:
+        tabela: FOAFASTAMENTOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_real_dn: data_real_dn}
+        colunas: {foafastamentos_nome: NOME_MEDICO}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencia_de_periodos_aquisitivos:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      data_de_inicio_do_afastamento:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      data_final_do_afastamento:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      data_real_do_afastamento:
+        coluna: DATA_REAL
+        ops: [entre, gte, lte]
+      codigo_do_afastamento:
+        coluna: I_AFASTAMENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 480 linhas, 88 empresa(s), DATA_FIM de 2012-02-25 a 2027-01-27.', 'onus_da_remuneracao_do_exercicio_do_mand: todos os valores
+        reais estão no comentário do banco (2=409, nulo=71).', 'Vínculo foafastamentos (FOAFASTAMENTOS): 0 de 2 linhas sem registro relacionado (empresa 9090).']
+  foafastamentos_dados_eventos_esocial:
+    titulo: Dados de envio do afastamento para o eSocial.
+    descricao: 'Dados de envio do afastamento para o eSocial.. 42 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, SEQUENCIAL.'
+    tabela: FOAFASTAMENTOS_DADOS_EVENTOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [DATA_REAL_DN, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_do_afastamento: DATA_REAL_DN
+      codigo_sequencial: SEQUENCIAL
+      evento_de_inclusao_de_afastamento_0_nao: {coluna: EVENTO_INCLUSAO_AFASTAMENTO, dominio: foafastamentos_dados_eventos_esocial_evento_de_i}
+      evento_de_inclusao_de_data_fim_de_afasta: {coluna: EVENTO_INCLUSAO_DATA_FIM_AFASTAMENTO, dominio: foafastamentos_dados_eventos_esocial_evento_de_i}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foafastamentos_dados_eventos_esocial_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foafastamentos_dados_eventos_esocial_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foafastamentos_dados_eventos_esocial_marcacao_do}
+    vinculos:
+      foafastamentos:
+        tabela: FOAFASTAMENTOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_real_dn: data_real_dn}
+        colunas: {foafastamentos_nome: NOME_MEDICO}
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos_esocial: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_do_afastamento:
+        coluna: DATA_REAL_DN
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 42 linhas, 10 empresa(s).', 'evento_de_inclusao_de_afastamento_0_nao: todos os valores reais estão no comentário do banco (1=30,
+        0=12).', 'evento_de_inclusao_de_data_fim_de_afasta: todos os valores reais estão no comentário do banco (0=30, 1=12).', 'enviar_para_o_esocial_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=42).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=42).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=42).', 'Vínculo foafastamentos (FOAFASTAMENTOS): 0 de 4 linhas sem registro relacionado (empresa 147).',
+      'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 4 linhas sem registro relacionado (empresa 147).']
+  foafastamentos_somar_dias:
+    titulo: Informações sobre os afastamentos que devem somar para calcular a data folha.
+    descricao: 'Informações sobre os afastamentos que devem somar para calcular a data folha.. 23 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_REAL_DN,
+      DATA_REAL_DN_AFASTAMENTO.'
+    tabela: FOAFASTAMENTOS_SOMAR_DIAS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_REAL_DN, DATA_REAL_DN_AFASTAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_REAL, volume: pequeno}
+    ordem:
+    - [DATA_REAL, desc]
+    - [I_EMPREGADOS, asc]
+    - [DATA_REAL_DN, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_numerica_do_afastamento: DATA_REAL_DN
+      data_real_dn_afastamento: DATA_REAL_DN_AFASTAMENTO
+      codigo_do_afastamento: I_AFASTAMENTOS
+      data_do_afastamento: DATA_REAL
+      data_final_do_afastamento: DATA_FIM
+      linha_selecionada: SELECIONADO
+      afastamento_decorrente_de_contaminacao_p: {coluna: AFASTAMENTO_DECORRENTE_CONTAMINACAO_CORONAVIRUS, dominio: foafastamentos_somar_dias_afastamento_}
+    vinculos:
+      foafastamentos:
+        tabela: FOAFASTAMENTOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_real_dn: data_real_dn}
+        colunas: {foafastamentos_nome: NOME_MEDICO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_numerica_do_afastamento:
+        coluna: DATA_REAL_DN
+        ops: [eq, in]
+      data_real_dn_afastamento:
+        coluna: DATA_REAL_DN_AFASTAMENTO
+        ops: [eq, in]
+      data_do_afastamento:
+        coluna: DATA_REAL
+        ops: [entre, gte, lte]
+      data_final_do_afastamento:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      codigo_do_afastamento:
+        coluna: I_AFASTAMENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas, 11 empresa(s), DATA_REAL de 2020-11-11 a 2026-05-05.', 'afastamento_decorrente_de_contaminacao_p: todos os valores
+        reais estão no comentário do banco (0=23).', 'Vínculo foafastamentos (FOAFASTAMENTOS): 0 de 1 linhas sem registro relacionado (empresa 147).']

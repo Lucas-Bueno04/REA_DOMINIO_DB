@@ -1,0 +1,184 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_raexecutar
+titulo: Geral - raexecutar (rascunho em lote)
+dominios:
+  geraexecutar_empresas_opcoes_contabilidade_processo_da:
+    confirmado: true
+    nota: 'Todos os valores observados em GERAEXECUTAR_EMPRESAS_OPCOES_CONTABILIDADE.PROCESSO estão no comentário do banco (2026-10-18). Distribuição: 1=6.'
+    valores: {'1': Importação Extrato, '2': Conciliação Bancaria}
+entidades:
+  geraexecutar_empregados:
+    titulo: Rotinas automáticas - Empregados executar
+    descricao: 'Rotinas automáticas - Empregados executar. 52.256 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA, CODI_EMP, I_EMPREGADOS.'
+    tabela: GERAEXECUTAR_EMPREGADOS
+    chave: [I_EXECUTARRA, I_SISTEMA, CODI_EMP, I_EMPREGADOS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_execucao: I_EXECUTARRA, codigo_do_sistema: I_SISTEMA, codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS}
+    filtros:
+      codigo_da_execucao:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 52.308 linhas, 924 empresa(s).']
+  geraexecutar_empresas:
+    titulo: SELEÇÃO DE EMPRESAS DA EXECUÇÃO DE ROTINAS AUTOMÁTICAS
+    descricao: 'SELEÇÃO DE EMPRESAS DA EXECUÇÃO DE ROTINAS AUTOMÁTICAS. 32.994 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA, CODI_EMP.'
+    tabela: GERAEXECUTAR_EMPRESAS
+    chave: [I_EXECUTARRA, I_SISTEMA, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_execucao: I_EXECUTARRA, codigo_do_sistema: I_SISTEMA, codigo_da_empresa: CODI_EMP, pasta_de_destino_arquivos: PASTA_DESTINO}
+    vinculos:
+      geraexecutar:
+        tabela: GERAEXECUTAR
+        liga: {i_executarra: i_executarra, i_sistema: i_sistema}
+        colunas: {geraexecutar_nome: DESCRICAO}
+    filtros:
+      codigo_da_execucao:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      pasta_de_destino_arquivos:
+        coluna: PASTA_DESTINO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 33.003 linhas, 1.504 empresa(s).', 'Vínculo geraexecutar (GERAEXECUTAR): 0 de 19 linhas sem registro relacionado (empresa 1731).']
+  geraexecutar_rotinas:
+    titulo: ROTINAS DA EXECUÇÃO DAS ROTINAS AUTOMÁTICAS
+    descricao: 'ROTINAS DA EXECUÇÃO DAS ROTINAS AUTOMÁTICAS. 508 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA, I_ROTINAS.'
+    tabela: GERAEXECUTAR_ROTINAS
+    chave: [I_EXECUTARRA, I_SISTEMA, I_ROTINAS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_execucao: I_EXECUTARRA, codigo_do_sistema: I_SISTEMA, codigo_da_rotina: I_ROTINAS}
+    vinculos:
+      geraexecutar:
+        tabela: GERAEXECUTAR
+        liga: {i_executarra: i_executarra, i_sistema: i_sistema}
+        colunas: {geraexecutar_nome: DESCRICAO}
+      gerarotinas:
+        tabela: GERAROTINAS
+        liga: {i_rotinas: i_rotinas, i_sistema: i_sistema}
+        colunas: {gerarotinas_nome: DESCRICAO}
+    filtros:
+      codigo_da_execucao:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      codigo_da_rotina:
+        coluna: I_ROTINAS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 508 linhas.', 'Vínculo geraexecutar (GERAEXECUTAR): 0 de 508 linhas sem registro relacionado.', 'Vínculo gerarotinas (GERAROTINAS):
+        0 de 508 linhas sem registro relacionado.']
+  geraexecutar_empresas_opcoes_honorarios:
+    titulo: Informações do honorarios por empresa utilizados na rotina automatica
+    descricao: 'Informações do honorarios por empresa utilizados na rotina automatica. 40 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA, CODI_EMP, OPCAO_ID.'
+    tabela: GERAEXECUTAR_EMPRESAS_OPCOES_HONORARIOS
+    chave: [I_EXECUTARRA, I_SISTEMA, CODI_EMP, OPCAO_ID]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_execucao: I_EXECUTARRA, codigo_do_sistema: I_SISTEMA, codigo_da_empresa: CODI_EMP, id_da_opcao_do_honorarios: OPCAO_ID}
+    vinculos:
+      geraexecutar:
+        tabela: GERAEXECUTAR
+        liga: {i_executarra: i_executarra, i_sistema: i_sistema}
+        colunas: {geraexecutar_nome: DESCRICAO}
+    filtros:
+      codigo_da_execucao:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      id_da_opcao_do_honorarios:
+        coluna: OPCAO_ID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 40 linhas, 1 empresa(s).', 'Vínculo geraexecutar (GERAEXECUTAR): 0 de 40 linhas sem registro relacionado (empresa 1).']
+  geraexecutar_empresas_opcoes_contabilidade:
+    titulo: Informações da contabilidade por empresa utilizados na rotina automatica
+    descricao: 'Informações da contabilidade por empresa utilizados na rotina automatica. 6 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA, CODI_EMP, PROCESSO,
+      OPCAO_CAMPO.'
+    tabela: GERAEXECUTAR_EMPRESAS_OPCOES_CONTABILIDADE
+    chave: [I_EXECUTARRA, I_SISTEMA, CODI_EMP, PROCESSO, OPCAO_CAMPO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas:
+      codigo_da_execucao: I_EXECUTARRA
+      codigo_do_sistema: I_SISTEMA
+      codigo_da_empresa: CODI_EMP
+      processo_da_contabilidade_1_importacao_e: {coluna: PROCESSO, dominio: geraexecutar_empresas_opcoes_contabilidade_processo_da}
+      campo_da_opcao_da_contabilidade: OPCAO_CAMPO
+      valor_da_opcao_da_contabilidade: OPCAO_VALOR
+    vinculos:
+      geraexecutar:
+        tabela: GERAEXECUTAR
+        liga: {i_executarra: i_executarra, i_sistema: i_sistema}
+        colunas: {geraexecutar_nome: DESCRICAO}
+    filtros:
+      codigo_da_execucao:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      processo_da_contabilidade_1_importacao_e:
+        coluna: PROCESSO
+        ops: [eq, in]
+      campo_da_opcao_da_contabilidade:
+        coluna: OPCAO_CAMPO
+        ops: [eq, in]
+      valor_da_opcao_da_contabilidade:
+        coluna: OPCAO_VALOR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).', 'processo_da_contabilidade_1_importacao_e: todos os valores reais estão no comentário do banco (1=6).',
+      'Vínculo geraexecutar (GERAEXECUTAR): 0 de 6 linhas sem registro relacionado (empresa 275).']
+  geraexecutar_semanas:
+    titulo: Configuração de agendamento semanal das rotinas automáticas (SAI 101818)
+    descricao: 'Configuração de agendamento semanal das rotinas automáticas (SAI 101818). 1 linhas no catálogo; chave: I_EXECUTARRA, I_SISTEMA.'
+    tabela: GERAEXECUTAR_SEMANAS
+    chave: [I_EXECUTARRA, I_SISTEMA]
+    acesso: {empresa: null, periodo: DATA_ULTIMA_NOTIFICACAO_SEMANAL, volume: pequeno}
+    ordem:
+    - [DATA_ULTIMA_NOTIFICACAO_SEMANAL, desc]
+    - [I_EXECUTARRA, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_rotina_automatica_fk_geraexecu: I_EXECUTARRA, codigo_do_sistema_fk_geraexecutar: I_SISTEMA, dia_da_semana_1_segunda_7_domingo: DIA_SEMANA,
+      c_1a_semana_do_mes_0_nao_1_sim: SEMANA_1, c_2a_semana_do_mes_0_nao_1_sim: SEMANA_2, c_3a_semana_do_mes_0_nao_1_sim: SEMANA_3, c_4a_semana_do_mes_0_nao_1_sim: SEMANA_4,
+      ultima_semana_do_mes_0_nao_1_sim: SEMANA_ULTIMA, data_da_ultima_ocorrencia_semanal_notifi: DATA_ULTIMA_NOTIFICACAO_SEMANAL}
+    vinculos:
+      geraexecutar:
+        tabela: GERAEXECUTAR
+        liga: {i_executarra: i_executarra, i_sistema: i_sistema}
+        colunas: {geraexecutar_nome: DESCRICAO}
+    filtros:
+      codigo_da_rotina_automatica_fk_geraexecu:
+        coluna: I_EXECUTARRA
+        ops: [eq, in]
+      codigo_do_sistema_fk_geraexecutar:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      data_da_ultima_ocorrencia_semanal_notifi:
+        coluna: DATA_ULTIMA_NOTIFICACAO_SEMANAL
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): data_da_ultima_ocorrencia_semanal_notifi.', 'Vínculo geraexecutar
+        (GERAEXECUTAR): 0 de 1 linhas sem registro relacionado.']

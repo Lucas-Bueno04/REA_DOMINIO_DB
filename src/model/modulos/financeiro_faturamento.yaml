@@ -1,0 +1,228 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_faturamento
+titulo: Financeiro do escritório - faturamento (rascunho em lote)
+entidades:
+  hrfaturamento_parcela_emissao:
+    titulo: Faturamento - Parcelas - Emissoes e exclusoes de boletos e documento de cobranca
+    descricao: 'Faturamento - Parcelas - Emissoes e exclusoes de boletos e documento de cobranca. 38.631 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_PARCELA,
+      TIPO, DATA_HORA, ACAO.'
+    tabela: HRFATURAMENTO_PARCELA_EMISSAO
+    chave: [CODI_EMP, I_FATURAMENTO, I_PARCELA, TIPO, DATA_HORA, ACAO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_PARCELA, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, parcela: I_PARCELA, tipo_do_relatorio_b_boleto_d_documento_d: TIPO, data_e_hora_da_emissao_ou_da_exclusao: DATA_HORA,
+      acao_e_emissao_x_exclusao: ACAO, usuario_que_emitiu_ou_excluiu: USUARIO}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      tipo_do_relatorio_b_boleto_d_documento_d:
+        coluna: TIPO
+        ops: [eq, in]
+      data_e_hora_da_emissao_ou_da_exclusao:
+        coluna: DATA_HORA
+        ops: [eq, in]
+      acao_e_emissao_x_exclusao:
+        coluna: ACAO
+        ops: [eq, in]
+      usuario_que_emitiu_ou_excluiu:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 38.631 linhas, 2 empresa(s).']
+  hrfaturamento_contrato:
+    titulo: Faturamento - Contratos
+    descricao: 'Faturamento - Contratos. 35.038 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO.'
+    tabela: HRFATURAMENTO_CONTRATO
+    chave: [CODI_EMP, I_FATURAMENTO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, contrato: I_CONTRATO, evento_do_contrato: I_EVENTO, valor: VALOR, valor_de_desconto: VALOR_DESCONTO,
+      valor_de_desconto_concedido_por_adimplen: VALOR_DESCONTO_ADIMPLENTE, valor_original: VALOR_ORIGINAL, limite_de_numero_de_lancamentos_contabei: CONTABIL_LIMITE,
+      numero_de_lancamentos_contabeis_faturado: CONTABIL_FATURADO, limite_de_numero_de_notas_ficais: FISCAL_LIMITE, numero_de_notas_ficais_faturados: FISCAL_FATURADO,
+      limite_de_numero_de_horas_trabalhadas: HORA_LIMITE, numero_de_horas_trabalhadas_faturadas: HORA_FATURADO, limite_de_numero_de_horas_trabalhadas_na: HORA_CONTABILIDADE_LIMITE,
+      numero_de_horas_trabalhadas_na_contabili: HORA_CONTABILIDADE_FATURADO, hora_folha_limite: HORA_FOLHA_LIMITE, numero_de_horas_trabalhadas_na_folha_fat: HORA_FOLHA_FATURADO,
+      hora_escrita_limite: HORA_ESCRITA_LIMITE, numero_de_horas_trabalhadas_na_escrita_f: HORA_ESCRITA_FATURADO, limite_de_numero_de_horas_trabalhadas_no: HORA_PATRIMONIO_LIMITE,
+      numero_de_horas_trabalhadas_no_patrimoni: HORA_PATRIMONIO_FATURADO, hora_lalur_limite: HORA_LALUR_LIMITE, numero_de_horas_trabalhadas_no_lalur_fat: HORA_LALUR_FATURADO,
+      hora_atualizar_limite: HORA_ATUALIZAR_LIMITE, numero_de_horas_trabalhadas_no_atualizar: HORA_ATUALIZAR_FATURADO, hora_registro_limite: HORA_REGISTRO_LIMITE,
+      numero_de_horas_trabalhadas_no_registro: HORA_REGISTRO_FATURADO, limite_de_numero_de_empregados: FUNCIONARIO_LIMITE, numero_de_empregados_faturados: FUNCIONARIO_FATURADO,
+      limite_do_valor_do_faturamento: FATURAMENTO_LIMITE, valor_do_faturamento_fatudado: FATURAMENTO_FATURADO}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      evento_do_contrato:
+        coluna: I_EVENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 35.038 linhas, 2 empresa(s).', 'Vínculo hrcontrato (HRCONTRATO): 0 de 34.985 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        hrevento (HREVENTO): 0 de 34.985 linhas sem registro relacionado (empresa 1).']
+  hrfaturamento_parcela_item_detalhamento:
+    titulo: Faturamento - Parcelas - Itens - Detalhamento
+    descricao: 'Faturamento - Parcelas - Itens - Detalhamento. 27.868 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_PARCELA, I_EVENTO, SEQUENCIAL, PAGO_ESCRITORIO.'
+    tabela: HRFATURAMENTO_PARCELA_ITEM_DETALHAMENTO
+    chave: [CODI_EMP, I_FATURAMENTO, I_PARCELA, I_EVENTO, SEQUENCIAL, PAGO_ESCRITORIO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_PARCELA, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, parcela: I_PARCELA, evento: I_EVENTO, sequencial: SEQUENCIAL, pago_pelo_escritorio_s_n: PAGO_ESCRITORIO,
+      complemento: COMPLEMENTO, valor: VALOR, valor_de_desconto: VALOR_DESCONTO, valor_de_desconto_concedido_por_adimplen: VALOR_DESCONTO_ADIMPLENTE, valor_original: VALOR_ORIGINAL,
+      valor_irrf_aproveitado: VALOR_IRRF, valor_irrf_calculado: VALOR_IRRF_CALCULADO, aliquota_de_irrf: ALIQUOTA_IRRF, valor_de_iss: VALOR_ISS, aliquota_de_iss: ALIQUOTA_ISS,
+      valor_de_iss_retido: VALOR_ISS_RETIDO, valor_de_iss_retido_calculado: VALOR_ISS_RETIDO_CALCULADO, aliquota_iss_ret: ALIQUOTA_ISS_RET, valor_de_inss_retido: VALOR_INSS_RETIDO,
+      valor_de_inss_retido_calculado: VALOR_INSS_RETIDO_CALCULADO, aliquota_de_inss: ALIQUOTA_INSS_RET, valor_de_crf_aproveitado: VALOR_CRF, valor_de_crf_calculado: VALOR_CRF_CALCULADO,
+      valor_de_crf_pis_calculado: VALOR_CRF_PIS_CALCULADO, valor_de_crf_cofins_calculado: VALOR_CRF_COFINS_CALCULADO, valor_de_crf_csll_calculado: VALOR_CRF_CSLL_CALCULADO,
+      valor_de_crf_pis_aproveitado: VALOR_CRF_PIS, valor_de_crf_cofins_aproveitado: VALOR_CRF_COFINS, valor_de_crf_csll_aproveitado: VALOR_CRF_CSLL, aliquota_de_retencao_na_fonte: ALIQUOTA_RETENCAO_FONTE,
+      valor_de_pis_usado_somente_para_df: VALOR_PIS, aliquota_de_pis_usado_somente_para_df: ALIQUOTA_PIS, valor_de_cofins_usado_somente_para_df: VALOR_COFINS, aliquota_de_cofins_usado_somente_para_df: ALIQUOTA_COFINS,
+      valor_ibs: VALOR_IBS, base_de_calculo_ibs: BASE_CALCULO_IBS, aliquota_ibs: ALIQUOTA_IBS, valor_cbs: VALOR_CBS, base_de_calculo_cbs: BASE_CALCULO_CBS, aliquota_cbs: ALIQUOTA_CBS,
+      aliquota_efetiva_ibs: ALIQUOTA_EFETIVA_IBS, aliquota_efetiva_cbs: ALIQUOTA_EFETIVA_CBS}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      pago_pelo_escritorio_s_n:
+        coluna: PAGO_ESCRITORIO
+        ops: [eq, in]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 27.868 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): aliquota_efetiva_ibs, aliquota_efetiva_cbs.']
+  hrfaturamento_lancto:
+    titulo: Faturamento X Lancamentos Contabeis
+    descricao: 'Faturamento X Lancamentos Contabeis. 12.697 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: HRFATURAMENTO_LANCTO
+    chave: [CODI_EMP, I_FATURAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12.697 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 12.157 linhas sem registro relacionado (empresa 1).']
+  hrfaturamento_evento:
+    titulo: Faturamento - Eventos
+    descricao: 'Faturamento - Eventos. 6.008 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_CLIENTE, I_RECEBER.'
+    tabela: HRFATURAMENTO_EVENTO
+    chave: [CODI_EMP, I_FATURAMENTO, I_CLIENTE, I_RECEBER]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_CLIENTE, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, cliente: I_CLIENTE, lancamento_receber: I_RECEBER, valor: VALOR, valor_de_desconto: VALOR_DESCONTO,
+      valor_original: VALOR_ORIGINAL}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      lancamento_receber:
+        coluna: I_RECEBER
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.008 linhas, 2 empresa(s).']
+  hrfaturamento_adicional:
+    titulo: Faturamento - Adicional
+    descricao: 'Faturamento - Adicional. 2.646 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_CONTRATO.'
+    tabela: HRFATURAMENTO_ADICIONAL
+    chave: [CODI_EMP, I_FATURAMENTO, I_CONTRATO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_CONTRATO, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, contrato: I_CONTRATO, evento_do_adicional_anual: I_EVENTO, faturou_com_contrato_s_n: FATURAR_CONTRATO,
+      valor: VALOR, valor_de_desconto: VALOR_DESCONTO, valor_original: VALOR_ORIGINAL}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      evento_do_adicional_anual:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      faturou_com_contrato_s_n:
+        coluna: FATURAR_CONTRATO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.646 linhas, 1 empresa(s).', 'Vínculo hrcontrato (HRCONTRATO): 0 de 2.646 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        hrevento (HREVENTO): 0 de 2.646 linhas sem registro relacionado (empresa 1).']
+  hrfaturamento_evento_renegociacao:
+    titulo: Faturamento - Eventos oriundos da renegociacao
+    descricao: 'Faturamento - Eventos oriundos da renegociacao. 106 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_EVENTO, PAGO_ESCRITORIO.'
+    tabela: HRFATURAMENTO_EVENTO_RENEGOCIACAO
+    chave: [CODI_EMP, I_FATURAMENTO, I_EVENTO, PAGO_ESCRITORIO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_EVENTO, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, evento: I_EVENTO, pago_pelo_escritorio_s_n: PAGO_ESCRITORIO, valor: VALOR}
+    vinculos:
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      pago_pelo_escritorio_s_n:
+        coluna: PAGO_ESCRITORIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 106 linhas, 1 empresa(s).', 'Vínculo hrevento (HREVENTO): 0 de 106 linhas sem registro relacionado (empresa 1).']

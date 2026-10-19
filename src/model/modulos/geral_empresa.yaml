@@ -1,0 +1,123 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_empresa
+titulo: Geral - empresa (rascunho em lote)
+dominios:
+  geempresa_bloqueio_historico_origem_do_historico:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRESA_BLOQUEIO_HISTORICO.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: S=4.389, U=72.'
+    valores: {S: Sistema, U: Usuário}
+  geempresa_bloqueio_historico_situacao_b_bloquead:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRESA_BLOQUEIO_HISTORICO.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: B=2.234, D=2.227.'
+    valores: {B: Bloqueado, D: Desbloqueado}
+entidades:
+  geempresa_bloqueio_historico:
+    titulo: Empresas bloqueadas - Históricos
+    descricao: 'Empresas bloqueadas - Históricos. 4.461 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: GEEMPRESA_BLOQUEIO_HISTORICO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_HISTORICO, volume: pequeno}
+    ordem:
+    - [DATA_HISTORICO, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas:
+      sequencial: I_SEQUENCIAL
+      empresa: CODI_EMP
+      origem_do_historico_s_sistema_u_usuario: {coluna: ORIGEM, dominio: geempresa_bloqueio_historico_origem_do_historico}
+      situacao_b_bloqueado_d_desbloqueado: {coluna: SITUACAO, dominio: geempresa_bloqueio_historico_situacao_b_bloquead}
+      data: DATA_HISTORICO
+      usuario: USUARIO
+      dias_desbloquados: DIAS_DESBLOQUEADOS
+      data_final_do_desbloqueio: DATA_FINAL_DESBLOQUEIO
+      obervacao: OBERVACAO_INADIMPLENTE
+      historico_para_o_contrato: HISTORICO_CONTRATO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      data:
+        coluna: DATA_HISTORICO
+        ops: [entre, gte, lte]
+      data_final_do_desbloqueio:
+        coluna: DATA_FINAL_DESBLOQUEIO
+        ops: [entre, gte, lte]
+      origem_do_historico_s_sistema_u_usuario:
+        coluna: ORIGEM
+        ops: [eq, in]
+      situacao_b_bloqueado_d_desbloqueado:
+        coluna: SITUACAO
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      obervacao:
+        coluna: OBERVACAO_INADIMPLENTE
+        ops: [contem, prefixo]
+      historico_para_o_contrato:
+        coluna: HISTORICO_CONTRATO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4.461 linhas, 403 empresa(s), DATA_HISTORICO de 2015-12-11 a 2026-01-15.', 'origem_do_historico_s_sistema_u_usuario: todos os
+        valores reais estão no comentário do banco (S=4.389, U=72).', 'situacao_b_bloqueado_d_desbloqueado: todos os valores reais estão no comentário do banco (B=2.234,
+        D=2.227).', 'Vínculo geempre (geempre): 0 de 6 linhas sem registro relacionado (empresa 1286).']
+  geempresa_bloqueio_restricao:
+    titulo: Empresas que não serão bloqueadas
+    descricao: 'Empresas que não serão bloqueadas. 134 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: GEEMPRESA_BLOQUEIO_RESTRICAO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, empresa: CODI_EMP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 134 linhas, 134 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1093).']
+  geempresa_bloqueada:
+    titulo: Empresas bloqueadas
+    descricao: 'Empresas bloqueadas. 7 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: GEEMPRESA_BLOQUEADA
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, empresa: CODI_EMP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 7 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1109).']
+  geempresa_bloqueada_escritorio:
+    titulo: Empresas bloqueadas - Escritório que bloqueou
+    descricao: 'Empresas bloqueadas - Escritório que bloqueou. 7 linhas no catálogo; chave: I_SEQUENCIAL, CODI_EMP_ESCRITORIO.'
+    tabela: GEEMPRESA_BLOQUEADA_ESCRITORIO
+    chave: [I_SEQUENCIAL, CODI_EMP_ESCRITORIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    - [CODI_EMP_ESCRITORIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL, escritorio_que_bloqueou_a_empresa: CODI_EMP_ESCRITORIO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      escritorio_que_bloqueou_a_empresa:
+        coluna: CODI_EMP_ESCRITORIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas.']

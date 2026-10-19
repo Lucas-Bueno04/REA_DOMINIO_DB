@@ -1,0 +1,2695 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_outros
+titulo: Contábil - outros (rascunho em lote)
+dominios:
+  ctatendimento_lancto_catalogo_baixa_do_ar:
+    confirmado: true
+    nota: 'Todos os valores observados em CTATENDIMENTO_LANCTO_CATALOGO.BAIXADO estão no comentário do banco (2026-10-18). Distribuição: 1=80.534.'
+    valores: {'0': Download do XML ainda não realizado, '1': Download do XML já realizado}
+  ctatendimento_lancto_catalogo_importacao_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTATENDIMENTO_LANCTO_CATALOGO.NOTIFICADO estão no comentário do banco (2026-10-18). Distribuição: 0=80.534.'
+    valores: {'0': Arquivo não notificado para o usuário da Contabilidade, '1': Arquivo já notificado para o usuário da Contabilidade}
+  ctatendimento_lancto_catalogo_origem_do_x:
+    confirmado: parcial
+    nota: 'Coluna CTATENDIMENTO_LANCTO_CATALOGO.ORIGEM_XML só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {'1': Baixado automaticamente, '2': Baixado pelo utilitários}
+  ctatendimento_lancto_catalogo_exclusao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em CTATENDIMENTO_LANCTO_CATALOGO.XML_EXCLUIDO estão no comentário do banco (2026-10-18). Distribuição: 1=80.534.'
+    valores: {'0': Não excluído, '1': Excluído}
+  ctatendimento_lancto_catalogo_exclusao_ma:
+    confirmado: true
+    nota: 'Todos os valores observados em CTATENDIMENTO_LANCTO_CATALOGO.XML_EXCLUIDO_MANUALMENTE estão no comentário do banco (2026-10-18). Distribuição: 0=40.273,
+      1=40.261.'
+    valores: {'0': Não, '1': Sim}
+  ctgrupo_ebitda_operacaio_c_contas_i_contas_inver:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPO_EBITDA.OPERACAO estão no comentário do banco (2026-10-18). Distribuição: C=6.542, T=6.540, I=1.308.'
+    valores: {C: Contas, I: Contas - Inverter natureza do saldo, T: Total}
+  ctgrupo_ebitda_configuracao_i_inicia_sub_total_f:
+    confirmado: true
+    nota: 'Todos os valores observados em CTGRUPO_EBITDA.CONFIGURACAO estão no comentário do banco (2026-10-18). Distribuição: nulo=13.082, I=1.308.'
+    valores: {I: Inicia Sub Total, F: Fecha Sub Total}
+  ctnatureza_conta_natureza_c_credora_d_devedora:
+    confirmado: true
+    nota: 'Todos os valores observados em ctnatureza_conta.natureza estão no comentário do banco (2026-10-18). Distribuição: D=4.948, C=2.881.'
+    valores: {C: CREDORA, D: DEVEDORA}
+  ctnatureza_conta_grupo_a_ativo_p_passivo_l_patrim:
+    confirmado: true
+    nota: 'Todos os valores observados em ctnatureza_conta.grupo estão no comentário do banco (2026-10-18). Distribuição: R=4.244, A=1.433, P=1.426, O=634, L=50,
+      C=42.'
+    valores: {A: ATIVO, P: PASSIVO, L: PATRIMONIO LIQUIDO, R: CONTAS DE RESULTADO, C: CONTAS DE COMPENSACAO, O: OUTRAS}
+  ctnatureza_conta_bc_geral_natureza_da_cont:
+    confirmado: true
+    nota: 'Todos os valores observados em CTNATUREZA_CONTA_BC_GERAL.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: D=4, C=4.'
+    valores: {C: Credora, D: Devedora}
+  ctnatureza_conta_bc_geral_grupo_da_conta_a:
+    confirmado: true
+    nota: 'Todos os valores observados em CTNATUREZA_CONTA_BC_GERAL.GRUPO estão no comentário do banco (2026-10-18). Distribuição: R=2, A=2, C=2, P=1, L=1.'
+    valores: {A: Ativo, P: Passivo, L: Patrimonio Liquido, R: Contas de Resultado, C: Contas de Compensacao, O: Outras}
+  pmconta_patrimonial_natureza_da_conta_d_devedora_c:
+    confirmado: true
+    nota: 'Todos os valores observados em PMCONTA_PATRIMONIAL.NATUREZA_CONTA estão no comentário do banco (2026-10-18). Distribuição: D=6.528.'
+    valores: {D: Devedora, C: Credora}
+  lropcao_calculo_opcao_r_real_e_estimado:
+    confirmado: true
+    nota: 'Todos os valores observados em LROPCAO_CALCULO.OPCAO estão no comentário do banco (2026-10-18). Distribuição: R=2.859, E=35, nulo=2.'
+    valores: {R: Real, E: Estimado}
+  ctdere_codtrib_tipo_do_reg:
+    confirmado: true
+    nota: 'Todos os valores observados em CTDERE_CODTRIB.TIPO_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: F=744, A=661.'
+    valores: {F: 'Folha, selecionavel', A: 'Agrupamento, apenas hierarquia'}
+  lrparcela_imposto_imposto_c_contribuic:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARCELA_IMPOSTO.IMPOSTO estão no comentário do banco (2026-10-18). Distribuição: C=632, I=590.'
+    valores: {C: Contribuição Social, I: IRPJ}
+  lrparcela_imposto_tipo_de_calculo_r_re:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARCELA_IMPOSTO.TIPO_CALCULO estão no comentário do banco (2026-10-18). Distribuição: E=815, R=407.'
+    valores: {R: Real, E: Estimado}
+  pmparametro_vigencia_priodicidade_m_mens:
+    confirmado: true
+    nota: 'Todos os valores observados em PMPARAMETRO_VIGENCIA.PERIODICIDADE_CREDITO_ICMS estão no comentário do banco (2026-10-18). Distribuição: M=824.'
+    valores: {M: Mensal, Q: Quinzenal}
+  lroperacao_receita_tipode_receita_v_ven:
+    confirmado: true
+    nota: 'Todos os valores observados em LROPERACAO_RECEITA.TIPO_RECEITA estão no comentário do banco (2026-10-18). Distribuição: V=61, S=55, N=25.'
+    valores: {V: Vendas, S: Serviços, N: Não operacional}
+  ctdescricao_final_codigo_do_demo:
+    confirmado: true
+    nota: 'Todos os valores observados em ctdescricao_final.i_demonstrativo estão no comentário do banco (2026-10-18). Distribuição: 5=87, 2=86, 6=86, 1=86, 4=86,
+      3=86.'
+    valores: {'1': DRE, '2': DLPA, '3': DMPL, '4': DOAR, '5': Balanco, '6': DVA, '7': DFC, '8': DRA, '9': DSP}
+  lrbase_negativa_parte_b_conta_b_base_n:
+    confirmado: true
+    nota: 'Todos os valores observados em LRBASE_NEGATIVA_PARTE_B.CONTA estão no comentário do banco (2026-10-18). Distribuição: P=108, B=75.'
+    valores: {B: Base Negativa, P: Parte B}
+  lrbase_negativa_parte_b_compensar_1_pr:
+    confirmado: true
+    nota: 'Todos os valores observados em LRBASE_NEGATIVA_PARTE_B.COMPENSAR estão no comentário do banco (2026-10-18). Distribuição: 1=179, 2=4.'
+    valores: {'1': Prejuízo operacional geral, '2': Prejuízo não operacional geral, '3': Prejuízo de atividade rural, '4': Não compensar}
+  lrparametro_vigencia_tipo_de_atividade_g_ativ:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARAMETRO_VIGENCIA.TIPO_ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: G=164.'
+    valores: {G: Atividade geral, R: Atividade rural, A: Ambos}
+  lrparametro_vigencia_imposto_csll_forma_de_ve:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARAMETRO_VIGENCIA.CSLL_FORMA_VENCIMENTO estão no comentário do banco (2026-10-18). Distribuição: 5=164.'
+    valores: {'1': Corridos direto, '2': Corridos antecipados, '3': Corridos adiados, '4': Úteis, '5': Último dia útil}
+  lrparametro_vigencia_imposto_irpj_forma_de_ve:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARAMETRO_VIGENCIA.IRPJ_FORMA_VENCIMENTO estão no comentário do banco (2026-10-18). Distribuição: 5=164.'
+    valores: {'1': Corridos direto, '2': Corridos antecipados, '3': Corridos adiados, '4': Úteis, '5': Último dia útil}
+  lrparametro_saldo_inicial_parte_b_tipo_c_cred:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARAMETRO_SALDO_INICIAL_PARTE_B.TIPO estão no comentário do banco (2026-10-18). Distribuição: C=15, D=1.'
+    valores: {C: Credor, D: Devedor}
+  lrparametro_saldo_inicial_base_negativa_tipo_c_cred:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPARAMETRO_SALDO_INICIAL_BASE_NEGATIVA.TIPO estão no comentário do banco (2026-10-18). Distribuição: C=8.'
+    valores: {C: Credor, D: Devedor}
+  pmcomplemento_historico_contabil_tipo_1_depreci:
+    confirmado: true
+    nota: 'Todos os valores observados em PMCOMPLEMENTO_HISTORICO_CONTABIL.I_TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=57, 2=55, 3=33, 5=10,
+      4=1.'
+    valores: {'1': DEPRECIAÇÃO FISCAL, '2': DEPRECIAÇÃO SOCIETÁRIA, '3': BAIXA, '4': TRANSFERÊNCIA DE CONTA PATRIMONIAL, '5': AQUISIÇÃO DE BENS}
+  lrpagamento_imposto_imposto_c_contribui:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPAGAMENTO_IMPOSTO.IMPOSTO estão no comentário do banco (2026-10-18). Distribuição: C=25, I=24.'
+    valores: {C: Contribuição Social, I: IRPJ}
+  lrpagamento_imposto_tipo_de_calculo_r_r:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPAGAMENTO_IMPOSTO.TIPO_CALCULO estão no comentário do banco (2026-10-18). Distribuição: R=28, E=21.'
+    valores: {R: Real, E: Estimado}
+  lrpagamento_imposto_lancto_imposto_c_c:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPAGAMENTO_IMPOSTO_LANCTO.IMPOSTO estão no comentário do banco (2026-10-18). Distribuição: C=12, I=11.'
+    valores: {C: Contribuição Social, I: IRPJ}
+  lrpagamento_imposto_lancto_tipo_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPAGAMENTO_IMPOSTO_LANCTO.TIPO_CALCULO estão no comentário do banco (2026-10-18). Distribuição: E=15, R=8.'
+    valores: {R: Real, E: Estimado}
+  lrpagamento_imposto_lancto_tipo_do_lan:
+    confirmado: true
+    nota: 'Todos os valores observados em LRPAGAMENTO_IMPOSTO_LANCTO.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: S=23.'
+    valores: {S: Sistema, U: Usuario}
+  ctcmv_apuracao_estoque_fina:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCMV_APURACAO.TIPO_SALDO_ESTOQUE estão no comentário do banco (2026-10-18). Distribuição: P=3, M=3.'
+    valores: {P: Saldo do produto, M: Saldo do movimento}
+  ctcmv_apuracao_periodo_m_me:
+    confirmado: true
+    nota: 'Todos os valores observados em CTCMV_APURACAO.PERIODO estão no comentário do banco (2026-10-18). Distribuição: M=6.'
+    valores: {M: Mensal, T: Trimestral, A: Anual}
+  lrincentivo_fiscal_informar_por_n_nume:
+    confirmado: true
+    nota: 'Todos os valores observados em LRINCENTIVO_FISCAL.INFORMAR_POR estão no comentário do banco (2026-10-18). Distribuição: V=13, N=4.'
+    valores: {N: Número de refeições, V: Valor}
+  lrincentivo_fiscal_limite_de_aproveita:
+    confirmado: parcial
+    nota: 'Valores em LRINCENTIVO_FISCAL.LIMITE_APROVEITAMENTO fora do comentário do banco: 3=1. Distribuição: 4=15, 1=1, 3=1 (2026-10-18).'
+    valores: {'1': 1%, '2': 2% 3=3%, '4': 4%, '100': 100%}
+  pminformacao_calculo_credito_icms_mansal_ou_q:
+    confirmado: true
+    nota: 'Todos os valores observados em PMINFORMACAO_CALCULO_CREDITO_ICMS.MENSAL_QUINZENAL estão no comentário do banco (2026-10-18). Distribuição: 0=8.'
+    valores: {'0': Mensal, '1': Primeira quinzena, '2': Segunda quinzena}
+  pmbem_tipo_b_bem_adquirido_c_componente_adquir:
+    confirmado: true
+    nota: 'Todos os valores observados em PMBEM.TIPO estão no comentário do banco (2026-10-18). Distribuição: B=4.343, E=10, C=1.'
+    valores: {B: Bem adquirido, C: Componente adquirido, E: Bem transferido, O: Componente transferido}
+  pmbem_classificacao_i_bem_individual_r_bem_res:
+    confirmado: true
+    nota: 'Todos os valores observados em PMBEM.CLASSIFICACAO estão no comentário do banco (2026-10-18). Distribuição: I=4.345, R=8, A=1.'
+    valores: {I: Bem individual, R: Bem Resultante, A: Imobilizado em Andamento, C: Imobilizado concluído}
+  pmbem_documento_fiscal_emitente_t_terceiros_p:
+    confirmado: true
+    nota: 'Todos os valores observados em PMBEM.FISCAL_EMITENTE estão no comentário do banco (2026-10-18). Distribuição: nulo=4.133, T=221.'
+    valores: {T: Terceiros, P: Próprio}
+  pabens_tipo_b_bem_c_componente:
+    confirmado: true
+    nota: 'Todos os valores observados em pabens.TIPO_BEM estão no comentário do banco (2026-10-18). Distribuição: B=2.'
+    valores: {B: Bem, C: Componente}
+  pabens_classificacao_i_bem_individual_r_bem:
+    confirmado: true
+    nota: 'Todos os valores observados em pabens.CLASSIFICACAO_BEM estão no comentário do banco (2026-10-18). Distribuição: I=2.'
+    valores: {I: Bem individual, R: Bem resultante, A: Imobilizado em andamento, C: Imobilizado concluido}
+  pabens_emitente_do_documento_fiscal_t_terce:
+    confirmado: parcial
+    nota: 'Coluna pabens.FISCAL_EMITENTE_BEM só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {T: Terceiro, P: Proprio}
+  pabens_origem_do_bem_n_nacional_i_importado:
+    confirmado: true
+    nota: 'Todos os valores observados em pabens.ORIGEM_BEM estão no comentário do banco (2026-10-18). Distribuição: N=2.'
+    valores: {N: Nacional, I: Importado}
+  pabens_especie_1_edificacoes_e_benfeitorias:
+    confirmado: parcial
+    nota: 'Coluna pabens.ESPECIE_BEM só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {'1': Edificacoes e Benfeitorias em Imoveis Proprios, '2': Edificacoes e Benfeitorias em Imoveis de Terceiros, '3': Instalacoes, '4': Maquinas, '5': Equipamentos,
+      '6': Veiculos, '99': Outras Situacoes}
+  pabens_tipo_de_utilizacao_1_producao_de_ben:
+    confirmado: true
+    nota: 'Todos os valores observados em pabens.TIPO_UTILIZACAO_BEM estão no comentário do banco (2026-10-18). Distribuição: 9=2.'
+    valores: {'1': Producao de Bens Destinados a Venda, '2': Prestacao de Servicos, '3': Locacao a Terceiros, '9': Outros}
+entidades:
+  ctlanctolote_livro_rural:
+    titulo: Informação de o lote deve ser considerado no livro rural
+    descricao: 'Informação de o lote deve ser considerado no livro rural. 875.048 linhas no catálogo; chave: CODI_EMP, CODI_LOTE.'
+    tabela: CTLANCTOLOTE_LIVRO_RURAL
+    chave: [CODI_EMP, CODI_LOTE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_LOTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_lote: CODI_LOTE, gerar_lancamento_dos_livros_rurais: GERAR_LANCAMENTOS_LIVRO_RURAL}
+    filtros:
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      gerar_lancamento_dos_livros_rurais:
+        coluna: GERAR_LANCAMENTOS_LIVRO_RURAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 875.538 linhas, 992 empresa(s).']
+  ctatendimento_lancto_catalogo:
+    titulo: Catálogo de lancamentos - Domínio Atendimento
+    descricao: 'Catálogo de lancamentos - Domínio Atendimento. 80.534 linhas no catálogo; chave: I_CATALOGO, SEQUENCIAL.'
+    tabela: CTATENDIMENTO_LANCTO_CATALOGO
+    chave: [I_CATALOGO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: medio}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CATALOGO, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_do_catalogo: I_CATALOGO
+      codigo_sequencial_do_site: SEQUENCIAL
+      empresa: CODI_EMP
+      data_de_lancamentos: DATA_LANCAMENTO
+      conta_debito: CONTA_DEBITO
+      conta_credito: CONTA_CREDITO
+      valor_lancamento: VALOR
+      historico: HISTORICO
+      filial: FILIAL
+      baixa_do_arquivo_0_download_do_xml_ainda: {coluna: BAIXADO, dominio: ctatendimento_lancto_catalogo_baixa_do_ar}
+      importacao_do_arquivo_0_lancamento_ainda: {coluna: IMPORTADO, dominio: ctatendimento_lancto_catalogo_importacao_}
+      importacao_do_arquivo_0_arquivo_nao_noti: {coluna: NOTIFICADO, dominio: ctatendimento_lancto_catalogo_importacao_}
+      data_que_o_xml_foi_baixado: DATA_BAIXADO
+      origem_do_xml_1_baixado_automaticamente: {coluna: ORIGEM_XML, dominio: ctatendimento_lancto_catalogo_origem_do_x}
+      exclusao_do_xml_0_nao_excluido_1_excluid: {coluna: XML_EXCLUIDO, dominio: ctatendimento_lancto_catalogo_exclusao_do}
+      exclusao_manual_0_nao_1_sim: {coluna: XML_EXCLUIDO_MANUALMENTE, dominio: ctatendimento_lancto_catalogo_exclusao_ma}
+      codigo_historico: CODIGO_HISTORICO
+    filtros:
+      codigo_do_catalogo:
+        coluna: I_CATALOGO
+        ops: [eq, in]
+      codigo_sequencial_do_site:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_de_lancamentos:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      data_que_o_xml_foi_baixado:
+        coluna: DATA_BAIXADO
+        ops: [entre, gte, lte]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      codigo_historico:
+        coluna: CODIGO_HISTORICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 80.534 linhas, 11 empresa(s), DATA_LANCAMENTO de 2023-09-01 a 2026-04-30.', 'Colunas expostas nulas em 100% das linhas (1): origem_do_xml_1_baixado_automaticamente.',
+      'baixa_do_arquivo_0_download_do_xml_ainda: todos os valores reais estão no comentário do banco (1=80.534).', 'importacao_do_arquivo_0_lancamento_ainda: todos
+        os valores reais estão no comentário do banco (0=47.751, 1=32.783).', 'importacao_do_arquivo_0_arquivo_nao_noti: todos os valores reais estão no comentário
+        do banco (0=80.534).', 'origem_do_xml_1_baixado_automaticamente: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.',
+      'exclusao_do_xml_0_nao_excluido_1_excluid: todos os valores reais estão no comentário do banco (1=80.534).', 'exclusao_manual_0_nao_1_sim: todos os valores
+        reais estão no comentário do banco (0=40.273, 1=40.261).']
+  ctatendimento_plano_contas_controle_websocket:
+    titulo: Gerencia os retornos da integração com a Conta Azul no agente de comunicação, incluindo envios, avisos, erros e suporte a reenvio.
+    descricao: 'Gerencia os retornos da integração com a Conta Azul no agente de comunicação, incluindo envios, avisos, erros e suporte a reenvio.. 1 linhas no catálogo;
+      chave: DATA_PACOTE.'
+    tabela: CTATENDIMENTO_PLANO_CONTAS_CONTROLE_WEBSOCKET
+    chave: [DATA_PACOTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [DATA_PACOTE, asc]
+    colunas: {data_do_pacote: DATA_PACOTE}
+    filtros:
+      data_do_pacote:
+        coluna: DATA_PACOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): data_do_pacote.']
+  ctgruposdmpl_tipolancto:
+    titulo: Estrutura do DMPL - Tipo Lancamento
+    descricao: 'Estrutura do DMPL - Tipo Lancamento. 70.335 linhas no catálogo; chave: codi_emp, i_grupo, i_tipolancto.'
+    tabela: ctgruposdmpl_tipolancto
+    chave: [codi_emp, i_grupo, i_tipolancto]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [i_grupo, asc]
+    - [i_tipolancto, asc]
+    colunas: {empresa: codi_emp, grupo: i_grupo, tipo_de_lancamento: i_tipolancto, padrao_s_n: padrao}
+    vinculos:
+      ctgruposdmpl:
+        tabela: ctgruposdmpl
+        liga: {codi_emp: codi_emp, i_grupo: i_grupo}
+        colunas: {ctgruposdmpl_nome: descricao}
+      cttipolancto:
+        tabela: cttipolancto
+        liga: {codi_emp: codi_emp, i_tipolancto: i_tipolancto}
+        colunas: {cttipolancto_nome: descricao}
+    filtros:
+      grupo:
+        coluna: i_grupo
+        ops: [eq, in]
+      tipo_de_lancamento:
+        coluna: i_tipolancto
+        ops: [eq, in]
+      padrao_s_n:
+        coluna: padrao
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70.335 linhas, 1.324 empresa(s).', 'Vínculo ctgruposdmpl (ctgruposdmpl): 0 de 53 linhas sem registro relacionado (empresa 641).',
+      'Vínculo cttipolancto (cttipolancto): 0 de 53 linhas sem registro relacionado (empresa 641).']
+  ctgrupo_ebitda:
+    titulo: Estrutura EBITDA
+    descricao: 'Estrutura EBITDA. 14.390 linhas no catálogo; chave: CODI_EMP, I_EBITDA.'
+    tabela: CTGRUPO_EBITDA
+    chave: [CODI_EMP, I_EBITDA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EBITDA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_EBITDA
+      sequencia: SEQUENCIA
+      descricao: DESCRICAO
+      operacaio_c_contas_i_contas_inverter_nat: {coluna: OPERACAO, dominio: ctgrupo_ebitda_operacaio_c_contas_i_contas_inver}
+      configuracao_i_inicia_sub_total_f_fecha: {coluna: CONFIGURACAO, dominio: ctgrupo_ebitda_configuracao_i_inicia_sub_total_f}
+      soma_grupos_abaixo_s_n: SOMA_GRUPO
+      soma_grupos_abaixo_quantos: SOMA_GRUPO_ABAIXO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_EBITDA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      operacaio_c_contas_i_contas_inverter_nat:
+        coluna: OPERACAO
+        ops: [eq, in]
+      configuracao_i_inicia_sub_total_f_fecha:
+        coluna: CONFIGURACAO
+        ops: [eq, in]
+      soma_grupos_abaixo_s_n:
+        coluna: SOMA_GRUPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14.390 linhas, 1.308 empresa(s).', 'operacaio_c_contas_i_contas_inverter_nat: todos os valores reais estão no comentário do banco
+        (C=6.542, T=6.540, I=1.308).', 'configuracao_i_inicia_sub_total_f_fecha: todos os valores reais estão no comentário do banco (nulo=13.082, I=1.308).', 'Vínculo
+        geempre (geempre): 0 de 11 linhas sem registro relacionado (empresa 123).']
+  ctconciliacao_bancaria:
+    titulo: Conciliação bancária
+    descricao: 'Conciliação bancária. 9.625 linhas no catálogo; chave: CODI_EMP, I_CONCILIACAO, I_CONCILIACAO_ITEM.'
+    tabela: CTCONCILIACAO_BANCARIA
+    chave: [CODI_EMP, I_CONCILIACAO, I_CONCILIACAO_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONCILIACAO, asc]
+    - [I_CONCILIACAO_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CONCILIACAO, sequencial_da_conciliacao: I_CONCILIACAO_ITEM, codigo_do_lancamento_de_extrato: I_LANCAMENTO, codigo_do_lancamento_de_extrato_sequenci: I_ITEM,
+      numero_do_lancamento_contabil: NUME_LAN, conciliado_a_debito_s_n: CONCILIADO_DEB, conciliado_a_credito_s_n: CONCILIADO_CRE}
+    filtros:
+      codigo:
+        coluna: I_CONCILIACAO
+        ops: [eq, in]
+      sequencial_da_conciliacao:
+        coluna: I_CONCILIACAO_ITEM
+        ops: [eq, in]
+      codigo_do_lancamento_de_extrato:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      codigo_do_lancamento_de_extrato_sequenci:
+        coluna: I_ITEM
+        ops: [eq, in]
+      conciliado_a_debito_s_n:
+        coluna: CONCILIADO_DEB
+        ops: [eq, in]
+      conciliado_a_credito_s_n:
+        coluna: CONCILIADO_CRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9.623 linhas, 19 empresa(s).']
+  ctconciliacao_conta:
+    titulo: Conciliação de contas
+    descricao: 'Conciliação de contas. 29 linhas no catálogo; chave: CODI_EMP, CODI_CTA.'
+    tabela: CTCONCILIACAO_CONTA
+    chave: [CODI_EMP, CODI_CTA]
+    acesso: {empresa: CODI_EMP, periodo: CONCILIADA_ATE, volume: pequeno}
+    ordem:
+    - [CONCILIADA_ATE, desc]
+    - [CODI_CTA, asc]
+    colunas: {empresa: CODI_EMP, conta_contabil: CODI_CTA, empresa_do_plano_de_contas: CODI_EMP_PLANO, conciliada_ate: CONCILIADA_ATE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+    filtros:
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      conciliada_ate:
+        coluna: CONCILIADA_ATE
+        ops: [entre, gte, lte]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 29 linhas, 13 empresa(s), CONCILIADA_ATE de 2016-12-31 a 2024-07-31.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro
+        relacionado (empresa 1446).', 'Vínculo ctcontas (ctcontas): 0 de 1 linhas sem registro relacionado (empresa 1446).']
+  ctconciliacao_bancaria_iceberg:
+    titulo: Conciliação bancária automática Contabilidade Digital
+    descricao: 'Conciliação bancária automática Contabilidade Digital. 5 linhas no catálogo; chave: CODI_EMP, I_CONCILIACAO, I_CONCILIACAO_ITEM.'
+    tabela: CTCONCILIACAO_BANCARIA_ICEBERG
+    chave: [CODI_EMP, I_CONCILIACAO, I_CONCILIACAO_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONCILIACAO, asc]
+    - [I_CONCILIACAO_ITEM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_conciliacao: I_CONCILIACAO, item_da_conciliacao: I_CONCILIACAO_ITEM, codigo_do_extrato_bancario: I_EXTRATO_BANCARIO,
+      numero_do_lancamento: NUME_LAN, conciliado_debito_s_n: CONCILIADO_DEB, conciliado_credito_s_n: CONCILIADO_CRE}
+    filtros:
+      codigo_da_conciliacao:
+        coluna: I_CONCILIACAO
+        ops: [eq, in]
+      item_da_conciliacao:
+        coluna: I_CONCILIACAO_ITEM
+        ops: [eq, in]
+      codigo_do_extrato_bancario:
+        coluna: I_EXTRATO_BANCARIO
+        ops: [eq, in]
+      conciliado_debito_s_n:
+        coluna: CONCILIADO_DEB
+        ops: [eq, in]
+      conciliado_credito_s_n:
+        coluna: CONCILIADO_CRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas, 1 empresa(s).']
+  ctnatureza_conta:
+    titulo: NATUZA DAS CONTAS
+    descricao: 'NATUZA DAS CONTAS. 7.829 linhas no catálogo; chave: codi_emp, ordem.'
+    tabela: ctnatureza_conta
+    chave: [codi_emp, ordem]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [ordem, asc]
+    colunas:
+      empresa: codi_emp
+      ordem: ordem
+      classificacao: clas_cta
+      natureza_c_credora_d_devedora: {coluna: natureza, dominio: ctnatureza_conta_natureza_c_credora_d_devedora}
+      grupo_a_ativo_p_passivo_l_patrimonio_liq: {coluna: grupo, dominio: ctnatureza_conta_grupo_a_ativo_p_passivo_l_patrim}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      ordem:
+        coluna: ordem
+        ops: [eq, in]
+      classificacao:
+        coluna: clas_cta
+        ops: [eq, in]
+      natureza_c_credora_d_devedora:
+        coluna: natureza
+        ops: [eq, in]
+      grupo_a_ativo_p_passivo_l_patrimonio_liq:
+        coluna: grupo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7.829 linhas, 1.427 empresa(s).', 'natureza_c_credora_d_devedora: todos os valores reais estão no comentário do banco (D=4.948,
+        C=2.881).', 'grupo_a_ativo_p_passivo_l_patrimonio_liq: todos os valores reais estão no comentário do banco (R=4.244, A=1.433, P=1.426, O=634, L=50, C=42).',
+      'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 475).']
+  ctnatureza_conta_bc_geral:
+    titulo: Natureza das Contas Banco Central
+    descricao: 'Natureza das Contas Banco Central. 8 linhas no catálogo; chave: I_NATUREZA.'
+    tabela: CTNATUREZA_CONTA_BC_GERAL
+    chave: [I_NATUREZA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_NATUREZA, asc]
+    colunas:
+      codigo_da_tabela: I_NATUREZA
+      classificacao_da_conta: CLAS_CTA
+      natureza_da_conta_c_credora_d_devedora: {coluna: NATUREZA, dominio: ctnatureza_conta_bc_geral_natureza_da_cont}
+      grupo_da_conta_a_ativo_p_passivo_l_patri: {coluna: GRUPO, dominio: ctnatureza_conta_bc_geral_grupo_da_conta_a}
+    filtros:
+      codigo_da_tabela:
+        coluna: I_NATUREZA
+        ops: [eq, in]
+      classificacao_da_conta:
+        coluna: CLAS_CTA
+        ops: [eq, in]
+      natureza_da_conta_c_credora_d_devedora:
+        coluna: NATUREZA
+        ops: [eq, in]
+      grupo_da_conta_a_ativo_p_passivo_l_patri:
+        coluna: GRUPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas.', 'natureza_da_conta_c_credora_d_devedora: todos os valores reais estão no comentário do banco (D=4, C=4).', 'grupo_da_conta_a_ativo_p_passivo_l_patri:
+        todos os valores reais estão no comentário do banco (R=2, A=2, C=2, P=1, L=1).']
+  pmconta_patrimonial_taxa:
+    titulo: Contas Patrimoniais - Taxas variáveis de depreciação
+    descricao: 'Contas Patrimoniais - Taxas variáveis de depreciação. 6.610 linhas no catálogo; chave: CODI_EMP, I_CONTA_PATRIMONIAL, SEQUENCIAL.'
+    tabela: PMCONTA_PATRIMONIAL_TAXA
+    chave: [CODI_EMP, I_CONTA_PATRIMONIAL, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CONTA_PATRIMONIAL, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, conta_patrimonial: I_CONTA_PATRIMONIAL, sequencial: SEQUENCIAL, a_partir_de: VIGENCIA, taxa_de_depreciacao_fiscal: TAXA_DEPRECIACAO_FISCAL}
+    vinculos:
+      pmconta_patrimonial:
+        tabela: PMCONTA_PATRIMONIAL
+        liga: {codi_emp: codi_emp, i_conta_patrimonial: i_conta_patrimonial}
+        colunas: {pmconta_patrimonial_nome: DESCRICAO}
+    filtros:
+      conta_patrimonial:
+        coluna: I_CONTA_PATRIMONIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      a_partir_de:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 6.610 linhas, 921 empresa(s), VIGENCIA de 1900-01-01 a 2026-05-01.', 'Vínculo pmconta_patrimonial (PMCONTA_PATRIMONIAL): 0 de
+        8 linhas sem registro relacionado (empresa 1546).']
+  pmconta_patrimonial:
+    titulo: Contas Patrimoniais
+    descricao: 'Contas Patrimoniais. 6.528 linhas no catálogo; chave: CODI_EMP, I_CONTA_PATRIMONIAL.'
+    tabela: PMCONTA_PATRIMONIAL
+    chave: [CODI_EMP, I_CONTA_PATRIMONIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA_PATRIMONIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_CONTA_PATRIMONIAL
+      descricao: DESCRICAO
+      taxa_ddepreciacao_fiscal: TAXA_DEPRECIACAO_FISCAL
+      natureza_da_conta_d_devedora_c_credora: {coluna: NATUREZA_CONTA, dominio: pmconta_patrimonial_natureza_da_conta_d_devedora_c}
+      grupo_contabil: I_GRUPO_CONTABIL
+      calcular_correcao_monetaria_1995: CALCULAR_CORRECAO_MONETARIA_1995
+      conta_contabil_patrimonial: CONTA_PATRIMONIAL
+      conta_contabil_aquisicao: CONTA_AQUISICAO
+      historico_contabil_aquisicao: HISTORICO_AQUISICAO
+      conta_contabil_avaliacao_valor_nao_recup: CONTA_DEBITO_AVALIACAO
+      conta_credito_avaliacao: CONTA_CREDITO_AVALIACAO
+      historico_avaliacao_valor_nao_recuperave: HISTORICO_AVALIACAO
+      conta_contabil_depreciacao_acumulada: CONTA_DEPRECIACAO_ACUMULADA
+      historico_contabil_depreciacao_acumulada: HISTORICO_DEPRECIACAO_ACUMULADA
+      conta_contabil_depreciacao_do_periodo: CONTA_DEPRECIACAO_PERIODO
+      historico_contabil_depreciacao_do_period: HISTORICO_DEPRECIACAO_PERIODO
+      conta_contabil_baixa_caixa: CONTA_BAIXA_CAIXA
+      conta_contabil_baixa_receita_da_alienaca: CONTA_BAIXA_RECEITA_ALIENACAO
+      historico_contabil_baixa_receita_da_alie: HISTORICO_BAIXA_RECEITA_ALIENACAO
+      conta_contabil_baixa_custo_da_alienacao: CONTA_BAIXA_CUSTO_ALIENACAO
+      historico_contabil_baixa_custo_da_aliena: HISTORICO_BAIXA_CUSTO_ALIENACAO
+      conta_contabil_credito_de_icms_provisao: CONTA_CREDITO_ICMS_RECUPERAR
+      historico_contabil_credito_de_icms_provi: HISTORICO_CREDITO_ICMS_RECUPERAR
+      conta_contabil_credito_de_icms_estorno_c: CONTA_CREDITO_ICMS_CUSTO_PERDA
+      historico_contabil_credito_de_icms_estor: HISTORICO_CREDITO_ICMS_CUSTO_PERDA
+      credito_icms_ativo_imobilizado_codigo_do: CREDITO_ICMS_ATIVO_IMOBILIZADO_CODIGO_AJUSTE
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      conta_contabil_avaliacao_ajuste_de_avali: CONTA_DEBITO_AVALIACAO_AJUSTE
+      conta_credito_avaliacao_ajuste: CONTA_CREDITO_AVALIACAO_AJUSTE
+      historico_avaliacao_ajuste: HISTORICO_AVALIACAO_AJUSTE
+      credito_icms_de_periodos_anteriores_codi: CREDITO_ICMS_PERIODO_ANTERIOR_CODIGO_AJUSTE
+      conta_debito_da_provisao_do_credito_de_i: CONTA_DEBITO_ICMS_RECUPERAR
+      conta_debito_do_estorno_do_credito_de_ic: CONTA_DEBITO_ICMS_CUSTO_PERDA
+      conta_credito_icms_recuperar_longo_prazo: CONTA_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO
+      conta_debito_icms_recuperar_longo_prazo: CONTA_DEBITO_ICMS_RECUPERAR_LONGO_PRAZO
+      historico_provisao_credito_icms_recupera: HISTORICO_PROVISAO_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO
+      historico_contabil_credito_de_icms_trans: HISTORICO_TRANSFERENCIA_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO
+      subconta_depreciacao_acumulada: SUBCONTA_DEPRECIACAO_ACUMULADA
+      conta_contabil_avaliacao_a_valor_justo_g: SUBCONTA_DEBITO_AVALIACAO_VALOR_JUSTO_GANHO
+      conta_credito_avaliacao_valor_justo_ganh: CONTA_CREDITO_AVALIACAO_VALOR_JUSTO_GANHO
+      historico_avaliacao_a_valor_justo_ganho: HISTORICO_AVALIACAO_VALOR_JUSTO_GANHO
+      conta_contabil_avaliacao_a_valor_justo_p: CONTA_DEBITO_AVALIACAO_VALOR_JUSTO_PERDA
+      subconta_credito_avaliacao_valor_justo_p: SUBCONTA_CREDITO_AVALIACAO_VALOR_JUSTO_PERDA
+      historico_avaliacao_a_valor_justo_perda: HISTORICO_AVALIACAO_VALOR_JUSTO_PERDA
+      conta_contabil_bens_mantidos_para_venda: CONTA_BEM_MANTIDO_VENDA
+      historico_contabil_bens_mantidos_para_ve: HISTORICO_BEM_MANTIDO_VENDA
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, credito_icms_ativo_imobilizado_codigo_ajuste: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      pmgrupo_contabil:
+        tabela: PMGRUPO_CONTABIL
+        liga: {codi_emp: codi_emp, i_grupo_contabil: i_grupo_contabil}
+        colunas: {pmgrupo_contabil_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CONTA_PATRIMONIAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      natureza_da_conta_d_devedora_c_credora:
+        coluna: NATUREZA_CONTA
+        ops: [eq, in]
+      grupo_contabil:
+        coluna: I_GRUPO_CONTABIL
+        ops: [eq, in]
+      calcular_correcao_monetaria_1995:
+        coluna: CALCULAR_CORRECAO_MONETARIA_1995
+        ops: [eq, in]
+      credito_icms_ativo_imobilizado_codigo_do:
+        coluna: CREDITO_ICMS_ATIVO_IMOBILIZADO_CODIGO_AJUSTE
+        ops: [eq, in]
+      credito_icms_de_periodos_anteriores_codi:
+        coluna: CREDITO_ICMS_PERIODO_ANTERIOR_CODIGO_AJUSTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.528 linhas, 921 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): credito_icms_de_periodos_anteriores_codi.', 'natureza_da_conta_d_devedora_c_credora:
+        todos os valores reais estão no comentário do banco (D=6.528).', 'Vínculo efajustes (efajustes): 8 de 8 linhas sem registro relacionado (empresa 1547).',
+      'Vínculo geempre (geempre): 0 de 8 linhas sem registro relacionado (empresa 1547).', 'Vínculo pmgrupo_contabil (PMGRUPO_CONTABIL): 0 de 8 linhas sem registro
+        relacionado (empresa 1547).']
+  lropcao_calculo:
+    titulo: Opções de Cálculo
+    descricao: 'Opções de Cálculo. 2.896 linhas no catálogo; chave: CODI_EMP, I_OPCAO_CALCULO.'
+    tabela: LROPCAO_CALCULO
+    chave: [CODI_EMP, I_OPCAO_CALCULO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_OPCAO_CALCULO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_OPCAO_CALCULO
+      competencia: COMPETENCIA
+      opcao_r_real_e_estimado: {coluna: OPCAO, dominio: lropcao_calculo_opcao_r_real_e_estimado}
+      scp: I_SCP
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_OPCAO_CALCULO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      opcao_r_real_e_estimado:
+        coluna: OPCAO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.896 linhas, 77 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.', 'Colunas expostas nulas em 100% das linhas (1): scp.',
+      'opcao_r_real_e_estimado: todos os valores reais estão no comentário do banco (R=2.859, E=35, nulo=2).', 'Vínculo geempre (geempre): 0 de 36 linhas sem registro
+        relacionado (empresa 1365).', 'Vínculo gescp (GESCP): 36 de 36 linhas sem registro relacionado (empresa 1365).']
+  ctdere_codtrib:
+    titulo: Catalogo oficial de codigos de tributacao (codTrib) da Tabela 11 da DeRE
+    descricao: 'Catalogo oficial de codigos de tributacao (codTrib) da Tabela 11 da DeRE. 1.405 linhas no catálogo; chave: CODI_TRIB.'
+    tabela: CTDERE_CODTRIB
+    chave: [CODI_TRIB]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_TRIB, asc]
+    colunas:
+      identificador_interno_do_codigo_de_tribu: CODI_TRIB
+      codigo_de_tributacao_codtrib_divulgado_p: CODTRIB
+      titulo_do_codigo_de_tributacao: TITULO
+      descricao_do_codigo_de_tributacao: DESCRICAO
+      dispositivo_legal_do_codigo_de_tributaca: DISPOSITIVO_LEGAL
+      tipo_do_registro_f_folha_selecionavel_a: {coluna: TIPO_REGISTRO, dominio: ctdere_codtrib_tipo_do_reg}
+    filtros:
+      identificador_interno_do_codigo_de_tribu:
+        coluna: CODI_TRIB
+        ops: [eq, in]
+      codigo_de_tributacao_codtrib_divulgado_p:
+        coluna: CODTRIB
+        ops: [eq, in]
+      titulo_do_codigo_de_tributacao:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      descricao_do_codigo_de_tributacao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      dispositivo_legal_do_codigo_de_tributaca:
+        coluna: DISPOSITIVO_LEGAL
+        ops: [contem, prefixo]
+      tipo_do_registro_f_folha_selecionavel_a:
+        coluna: TIPO_REGISTRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.405 linhas.', 'tipo_do_registro_f_folha_selecionavel_a: todos os valores reais estão no comentário do banco (F=744, A=661).']
+  lrparcela_imposto:
+    titulo: Parcela dos impostos do Lalur
+    descricao: 'Parcela dos impostos do Lalur. 1.222 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA, AJUSTE_ANUAL.'
+    tabela: LRPARCELA_IMPOSTO
+    chave: [CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO, volume: pequeno}
+    ordem:
+    - [VENCIMENTO, desc]
+    - [COMPETENCIA, asc]
+    - [IMPOSTO, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      imposto_c_contribuicao_social_i_irpj: {coluna: IMPOSTO, dominio: lrparcela_imposto_imposto_c_contribuic}
+      tipo_de_calculo_r_real_e_estimado: {coluna: TIPO_CALCULO, dominio: lrparcela_imposto_tipo_de_calculo_r_re}
+      sequencial_da_parcela: I_PARCELA
+      numero_da_parcela: NUMERO_PARCELA
+      ajuste_anual: AJUSTE_ANUAL
+      codigo_de_recolhimento: CODIGO_RECOLHIMENTO
+      vencimento: VENCIMENTO
+      valor: VALOR
+      imposto_parcelado_s_n: IMPOSTO_PARCELADO
+      scp: I_SCP
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      imposto_c_contribuicao_social_i_irpj:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      tipo_de_calculo_r_real_e_estimado:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      sequencial_da_parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      numero_da_parcela:
+        coluna: NUMERO_PARCELA
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      vencimento:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+      codigo_de_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+      imposto_parcelado_s_n:
+        coluna: IMPOSTO_PARCELADO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.222 linhas, 40 empresa(s), VENCIMENTO de 2013-02-28 a 2026-10-30.', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'imposto_c_contribuicao_social_i_irpj:
+        todos os valores reais estão no comentário do banco (C=632, I=590).', 'tipo_de_calculo_r_real_e_estimado: todos os valores reais estão no comentário do banco
+        (E=815, R=407).', 'Vínculo geempre (geempre): 0 de 15 linhas sem registro relacionado (empresa 1556).']
+  ctcoeficiente_formula_calculo_conta:
+    titulo: Coeficientes de análises - Fórmula - Cálculo - Contas
+    descricao: 'Coeficientes de análises - Fórmula - Cálculo - Contas. 1.097 linhas no catálogo; chave: I_COEFICIENTE, I_FORMULA, I_CALCULO, I_CONTA, CODI_EMP.'
+    tabela: CTCOEFICIENTE_FORMULA_CALCULO_CONTA
+    chave: [I_COEFICIENTE, I_FORMULA, I_CALCULO, I_CONTA, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_COEFICIENTE, asc]
+    - [I_FORMULA, asc]
+    colunas: {coeficiente: I_COEFICIENTE, formula: I_FORMULA, calculo: I_CALCULO, codigo: I_CONTA, empresa: CODI_EMP, empresa_do_plano_de_contas: CODI_EMP_PLANO,
+      conta_contabil: CODI_CTA}
+    vinculos:
+      ctcoeficiente_formula_ca:
+        tabela: CTCOEFICIENTE_FORMULA_CALCULO
+        liga: {i_coeficiente: i_coeficiente, i_formula: i_formula, i_calculo: i_calculo}
+        colunas: {ctcoeficiente_formula_ca_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      ctcontas:
+        tabela: ctcontas
+        liga: {codi_emp_plano: codi_emp, codi_cta: codi_cta}
+        colunas: {ctcontas_nome: nome_cta}
+    filtros:
+      coeficiente:
+        coluna: I_COEFICIENTE
+        ops: [eq, in]
+      formula:
+        coluna: I_FORMULA
+        ops: [eq, in]
+      calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      codigo:
+        coluna: I_CONTA
+        ops: [eq, in]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.097 linhas, 32 empresa(s).', 'Vínculo ctcoeficiente_formula_ca (CTCOEFICIENTE_FORMULA_CALCULO): 0 de 36 linhas sem registro
+        relacionado (empresa 9999).', 'Vínculo geempre (geempre): 0 de 36 linhas sem registro relacionado (empresa 9999).', 'Vínculo ctcontas (ctcontas): 0 de 36
+        linhas sem registro relacionado (empresa 9999).']
+  ctcoeficiente_formula_calculo:
+    titulo: Coeficientes de análises - Fórmula - Cálculo
+    descricao: 'Coeficientes de análises - Fórmula - Cálculo. 93 linhas no catálogo; chave: I_COEFICIENTE, I_FORMULA, I_CALCULO.'
+    tabela: CTCOEFICIENTE_FORMULA_CALCULO
+    chave: [I_COEFICIENTE, I_FORMULA, I_CALCULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_COEFICIENTE, asc]
+    - [I_FORMULA, asc]
+    colunas: {coeficiente: I_COEFICIENTE, formula: I_FORMULA, codigo: I_CALCULO, opracao: OPERACAO, descricao: DESCRICAO, final_de_linha_s_n: FINAL_LINHA, ordem: ORDEM}
+    vinculos:
+      ctcoeficiente_formula:
+        tabela: CTCOEFICIENTE_FORMULA
+        liga: {i_coeficiente: i_coeficiente, i_formula: i_formula}
+        colunas: {ctcoeficiente_formula_nome: DESCRICAO}
+    filtros:
+      coeficiente:
+        coluna: I_COEFICIENTE
+        ops: [eq, in]
+      formula:
+        coluna: I_FORMULA
+        ops: [eq, in]
+      codigo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      opracao:
+        coluna: OPERACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      final_de_linha_s_n:
+        coluna: FINAL_LINHA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 93 linhas.', 'Vínculo ctcoeficiente_formula (CTCOEFICIENTE_FORMULA): 0 de 93 linhas sem registro relacionado.']
+  ctcoeficiente_formula:
+    titulo: Coeficientes de análises - Fórmula
+    descricao: 'Coeficientes de análises - Fórmula. 77 linhas no catálogo; chave: I_COEFICIENTE, I_FORMULA.'
+    tabela: CTCOEFICIENTE_FORMULA
+    chave: [I_COEFICIENTE, I_FORMULA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_COEFICIENTE, asc]
+    - [I_FORMULA, asc]
+    colunas: {coeficiente_de_analise: I_COEFICIENTE, codigo: I_FORMULA, operacao: OPERACAO, texto_prefixo: TEXTO_PREFIXO, descricao: DESCRICAO, valor_fixo: VALOR_FIXO,
+      texto_sufixo: TEXTO_SUFIXO, exibir_operacao_s_n: EXIBIR_OPERACAO, final_de_linha_s_n: FINAL_LINHA, ordem: ORDEM, descricao_do_relatorio: DESCRICAO_RELATORIO}
+    vinculos:
+      ctcoeficiente:
+        tabela: CTCOEFICIENTE
+        liga: {i_coeficiente: i_coeficiente}
+        colunas: {ctcoeficiente_nome: DESCRICAO_GRUPO}
+    filtros:
+      coeficiente_de_analise:
+        coluna: I_COEFICIENTE
+        ops: [eq, in]
+      codigo:
+        coluna: I_FORMULA
+        ops: [eq, in]
+      operacao:
+        coluna: OPERACAO
+        ops: [eq, in]
+      texto_prefixo:
+        coluna: TEXTO_PREFIXO
+        ops: [contem, prefixo]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      texto_sufixo:
+        coluna: TEXTO_SUFIXO
+        ops: [contem, prefixo]
+      exibir_operacao_s_n:
+        coluna: EXIBIR_OPERACAO
+        ops: [eq, in]
+      final_de_linha_s_n:
+        coluna: FINAL_LINHA
+        ops: [eq, in]
+      descricao_do_relatorio:
+        coluna: DESCRICAO_RELATORIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 77 linhas.', 'Vínculo ctcoeficiente (CTCOEFICIENTE): 0 de 77 linhas sem registro relacionado.']
+  pmgrupo_contabil:
+    titulo: Grupos Contábeis
+    descricao: 'Grupos Contábeis. 1.058 linhas no catálogo; chave: CODI_EMP, I_GRUPO_CONTABIL.'
+    tabela: PMGRUPO_CONTABIL
+    chave: [CODI_EMP, I_GRUPO_CONTABIL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_GRUPO_CONTABIL, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_GRUPO_CONTABIL, descricao: DESCRICAO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CONTABIL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.058 linhas, 871 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 421).']
+  pmparametro_vigencia:
+    titulo: Parâmetros - Patrimônio - Vigência
+    descricao: 'Parâmetros - Patrimônio - Vigência. 824 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: PMPARAMETRO_VIGENCIA
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas:
+      empresa: CODI_EMP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      calcular_credito_de_icms_s_n: CALCULAR_CREDITO_ICMS
+      gerar_informacoes_de_credito_de_icms_par: GERAR_CREDITO_ICMS_SPED_FISCAL
+      calcular_conforme_pro_rata_die_s_n: CALCULAR_CONFORME_PRO_RATA_DIE
+      utilizar_indexador_s_n: UTILIZAR_INDEXADOR
+      codigo_do_indice_do_credito_de_icms: I_INDICE_CREDITO_ICMS
+      priodicidade_m_mensal_q_quinzenal: {coluna: PERIODICIDADE_CREDITO_ICMS, dominio: pmparametro_vigencia_priodicidade_m_mens}
+      calcular_debito_de_icms_importacao_s_n: CALCULAR_DEBITO_ICMS_IMPORTACAO
+      calcular_debito_de_icms_importacao_codig: DEBITO_ICMS_CODIGO_AJUSTE
+      calcular_credito_de_pis_cofins_sobre_dep: CALCULAR_CREDITO_PISCOFINS_DEPRECIACAO
+      calcular_credito_de_pis_cofins_sobre_val: CALCULAR_CREDITO_PISCOFINS_AQUISICAO
+      calcular_credito_piscofins_aquisicao_mp: CALCULAR_CREDITO_PISCOFINS_AQUISICAO_MP
+      integrar_o_valor_dos_ganhos_de_capital_p: INTEGRAR_GANHOS_CAPITAL_IRPJ
+      integrar_ganhos_capital_csll: INTEGRAR_GANHOS_CAPITAL_CSLL
+      ganho_de_capital_codigo_do_acumulador: GANHOS_CAPITAL_CODIGO_ACUMULADOR
+      indice_debito_de_icms_importacao: I_INDICE_DEBITO_ICMS_IMPORTACAO
+      deduzir_o_valor_total_do_cradito_de_icms: DEDUZIR_VALOR_CREDITO_ICMS_DO_PIS_COFINS
+      possui_mais_de_um_codigo_de_recolhimento: POSSUI_CODIGO_RECOLHIMENTO_PIS_COFINS
+      informar_codigo_de_recolhimento: INFORMAR_CODIGO_RECOLHIMENTO_PIS_COFINS
+      codigo_de_recolhimento_pis: CODIGO_RECOLHIMENTO_PIS
+      codigo_de_recolhimento_cofins: CODIGO_RECOLHIMENTO_COFINS
+      considerar_o_valor_dos_dias_anteriores_a: CONSIDERAR_VALOR_DIAS_ANTERIORES_AQUISICAO_VALOR_NAO_CREDITAVEL
+      realizar_o_lancamento_de_transferencia_d: REALIZAR_LANCAMENTO_TRANSFERENCIA_PARCELAS_LONGO_PRAZO_ICMS
+      nao_considerar_como_calculado_o_credito: CONSIDERAR_ICMS_CALCULADO_COMPETENCIA_BAIXA_BENS
+      t_ate_o_termino_do_exercicio_seguinte_a: PERIODO_CURTO_PRAZO
+      calcular_debito_de_icms_diferencial_de_a: CALCULAR_DEBITO_ICMS_DIFERENCIAL_ALIQUOTA
+      debito_icms_codigo_ajuste_diferencial_al: DEBITO_ICMS_CODIGO_AJUSTE_DIFERENCIAL_ALIQUOTA
+      postergar_parcela_mensal_do_credito_de_i: POSTERGAR_PARCELA_ICMS_SEM_SAIDAS_LANCADAS
+      calcular_cradito_de_pis_cofins_sobre_val: CALCULAR_CREDITO_PISCOFINS_AQUISICAO_BAIXA_PARCIAL
+      deduzir_parcela_do_credito_de_icms_da_ba: DEDUZIR_PARCELA_CREDITO_ICMS_DO_PIS_COFINS
+      deduzir_parcela_do_icms_nao_recuperavel: DEDUZIR_PARCELA_ICMS_NAO_RECUPERAVEL_PIS_COFINS
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      calcular_credito_de_icms_s_n:
+        coluna: CALCULAR_CREDITO_ICMS
+        ops: [eq, in]
+      gerar_informacoes_de_credito_de_icms_par:
+        coluna: GERAR_CREDITO_ICMS_SPED_FISCAL
+        ops: [eq, in]
+      calcular_conforme_pro_rata_die_s_n:
+        coluna: CALCULAR_CONFORME_PRO_RATA_DIE
+        ops: [eq, in]
+      utilizar_indexador_s_n:
+        coluna: UTILIZAR_INDEXADOR
+        ops: [eq, in]
+      codigo_do_indice_do_credito_de_icms:
+        coluna: I_INDICE_CREDITO_ICMS
+        ops: [eq, in]
+      priodicidade_m_mensal_q_quinzenal:
+        coluna: PERIODICIDADE_CREDITO_ICMS
+        ops: [eq, in]
+      calcular_debito_de_icms_importacao_s_n:
+        coluna: CALCULAR_DEBITO_ICMS_IMPORTACAO
+        ops: [eq, in]
+      calcular_debito_de_icms_importacao_codig:
+        coluna: DEBITO_ICMS_CODIGO_AJUSTE
+        ops: [eq, in]
+      calcular_credito_de_pis_cofins_sobre_dep:
+        coluna: CALCULAR_CREDITO_PISCOFINS_DEPRECIACAO
+        ops: [eq, in]
+      calcular_credito_de_pis_cofins_sobre_val:
+        coluna: CALCULAR_CREDITO_PISCOFINS_AQUISICAO
+        ops: [eq, in]
+      calcular_credito_piscofins_aquisicao_mp:
+        coluna: CALCULAR_CREDITO_PISCOFINS_AQUISICAO_MP
+        ops: [eq, in]
+      integrar_o_valor_dos_ganhos_de_capital_p:
+        coluna: INTEGRAR_GANHOS_CAPITAL_IRPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 824 linhas, 817 empresa(s), VIGENCIA de 2006-01-01 a 2026-05-01.', 'Colunas expostas nulas em 100% das linhas (6): codigo_do_indice_do_credito_de_icms,
+        calcular_debito_de_icms_importacao_codig, indice_debito_de_icms_importacao, codigo_de_recolhimento_pis, codigo_de_recolhimento_cofins, debito_icms_codigo_ajuste_diferencial_al.',
+      'priodicidade_m_mensal_q_quinzenal: todos os valores reais estão no comentário do banco (M=824).']
+  lroperacao_receita_acumulador:
+    titulo: Cadastro Operações de Receita - Acumuladores da Escrita Fiscal
+    descricao: 'Cadastro Operações de Receita - Acumuladores da Escrita Fiscal. 800 linhas no catálogo; chave: CODI_EMP, I_OPERACAO_RECEITA, I_ACUMULADOR.'
+    tabela: LROPERACAO_RECEITA_ACUMULADOR
+    chave: [CODI_EMP, I_OPERACAO_RECEITA, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OPERACAO_RECEITA, asc]
+    - [I_ACUMULADOR, asc]
+    colunas: {empresa: CODI_EMP, operacoes_de_receita: I_OPERACAO_RECEITA, sequencial: I_ACUMULADOR, amulador_da_escrita_fiscal: CODI_ACU, empresa_filial: I_EMPRESA}
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {i_empresa: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      lroperacao_receita:
+        tabela: LROPERACAO_RECEITA
+        liga: {codi_emp: codi_emp, i_operacao_receita: i_operacao_receita}
+        colunas: {lroperacao_receita_nome: DESCRICAO}
+    filtros:
+      operacoes_de_receita:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      amulador_da_escrita_fiscal:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      empresa_filial:
+        coluna: I_EMPRESA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 800 linhas, 51 empresa(s).', 'Vínculo efacumulador (EFACUMULADOR): 0 de 6 linhas sem registro relacionado (empresa 1385).', 'Vínculo
+        lroperacao_receita (LROPERACAO_RECEITA): 0 de 6 linhas sem registro relacionado (empresa 1385).']
+  lroperacao_receita:
+    titulo: Cadastro Operações de Receita
+    descricao: 'Cadastro Operações de Receita. 141 linhas no catálogo; chave: CODI_EMP, I_OPERACAO_RECEITA.'
+    tabela: LROPERACAO_RECEITA
+    chave: [CODI_EMP, I_OPERACAO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OPERACAO_RECEITA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_OPERACAO_RECEITA
+      descricao: DESCRICAO
+      empresa_filial: I_EMPRESA
+      tipode_receita_v_vendas_s_servicos_n_nao: {coluna: TIPO_RECEITA, dominio: lroperacao_receita_tipode_receita_v_ven}
+      aliquota_csll: ALIQUOTA_CSLL
+      aliquota_irpj: ALIQUOTA_IRPJ
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      empresa_filial:
+        coluna: I_EMPRESA
+        ops: [eq, in]
+      tipode_receita_v_vendas_s_servicos_n_nao:
+        coluna: TIPO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 141 linhas, 59 empresa(s).', 'tipode_receita_v_vendas_s_servicos_n_nao: todos os valores reais estão no comentário do banco (V=61,
+        S=55, N=25).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 758).']
+  lroperacao_receita_conta_contabil:
+    titulo: Contas contábeis da operação de receita
+    descricao: 'Contas contábeis da operação de receita. 1 linhas no catálogo; chave: CODI_EMP, I_OPERACAO_RECEITA, I_SEQUENCIAL_CONTA.'
+    tabela: LROPERACAO_RECEITA_CONTA_CONTABIL
+    chave: [CODI_EMP, I_OPERACAO_RECEITA, I_SEQUENCIAL_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OPERACAO_RECEITA, asc]
+    - [I_SEQUENCIAL_CONTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, operacoes_de_receita: I_OPERACAO_RECEITA, sequencial: I_SEQUENCIAL_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      lroperacao_receita:
+        tabela: LROPERACAO_RECEITA
+        liga: {codi_emp: codi_emp, i_operacao_receita: i_operacao_receita}
+        colunas: {lroperacao_receita_nome: DESCRICAO}
+    filtros:
+      operacoes_de_receita:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo lroperacao_receita (LROPERACAO_RECEITA): 0 de 1 linhas sem registro relacionado (empresa 591).']
+  lrreceita_bruta_item:
+    titulo: Receita Bruta
+    descricao: 'Receita Bruta. 787 linhas no catálogo; chave: CODI_EMP, I_RECEITA_BRUTA, I_ITEM.'
+    tabela: LRRECEITA_BRUTA_ITEM
+    chave: [CODI_EMP, I_RECEITA_BRUTA, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RECEITA_BRUTA, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_receita_bruta: I_RECEITA_BRUTA, sequencial: I_ITEM, codigo_operacao_de_receita: I_OPERACAO_RECEITA, receita_bruta: VALOR_RECEITA,
+      aliquota_csll: ALIQUOTA_CSLL, base_de_calculo_csll: BASE_CALCULO_CSLL, aliquota_irpj: ALIQUOTA_IRPJ, base_de_calculo_irpj: BASE_CALCULO_IRPJ, valor_de_juros_multa_e_outros: VALOR_JUROS_MULTA_OUTRA,
+      aliquota_de_juros_multa_e_outros: ALIQUOTA_JUROS_MULTA_OUTRA, base_de_calculo_de_juros_multa_e_outros: BASE_CALCULO_JUROS_MULTA_OUTRA, receita: RECEITA, deducao: DEDUCAO}
+    vinculos:
+      lroperacao_receita:
+        tabela: LROPERACAO_RECEITA
+        liga: {codi_emp: codi_emp, i_operacao_receita: i_operacao_receita}
+        colunas: {lroperacao_receita_nome: DESCRICAO}
+    filtros:
+      codigo_receita_bruta:
+        coluna: I_RECEITA_BRUTA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      codigo_operacao_de_receita:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 787 linhas, 26 empresa(s).', 'Vínculo lroperacao_receita (LROPERACAO_RECEITA): 0 de 24 linhas sem registro relacionado (empresa
+        801).']
+  lrreceita_bruta:
+    titulo: Receita Bruta
+    descricao: 'Receita Bruta. 466 linhas no catálogo; chave: CODI_EMP, I_RECEITA_BRUTA.'
+    tabela: LRRECEITA_BRUTA
+    chave: [CODI_EMP, I_RECEITA_BRUTA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_RECEITA_BRUTA, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_RECEITA_BRUTA, competencia: COMPETENCIA, scp: I_SCP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_RECEITA_BRUTA
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 466 linhas, 26 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'Vínculo
+        geempre (geempre): 0 de 13 linhas sem registro relacionado (empresa 1548).', 'Vínculo gescp (GESCP): 13 de 13 linhas sem registro relacionado (empresa 1548).']
+  ctdescricao_final:
+    titulo: Descricao final para demonstrativos
+    descricao: 'Descricao final para demonstrativos. 517 linhas no catálogo; chave: i_demonstrativo, CODI_EMP.'
+    tabela: ctdescricao_final
+    chave: [i_demonstrativo, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [i_demonstrativo, asc]
+    colunas:
+      codigo_do_demonstrativo_1_dre_2_dlpa_3_d: {coluna: i_demonstrativo, dominio: ctdescricao_final_codigo_do_demo}
+      empresa: CODI_EMP
+      descricao: descricao
+    filtros:
+      codigo_do_demonstrativo_1_dre_2_dlpa_3_d:
+        coluna: i_demonstrativo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 517 linhas, 87 empresa(s).', 'codigo_do_demonstrativo_1_dre_2_dlpa_3_d: todos os valores reais estão no comentário do banco (5=87,
+        2=86, 6=86, 1=86, 4=86, 3=86).']
+  lradicao_conta:
+    titulo: Cadastro de Adições - Contas contábeis
+    descricao: 'Cadastro de Adições - Contas contábeis. 477 linhas no catálogo; chave: CODI_EMP, I_ADICAO, I_CONTA.'
+    tabela: LRADICAO_CONTA
+    chave: [CODI_EMP, I_ADICAO, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ADICAO, asc]
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, adicao: I_ADICAO, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 477 linhas, 77 empresa(s).', 'Vínculo lradicao (LRADICAO): 0 de 6 linhas sem registro relacionado (empresa 1555).']
+  pmbaixa_lancto:
+    titulo: Baixas - Parcial e total - Lançamentos Contábeis
+    descricao: 'Baixas - Parcial e total - Lançamentos Contábeis. 425 linhas no catálogo; chave: CODI_EMP, I_BAIXA, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMBAIXA_LANCTO
+    chave: [CODI_EMP, I_BAIXA, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_BAIXA, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, baixa: I_BAIXA, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE}
+    filtros:
+      baixa:
+        coluna: I_BAIXA
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 425 linhas, 34 empresa(s).']
+  ctselecao_scp:
+    titulo: Seleção de Sociedade em Conta de Participação - SCP
+    descricao: 'Seleção de Sociedade em Conta de Participação - SCP. 418 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL, USUARIO.'
+    tabela: CTSELECAO_SCP
+    chave: [CODI_EMP, I_SEQUENCIAL, USUARIO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    - [USUARIO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_SEQUENCIAL, usuario: USUARIO, empresa_do_scp: FILIAL, scp: I_SCP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {filial: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 417 linhas, 394 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 123).', 'Vínculo gescp
+        (GESCP): 0 de 1 linhas sem registro relacionado (empresa 123).']
+  ctselecao_scp_opcao:
+    titulo: Seleção de SCP - Grupo Opções
+    descricao: 'Seleção de SCP - Grupo Opções. 58 linhas no catálogo; chave: CODI_EMP, USUARIO.'
+    tabela: CTSELECAO_SCP_OPCAO
+    chave: [CODI_EMP, USUARIO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [USUARIO, asc]
+    colunas: {empresa: CODI_EMP, usuario: USUARIO, nao_listar_scps_inativas: NAO_LISTAR_SCP_INATIVA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      nao_listar_scps_inativas:
+        coluna: NAO_LISTAR_SCP_INATIVA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 58 linhas, 6 empresa(s).', 'Vínculo geempre (geempre): 0 de 10 linhas sem registro relacionado (empresa 612).']
+  ctselecao_conta_redutora:
+    titulo: Seleção de contas redutoras para o acompanhamento de lançamentos
+    descricao: 'Seleção de contas redutoras para o acompanhamento de lançamentos. 37 linhas no catálogo; chave: CODI_EMP, I_CONTA, CODI_CTA.'
+    tabela: CTSELECAO_CONTA_REDUTORA
+    chave: [CODI_EMP, I_CONTA, CODI_CTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA, asc]
+    - [CODI_CTA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_conta_redutora: I_CONTA, codigo_da_conta_contabil: CODI_CTA}
+    filtros:
+      sequencial_da_conta_redutora:
+        coluna: I_CONTA
+        ops: [eq, in]
+      codigo_da_conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37 linhas, 4 empresa(s).']
+  ctlista_bancos_banco_central:
+    titulo: Bancos
+    descricao: 'Bancos. 416 linhas no catálogo; chave: I_BANCO.'
+    tabela: CTLISTA_BANCOS_BANCO_CENTRAL
+    chave: [I_BANCO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_BANCO, asc]
+    colunas: {sequencial_do_banco: I_BANCO, codigo_do_banco: CODIGO_BANCO, descricao_do_banco: DESCRICAO_BANCO}
+    filtros:
+      sequencial_do_banco:
+        coluna: I_BANCO
+        ops: [eq, in]
+      codigo_do_banco:
+        coluna: CODIGO_BANCO
+        ops: [eq, in]
+      descricao_do_banco:
+        coluna: DESCRICAO_BANCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 416 linhas.']
+  ctdocumentos_ole:
+    titulo: Documentos OLEs
+    descricao: 'Documentos OLEs. 385 linhas no catálogo; chave: i_ole.'
+    tabela: ctdocumentos_ole
+    chave: [i_ole]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_ole, asc]
+    colunas: {codigo: i_ole, c_1_office_2_openoffice: EDITOR}
+    filtros:
+      codigo:
+        coluna: i_ole
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 385 linhas.']
+  ctdocumentos_ole_modelos:
+    titulo: Modelos de Documento
+    descricao: 'Modelos de Documento. 13 linhas no catálogo; chave: i_modelo, i_tipo.'
+    tabela: ctdocumentos_ole_modelos
+    chave: [i_modelo, i_tipo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_modelo, asc]
+    - [i_tipo, asc]
+    colunas: {codigo: i_modelo, tipo: i_tipo, descricao: descricao, codigo_padrao: padrao, c_1_office_2_openoffice: EDITOR}
+    vinculos:
+      ctdocumentos_ole_tipo:
+        tabela: ctdocumentos_ole_tipo
+        liga: {i_tipo: i_tipo}
+        colunas: {ctdocumentos_ole_tipo_nome: descricao}
+    filtros:
+      codigo:
+        coluna: i_modelo
+        ops: [eq, in]
+      tipo:
+        coluna: i_tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      codigo_padrao:
+        coluna: padrao
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas.', 'Vínculo ctdocumentos_ole_tipo (ctdocumentos_ole_tipo): 0 de 13 linhas sem registro relacionado.']
+  ctdocumentos_ole_tipo:
+    titulo: Tipos de Documentos
+    descricao: 'Tipos de Documentos. 5 linhas no catálogo; chave: i_tipo.'
+    tabela: ctdocumentos_ole_tipo
+    chave: [i_tipo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tipo, asc]
+    colunas: {codigo: i_tipo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: i_tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5 linhas.']
+  ctgruposdlpa_valor:
+    titulo: Estrutura do DLPA - Valores informados
+    descricao: 'Estrutura do DLPA - Valores informados. 350 linhas no catálogo; chave: CODI_EMP, CODIGO, I_VALOR.'
+    tabela: CTGRUPOSDLPA_VALOR
+    chave: [CODI_EMP, CODIGO, I_VALOR]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODIGO, asc]
+    - [I_VALOR, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_estrutura_dlpa: CODIGO, sequencial: I_VALOR, periodo: COMPETENCIA, valor: VALOR}
+    vinculos:
+      ctgruposdlpa:
+        tabela: ctgruposdlpa
+        liga: {codi_emp: codi_emp, codigo: codigo}
+        colunas: {ctgruposdlpa_nome: descricao}
+    filtros:
+      codigo_da_estrutura_dlpa:
+        coluna: CODIGO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_VALOR
+        ops: [eq, in]
+      periodo:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 350 linhas, 154 empresa(s), COMPETENCIA de 2016-12-01 a 2201-12-01.', 'Vínculo ctgruposdlpa (ctgruposdlpa): 0 de 2 linhas sem
+        registro relacionado (empresa 1366).']
+  lrintegracao_contabil_lancto:
+    titulo: Integração Contábil Lalur - Lançamentos Contábeis
+    descricao: 'Integração Contábil Lalur - Lançamentos Contábeis. 199 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: LRINTEGRACAO_CONTABIL_LANCTO
+    chave: [CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_LANCAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_LANCAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, competencia: COMPETENCIA,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE, scp: I_SCP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 199 linhas, 18 empresa(s), COMPETENCIA de 2013-01-01 a 2024-12-01.', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'Vínculo
+        geempre (geempre): 0 de 6 linhas sem registro relacionado (empresa 606).', 'Vínculo gescp (GESCP): 6 de 6 linhas sem registro relacionado (empresa 606).']
+  lrbase_negativa_parte_b:
+    titulo: Cadastro de Base Negativa e Parte B
+    descricao: 'Cadastro de Base Negativa e Parte B. 183 linhas no catálogo; chave: CODI_EMP, I_BASE_NEGATIVA_PARTE_B.'
+    tabela: LRBASE_NEGATIVA_PARTE_B
+    chave: [CODI_EMP, I_BASE_NEGATIVA_PARTE_B]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CADASTRO, volume: pequeno}
+    ordem:
+    - [DATA_CADASTRO, desc]
+    - [I_BASE_NEGATIVA_PARTE_B, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_BASE_NEGATIVA_PARTE_B
+      descricao: DESCRICAO
+      conta_b_base_negativa_p_parte_b: {coluna: CONTA, dominio: lrbase_negativa_parte_b_conta_b_base_n}
+      compensar: {coluna: COMPENSAR, dominio: lrbase_negativa_parte_b_compensar_1_pr}
+      data_de_cadastro: DATA_CADASTRO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      considerar_o_saldo_desta_conta_por_lanca: CONSIDERAR_SALDO_DESTA_CONTA_POR_LANCAMENTO
+      identificador_sped_ecf: IDENTIFICADOR_SPED_ECF
+      codigo_padrao_rfb_parte_b: TIPO_CONTA_SPED_ECF
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      lrtabela_padrao_rfb_part:
+        tabela: LRTABELA_PADRAO_RFB_PARTE_B
+        liga: {tipo_conta_sped_ecf: codigo}
+        colunas: {lrtabela_padrao_rfb_part_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_BASE_NEGATIVA_PARTE_B
+        ops: [eq, in]
+      data_de_cadastro:
+        coluna: DATA_CADASTRO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      conta_b_base_negativa_p_parte_b:
+        coluna: CONTA
+        ops: [eq, in]
+      considerar_o_saldo_desta_conta_por_lanca:
+        coluna: CONSIDERAR_SALDO_DESTA_CONTA_POR_LANCAMENTO
+        ops: [eq, in]
+      identificador_sped_ecf:
+        coluna: IDENTIFICADOR_SPED_ECF
+        ops: [contem, prefixo]
+      codigo_padrao_rfb_parte_b:
+        coluna: TIPO_CONTA_SPED_ECF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 183 linhas, 74 empresa(s), DATA_CADASTRO de 2013-01-01 a 2026-04-07.', 'conta_b_base_negativa_p_parte_b: todos os valores reais
+        estão no comentário do banco (P=108, B=75).', 'compensar: todos os valores reais estão no comentário do banco (1=179, 2=4).', 'Vínculo geempre (geempre):
+        0 de 2 linhas sem registro relacionado (empresa 1019).', 'Vínculo lrtabela_padrao_rfb_part (LRTABELA_PADRAO_RFB_PARTE_B): 0 de 2 linhas sem registro relacionado
+        (empresa 1019).']
+  lrparametro_vigencia:
+    titulo: Parâmetros Lalur - Vigência
+    descricao: 'Parâmetros Lalur - Vigência. 164 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: LRPARAMETRO_VIGENCIA
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas:
+      empresa: CODI_EMP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_de_calculo_1_anual_balanco_de_reduc: TIPO_CALCULO
+      tipo_de_atividade_g_atividade_geral_r_at: {coluna: TIPO_ATIVIDADE, dominio: lrparametro_vigencia_tipo_de_atividade_g_ativ}
+      calcular_lucro_estimado_s_n: CALCULAR_LUCRO_ESTIMADO
+      optar_sempre_pelo_menor_valor_a_recolher: OPTAR_MENOR_CALCULO_REAL_ESTIMADO
+      apurar_lucro_prejuizo_nao_operacional_s: APURAR_LUCRO_PREJUIZO_NAO_OPERACIONAL
+      conta_lucro_operacional_gera: CONTA_LUCRO_OPERACIONAL_GERAL
+      conta_prejuizo_operacional_geral: CONTA_PREJUIZO_OPERACIONAL_GERAL
+      conta_lucro_nao_operacional_geral: CONTA_LUCRO_NAO_OPERACIONAL_GERAL
+      conta_prejuizo_nao_operacional_geral: CONTA_PREJUIZO_NAO_OPERACIONAL_GERAL
+      conta_lucro_operacional_rural: CONTA_LUCRO_OPERACIONAL_RURAL
+      conta_lucro_nao_operacional_rural: CONTA_PREJUIZO_OPERACIONAL_RURAL
+      lancar_adicoes_e_exclusoes_detalhando_os: LANCAR_ADICAO_EXCLUSAO_DETALHANDO_LANCTO
+      calcular_lucro_da_exploracao_s_n: CALCULAR_LUCRO_EXPLORACAO
+      calcular_bonus_da_adimplencia_fiscal_s_n: CALCULAR_BONUS_ADIMPLENCIA_FISCAL
+      possui_sociedade_em_conta_de_participaca: POSSUI_SCP
+      registrar_automaticamente_na_base_negati: REGISTRAR_AUTO_BASE_NEGATIVA_PARTE_B_PREJUIZO
+      realizar_o_calculo_considerando_somente: REALIZAR_CALCULO_ADICAO_EXCLUSAO_NA_COMPETENCIA
+      adicao_contribuicao_social_como_adicao_p: I_ADICAO_CSLL_PARA_IRPJ
+      gerar_lancamentos_contabeis_s_n: GERAR_LANCAMENTO_CONTABIL
+      impostos_csll_recolher_conta_debito: IMPOSTO_CSLL_RECOLHER_CONTA_DEBITO
+      impostos_csll_recolher_conta_credito: IMPOSTO_CSLL_RECOLHER_CONTA_CREDITO
+      impostos_csll_recolher_historico: IMPOSTO_CSLL_RECOLHER_HISTORICO
+      impostos_csll_recuperar_conta_debito: IMPOSTO_CSLL_RECUPERAR_CONTA_DEBITO
+      impostos_csll_recuperar_conta_credito: IMPOSTO_CSLL_RECUPERAR_CONTA_CREDITO
+      impostos_csll_recuperar_historico: IMPOSTO_CSLL_RECUPERAR_HISTORICO
+      impostos_irpj_recolher_conta_debito: IMPOSTO_IRPJ_RECOLHER_CONTA_DEBITO
+      impostos_irpj_recolher_conta_credito: IMPOSTO_IRPJ_RECOLHER_CONTA_CREDITO
+      impostos_irpj_recolher_historico: IMPOSTO_IRPJ_RECOLHER_HISTORICO
+      impostos_irpj_recuperar_conta_debito: IMPOSTO_IRPJ_RECUPERAR_CONTA_DEBITO
+      impostos_irpj_recuperar_conta_credito: IMPOSTO_IRPJ_RECUPERAR_CONTA_CREDITO
+      impostos_irpj_recuperar_historico: IMPOSTO_IRPJ_RECUPERAR_HISTORICO
+      pagamentos_csll_principal_conta_debito: PAGAMENTO_CSLL_PRINCIPAL_CONTA_DEBITO
+      pagamentos_csll_principal_conta_credito: PAGAMENTO_CSLL_PRINCIPAL_CONTA_CREDITO
+      pagamentos_csll_principal_historico: PAGAMENTO_CSLL_PRINCIPAL_HISTORICO
+      pagamentos_csll_juros_conta_debito: PAGAMENTO_CSLL_JUROS_CONTA_DEBITO
+      pagamentos_csll_juros_conta_credito: PAGAMENTO_CSLL_JUROS_CONTA_CREDITO
+      pagamentos_csll_juros_historico: PAGAMENTO_CSLL_JUROS_HISTORICO
+      pagamentos_csll_multa_conta_debito: PAGAMENTO_CSLL_MULTA_CONTA_DEBITO
+      pagamentos_csll_multa_conta_credito: PAGAMENTO_CSLL_MULTA_CONTA_CREDITO
+      pagamentos_csll_multa_historico: PAGAMENTO_CSLL_MULTA_HISTORICO
+      pagamentos_irpj_principal_conta_debito: PAGAMENTO_IRPJ_PRINCIPAL_CONTA_DEBITO
+      pagamentos_irpj_principal_conta_credito: PAGAMENTO_IRPJ_PRINCIPAL_CONTA_CREDITO
+      pagamentos_irpj_principal_historico: PAGAMENTO_IRPJ_PRINCIPAL_HISTORICO
+      pagamentos_irpj_juros_conta_debito: PAGAMENTO_IRPJ_JUROS_CONTA_DEBITO
+      pagamentos_irpj_juros_conta_credito: PAGAMENTO_IRPJ_JUROS_CONTA_CREDITO
+      pagamentos_irpj_juros_historico: PAGAMENTO_IRPJ_JUROS_HISTORICO
+      pagamentos_irpj_multa_conta_debito: PAGAMENTO_IRPJ_MULTA_CONTA_DEBITO
+      pagamentos_irpj_multa_conta_credito: PAGAMENTO_IRPJ_MULTA_CONTA_CREDITO
+      pagamentos_irpj_multa_historico: PAGAMENTO_IRPJ_MULTA_HISTORICO
+      imposto_csll_codigo_de_recolhimento: CSLL_CODIGO_RECOLHIMENTO
+      imposto_csll_aliquota_do_imposto: CSLL_ALIQUOTA_IMPOSTO
+      imposto_csll_forma_de_vencimento_1_corri: {coluna: CSLL_FORMA_VENCIMENTO, dominio: lrparametro_vigencia_imposto_csll_forma_de_ve}
+      imposto_csll_dia_do_vencimento: CSLL_DIA_VENCIMENTO
+      imposto_csll_considerar_feriados_municip: CSLL_CONSIDERAR_FERIADO_MUNICIPAL
+      imposto_irpj_codigo_de_recolhimento: IRPJ_CODIGO_RECOLHIMENTO
+      imposto_irpj_aliquota_do_imposto: IRPJ_ALIQUOTA_IMPOSTO
+      imposto_irpj_forma_de_vencimento_1_corri: {coluna: IRPJ_FORMA_VENCIMENTO, dominio: lrparametro_vigencia_imposto_irpj_forma_de_ve}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_calculo_1_anual_balanco_de_reduc:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      tipo_de_atividade_g_atividade_geral_r_at:
+        coluna: TIPO_ATIVIDADE
+        ops: [eq, in]
+      calcular_lucro_estimado_s_n:
+        coluna: CALCULAR_LUCRO_ESTIMADO
+        ops: [eq, in]
+      optar_sempre_pelo_menor_valor_a_recolher:
+        coluna: OPTAR_MENOR_CALCULO_REAL_ESTIMADO
+        ops: [eq, in]
+      apurar_lucro_prejuizo_nao_operacional_s:
+        coluna: APURAR_LUCRO_PREJUIZO_NAO_OPERACIONAL
+        ops: [eq, in]
+      lancar_adicoes_e_exclusoes_detalhando_os:
+        coluna: LANCAR_ADICAO_EXCLUSAO_DETALHANDO_LANCTO
+        ops: [eq, in]
+      calcular_lucro_da_exploracao_s_n:
+        coluna: CALCULAR_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      calcular_bonus_da_adimplencia_fiscal_s_n:
+        coluna: CALCULAR_BONUS_ADIMPLENCIA_FISCAL
+        ops: [eq, in]
+      possui_sociedade_em_conta_de_participaca:
+        coluna: POSSUI_SCP
+        ops: [eq, in]
+      registrar_automaticamente_na_base_negati:
+        coluna: REGISTRAR_AUTO_BASE_NEGATIVA_PARTE_B_PREJUIZO
+        ops: [eq, in]
+      realizar_o_calculo_considerando_somente:
+        coluna: REALIZAR_CALCULO_ADICAO_EXCLUSAO_NA_COMPETENCIA
+        ops: [eq, in]
+      adicao_contribuicao_social_como_adicao_p:
+        coluna: I_ADICAO_CSLL_PARA_IRPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 164 linhas, 84 empresa(s), VIGENCIA de 2013-01-01 a 2026-01-01.', 'tipo_de_atividade_g_atividade_geral_r_at: todos os valores
+        reais estão no comentário do banco (G=164).', 'imposto_csll_forma_de_vencimento_1_corri: todos os valores reais estão no comentário do banco (5=164).', 'imposto_irpj_forma_de_vencimento_1_corri:
+        todos os valores reais estão no comentário do banco (5=164).']
+  lrparametro_saldo_inicial_parte_b:
+    titulo: Parâmetros Lalur - Saldo inicial Parte B
+    descricao: 'Parâmetros Lalur - Saldo inicial Parte B. 16 linhas no catálogo; chave: CODI_EMP, I_SALDO.'
+    tabela: LRPARAMETRO_SALDO_INICIAL_PARTE_B
+    chave: [CODI_EMP, I_SALDO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SALDO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: I_SALDO
+      scp: I_SCP
+      conta_parte_b: I_PARTE_B
+      valor: VALOR
+      historico: HISTORICO
+      tipo_c_credor_d_devedor: {coluna: TIPO, dominio: lrparametro_saldo_inicial_parte_b_tipo_c_cred}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrbase_negativa_parte_b:
+        tabela: LRBASE_NEGATIVA_PARTE_B
+        liga: {codi_emp: codi_emp, i_parte_b: i_base_negativa_parte_b}
+        colunas: {lrbase_negativa_parte_b_nome: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SALDO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      conta_parte_b:
+        coluna: I_PARTE_B
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_c_credor_d_devedor:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 16 linhas, 16 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'tipo_c_credor_d_devedor: todos os valores
+        reais estão no comentário do banco (C=15, D=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 123).', 'Vínculo gescp (GESCP):
+        1 de 1 linhas sem registro relacionado (empresa 123).', 'Vínculo lrbase_negativa_parte_b (LRBASE_NEGATIVA_PARTE_B): 0 de 1 linhas sem registro relacionado
+        (empresa 123).']
+  lrparametro_saldo_inicial_base_negativa:
+    titulo: Parâmetros Lalur - Saldo inicial Base Negativa CSLL
+    descricao: 'Parâmetros Lalur - Saldo inicial Base Negativa CSLL. 8 linhas no catálogo; chave: CODI_EMP, I_SALDO.'
+    tabela: LRPARAMETRO_SALDO_INICIAL_BASE_NEGATIVA
+    chave: [CODI_EMP, I_SALDO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SALDO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: I_SALDO
+      scp: I_SCP
+      conta_base_negativa: I_BASE_NEGATIVA
+      valor: VALOR
+      historico: HISTORICO
+      tipo_c_credor_d_devedor: {coluna: TIPO, dominio: lrparametro_saldo_inicial_base_negativa_tipo_c_cred}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrbase_negativa_parte_b:
+        tabela: LRBASE_NEGATIVA_PARTE_B
+        liga: {codi_emp: codi_emp, i_base_negativa: i_base_negativa_parte_b}
+        colunas: {lrbase_negativa_parte_b_nome: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SALDO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      conta_base_negativa:
+        coluna: I_BASE_NEGATIVA
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_c_credor_d_devedor:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 8 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'tipo_c_credor_d_devedor: todos os valores reais
+        estão no comentário do banco (C=8).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 604).', 'Vínculo gescp (GESCP): 1 de 1 linhas
+        sem registro relacionado (empresa 604).', 'Vínculo lrbase_negativa_parte_b (LRBASE_NEGATIVA_PARTE_B): 0 de 1 linhas sem registro relacionado (empresa 604).']
+  pmcomplemento_historico_contabil:
+    titulo: Complemento de Históricos Contábeis
+    descricao: 'Complemento de Históricos Contábeis. 156 linhas no catálogo; chave: CODI_EMP, I_TIPO.'
+    tabela: PMCOMPLEMENTO_HISTORICO_CONTABIL
+    chave: [CODI_EMP, I_TIPO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TIPO, asc]
+    colunas:
+      empresa: CODI_EMP
+      tipo_1_depreciacao_fiscal_2_depreciacao: {coluna: I_TIPO, dominio: pmcomplemento_historico_contabil_tipo_1_depreci}
+      descricao: HISTORICO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_1_depreciacao_fiscal_2_depreciacao:
+        coluna: I_TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 156 linhas, 61 empresa(s).', 'tipo_1_depreciacao_fiscal_2_depreciacao: todos os valores reais estão no comentário do banco (1=57,
+        2=55, 3=33, 5=10, 4=1).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 10051).']
+  ctocupacao_padrao_carne_leao:
+    titulo: Parametro Contabilidade
+    descricao: 'Parametro Contabilidade. 135 linhas no catálogo; chave: I_OCUPACAO.'
+    tabela: CTOCUPACAO_PADRAO_CARNE_LEAO
+    chave: [I_OCUPACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_OCUPACAO, asc]
+    colunas: {sequencial: I_OCUPACAO, codigo_da_ocupacao: CODIGO, ocupacao_padrao_do_carne_leao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_OCUPACAO
+        ops: [eq, in]
+      codigo_da_ocupacao:
+        coluna: CODIGO
+        ops: [eq, in]
+      ocupacao_padrao_do_carne_leao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 135 linhas.']
+  lrpagamento_imposto:
+    titulo: Pagamento de impostos do Lalur
+    descricao: 'Pagamento de impostos do Lalur. 49 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA, I_PAGAMENTO,
+      AJUSTE_ANUAL.'
+    tabela: LRPAGAMENTO_IMPOSTO
+    chave: [CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA, I_PAGAMENTO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [COMPETENCIA, asc]
+    - [IMPOSTO, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      imposto_c_contribuicao_social_i_irpj: {coluna: IMPOSTO, dominio: lrpagamento_imposto_imposto_c_contribui}
+      tipo_de_calculo_r_real_e_estimado: {coluna: TIPO_CALCULO, dominio: lrpagamento_imposto_tipo_de_calculo_r_r}
+      sequencial_da_parcela: I_PARCELA
+      numero_da_parcela: NUMERO_PARCELA
+      sequencial: I_PAGAMENTO
+      ajuste_anual: AJUSTE_ANUAL
+      data_de_pagamento: DATA_PAGAMENTO
+      valor_liquido_do_pagamento: VALOR
+      valor_bruto_do_pagamento: VALOR_PAGO
+      valor_de_juros: VALOR_JUROS
+      valor_de_multa: VALOR_MULTA
+      valor_compensado: VALOR_COMPENSADO
+      valor_pago_a_maior: VALOR_PAGO_MAIOR
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      imposto_c_contribuicao_social_i_irpj:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      tipo_de_calculo_r_real_e_estimado:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      sequencial_da_parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      numero_da_parcela:
+        coluna: NUMERO_PARCELA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      data_de_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 49 linhas, 7 empresa(s), DATA_PAGAMENTO de 2013-02-28 a 2025-01-31.', 'imposto_c_contribuicao_social_i_irpj: todos os valores
+        reais estão no comentário do banco (C=25, I=24).', 'tipo_de_calculo_r_real_e_estimado: todos os valores reais estão no comentário do banco (R=28, E=21).']
+  lrpagamento_imposto_lancto:
+    titulo: Pagamento de impostos do Lalur - Lancamentos Contabeis
+    descricao: 'Pagamento de impostos do Lalur - Lancamentos Contabeis. 23 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA,
+      I_PAGAMENTO, EMPRESA_LAN, NUME_LAN, AJUSTE_ANUAL.'
+    tabela: LRPAGAMENTO_IMPOSTO_LANCTO
+    chave: [CODI_EMP, COMPETENCIA, IMPOSTO, TIPO_CALCULO, I_PARCELA, NUMERO_PARCELA, I_PAGAMENTO, EMPRESA_LAN, NUME_LAN, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [IMPOSTO, asc]
+    - [TIPO_CALCULO, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      imposto_c_contribuicao_social_i_irpj: {coluna: IMPOSTO, dominio: lrpagamento_imposto_lancto_imposto_c_c}
+      tipo_de_calculo_r_real_e_estimado: {coluna: TIPO_CALCULO, dominio: lrpagamento_imposto_lancto_tipo_de_cal}
+      sequencial_da_parcela: I_PARCELA
+      numero_da_parcela: NUMERO_PARCELA
+      sequencial_do_pagamento: I_PAGAMENTO
+      empresa_do_lancamento_contabil: EMPRESA_LAN
+      numero_do_lancamento_contabil: NUME_LAN
+      ajuste_anual: AJUSTE_ANUAL
+      empresa_que_originou_o_lancamento_contab: FILI_LAN
+      codigo_do_lote: CODI_LOTE
+      tipo_do_lancamento_contabil_s_sistema_u: {coluna: TIPO_LANCAMENTO, dominio: lrpagamento_imposto_lancto_tipo_do_lan}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      imposto_c_contribuicao_social_i_irpj:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      tipo_de_calculo_r_real_e_estimado:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      sequencial_da_parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      numero_da_parcela:
+        coluna: NUMERO_PARCELA
+        ops: [eq, in]
+      sequencial_do_pagamento:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas, 3 empresa(s), COMPETENCIA de 2013-01-01 a 2023-08-01.', 'imposto_c_contribuicao_social_i_irpj: todos os valores reais
+        estão no comentário do banco (C=12, I=11).', 'tipo_de_calculo_r_real_e_estimado: todos os valores reais estão no comentário do banco (E=15, R=8).', 'tipo_do_lancamento_contabil_s_sistema_u:
+        todos os valores reais estão no comentário do banco (S=23).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 1365).']
+  ctdirigentes_conselheiros:
+    titulo: Dirigentes e Conselheiros
+    descricao: 'Dirigentes e Conselheiros. 46 linhas no catálogo; chave: CODI_EMP, I_DIRIGENTE_CONSELHEIRO.'
+    tabela: CTDIRIGENTES_CONSELHEIROS
+    chave: [CODI_EMP, I_DIRIGENTE_CONSELHEIRO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DIRIGENTE_CONSELHEIRO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_DIRIGENTE_CONSELHEIRO
+      cpf: {coluna: CPF, sensivel: parcial}
+      nome: NOME
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_DIRIGENTE_CONSELHEIRO
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 46 linhas, 33 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 699).']
+  ctdirigentes_conselheiros_config:
+    titulo: Configuracao de dirigentes e conselheiros
+    descricao: 'Configuracao de dirigentes e conselheiros. 46 linhas no catálogo; chave: CODI_EMP, I_DIRIGENTE_CONSELHEIRO, I_CONFIGURACAO.'
+    tabela: CTDIRIGENTES_CONSELHEIROS_CONFIG
+    chave: [CODI_EMP, I_DIRIGENTE_CONSELHEIRO, I_CONFIGURACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_DIRIGENTE_CONSELHEIRO, asc]
+    - [I_CONFIGURACAO, asc]
+    colunas: {codi_emp: CODI_EMP, i_dirigente_conselheiro: I_DIRIGENTE_CONSELHEIRO, i_configuracao: I_CONFIGURACAO, scp_0_socio_ostensivo: I_SCP, qualificacao: QUALIFICACAO,
+      data_inicio: DATA_INICIO, data_saida: DATA_SAIDA}
+    vinculos:
+      ctdirigentes_conselheiro:
+        tabela: CTDIRIGENTES_CONSELHEIROS
+        liga: {codi_emp: codi_emp, i_dirigente_conselheiro: i_dirigente_conselheiro}
+        colunas: {ctdirigentes_conselheiro_nome: NOME}
+    filtros:
+      i_dirigente_conselheiro:
+        coluna: I_DIRIGENTE_CONSELHEIRO
+        ops: [eq, in]
+      i_configuracao:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      data_inicio:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      data_saida:
+        coluna: DATA_SAIDA
+        ops: [entre, gte, lte]
+      scp_0_socio_ostensivo:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 46 linhas, 33 empresa(s), DATA_INICIO de 2017-01-01 a 2025-01-01.', 'Colunas expostas nulas em 100% das linhas (1): data_saida.',
+      'Vínculo ctdirigentes_conselheiro (CTDIRIGENTES_CONSELHEIROS): 0 de 1 linhas sem registro relacionado (empresa 699).']
+  ctcmv_apuracao_estoque:
+    titulo: CMV - Apuração do Custo das Mercadorias Vendidas - Estoque
+    descricao: 'CMV - Apuração do Custo das Mercadorias Vendidas - Estoque. 36 linhas no catálogo; chave: CODI_EMP, I_APURACAO, I_ESTOQUE.'
+    tabela: CTCMV_APURACAO_ESTOQUE
+    chave: [CODI_EMP, I_APURACAO, I_ESTOQUE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_APURACAO, asc]
+    - [I_ESTOQUE, asc]
+    colunas: {empresa: CODI_EMP, codigo_apuracao: I_APURACAO, sequencial: I_ESTOQUE, conta_contabil: CODI_CTA, valor_estoque_inicial: VALOR_ESTOQUE_INICIAL, valor_compras: VALOR_COMPRA,
+      valor_estoque_final: VALOR_ESTOQUE_FINAL, valor_cmv: VALOR_CMV}
+    filtros:
+      codigo_apuracao:
+        coluna: I_APURACAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 36 linhas, 6 empresa(s).']
+  ctcmv_apuracao_lancto:
+    titulo: CMV - Apuração do Custo das Mercadorias Vendidas - Lançamentos Contábeis
+    descricao: 'CMV - Apuração do Custo das Mercadorias Vendidas - Lançamentos Contábeis. 35 linhas no catálogo; chave: CODI_EMP, I_APURACAO, EMPRESA_LAN, NUME_LAN.'
+    tabela: CTCMV_APURACAO_LANCTO
+    chave: [CODI_EMP, I_APURACAO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_APURACAO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, codigo_apuracao: I_APURACAO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE}
+    filtros:
+      codigo_apuracao:
+        coluna: I_APURACAO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 35 linhas, 5 empresa(s).']
+  ctcmv_apuracao:
+    titulo: CMV - Apuração do Custo das Mercadorias Vendidas
+    descricao: 'CMV - Apuração do Custo das Mercadorias Vendidas. 6 linhas no catálogo; chave: CODI_EMP, I_APURACAO.'
+    tabela: CTCMV_APURACAO
+    chave: [CODI_EMP, I_APURACAO]
+    acesso: {empresa: CODI_EMP, periodo: ESTOQUE_INICIAL, volume: pequeno}
+    ordem:
+    - [ESTOQUE_INICIAL, desc]
+    - [I_APURACAO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_APURACAO
+      filial: CODI_EMP_FILIAL
+      data_estoque_inicial: ESTOQUE_INICIAL
+      data_estoque_final: ESTOQUE_FINAL
+      estoque_final_na_escrita_fiscal_p_saldo: {coluna: TIPO_SALDO_ESTOQUE, dominio: ctcmv_apuracao_estoque_fina}
+      periodo_m_mensal_t_trimestral_a_anual: {coluna: PERIODO, dominio: ctcmv_apuracao_periodo_m_me}
+      trimestre: TRIMESTRE
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_APURACAO
+        ops: [eq, in]
+      data_estoque_inicial:
+        coluna: ESTOQUE_INICIAL
+        ops: [entre, gte, lte]
+      data_estoque_final:
+        coluna: ESTOQUE_FINAL
+        ops: [entre, gte, lte]
+      filial:
+        coluna: CODI_EMP_FILIAL
+        ops: [eq, in]
+      estoque_final_na_escrita_fiscal_p_saldo:
+        coluna: TIPO_SALDO_ESTOQUE
+        ops: [eq, in]
+      periodo_m_mensal_t_trimestral_a_anual:
+        coluna: PERIODO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 6 empresa(s), ESTOQUE_INICIAL de 2015-01-01 a 2015-01-01.', 'estoque_final_na_escrita_fiscal_p_saldo: todos os valores
+        reais estão no comentário do banco (P=3, M=3).', 'periodo_m_mensal_t_trimestral_a_anual: todos os valores reais estão no comentário do banco (M=6).', 'Vínculo
+        geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10105).']
+  lrexclusao_conta:
+    titulo: Cadastro de Exclusões - Contas contábeis
+    descricao: 'Cadastro de Exclusões - Contas contábeis. 32 linhas no catálogo; chave: CODI_EMP, I_EXCLUSAO, I_CONTA.'
+    tabela: LREXCLUSAO_CONTA
+    chave: [CODI_EMP, I_EXCLUSAO, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EXCLUSAO, asc]
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, exclusao: I_EXCLUSAO, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      lrexclusao:
+        tabela: LREXCLUSAO
+        liga: {codi_emp: codi_emp, i_exclusao: i_exclusao}
+        colunas: {lrexclusao_nome: DESCRICAO}
+    filtros:
+      exclusao:
+        coluna: I_EXCLUSAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 32 linhas, 16 empresa(s).', 'Vínculo lrexclusao (LREXCLUSAO): 0 de 1 linhas sem registro relacionado (empresa 1711).']
+  ctorigem_lancamento:
+    titulo: Origem dos lançamentos da contabilidade
+    descricao: 'Origem dos lançamentos da contabilidade. 29 linhas no catálogo; chave: I_ORIGEM.'
+    tabela: CTORIGEM_LANCAMENTO
+    chave: [I_ORIGEM]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ORIGEM, asc]
+    colunas: {codigo_da_origem: I_ORIGEM, descricao: DESCRICAO}
+    filtros:
+      codigo_da_origem:
+        coluna: I_ORIGEM
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 29 linhas.']
+  lrincentivo_fiscal:
+    titulo: Cadastro de Incentivos Fiscais
+    descricao: 'Cadastro de Incentivos Fiscais. 17 linhas no catálogo; chave: CODI_EMP, I_INCENTIVO_FISCAL.'
+    tabela: LRINCENTIVO_FISCAL
+    chave: [CODI_EMP, I_INCENTIVO_FISCAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_INCENTIVO_FISCAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_INCENTIVO_FISCAL
+      descricao: DESCRICAO
+      pat_s_n: PAT
+      informar_por_n_numero_de_refeicoes_v_val: {coluna: INFORMAR_POR, dominio: lrincentivo_fiscal_informar_por_n_nume}
+      aliquota: ALIQUOTA
+      limite_aproveitamento: {coluna: LIMITE_APROVEITAMENTO, dominio: lrincentivo_fiscal_limite_de_aproveita}
+      aproveitar_o_valor_excedido_nos_periodos: APROVEITAR_PERIODO_SUBSEQUENTE
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      tipo: TIPO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_INCENTIVO_FISCAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      pat_s_n:
+        coluna: PAT
+        ops: [eq, in]
+      informar_por_n_numero_de_refeicoes_v_val:
+        coluna: INFORMAR_POR
+        ops: [eq, in]
+      aproveitar_o_valor_excedido_nos_periodos:
+        coluna: APROVEITAR_PERIODO_SUBSEQUENTE
+        ops: [eq, in]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17 linhas, 13 empresa(s).', 'informar_por_n_numero_de_refeicoes_v_val: todos os valores reais estão no comentário do banco (V=13,
+        N=4).', 'limite_aproveitamento: valores reais fora do comentário do banco (3=1); tratar o domínio como hipótese.', 'Vínculo geempre (geempre): 0 de 1 linhas
+        sem registro relacionado (empresa 604).']
+  pmconfiguracao_integracao_conta:
+    titulo: Configurar Integração por Centro de Custos - Contas
+    descricao: 'Configurar Integração por Centro de Custos - Contas. 14 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO, I_CENTRO_CUSTO.'
+    tabela: PMCONFIGURACAO_INTEGRACAO_CONTA
+    chave: [CODI_EMP, I_CONFIGURACAO, I_CENTRO_CUSTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    - [I_CENTRO_CUSTO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CONFIGURACAO, centro_de_custo: I_CENTRO_CUSTO, conta_patrimonial: CONTA_CONTABIL_PATRIMONIAL, aquisicao_conta_caixa: CONTA_AQUISICAO,
+      aquisicao_historico: HISTORICO_AQUISICAO, avaliacao_valor_nao_recuperavel_conta_de: CONTA_DEBITO_AVALIACAO, avaliacao_valor_nao_recuperavel_conta_cr: CONTA_CREDITO_AVALIACAO,
+      avaliacao_valor_nao_recuperavel_historic: HISTORICO_AVALIACAO, depreciacao_acumulada_conta_contabil: CONTA_DEPRECIACAO_ACUMULADA, depreciacao_acumulada_historico: HISTORICO_DEPRECIACAO_ACUMULADA,
+      depreciacao_do_periodo_conta_contabil: CONTA_DEPRECIACAO_PERIODO, depreciacao_do_periodo_historico: HISTORICO_DEPRECIACAO_PERIODO, baixas_conta_caixa: CONTA_BAIXA_CAIXA,
+      baixas_conta_receita_da_alienacao: CONTA_BAIXA_RECEITA_ALIENACAO, baixas_historico_receita_da_alienacao: HISTORICO_BAIXA_RECEITA_ALIENACAO, baixas_conta_custo_da_alienacao: CONTA_BAIXA_CUSTO_ALIENACAO,
+      baixas_historico_custo_da_alienacao: HISTORICO_BAIXA_CUSTO_ALIENACAO, provisao_do_credito_de_icms_conta_icms_a: CONTA_CREDITO_ICMS_RECUPERAR, provisao_do_credito_de_icms_historico: HISTORICO_CREDITO_ICMS_RECUPERAR,
+      estorno_do_credito_de_icms_conta_custo_o: CONTA_CREDITO_ICMS_CUSTO_PERDA, estorno_do_credito_de_icms_historico: HISTORICO_CREDITO_ICMS_CUSTO_PERDA, impostos_a_recuperar_sobre_valor_de_aqui: CONTA_PIS_RECUPERAR,
+      historico_pis_recuperar: HISTORICO_PIS_RECUPERAR, conta_cofins_recuperar: CONTA_COFINS_RECUPERAR, historico_cofins_recuperar: HISTORICO_COFINS_RECUPERAR, avaliacao_ajuste_de_avaliacao_patrimonia: CONTA_DEBITO_AVALIACAO_AJUSTE,
+      conta_credito_avaliacao_ajuste: CONTA_CREDITO_AVALIACAO_AJUSTE, historico_avaliacao_ajuste: HISTORICO_AVALIACAO_AJUSTE, conta_debito_da_provisao_do_credito_de_i: CONTA_DEBITO_ICMS_RECUPERAR,
+      conta_debito_do_estorno_do_credito_de_ic: CONTA_DEBITO_ICMS_CUSTO_PERDA, conta_credito_icms_recuperar_longo_prazo: CONTA_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO,
+      conta_debito_icms_recuperar_longo_prazo: CONTA_DEBITO_ICMS_RECUPERAR_LONGO_PRAZO, provisao_do_credito_de_icms_historico_lo: HISTORICO_PROVISAO_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO,
+      transferencia_do_credito_de_icms_histori: HISTORICO_TRANSFERENCIA_CREDITO_ICMS_RECUPERAR_LONGO_PRAZO, subconta_depreciacao_acumulada: SUBCONTA_DEPRECIACAO_ACUMULADA,
+      avaliacao_a_valor_justo_ganho_conta_debi: SUBCONTA_DEBITO_AVALIACAO_VALOR_JUSTO_GANHO, avaliacao_a_valor_justo_ganho_conta_cred: CONTA_CREDITO_AVALIACAO_VALOR_JUSTO_GANHO,
+      historico_avaliacao_a_valor_justo_ganho: HISTORICO_AVALIACAO_VALOR_JUSTO_GANHO, avaliacao_a_valor_justo_perda_conta_debi: CONTA_DEBITO_AVALIACAO_VALOR_JUSTO_PERDA,
+      avaliacao_a_valor_justo_perda_conta_cred: SUBCONTA_CREDITO_AVALIACAO_VALOR_JUSTO_PERDA, historico_avaliacao_a_valor_justo_perda: HISTORICO_AVALIACAO_VALOR_JUSTO_PERDA}
+    vinculos:
+      ctccusto:
+        tabela: ctccusto
+        liga: {codi_emp: codi_emp, i_centro_custo: codi_ccu}
+        colunas: {ctccusto_nome: desc_ccu}
+    filtros:
+      codigo:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      centro_de_custo:
+        coluna: I_CENTRO_CUSTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, 1 empresa(s).', 'Vínculo ctccusto (ctccusto): 0 de 14 linhas sem registro relacionado (empresa 1644).']
+  pmconfiguracao_integracao:
+    titulo: Configurar Integração por Centro de Custos
+    descricao: 'Configurar Integração por Centro de Custos. 6 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO.'
+    tabela: PMCONFIGURACAO_INTEGRACAO
+    chave: [CODI_EMP, I_CONFIGURACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CONFIGURACAO, conta_patrimonial: I_CONTA_PATRIMONIAL}
+    vinculos:
+      pmconta_patrimonial:
+        tabela: PMCONTA_PATRIMONIAL
+        liga: {codi_emp: codi_emp, i_conta_patrimonial: i_conta_patrimonial}
+        colunas: {pmconta_patrimonial_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      conta_patrimonial:
+        coluna: I_CONTA_PATRIMONIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).', 'Vínculo pmconta_patrimonial (PMCONTA_PATRIMONIAL): 0 de 6 linhas sem registro relacionado (empresa
+        1644).']
+  pminformacao_calculo_credito_icms:
+    titulo: Informações para Cálculo do Crédito de ICMS
+    descricao: 'Informações para Cálculo do Crédito de ICMS. 8 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, MENSAL_QUINZENAL.'
+    tabela: PMINFORMACAO_CALCULO_CREDITO_ICMS
+    chave: [CODI_EMP, COMPETENCIA, MENSAL_QUINZENAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [MENSAL_QUINZENAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      mansal_ou_quinzenal_0_mensal_1_primeira: {coluna: MENSAL_QUINZENAL, dominio: pminformacao_calculo_credito_icms_mansal_ou_q}
+      total_de_saidas: VALOR_TOTAL_SAIDA
+      saidas_tributadas: VALOR_SAIDA_TRIBUTADA
+      saidas_isentas: VALOR_SAIDA_ISENTA
+      coeficiente_de_credito: VALOR_COEFICIENTE_CREDITO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      mansal_ou_quinzenal_0_mensal_1_primeira:
+        coluna: MENSAL_QUINZENAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 2 empresa(s), COMPETENCIA de 2012-01-01 a 2013-04-01.', 'mansal_ou_quinzenal_0_mensal_1_primeira: todos os valores reais
+        estão no comentário do banco (0=8).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 9999).']
+  pmtabela_bem_historico_tipo:
+    titulo: Tabela Tipo para Históricos do Bem
+    descricao: 'Tabela Tipo para Históricos do Bem. 6 linhas no catálogo; chave: I_TIPO.'
+    tabela: PMTABELA_BEM_HISTORICO_TIPO
+    chave: [I_TIPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO, asc]
+    colunas: {codigo: I_TIPO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  ctscp_selecionada:
+    titulo: SCP selecionada
+    descricao: 'SCP selecionada. 6 linhas no catálogo; chave: CODI_EMP.'
+    tabela: CTSCP_SELECIONADA
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas: {empresa: CODI_EMP, empresa_do_scp: FILIAL, scp_selecionada: I_SCP}
+    vinculos:
+      gescp:
+        tabela: GESCP
+        liga: {filial: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      scp_selecionada:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 6 empresa(s).', 'Vínculo gescp (GESCP): 1 de 1 linhas sem registro relacionado (empresa 990).', 'Vínculo geempre (geempre):
+        0 de 1 linhas sem registro relacionado (empresa 990).']
+  ctlanctopadrao_contas:
+    titulo: Lancamentos Padroes em Lote - Contas
+    descricao: 'Lancamentos Padroes em Lote - Contas. 3 linhas no catálogo; chave: codi_emp, codi_pad, sequencial.'
+    tabela: ctlanctopadrao_contas
+    chave: [codi_emp, codi_pad, sequencial]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [codi_pad, asc]
+    - [sequencial, asc]
+    colunas: {empresa: codi_emp, lancamento_padrao: codi_pad, sequencial: sequencial, credito: credito, debito: debito, historico: historico}
+    vinculos:
+      ctlanctopadrao:
+        tabela: ctlanctopadrao
+        liga: {codi_emp: codi_emp, codi_pad: codi_pad}
+        colunas: {ctlanctopadrao_nome: desc_pad}
+    filtros:
+      lancamento_padrao:
+        coluna: codi_pad
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s).', 'Vínculo ctlanctopadrao (ctlanctopadrao): 0 de 3 linhas sem registro relacionado (empresa 430).']
+  laparmto_anos:
+    titulo: Parametros - Lalur - Anos
+    descricao: 'Parametros - Lalur - Anos. 2 linhas no catálogo; chave: codi_emp, ano_par.'
+    tabela: laparmto_anos
+    chave: [codi_emp, ano_par]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [ano_par, asc]
+    colunas: {empresa: codi_emp, ano: ano_par, tipo_do_calculo_1_anual_com_susp_e_reduc: tipo_par}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      ano:
+        coluna: ano_par
+        ops: [eq, in]
+      tipo_do_calculo_1_anual_com_susp_e_reduc:
+        coluna: tipo_par
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9999).']
+  lrganho_conta:
+    titulo: Cadastro de Ganhos - Contas Contábeis
+    descricao: 'Cadastro de Ganhos - Contas Contábeis. 1 linhas no catálogo; chave: CODI_EMP, I_GANHO, I_CONTA.'
+    tabela: LRGANHO_CONTA
+    chave: [CODI_EMP, I_GANHO, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_GANHO, asc]
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, ganho: I_GANHO, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      lrganho:
+        tabela: LRGANHO
+        liga: {codi_emp: codi_emp, i_ganho: i_ganho}
+        colunas: {lrganho_nome: DESCRICAO}
+    filtros:
+      ganho:
+        coluna: I_GANHO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo lrganho (LRGANHO): 0 de 1 linhas sem registro relacionado (empresa 9997).']
+  ctrelacao_empresas_conglomerado_economico:
+    titulo: Empresas do Conglomerado Econômico
+    descricao: 'Empresas do Conglomerado Econômico. 1 linhas no catálogo; chave: CODI_EMP, I_EMPRESA_CONGLOMERADO_ECONOMICO.'
+    tabela: CTRELACAO_EMPRESAS_CONGLOMERADO_ECONOMICO
+    chave: [CODI_EMP, I_EMPRESA_CONGLOMERADO_ECONOMICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPRESA_CONGLOMERADO_ECONOMICO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_conglomerado_economico: I_EMPRESA_CONGLOMERADO_ECONOMICO
+      identificador_ecd: IDENTIFICADOR_ECD
+      cnpj_empresa: {coluna: CNPJ, sensivel: parcial}
+      nome_empresarial_conglomerado_economico: NOME_EMPRESARIAL
+      municipio: CODIGO_MUNICIPIO
+      uf: UF
+      pais: CODIGO_PAIS
+      codigo_de_empresa_consolidada: CODI_EMP_CONSOLIDADA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gepais:
+        tabela: gepais
+        liga: {codigo_pais: codigo_pais}
+        colunas: {gepais_nome: nome_pais}
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      sequencial_conglomerado_economico:
+        coluna: I_EMPRESA_CONGLOMERADO_ECONOMICO
+        ops: [eq, in]
+      cnpj_empresa:
+        coluna: CNPJ
+        ops: [eq, in]
+      nome_empresarial_conglomerado_economico:
+        coluna: NOME_EMPRESARIAL
+        ops: [contem, prefixo]
+      municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      pais:
+        coluna: CODIGO_PAIS
+        ops: [eq, in]
+      codigo_de_empresa_consolidada:
+        coluna: CODI_EMP_CONSOLIDADA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_de_empresa_consolidada.', 'Vínculo geempre (geempre):
+        0 de 1 linhas sem registro relacionado (empresa 46).', 'Vínculo gepais (gepais): 0 de 1 linhas sem registro relacionado (empresa 46).', 'Vínculo gemunicipio
+        (gemunicipio): 0 de 1 linhas sem registro relacionado (empresa 46).']
+  ctlivro_caixa_produtor_rural_leiaute:
+    titulo: Leiautes produtor rural
+    descricao: 'Leiautes produtor rural. 1 linhas no catálogo; chave: I_LEIAUTE.'
+    tabela: CTLIVRO_CAIXA_PRODUTOR_RURAL_LEIAUTE
+    chave: [I_LEIAUTE]
+    acesso: {empresa: null, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_LEIAUTE, asc]
+    colunas: {codigo_do_leiaute: I_LEIAUTE, data_de_vigencia_do_leiaute: DATA_VIGENCIA, versao_do_leiaute: CODIGO_VERSAO_LEIAUTE}
+    filtros:
+      codigo_do_leiaute:
+        coluna: I_LEIAUTE
+        ops: [eq, in]
+      data_de_vigencia_do_leiaute:
+        coluna: DATA_VIGENCIA
+        ops: [entre, gte, lte]
+      versao_do_leiaute:
+        coluna: CODIGO_VERSAO_LEIAUTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_VIGENCIA de 2019-01-01 a 2019-01-01.']
+  pmbem:
+    titulo: Bens
+    descricao: 'Bens. 4.353 linhas no catálogo; chave: CODI_EMP, I_BEM.'
+    tabela: PMBEM
+    chave: [CODI_EMP, I_BEM]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AQUISICAO, volume: pequeno}
+    ordem:
+    - [DATA_AQUISICAO, desc]
+    - [I_BEM, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_BEM
+      identificaor: IDENTIFICADOR
+      nome: NOME
+      data_da_aquisicao: DATA_AQUISICAO
+      data_da_baixa: DATA_BAIXA
+      conta_patrimonial: I_CONTA_PATRIMONIAL
+      centro_de_custo: I_CENTRO_CUSTO
+      historico: HISTORICO
+      tipo_b_bem_adquirido_c_componente_adquir: {coluna: TIPO, dominio: pmbem_tipo_b_bem_adquirido_c_componente_adquir}
+      classificacao_i_bem_individual_r_bem_res: {coluna: CLASSIFICACAO, dominio: pmbem_classificacao_i_bem_individual_r_bem_res}
+      vinculado_a: I_BEM_VINCULADO
+      oriundo_do_ativo_circulante_s_n: ORIUNDO_ATIVO_CIRCULANTE
+      funcao: FUNCAO
+      valor_aquisicicao: VALOR_AQUISICAO
+      aliquota_icms: ALIQUOTA_ICMS
+      valor_icms: VALOR_ICMS
+      valor_icms_substituicao_tributaria: VALOR_ICMS_ST
+      valor_icms_diferencial_aliquota: VALOR_ICMS_DIFALI
+      valor_icms_sobre_frete: VALOR_ICMS_FRETE
+      valor_total_do_credito_do_icms: VALOR_TOTAL_CREDITO_ICMS
+      aliquota_pis: ALIQUOTA_PIS
+      valor_do_credito_do_pis: VALOR_CREDITO_PIS
+      aliquota_cofins: ALIQUOTA_COFINS
+      valor_do_credito_do_cofins: VALOR_CREDITO_COFINS
+      valor_original: VALOR_ORIGINAL
+      correcao_monetarioa_acumulada: VALOR_CORRECAO_MONETARIA_ACUMULADA
+      valor_residual: VALOR_RESIDUAL
+      base_de_calculo_da_depreciacao: BASE_CALCULO_DEPRECIACAO
+      calcular_credito_de_icms_s_n: CALCULAR_CREDITO_ICMS
+      calcular_credito_de_pis_e_cofins_s_n: CALCULAR_CREDITO_PISCOFINS
+      depreciar_bem_s_n: DEPRECIAR
+      calculo_fiscal_depreciar_100_no_mes_de_i: CALCULO_FISCAL_DEPRECIAR_100_INICIO
+      calculo_fiscal_data_inicio: CALCULO_FISCAL_DATA_INICIO
+      calculo_fiscal_informar_depreciacao_acum: CALCULO_FISCAL_INFORMAR_DEPRECIACAO_ATE
+      calculo_fiscal_depreciacao_acumulada_ate: CALCULO_FISCAL_DEPRECIACAO_ATE
+      calculo_fiscal_valor_da_depreciacao_acum: CALCULO_FISCAL_VALOR_DEPRECIACAO
+      calculo_fiscal_taxa_alternativa: CALCULO_FISCAL_TAXA_ALTERNATIVA
+      calculo_societario_data_inicio: CALCULO_SOCIETARIA_DATA_INICIO
+      calculo_societario_informar_depreciacao: CALCULO_SOCIETARIA_INFORMAR_DEPRECIACAO_ATE
+      calculo_societario_depreciacao_acumulada: CALCULO_SOCIETARIA_DEPRECIACAO_ATE
+      calculo_societario_valor_da_depreciacao: CALCULO_SOCIETARIA_VALOR_DEPRECIACAO
+      calculo_societario_taxa_inicial: CALCULO_SOCIETARIA_TAXA_INICIAL
+      documento_fiscal_numero: FISCAL_NUMERO
+      documento_fiscal_serie: FISCAL_SERIE
+      documento_fiscal_data_de_emissao: FISCAL_DATA_EMISSAO
+      documento_fiscal_especie: FISCAL_MODELO
+      documento_fiscal_chave_nfe: FISCAL_CHAVE_NFE
+      documento_fiscal_fornecedor: FISCAL_CODI_FOR
+      documento_fiscal_emitente_t_terceiros_p: {coluna: FISCAL_EMITENTE, dominio: pmbem_documento_fiscal_emitente_t_terceiros_p}
+      documento_fiscal_produto: FISCAL_CODI_PDI
+      documento_fiscal_sequencial_do_item: FISCAL_SEQUENCIAL_ITEM
+      apropriar_credito_somente_no_bem_resulta: APROPRIAR_CREDITO_BEM_RESULTANTE
+      credito_de_icms_pro_cargas_s_n: CREDITO_ICMS_PRO_CARGAS
+      bem_produzido_e_qdquirido_no_estado_com: PRODUZIDO_ADQUIRIDO_ESTADO
+      utilizar_o_credito_de_icms_no_mes_de_ini: CREDITO_ICMS_MES_INICIO_EFETIVO
+      mes_de_inicio_efetivo_de_suas_atividades: CREDITO_ICMS_MES_INICIO_EFETIVO_INICIO
+      debito_icms_operacao_importacao: DEBITO_ICMS_OPERACAO_IMPORTACAO
+      pis_e_cofins_calcular_com_base_nos_encar: PIS_COFINS_CALCULAR_BASE_DEPRECIACAO
+      pis_e_cofins_calcular_com_base_no_valor: PIS_COFINS_CALCULAR_BASE_AQUISICAO
+    vinculos:
+      ctccusto:
+        tabela: ctccusto
+        liga: {codi_emp: codi_emp, i_centro_custo: codi_ccu}
+        colunas: {ctccusto_nome: desc_ccu}
+      efespecies:
+        tabela: efespecies
+        liga: {fiscal_modelo: codi_esp}
+        colunas: {efespecies_nome: nome_esp}
+      efprodutos:
+        tabela: efprodutos
+        liga: {fiscal_codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      pmconta_patrimonial:
+        tabela: PMCONTA_PATRIMONIAL
+        liga: {codi_emp: codi_emp, i_conta_patrimonial: i_conta_patrimonial}
+        colunas: {pmconta_patrimonial_nome: DESCRICAO}
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, fiscal_ct_codi_for: codi_for}
+        colunas: {effornece_nome: nomr_for}
+    filtros:
+      codigo:
+        coluna: I_BEM
+        ops: [eq, in]
+      data_da_aquisicao:
+        coluna: DATA_AQUISICAO
+        ops: [entre, gte, lte]
+      data_da_baixa:
+        coluna: DATA_BAIXA
+        ops: [entre, gte, lte]
+      calculo_fiscal_data_inicio:
+        coluna: CALCULO_FISCAL_DATA_INICIO
+        ops: [entre, gte, lte]
+      calculo_fiscal_depreciacao_acumulada_ate:
+        coluna: CALCULO_FISCAL_DEPRECIACAO_ATE
+        ops: [entre, gte, lte]
+      calculo_societario_data_inicio:
+        coluna: CALCULO_SOCIETARIA_DATA_INICIO
+        ops: [entre, gte, lte]
+      calculo_societario_depreciacao_acumulada:
+        coluna: CALCULO_SOCIETARIA_DEPRECIACAO_ATE
+        ops: [entre, gte, lte]
+      documento_fiscal_data_de_emissao:
+        coluna: FISCAL_DATA_EMISSAO
+        ops: [entre, gte, lte]
+      mes_de_inicio_efetivo_de_suas_atividades:
+        coluna: CREDITO_ICMS_MES_INICIO_EFETIVO_INICIO
+        ops: [entre, gte, lte]
+      identificaor:
+        coluna: IDENTIFICADOR
+        ops: [contem, prefixo]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      conta_patrimonial:
+        coluna: I_CONTA_PATRIMONIAL
+        ops: [eq, in]
+      centro_de_custo:
+        coluna: I_CENTRO_CUSTO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4.354 linhas, 261 empresa(s), DATA_AQUISICAO de 2001-09-12 a 2026-09-23.', 'Colunas expostas nulas em 100% das linhas (2): calculo_societario_depreciacao_acumulada,
+        mes_de_inicio_efetivo_de_suas_atividades.', 'tipo_b_bem_adquirido_c_componente_adquir: todos os valores reais estão no comentário do banco (B=4.343, E=10,
+        C=1).', 'classificacao_i_bem_individual_r_bem_res: todos os valores reais estão no comentário do banco (I=4.345, R=8, A=1).', 'documento_fiscal_emitente_t_terceiros_p:
+        todos os valores reais estão no comentário do banco (nulo=4.133, T=221).', 'Vínculo ctccusto (ctccusto): 0 de 4 linhas sem registro relacionado (empresa 1012).',
+      'Vínculo efespecies (efespecies): 0 de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo efprodutos (efprodutos): 0 de 4 linhas sem registro relacionado
+        (empresa 1012).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo pmconta_patrimonial (PMCONTA_PATRIMONIAL):
+        0 de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo effornece (effornece): 4 de 4 linhas sem registro relacionado (empresa 1012).']
+  pabens:
+    titulo: Bens - Cadastro
+    descricao: 'Bens - Cadastro. 2 linhas no catálogo; chave: codi_emp, codi_bem.'
+    tabela: pabens
+    chave: [codi_emp, codi_bem]
+    acesso: {empresa: codi_emp, periodo: data_baixa, volume: pequeno}
+    ordem:
+    - [data_baixa, desc]
+    - [codi_bem, asc]
+    colunas:
+      empresa: codi_emp
+      codigo: codi_bem
+      descricao: desc_bem
+      aquisicao: dat_aqui_bem
+      fornecedor: fornece_bem
+      documento_de_origem: doc_ori_bem
+      conta_patrimonial: codi_cta
+      centro_de_custo: codi_ccu
+      taxa_alternativa_1_usa_da_conta: tx_dep_alter
+      valor_original_em_moeda: vl_orig_moe
+      valor_original_em_indice: vl_orig_ind
+      valor_avaliado: vl_avaliado
+      correcao_monetaria_acumulada: cor_mon_acum
+      depreciacao_acumulada_em_indice: dep_acum_ind
+      depreciacao_acumulada_em_moeda: dep_acum_moe
+      historico: historico
+      agregado_a: agregado_a
+      entradas_valor_em_moeda: ent_val_moe
+      entradas_valor_em_indice: ent_val_ind
+      entradas_depreciacao_em_moeda: ent_dep_moe
+      entradas_depreciacao_em_indice: ent_dep_ind
+      saidas_valor_em_moeda: sai_val_moe
+      saidas_valor_em_indice: sai_val_ind
+      saidas_depreciacao_em_moeda: sai_dep_moe
+      saidas_depreciacao_em_indice: sai_dep_ind
+      valor_total_do_credito_de_icms: val_icms_cre
+      data_de_inicio_da_depreciacao: dat_ini_dep
+      data_da_baixa: data_baixa
+      deprecia_bem_s_n: deprecia_bem
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      identificador: ident_bem
+      calcula_credito_de_pis_cofins_s_n: calcula_piscofins
+      credio_pro_cargas_s_n: credito_procargas_bem
+      valor_da_aquisicao: valor_aquisicao_bem
+      calcula_credito_de_pis_cofins_sobre_aqui: calcula_piscofins_a
+      periodo_de_calculo_do_pis_cofins: periodo_calculo
+      tipo_b_bem_c_componente: {coluna: TIPO_BEM, dominio: pabens_tipo_b_bem_c_componente}
+      classificacao_i_bem_individual_r_bem_res: {coluna: CLASSIFICACAO_BEM, dominio: pabens_classificacao_i_bem_individual_r_bem}
+      oriundo_do_ativo_circulante_s_n: ORIUNDO_ATIVO_CIRCULANTE_BEM
+      funcao: FUNCAO_BEM
+      aproveitar_credito_somente_no_bem_result: APROVEITAR_CRED_RESULTANTE_BEM
+      numero_do_documento_fiscal: FISCAL_NUMERO_BEM
+      aliquota: ALIQUOTA_BEM
+      serie_do_documento_fiscal: FISCAL_SERIE_BEM
+      data_de_emissao_do_documento_fiscal: FISCAL_DATA_EMISSAO_BEM
+      especie_do_documento_fiscal: FISCAL_MODELO_BEM
+      chave_nfe_do_documento_fiscal: FISCAL_CHAVE_NFE_BEM
+      fornecedor_do_documento_fiscal: FISCAL_CODI_FOR_BEM
+      emitente_do_documento_fiscal_t_terceiro: {coluna: FISCAL_EMITENTE_BEM, dominio: pabens_emitente_do_documento_fiscal_t_terce}
+      sequencial_do_item_do_documento_fiscal: FISCAL_SEQUENCIAL_ITEM_BEM
+      produto: FISCAL_CODI_PDI
+      origem_do_bem_n_nacional_i_importado: {coluna: ORIGEM_BEM, dominio: pabens_origem_do_bem_n_nacional_i_importado}
+      tipo_do_credito_9_maq_equip_e_out_bens_i: TIPO_CREDITO_BEM
+      especie_1_edificacoes_e_benfeitorias_em: {coluna: ESPECIE_BEM, dominio: pabens_especie_1_edificacoes_e_benfeitorias}
+      tipo_de_utilizacao_1_producao_de_bens_de: {coluna: TIPO_UTILIZACAO_BEM, dominio: pabens_tipo_de_utilizacao_1_producao_de_ben}
+      cst: CODIGO_CST_BEM
+      aliquota_pis: ALIQUOTA_PIS_BEM
+      credito_pis: CREDITO_PIS_BEM
+      aliquota_cofins: ALIQUOTA_COFINS_BEM
+      credito_cofins_bem: CREDITO_COFINS_BEM
+    vinculos:
+      pacontas:
+        tabela: pacontas
+        liga: {codi_emp: codi_emp, codi_cta: codi_cta}
+        colunas: {pacontas_nome: desc_cta}
+      efprodutos:
+        tabela: efprodutos
+        liga: {fiscal_codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      efespecies:
+        tabela: efespecies
+        liga: {fiscal_modelo_bem: codi_esp}
+        colunas: {efespecies_nome: nome_esp}
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, fiscal_codi_for_bem: codi_for}
+        colunas: {effornece_nome: nomr_for}
+    filtros:
+      codigo:
+        coluna: codi_bem
+        ops: [eq, in]
+      aquisicao:
+        coluna: dat_aqui_bem
+        ops: [entre, gte, lte]
+      data_de_inicio_da_depreciacao:
+        coluna: dat_ini_dep
+        ops: [entre, gte, lte]
+      data_da_baixa:
+        coluna: data_baixa
+        ops: [entre, gte, lte]
+      data_de_emissao_do_documento_fiscal:
+        coluna: FISCAL_DATA_EMISSAO_BEM
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: desc_bem
+        ops: [contem, prefixo]
+      fornecedor:
+        coluna: fornece_bem
+        ops: [contem, prefixo]
+      documento_de_origem:
+        coluna: doc_ori_bem
+        ops: [contem, prefixo]
+      conta_patrimonial:
+        coluna: codi_cta
+        ops: [eq, in]
+      centro_de_custo:
+        coluna: codi_ccu
+        ops: [eq, in]
+      historico:
+        coluna: historico
+        ops: [contem, prefixo]
+      deprecia_bem_s_n:
+        coluna: deprecia_bem
+        ops: [eq, in]
+      identificador:
+        coluna: ident_bem
+        ops: [eq, in]
+      calcula_credito_de_pis_cofins_s_n:
+        coluna: calcula_piscofins
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (14): historico, agregado_a, data_da_baixa, serie_do_documento_fiscal,
+        data_de_emissao_do_documento_fiscal, especie_do_documento_fiscal, chave_nfe_do_documento_fiscal, fornecedor_do_documento_fiscal, emitente_do_documento_fiscal_t_terceiro,
+        sequencial_do_item_do_documento_fiscal, produto, tipo_do_credito_9_maq_equip_e_out_bens_i ....', 'tipo_b_bem_c_componente: todos os valores reais estão no
+        comentário do banco (B=2).', 'classificacao_i_bem_individual_r_bem_res: todos os valores reais estão no comentário do banco (I=2).', 'emitente_do_documento_fiscal_t_terceiro:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'origem_do_bem_n_nacional_i_importado: todos os valores reais
+        estão no comentário do banco (N=2).', 'especie_1_edificacoes_e_benfeitorias_em: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde
+        ser verificado.', 'tipo_de_utilizacao_1_producao_de_bens_de: todos os valores reais estão no comentário do banco (9=2).', 'Vínculo pacontas (pacontas): 0
+        de 2 linhas sem registro relacionado (empresa 9999).', 'Vínculo efprodutos (efprodutos): 0 de 2 linhas sem registro relacionado (empresa 9999).', 'Vínculo
+        efespecies (efespecies): 0 de 2 linhas sem registro relacionado (empresa 9999).', 'Vínculo effornece (effornece): 2 de 2 linhas sem registro relacionado (empresa
+        9999).']

@@ -1,0 +1,8 @@
+# GERADO por scripts/gerar_biblioteca.py. Para curar este arquivo à mão, troque esta linha por '# CURADO' (o gerador não o sobrescreve mais).
+"""Tabela pmtransferencia_conta_patrimonial (Transferência de Contas Patrimoniais) - módulo contabil_transferencia."""
+from biblioteca.entidades import ferramentas_da_entidade
+
+TABELA = "pmtransferencia_conta_patrimonial"
+MODULO = "contabil_transferencia"
+ENTIDADES = ['pmtransferencia_conta_patrimonial']
+TOOLS = [t for n in ENTIDADES for t in ferramentas_da_entidade(n)]

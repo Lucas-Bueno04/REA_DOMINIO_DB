@@ -1,0 +1,391 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_scp
+titulo: Geral - scp (rascunho em lote)
+dominios:
+  gescp_vigencia_informativos_forma_de_tr:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA_INFORMATIVOS.FORMA_TRIBUTACAO_TRIMESTRE_4 estão no comentário do banco (2026-10-18). Distribuição: 1=57.'
+    valores: {'1': LUCRO REAL, '5': LUCRO PRESUMIDO, '6': ARBITRADO}
+  gescp_vigencia_informativos_periodo_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA_INFORMATIVOS.PERIODO_APURACAO_IRPJ_CSLL estão no comentário do banco (2026-10-18). Distribuição: T=57.'
+    valores: {T: Trimestral, A: Anual}
+  gescp_quadro_societario_socio_tipo_s_socio_a_admini:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_QUADRO_SOCIETARIO_SOCIO.TIPO estão no comentário do banco (2026-10-18). Distribuição: S=36.'
+    valores: {S: Socio, A: Administrador, R: Representante Legal, E: Empresário}
+  gescp_quadro_societario_socio_exerce_atividade_1_si:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_QUADRO_SOCIETARIO_SOCIO.EXERCE_ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=36.'
+    valores: {'1': Sim, '0': Não}
+  gescp_vigencia_regime_fede:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA.REGIME_FEDERAL estão no comentário do banco (2026-10-18). Distribuição: 5=17.'
+    valores: {'5': LUCRO PRESUMIDO, '1': LUCRO REAL, '6': RET - REGIME ESPECIAL TRIB.}
+  gescp_vigencia_regime_apur:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA.REGIME_COMPETENCIA estão no comentário do banco (2026-10-18). Distribuição: C=9, X=8.'
+    valores: {C: Regime de Competência, X: Regime de Caixa}
+  gescp_vigencia_lalur_tipo_de_ati:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA_LALUR.TIPO_ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: G=17.'
+    valores: {G: Atividade geral, R: Atividade rural, A: Ambos}
+  gescp_vigencia_lalur_calcular_so:
+    confirmado: true
+    nota: 'Todos os valores observados em GESCP_VIGENCIA_LALUR.CALCULAR_BONUS_ADIMPLENCIA_FISCAL_SOBRE estão no comentário do banco (2026-10-18). Distribuição: B=17.'
+    valores: {B: Base de cálculo da CSLL após compensação, N: Receita Bruta}
+entidades:
+  gescp_vigencia_informativos:
+    titulo: Sociedade em Conta de Participação - SCP - Vigência Informativos
+    descricao: 'Sociedade em Conta de Participação - SCP - Vigência Informativos. 57 linhas no catálogo; chave: CODI_EMP, I_SCP, VIGENCIA.'
+    tabela: GESCP_VIGENCIA_INFORMATIVOS
+    chave: [CODI_EMP, I_SCP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_SCP, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_do_scp: I_SCP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      forma_de_tributacao_do_lucro_1_lucro_rea: {coluna: FORMA_TRIBUTACAO, dominio: gescp_vigencia_informativos_forma_de_tr}
+      periodo_de_apuracao_do_irpj_e_csll_t_tri: {coluna: PERIODO_APURACAO_IRPJ_CSLL, dominio: gescp_vigencia_informativos_periodo_de_}
+      forma_de_tributacao_do_trimestre_1_1_luc: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_1, dominio: gescp_vigencia_informativos_forma_de_tr}
+      forma_tributacao_trimestre_2: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_2, dominio: gescp_vigencia_informativos_forma_de_tr}
+      forma_tributacao_trimestre_3: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_3, dominio: gescp_vigencia_informativos_forma_de_tr}
+      forma_tributacao_trimestre_4: {coluna: FORMA_TRIBUTACAO_TRIMESTRE_4, dominio: gescp_vigencia_informativos_forma_de_tr}
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      periodo_de_apuracao_do_irpj_e_csll_t_tri:
+        coluna: PERIODO_APURACAO_IRPJ_CSLL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 57 linhas, 6 empresa(s), VIGENCIA de 2018-01-01 a 2025-01-01.', 'forma_de_tributacao_do_lucro_1_lucro_rea: todos os valores reais
+        estão no comentário do banco (5=57).', 'periodo_de_apuracao_do_irpj_e_csll_t_tri: todos os valores reais estão no comentário do banco (T=57).', 'forma_de_tributacao_do_trimestre_1_1_luc:
+        todos os valores reais estão no comentário do banco (1=57).', 'forma_tributacao_trimestre_2: todos os valores reais estão no comentário do banco (1=57).',
+      'forma_tributacao_trimestre_3: todos os valores reais estão no comentário do banco (1=57).', 'forma_tributacao_trimestre_4: todos os valores reais estão no
+        comentário do banco (1=57).']
+  gescp_saldo_inicial:
+    titulo: Sociedade em Conta de Participação - SCP - Saldo Inicial
+    descricao: 'Sociedade em Conta de Participação - SCP - Saldo Inicial. 52 linhas no catálogo; chave: CODI_EMP, I_SCP, CODI_IMP.'
+    tabela: GESCP_SALDO_INICIAL
+    chave: [CODI_EMP, I_SCP, CODI_IMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SCP, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_scp: I_SCP, imposto: CODI_IMP, valor_credor: VALOR_CREDOR, valor_devedor: VALOR_DEVEDOR}
+    vinculos:
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 52 linhas, 3 empresa(s).', 'Vínculo gescp (GESCP): 0 de 8 linhas sem registro relacionado (empresa 763).', 'Vínculo geimposto
+        (geimposto): 0 de 8 linhas sem registro relacionado (empresa 763).']
+  gescp_quadro_societario_socio:
+    titulo: SCP - Quadro Societário - Sócios
+    descricao: 'SCP - Quadro Societário - Sócios. 36 linhas no catálogo; chave: CODI_EMP, I_SCP, DATA, I_SOCIO, TIPO.'
+    tabela: GESCP_QUADRO_SOCIETARIO_SOCIO
+    chave: [CODI_EMP, I_SCP, DATA, I_SOCIO, TIPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INGRESSO, volume: pequeno}
+    ordem:
+    - [DATA_INGRESSO, desc]
+    - [I_SCP, asc]
+    - [DATA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_do_scp: I_SCP
+      data: DATA
+      socio: I_SOCIO
+      tipo_s_socio_a_administrador_r_represent: {coluna: TIPO, dominio: gescp_quadro_societario_socio_tipo_s_socio_a_admini}
+      ordem: ORDEM
+      participacao: PARTICIPACAO
+      quotas_integralizadas: VALOR_QUOTA_INTEGRALIZADA
+      quotas_a_integralizar: VALOR_QUOTA_INTEGRALIZAR
+      quantidade_de_quotas: QUANTIDADE_QUOTAS
+      valor_da_quota: VALOR_QUOTA
+      capital_integralizado: VALOR_CAPITAL_INTEGRALIZADO
+      capital_a_integralizar: VALOR_CAPITAL_INTEGRALIZAR
+      meses_para_integralizacao: MESES_PARA_INTEGRALIZACAO
+      condicao: CONDICAO
+      exerce_atividade_1_sim_0_nao: {coluna: EXERCE_ATIVIDADE, dominio: gescp_quadro_societario_socio_exerce_atividade_1_si}
+      cargo: CARGO
+      possui_responsavel_legal_s_n: POSSUI_RESPONSAVEL_LEGAL
+      data_de_ingresso: DATA_INGRESSO
+      data_de_saida: DATA_SAIDA
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [eq, in]
+      socio:
+        coluna: I_SOCIO
+        ops: [eq, in]
+      tipo_s_socio_a_administrador_r_represent:
+        coluna: TIPO
+        ops: [eq, in]
+      data_de_ingresso:
+        coluna: DATA_INGRESSO
+        ops: [entre, gte, lte]
+      data_de_saida:
+        coluna: DATA_SAIDA
+        ops: [entre, gte, lte]
+      cargo:
+        coluna: CARGO
+        ops: [contem, prefixo]
+      possui_responsavel_legal_s_n:
+        coluna: POSSUI_RESPONSAVEL_LEGAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 36 linhas, 5 empresa(s), DATA_INGRESSO de 2018-01-01 a 2025-01-10.', 'Colunas expostas nulas em 100% das linhas (1): data_de_saida.',
+      'tipo_s_socio_a_administrador_r_represent: todos os valores reais estão no comentário do banco (S=36).', 'exerce_atividade_1_sim_0_nao: todos os valores reais
+        estão no comentário do banco (1=36).']
+  gescp_zeramento:
+    titulo: Sociedade em Conta de Participação - SCP - Zeramento
+    descricao: 'Sociedade em Conta de Participação - SCP - Zeramento. 31 linhas no catálogo; chave: CODI_EMP, I_SCP, SEQUENCIAL.'
+    tabela: GESCP_ZERAMENTO
+    chave: [CODI_EMP, I_SCP, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SCP, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_scp: I_SCP, sequencial: SEQUENCIAL, conta_contabil: CODIGO_CONTA, classificacao_da_conta_contabil: CLASSIFICACAO_CONTA}
+    vinculos:
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODIGO_CONTA
+        ops: [eq, in]
+      classificacao_da_conta_contabil:
+        coluna: CLASSIFICACAO_CONTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 31 linhas, 6 empresa(s).', 'Vínculo gescp (GESCP): 0 de 2 linhas sem registro relacionado (empresa 749).']
+  gescp_vigencia:
+    titulo: Sociedade em Conta de Participação - SCP - Vigência
+    descricao: 'Sociedade em Conta de Participação - SCP - Vigência. 17 linhas no catálogo; chave: CODI_EMP, I_SCP, VIGENCIA.'
+    tabela: GESCP_VIGENCIA
+    chave: [CODI_EMP, I_SCP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_SCP, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_do_scp: I_SCP
+      vigencia: VIGENCIA
+      regime_federal_5_lucro_presumido_1_lucro: {coluna: REGIME_FEDERAL, dominio: gescp_vigencia_regime_fede}
+      regime_apuracao_c_regime_de_competencia: {coluna: REGIME_COMPETENCIA, dominio: gescp_vigencia_regime_apur}
+      codigo_de_recolhimento_irpj: COD_REC_IRPJ
+      codigo_de_recolhimento_csll: COD_REC_CSLL
+      forma_de_calculo_s_c: LUCRO_PRESUMIDO_FORMA_CALCULO
+      lancamento_n_p: LUCRO_PRESUMIDO_LANCAMENTO
+      descricao: DESCRICAO
+      regime_inss_receita_bruta: REGIME_APURACAO_INSS_RB
+      forma_de_calculo_inss_receita_bruta: FORMA_CALCULO_INSS_RB
+      cnae_principal_inss_receita_bruta: I_CNAE_INSS_RB
+      codigo_de_atividade_inss_receita_bruta: I_ATIVIDADE_INSS_RB
+      aliquota_inss_receita_bruta: ALIQUOTA_INSS_RB
+      atividade_industria_inss_receita_bruta: ATIVIDADE_INDUSTRIA_INSS_RB
+      atividade_comercio_inss_receita_bruta: ATIVIDADE_COMERCIO_INSS_RB
+      atividade_servico_de_transporte_inss_rec: ATIVIDADE_SERVICO_TRANSPORTE_INSS_RB
+      atividade_demais_servicos_inss_receita_b: ATIVIDADE_DEMAIS_SERVICOS_INSS_RB
+      aliquota_nao_relacionada_inferior_5_inss: ALIQUOTA_RECEITAS_NAO_REL_INFERIOR_5_INSS_RB
+      forma_de_lancamento_inss_receita_bruta: FORMA_LANCAMENTO_INSS_RB
+      considerar_receita_frete_inss_receita_br: CONSIDERAR_FRETE_SEGURO_DESPESA_TIPO
+      nao_utilizar_o_credito_da_devolucao_quan: UTILIZAR_CREDITO_PER_SEM_REC_DESONERADA_INSS_RB
+      calcular_credito_pis_e_cofins_sobre_depr: CALCULAR_CREDITO_PISCOFINS_DEPRECIACAO
+      calcular_credito_pis_e_cofins_sobre_aqui: CALCULAR_CREDITO_PISCOFINS_AQUISICAO
+      calcular_credito_piscofins_aquisicao_mp: CALCULAR_CREDITO_PISCOFINS_AQUISICAO_MP
+      deduzir_o_valor_total_do_credito_de_icms: DEDUZIR_VALOR_CREDITO_ICMS_DO_PIS_COFINS
+      possui_mais_de_um_codigo_de_recolhimento: POSSUI_CODIGO_RECOLHIMENTO_PIS_COFINS
+      informar_codigo_recolhimento_pis_cofins: INFORMAR_CODIGO_RECOLHIMENTO_PIS_COFINS
+      codigo_recolhimento_pis: CODIGO_RECOLHIMENTO_PIS
+      codigo_recolhimento_cofins: CODIGO_RECOLHIMENTO_COFINS
+      calcular_cradito_de_pis_cofins_sobre_val: CALCULAR_CREDITO_PISCOFINS_AQUISICAO_BAIXA_PARCIAL
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      regime_apuracao_c_regime_de_competencia:
+        coluna: REGIME_COMPETENCIA
+        ops: [eq, in]
+      codigo_de_recolhimento_irpj:
+        coluna: COD_REC_IRPJ
+        ops: [eq, in]
+      codigo_de_recolhimento_csll:
+        coluna: COD_REC_CSLL
+        ops: [eq, in]
+      forma_de_calculo_s_c:
+        coluna: LUCRO_PRESUMIDO_FORMA_CALCULO
+        ops: [eq, in]
+      lancamento_n_p:
+        coluna: LUCRO_PRESUMIDO_LANCAMENTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      cnae_principal_inss_receita_bruta:
+        coluna: I_CNAE_INSS_RB
+        ops: [eq, in]
+      codigo_de_atividade_inss_receita_bruta:
+        coluna: I_ATIVIDADE_INSS_RB
+        ops: [eq, in]
+      atividade_industria_inss_receita_bruta:
+        coluna: ATIVIDADE_INDUSTRIA_INSS_RB
+        ops: [eq, in]
+      atividade_comercio_inss_receita_bruta:
+        coluna: ATIVIDADE_COMERCIO_INSS_RB
+        ops: [eq, in]
+      atividade_servico_de_transporte_inss_rec:
+        coluna: ATIVIDADE_SERVICO_TRANSPORTE_INSS_RB
+        ops: [eq, in]
+      atividade_demais_servicos_inss_receita_b:
+        coluna: ATIVIDADE_DEMAIS_SERVICOS_INSS_RB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17 linhas, 6 empresa(s), VIGENCIA de 2015-01-01 a 2025-01-01.', 'Colunas expostas nulas em 100% das linhas (5): codigo_de_atividade_inss_receita_bruta,
+        aliquota_nao_relacionada_inferior_5_inss, forma_de_lancamento_inss_receita_bruta, codigo_recolhimento_pis, codigo_recolhimento_cofins.', 'regime_federal_5_lucro_presumido_1_lucro:
+        todos os valores reais estão no comentário do banco (5=17).', 'regime_apuracao_c_regime_de_competencia: todos os valores reais estão no comentário do banco
+        (C=9, X=8).']
+  gescp_vigencia_lalur:
+    titulo: Sociedade em Conta de Participação - SCP - Vigência - Lalur
+    descricao: 'Sociedade em Conta de Participação - SCP - Vigência - Lalur. 17 linhas no catálogo; chave: CODI_EMP, I_SCP, VIGENCIA.'
+    tabela: GESCP_VIGENCIA_LALUR
+    chave: [CODI_EMP, I_SCP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TERMINO_FRUICAO_PERSE_CSLL, volume: pequeno}
+    ordem:
+    - [DATA_TERMINO_FRUICAO_PERSE_CSLL, desc]
+    - [I_SCP, asc]
+    - [VIGENCIA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_do_scp: I_SCP
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_de_calculo_1_anual_balanco_de_reduc: TIPO_CALCULO
+      calcular_lucro_estimado_s_n: CALCULAR_LUCRO_ESTIMADO
+      optar_sempre_pelo_menor_valor_a_recolher: OPTAR_MENOR_CALCULO_REAL_ESTIMADO
+      tipo_de_atividade_g_atividade_geral_r_at: {coluna: TIPO_ATIVIDADE, dominio: gescp_vigencia_lalur_tipo_de_ati}
+      codigo_de_recolhimento_csll: CODIGO_RECOLHIMENTO_CSLL
+      codigo_de_recolhimento_irpj: CODIGO_RECOLHIMENTO_IRPJ
+      conta_lucro_operacional_gera: CONTA_LUCRO_OPERACIONAL_GERAL
+      conta_prejuizo_operacional_geral: CONTA_PREJUIZO_OPERACIONAL_GERAL
+      conta_lucro_nao_operacional_geral: CONTA_LUCRO_NAO_OPERACIONAL_GERAL
+      conta_prejuizo_nao_operacional_geral: CONTA_PREJUIZO_NAO_OPERACIONAL_GERAL
+      conta_lucro_operacional_rural: CONTA_LUCRO_OPERACIONAL_RURAL
+      conta_lucro_nao_operacional_rural: CONTA_PREJUIZO_OPERACIONAL_RURAL
+      calcular_lucro_da_exploracao_s_n: CALCULAR_LUCRO_EXPLORACAO
+      calcular_bonus_da_adimplencia_fiscal_s_n: CALCULAR_BONUS_ADIMPLENCIA_FISCAL
+      adicao_contribuicao_social_como_adicao_p: I_ADICAO_CSLL_PARA_IRPJ
+      calcular_sobre_b_base_de_calculo_da_csll: {coluna: CALCULAR_BONUS_ADIMPLENCIA_FISCAL_SOBRE, dominio: gescp_vigencia_lalur_calcular_so}
+      complemento_de_contribuiaao_social_como: COMPLEMENTO_ADICAO_CSLL_PARA_IRPJ
+      valor_a_ser_considerado_na_adicao_csll_d: TIPO_CONSIDERA_VALOR_ADICAO
+      definir_termino_de_fruicao_do_perse_para: DEFINIR_TERMINO_FRUICAO_PERSE_CSLL
+      definir_termino_fruicao_perse_irpj: DEFINIR_TERMINO_FRUICAO_PERSE_IRPJ
+      data_termino_de_fruicao_do_perse_para_o: DATA_TERMINO_FRUICAO_PERSE_CSLL
+      data_termino_fruicao_perse_irpj: DATA_TERMINO_FRUICAO_PERSE_IRPJ
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      data_termino_de_fruicao_do_perse_para_o:
+        coluna: DATA_TERMINO_FRUICAO_PERSE_CSLL
+        ops: [entre, gte, lte]
+      data_termino_fruicao_perse_irpj:
+        coluna: DATA_TERMINO_FRUICAO_PERSE_IRPJ
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_calculo_1_anual_balanco_de_reduc:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+      calcular_lucro_estimado_s_n:
+        coluna: CALCULAR_LUCRO_ESTIMADO
+        ops: [eq, in]
+      optar_sempre_pelo_menor_valor_a_recolher:
+        coluna: OPTAR_MENOR_CALCULO_REAL_ESTIMADO
+        ops: [eq, in]
+      tipo_de_atividade_g_atividade_geral_r_at:
+        coluna: TIPO_ATIVIDADE
+        ops: [eq, in]
+      codigo_de_recolhimento_csll:
+        coluna: CODIGO_RECOLHIMENTO_CSLL
+        ops: [eq, in]
+      codigo_de_recolhimento_irpj:
+        coluna: CODIGO_RECOLHIMENTO_IRPJ
+        ops: [eq, in]
+      calcular_lucro_da_exploracao_s_n:
+        coluna: CALCULAR_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      calcular_bonus_da_adimplencia_fiscal_s_n:
+        coluna: CALCULAR_BONUS_ADIMPLENCIA_FISCAL
+        ops: [eq, in]
+      adicao_contribuicao_social_como_adicao_p:
+        coluna: I_ADICAO_CSLL_PARA_IRPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17 linhas, 6 empresa(s).', 'Colunas expostas nulas em 100% das linhas (6): codigo_de_recolhimento_csll, codigo_de_recolhimento_irpj,
+        adicao_contribuicao_social_como_adicao_p, complemento_de_contribuiaao_social_como, data_termino_de_fruicao_do_perse_para_o, data_termino_fruicao_perse_irpj.',
+      'tipo_de_atividade_g_atividade_geral_r_at: todos os valores reais estão no comentário do banco (G=17).', 'calcular_sobre_b_base_de_calculo_da_csll: todos os
+        valores reais estão no comentário do banco (B=17).']
+  gescp_quadro_societario:
+    titulo: SCP - Quadro Societário
+    descricao: 'SCP - Quadro Societário. 16 linhas no catálogo; chave: CODI_EMP, I_SCP, DATA.'
+    tabela: GESCP_QUADRO_SOCIETARIO
+    chave: [CODI_EMP, I_SCP, DATA]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_SCP, asc]
+    colunas: {empresa: CODI_EMP, sequencial_do_scp: I_SCP, data: DATA, capital_social_total: VALOR_CAPITAL_SOCIAL_TOTAL, capital_integralizado: VALOR_CAPITAL_INTEGRALIZADO,
+      capital_a_integralizar: VALOR_CAPITAL_INTEGRALIZAR, total_do_capital: VALOR_TOTAL_CAPITAL, quotas_integralizadas: VALOR_QUOTA_INTEGRALIZADA, quotas_a_integralizar: VALOR_QUOTA_INTEGRALIZAR,
+      total_de_quotas: VALOR_TOTAL_QUOTA}
+    vinculos:
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 16 linhas, 6 empresa(s), DATA de 2014-10-16 a 2025-01-10.', 'Vínculo gescp (GESCP): 0 de 1 linhas sem registro relacionado (empresa
+        749).']

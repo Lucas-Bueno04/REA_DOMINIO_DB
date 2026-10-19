@@ -1,0 +1,3639 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_tabela
+titulo: Fiscal - tabela (rascunho em lote)
+dominios:
+  eftabela_simples_nacional_estadual_porte_e_epp_:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabela_simples_nacional_estadual.PORTE estão no comentário do banco (2026-10-18). Distribuição: T=72.065, M=1.300, N=1.300,
+      E=1.300.'
+    valores: {E: EPP, M: ME, N: Normal, T: Todos}
+  eftabela_simples_nacional_federal_tipo_dos_per:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabela_simples_nacional_federal.tipo estão no comentário do banco (2026-10-18). Distribuição: P=2.922, A=2.860.'
+    valores: {A: Aliquota, P: Partilha}
+  eftabela_atividade_servico_folha_tipo_da_ati:
+    confirmado: parcial
+    nota: 'Valores em EFTABELA_ATIVIDADE_SERVICO_FOLHA.TIPO fora do comentário do banco: 4=8, 0=5. Distribuição: 1=4.893, 2=22, 3=20, 4=8, 0=5 (2026-10-18).'
+    valores: {'1': Indústria, '2': Serviço, '3': Comércio}
+  eftabela_cst_vigencia_tipo_da_nota:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_CST_VIGENCIA.TIPO_NOTA estão no comentário do banco (2026-10-18). Distribuição: A=244, E=44, S=20.'
+    valores: {E: Entrada, S: Saida, A: Entrada e saida}
+  eftabela_cst_icms_vigencia_tipo_da_nota_e_entrada:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_CST_ICMS_VIGENCIA.TIPO_NOTA estão no comentário do banco (2026-10-18). Distribuição: A=256.'
+    valores: {E: Entrada, S: Saída, A: Ambas}
+  eftabela_simp_operacao_tipo_da_operacao_e_entrad:
+    confirmado: parcial
+    nota: 'Valores em EFTABELA_SIMP_OPERACAO.TIPO_OPERACAO fora do comentário do banco: A=33. Distribuição: S=68, E=50, A=33 (2026-10-18).'
+    valores: {E: Entrada, S: Saída}
+  eftabela_dcip_tipo_1_credito_presumido_2_est:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_DCIP.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=106, 2=16, 3=3.'
+    valores: {'1': CRÉDITO PRESUMIDO, '2': ESTORNO DE DÉBITO, '3': OUTROS CRÉDITOS}
+  eftabela_receitas_7_1_1_tipo_1_sintetico_2_analit:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_RECEITAS_7_1_1.TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=100, 1=22.'
+    valores: {'1': Sintético, '2': Analítico}
+  eftabela_classe_consumo_tipo_1_sped:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_CLASSE_CONSUMO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=58, 2=43.'
+    valores: {'1': SPED, '2': SEF 2012}
+  eftabela_exclusoes_7_1_2_tipo_1_sintetic:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_EXCLUSOES_7_1_2.TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=79, 1=9.'
+    valores: {'1': Sintético, '2': Analítico}
+  eftabela_mg_incentivo_ret_faixas_tipo_de_pro:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_MG_INCENTIVO_RET_FAIXAS.TIPO_PRODUTO estão no comentário do banco (2026-10-18). Distribuição: D=15.'
+    valores: {I: Inferior, S: Superior, P: Importados, D: Demais}
+  eftabela_mg_incentivo_ret_faixas_destino_da_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_MG_INCENTIVO_RET_FAIXAS.DESTINO_OPERACAO estão no comentário do banco (2026-10-18). Distribuição: 0=15.'
+    valores: {'0': Todos, '1': Contribuinte, '2': Não contribuinte, '3': PJ não contribuinte, '4': Transf. matriz}
+  eftabela_mg_incentivo_ret_faixas_sub_grupo_1:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_MG_INCENTIVO_RET_FAIXAS.SUB_GRUPO estão no comentário do banco (2026-10-18). Distribuição: 2=15.'
+    valores: {'1': IMPORTADOS, '2': DEMAIS, '3': ELETRÔNICOS, '4': FIOS, '5': CAFÉ, '6': SUCOS, '7': CHÁ, '8': TOMATE, '9': FRUTAS, '10': EXTRATOS, '11': CEREAIS,
+      '12': MEDICAMENTOS}
+  eftabela_codigo_tributacao_tipo_da_nota_e_entrada:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabela_codigo_tributacao.tipo estão no comentário do banco (2026-10-18). Distribuição: S=7, E=7.'
+    valores: {E: Entrada, S: Saida}
+  eftabela_cst_ipi_vigencia_tipo_da_nota_e_entrada_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_CST_IPI_VIGENCIA.TIPO_NOTA estão no comentário do banco (2026-10-18). Distribuição: S=7, E=7.'
+    valores: {E: Entrada, S: Saída, A: Ambas}
+  eftabela_cst_simples_nacional_vigencia_tipo_da_not:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_CST_SIMPLES_NACIONAL_VIGENCIA.TIPO_NOTA estão no comentário do banco (2026-10-18). Distribuição: A=10.'
+    valores: {E: Entrada, S: Saída, A: Ambas}
+  eftabela_credito_presumido_faixa_pr_tabela_1_feijao_2_text:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabela_credito_presumido_faixa_pr.TABELA estão no comentário do banco (2026-10-18). Distribuição: 2=2, 4=2, 3=1.'
+    valores: {'1': Feijão, '2': Textil, '3': Café, '4': Arroz}
+  eftabela_credito_presumido_pr_tabela_1_feijao_2_textil_3_ca:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabela_credito_presumido_pr.TABELA estão no comentário do banco (2026-10-18). Distribuição: 2=1, 4=1, 3=1.'
+    valores: {'1': Feijão, '2': Textil, '3': Café, '4': Arroz}
+  eftabela_planilha_cfe_documento_1_entrada_2:
+    confirmado: true
+    nota: 'Todos os valores observados em EFTABELA_PLANILHA_CFE.I_DOCUMENTO estão no comentário do banco (2026-10-18). Distribuição: 2=1, 1=1.'
+    valores: {'1': Entrada, '2': Saída}
+entidades:
+  eftabela_credito_presumido_faixa:
+    titulo: Credito Presumido Importacao - Faixas
+    descricao: 'Credito Presumido Importacao - Faixas. 121.574 linhas no catálogo; chave: vigencia, aliquota, TABELA, CODI_EMP, OPERACAO.'
+    tabela: eftabela_credito_presumido_faixa
+    chave: [vigencia, aliquota, TABELA, CODI_EMP, OPERACAO]
+    acesso: {empresa: CODI_EMP, periodo: vigencia, volume: medio}
+    ordem:
+    - [vigencia, desc]
+    - [aliquota, asc]
+    - [TABELA, asc]
+    colunas: {vigencia: vigencia, aliquota: aliquota, tabela: TABELA, codigo_empresa: CODI_EMP, operacao_i_interna_e_interestadual_a_amb: OPERACAO, percentual_de_credito: percentual}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      aliquota:
+        coluna: aliquota
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      operacao_i_interna_e_interestadual_a_amb:
+        coluna: OPERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 121.574 linhas, 1.968 empresa(s), vigencia de 2006-03-01 a 2022-04-01.', 'Vínculo geempre (geempre): 0 de 62 linhas sem registro
+        relacionado (empresa 1129).']
+  eftabela_simples_nacional_estadual:
+    titulo: Tabela de calculo do Simples Nacional - Impostos Estaduais
+    descricao: 'Tabela de calculo do Simples Nacional - Impostos Estaduais. 75.965 linhas no catálogo; chave: uf, vigencia, anexo, secao, tabela, faixa, PORTE.'
+    tabela: eftabela_simples_nacional_estadual
+    chave: [uf, vigencia, anexo, secao, tabela, faixa, PORTE]
+    acesso: {empresa: null, periodo: VALIDADE, volume: medio}
+    ordem:
+    - [VALIDADE, desc]
+    - [uf, asc]
+    - [vigencia, asc]
+    colunas:
+      sigla_da_uf: uf
+      vigencia: vigencia
+      anexo: anexo
+      secao: secao
+      tabela: tabela
+      numero_da_faixa: faixa
+      porte_e_epp_m_me_n_normal_t_todos: {coluna: PORTE, dominio: eftabela_simples_nacional_estadual_porte_e_epp_}
+      valor_inicial_da_faixa: inicial
+      valor_final_da_faixa: final
+      aliquota_do_icms: icms
+      base_de_calculo_do_imposto: base_calculo
+      data_de_validade_da_tabela: VALIDADE
+      aliquota_nominal: ALIQUOTA_NOMINAL
+      valor_a_deduzir: VALOR_A_DEDUZIR
+      pr_quando_enquadrada_na_6_faixa_aplicar: PR_USAR_5_FAIXA_PARA_CALCULAR_ALIQUOTA_EFETIVA_ICMS
+      base_de_calculo_do_imposto_regime_de_cai: BASE_CALCULO_REGIME_CAIXA
+    filtros:
+      sigla_da_uf:
+        coluna: uf
+        ops: [eq, in]
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      secao:
+        coluna: secao
+        ops: [eq, in]
+      tabela:
+        coluna: tabela
+        ops: [eq, in]
+      numero_da_faixa:
+        coluna: faixa
+        ops: [eq, in]
+      porte_e_epp_m_me_n_normal_t_todos:
+        coluna: PORTE
+        ops: [eq, in]
+      data_de_validade_da_tabela:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      pr_quando_enquadrada_na_6_faixa_aplicar:
+        coluna: PR_USAR_5_FAIXA_PARA_CALCULAR_ALIQUOTA_EFETIVA_ICMS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 75.965 linhas, VALIDADE de 2008-12-31 a 2024-10-01.', 'porte_e_epp_m_me_n_normal_t_todos: todos os valores reais estão no comentário
+        do banco (T=72.065, M=1.300, N=1.300, E=1.300).']
+  eftabela_aliquota_icms_vigencia_aliquota:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Vigência - Alíquota
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Vigência - Alíquota. 75.114 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS, VIGENCIA_ICMS, UF_ORIGEM.'
+    tabela: EFTABELA_ALIQUOTA_ICMS_VIGENCIA_ALIQUOTA
+    chave: [CODI_EMP, I_TABELA_ICMS, VIGENCIA_ICMS, UF_ORIGEM]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS, volume: medio}
+    ordem:
+    - [VIGENCIA_ICMS, desc]
+    - [I_TABELA_ICMS, asc]
+    - [UF_ORIGEM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial: I_TABELA_ICMS, vigencia: VIGENCIA_ICMS, uf_origem: UF_ORIGEM, aliquota_uf_destino_ac: ALIQUOTA_UF_DESTINO_AC,
+      aliquota_uf_destino_al: ALIQUOTA_UF_DESTINO_AL, aliquota_uf_destino_am: ALIQUOTA_UF_DESTINO_AM, aliquota_uf_destino_ap: ALIQUOTA_UF_DESTINO_AP, aliquota_uf_destino_ba: ALIQUOTA_UF_DESTINO_BA,
+      aliquota_uf_destino_ce: ALIQUOTA_UF_DESTINO_CE, aliquota_uf_destino_df: ALIQUOTA_UF_DESTINO_DF, aliquota_uf_destino_es: ALIQUOTA_UF_DESTINO_ES, aliquota_uf_destino_go: ALIQUOTA_UF_DESTINO_GO,
+      aliquota_uf_destino_ma: ALIQUOTA_UF_DESTINO_MA, aliquota_uf_destino_mg: ALIQUOTA_UF_DESTINO_MG, aliquota_uf_destino_ms: ALIQUOTA_UF_DESTINO_MS, aliquota_uf_destino_mt: ALIQUOTA_UF_DESTINO_MT,
+      aliquota_uf_destino_pa: ALIQUOTA_UF_DESTINO_PA, aliquota_uf_destino_pb: ALIQUOTA_UF_DESTINO_PB, aliquota_uf_destino_pe: ALIQUOTA_UF_DESTINO_PE, aliquota_uf_destino_pi: ALIQUOTA_UF_DESTINO_PI,
+      aliquota_uf_destino_pr: ALIQUOTA_UF_DESTINO_PR, aliquota_uf_destino_rj: ALIQUOTA_UF_DESTINO_RJ, aliquota_uf_destino_rn: ALIQUOTA_UF_DESTINO_RN, aliquota_uf_destino_ro: ALIQUOTA_UF_DESTINO_RO,
+      aliquota_uf_destino_rr: ALIQUOTA_UF_DESTINO_RR, aliquota_uf_destino_rs: ALIQUOTA_UF_DESTINO_RS, aliquota_uf_destino_sc: ALIQUOTA_UF_DESTINO_SC, aliquota_uf_destino_se: ALIQUOTA_UF_DESTINO_SE,
+      aliquota_uf_destino_sp: ALIQUOTA_UF_DESTINO_SP, aliquota_uf_destino_to: ALIQUOTA_UF_DESTINO_TO}
+    filtros:
+      sequencial:
+        coluna: I_TABELA_ICMS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS
+        ops: [eq, in]
+      uf_origem:
+        coluna: UF_ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 75.114 linhas, 1.968 empresa(s), VIGENCIA_ICMS de 0060-12-01 a 2026-10-01.']
+  eftabela_credito_presumido:
+    titulo: Credito Presumido Importacao
+    descricao: 'Credito Presumido Importacao. 47.017 linhas no catálogo; chave: vigencia, TABELA, CODI_EMP.'
+    tabela: eftabela_credito_presumido
+    chave: [vigencia, TABELA, CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: vigencia, volume: medio}
+    ordem:
+    - [vigencia, desc]
+    - [TABELA, asc]
+    colunas: {vigencia: vigencia, tabela: TABELA, codigo_empresa: CODI_EMP, tratamento_tributario_diferenciado: TTD, codigo_dcip: I_DCIP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      tratamento_tributario_diferenciado:
+        coluna: TTD
+        ops: [eq, in]
+      codigo_dcip:
+        coluna: I_DCIP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 47.017 linhas, 1.968 empresa(s), vigencia de 2006-03-01 a 2022-04-01.', 'Vínculo geempre (geempre): 0 de 24 linhas sem registro
+        relacionado (empresa 1129).']
+  eftabela_vinculo_ncm_nbs_cclasstrib:
+    titulo: Tabela de Vínculo de NCM/NBS e cClassTrib
+    descricao: 'Tabela de Vínculo de NCM/NBS e cClassTrib. 13.292 linhas no catálogo; chave: I_TABELA_IBS_CBS, VIGENCIA, CCLASSTRIB, I_SEQUENCIAL.'
+    tabela: EFTABELA_VINCULO_NCM_NBS_CCLASSTRIB
+    chave: [I_TABELA_IBS_CBS, VIGENCIA, CCLASSTRIB, I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: medio}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_TABELA_IBS_CBS, asc]
+    - [CCLASSTRIB, asc]
+    colunas: {sequencial_da_tabela: I_TABELA_IBS_CBS, vigencia_do_vinculo: VIGENCIA, classificacao_tributaria: CCLASSTRIB, sequencial_do_vinculo: I_SEQUENCIAL, tipo_do_vinculo: TIPO_VINCULO,
+      codigo_do_ncm_nbs: CODIGO_NCM_NBS}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_IBS_CBS
+        ops: [eq, in]
+      vigencia_do_vinculo:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      classificacao_tributaria:
+        coluna: CCLASSTRIB
+        ops: [eq, in]
+      sequencial_do_vinculo:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_do_vinculo:
+        coluna: TIPO_VINCULO
+        ops: [eq, in]
+      codigo_do_ncm_nbs:
+        coluna: CODIGO_NCM_NBS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13.292 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']
+  eftabela_simples_nacional_municipal:
+    titulo: Tabela de calculo do Simples Nacional - Impostos Municipais
+    descricao: 'Tabela de calculo do Simples Nacional - Impostos Municipais. 11.151 linhas no catálogo; chave: municipio, vigencia, faixa, anexo, secao, tabela.'
+    tabela: eftabela_simples_nacional_municipal
+    chave: [municipio, vigencia, faixa, anexo, secao, tabela]
+    acesso: {empresa: null, periodo: VALIDADE, volume: medio}
+    ordem:
+    - [VALIDADE, desc]
+    - [municipio, asc]
+    - [vigencia, asc]
+    colunas: {codigo_federal_do_municipio: municipio, vigencia: vigencia, numero_da_faixa: faixa, anexo: anexo, secao: secao, tabela: tabela, valor_inicial_da_faixa: inicial,
+      valor_final_da_faixa: final, aliquota_do_iss: iss, base_de_calculo_do_imposto: base_calculo, data_de_validade_da_tabela: VALIDADE, reducao_iss: REDUCAO_ISS,
+      percentual_de_reducao_do_iss_aliquota: ALIQUOTA_REDUCAO_ISS, percentual_de_reducao_do_iss_percentual: PERCENTUAL_REDUCAO_ISS}
+    filtros:
+      codigo_federal_do_municipio:
+        coluna: municipio
+        ops: [eq, in]
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      numero_da_faixa:
+        coluna: faixa
+        ops: [eq, in]
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      secao:
+        coluna: secao
+        ops: [eq, in]
+      tabela:
+        coluna: tabela
+        ops: [eq, in]
+      data_de_validade_da_tabela:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      reducao_iss:
+        coluna: REDUCAO_ISS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.151 linhas, VALIDADE de 2008-12-31 a 2021-03-31.']
+  eftabela_atividade_servico_folha_vigencia:
+    titulo: Tabela de Atividades de Serviços da Folha - Vigência
+    descricao: 'Tabela de Atividades de Serviços da Folha - Vigência. 10.076 linhas no catálogo; chave: I_ATIVIDADE, VIGENCIA.'
+    tabela: EFTABELA_ATIVIDADE_SERVICO_FOLHA_VIGENCIA
+    chave: [I_ATIVIDADE, VIGENCIA]
+    acesso: {empresa: null, periodo: DATA_FINAL, volume: medio}
+    ordem:
+    - [DATA_FINAL, desc]
+    - [I_ATIVIDADE, asc]
+    - [VIGENCIA, asc]
+    colunas: {codigo_da_atividade: I_ATIVIDADE, vigencia: VIGENCIA, data_final: DATA_FINAL, aliquota: ALIQUOTA, obras_com_matricula_cei_a_partir: CEI_INICIAL, obras_com_matricula_cei_ate: CEI_FINAL,
+      codigo_da_atividade_pra_ser_gerado_no_re: I_ATIVIDADE_REINF}
+    filtros:
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      obras_com_matricula_cei_a_partir:
+        coluna: CEI_INICIAL
+        ops: [entre, gte, lte]
+      obras_com_matricula_cei_ate:
+        coluna: CEI_FINAL
+        ops: [entre, gte, lte]
+      codigo_da_atividade_pra_ser_gerado_no_re:
+        coluna: I_ATIVIDADE_REINF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10.076 linhas, DATA_FINAL de 2012-07-31 a 2050-12-31.']
+  eftabela_percentual_mistura_combustiveis:
+    titulo: Tabela dos Percentuais de Mistura dos Combustíveis
+    descricao: 'Tabela dos Percentuais de Mistura dos Combustíveis. 7.872 linhas no catálogo; chave: CODI_EMP, TIPO_PRODUTO.'
+    tabela: EFTABELA_PERCENTUAL_MISTURA_COMBUSTIVEIS
+    chave: [CODI_EMP, TIPO_PRODUTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [TIPO_PRODUTO, asc]
+    colunas: {codigo_empresa: CODI_EMP, tipo_produto: TIPO_PRODUTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_produto:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7.872 linhas, 1.968 empresa(s).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 379).']
+  eftabela_percentual_mistura_combustiveis_vigencia:
+    titulo: Tabela dos Percentuais de Mistura dos Combustíveis - Vigencia
+    descricao: 'Tabela dos Percentuais de Mistura dos Combustíveis - Vigencia. 7.872 linhas no catálogo; chave: CODI_EMP, TIPO_PRODUTO, VIGENCIA_PERC_MISTURA_COMBUSTIVEL.'
+    tabela: EFTABELA_PERCENTUAL_MISTURA_COMBUSTIVEIS_VIGENCIA
+    chave: [CODI_EMP, TIPO_PRODUTO, VIGENCIA_PERC_MISTURA_COMBUSTIVEL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_PERC_MISTURA_COMBUSTIVEL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_PERC_MISTURA_COMBUSTIVEL, desc]
+    - [TIPO_PRODUTO, asc]
+    colunas: {codigo_empresa: CODI_EMP, tipo_produto: TIPO_PRODUTO, vigencia: VIGENCIA_PERC_MISTURA_COMBUSTIVEL, embasamento_legal: EMBASAMENTO_LEGAL, percentual: PERCENTUAL}
+    filtros:
+      tipo_produto:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_PERC_MISTURA_COMBUSTIVEL
+        ops: [eq, in]
+      embasamento_legal:
+        coluna: EMBASAMENTO_LEGAL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7.872 linhas, 1.968 empresa(s), VIGENCIA_PERC_MISTURA_COMBUSTIVEL de 2023-05-01 a 2023-05-01.']
+  eftabela_simples_nacional_federal:
+    titulo: Tabela de calculo do Simples Nacional - Impostos Federais
+    descricao: 'Tabela de calculo do Simples Nacional - Impostos Federais. 5.782 linhas no catálogo; chave: vigencia, faixa, anexo, secao, tabela.'
+    tabela: eftabela_simples_nacional_federal
+    chave: [vigencia, faixa, anexo, secao, tabela]
+    acesso: {empresa: null, periodo: VALIDADE, volume: pequeno}
+    ordem:
+    - [VALIDADE, desc]
+    - [vigencia, asc]
+    - [faixa, asc]
+    colunas:
+      vigencia: vigencia
+      numero_da_faixa: faixa
+      anexo: anexo
+      secao: secao
+      tabela: tabela
+      valor_inicial_da_faixa: inicial
+      valor_final_da_faixa: final
+      aliquota_total: aliquota
+      aliquota_do_irpj: irpj
+      aliquota_da_csll: csll
+      aliquota_da_cofins: cofins
+      aliquota_do_pis: pis
+      aliquota_do_inss: inss
+      aliquota_do_ipi: ipi
+      tipo_dos_percentuais_a_aliquota_p_partil: {coluna: tipo, dominio: eftabela_simples_nacional_federal_tipo_dos_per}
+      data_de_validade_da_tabela: VALIDADE
+      valor_a_deduzir: VALOR_A_DEDUZIR
+    filtros:
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      numero_da_faixa:
+        coluna: faixa
+        ops: [eq, in]
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      secao:
+        coluna: secao
+        ops: [eq, in]
+      tabela:
+        coluna: tabela
+        ops: [eq, in]
+      data_de_validade_da_tabela:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      tipo_dos_percentuais_a_aliquota_p_partil:
+        coluna: tipo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.782 linhas, VALIDADE de 2008-12-31 a 2021-03-31.', 'tipo_dos_percentuais_a_aliquota_p_partil: todos os valores reais estão no
+        comentário do banco (P=2.922, A=2.860).']
+  eftabela_icms_st_carga_media_vigencia:
+    titulo: Tabela ICMS ST Estimativa Simplificado - Carga Média - Vigência
+    descricao: 'Tabela ICMS ST Estimativa Simplificado - Carga Média - Vigência. 5.364 linhas no catálogo; chave: CODI_EMP, I_TABELA, DATA_TABELA, I_SEQUENCIAL.'
+    tabela: EFTABELA_ICMS_ST_CARGA_MEDIA_VIGENCIA
+    chave: [CODI_EMP, I_TABELA, DATA_TABELA, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TABELA, volume: pequeno}
+    ordem:
+    - [DATA_TABELA, desc]
+    - [I_TABELA, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_TABELA, data: DATA_TABELA, sequencial_item: I_SEQUENCIAL, i_cnae20: I_CNAE20, percentual_mva: PERCENTUAL_MVA, percentual_carga_media: PERCENTUAL_CARGA_MEDIA}
+    filtros:
+      sequencial:
+        coluna: I_TABELA
+        ops: [eq, in]
+      data:
+        coluna: DATA_TABELA
+        ops: [eq, in]
+      sequencial_item:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      i_cnae20:
+        coluna: I_CNAE20
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.364 linhas, 4 empresa(s), DATA_TABELA de 2013-01-01 a 2026-07-01.']
+  eftabela_atividade_servico_folha:
+    titulo: Tabela de Atividades de Serviços da Folha
+    descricao: 'Tabela de Atividades de Serviços da Folha. 4.948 linhas no catálogo; chave: I_ATIVIDADE.'
+    tabela: EFTABELA_ATIVIDADE_SERVICO_FOLHA
+    chave: [I_ATIVIDADE]
+    acesso: {empresa: null, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_ATIVIDADE, asc]
+    colunas:
+      codigo_da_atividade: I_ATIVIDADE
+      descricao_da_atividade: DESCRICAO
+      data_de_inicio_da_atividade: DATA_INICIO
+      tipo_da_atividade_1_industria_2_servico: {coluna: TIPO, dominio: eftabela_atividade_servico_folha_tipo_da_ati}
+    filtros:
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      data_de_inicio_da_atividade:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      descricao_da_atividade:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_da_atividade_1_industria_2_servico:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.948 linhas, DATA_INICIO de 2011-01-01 a 2024-04-01.', 'tipo_da_atividade_1_industria_2_servico: valores reais fora do comentário
+        do banco (4=8, 0=5); tratar o domínio como hipótese.']
+  eftabela_movaju_ajuste_sped:
+    titulo: Tabela de ajustes sped para lançamentos de ajustes
+    descricao: 'Tabela de ajustes sped para lançamentos de ajustes. 2.846 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, operacao_do_ajuste: OPERACAO, descricao: DESCRICAO, data_a_partir: DATA_AJUSTE, data_de_validade: DATA_VALIDADE, operacao_fiscal: OPERACAO_FISCAL,
+      codigo_do_imposto: CODI_IMP, sequencial_do_prodepe: I_PRODEPE_APURACAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_a_partir:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      data_de_validade:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      operacao_fiscal:
+        coluna: OPERACAO_FISCAL
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      sequencial_do_prodepe:
+        coluna: I_PRODEPE_APURACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.846 linhas, DATA_AJUSTE de 1900-01-01 a 2026-04-01.']
+  eftabela_aliquota_icms_vigencia:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Vigência
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Vigência. 2.782 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS, VIGENCIA_ICMS.'
+    tabela: EFTABELA_ALIQUOTA_ICMS_VIGENCIA
+    chave: [CODI_EMP, I_TABELA_ICMS, VIGENCIA_ICMS]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ICMS, desc]
+    - [I_TABELA_ICMS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial: I_TABELA_ICMS, vigencia: VIGENCIA_ICMS}
+    filtros:
+      sequencial:
+        coluna: I_TABELA_ICMS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.782 linhas, 1.968 empresa(s), VIGENCIA_ICMS de 0060-12-01 a 2026-10-01.']
+  eftabela_marca_grupo_bebida:
+    titulo: Tabela Grupos por Marca Comercial
+    descricao: 'Tabela Grupos por Marca Comercial. 2.634 linhas no catálogo; chave: CODIGO, TABELA.'
+    tabela: EFTABELA_MARCA_GRUPO_BEBIDA
+    chave: [CODIGO, TABELA]
+    acesso: {empresa: null, periodo: INICIO_VALIDADE, volume: pequeno}
+    ordem:
+    - [INICIO_VALIDADE, desc]
+    - [CODIGO, asc]
+    - [TABELA, asc]
+    colunas: {codigo: CODIGO, tabela: TABELA, descricao: DESCRICAO, marca: GRUPO, inicio_da_validade: INICIO_VALIDADE, fim_da_validade: FIM_VALIDADE}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      inicio_da_validade:
+        coluna: INICIO_VALIDADE
+        ops: [entre, gte, lte]
+      fim_da_validade:
+        coluna: FIM_VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.634 linhas, INICIO_VALIDADE de 2011-03-01 a 2012-10-01.']
+  eftabela_aliquota_icms:
+    titulo: Tabela de Alíquota Interestadual de ICMS
+    descricao: 'Tabela de Alíquota Interestadual de ICMS. 1.970 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS.'
+    tabela: EFTABELA_ALIQUOTA_ICMS
+    chave: [CODI_EMP, I_TABELA_ICMS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TABELA_ICMS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial: I_TABELA_ICMS, descricao: DESCRICAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_TABELA_ICMS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.970 linhas, 1.968 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 635).']
+  eftabela_cest_ncm:
+    titulo: Tabela de CEST - Relacionamento NCM
+    descricao: 'Tabela de CEST - Relacionamento NCM. 1.897 linhas no catálogo; chave: CODIGO_CEST, NCM_CEST.'
+    tabela: EFTABELA_CEST_NCM
+    chave: [CODIGO_CEST, NCM_CEST]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_CEST, asc]
+    - [NCM_CEST, asc]
+    colunas: {codigo_cest: CODIGO_CEST, codigo_ncm: NCM_CEST}
+    vinculos:
+      eftabela_cest:
+        tabela: EFTABELA_CEST
+        liga: {codigo_cest: codigo_cest}
+        colunas: {eftabela_cest_nome: DESCRICAO_CEST}
+    filtros:
+      codigo_cest:
+        coluna: CODIGO_CEST
+        ops: [eq, in]
+      codigo_ncm:
+        coluna: NCM_CEST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.897 linhas.', 'Vínculo eftabela_cest (EFTABELA_CEST): 0 de 1.897 linhas sem registro relacionado.']
+  eftabela_icms_st_carga_media_padrao:
+    titulo: Tabela ICMS ST Estimativa Simplificado - Carga Média - Padrão
+    descricao: 'Tabela ICMS ST Estimativa Simplificado - Carga Média - Padrão. 1.341 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_ICMS_ST_CARGA_MEDIA_PADRAO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial_item: I_SEQUENCIAL, i_cnae20: I_CNAE20, percentual_mva: PERCENTUAL_MVA, percentual_carga_media: PERCENTUAL_CARGA_MEDIA}
+    filtros:
+      sequencial_item:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      i_cnae20:
+        coluna: I_CNAE20
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.341 linhas.']
+  eftabela_cest:
+    titulo: Tabaela de CEST
+    descricao: 'Tabaela de CEST. 1.085 linhas no catálogo; chave: CODIGO_CEST.'
+    tabela: EFTABELA_CEST
+    chave: [CODIGO_CEST]
+    acesso: {empresa: null, periodo: DATA_REVOGACAO, volume: pequeno}
+    ordem:
+    - [DATA_REVOGACAO, desc]
+    - [CODIGO_CEST, asc]
+    colunas: {codigo_cest: CODIGO_CEST, codigo_do_item: CODIGO_ITEM, ncm_sh: NCM_SH, descricao_do_cest: DESCRICAO_CEST, data_revogacao: DATA_REVOGACAO}
+    filtros:
+      codigo_cest:
+        coluna: CODIGO_CEST
+        ops: [eq, in]
+      data_revogacao:
+        coluna: DATA_REVOGACAO
+        ops: [entre, gte, lte]
+      codigo_do_item:
+        coluna: CODIGO_ITEM
+        ops: [contem, prefixo]
+      ncm_sh:
+        coluna: NCM_SH
+        ops: [contem, prefixo]
+      descricao_do_cest:
+        coluna: DESCRICAO_CEST
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.085 linhas, DATA_REVOGACAO de 2016-10-01 a 2021-06-01.']
+  eftabela_vinculo_cclasstrib_vigencia_itens_padrao:
+    titulo: Tabela de Vínculo de NCM/NBS por cClassTrib - Padrão
+    descricao: 'Tabela de Vínculo de NCM/NBS por cClassTrib - Padrão. 1.051 linhas no catálogo; chave: VIGENCIA, I_SEQUENCIAL.'
+    tabela: EFTABELA_VINCULO_CCLASSTRIB_VIGENCIA_ITENS_PADRAO
+    chave: [VIGENCIA, I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {vigencia_do_vinculo: VIGENCIA, sequencial_do_vinculo: I_SEQUENCIAL, tipo_do_vinculo: TIPO_VINCULO, codigo_do_ncm_nbs: CODIGO_NCM_NBS, classificacao_tributaria: CCLASSTRIB}
+    filtros:
+      vigencia_do_vinculo:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      sequencial_do_vinculo:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_do_vinculo:
+        coluna: TIPO_VINCULO
+        ops: [eq, in]
+      codigo_do_ncm_nbs:
+        coluna: CODIGO_NCM_NBS
+        ops: [eq, in]
+      classificacao_tributaria:
+        coluna: CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.051 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']
+  eftabela_rj_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - RJ
+    descricao: 'Tabela de Valores Declaratórios do ICMS - RJ. 922 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_RJ_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_beneficio: CODIGO_BENEFICIO, descircao_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL, data_final: DATA_FINAL,
+      tipo_beneficio: TIPO_BENEFICIO, tipo_movimento_e_s_v: TIPO_MOVIMENTO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descircao_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+      tipo_beneficio:
+        coluna: TIPO_BENEFICIO
+        ops: [eq, in]
+      tipo_movimento_e_s_v:
+        coluna: TIPO_MOVIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 922 linhas, DATA_INICIAL de 2019-04-01 a 2026-07-01.']
+  eftabela_dacon_tipo_produto:
+    titulo: Tabela Auxiliar para o campo Tipo Produto da tabela de Produtos
+    descricao: 'Tabela Auxiliar para o campo Tipo Produto da tabela de Produtos. 770 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: EFTABELA_DACON_TIPO_PRODUTO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, tipo_do_produto: TIPO, codigo_na_dacon: CODIGO, descricao_do_codigo_na_dacon: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_do_produto:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_na_dacon:
+        coluna: CODIGO
+        ops: [contem, prefixo]
+      descricao_do_codigo_na_dacon:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 770 linhas.']
+  eftabela_aliquota_efetiva_icms_st_at_vigencia_atacadista:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Vigência Atacadista
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Vigência Atacadista. 680 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT, I_SEQUENCIAL.'
+    tabela: EFTABELA_ALIQUOTA_EFETIVA_ICMS_ST_AT_VIGENCIA_ATACADISTA
+    chave: [CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS_STAT, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ICMS_STAT, desc]
+    - [I_TABELA_ICMS_STAT, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_tabela: I_TABELA_ICMS_STAT, vigencia: VIGENCIA_ICMS_STAT, sequencial: I_SEQUENCIAL, aliquota_mercadoria: ALIQUOTA_MERCADORIA,
+      aliquota_proprio_estado_e_importacao: ALIQUOTA_PROPRIO_ESTADO_E_IMPORTACAO, aliquota_norte_nordeste_centro_oeste_e_e: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES,
+      aliquota_sul_sudeste_e_exceto_espirito_s: ALIQUOTA_SUL_SUDESTE_EXCETO_ES, aliquota_norte_nordeste_centro_oeste_e_e_c: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES_ADIC_PROD_ORIG_ESTRANG,
+      aliquota_sul_sudeste_exceto_es_adic_prod: ALIQUOTA_SUL_SUDESTE_EXCETO_ES_ADIC_PROD_ORIG_ESTRANG}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_ICMS_STAT
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS_STAT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 680 linhas, 40 empresa(s), VIGENCIA_ICMS_STAT de 2000-01-01 a 2016-01-01.']
+  eftabela_aliquota_efetiva_icms_st_at_vigencia_varejista:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Vigência Varejista
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Vigência Varejista. 680 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT, I_SEQUENCIAL.'
+    tabela: EFTABELA_ALIQUOTA_EFETIVA_ICMS_ST_AT_VIGENCIA_VAREJISTA
+    chave: [CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS_STAT, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ICMS_STAT, desc]
+    - [I_TABELA_ICMS_STAT, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_tabela: I_TABELA_ICMS_STAT, vigencia: VIGENCIA_ICMS_STAT, sequencial: I_SEQUENCIAL, aliquota_mercadoria: ALIQUOTA_MERCADORIA,
+      aliquota_proprio_estado_e_importacao: ALIQUOTA_PROPRIO_ESTADO_E_IMPORTACAO, aliquota_norte_nordeste_centro_oeste_e_e: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES,
+      aliquota_sul_sudeste_e_exceto_espirito_s: ALIQUOTA_SUL_SUDESTE_EXCETO_ES, aliquota_norte_nordeste_centro_oeste_e_e_c: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES_ADIC_PROD_ORIG_ESTRANG,
+      aliquota_sul_sudeste_exceto_es_adic_prod: ALIQUOTA_SUL_SUDESTE_EXCETO_ES_ADIC_PROD_ORIG_ESTRANG}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_ICMS_STAT
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS_STAT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 680 linhas, 40 empresa(s), VIGENCIA_ICMS_STAT de 2000-01-01 a 2016-01-01.']
+  eftabela_atividade_economica:
+    titulo: Tabela de Atividade Econômica
+    descricao: 'Tabela de Atividade Econômica. 672 linhas no catálogo; chave: I_ATIVIDADE_ECONOMICA.'
+    tabela: EFTABELA_ATIVIDADE_ECONOMICA
+    chave: [I_ATIVIDADE_ECONOMICA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ATIVIDADE_ECONOMICA, asc]
+    colunas: {codigo_da_atividade_economica: I_ATIVIDADE_ECONOMICA, descricao: DESCRICAO}
+    filtros:
+      codigo_da_atividade_economica:
+        coluna: I_ATIVIDADE_ECONOMICA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 672 linhas.']
+  eftabela_atividade_gestta_processos:
+    titulo: Atividades
+    descricao: 'Atividades. 600 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_ATIVIDADE_GESTTA_PROCESSOS
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, c_1_folha_2_escrita_fiscal_3_contabilida: I_MODULO, c_10_movimentos_20_processos_30_relatori: I_MENU, c_1_apuracao_2_parcelamento_de_impostos: I_SUB_MENU,
+      opcao: OPCAO, descricao: OPCAO_DESCRICAO, estado: UF, s_sim_n_nao: ANEXO, arquivo: ARQUIVO, a_opcao_representa_um_imposto_s_n: CONFORME_IMPOSTO, imposto: CODI_IMP}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      c_1_folha_2_escrita_fiscal_3_contabilida:
+        coluna: I_MODULO
+        ops: [eq, in]
+      c_10_movimentos_20_processos_30_relatori:
+        coluna: I_MENU
+        ops: [eq, in]
+      c_1_apuracao_2_parcelamento_de_impostos:
+        coluna: I_SUB_MENU
+        ops: [eq, in]
+      opcao:
+        coluna: OPCAO
+        ops: [contem, prefixo]
+      descricao:
+        coluna: OPCAO_DESCRICAO
+        ops: [contem, prefixo]
+      estado:
+        coluna: UF
+        ops: [eq, in]
+      s_sim_n_nao:
+        coluna: ANEXO
+        ops: [eq, in]
+      arquivo:
+        coluna: ARQUIVO
+        ops: [eq, in]
+      a_opcao_representa_um_imposto_s_n:
+        coluna: CONFORME_IMPOSTO
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 600 linhas.']
+  eftabela_pe_natureza_operacao:
+    titulo: Tabela de Natureza de operação - PE - SEF 2012 - 0400
+    descricao: 'Tabela de Natureza de operação - PE - SEF 2012 - 0400. 553 linhas no catálogo; chave: I_NATUREZA_OPERACAO.'
+    tabela: EFTABELA_PE_NATUREZA_OPERACAO
+    chave: [I_NATUREZA_OPERACAO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_NATUREZA_OPERACAO, asc]
+    colunas: {codigo_sequencial: I_NATUREZA_OPERACAO, codigo_cop: CODIGO_COP, descricao: DESCRICAO, cfop: CFOP, data_inicial_permitida_para_o_cop_cfop: DATA_INICIAL,
+      data_final_permitida_para_o_cop_cfop: DATA_FINAL}
+    filtros:
+      codigo_sequencial:
+        coluna: I_NATUREZA_OPERACAO
+        ops: [eq, in]
+      data_inicial_permitida_para_o_cop_cfop:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final_permitida_para_o_cop_cfop:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_cop:
+        coluna: CODIGO_COP
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 553 linhas, DATA_INICIAL de 1900-01-01 a 1900-01-01.']
+  eftabela_sc_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - SC
+    descricao: 'Tabela de Valores Declaratórios do ICMS - SC. 530 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_SC_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_do_beneficio: CODIGO_BENEFICIO, descricao_do_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL,
+      data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_do_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 530 linhas, DATA_INICIAL de 2023-01-01 a 2026-03-01.']
+  eftabela_pr_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - PR
+    descricao: 'Tabela de Valores Declaratórios do ICMS - PR. 505 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_PR_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_do_beneficio: CODIGO_BENEFICIO, descricao_do_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL,
+      data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_do_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 505 linhas, DATA_INICIAL de 2017-09-29 a 2026-07-06.']
+  eftabela_natureza_receita:
+    titulo: Tabela Natureza da Receita
+    descricao: 'Tabela Natureza da Receita. 457 linhas no catálogo; chave: CODIGO, CODIGO_CST.'
+    tabela: EFTABELA_NATUREZA_RECEITA
+    chave: [CODIGO, CODIGO_CST]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [CODIGO_CST, asc]
+    colunas: {codigo: CODIGO, cst: CODIGO_CST, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      cst:
+        coluna: CODIGO_CST
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 457 linhas.']
+  eftabela_ba_dmd:
+    titulo: Tabela para os códigos do DMD da uf BA
+    descricao: 'Tabela para os códigos do DMD da uf BA. 383 linhas no catálogo; chave: I_DMD.'
+    tabela: EFTABELA_BA_DMD
+    chave: [I_DMD]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DMD, asc]
+    colunas: {codigo_do_dmd: I_DMD, descricao: DESCRICAO, unidade: UNIDADE}
+    filtros:
+      codigo_do_dmd:
+        coluna: I_DMD
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      unidade:
+        coluna: UNIDADE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 383 linhas.']
+  eftabela_simples_nacional_tabela:
+    titulo: Simples Nacional - Tabelas
+    descricao: 'Simples Nacional - Tabelas. 317 linhas no catálogo; chave: anexo, secao, tabela, VIGENCIA.'
+    tabela: eftabela_simples_nacional_tabela
+    chave: [anexo, secao, tabela, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [anexo, asc]
+    - [secao, asc]
+    colunas: {anexo: anexo, secao: secao, tabela: tabela, vigencia: VIGENCIA, descricao: descricao}
+    filtros:
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      secao:
+        coluna: secao
+        ops: [eq, in]
+      tabela:
+        coluna: tabela
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 317 linhas, VIGENCIA de 2017-07-01 a 2021-04-01.']
+  eftabela_sp_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - SP
+    descricao: 'Tabela de Valores Declaratórios do ICMS - SP. 309 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_SP_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_do_beneficio: CODIGO_BENEFICIO, descricao_do_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL,
+      data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_do_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 309 linhas, DATA_INICIAL de 2026-01-01 a 2026-01-01.', 'Colunas expostas nulas em 100% das linhas (1): data_final.']
+  eftabela_cst_vigencia:
+    titulo: Tabela de Códigos Situação Tributária por vigência
+    descricao: 'Tabela de Códigos Situação Tributária por vigência. 308 linhas no catálogo; chave: I_CST_VIGENCIA.'
+    tabela: EFTABELA_CST_VIGENCIA
+    chave: [I_CST_VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CST_VIGENCIA, asc]
+    colunas:
+      codigo_sequencial: I_CST_VIGENCIA
+      codigo_do_imposto: CODI_IMP
+      vigencia_da_tabela_cst: VIGENCIA
+      codigo_de_situacao_tributaria: CODIGO_CST
+      descricao_da_situacao_tributaria: DESCRICAO
+      tipo_da_nota_e_entrada_s_saida_a_entrada: {coluna: TIPO_NOTA, dominio: eftabela_cst_vigencia_tipo_da_nota}
+    filtros:
+      codigo_sequencial:
+        coluna: I_CST_VIGENCIA
+        ops: [eq, in]
+      vigencia_da_tabela_cst:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      codigo_de_situacao_tributaria:
+        coluna: CODIGO_CST
+        ops: [eq, in]
+      descricao_da_situacao_tributaria:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_da_nota_e_entrada_s_saida_a_entrada:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 308 linhas, VIGENCIA de 1900-01-01 a 2023-02-14.', 'tipo_da_nota_e_entrada_s_saida_a_entrada: todos os valores reais estão no
+        comentário do banco (A=244, E=44, S=20).']
+  eftabela_df_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - DF
+    descricao: 'Tabela de Valores Declaratórios do ICMS - DF. 297 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_DF_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_beneficio: CODIGO_BENEFICIO, descricao_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL, data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 297 linhas, DATA_INICIAL de 2019-01-01 a 2023-06-01.']
+  eftabela_go_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - GO
+    descricao: 'Tabela de Valores Declaratórios do ICMS - GO. 297 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_GO_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_do_beneficio: CODIGO_BENEFICIO, descricao_do_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL,
+      data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_do_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 297 linhas, DATA_INICIAL de 2023-01-01 a 2023-01-01.', 'Colunas expostas nulas em 100% das linhas (1): data_final.']
+  eftabela_mt_ajustes_sped:
+    titulo: Tabela de Ajuste do SPED - MT
+    descricao: 'Tabela de Ajuste do SPED - MT. 295 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: EFTABELA_MT_AJUSTES_SPED
+    chave: [SEQUENCIAL]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, codigo_do_ajuste: CODIGO_AJUSTE, descricao_do_ajuste: DESCRICAO, data_inicial: DATA_INICIAL, data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODIGO_AJUSTE
+        ops: [eq, in]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 295 linhas, DATA_INICIAL de 2011-01-01 a 2025-05-01.']
+  eftabela_rn_tributacao:
+    titulo: RN - Tabela Tributação
+    descricao: 'RN - Tabela Tributação. 257 linhas no catálogo; chave: CODIGO_TRIBUTACAO.'
+    tabela: EFTABELA_RN_TRIBUTACAO
+    chave: [CODIGO_TRIBUTACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_TRIBUTACAO, asc]
+    colunas: {codigo_da_tributacao: CODIGO_TRIBUTACAO, classificacao: CLASSIFICACAO_TRIBUTACAO, descricao: DESCRICAO_TRIBUTACAO}
+    filtros:
+      codigo_da_tributacao:
+        coluna: CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      classificacao:
+        coluna: CLASSIFICACAO_TRIBUTACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_TRIBUTACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 257 linhas.']
+  eftabela_cst_icms_vigencia:
+    titulo: Tabela de CST - ICMS - Vigência
+    descricao: 'Tabela de CST - ICMS - Vigência. 256 linhas no catálogo; chave: CODIGO_CST, VIGENCIA.'
+    tabela: EFTABELA_CST_ICMS_VIGENCIA
+    chave: [CODIGO_CST, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODIGO_CST, asc]
+    colunas:
+      codigo_cst: CODIGO_CST
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_da_nota_e_entrada_s_saida_a_ambas: {coluna: TIPO_NOTA, dominio: eftabela_cst_icms_vigencia_tipo_da_nota_e_entrada}
+    filtros:
+      codigo_cst:
+        coluna: CODIGO_CST
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_da_nota_e_entrada_s_saida_a_ambas:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 256 linhas, VIGENCIA de 1900-01-01 a 2023-02-14.', 'tipo_da_nota_e_entrada_s_saida_a_ambas: todos os valores reais estão no comentário
+        do banco (A=256).']
+  eftabela_receitas_7_1_3:
+    titulo: Tabela de Receitas 7.1.3
+    descricao: 'Tabela de Receitas 7.1.3. 250 linhas no catálogo; chave: CODIGO_DETALHAMENTO, VIGENCIA.'
+    tabela: EFTABELA_RECEITAS_7_1_3
+    chave: [CODIGO_DETALHAMENTO, VIGENCIA]
+    acesso: {empresa: null, periodo: VALIDADE, volume: pequeno}
+    ordem:
+    - [VALIDADE, desc]
+    - [CODIGO_DETALHAMENTO, asc]
+    - [VIGENCIA, asc]
+    colunas: {codigo: CODIGO_DETALHAMENTO, vigencia: VIGENCIA, descricao: DESCRICAO, ordem: ORDEM, codigo_pai: CODIGO_PAI, validade: VALIDADE}
+    filtros:
+      codigo:
+        coluna: CODIGO_DETALHAMENTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      validade:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_pai:
+        coluna: CODIGO_PAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 250 linhas, VALIDADE de 2050-01-01 a 2050-01-01.']
+  eftabela_es_valores_declaratorios_icms:
+    titulo: Tabela de Valores Declaratórios do ICMS - ES
+    descricao: 'Tabela de Valores Declaratórios do ICMS - ES. 245 linhas no catálogo; chave: I_SEQUENCIAL_BENEFICIO.'
+    tabela: EFTABELA_ES_VALORES_DECLARATORIOS_ICMS
+    chave: [I_SEQUENCIAL_BENEFICIO]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_SEQUENCIAL_BENEFICIO, asc]
+    colunas: {sequencial: I_SEQUENCIAL_BENEFICIO, codigo_do_beneficio: CODIGO_BENEFICIO, descricao_do_beneficio: DESCRICAO_BENEFICIO, data_inicial: DATA_INICIAL,
+      data_final: DATA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_BENEFICIO
+        ops: [eq, in]
+      data_inicial:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_beneficio:
+        coluna: CODIGO_BENEFICIO
+        ops: [eq, in]
+      descricao_do_beneficio:
+        coluna: DESCRICAO_BENEFICIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 245 linhas, DATA_INICIAL de 2024-07-01 a 2024-12-23.']
+  eftabela_dispositivo_credito_presumido_rs:
+    titulo: Dispositivo do crédito presumido - RS
+    descricao: 'Dispositivo do crédito presumido - RS. 214 linhas no catálogo; chave: I_DISPOSITIVO.'
+    tabela: EFTABELA_DISPOSITIVO_CREDITO_PRESUMIDO_RS
+    chave: [I_DISPOSITIVO]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_DISPOSITIVO, asc]
+    colunas: {codigo_do_dispositivo_do_credito_presumi: I_DISPOSITIVO, descricao_do_dispositivo_do_credito_pres: DESCRICAO, codigo_do_ajuste_do_sped_fiscal: CODIGO_AJUSTE_SPED,
+      codigo_do_beneficio_da_gia: CODIGO_BENEFICIO_GIA, vigencia: VIGENCIA, data_final_da_vigencia: VIGENCIA_FINAL}
+    filtros:
+      codigo_do_dispositivo_do_credito_presumi:
+        coluna: I_DISPOSITIVO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+      data_final_da_vigencia:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      descricao_do_dispositivo_do_credito_pres:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_ajuste_do_sped_fiscal:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+      codigo_do_beneficio_da_gia:
+        coluna: CODIGO_BENEFICIO_GIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 214 linhas, VIGENCIA de 2007-12-27 a 2025-04-01.']
+  eftabela_ro_ajuste_sped_fiscal:
+    titulo: Tabela de Relacionamento - RO - Ajuste SPED Fiscal
+    descricao: 'Tabela de Relacionamento - RO - Ajuste SPED Fiscal. 202 linhas no catálogo; chave: CODIGO_AJUSTE.'
+    tabela: EFTABELA_RO_AJUSTE_SPED_FISCAL
+    chave: [CODIGO_AJUSTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_AJUSTE, asc]
+    colunas: {sequencial: CODIGO_AJUSTE, ajuste_no_sped: AJUSTE, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: CODIGO_AJUSTE
+        ops: [eq, in]
+      ajuste_no_sped:
+        coluna: AJUSTE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 202 linhas.']
+  eftabela_receitas_7_1_4:
+    titulo: Tabela de Receitas 7.1.4
+    descricao: 'Tabela de Receitas 7.1.4. 202 linhas no catálogo; chave: CODIGO_DETALHAMENTO, VIGENCIA.'
+    tabela: EFTABELA_RECEITAS_7_1_4
+    chave: [CODIGO_DETALHAMENTO, VIGENCIA]
+    acesso: {empresa: null, periodo: VALIDADE, volume: pequeno}
+    ordem:
+    - [VALIDADE, desc]
+    - [CODIGO_DETALHAMENTO, asc]
+    - [VIGENCIA, asc]
+    colunas: {codigo: CODIGO_DETALHAMENTO, vigencia: VIGENCIA, descricao: DESCRICAO, ordem: ORDEM, codigo_pai: CODIGO_PAI, validade: VALIDADE}
+    filtros:
+      codigo:
+        coluna: CODIGO_DETALHAMENTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      validade:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_pai:
+        coluna: CODIGO_PAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 202 linhas, VALIDADE de 2050-01-01 a 2050-01-01.']
+  eftabela_servicos:
+    titulo: Tabela Lista de Servicos
+    descricao: 'Tabela Lista de Servicos. 200 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_servicos
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 200 linhas.']
+  eftabela_rj_codigo_item_ipm:
+    titulo: Tabela de item para IPM - RJ
+    descricao: 'Tabela de item para IPM - RJ. 192 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_RJ_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 192 linhas.']
+  eftabela_classificacao_tributaria_ibs_cbs:
+    titulo: Tabela de Classificação Tributária de IBS e CBS
+    descricao: 'Tabela de Classificação Tributária de IBS e CBS. 161 linhas no catálogo; chave: I_TABELA_IBS_CBS, VIGENCIA, CCLASSTRIB.'
+    tabela: EFTABELA_CLASSIFICACAO_TRIBUTARIA_IBS_CBS
+    chave: [I_TABELA_IBS_CBS, VIGENCIA, CCLASSTRIB]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_TABELA_IBS_CBS, asc]
+    - [CCLASSTRIB, asc]
+    colunas: {sequencial_da_tabela: I_TABELA_IBS_CBS, vigencia_da_tabela: VIGENCIA, classificacao_tributaria: CCLASSTRIB, descricao_da_classificacao_tributaria: DESCRICAO_CCLASSTRIB,
+      cst: CST, descricao_da_cst: DESCRICAO_CST, percentual_de_reducao_ibs: PERCENTUAL_REDUCAO_IBS, percentual_reducao_cbs: PERCENTUAL_REDUCAO_CBS}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_IBS_CBS
+        ops: [eq, in]
+      vigencia_da_tabela:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      classificacao_tributaria:
+        coluna: CCLASSTRIB
+        ops: [eq, in]
+      descricao_da_classificacao_tributaria:
+        coluna: DESCRICAO_CCLASSTRIB
+        ops: [contem, prefixo]
+      descricao_da_cst:
+        coluna: DESCRICAO_CST
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 161 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']
+  eftabela_aliquota_efetiva_icms_st_at:
+    titulo: Tabela de Alíquota Efetiva de ICMS STAT
+    descricao: 'Tabela de Alíquota Efetiva de ICMS STAT. 160 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS_STAT.'
+    tabela: EFTABELA_ALIQUOTA_EFETIVA_ICMS_ST_AT
+    chave: [CODI_EMP, I_TABELA_ICMS_STAT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TABELA_ICMS_STAT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_tabela: I_TABELA_ICMS_STAT, descricao: DESCRICAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_ICMS_STAT
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 160 linhas, 40 empresa(s).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 10052).']
+  eftabela_aliquota_efetiva_icms_st_at_vigencia:
+    titulo: Tabela de Alíquota Efetiva de ICMS STAT - Vigência
+    descricao: 'Tabela de Alíquota Efetiva de ICMS STAT - Vigência. 160 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT.'
+    tabela: EFTABELA_ALIQUOTA_EFETIVA_ICMS_ST_AT_VIGENCIA
+    chave: [CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS_STAT, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ICMS_STAT, desc]
+    - [I_TABELA_ICMS_STAT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_tabela: I_TABELA_ICMS_STAT, vigencia: VIGENCIA_ICMS_STAT}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_ICMS_STAT
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS_STAT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 160 linhas, 40 empresa(s), VIGENCIA_ICMS_STAT de 2000-01-01 a 2016-01-01.']
+  eftabela_aliquota_efetiva_icms_st_at_vigencia_produto_inform:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Vigência Informática
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Vigência Informática. 160 linhas no catálogo; chave: CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT,
+      I_SEQUENCIAL.'
+    tabela: EFTABELA_ALIQUOTA_EFETIVA_ICMS_ST_AT_VIGENCIA_PRODUTO_INFORMATICA
+    chave: [CODI_EMP, I_TABELA_ICMS_STAT, VIGENCIA_ICMS_STAT, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_ICMS_STAT, volume: pequeno}
+    ordem:
+    - [VIGENCIA_ICMS_STAT, desc]
+    - [I_TABELA_ICMS_STAT, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_tabela: I_TABELA_ICMS_STAT, vigencia: VIGENCIA_ICMS_STAT, sequencial: I_SEQUENCIAL, aliquota_proprio_estado_e_importacao: ALIQUOTA_PROPRIO_ESTADO_E_IMPORTACAO,
+      aliquota_norte_nordeste_centro_oeste_e_e: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES, aliquota_sul_sudeste_e_exceto_espirito_s: ALIQUOTA_SUL_SUDESTE_EXCETO_ES,
+      aliquota_norte_nordeste_centro_oeste_e_e_c: ALIQUOTA_NORTE_NORDESTE_CENTRO_OESTE_E_ES_ADIC_PROD_ORIG_ESTRANG, aliquota_sul_sudeste_exceto_es_adic_prod: ALIQUOTA_SUL_SUDESTE_EXCETO_ES_ADIC_PROD_ORIG_ESTRANG}
+    filtros:
+      sequencial_da_tabela:
+        coluna: I_TABELA_ICMS_STAT
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_ICMS_STAT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 160 linhas, 40 empresa(s), VIGENCIA_ICMS_STAT de 2000-01-01 a 2016-01-01.']
+  eftabela_pe_ajuste_sef:
+    titulo: Tabela de Ajustes - PE - SEF 2012
+    descricao: 'Tabela de Ajustes - PE - SEF 2012. 157 linhas no catálogo; chave: I_AJUSTE_SEF.'
+    tabela: EFTABELA_PE_AJUSTE_SEF
+    chave: [I_AJUSTE_SEF]
+    acesso: {empresa: null, periodo: DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [DATA_INICIAL, desc]
+    - [I_AJUSTE_SEF, asc]
+    colunas: {codigo_sequencial: I_AJUSTE_SEF, codigo_do_imposto_do_ajuste: CODI_IMP, codigo_da_operacao_do_ajuste: OPERACAO, data_inicial_permitida_para_o_ajuste: DATA_INICIAL,
+      data_final_permitida_para_o_ajuste: DATA_FINAL, codigo_sef: CODIGO_SEF, descricao_do_ajuste: DESCRICAO}
+    filtros:
+      codigo_sequencial:
+        coluna: I_AJUSTE_SEF
+        ops: [eq, in]
+      data_inicial_permitida_para_o_ajuste:
+        coluna: DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final_permitida_para_o_ajuste:
+        coluna: DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_imposto_do_ajuste:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      codigo_sef:
+        coluna: CODIGO_SEF
+        ops: [eq, in]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 157 linhas, DATA_INICIAL de 1900-01-01 a 1900-01-01.']
+  eftabela_simp_operacao:
+    titulo: Tabela de Operações - SIMP
+    descricao: 'Tabela de Operações - SIMP. 151 linhas no catálogo; chave: I_OPERACAO.'
+    tabela: EFTABELA_SIMP_OPERACAO
+    chave: [I_OPERACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_OPERACAO, asc]
+    colunas:
+      sequencial_da_operacao: I_OPERACAO
+      codigo_da_operacao: CODIGO_OPERACAO
+      especificacao_da_operacao: ESPECIFICACAO
+      codigo_totalizador_por_operacao: CODIGO_TOTALIZADOR_OPERACAO
+      codigo_totalizador_geral: CODIGO_TOTALIZADOR_GERAL
+      tipo_da_operacao_e_entrada_s_saida: {coluna: TIPO_OPERACAO, dominio: eftabela_simp_operacao_tipo_da_operacao_e_entrad}
+    filtros:
+      sequencial_da_operacao:
+        coluna: I_OPERACAO
+        ops: [eq, in]
+      codigo_da_operacao:
+        coluna: CODIGO_OPERACAO
+        ops: [eq, in]
+      especificacao_da_operacao:
+        coluna: ESPECIFICACAO
+        ops: [contem, prefixo]
+      codigo_totalizador_por_operacao:
+        coluna: CODIGO_TOTALIZADOR_OPERACAO
+        ops: [eq, in]
+      codigo_totalizador_geral:
+        coluna: CODIGO_TOTALIZADOR_GERAL
+        ops: [eq, in]
+      tipo_da_operacao_e_entrada_s_saida:
+        coluna: TIPO_OPERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 151 linhas.', 'tipo_da_operacao_e_entrada_s_saida: valores reais fora do comentário do banco (A=33); tratar o domínio como hipótese.']
+  eftabela_rs_transferencia_credito:
+    titulo: Tabela para os códigos de RS020200 e RS000600 do lancamento de ajuste
+    descricao: 'Tabela para os códigos de RS020200 e RS000600 do lancamento de ajuste. 146 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_RS_TRANSFERENCIA_CREDITO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_ajuste: CODIGO, descricao_do_ajuste: DESCRICAO, codigo_do_ajuste: CODIGO_AJUSTE}
+    filtros:
+      codigo_ajuste:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_ajuste:
+        coluna: CODIGO_AJUSTE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 146 linhas.']
+  eftabela_cst:
+    titulo: Tabela de Codigos Situacao Tributaria
+    descricao: 'Tabela de Codigos Situacao Tributaria. 138 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: eftabela_cst
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_cst: i_cst, descricao: descricao, codigo_do_imposto: CODI_IMP}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_cst:
+        coluna: i_cst
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 138 linhas.']
+  eftabela_rn_identificador_tarifa:
+    titulo: RN - Tabela Identificador Tarifa
+    descricao: 'RN - Tabela Identificador Tarifa. 130 linhas no catálogo; chave: IDENTIFICADOR.'
+    tabela: EFTABELA_RN_IDENTIFICADOR_TARIFA
+    chave: [IDENTIFICADOR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [IDENTIFICADOR, asc]
+    colunas: {identificador: IDENTIFICADOR, grupo_identificador: GRUPO_IDENTIFICADOR, descricao_identificador: DESCRICAO_IDENTIFICADOR}
+    filtros:
+      identificador:
+        coluna: IDENTIFICADOR
+        ops: [eq, in]
+      grupo_identificador:
+        coluna: GRUPO_IDENTIFICADOR
+        ops: [contem, prefixo]
+      descricao_identificador:
+        coluna: DESCRICAO_IDENTIFICADOR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 130 linhas.']
+  eftabela_dcip:
+    titulo: Tabela - Códigos DCIP
+    descricao: 'Tabela - Códigos DCIP. 125 linhas no catálogo; chave: I_DCIP, TIPO.'
+    tabela: EFTABELA_DCIP
+    chave: [I_DCIP, TIPO]
+    acesso: {empresa: null, periodo: VIGENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_INICIAL, desc]
+    - [I_DCIP, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_dcip: I_DCIP
+      tipo_1_credito_presumido_2_estorno_de_de: {coluna: TIPO, dominio: eftabela_dcip_tipo_1_credito_presumido_2_est}
+      descricao: DESCRICAO
+      vigencia_inicial: VIGENCIA_INICIAL
+      vigencia_final: VIGENCIA_FINAL
+      dispositivo_legal: DISPOSITIVO_LEGAL
+    filtros:
+      codigo_dcip:
+        coluna: I_DCIP
+        ops: [eq, in]
+      tipo_1_credito_presumido_2_estorno_de_de:
+        coluna: TIPO
+        ops: [eq, in]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      dispositivo_legal:
+        coluna: DISPOSITIVO_LEGAL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 125 linhas, VIGENCIA_INICIAL de 2001-09-01 a 2023-01-01.', 'tipo_1_credito_presumido_2_estorno_de_de: todos os valores reais estão
+        no comentário do banco (1=106, 2=16, 3=3).']
+  eftabela_receitas_7_1_1:
+    titulo: Tabela de Receitas 7.1.1
+    descricao: 'Tabela de Receitas 7.1.1. 122 linhas no catálogo; chave: CODIGO, VIGENCIA.'
+    tabela: EFTABELA_RECEITAS_7_1_1
+    chave: [CODIGO, VIGENCIA]
+    acesso: {empresa: null, periodo: VALIDADE, volume: pequeno}
+    ordem:
+    - [VALIDADE, desc]
+    - [CODIGO, asc]
+    - [VIGENCIA, asc]
+    colunas:
+      codigo: CODIGO
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_1_sintetico_2_analitico: {coluna: TIPO, dominio: eftabela_receitas_7_1_1_tipo_1_sintetico_2_analit}
+      ordem: ORDEM
+      validade: VALIDADE
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      validade:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_1_sintetico_2_analitico:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 122 linhas, VALIDADE de 2013-12-31 a 2050-01-01.', 'tipo_1_sintetico_2_analitico: todos os valores reais estão no comentário do
+        banco (2=100, 1=22).']
+  eftabela_simples_nacional_secao:
+    titulo: Simples Nacional - Secoes
+    descricao: 'Simples Nacional - Secoes. 105 linhas no catálogo; chave: anexo, secao, VIGENCIA.'
+    tabela: eftabela_simples_nacional_secao
+    chave: [anexo, secao, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [anexo, asc]
+    - [secao, asc]
+    colunas: {anexo: anexo, secao: secao, vigencia: VIGENCIA, descricao: descricao}
+    filtros:
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      secao:
+        coluna: secao
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 105 linhas, VIGENCIA de 2017-07-01 a 2021-04-01.']
+  eftabela_classe_consumo:
+    titulo: Tabela de Classe de Consumo - SPED e SEF 2012
+    descricao: 'Tabela de Classe de Consumo - SPED e SEF 2012. 101 linhas no catálogo; chave: I_CLASSE_CONSUMO.'
+    tabela: EFTABELA_CLASSE_CONSUMO
+    chave: [I_CLASSE_CONSUMO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CLASSE_CONSUMO, asc]
+    colunas:
+      codigo_sequencial: I_CLASSE_CONSUMO
+      tipo: {coluna: TIPO, dominio: eftabela_classe_consumo_tipo_1_sped}
+      especie: ESPECIE
+      descricao: DESCRICAO
+      codigo_sped: CODIGO_SPED
+      codigo_sef: CODIGO_SEF
+    filtros:
+      codigo_sequencial:
+        coluna: I_CLASSE_CONSUMO
+        ops: [eq, in]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      especie:
+        coluna: ESPECIE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_sped:
+        coluna: CODIGO_SPED
+        ops: [eq, in]
+      codigo_sef:
+        coluna: CODIGO_SEF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 101 linhas.', 'tipo: todos os valores reais estão no comentário do banco (1=58, 2=43).']
+  eftabela_genero_mercadoria:
+    titulo: Tabela Genero do Item de Mercadoria/Servico
+    descricao: 'Tabela Genero do Item de Mercadoria/Servico. 100 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_genero_mercadoria
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 100 linhas.']
+  eftabela_exclusoes_7_1_2:
+    titulo: Tabela de Exclusões/Deduções 7.1.2
+    descricao: 'Tabela de Exclusões/Deduções 7.1.2. 88 linhas no catálogo; chave: CODIGO, VIGENCIA.'
+    tabela: EFTABELA_EXCLUSOES_7_1_2
+    chave: [CODIGO, VIGENCIA]
+    acesso: {empresa: null, periodo: VALIDADE, volume: pequeno}
+    ordem:
+    - [VALIDADE, desc]
+    - [CODIGO, asc]
+    - [VIGENCIA, asc]
+    colunas:
+      codigo: CODIGO
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_1_sintetico_2_analitico: {coluna: TIPO, dominio: eftabela_exclusoes_7_1_2_tipo_1_sintetic}
+      ordem: ORDEM
+      validade: VALIDADE
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      validade:
+        coluna: VALIDADE
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_1_sintetico_2_analitico:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 88 linhas, VALIDADE de 2013-12-31 a 2050-01-01.', 'tipo_1_sintetico_2_analitico: todos os valores reais estão no comentário do
+        banco (2=79, 1=9).']
+  eftabela_classificacao_sped:
+    titulo: Tabela de classificacao de servicos do SPED fiscal
+    descricao: 'Tabela de classificacao de servicos do SPED fiscal. 87 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_classificacao_sped
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 87 linhas.']
+  eftabela_gnre_avulsa_produtos:
+    titulo: Tabela de produtos - GNRE Avulsa
+    descricao: 'Tabela de produtos - GNRE Avulsa. 84 linhas no catálogo; chave: CODIGO_PRODUTO_GNRE.'
+    tabela: EFTABELA_GNRE_AVULSA_PRODUTOS
+    chave: [CODIGO_PRODUTO_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_PRODUTO_GNRE, asc]
+    colunas: {codigo_do_produto_da_receitar: CODIGO_PRODUTO_GNRE, descricao_do_produto_da_receitar: DESCRICAO}
+    filtros:
+      codigo_do_produto_da_receitar:
+        coluna: CODIGO_PRODUTO_GNRE
+        ops: [eq, in]
+      descricao_do_produto_da_receitar:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 84 linhas.']
+  eftabela_vinculo_cclasstrib_vigencia_itens_excecao_padrao:
+    titulo: Tabela de Vínculo de NCM/NBS por cClassTrib - Exceção - Padrão
+    descricao: 'Tabela de Vínculo de NCM/NBS por cClassTrib - Exceção - Padrão. 82 linhas no catálogo; chave: VIGENCIA, I_SEQUENCIAL, CODIGO_NCM_NBS_EXCECAO.'
+    tabela: EFTABELA_VINCULO_CCLASSTRIB_VIGENCIA_ITENS_EXCECAO_PADRAO
+    chave: [VIGENCIA, I_SEQUENCIAL, CODIGO_NCM_NBS_EXCECAO]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_SEQUENCIAL, asc]
+    - [CODIGO_NCM_NBS_EXCECAO, asc]
+    colunas: {vigencia: VIGENCIA, sequencial: I_SEQUENCIAL, excecao: CODIGO_NCM_NBS_EXCECAO}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      excecao:
+        coluna: CODIGO_NCM_NBS_EXCECAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 82 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']
+  eftabela_gnre_avulsa_detalhamento:
+    titulo: Tabela de detalhamento - GNRE Avulsa
+    descricao: 'Tabela de detalhamento - GNRE Avulsa. 79 linhas no catálogo; chave: CODIGO_DETALHAMENTO_RECEITA_GNRE.'
+    tabela: EFTABELA_GNRE_AVULSA_DETALHAMENTO
+    chave: [CODIGO_DETALHAMENTO_RECEITA_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_DETALHAMENTO_RECEITA_GNRE, asc]
+    colunas: {codigo_do_detalhamento_da_receita: CODIGO_DETALHAMENTO_RECEITA_GNRE, descricao_do_detalhamento_da_receita: DESCRICAO, detalhamento_da_receita_rs: RS_INFO_ADICIONAIS_DETALHAMENTO_RECEITA}
+    filtros:
+      codigo_do_detalhamento_da_receita:
+        coluna: CODIGO_DETALHAMENTO_RECEITA_GNRE
+        ops: [eq, in]
+      descricao_do_detalhamento_da_receita:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      detalhamento_da_receita_rs:
+        coluna: RS_INFO_ADICIONAIS_DETALHAMENTO_RECEITA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 79 linhas.']
+  eftabela_al_codigo_item_ipm:
+    titulo: Tabela de item para IPM - AL
+    descricao: 'Tabela de item para IPM - AL. 75 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_AL_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM, descricao_do_item_para_ipm: DESCRICAO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [eq, in]
+      descricao_do_item_para_ipm:
+        coluna: DESCRICAO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 75 linhas.']
+  eftabela_al_quadro_iii_dac:
+    titulo: Tabela do Quadro III do Informativo DAC - Tipo do Produto
+    descricao: 'Tabela do Quadro III do Informativo DAC - Tipo do Produto. 73 linhas no catálogo; chave: I_PRODUTO_QUADRO_III_DAC.'
+    tabela: EFTABELA_AL_QUADRO_III_DAC
+    chave: [I_PRODUTO_QUADRO_III_DAC]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PRODUTO_QUADRO_III_DAC, asc]
+    colunas: {sequencial: I_PRODUTO_QUADRO_III_DAC, descricao: DESCRICAO_PRODUTO_QUADRO_III_DAC, unidade: UNIDADE_PRODUTO_QUADRO_III_DAC}
+    filtros:
+      sequencial:
+        coluna: I_PRODUTO_QUADRO_III_DAC
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_PRODUTO_QUADRO_III_DAC
+        ops: [contem, prefixo]
+      unidade:
+        coluna: UNIDADE_PRODUTO_QUADRO_III_DAC
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 73 linhas.']
+  eftabela_grupo_st_estoque_rs:
+    titulo: Tabela dos grupos da substituição tributário do estoque - RS
+    descricao: 'Tabela dos grupos da substituição tributário do estoque - RS. 70 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_GRUPO_ST_ESTOQUE_RS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 70 linhas.']
+  eftabela_protege_dispositivo:
+    titulo: Tabela - de dispositivos do PROTEGE/GO
+    descricao: 'Tabela - de dispositivos do PROTEGE/GO. 66 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_PROTEGE_DISPOSITIVO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO, codigo_do_dispositivo_dpi: DISPOSITIVO_DPI, codigo_da_tabela_de_ajuste_sped: CODIGO_AJUSTE_SPED}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_da_tabela_de_ajuste_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 66 linhas.']
+  eftabela_simp_serie:
+    titulo: Tabela de Série - SIMP
+    descricao: 'Tabela de Série - SIMP. 66 linhas no catálogo; chave: SERIE.'
+    tabela: EFTABELA_SIMP_SERIE
+    chave: [SERIE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [SERIE, asc]
+    colunas: {serie: SERIE, codigo_i_simp: CODIGO_SIMP}
+    filtros:
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      codigo_i_simp:
+        coluna: CODIGO_SIMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 66 linhas.']
+  eftabela_credito_presumido_faixa_original:
+    titulo: Credito Presumido Importacao - Faixas - Original
+    descricao: 'Credito Presumido Importacao - Faixas - Original. 60 linhas no catálogo; chave: VIGENCIA, TABELA, ALIQUOTA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_FAIXA_ORIGINAL
+    chave: [VIGENCIA, TABELA, ALIQUOTA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    - [ALIQUOTA, asc]
+    colunas: {vigencia: VIGENCIA, tabela: TABELA, aliquota: ALIQUOTA, percentual_de_credito: PERCENTUAL}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      aliquota:
+        coluna: ALIQUOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 60 linhas, VIGENCIA de 2006-03-01 a 2022-04-01.']
+  eftabela_classificacao_servicos:
+    titulo: Tabela Classificacao de Itens dos Servicos de Comunicacao e Telecomunicacao
+    descricao: 'Tabela Classificacao de Itens dos Servicos de Comunicacao e Telecomunicacao. 59 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_classificacao_servicos
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 59 linhas.']
+  eftabela_recolhimento_sped_fiscal:
+    titulo: Código SPED Fiscal - Recolhimentos
+    descricao: 'Código SPED Fiscal - Recolhimentos. 55 linhas no catálogo; chave: I_RECOLHIMENTO_SPED_FISCAL.'
+    tabela: EFTABELA_RECOLHIMENTO_SPED_FISCAL
+    chave: [I_RECOLHIMENTO_SPED_FISCAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_RECOLHIMENTO_SPED_FISCAL, asc]
+    colunas: {codigo_sequencial: I_RECOLHIMENTO_SPED_FISCAL, uf: UF, codigo_do_imposto: CODI_IMP, codigo_sped_fiscal: CODIGO_SPED_FISCAL, descricao: DESCRICAO}
+    filtros:
+      codigo_sequencial:
+        coluna: I_RECOLHIMENTO_SPED_FISCAL
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      codigo_sped_fiscal:
+        coluna: CODIGO_SPED_FISCAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 55 linhas.']
+  eftabela_veiculo_marca:
+    titulo: Marca de veículos
+    descricao: 'Marca de veículos. 48 linhas no catálogo; chave: I_VEICULO_MARCA.'
+    tabela: EFTABELA_VEICULO_MARCA
+    chave: [I_VEICULO_MARCA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_VEICULO_MARCA, asc]
+    colunas: {codigo: I_VEICULO_MARCA, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_VEICULO_MARCA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 48 linhas.']
+  eftabela_pa_codigo_item_ipm:
+    titulo: Tabela de item para IPM - PA
+    descricao: 'Tabela de item para IPM - PA. 47 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_PA_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_INICIAL, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM, vigencia_inicial_do_item_para_ipm: VIGENCIA_INICIAL, vigencia_final_do_item_para_ipm: VIGENCIA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      vigencia_inicial_do_item_para_ipm:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final_do_item_para_ipm:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 47 linhas, VIGENCIA_INICIAL de 2022-01-01 a 2022-01-01.', 'Colunas expostas nulas em 100% das linhas (1): vigencia_final_do_item_para_ipm.']
+  eftabela_ba_codigo_item_ipm:
+    titulo: Tabela de item para IPM - BA
+    descricao: 'Tabela de item para IPM - BA. 44 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_BA_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_INICIAL, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM, vigencia_inicial_do_item_para_ipm: VIGENCIA_INICIAL, vigencia_final_do_item_para_ipm: VIGENCIA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      vigencia_inicial_do_item_para_ipm:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final_do_item_para_ipm:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 44 linhas, VIGENCIA_INICIAL de 2018-01-01 a 2024-07-01.']
+  eftabela_diferencial_aliquota_ma_faixa:
+    titulo: Tabela Diferencial de Alíquota MA - Faixas
+    descricao: 'Tabela Diferencial de Alíquota MA - Faixas. 42 linhas no catálogo; chave: VIGENCIA, FAIXA.'
+    tabela: EFTABELA_DIFERENCIAL_ALIQUOTA_MA_FAIXA
+    chave: [VIGENCIA, FAIXA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [FAIXA, asc]
+    colunas: {vigencia: VIGENCIA, faixa: FAIXA, faixa_inicial: INICIAL, faixa_final: FINAL, aliquota: ALIQUOTA}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      faixa:
+        coluna: FAIXA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 42 linhas, VIGENCIA de 2015-06-01 a 2019-01-01.']
+  eftabela_sc_credito_presumido_produto:
+    titulo: Tabela de Relacionamento - SC - Tipo de Crédito Presumido - Tipo do Produto
+    descricao: 'Tabela de Relacionamento - SC - Tipo de Crédito Presumido - Tipo do Produto. 40 linhas no catálogo; chave: I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO.'
+    tabela: EFTABELA_SC_CREDITO_PRESUMIDO_PRODUTO
+    chave: [I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    - [I_TIPO_PRODUTO, asc]
+    colunas: {sequencial_do_tipo_de_credito_presumido: I_CREDITO_PRESUMIDO, sequencial_do_tipo_do_produto: I_TIPO_PRODUTO, descricao: DESCRICAO}
+    vinculos:
+      eftabela_sc_credito_pres:
+        tabela: EFTABELA_SC_CREDITO_PRESUMIDO
+        liga: {i_credito_presumido: i_credito_presumido}
+        colunas: {eftabela_sc_credito_pres_nome: DESCRICAO}
+    filtros:
+      sequencial_do_tipo_de_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      sequencial_do_tipo_do_produto:
+        coluna: I_TIPO_PRODUTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 40 linhas.', 'Vínculo eftabela_sc_credito_pres (EFTABELA_SC_CREDITO_PRESUMIDO): 0 de 40 linhas sem registro relacionado.']
+  eftabela_dif_formato_papel:
+    titulo: DIF - Papel Imune - Formato de Papel
+    descricao: 'DIF - Papel Imune - Formato de Papel. 37 linhas no catálogo; chave: I_DIF_FORMATO_PAPEL.'
+    tabela: EFTABELA_DIF_FORMATO_PAPEL
+    chave: [I_DIF_FORMATO_PAPEL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DIF_FORMATO_PAPEL, asc]
+    colunas: {sequencial: I_DIF_FORMATO_PAPEL, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_DIF_FORMATO_PAPEL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37 linhas.']
+  eftabela_pb_valores_declaratorios_icms:
+    titulo: PB - Tabela de valores declaratorios de ICMS
+    descricao: 'PB - Tabela de valores declaratorios de ICMS. 35 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_PB_VALORES_DECLARATORIOS_ICMS
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [CODIGO, asc]
+    colunas: {codigo_do_ajuste: CODIGO, descricao_do_ajuste: DESCRICAO, data_de_inicio_do_ajuste: DATA_AJUSTE, data_de_validade_do_ajuste: DATA_VALIDADE}
+    filtros:
+      codigo_do_ajuste:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_de_inicio_do_ajuste:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      data_de_validade_do_ajuste:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 35 linhas, DATA_AJUSTE de 2014-01-01 a 2019-08-01.', 'Colunas expostas nulas em 100% das linhas (1): data_de_validade_do_ajuste.']
+  eftabela_situacao_tributaria:
+    titulo: Tabela Situacao Tributaria
+    descricao: 'Tabela Situacao Tributaria. 33 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_situacao_tributaria
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 33 linhas.']
+  eftabela_natureza_acao_processo_referenciado:
+    titulo: Tabela de natureza da ação dos processos referenciados
+    descricao: 'Tabela de natureza da ação dos processos referenciados. 31 linhas no catálogo; chave: ORIGEM, CODIGO.'
+    tabela: EFTABELA_NATUREZA_ACAO_PROCESSO_REFERENCIADO
+    chave: [ORIGEM, CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ORIGEM, asc]
+    - [CODIGO, asc]
+    colunas: {origem_do_processo: ORIGEM, codigo_da_natureza_da_acao: CODIGO, descricao: DESCRICAO}
+    filtros:
+      origem_do_processo:
+        coluna: ORIGEM
+        ops: [eq, in]
+      codigo_da_natureza_da_acao:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 31 linhas.']
+  eftabela_classe_enquadramento_ipi:
+    titulo: Tabela de Classe Enquadramento - IPI
+    descricao: 'Tabela de Classe Enquadramento - IPI. 31 linhas no catálogo; chave: I_CLASSE_ENQUADRAMENTO.'
+    tabela: EFTABELA_CLASSE_ENQUADRAMENTO_IPI
+    chave: [I_CLASSE_ENQUADRAMENTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CLASSE_ENQUADRAMENTO, asc]
+    colunas: {sequencial: I_CLASSE_ENQUADRAMENTO, codigo: CODIGO_ENQUADRAMENTO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_CLASSE_ENQUADRAMENTO
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO_ENQUADRAMENTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 31 linhas.']
+  eftabela_es_codigo_item_ipm:
+    titulo: Tabela de item para IPM - ES
+    descricao: 'Tabela de item para IPM - ES. 31 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_ES_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_INICIAL, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM, descricao_do_item_para_ipm: DESCRICAO_ITEM_IPM, vigencia_inicial: VIGENCIA_INICIAL,
+      vigencia_final: VIGENCIA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+      descricao_do_item_para_ipm:
+        coluna: DESCRICAO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 31 linhas, VIGENCIA_INICIAL de 2015-10-01 a 2025-03-01.']
+  eftabela_esocial_tipo_servico:
+    titulo: Tabela e_Social Tipo de Serviço
+    descricao: 'Tabela e_Social Tipo de Serviço. 30 linhas no catálogo; chave: I_TIPO_SERVICO.'
+    tabela: EFTABELA_ESOCIAL_TIPO_SERVICO
+    chave: [I_TIPO_SERVICO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO_SERVICO, asc]
+    colunas: {sequencial_do_tipo_de_servico: I_TIPO_SERVICO, descricao: DESCRICAO}
+    filtros:
+      sequencial_do_tipo_de_servico:
+        coluna: I_TIPO_SERVICO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 30 linhas.']
+  eftabela_classificacao_tributaria_is:
+    titulo: Tabela Classificacao de classificação tributaria do imposto seletivo - IS
+    descricao: 'Tabela Classificacao de classificação tributaria do imposto seletivo - IS. 30 linhas no catálogo; chave: I_TABELA_IS, VIGENCIA, CCLASSTRIB.'
+    tabela: EFTABELA_CLASSIFICACAO_TRIBUTARIA_IS
+    chave: [I_TABELA_IS, VIGENCIA, CCLASSTRIB]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_TABELA_IS, asc]
+    - [CCLASSTRIB, asc]
+    colunas: {sequencial_tabela_is: I_TABELA_IS, vigencia: VIGENCIA, codigo_classificacao_tributaria_is: CCLASSTRIB, descricao_classificacao_tributaria: DESCRICAO_CCLASSTRIB,
+      cst: CST, descricao_cst: DESCRICAO_CST}
+    filtros:
+      sequencial_tabela_is:
+        coluna: I_TABELA_IS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_classificacao_tributaria_is:
+        coluna: CCLASSTRIB
+        ops: [eq, in]
+      descricao_classificacao_tributaria:
+        coluna: DESCRICAO_CCLASSTRIB
+        ops: [contem, prefixo]
+      descricao_cst:
+        coluna: DESCRICAO_CST
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 30 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']
+  eftabela_codigo_tipo_credito:
+    titulo: Tabela Codigo de Tipo de Credito
+    descricao: 'Tabela Codigo de Tipo de Credito. 28 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_CODIGO_TIPO_CREDITO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 28 linhas.']
+  eftabela_dere_uf:
+    titulo: DeRE - Unidades da Federação
+    descricao: 'DeRE - Unidades da Federação. 28 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_DERE_UF
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_ibge_da_uf: CODIGO, sigla_da_uf: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_ibge_da_uf:
+        coluna: CODIGO
+        ops: [eq, in]
+      sigla_da_uf:
+        coluna: DESCRICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 28 linhas.']
+  eftabela_aliquota_icms_original:
+    titulo: Tabela de Alíquota Interestadual de ICMS - Original
+    descricao: 'Tabela de Alíquota Interestadual de ICMS - Original. 27 linhas no catálogo; chave: I_TABELA_ICMS, UF_ORIGEM.'
+    tabela: EFTABELA_ALIQUOTA_ICMS_ORIGINAL
+    chave: [I_TABELA_ICMS, UF_ORIGEM]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TABELA_ICMS, asc]
+    - [UF_ORIGEM, asc]
+    colunas: {sequencial: I_TABELA_ICMS, uf_origem: UF_ORIGEM, aliquota_uf_destino_ac: ALIQUOTA_UF_DESTINO_AC, aliquota_uf_destino_al: ALIQUOTA_UF_DESTINO_AL, aliquota_uf_destino_am: ALIQUOTA_UF_DESTINO_AM,
+      aliquota_uf_destino_ap: ALIQUOTA_UF_DESTINO_AP, aliquota_uf_destino_ba: ALIQUOTA_UF_DESTINO_BA, aliquota_uf_destino_ce: ALIQUOTA_UF_DESTINO_CE, aliquota_uf_destino_df: ALIQUOTA_UF_DESTINO_DF,
+      aliquota_uf_destino_es: ALIQUOTA_UF_DESTINO_ES, aliquota_uf_destino_go: ALIQUOTA_UF_DESTINO_GO, aliquota_uf_destino_ma: ALIQUOTA_UF_DESTINO_MA, aliquota_uf_destino_mg: ALIQUOTA_UF_DESTINO_MG,
+      aliquota_uf_destino_ms: ALIQUOTA_UF_DESTINO_MS, aliquota_uf_destino_mt: ALIQUOTA_UF_DESTINO_MT, aliquota_uf_destino_pa: ALIQUOTA_UF_DESTINO_PA, aliquota_uf_destino_pb: ALIQUOTA_UF_DESTINO_PB,
+      aliquota_uf_destino_pe: ALIQUOTA_UF_DESTINO_PE, aliquota_uf_destino_pi: ALIQUOTA_UF_DESTINO_PI, aliquota_uf_destino_pr: ALIQUOTA_UF_DESTINO_PR, aliquota_uf_destino_rj: ALIQUOTA_UF_DESTINO_RJ,
+      aliquota_uf_destino_rn: ALIQUOTA_UF_DESTINO_RN, aliquota_uf_destino_ro: ALIQUOTA_UF_DESTINO_RO, aliquota_uf_destino_rr: ALIQUOTA_UF_DESTINO_RR, aliquota_uf_destino_rs: ALIQUOTA_UF_DESTINO_RS,
+      aliquota_uf_destino_sc: ALIQUOTA_UF_DESTINO_SC, aliquota_uf_destino_se: ALIQUOTA_UF_DESTINO_SE, aliquota_uf_destino_sp: ALIQUOTA_UF_DESTINO_SP, aliquota_uf_destino_to: ALIQUOTA_UF_DESTINO_TO}
+    filtros:
+      sequencial:
+        coluna: I_TABELA_ICMS
+        ops: [eq, in]
+      uf_origem:
+        coluna: UF_ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27 linhas.']
+  eftabela_sc_codigo_item_ipm:
+    titulo: Tabela de item para IPM - SC
+    descricao: 'Tabela de item para IPM - SC. 26 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_SC_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: VIGENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_INICIAL, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM, vigencia_inicial_do_item_para_ipm: VIGENCIA_INICIAL, vigencia_final_do_item_para_ipm: VIGENCIA_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      vigencia_inicial_do_item_para_ipm:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+      vigencia_final_do_item_para_ipm:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 26 linhas, VIGENCIA_INICIAL de 2020-01-01 a 2024-01-01.']
+  eftabela_dere_servicos_financeiros:
+    titulo: DeRE - Serviços financeiros
+    descricao: 'DeRE - Serviços financeiros. 26 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_DERE_SERVICOS_FINANCEIROS
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_da_atividade: CODIGO, descricao_da_atividade: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_atividade:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 26 linhas.']
+  eftabela_cfps:
+    titulo: Tabela Codigo Fiscal de Prestacoes de Servicos
+    descricao: 'Tabela Codigo Fiscal de Prestacoes de Servicos. 25 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_cfps
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 25 linhas.']
+  eftabela_pb_recolhimento_feef:
+    titulo: Recolhimento FEEF
+    descricao: 'Recolhimento FEEF. 25 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_PB_RECOLHIMENTO_FEEF
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_recolhimento: CODIGO_RECOLHIMENTO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 25 linhas.']
+  eftabela_especie_servico_transporte:
+    titulo: Tabela de Modelo de Espécie para Serviço de Transporte
+    descricao: 'Tabela de Modelo de Espécie para Serviço de Transporte. 24 linhas no catálogo; chave: MODELO.'
+    tabela: EFTABELA_ESPECIE_SERVICO_TRANSPORTE
+    chave: [MODELO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [MODELO, asc]
+    colunas: {modelo: MODELO, descricao: DESCRICAO}
+    filtros:
+      modelo:
+        coluna: MODELO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 24 linhas.']
+  eftabela_natureza_acao:
+    titulo: Ajustes PIS/COFINS - Natureza da ação
+    descricao: 'Ajustes PIS/COFINS - Natureza da ação. 24 linhas no catálogo; chave: ORIGEM_AJUSTE, I_NATUREZA_ACAO.'
+    tabela: EFTABELA_NATUREZA_ACAO
+    chave: [ORIGEM_AJUSTE, I_NATUREZA_ACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ORIGEM_AJUSTE, asc]
+    - [I_NATUREZA_ACAO, asc]
+    colunas: {origem_ajuste: ORIGEM_AJUSTE, natureza_da_acao: I_NATUREZA_ACAO, descricao_da_natureza_da_acao: DESCRICAO}
+    filtros:
+      origem_ajuste:
+        coluna: ORIGEM_AJUSTE
+        ops: [eq, in]
+      natureza_da_acao:
+        coluna: I_NATUREZA_ACAO
+        ops: [eq, in]
+      descricao_da_natureza_da_acao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 24 linhas.']
+  eftabela_gnre_avulsa_documentos_origem:
+    titulo: Tabela de documentos de origem - GNRE Avulsa
+    descricao: 'Tabela de documentos de origem - GNRE Avulsa. 23 linhas no catálogo; chave: CODIGO_DOCUMENTO_ORIGEM_GNRE.'
+    tabela: EFTABELA_GNRE_AVULSA_DOCUMENTOS_ORIGEM
+    chave: [CODIGO_DOCUMENTO_ORIGEM_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_DOCUMENTO_ORIGEM_GNRE, asc]
+    colunas: {codigo_do_documento_de_origem_da_receita: CODIGO_DOCUMENTO_ORIGEM_GNRE, descricao_do_documento_de_origem_da_rece: DESCRICAO}
+    filtros:
+      codigo_do_documento_de_origem_da_receita:
+        coluna: CODIGO_DOCUMENTO_ORIGEM_GNRE
+        ops: [eq, in]
+      descricao_do_documento_de_origem_da_rece:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 23 linhas.']
+  eftabela_credito_presumido_original:
+    titulo: Credito Presumido Importacao - Original
+    descricao: 'Credito Presumido Importacao - Original. 23 linhas no catálogo; chave: VIGENCIA, TABELA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_ORIGINAL
+    chave: [VIGENCIA, TABELA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    colunas: {vigencia: VIGENCIA, tabela: TABELA, tratamento_tributario_diferenciado: TTD, codigo_dcip: I_DCIP}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      tratamento_tributario_diferenciado:
+        coluna: TTD
+        ops: [eq, in]
+      codigo_dcip:
+        coluna: I_DCIP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas, VIGENCIA de 2006-03-01 a 2022-04-01.']
+  eftabela_simples_nacional_anexo:
+    titulo: Simples Nacional - Anexos
+    descricao: 'Simples Nacional - Anexos. 22 linhas no catálogo; chave: anexo, VIGENCIA.'
+    tabela: eftabela_simples_nacional_anexo
+    chave: [anexo, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [anexo, asc]
+    colunas: {anexo: anexo, vigencia: VIGENCIA, descricao: descricao, ordem: ORDEM}
+    filtros:
+      anexo:
+        coluna: anexo
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas, VIGENCIA de 2017-07-01 a 2021-04-01.']
+  eftabela_tipo_conhecimento:
+    titulo: Tipo de conhecimento
+    descricao: 'Tipo de conhecimento. 22 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_tipo_conhecimento
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  eftabela_sc_credito_presumido:
+    titulo: Tabela de Relacionamento - SC - Tipo de Crédito Presumido
+    descricao: 'Tabela de Relacionamento - SC - Tipo de Crédito Presumido. 22 linhas no catálogo; chave: I_CREDITO_PRESUMIDO.'
+    tabela: EFTABELA_SC_CREDITO_PRESUMIDO
+    chave: [I_CREDITO_PRESUMIDO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {sequencial: I_CREDITO_PRESUMIDO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  eftabela_to_codigo_item_ipm:
+    titulo: Tabela de item para IPM - TO
+    descricao: 'Tabela de item para IPM - TO. 22 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_TO_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  eftabela_rn_codigo_item_ipm:
+    titulo: Tabela de item para IPM - RN
+    descricao: 'Tabela de item para IPM - RN. 22 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_RN_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  eftabela_finalidade_arquivo:
+    titulo: Tabela Finalidade do Arquivo
+    descricao: 'Tabela Finalidade do Arquivo. 20 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_finalidade_arquivo
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 20 linhas.']
+  eftabela_piscofins_sped_tabela:
+    titulo: Tabela PIS/COFINS SPED
+    descricao: 'Tabela PIS/COFINS SPED. 20 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_PISCOFINS_SPED_TABELA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 20 linhas.']
+  eftabela_ac_codigo_item_ipm:
+    titulo: Tabela de item para IPM - AC
+    descricao: 'Tabela de item para IPM - AC. 20 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_AC_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 20 linhas.']
+  eftabela_codigo_base_calculo_credito:
+    titulo: Tabela Codigo de Base de Calculo do Credito
+    descricao: 'Tabela Codigo de Base de Calculo do Credito. 18 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_CODIGO_BASE_CALCULO_CREDITO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 18 linhas.']
+  eftabela_mt_gia_meios_producao:
+    titulo: Tabela para os Códigos dos Meios de Produção da GIA do Estado MT
+    descricao: 'Tabela para os Códigos dos Meios de Produção da GIA do Estado MT. 18 linhas no catálogo; chave: I_MEIOS_PRODUCAO.'
+    tabela: EFTABELA_MT_GIA_MEIOS_PRODUCAO
+    chave: [I_MEIOS_PRODUCAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MEIOS_PRODUCAO, asc]
+    colunas: {codigo_dos_meios_de_producao: I_MEIOS_PRODUCAO, descricao: DESCRICAO, unidade_medida: UNIDADE, categoria: CATEGORIA}
+    filtros:
+      codigo_dos_meios_de_producao:
+        coluna: I_MEIOS_PRODUCAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      unidade_medida:
+        coluna: UNIDADE
+        ops: [contem, prefixo]
+      categoria:
+        coluna: CATEGORIA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 18 linhas.']
+  eftabela_simp_recipiente_glp:
+    titulo: Tabela Recipiente GLP - SIMP
+    descricao: 'Tabela Recipiente GLP - SIMP. 17 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_SIMP_RECIPIENTE_GLP
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 17 linhas.']
+  eftabela_gnre_avulsa_receita:
+    titulo: Tabela de receita - GNRE Avulsa
+    descricao: 'Tabela de receita - GNRE Avulsa. 17 linhas no catálogo; chave: CODIGO_RECEITA_GNRE.'
+    tabela: EFTABELA_GNRE_AVULSA_RECEITA
+    chave: [CODIGO_RECEITA_GNRE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_RECEITA_GNRE, asc]
+    colunas: {codigo_da_receita: CODIGO_RECEITA_GNRE, descricao_da_receita: DESCRICAO}
+    filtros:
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA_GNRE
+        ops: [eq, in]
+      descricao_da_receita:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 17 linhas.']
+  eftabela_tipo_receita:
+    titulo: Tabela Tipo de Receita
+    descricao: 'Tabela Tipo de Receita. 16 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_TIPO_RECEITA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_sequencial: CODIGO, ordem_para_exibicao: ORDEM_EXIBICAO, codigo_para_sped_fiscal: SPED_FISCAL, codigo_para_sped_pis_cofins: SPED_PISCOFINS, codigo_para_sintegra: SINTEGRA,
+      descricao: DESCRICAO}
+    filtros:
+      codigo_sequencial:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas.']
+  eftabela_mg_credito_presumido_produto:
+    titulo: Tabela de Relacionamento - MG - Tipo de Crédito Presumido - Tipo do Produto
+    descricao: 'Tabela de Relacionamento - MG - Tipo de Crédito Presumido - Tipo do Produto. 16 linhas no catálogo; chave: I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO.'
+    tabela: EFTABELA_MG_CREDITO_PRESUMIDO_PRODUTO
+    chave: [I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    - [I_TIPO_PRODUTO, asc]
+    colunas: {sequencial_do_tipo_de_credito_presumido: I_CREDITO_PRESUMIDO, sequencial_do_tipo_do_produto: I_TIPO_PRODUTO, descricao: DESCRICAO}
+    vinculos:
+      eftabela_mg_credito_pres:
+        tabela: EFTABELA_MG_CREDITO_PRESUMIDO
+        liga: {i_credito_presumido: i_credito_presumido}
+        colunas: {eftabela_mg_credito_pres_nome: DESCRICAO}
+    filtros:
+      sequencial_do_tipo_de_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      sequencial_do_tipo_do_produto:
+        coluna: I_TIPO_PRODUTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas.', 'Vínculo eftabela_mg_credito_pres (EFTABELA_MG_CREDITO_PRESUMIDO): 0 de 16 linhas sem registro relacionado.']
+  eftabela_credito_presumido_faixa_rs:
+    titulo: Crédito Presumido - Faixas - RS
+    descricao: 'Crédito Presumido - Faixas - RS. 15 linhas no catálogo; chave: VIGENCIA, TABELA, ALIQUOTA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_FAIXA_RS
+    chave: [VIGENCIA, TABELA, ALIQUOTA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    - [ALIQUOTA, asc]
+    colunas: {vigencia: VIGENCIA, tabela: TABELA, aliquota: ALIQUOTA, percentual_de_credito: PERCENTUAL, faixa_inicial: INICIAL, faixa_final: FINAL}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      aliquota:
+        coluna: ALIQUOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15 linhas, VIGENCIA de 2010-11-01 a 2017-07-01.']
+  eftabela_mg_incentivo_ret_faixas:
+    titulo: Tabela de incentivos do Crédito Estímulo MG - Faixas
+    descricao: 'Tabela de incentivos do Crédito Estímulo MG - Faixas. 15 linhas no catálogo; chave: CODI_EMP, VIGENCIA_PAR, SEQUENCIAL, I_SEQUENCIAL_INCENTIVO.'
+    tabela: EFTABELA_MG_INCENTIVO_RET_FAIXAS
+    chave: [CODI_EMP, VIGENCIA_PAR, SEQUENCIAL, I_SEQUENCIAL_INCENTIVO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_PAR, volume: pequeno}
+    ordem:
+    - [VIGENCIA_PAR, desc]
+    - [SEQUENCIAL, asc]
+    - [I_SEQUENCIAL_INCENTIVO, asc]
+    colunas:
+      empresa: CODI_EMP
+      vigencia: VIGENCIA_PAR
+      sequencial_incentivo_faixa: SEQUENCIAL
+      sequencial_incentivo: I_SEQUENCIAL_INCENTIVO
+      tipo_de_produto_i_inferior_s_superior_p: {coluna: TIPO_PRODUTO, dominio: eftabela_mg_incentivo_ret_faixas_tipo_de_pro}
+      operacoes_internas: OPERACOES_INTERNAS
+      operacoes_interestaduais: OPERACOES_INTERESTADUAIS
+      destino_da_operacao_0_todos_1_contribuin: {coluna: DESTINO_OPERACAO, dominio: eftabela_mg_incentivo_ret_faixas_destino_da_}
+      sub_grupo_1_importados_2_demais_3_eletro: {coluna: SUB_GRUPO, dominio: eftabela_mg_incentivo_ret_faixas_sub_grupo_1}
+      criterio_de_utilizacao_da_aliquota_desta: CRITERIO_ICMS
+      aliquota_icms_destacado: ALIQUOTA_ICMS
+    filtros:
+      vigencia:
+        coluna: VIGENCIA_PAR
+        ops: [eq, in]
+      sequencial_incentivo_faixa:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      sequencial_incentivo:
+        coluna: I_SEQUENCIAL_INCENTIVO
+        ops: [eq, in]
+      tipo_de_produto_i_inferior_s_superior_p:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15 linhas, 1 empresa(s), VIGENCIA_PAR de 2025-05-01 a 2026-05-01.', 'tipo_de_produto_i_inferior_s_superior_p: todos os valores
+        reais estão no comentário do banco (D=15).', 'destino_da_operacao_0_todos_1_contribuin: todos os valores reais estão no comentário do banco (0=15).', 'sub_grupo_1_importados_2_demais_3_eletro:
+        todos os valores reais estão no comentário do banco (2=15).']
+  eftabela_codigo_tributacao:
+    titulo: Tabela Codigo de Tributacao
+    descricao: 'Tabela Codigo de Tributacao. 14 linhas no catálogo; chave: codigo.'
+    tabela: eftabela_codigo_tributacao
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas:
+      codigo: codigo
+      descricao: descricao
+      tipo_da_nota_e_entrada_s_saida: {coluna: tipo, dominio: eftabela_codigo_tributacao_tipo_da_nota_e_entrada}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      tipo_da_nota_e_entrada_s_saida:
+        coluna: tipo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas.', 'tipo_da_nota_e_entrada_s_saida: todos os valores reais estão no comentário do banco (S=7, E=7).']
+  eftabela_cst_ipi_vigencia:
+    titulo: Tabela de CST - IPI - Vigência
+    descricao: 'Tabela de CST - IPI - Vigência. 14 linhas no catálogo; chave: CODIGO_CST, VIGENCIA.'
+    tabela: EFTABELA_CST_IPI_VIGENCIA
+    chave: [CODIGO_CST, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODIGO_CST, asc]
+    colunas:
+      codigo_cst: CODIGO_CST
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_da_nota_e_entrada_s_saida_a_ambas: {coluna: TIPO_NOTA, dominio: eftabela_cst_ipi_vigencia_tipo_da_nota_e_entrada_}
+    filtros:
+      codigo_cst:
+        coluna: CODIGO_CST
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_da_nota_e_entrada_s_saida_a_ambas:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, VIGENCIA de 1900-01-01 a 1900-01-01.', 'tipo_da_nota_e_entrada_s_saida_a_ambas: todos os valores reais estão no comentário
+        do banco (S=7, E=7).']
+  eftabela_codigo_contribuicao_social_apurada:
+    titulo: Tabela Codigo de Contribuicao Social Apurada
+    descricao: 'Tabela Codigo de Contribuicao Social Apurada. 13 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_CODIGO_CONTRIBUICAO_SOCIAL_APURADA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 13 linhas.']
+  eftabela_suspensao_impostos_federais_motivo_suspensao:
+    titulo: Tabela de motivo de suspenção - Suspensão de impostos federais
+    descricao: 'Tabela de motivo de suspenção - Suspensão de impostos federais. 13 linhas no catálogo; chave: I_MOTIVO_SUSPENSAO.'
+    tabela: EFTABELA_SUSPENSAO_IMPOSTOS_FEDERAIS_MOTIVO_SUSPENSAO
+    chave: [I_MOTIVO_SUSPENSAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MOTIVO_SUSPENSAO, asc]
+    colunas: {sequencial_do_motivo_da_suspencao: I_MOTIVO_SUSPENSAO, descricao_do_motivo_da_suspencao: DESCRICAO, codigo_gerado_na_dctf: CODIGO_DCTF}
+    filtros:
+      sequencial_do_motivo_da_suspencao:
+        coluna: I_MOTIVO_SUSPENSAO
+        ops: [eq, in]
+      descricao_do_motivo_da_suspencao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_gerado_na_dctf:
+        coluna: CODIGO_DCTF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas.']
+  eftabela_sp_codigo_item_ipm:
+    titulo: Tabela de item para IPM - SP
+    descricao: 'Tabela de item para IPM - SP. 12 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_SP_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12 linhas.']
+  eftabela_motivo_desoneracao_icms:
+    titulo: Motivo desoneração do ICMS
+    descricao: 'Motivo desoneração do ICMS. 12 linhas no catálogo; chave: I_MOTIVO_DESONERACAO.'
+    tabela: EFTABELA_MOTIVO_DESONERACAO_ICMS
+    chave: [I_MOTIVO_DESONERACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MOTIVO_DESONERACAO, asc]
+    colunas: {sequencial: I_MOTIVO_DESONERACAO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_MOTIVO_DESONERACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 12 linhas.']
+  eftabela_rs_utilizacao_credito:
+    titulo: Tabela de relacionamento - RS - Utilização de Crédito
+    descricao: 'Tabela de relacionamento - RS - Utilização de Crédito. 11 linhas no catálogo; chave: I_UTILIZACAO_CREDITO.'
+    tabela: EFTABELA_RS_UTILIZACAO_CREDITO
+    chave: [I_UTILIZACAO_CREDITO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_UTILIZACAO_CREDITO, asc]
+    colunas: {sequencial: I_UTILIZACAO_CREDITO, codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_UTILIZACAO_CREDITO
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 11 linhas.']
+  eftabela_ba_valores_declaratorios_icms:
+    titulo: BA - Tabela de valores declaratorios de ICMS
+    descricao: 'BA - Tabela de valores declaratorios de ICMS. 11 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_BA_VALORES_DECLARATORIOS_ICMS
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [CODIGO, asc]
+    colunas: {codigo_do_ajuste: CODIGO, descricao_do_ajuste: DESCRICAO, data_de_inicio_do_ajuste: DATA_AJUSTE, data_de_validade_do_ajuste: DATA_VALIDADE}
+    filtros:
+      codigo_do_ajuste:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_de_inicio_do_ajuste:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      data_de_validade_do_ajuste:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 11 linhas, DATA_AJUSTE de 2014-07-01 a 2014-11-01.', 'Colunas expostas nulas em 100% das linhas (1): data_de_validade_do_ajuste.']
+  eftabela_credito_presumido_faixa_mg:
+    titulo: Crédito Presumido - Faixas - MG
+    descricao: 'Crédito Presumido - Faixas - MG. 10 linhas no catálogo; chave: VIGENCIA, TABELA, ALIQUOTA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_FAIXA_MG
+    chave: [VIGENCIA, TABELA, ALIQUOTA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    - [ALIQUOTA, asc]
+    colunas: {vigencia: VIGENCIA, tabela_1_credito_presumido_importacao_ar: TABELA, aliquota: ALIQUOTA, percentual_operacao_interna: PERCENTUAL_INTERNO, percentual_operacao_interestadual: PERCENTUAL_INTERESTADUAL}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela_1_credito_presumido_importacao_ar:
+        coluna: TABELA
+        ops: [eq, in]
+      aliquota:
+        coluna: ALIQUOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, VIGENCIA de 2003-09-30 a 2013-01-01.']
+  eftabela_cst_simples_nacional_vigencia:
+    titulo: Tabela de CST - Simples Nacional - Vigência
+    descricao: 'Tabela de CST - Simples Nacional - Vigência. 10 linhas no catálogo; chave: CODIGO_CST, VIGENCIA.'
+    tabela: EFTABELA_CST_SIMPLES_NACIONAL_VIGENCIA
+    chave: [CODIGO_CST, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODIGO_CST, asc]
+    colunas:
+      codigo_cst: CODIGO_CST
+      vigencia: VIGENCIA
+      descricao: DESCRICAO
+      tipo_da_nota_e_entrada_s_saida_a_ambas: {coluna: TIPO_NOTA, dominio: eftabela_cst_simples_nacional_vigencia_tipo_da_not}
+    filtros:
+      codigo_cst:
+        coluna: CODIGO_CST
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_da_nota_e_entrada_s_saida_a_ambas:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, VIGENCIA de 2010-10-01 a 2010-10-01.', 'tipo_da_nota_e_entrada_s_saida_a_ambas: todos os valores reais estão no comentário
+        do banco (A=10).']
+  eftabela_rs_credito_presumido_produto:
+    titulo: RS - Tabela Crédito Presumido Produto
+    descricao: 'RS - Tabela Crédito Presumido Produto. 10 linhas no catálogo; chave: I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO.'
+    tabela: EFTABELA_RS_CREDITO_PRESUMIDO_PRODUTO
+    chave: [I_CREDITO_PRESUMIDO, I_TIPO_PRODUTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    - [I_TIPO_PRODUTO, asc]
+    colunas: {codigo_credito_presumido: I_CREDITO_PRESUMIDO, codigo_tipo_produto: I_TIPO_PRODUTO, descricao: DESCRICAO}
+    filtros:
+      codigo_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      codigo_tipo_produto:
+        coluna: I_TIPO_PRODUTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 10 linhas.']
+  eftabela_dif_unidade_medida:
+    titulo: DIF - Papel Imune - Unidade de Medida
+    descricao: 'DIF - Papel Imune - Unidade de Medida. 10 linhas no catálogo; chave: I_DIF_UNIDADE_MEDIDA.'
+    tabela: EFTABELA_DIF_UNIDADE_MEDIDA
+    chave: [I_DIF_UNIDADE_MEDIDA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DIF_UNIDADE_MEDIDA, asc]
+    colunas: {sequencial: I_DIF_UNIDADE_MEDIDA, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_DIF_UNIDADE_MEDIDA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas.']
+  eftabela_go_dispositivo_credito:
+    titulo: Tabela de Relacionamento - GO - Dispositivo do crédito
+    descricao: 'Tabela de Relacionamento - GO - Dispositivo do crédito. 9 linhas no catálogo; chave: I_DISPOSITIVO_CREDITO.'
+    tabela: EFTABELA_GO_DISPOSITIVO_CREDITO
+    chave: [I_DISPOSITIVO_CREDITO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DISPOSITIVO_CREDITO, asc]
+    colunas: {dispositivo_do_credito: I_DISPOSITIVO_CREDITO, descricao: DESCRICAO}
+    filtros:
+      dispositivo_do_credito:
+        coluna: I_DISPOSITIVO_CREDITO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 9 linhas.']
+  eftabela_dif_periodicidade:
+    titulo: DIF - Papel Imune - Periodicidades
+    descricao: 'DIF - Papel Imune - Periodicidades. 9 linhas no catálogo; chave: I_DIF_PERIODICIDADE.'
+    tabela: EFTABELA_DIF_PERIODICIDADE
+    chave: [I_DIF_PERIODICIDADE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DIF_PERIODICIDADE, asc]
+    colunas: {sequencial: I_DIF_PERIODICIDADE, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_DIF_PERIODICIDADE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas.']
+  eftabela_sub_apuracoes_prodepe_pe:
+    titulo: Tabela de Sub-Apurações PRODEPE - PE
+    descricao: 'Tabela de Sub-Apurações PRODEPE - PE. 8 linhas no catálogo; chave: I_PRODEPE_APURACAO.'
+    tabela: EFTABELA_SUB_APURACOES_PRODEPE_PE
+    chave: [I_PRODEPE_APURACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PRODEPE_APURACAO, asc]
+    colunas: {sequencial: I_PRODEPE_APURACAO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_PRODEPE_APURACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  eftabela_siscomex:
+    titulo: Tabela do SISCOMEX
+    descricao: 'Tabela do SISCOMEX. 8 linhas no catálogo; chave: I_SISCOMEX.'
+    tabela: EFTABELA_SISCOMEX
+    chave: [I_SISCOMEX]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SISCOMEX, asc]
+    colunas: {sequencial: I_SISCOMEX, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SISCOMEX
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  eftabela_pe_codigo_item_ipm:
+    titulo: Tabela de item para IPM - PE
+    descricao: 'Tabela de item para IPM - PE. 8 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_PE_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  eftabela_dere_planos_saude:
+    titulo: DeRE - Planos de assistência à saúde
+    descricao: 'DeRE - Planos de assistência à saúde. 8 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_DERE_PLANOS_SAUDE
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_da_atividade: CODIGO, descricao_da_atividade: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_atividade:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  eftabela_simples_nacional_mei:
+    titulo: Tabela de Calculo do Simples Nacional - MEI
+    descricao: 'Tabela de Calculo do Simples Nacional - MEI. 7 linhas no catálogo; chave: VIGENCIA.'
+    tabela: EFTABELA_SIMPLES_NACIONAL_MEI
+    chave: [VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas: {vigencia: VIGENCIA, valor_do_inss: INSS, valor_do_icms: ICMS, valor_do_iss: ISS, valor_do_inss_mei_caminhoneiro: INSS_CAMINHONEIRO, valor_do_icms_mei_caminhoneiro: ICMS_CAMINHONEIRO,
+      valor_do_iss_mei_caminhoneiro: ISS_CAMINHONEIRO}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, VIGENCIA de 2009-07-01 a 2026-01-01.']
+  eftabela_ma_codigo_item_ipm:
+    titulo: Tabela de item para IPM - MA
+    descricao: 'Tabela de item para IPM - MA. 7 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_MA_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas.']
+  eftabela_pr_codigo_item_ipm:
+    titulo: Tabela de item para IPM - PR
+    descricao: 'Tabela de item para IPM - PR. 7 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_PR_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas.']
+  eftabela_dere_concursos:
+    titulo: DeRE - Concursos de prognósticos
+    descricao: 'DeRE - Concursos de prognósticos. 7 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_DERE_CONCURSOS
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_da_atividade: CODIGO, descricao_da_atividade: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_atividade:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas.']
+  eftabela_mg_codigo_item_ipm:
+    titulo: Tabela de item para IPM - MG
+    descricao: 'Tabela de item para IPM - MG. 6 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_MG_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  eftabela_rs_codigo_item_ipm:
+    titulo: Tabela de item para IPM - RS
+    descricao: 'Tabela de item para IPM - RS. 6 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: EFTABELA_RS_CODIGO_ITEM_IPM
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {sequencial: I_SEQUENCIAL, codigo_do_item_para_ipm: CODIGO_ITEM_IPM}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_item_para_ipm:
+        coluna: CODIGO_ITEM_IPM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  eftabela_credito_presumido_faixa_pr:
+    titulo: Credito Presumido - Faixas - PR
+    descricao: 'Credito Presumido - Faixas - PR. 5 linhas no catálogo; chave: vigencia, aliquota, TABELA.'
+    tabela: eftabela_credito_presumido_faixa_pr
+    chave: [vigencia, aliquota, TABELA]
+    acesso: {empresa: null, periodo: vigencia, volume: pequeno}
+    ordem:
+    - [vigencia, desc]
+    - [aliquota, asc]
+    - [TABELA, asc]
+    colunas:
+      vigencia: vigencia
+      aliquota: aliquota
+      tabela_1_feijao_2_textil_3_cafe_4_arroz: {coluna: TABELA, dominio: eftabela_credito_presumido_faixa_pr_tabela_1_feijao_2_text}
+      percentual_de_credito: percentual
+    filtros:
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      aliquota:
+        coluna: aliquota
+        ops: [eq, in]
+      tabela_1_feijao_2_textil_3_cafe_4_arroz:
+        coluna: TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas, vigencia de 2008-07-01 a 2011-09-01.', 'tabela_1_feijao_2_textil_3_cafe_4_arroz: todos os valores reais estão no comentário
+        do banco (2=2, 4=2, 3=1).']
+  eftabela_mg_credito_presumido:
+    titulo: Tabela de Relacionamento - MG - Tipo de Crédito Presumido
+    descricao: 'Tabela de Relacionamento - MG - Tipo de Crédito Presumido. 5 linhas no catálogo; chave: I_CREDITO_PRESUMIDO.'
+    tabela: EFTABELA_MG_CREDITO_PRESUMIDO
+    chave: [I_CREDITO_PRESUMIDO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {sequencial: I_CREDITO_PRESUMIDO, descricao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5 linhas.']
+  eftabela_mg_incentivo_ret:
+    titulo: Tabela de incentivos do Crédito Estímulo MG
+    descricao: 'Tabela de incentivos do Crédito Estímulo MG. 5 linhas no catálogo; chave: CODI_EMP, VIGENCIA_PAR, I_SEQUENCIAL_INCENTIVO.'
+    tabela: EFTABELA_MG_INCENTIVO_RET
+    chave: [CODI_EMP, VIGENCIA_PAR, I_SEQUENCIAL_INCENTIVO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_DEFERIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_DEFERIMENTO, desc]
+    - [VIGENCIA_PAR, asc]
+    - [I_SEQUENCIAL_INCENTIVO, asc]
+    colunas: {empresa: CODI_EMP, vigencia: VIGENCIA_PAR, sequencial_incentivo: I_SEQUENCIAL_INCENTIVO, e_pta_re_no: E_PTA_RE, data_do_deferimento: DATA_DEFERIMENTO,
+      calcular_incentivo_sobre: CALCULAR_INCENTIVO_SOBRE}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA_PAR
+        ops: [eq, in]
+      sequencial_incentivo:
+        coluna: I_SEQUENCIAL_INCENTIVO
+        ops: [eq, in]
+      data_do_deferimento:
+        coluna: DATA_DEFERIMENTO
+        ops: [entre, gte, lte]
+      e_pta_re_no:
+        coluna: E_PTA_RE
+        ops: [eq, in]
+      calcular_incentivo_sobre:
+        coluna: CALCULAR_INCENTIVO_SOBRE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas, 1 empresa(s), DATA_DEFERIMENTO de 2024-06-21 a 2024-06-21.']
+  eftabela_credito_presumido_rs:
+    titulo: Crédito Presumido - RS
+    descricao: 'Crédito Presumido - RS. 4 linhas no catálogo; chave: VIGENCIA, TABELA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_RS
+    chave: [VIGENCIA, TABELA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    colunas: {vigencia: VIGENCIA, tabela: TABELA}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, VIGENCIA de 2010-11-01 a 2017-07-01.']
+  eftabela_am_sub_apuracao:
+    titulo: Tabela de incentivos do Crédito Estímulo AM
+    descricao: 'Tabela de incentivos do Crédito Estímulo AM. 4 linhas no catálogo; chave: I_SUB_APURACAO.'
+    tabela: EFTABELA_AM_SUB_APURACAO
+    chave: [I_SUB_APURACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SUB_APURACAO, asc]
+    colunas: {sequencial: I_SUB_APURACAO, indicador: INDICADOR, sub_apuracao: DESCRICAO, credito_estimulo: CREDITO_ESTIMULO, base_legal: BASE_LEGAL, informacoes_adicionais: INFORMACOES_ADICIONAIS}
+    filtros:
+      sequencial:
+        coluna: I_SUB_APURACAO
+        ops: [eq, in]
+      sub_apuracao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      base_legal:
+        coluna: BASE_LEGAL
+        ops: [contem, prefixo]
+      informacoes_adicionais:
+        coluna: INFORMACOES_ADICIONAIS
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  eftabela_icms_st_carga_media:
+    titulo: Tabela ICMS ST Estimativa Simplificado - Carga Média
+    descricao: 'Tabela ICMS ST Estimativa Simplificado - Carga Média. 4 linhas no catálogo; chave: CODI_EMP, I_TABELA, DATA_TABELA.'
+    tabela: EFTABELA_ICMS_ST_CARGA_MEDIA
+    chave: [CODI_EMP, I_TABELA, DATA_TABELA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TABELA, volume: pequeno}
+    ordem:
+    - [DATA_TABELA, desc]
+    - [I_TABELA, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_TABELA, data: DATA_TABELA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_TABELA
+        ops: [eq, in]
+      data:
+        coluna: DATA_TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 4 empresa(s), DATA_TABELA de 2013-01-01 a 2026-07-01.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado
+        (empresa 466).']
+  eftabela_rs_valores_declaratorios_icms:
+    titulo: RS - Tabela de valores declaratorios de ICMS
+    descricao: 'RS - Tabela de valores declaratorios de ICMS. 4 linhas no catálogo; chave: CODIGO.'
+    tabela: EFTABELA_RS_VALORES_DECLARATORIOS_ICMS
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [CODIGO, asc]
+    colunas: {codigo_do_ajuste: CODIGO, descricao_do_ajuste: DESCRICAO, data_de_inicio_do_ajuste: DATA_AJUSTE, data_de_validade_do_ajuste: DATA_VALIDADE}
+    filtros:
+      codigo_do_ajuste:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_de_inicio_do_ajuste:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      data_de_validade_do_ajuste:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      descricao_do_ajuste:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, DATA_AJUSTE de 2022-01-01 a 2022-01-01.', 'Colunas expostas nulas em 100% das linhas (1): data_de_validade_do_ajuste.']
+  eftabela_vinculo_credito_pis_cofins:
+    titulo: Tabela de vínculos de crédito PIS/COFINS
+    descricao: 'Tabela de vínculos de crédito PIS/COFINS. 4 linhas no catálogo; chave: I_VINCULO_CREDITO.'
+    tabela: EFTABELA_VINCULO_CREDITO_PIS_COFINS
+    chave: [I_VINCULO_CREDITO]
+    acesso: {empresa: null, periodo: VIGENCIA_FINAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_FINAL, desc]
+    - [I_VINCULO_CREDITO, asc]
+    colunas: {vinculo_de_credito: I_VINCULO_CREDITO, descricao: DESCRICAO, vigencia_final: VIGENCIA_FINAL}
+    filtros:
+      vinculo_de_credito:
+        coluna: I_VINCULO_CREDITO
+        ops: [eq, in]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, VIGENCIA_FINAL de 2023-03-31 a 2023-03-31.']
+  eftabela_percentual_mistura_combustiveis_original:
+    titulo: Tabela dos Percentuais de Mistura dos Combustíveis - Original
+    descricao: 'Tabela dos Percentuais de Mistura dos Combustíveis - Original. 4 linhas no catálogo; chave: TIPO_PRODUTO.'
+    tabela: EFTABELA_PERCENTUAL_MISTURA_COMBUSTIVEIS_ORIGINAL
+    chave: [TIPO_PRODUTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TIPO_PRODUTO, asc]
+    colunas: {tipo_produto: TIPO_PRODUTO}
+    filtros:
+      tipo_produto:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  eftabela_percentual_mistura_combustiveis_vigencia_original:
+    titulo: Tabela dos Percentuais de Mistura dos Combustíveis - Vigencia
+    descricao: 'Tabela dos Percentuais de Mistura dos Combustíveis - Vigencia. 4 linhas no catálogo; chave: TIPO_PRODUTO.'
+    tabela: EFTABELA_PERCENTUAL_MISTURA_COMBUSTIVEIS_VIGENCIA_ORIGINAL
+    chave: [TIPO_PRODUTO, VIGENCIA_PERC_MISTURA_COMBUSTIVEL, EMBASAMENTO_LEGAL, PERCENTUAL]
+    acesso: {empresa: null, periodo: VIGENCIA_PERC_MISTURA_COMBUSTIVEL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_PERC_MISTURA_COMBUSTIVEL, desc]
+    - [TIPO_PRODUTO, asc]
+    colunas: {tipo_produto: TIPO_PRODUTO, vigencia: VIGENCIA_PERC_MISTURA_COMBUSTIVEL, embasamento_legal: EMBASAMENTO_LEGAL, percentual: PERCENTUAL}
+    filtros:
+      tipo_produto:
+        coluna: TIPO_PRODUTO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_PERC_MISTURA_COMBUSTIVEL
+        ops: [entre, gte, lte]
+      embasamento_legal:
+        coluna: EMBASAMENTO_LEGAL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, VIGENCIA_PERC_MISTURA_COMBUSTIVEL de 2023-05-01 a 2023-05-01.']
+  eftabela_credito_presumido_pr:
+    titulo: Credito Presumido - PR
+    descricao: 'Credito Presumido - PR. 3 linhas no catálogo; chave: vigencia, TABELA.'
+    tabela: eftabela_credito_presumido_pr
+    chave: [vigencia, TABELA]
+    acesso: {empresa: null, periodo: vigencia, volume: pequeno}
+    ordem:
+    - [vigencia, desc]
+    - [TABELA, asc]
+    colunas:
+      vigencia: vigencia
+      tabela_1_feijao_2_textil_3_cafe_4_arroz: {coluna: TABELA, dominio: eftabela_credito_presumido_pr_tabela_1_feijao_2_textil_3_ca}
+    filtros:
+      vigencia:
+        coluna: vigencia
+        ops: [eq, in]
+      tabela_1_feijao_2_textil_3_cafe_4_arroz:
+        coluna: TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, vigencia de 2008-07-01 a 2011-09-01.', 'tabela_1_feijao_2_textil_3_cafe_4_arroz: todos os valores reais estão no comentário
+        do banco (2=1, 4=1, 3=1).']
+  eftabela_credito_presumido_mg:
+    titulo: Crédito Presumido - MG
+    descricao: 'Crédito Presumido - MG. 2 linhas no catálogo; chave: VIGENCIA, TABELA.'
+    tabela: EFTABELA_CREDITO_PRESUMIDO_MG
+    chave: [VIGENCIA, TABELA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [TABELA, asc]
+    colunas: {vigencia: VIGENCIA, tabela_1_credito_presumido_importacao_ar: TABELA}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      tabela_1_credito_presumido_importacao_ar:
+        coluna: TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, VIGENCIA de 2003-09-30 a 2013-01-01.']
+  eftabela_mg_sub_apuracao:
+    titulo: Tabela de incentivos do Crédito Estímulo MG
+    descricao: 'Tabela de incentivos do Crédito Estímulo MG. 2 linhas no catálogo; chave: I_SUB_APURACAO_MG.'
+    tabela: EFTABELA_MG_SUB_APURACAO
+    chave: [I_SUB_APURACAO_MG]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SUB_APURACAO_MG, asc]
+    colunas: {sequencial: I_SUB_APURACAO_MG, indicador: INDICADOR, sub_apuracao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SUB_APURACAO_MG
+        ops: [eq, in]
+      sub_apuracao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  eftabela_planilha_cfe:
+    titulo: PR - Tabela da Planilha do CFE
+    descricao: 'PR - Tabela da Planilha do CFE. 2 linhas no catálogo; chave: I_DOCUMENTO.'
+    tabela: EFTABELA_PLANILHA_CFE
+    chave: [I_DOCUMENTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DOCUMENTO, asc]
+    colunas:
+      documento_1_entrada_2_saida: {coluna: I_DOCUMENTO, dominio: eftabela_planilha_cfe_documento_1_entrada_2}
+    filtros:
+      documento_1_entrada_2_saida:
+        coluna: I_DOCUMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas.', 'documento_1_entrada_2_saida: todos os valores reais estão no comentário do banco (2=1, 1=1).']
+  eftabela_diferencial_aliquota_ma:
+    titulo: Tabela Diferencial de Alíquota - MA
+    descricao: 'Tabela Diferencial de Alíquota - MA. 2 linhas no catálogo; chave: VIGENCIA.'
+    tabela: EFTABELA_DIFERENCIAL_ALIQUOTA_MA
+    chave: [VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas: {vigencia: VIGENCIA}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, VIGENCIA de 2015-06-01 a 2019-01-01.']
+  eftabela_es_sub_apuracao:
+    titulo: Tabela de incentivos do Credito Estimulo ES
+    descricao: 'Tabela de incentivos do Credito Estimulo ES. 2 linhas no catálogo; chave: I_SUB_APURACAO_ES.'
+    tabela: EFTABELA_ES_SUB_APURACAO
+    chave: [I_SUB_APURACAO_ES]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SUB_APURACAO_ES, asc]
+    colunas: {sequencial: I_SUB_APURACAO_ES, indicador: INDICADOR, sub_apuracao: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SUB_APURACAO_ES
+        ops: [eq, in]
+      sub_apuracao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  eftabela_planilha_stda:
+    titulo: SP - Tabela da Planilha do STDA
+    descricao: 'SP - Tabela da Planilha do STDA. 1 linhas no catálogo; chave: I_DOCUMENTO.'
+    tabela: EFTABELA_PLANILHA_STDA
+    chave: [I_DOCUMENTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DOCUMENTO, asc]
+    colunas: {documento: I_DOCUMENTO}
+    filtros:
+      documento:
+        coluna: I_DOCUMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  eftabela_vinculo_cclasstrib_vigencia_padrao:
+    titulo: Tabela de Vínculo de NCM/NBS por cClassTrib
+    descricao: 'Tabela de Vínculo de NCM/NBS por cClassTrib. 1 linhas no catálogo; chave: VIGENCIA.'
+    tabela: EFTABELA_VINCULO_CCLASSTRIB_VIGENCIA_PADRAO
+    chave: [VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    colunas: {vigencia_do_vinculo: VIGENCIA}
+    filtros:
+      vigencia_do_vinculo:
+        coluna: VIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, VIGENCIA de 2025-01-01 a 2025-01-01.']

@@ -1,0 +1,231 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_configuracao
+titulo: Fiscal - configuracao (rascunho em lote)
+dominios:
+  efconfiguracao_produto_por_ncm_vigencia_itens_pro_tipo_de_con:
+    confirmado: true
+    nota: 'Todos os valores observados em EFCONFIGURACAO_PRODUTO_POR_NCM_VIGENCIA_ITENS_PRO.TIPO_CONTRIBUICAO estão no comentário do banco (2026-10-18). Distribuição:
+      C=1.'
+    valores: {N: Não cumulativo, C: Cumulativo, T: Subt. Tributária, S: Sem incidência}
+entidades:
+  efconfiguracao_produto_por_ncm:
+    titulo: Configurar Dados de Impostos por NCM
+    descricao: 'Configurar Dados de Impostos por NCM. 1 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_NCM.'
+    tabela: EFCONFIGURACAO_PRODUTO_POR_NCM
+    chave: [CODI_EMP, I_CONFIGURACAO_NCM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO_NCM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_configuracao_de_produto_por_nc: I_CONFIGURACAO_NCM}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_configuracao_de_produto_por_nc:
+        coluna: I_CONFIGURACAO_NCM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 234).']
+  efconfiguracao_produto_por_ncm_vigencia:
+    titulo: Configuração de Impostos para Produtos - Vigência
+    descricao: 'Configuração de Impostos para Produtos - Vigência. 1 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA.'
+    tabela: EFCONFIGURACAO_PRODUTO_POR_NCM_VIGENCIA
+    chave: [CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_CONFIGURACAO_NCM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_configuracao_de_produto_por_nc: I_CONFIGURACAO_NCM, vigencia: DATA_VIGENCIA, descricao: DESCRICAO}
+    filtros:
+      codigo_da_configuracao_de_produto_por_nc:
+        coluna: I_CONFIGURACAO_NCM
+        ops: [eq, in]
+      vigencia:
+        coluna: DATA_VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_VIGENCIA de 2017-07-01 a 2017-07-01.']
+  efconfiguracao_produto_por_ncm_vigencia_itens:
+    titulo: Configuração de Impostos para Produtos - Registros
+    descricao: 'Configuração de Impostos para Produtos - Registros. 1 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL.'
+    tabela: EFCONFIGURACAO_PRODUTO_POR_NCM_VIGENCIA_ITENS
+    chave: [CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_CONFIGURACAO_NCM, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_configuracao_de_produto_por_nc: I_CONFIGURACAO_NCM, vigencia: DATA_VIGENCIA, sequencial: I_SEQUENCIAL, codigo: CODIGO_ITEM,
+      descricao: DESCRICAO_ITEM}
+    filtros:
+      codigo_da_configuracao_de_produto_por_nc:
+        coluna: I_CONFIGURACAO_NCM
+        ops: [eq, in]
+      vigencia:
+        coluna: DATA_VIGENCIA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO_ITEM
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_ITEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_VIGENCIA de 2017-07-01 a 2017-07-01.']
+  efconfiguracao_produto_por_ncm_vigencia_itens_pro:
+    titulo: Configuração de Impostos para Produtos - Definição de Impostos
+    descricao: 'Configuração de Impostos para Produtos - Definição de Impostos. 1 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL.'
+    tabela: EFCONFIGURACAO_PRODUTO_POR_NCM_VIGENCIA_ITENS_PRO
+    chave: [CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_CONFIGURACAO_NCM, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_da_configuracao_de_produto_por_nc: I_CONFIGURACAO_NCM
+      vigencia: DATA_VIGENCIA
+      sequencial: I_SEQUENCIAL
+      tipo_de_contribuicao_n_nao_cumulativo_c: {coluna: TIPO_CONTRIBUICAO, dominio: efconfiguracao_produto_por_ncm_vigencia_itens_pro_tipo_de_con}
+      pis_com_incidencia_cumulativa_conforme_l: PIS_INCIDENCIA_CUMULATIVA_ART_6
+      cofins_com_incidencia_cumulativa_conform: COFINS_INCIDENCIA_CUMULATIVA_ART_10
+      cst_entradas: CODIGO_CST_ENTRADA
+      vinculo_do_credito: VINCULO_CREDITO
+      base_do_credito: BASE_CREDITO
+      aproveitar_credito_proporcional_apenas_r: APROVEITAR_CREDITO_PROPORCIONAL
+      excluir_da_bc_os_valores_frete_seguros_e: EXCLUIR_BASE_FRETE_SEGURO_OPER_IMPORTACAO
+      credito_por_unidade_de_medida_s_n_entrad: CREDITO_UNIDADE_MEDIDA
+      unidade_tributada_diferente_da_inventari: UNIDADE_DIFERENTE_CREDITO
+      unidade_tributavel_entradas: UNIDADE_TRIBUTAVEL_CREDITO
+      codigo_da_unidade_tributavel_entradas: CODIGO_UNIDADE_CREDITO
+      fator_de_conversao_entradas: FATOR_CONVERSAO_CREDITO
+      valor_de_pis_entradas: VALOR_PIS_CREDITO
+      valor_de_cofins_entradas: VALOR_COFINS_CREDITO
+      credito_por_aliquota_diferenciada_s_n_en: CREDITO_ALIQUOTA_DIFERENCIADA
+      aliquota_do_pis_entradas: ALIQUOTA_PIS_CREDITO
+      aliquota_do_cofins_entradas: ALIQUOTA_COFINS_CREDITO
+      cst_saidas: CODIGO_CST_SAIDA
+      natureza_da_receita: NATUREZA_RECEITA
+      codigo_de_recolhimento_pis: CODIGO_RECOLHIMENTO_PIS
+      codigo_de_recolhimento_cofins: CODIGO_RECOLHIMENTO_COFINS
+      debito_por_unidade_de_medida_s_n_saidas: DEBITO_UNIDADE_MEDIDA
+      unidade_diferente_debito: UNIDADE_DIFERENTE_DEBITO
+      unidade_tributavel_saidas: UNIDADE_TRIBUTAVEL_DEBITO
+      codigo_da_unidade_tributavel_saidas: CODIGO_UNIDADE_DEBITO
+      fator_de_conversao_saidas: FATOR_CONVERSAO_DEBITO
+      valor_de_pis_saidas: VALOR_PIS_DEBITO
+      valor_de_cofins_saidas: VALOR_COFINS_DEBITO
+      debito_por_aliquota_diferenciada_s_n_sai: DEBITO_ALIQUOTA_DIFERENCIADA
+      aliquota_do_pis_saidas: ALIQUOTA_PIS_DEBITO
+      aliquota_do_cofins_saidas: ALIQUOTA_COFINS_DEBITO
+      produto_com_marca_comercial_refri_bebida: PRODUTO_COM_MARCA_COMERCIAL
+      tabela_sped: TABELA_SPED
+      marca_grupo_sped: MARCA_GRUPO_SPED
+      cst_icms_entrada: CST_ICMS_ENTRADA
+      cst_icms_saida: CST_ICMS_SAIDA
+      sequencial_da_tabela_aliquota_do_icms: I_TABELA_ICMS
+      aliquota_do_icms: ALIQUOTA_ICMS
+      cst_ipi_entrada: CST_IPI_ENTRADA
+      cst_ipi_saida: CST_IPI_SAIDA
+      periodicidade_do_ipi_m_q_d_t_s_e_n_r_v: PERIODICIDADE_IPI
+      aliquota_do_ipi: ALIQUOTA_IPI
+      calcula_ipi_por_unidade_de_medida_s_n: CALCULA_IPI_UNIDADE_MEDIDA
+      unidade_tributada_diferente_inventariada: UNIDADE_TRIBUTADA_DIFERENTE_INVENTARIADA_IPI
+      unidade_tributavel_ipi: UNIDADE_TRIBUTAVEL_IPI
+      codigo_unidade_tributavel_ipi: CODIGO_UNIDADE_TRIBUTAVEL_IPI
+      fator_conversao_ipi: FATOR_CONVERSAO_IPI
+      classe_do_enquadramento_do_ipi: CLASSE_ENQUADRAMENTO_IPI
+      valor_por_unidade_do_ipi: VALOR_POR_UNIDADE_IPI
+      produto_sujeito_a_tributacao_de_pis_e_co: PRODUTO_SUJEITO_TRIBUTACAO_MONOFASICA_PISCOFINS
+      produto_sujeito_tributacao_monofasica_pi: PRODUTO_SUJEITO_TRIBUTACAO_MONOFASICA_PISCOFINS_TIPO
+      produto_possui_percentual_de_reducao_na: PRODUTO_POSSUI_PERC_RED_BC_PIS_COFINS_SAIDA
+      percentual_do_produto_possui_percentual: PERCENTUAL_REDUCAO_BASE_CALCULO_PIS_COFINS_SAIDA
+      codigo_de_recolhimento_de_ipi: I_RECOLHIMENTO_IPI
+      codigo_da_cst_para_relacionamento_da_nat: CODIGO_CST_NATUREZA_RECEITA
+    filtros:
+      codigo_da_configuracao_de_produto_por_nc:
+        coluna: I_CONFIGURACAO_NCM
+        ops: [eq, in]
+      vigencia:
+        coluna: DATA_VIGENCIA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_contribuicao_n_nao_cumulativo_c:
+        coluna: TIPO_CONTRIBUICAO
+        ops: [eq, in]
+      pis_com_incidencia_cumulativa_conforme_l:
+        coluna: PIS_INCIDENCIA_CUMULATIVA_ART_6
+        ops: [eq, in]
+      cofins_com_incidencia_cumulativa_conform:
+        coluna: COFINS_INCIDENCIA_CUMULATIVA_ART_10
+        ops: [eq, in]
+      cst_entradas:
+        coluna: CODIGO_CST_ENTRADA
+        ops: [eq, in]
+      aproveitar_credito_proporcional_apenas_r:
+        coluna: APROVEITAR_CREDITO_PROPORCIONAL
+        ops: [eq, in]
+      excluir_da_bc_os_valores_frete_seguros_e:
+        coluna: EXCLUIR_BASE_FRETE_SEGURO_OPER_IMPORTACAO
+        ops: [eq, in]
+      credito_por_unidade_de_medida_s_n_entrad:
+        coluna: CREDITO_UNIDADE_MEDIDA
+        ops: [eq, in]
+      unidade_tributada_diferente_da_inventari:
+        coluna: UNIDADE_DIFERENTE_CREDITO
+        ops: [eq, in]
+      unidade_tributavel_entradas:
+        coluna: UNIDADE_TRIBUTAVEL_CREDITO
+        ops: [eq, in]
+      codigo_da_unidade_tributavel_entradas:
+        coluna: CODIGO_UNIDADE_CREDITO
+        ops: [eq, in]
+      credito_por_aliquota_diferenciada_s_n_en:
+        coluna: CREDITO_ALIQUOTA_DIFERENCIADA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_VIGENCIA de 2017-07-01 a 2017-07-01.', 'Colunas expostas nulas em 100% das linhas (15): vinculo_do_credito,
+        base_do_credito, unidade_tributavel_entradas, codigo_da_unidade_tributavel_entradas, codigo_de_recolhimento_pis, codigo_de_recolhimento_cofins, unidade_tributavel_saidas,
+        codigo_da_unidade_tributavel_saidas, tabela_sped, marca_grupo_sped, sequencial_da_tabela_aliquota_do_icms, unidade_tributavel_ipi ....', 'tipo_de_contribuicao_n_nao_cumulativo_c:
+        todos os valores reais estão no comentário do banco (C=1).']
+  efconfiguracao_produto_por_ncm_vigencia_itens_ncm:
+    titulo: Configuração de Impostos para Produtos - Definição de NCMs
+    descricao: 'Configuração de Impostos para Produtos - Definição de NCMs. 1 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL,
+      I_SEQUENCIAL_NCM.'
+    tabela: EFCONFIGURACAO_PRODUTO_POR_NCM_VIGENCIA_ITENS_NCM
+    chave: [CODI_EMP, I_CONFIGURACAO_NCM, DATA_VIGENCIA, I_SEQUENCIAL, I_SEQUENCIAL_NCM]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_CONFIGURACAO_NCM, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_configuracao_de_produto_por_nc: I_CONFIGURACAO_NCM, vigencia: DATA_VIGENCIA, sequencial: I_SEQUENCIAL, sequencial_ncm: I_SEQUENCIAL_NCM,
+      codigo_ncm: NCM, codigo_cest: CODIGO_CEST}
+    filtros:
+      codigo_da_configuracao_de_produto_por_nc:
+        coluna: I_CONFIGURACAO_NCM
+        ops: [eq, in]
+      vigencia:
+        coluna: DATA_VIGENCIA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      sequencial_ncm:
+        coluna: I_SEQUENCIAL_NCM
+        ops: [eq, in]
+      codigo_ncm:
+        coluna: NCM
+        ops: [eq, in]
+      codigo_cest:
+        coluna: CODIGO_CEST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_VIGENCIA de 2017-07-01 a 2017-07-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_cest.']

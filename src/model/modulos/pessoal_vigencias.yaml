@@ -1,0 +1,312 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_vigencias
+titulo: Pessoal - vigencias (rascunho em lote)
+dominios:
+  fovigencias_servico_tipo_de_inscricao_1_cnp:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.tipo_insc estão no comentário do banco (2026-10-18). Distribuição: 1=3.934, 2=250, 3=247, 6=1.'
+    valores: {'1': CNPJ, '2': CPF, '3': CEI, '6': CAEPF, '7': CNO}
+  fovigencias_servico_tipo_de_servico_1_empre:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.tipo estão no comentário do banco (2026-10-18). Distribuição: 1=3.649, 4=703, 5=80.'
+    valores: {'1': Empresa, '2': Obra Própria, '3': Cooperativa de trabalho, '4': Tomador de serviço, '5': Empreitada parcial, '6': Empreitada total}
+  fovigencias_servico_calcular_inss_empresa_s:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.CALCULA_INSS_EMPRESA_LEI_12546 estão no comentário do banco (2026-10-18). Distribuição: 0=2.589, nulo=1.261,
+      1=582.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_tipo_de_inscricao_do_co:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.TIPO_INSCRICAO_CONTRATANTE_EMPREITADA_PARCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      nulo=4.037, 1=395.'
+    valores: {'1': CNPJ, '2': CPF}
+  fovigencias_servico_tipo_de_inscricao_do_pr:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.TIPO_INSCRICAO_PROPRIETARIO_CEI_EMPREITADA_PARCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      nulo=4.045, 1=366, 2=21.'
+    valores: {'1': CNPJ, '2': CPF}
+  fovigencias_servico_tipo_de_informacao_da_a:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.TIPO_INFORMACAO_ALIQUOTA_ACIDENTE_TRABALHO estão no comentário do banco (2026-10-18). Distribuição:
+      2=2.325, 1=2.107.'
+    valores: {'1': Informado, '2': Conforme CNAE}
+  fovigencias_servico_tipo_de_caepf_1_contrib:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.TIPO_CAEPF estão no comentário do banco (2026-10-18). Distribuição: nulo=4.383, 1=49.'
+    valores: {'1': Contribuinte individual, '2': Produtor rural, '3': Segurado especial}
+  fovigencias_servico_registro_ponto_0_nao_ut:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.REGISTRO_PONTO estão no comentário do banco (2026-10-18). Distribuição: 0=3.746, 1=515, 3=107, 2=52,
+      5=12.'
+    valores: {'0': Não utiliza, '1': Manual, '2': Mecânico, '3': Eletrônico, '4': Não eletrônico, '5': Eletrônico alternativo, '6': Eletrônico outros}
+  fovigencias_servico_contratacao_de_aprendiz:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.CONTRATACAO_APRENDIZ estão no comentário do banco (2026-10-18). Distribuição: 1=4.271, 3=161.'
+    valores: {'1': 'Dispensado, de acordo com a lei', '2': 'Dispensado, mesmo que parcialmente, em virtude de processo judicial', '3': Obrigado}
+  fovigencias_servico_realiza_contratacao_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO.REALIZA_CONTRATACAO_APRENDIZ_INTERMEDIO_ENTIDADE_EDUCATIVA_SEM_FINS_LUCRATIVOS estão no comentário do
+      banco (2026-10-18). Distribuição: 0=4.423, 1=9.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_entidades_educativas_enviar_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO_ENTIDADES_EDUCATIVAS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=9.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_entidades_educativas_gerar_retifi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO_ENTIDADES_EDUCATIVAS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=9.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_entidades_educativas_marcacao_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO_ENTIDADES_EDUCATIVAS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=9.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_fornecedores_aquisicao_producao_rural_determinar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO_FORNECEDORES_AQUISICAO_PRODUCAO_RURAL.DETERMINAR_FIM estão no comentário do banco (2026-10-18). Distribuição:
+      0=6.'
+    valores: {'0': Não, '1': Sim}
+  fovigencias_servico_fornecedores_aquisicao_producao_rural_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOVIGENCIAS_SERVICO_FORNECEDORES_AQUISICAO_PRODUCAO_RURAL.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição:
+      0=6.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+entidades:
+  fovigencias_servico_envios_esocial:
+    titulo: Envios das vigências do cadastro de serviços ao eSocial
+    descricao: 'Envios das vigências do cadastro de serviços ao eSocial. 5.075 linhas no catálogo; chave: codi_emp, i_servicos, VIGENCIA, CODI_EMP_DADOS_EVENTOS,
+      I_DADOS_EVENTOS.'
+    tabela: FOVIGENCIAS_SERVICO_ENVIOS_ESOCIAL
+    chave: [codi_emp, i_servicos, VIGENCIA, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: codi_emp, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [i_servicos, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: codi_emp, codigo_do_servico: i_servicos, data_de_vigencia: VIGENCIA, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    filtros:
+      codigo_do_servico:
+        coluna: i_servicos
+        ops: [eq, in]
+      data_de_vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.077 linhas, 725 empresa(s), VIGENCIA de 1973-03-01 a 2026-09-01.']
+  fovigencias_servico:
+    titulo: Vigências serviço - Cadastro
+    descricao: 'Vigências serviço - Cadastro. 4.432 linhas no catálogo; chave: codi_emp, i_servicos, VIGENCIA.'
+    tabela: FOVIGENCIAS_SERVICO
+    chave: [codi_emp, i_servicos, VIGENCIA]
+    acesso: {empresa: codi_emp, periodo: COMPETENCIA_FIM_VIGENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_FIM_VIGENCIA, desc]
+    - [i_servicos, asc]
+    - [VIGENCIA, asc]
+    colunas:
+      codigo_empresa: codi_emp
+      codigo: i_servicos
+      vigencia: VIGENCIA
+      descricao_da_vigencia: DESCRICAO
+      cnpj_cpf_cei: {coluna: cgc, sensivel: parcial}
+      tipo_de_inscricao_1_cnpj_2_cpf_3_cei_6_c: {coluna: tipo_insc, dominio: fovigencias_servico_tipo_de_inscricao_1_cnp}
+      codigo_terceiro: codigo_terceiro
+      terceiro: perc_terceiro
+      inss_empresa: perc_inss_empresa
+      acid_trabalho: perc_acid_trabalho
+      codigo_do_sat: codigo_sat
+      pro_lab_aut: perc_autonomos
+      codigo_fpas: codigo_fpas
+      cnae: codigo_atividade
+      codigo_sefip: codigo_gfip
+      codigo_gps: codigo_gps
+      banco: i_bancos
+      numero: numero_fgts
+      endereco: {coluna: endereco, sensivel: parcial}
+      numero_c: numero
+      bairro: {coluna: bairro, sensivel: parcial}
+      cep: {coluna: cep, sensivel: parcial}
+      cidade: cidade
+      estado: estado
+      filial: i_filiais
+      sequencia: sequencia_gps
+      isencao_filantropia: filantropia
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      tipo_de_servico_1_empresa_2_obra_propria: {coluna: tipo, dominio: fovigencias_servico_tipo_de_servico_1_empre}
+      codigo_do_municipio: codi_mun
+      codigo_municipio: codigo_municipio
+      codigo_sequencial_fpas: I_FPAS
+      calcular_inss_empresa_sobre_a_receita_br: {coluna: CALCULA_INSS_EMPRESA_LEI_12546, dominio: fovigencias_servico_calcular_inss_empresa_s}
+      tipo_de_servico_do_tomador_1_cessao_de_m: TIPO_SERVICO_TOMADOR
+      tipo_de_endereco: TIPO_ENDERECO
+      complemento_do_endereco: {coluna: COMPLEMENTO, sensivel: parcial}
+      tipo_de_inscricao_do_contratante_da_empr: {coluna: TIPO_INSCRICAO_CONTRATANTE_EMPREITADA_PARCIAL, dominio: fovigencias_servico_tipo_de_inscricao_do_co}
+      inscricao_do_contratante_da_empreitada_p: {coluna: INSCRICAO_CONTRATANTE_EMPREITADA_PARCIAL, sensivel: parcial}
+      nome_do_contratante_da_empreitada_parcia: NOME_CONTRATANTE_EMPREITADA_PARCIAL
+      tipo_de_inscricao_do_proprietario_do_cei: {coluna: TIPO_INSCRICAO_PROPRIETARIO_CEI_EMPREITADA_PARCIAL, dominio: fovigencias_servico_tipo_de_inscricao_do_pr}
+      inscricao_do_proprietario_do_cei_da_empr: {coluna: INSCRICAO_PROPRIETARIO_CEI_EMPREITADA_PARCIAL, sensivel: parcial}
+      nome_do_proprietario_do_cei_da_empreitad: NOME_PROPRIETARIO_CEI_EMPREITADA_PARCIAL
+      i_cnae20: I_CNAE20
+      tipo_de_informacao_da_aliquota_do_aciden: {coluna: TIPO_INFORMACAO_ALIQUOTA_ACIDENTE_TRABALHO, dominio: fovigencias_servico_tipo_de_informacao_da_a}
+      codigo_do_processo_administravivo_judici: I_PROCESSO
+      scp: I_SCP
+      ddd_do_telefone: {coluna: DDD, sensivel: parcial}
+      telefone: {coluna: TELEFONE, sensivel: parcial}
+      competencia_fim_da_vigencia: COMPETENCIA_FIM_VIGENCIA
+      tipo_de_lotacao_esocial: TIPO_LOTACAO_ESOCIAL
+      codigo_do_processo_administrativo_judici: I_PROCESSO_TERCEIROS
+      codigo_caepf: CAEPF
+      tipo_de_caepf_1_contribuinte_individual: {coluna: TIPO_CAEPF, dominio: fovigencias_servico_tipo_de_caepf_1_contrib}
+      registro_ponto: {coluna: REGISTRO_PONTO, dominio: fovigencias_servico_registro_ponto_0_nao_ut}
+      contratacao_de_aprendiz_1_dispensado_de: {coluna: CONTRATACAO_APRENDIZ, dominio: fovigencias_servico_contratacao_de_aprendiz}
+      codigo_do_processo_para_contratacao_de_a: I_PROCESSO_CONTRATACAO_APRENDIZ
+      realiza_contratacao_de_aprendiz_por_inte: {coluna: REALIZA_CONTRATACAO_APRENDIZ_INTERMEDIO_ENTIDADE_EDUCATIVA_SEM_FINS_LUCRATIVOS, dominio: fovigencias_servico_realiza_contratacao_de_}
+      codigo_de_suspensao_do_processo_do_rat: CODIGO_SUSPENSAO_PROCESSO_RAT
+      soma_do_percentual_de_codigos_de_suspens: {coluna: SOMA_CODIGOS_SUSPENSAO_TERCEIROS, sensivel: financeiro}
+      percentual_bruto_de_terceiros: PERCENTUAL_TERCEIRO_BRUTO
+    filtros:
+      codigo:
+        coluna: i_servicos
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      competencia_fim_da_vigencia:
+        coluna: COMPETENCIA_FIM_VIGENCIA
+        ops: [entre, gte, lte]
+      descricao_da_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      cnpj_cpf_cei:
+        coluna: cgc
+        ops: [eq, in]
+      tipo_de_inscricao_1_cnpj_2_cpf_3_cei_6_c:
+        coluna: tipo_insc
+        ops: [eq, in]
+      banco:
+        coluna: i_bancos
+        ops: [eq, in]
+      endereco:
+        coluna: endereco
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bairro
+        ops: [eq, in]
+      cep:
+        coluna: cep
+        ops: [eq, in]
+      cidade:
+        coluna: cidade
+        ops: [eq, in]
+      estado:
+        coluna: estado
+        ops: [eq, in]
+      filial:
+        coluna: i_filiais
+        ops: [eq, in]
+      tipo_de_servico_1_empresa_2_obra_propria:
+        coluna: tipo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.432 linhas, 1.668 empresa(s), COMPETENCIA_FIM_VIGENCIA de 1973-10-16 a 3000-12-31.', 'Colunas expostas nulas em 100% das linhas
+        (5): codigo_do_processo_administravivo_judici, scp, codigo_do_processo_administrativo_judici, codigo_do_processo_para_contratacao_de_a, codigo_de_suspensao_do_processo_do_rat.',
+      'tipo_de_inscricao_1_cnpj_2_cpf_3_cei_6_c: todos os valores reais estão no comentário do banco (1=3.934, 2=250, 3=247, 6=1).', 'tipo_de_servico_1_empresa_2_obra_propria:
+        todos os valores reais estão no comentário do banco (1=3.649, 4=703, 5=80).', 'calcular_inss_empresa_sobre_a_receita_br: todos os valores reais estão no comentário
+        do banco (0=2.589, nulo=1.261, 1=582).', 'tipo_de_inscricao_do_contratante_da_empr: todos os valores reais estão no comentário do banco (nulo=4.037, 1=395).',
+      'tipo_de_inscricao_do_proprietario_do_cei: todos os valores reais estão no comentário do banco (nulo=4.045, 1=366, 2=21).', 'tipo_de_informacao_da_aliquota_do_aciden:
+        todos os valores reais estão no comentário do banco (2=2.325, 1=2.107).', 'tipo_de_caepf_1_contribuinte_individual: todos os valores reais estão no comentário
+        do banco (nulo=4.383, 1=49).', 'registro_ponto: todos os valores reais estão no comentário do banco (0=3.746, 1=515, 3=107, 2=52, 5=12).', 'contratacao_de_aprendiz_1_dispensado_de:
+        todos os valores reais estão no comentário do banco (1=4.271, 3=161).', 'realiza_contratacao_de_aprendiz_por_inte: todos os valores reais estão no comentário
+        do banco (0=4.423, 1=9).']
+  fovigencias_servico_entidades_educativas:
+    titulo: Entidades educativas para contratação de aprendiz no cadastro de serviços.
+    descricao: 'Entidades educativas para contratação de aprendiz no cadastro de serviços.. 9 linhas no catálogo; chave: CODI_EMP, I_SERVICOS, VIGENCIA, SEQUENCIAL.'
+    tabela: FOVIGENCIAS_SERVICO_ENTIDADES_EDUCATIVAS
+    chave: [CODI_EMP, I_SERVICOS, VIGENCIA, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_SERVICOS, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_servico: I_SERVICOS
+      vigencia: VIGENCIA
+      sequencial: SEQUENCIAL
+      nome_da_entidade_educativa: NOME
+      cnpj_da_entidade_educativa: {coluna: CNPJ, sensivel: parcial}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fovigencias_servico_entidades_educativas_enviar_para_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fovigencias_servico_entidades_educativas_gerar_retifi}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fovigencias_servico_entidades_educativas_marcacao_do_}
+    filtros:
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      nome_da_entidade_educativa:
+        coluna: NOME
+        ops: [contem, prefixo]
+      cnpj_da_entidade_educativa:
+        coluna: CNPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas, 2 empresa(s), VIGENCIA de 1989-06-01 a 2019-01-01.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão
+        no comentário do banco (1=9).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=9).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=9).']
+  fovigencias_servico_fornecedores_aquisicao_producao_rural:
+    titulo: Fornecedores para importar notas fiscais de produção rural.
+    descricao: 'Fornecedores para importar notas fiscais de produção rural.. 6 linhas no catálogo; chave: CODI_EMP, I_SERVICOS, VIGENCIA, CODI_FOR, SEQUENCIAL, CODI_EMP_FOR.'
+    tabela: FOVIGENCIAS_SERVICO_FORNECEDORES_AQUISICAO_PRODUCAO_RURAL
+    chave: [CODI_EMP, I_SERVICOS, VIGENCIA, CODI_FOR, SEQUENCIAL, CODI_EMP_FOR]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_INICIO, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIO, desc]
+    - [I_SERVICOS, asc]
+    - [VIGENCIA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_servico: I_SERVICOS
+      vigencia: VIGENCIA
+      codigo_do_fornecedor: CODI_FOR
+      sequencial: SEQUENCIAL
+      codigo_empresa_fornecedor: CODI_EMP_FOR
+      competencia_inicio: COMPETENCIA_INICIO
+      determinar_fim_0_nao_1_sim: {coluna: DETERMINAR_FIM, dominio: fovigencias_servico_fornecedores_aquisicao_producao_rural_determinar_}
+      competencia_fim: COMPETENCIA_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: fovigencias_servico_fornecedores_aquisicao_producao_rural_origem_do_r}
+    filtros:
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_do_fornecedor:
+        coluna: CODI_FOR
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_empresa_fornecedor:
+        coluna: CODI_EMP_FOR
+        ops: [eq, in]
+      competencia_inicio:
+        coluna: COMPETENCIA_INICIO
+        ops: [entre, gte, lte]
+      competencia_fim:
+        coluna: COMPETENCIA_FIM
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s), COMPETENCIA_INICIO de 2021-01-01 a 2026-01-01.', 'Colunas expostas nulas em 100% das linhas (1): competencia_fim.',
+      'determinar_fim_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=6).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais
+        estão no comentário do banco (0=6).']

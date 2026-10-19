@@ -1,0 +1,179 @@
+# Modelo de entidades do ESOCIAL: fila de envio dos eventos (FOESOCIAL_DADOS_EVENTOS), catálogo de eventos, lotes e ocorrências de retorno.
+# Curado à mão e medido no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada): XML do evento (long varchar, contém dados pessoais de empregados), FOESOCIAL_ERROS_VALIDACAO_XML (9 linhas),
+#   as tabelas *_ENVIOS_ESOCIAL / *_DADOS_EVENTOS_ESOCIAL que ligam cada envio ao cadastro de origem (empregados, cargos, rescisões, afastamentos...),
+#   FOESOCIAL_DADOS_EVENTOS_TABELAS_RELACIONADAS e a fila de geração.
+modulo: esocial
+titulo: eSocial (envio de eventos)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+  grupo_evento_esocial:
+    confirmado: true      # comentário do banco; os três grupos existem no catálogo
+    valores: {1: Iniciais e tabelas, 2: Não periódicos, 3: Periódicos}
+  tipo_envio_esocial:
+    confirmado: true      # comentário do banco; os quatro valores existem (1: 831.695 · 3: 35.385 · 2: 33.449 · 4: 12.512)
+    valores: {1: Inclusão, 2: Alteração, 3: Exclusão, 4: Retificação}
+  tipo_validacao_esocial:
+    confirmado: true      # comentário do banco; 1 (sistema) em 908.316 registros
+    valores: {1: Sistema, 2: Manual, 3: Conversão, 4: Importação}
+  resposta_esocial:
+    descricao: Código de resposta do ambiente nacional ao evento (foesocial_dados_eventos.i_resposta)
+    confirmado: parcial
+    nota: >
+      Só 4 códigos aparecem em registros enviados. 201 e 202 têm o texto "Sucesso."; a diferença vem dos dados: nos 40 maiores clientes TODOS os registros 201
+      (262.934) não têm ocorrência e TODOS os 202 (10.730) têm ocorrência registrada, logo 202 = sucesso com advertência (conclusão por evidência, não
+      documentada pelo banco). 401 = conteúdo do evento inválido (420 registros; os 120 dos 40 maiores clientes têm ocorrência); 411 = assinante inválido, sem perfil de procuração (17).
+      As ocorrências usam outros códigos (163, 1727, 1895, 424, 162, 1090...).
+    valores: {201: Sucesso, 202: Sucesso com advertência (por evidência), 401: Conteúdo do evento inválido, 411: Assinante inválido}
+  status_lote_esocial:
+    confirmado: true      # comentário do banco; em uso: 4 (210.800), 6 (24), 9 (2), 3 (1)
+    valores: {1: Aguardando envio, 2: Enviado, 3: Aguardando ajuste, 4: Concluído, 5: Aguardando senha A3, 6: Aguardando envio de múltiplos vínculos, 7: Aguardando fim da thread contábil, 8: Erro no lote, 9: Erro de preenchimento}
+
+entidades:
+  evento_esocial:
+    titulo: Eventos do eSocial (fila de envio e retorno)
+    descricao: >
+      Um registro por evento gerado para envio ao eSocial: qual evento (S-xxxx), o item a que se refere, tipo de envio, ID, recibo e resposta do ambiente
+      nacional, validação e ajustes. 913 mil linhas, 888 empresas, de 2018-08 a hoje. O XML do evento não é exposto. Atenção: `descricao_resposta` e
+      `nis_empregado` podem conter dados pessoais.
+    tabela: foesocial_dados_eventos
+    chave: [codi_emp, i_dados_eventos]
+    acesso: {empresa: codi_emp, periodo: DATA_CRIACAO_REGISTRO, volume: grande}
+    ordem: [[i_dados_eventos, desc]]
+    privacidade: A descrição da resposta pode citar CPF de trabalhadores; o NIS do empregado é dado pessoal.
+    colunas:
+      codigo: i_dados_eventos
+      lote: I_LOTE
+      evento_codigo: I_EVENTO_ESOCIAL
+      item_codigo_esocial: CODIGO_ESOCIAL
+      tipo_envio: {coluna: TIPO_ENVIO, dominio: tipo_envio_esocial}
+      tabela_origem: TABELA_DADOS
+      chave_origem: CHAVE_TABELA_DADOS
+      id_envio: ID
+      numero_recibo: NUMERO_RECIBO
+      resposta_codigo: {coluna: I_RESPOSTA, dominio: resposta_esocial}
+      descricao_resposta: {coluna: DESCRICAO_RESPOSTA, sensivel: parcial}
+      validado: {coluna: VALIDADO, dominio: sim_nao_numerico}
+      aguardando_ajuste: {coluna: AGUARDANDO_AJUSTE, dominio: sim_nao_numerico}
+      tipo_validacao: {coluna: TIPO_VALIDACAO, dominio: tipo_validacao_esocial}
+      advertencia_ajustada: {coluna: ADVERTENCIA_AJUSTADA, dominio: sim_nao_numerico}
+      reenviar: {coluna: REENVIAR, dominio: sim_nao_numerico}
+      xml_alterado: {coluna: XML_ALTERADO, dominio: sim_nao_numerico}
+      inclusao_duplicada: {coluna: INCLUSAO_DUPLICADA, dominio: sim_nao_numerico}
+      competencia_calculo: COMPETENCIA_CALCULO
+      data_alteracao: DATA_ALTERACAO
+      concluido_em: DATA_HORA_CONCLUSAO
+      criado_em: DATA_CRIACAO_REGISTRO
+      alterado_em: DATA_ALTERACAO_REGISTRO
+      versao_leiaute: VERSAO_LEIAUTE
+      versao_sistema: VERSAO_SISTEMA
+      nis_empregado: {coluna: NIS_EMPREGADO, sensivel: pessoal}
+      evento_excluido: I_EVENTO_ESOCIAL_EXCLUIDO
+      recibo_excluido: NUMERO_RECIBO_EXCLUIDO
+    vinculos:
+      catalogo:
+        tabela: foesocial_eventos
+        liga: {I_EVENTO_ESOCIAL: i_evento_esocial}
+        colunas: {evento_descricao: descricao, evento_grupo: grupo}
+      lote_ref:
+        tabela: foesocial_lotes
+        liga: {codi_emp: codi_emp, I_LOTE: i_lote}
+        colunas: {lote_status: status}
+    filtros:
+      codigo: {coluna: i_dados_eventos, ops: [eq, in]}
+      lote: {coluna: I_LOTE, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTO_ESOCIAL, ops: [eq, in]}
+      tipo_envio: {coluna: TIPO_ENVIO, ops: [eq, in]}
+      resposta_codigo: {coluna: I_RESPOSTA, ops: [eq, in]}
+      validado: {coluna: VALIDADO, ops: [eq]}
+      aguardando_ajuste: {coluna: AGUARDANDO_AJUSTE, ops: [eq]}
+      numero_recibo: {coluna: NUMERO_RECIBO, ops: [eq]}
+      competencia_calculo: {coluna: COMPETENCIA_CALCULO, ops: [eq, entre, gte, lte]}
+      criado_em: {coluna: DATA_CRIACAO_REGISTRO, ops: [entre, gte, lte]}
+    filhos:
+      ocorrencias: {entidade: ocorrencia_evento_esocial, liga: {codi_emp: codi_emp, i_dados_eventos: envio}}
+    regras:
+      - "Recibo x validação: 912.966 de 913.041 registros (99,99%) têm número de recibo, validado = 1, aguardando_ajuste = 0 e código de resposta. Os 75 restantes não têm recibo nem validação; 73 estão aguardando ajuste e 2 não."
+      - "Resposta: 201 em 879.954 registros e 202 em 32.635 (ambos 'Sucesso.'); 401 (conteúdo do evento inválido) em 420 e 411 (assinante inválido) em 17. Nos 40 maiores clientes, 202 sempre tem ocorrência registrada e 201 nunca tem: 202 = sucesso com advertência (por evidência)."
+      - "Eventos por grupo do catálogo: iniciais e tabelas 584.307 · periódicos 242.657 · não periódicos 86.077. Mais frequentes: S-1299 (fechamento) 26.643, S-1200 (remuneração) e S-1210 (pagamentos); S-1298 (reabertura) 4.712."
+      - "`item_codigo_esocial` é o código do objeto dentro da empresa a que o evento se refere (nas amostras: 1, 2, 3... para S-1200/S-1210, vazio para S-1298/S-1299). A leitura é uma inferência dos padrões, não vem documentada."
+      - "Integridade (3 maiores empresas, 78.357 registros): todo registro tem o lote correspondente (0 sem lote) e o evento do lote é o mesmo do registro em 100%. O catálogo cobre todos os registros (0 sem evento no catálogo) e o ID de envio é único (913.041 IDs distintos)."
+      - "Tipo de envio: inclusão 831.695, exclusão 35.385, alteração 33.449 e retificação 12.512; validação feita pelo sistema em 908.316 e manual/conversão/importação em 4.725."
+
+  catalogo_evento_esocial:
+    titulo: Catálogo dos eventos do eSocial
+    descricao: Os 44 eventos tratados pela Domínio (S-1000 ... S-3500) com grupo, ordem de envio e se são gerados automaticamente. Tabela global.
+    tabela: foesocial_eventos
+    chave: [i_evento_esocial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_evento_esocial, asc]]
+    colunas:
+      evento_codigo: i_evento_esocial
+      descricao: DESCRICAO
+      grupo: {coluna: GRUPO, dominio: grupo_evento_esocial}
+      ordem_envio: ORDEM
+      gerar_automatico: {coluna: GERAR_AUTOMATICO, dominio: sim_nao_numerico}
+      validar_sem_recibo: {coluna: VALIDAR_SEM_RECIBO, dominio: sim_nao_numerico}
+    filtros:
+      evento_codigo: {coluna: i_evento_esocial, ops: [eq, in]}
+      grupo: {coluna: GRUPO, ops: [eq, in]}
+      descricao: {coluna: DESCRICAO, ops: [contem]}
+    regras:
+      - "44 eventos: 11 iniciais/tabelas (1000 a 1080 e 2100), 11 periódicos (1200 a 1300) e 22 não periódicos (2190 a 2501, 3000 e 3500). O código é o número do evento (1200 = S-1200 Remuneração; 1210 = S-1210 Pagamentos; 1299 = S-1299 Fechamento)."
+      - "26 dos 44 eventos têm validar_sem_recibo = 1 (o comentário do banco: validar sem recibo quando o retorno for o código 537, registro duplicado), entre eles S-1200, S-1210, S-1299, S-2200, S-2299 e S-3000."
+
+  lote_esocial:
+    titulo: Lotes de envio ao eSocial
+    descricao: Cada lote reúne eventos do mesmo tipo de uma empresa para transmissão. 210.827 lotes, 916 empresas, de 2018-08 a hoje.
+    tabela: foesocial_lotes
+    chave: [codi_emp, i_lote]
+    acesso: {empresa: codi_emp, periodo: DATA_CRIACAO_REGISTRO, volume: medio}
+    ordem: [[i_lote, desc]]
+    colunas:
+      lote: i_lote
+      status: {coluna: STATUS, dominio: status_lote_esocial}
+      evento_codigo: I_EVENTO_ESOCIAL
+      versao_xml: VERSAO
+      lote_exclusao: {coluna: LOTE_EXCLUSAO, dominio: sim_nao_numerico}
+      possui_eventos_invalidados: POSSUI_EVENTOS_INVALIDADOS
+      criado_em: DATA_CRIACAO_REGISTRO
+      alterado_em: DATA_ALTERACAO_REGISTRO
+      processado_em: DATA_PROCESSAMENTO_REGISTRO
+      versao_sistema: VERSAO_SISTEMA
+    vinculos:
+      catalogo:
+        tabela: foesocial_eventos
+        liga: {I_EVENTO_ESOCIAL: i_evento_esocial}
+        colunas: {evento_descricao: descricao}
+    filtros:
+      lote: {coluna: i_lote, ops: [eq, in]}
+      status: {coluna: STATUS, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTO_ESOCIAL, ops: [eq, in]}
+      criado_em: {coluna: DATA_CRIACAO_REGISTRO, ops: [entre, gte, lte]}
+    regras:
+      - "Status dos 210.827 lotes: 4 (concluído) 210.800 · 6 (aguardando múltiplos vínculos) 24 · 9 (erro de preenchimento) 2 · 3 (aguardando ajuste) 1. Lotes concluídos com eventos invalidados: 152."
+
+  ocorrencia_evento_esocial:
+    titulo: Ocorrências do retorno de um envio ao eSocial
+    descricao: >
+      Mensagens que o ambiente nacional devolve sobre um evento (erros e advertências), com localização. 82.751 linhas. A descrição costuma citar CPF
+      e matrícula do trabalhador.
+    tabela: foesocial_dados_eventos_ocorrencias
+    chave: [codi_emp, i_dados_eventos, sequencial]
+    acesso: {empresa: codi_emp, exige_algum: [envio], volume: medio}
+    ordem: [[i_dados_eventos, desc], [sequencial, asc]]
+    privacidade: A descrição pode citar CPF de trabalhadores.
+    colunas:
+      envio: i_dados_eventos
+      sequencial: SEQUENCIAL
+      ocorrencia_codigo: I_RESPOSTA
+      descricao: {coluna: DESCRICAO, sensivel: parcial}
+      localizacao: LOCALIZACAO
+      mostrar_no_painel: {coluna: MOSTRAR_PAINEL_ESOCIAL, dominio: sim_nao_numerico}
+    filtros:
+      envio: {coluna: i_dados_eventos, ops: [eq, in]}
+      ocorrencia_codigo: {coluna: I_RESPOSTA, ops: [eq, in]}
+    regras:
+      - "Códigos mais frequentes: 163 (40.636 — trabalhador sem vínculo consta na base do eSocial mas não foi informado), 1727 (20.101 — advertências ao confirmar o fechamento da folha para a DCTFWeb), 1895 (6.388), 424 (5.674), 162 (5.579) e 1090 (1.628)."

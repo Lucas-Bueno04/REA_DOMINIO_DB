@@ -56,3 +56,6 @@ $env:DOM_UID='<usuario>'; $env:DOM_PWD='<senha>'
 .\.venv\Scripts\python.exe src\extractor\perfil_colunas.py fiscal comum   # % de preenchimento das colunas
 .\.venv\Scripts\python.exe src\model\gerar_docs_modelo.py fiscal          # docs/modelo-fiscal.md
 ```
+
+## Ciclo em lote (módulos `<departamento>_<familia>.yaml`)
+Para mapear muitas tabelas de uma vez (STATUS.md, "Mapeamento em lote"): `scripts/mapear_lote.py --dep <Departamento>` gera, valida e testa no banco; `scripts/medir_fatos.py --todos-gerados` grava as regras medidas; `scripts/marcar_sensiveis.py` marca dados pessoais. Arquivos com o cabeçalho "Gerado em lote" podem ser regerados pelos scripts; **não edite à mão** um arquivo assim sem tirar o cabeçalho (ou o `medir_fatos.py --refazer` e o `marcar_sensiveis.py` o reescrevem). Para curar uma entidade, copie-a para um módulo manual (ex.: `fiscal.yaml`) e remova-a do arquivo gerado.

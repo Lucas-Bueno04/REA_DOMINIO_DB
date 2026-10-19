@@ -1,0 +1,1383 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_importador
+titulo: Geral - importador (rascunho em lote)
+dominios:
+  geimportador_definicao_dados_tabelas_colunas_valor_da_va:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_DEFINICAO_DADOS_TABELAS_COLUNAS.VALOR_AUTOMATICO estão no comentário do banco (2026-10-18). Distribuição: nulo=23.751,
+      S=657, U=171, D=46, E=6.'
+    valores: {D: Data atual, E: Empresa atual, U: Usuario atual, S: Sequencial}
+  geimportador_leiautes_registros_campos_tipo_de_dado_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS.TIPO_CAMPO estão no comentário do banco (2026-10-18). Distribuição: C=14.661, R=4.618,
+      N=2.964, D=532, G=230, H=1.'
+    valores: {C: Caractere, R: Decimal, N: Numérico, D: Data, H: Hora, G: Númerico Grande}
+  geimportador_leiautes_registros_campos_campo_identifica:
+    confirmado: parcial
+    nota: 'Valores em GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS.IDENT_CAMPO fora do comentário do banco: N=7.423, S=500. Distribuição: C=11.556, N=7.423, I=3.408, S=500,
+      P=117, V=2 (2026-10-18).'
+    valores: {I: Identificador, P: Propriedade, C: Campo, V: Valor}
+  geimportador_regras_clausulas_condicoes_origem_da_colun:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_REGRAS_CLAUSULAS_CONDICOES.ORIGEM_COLUNA estão no comentário do banco (2026-10-18). Distribuição: P=11.885,
+      I=3.511.'
+    valores: {I: Importado, P: Definição de dados atual}
+  geimportador_regras_clausulas_tipo_de_retorno_f_fixo_i_impo:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_REGRAS_CLAUSULAS.TIPO_RETORNO estão no comentário do banco (2026-10-18). Distribuição: A=4.529, F=989, P=630,
+      I=367, V=23.'
+    valores: {F: Fixo, I: Importado, V: variável automática, A: Argumento, P: Própria definição de dados}
+  geimportador_regras_clausulas_valor_da_variavel_automatica_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_REGRAS_CLAUSULAS.VALOR_AUTOMATICO estão no comentário do banco (2026-10-18). Distribuição: nulo=6.515, U=11,
+      E=11, D=1.'
+    valores: {D: Data atual, E: Empresa atual, U: Usuario atual}
+  geimportador_definicao_dados_tabelas_tipo_da_tabela_d_dad:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_DEFINICAO_DADOS_TABELAS.TIPO_TABELA estão no comentário do banco (2026-10-18). Distribuição: D=2.185, T=1.744,
+      C=915.'
+    valores: {D: Dados, C: Complementar, T: Temporária}
+  geimportador_campos_calculados_origem_da_coluna_f_fixo_i_import:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_CAMPOS_CALCULADOS.ORIGEM_COLUNA estão no comentário do banco (2026-10-18). Distribuição: I=1.256, F=1.029,
+      P=864.'
+    valores: {F: Fixo, I: Importado, P: Própria definição de dados}
+  geimportador_tabelas_estrangeiras_colunas_origem_da_coluna_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_TABELAS_ESTRANGEIRAS_COLUNAS.ORIGEM_COLUNA estão no comentário do banco (2026-10-18). Distribuição: I=511,
+      P=482, F=23, A=6.'
+    valores: {F: Fixo, I: Importado, V: Variável automática, A: Argumento, P: Própria definição de dados}
+  geimportador_tabelas_estrangeiras_colunas_valor_da_variavel:
+    confirmado: parcial
+    nota: 'Coluna GEIMPORTADOR_TABELAS_ESTRANGEIRAS_COLUNAS.VALOR_AUTOMATICO só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o
+      comentário do banco.'
+    valores: {D: Data atual, E: Empresa atual, U: Usuario atual}
+  geimportador_argumentos_tipo_de_dado_do_argumento_c_caractere_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_ARGUMENTOS.TIPO_ARG estão no comentário do banco (2026-10-18). Distribuição: N=736, C=69, D=16, R=8.'
+    valores: {C: Caractere, R: Decimal, N: Numérico, D: Data, H: Hora}
+  geimportador_argumentos_origem_do_valor_padrao_n_nenhum_f_fixo_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_ARGUMENTOS.ORIGEM_ARG estão no comentário do banco (2026-10-18). Distribuição: N=696, F=127, V=6.'
+    valores: {N: Nenhum, F: Fixo, V: Variável automática}
+  geimportador_argumentos_valor_padrao_automatica_d_data_atual_e_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_ARGUMENTOS.VALOR_AUTOMATICO estão no comentário do banco (2026-10-18). Distribuição: nulo=823, D=6.'
+    valores: {D: Data atual, E: Empresa atual, U: Usuario atual}
+  geimportador_manipulacao_caracteres_colunas_operacao_de_m:
+    confirmado: parcial
+    nota: 'Coluna GEIMPORTADOR_MANIPULACAO_CARACTERES_COLUNAS.OPERACAO3 só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {SN: Só numeros, SL: Só letras, MA: Maiúsculo, MI: Minúsculo, ES: À esquerda, DI: À direita}
+  geimportador_tabelas_estrangeiras_local_da_pesquisa_s_tabelas_d:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_TABELAS_ESTRANGEIRAS.LOCAL_PESQUISA estão no comentário do banco (2026-10-18). Distribuição: S=586, T=40.'
+    valores: {S: tabelas do Sistema, T: tabelas Temporárias}
+  geimportador_tabelas_disponiveis_onde_a_tabel:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_TABELAS_DISPONIVEIS.TIPO estão no comentário do banco (2026-10-18). Distribuição: Q=308, nulo=196, T=21, D=8.'
+    valores: {D: Definição de dados, T: Tabela estrangeira, Q: Qualquer}
+  geimportador_tabelas_disponiveis_opcao_consid:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_TABELAS_DISPONIVEIS.OPCAO_SOBRESCREVER estão no comentário do banco (2026-10-18). Distribuição: nulo=485, M=31,
+      C=17.'
+    valores: {C: Cadastros, M: Movimentos}
+  geimportador_colunas_resumo_alinhamento:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_COLUNAS_RESUMO.ALINHAMENTO estão no comentário do banco (2026-10-18). Distribuição: E=267, D=210, C=6.'
+    valores: {E: Esquerda, D: Direita, C: Centro}
+  geimportador_colunas_resumo_utiliza_tra:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_COLUNAS_RESUMO.UTILIZA_TRATAMENTO estão no comentário do banco (2026-10-18). Distribuição: N=338, S=145.'
+    valores: {S: Sim, N: Não}
+  geimportador_leiautes_estrutura_do_arquivo_h_hier:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_LEIAUTES.ESTRUTURA_ARQUIVO estão no comentário do banco (2026-10-18). Distribuição: A=114, H=95.'
+    valores: {H: Hierárquico, A: Agrupado}
+  geimportador_leiautes_tipo_do_arquivo_t_txt_x_xml:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_LEIAUTES.TIPO_ARQUIVO estão no comentário do banco (2026-10-18). Distribuição: T=124, X=85.'
+    valores: {T: Txt, X: XML}
+  geimportador_conjunto_dados_identificar_a_empresa_no_arquivo:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIMPORTADOR_CONJUNTO_DADOS.IDENTIFICAR_EMPRESA estão no comentário do banco (2026-10-18). Distribuição: N=136, S=27.'
+    valores: {S: Sim, N: Não}
+entidades:
+  geimportador_definicao_dados_tabelas_colunas:
+    titulo: Colunas das tabelas da definição de dados
+    descricao: 'Colunas das tabelas da definição de dados. 24.631 linhas no catálogo; chave: CODI_DEFINICAO, CODI_TABELA, CODI_COLUNA.'
+    tabela: GEIMPORTADOR_DEFINICAO_DADOS_TABELAS_COLUNAS
+    chave: [CODI_DEFINICAO, CODI_TABELA, CODI_COLUNA]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [CODI_DEFINICAO, asc]
+    - [CODI_TABELA, asc]
+    colunas:
+      codigo_da_definicao: CODI_DEFINICAO
+      codigo_da_tabela: CODI_TABELA
+      codigo_da_coluna: CODI_COLUNA
+      nome_da_coluna_no_banco_de_dados: NOME_COLUNA
+      definicao_de_dados_que_sera_complementad: REFERENTE_CODI_DEFINICAO
+      tabela_temporaria_da_definicao_de_dados: REFERENTE_CODI_TABELA
+      coluna_da_tabela_temporaria_que_sera_com: REFERENTE_CODI_COLUNA
+      origem_da_coluna_f_fixo_i_importado_v_va: ORIGEM_COLUNA
+      valor_fixo_origem_coluna_f: VALOR_FIXO
+      codigo_do_leiaute_origem_coluna_i: CODI_LEIAUTE
+      codigo_do_registro_origem_coluna_i: CODI_REGISTRO
+      codigo_do_campo_origem_coluna_i: CODI_CAMPO
+      valor_da_variavel_automatica_d_data_atua: {coluna: VALOR_AUTOMATICO, dominio: geimportador_definicao_dados_tabelas_colunas_valor_da_va}
+      coluna_de_quebra_da_variavel_automatica: COLUNA_QUEBRA
+      codigo_da_tabela_estrangeira_origem_colu: CODI_TABELA_ESTRANGEIRA
+      codigo_do_argumento_origem_coluna_a: CODI_ARG
+      codigo_da_regra_origem_coluna_r: CODI_REGRA
+      codigo_da_manipulacao_de_caracteres_orig: CODI_MANIPULACAO
+      definicao_de_dados_da_qual_dependente_or: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      coluna_da_tabela_da_qual_dependentee_ori: DEPENDENTE_CODI_COLUNA
+    vinculos:
+      geimportador_definicao_d:
+        tabela: GEIMPORTADOR_DEFINICAO_DADOS_TABELAS
+        liga: {codi_definicao: codi_definicao, codi_tabela: codi_tabela}
+        colunas: {geimportador_definicao_d_nome: TABELA}
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+      geimportador_tabelas_est:
+        tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_tabela_estrangeira: codi_tabela_estrangeira}
+        colunas: {geimportador_tabelas_est_nome: NOME_TABELA_ESTRANGEIRA}
+      geimportador_argumentos:
+        tabela: GEIMPORTADOR_ARGUMENTOS
+        liga: {codi_arg: codi_arg}
+        colunas: {geimportador_argumentos_nome: NOME_ARG}
+      geimportador_regras:
+        tabela: GEIMPORTADOR_REGRAS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_regra: codi_regra}
+        colunas: {geimportador_regras_nome: NOME_REGRA}
+      geimportador_manipulacao:
+        tabela: GEIMPORTADOR_MANIPULACAO_CARACTERES
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_manipulacao: codi_manipulacao}
+        colunas: {geimportador_manipulacao_nome: DESCRICAO}
+    filtros:
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      codigo_da_tabela:
+        coluna: CODI_TABELA
+        ops: [eq, in]
+      codigo_da_coluna:
+        coluna: CODI_COLUNA
+        ops: [eq, in]
+      nome_da_coluna_no_banco_de_dados:
+        coluna: NOME_COLUNA
+        ops: [contem, prefixo]
+      definicao_de_dados_que_sera_complementad:
+        coluna: REFERENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_temporaria_da_definicao_de_dados:
+        coluna: REFERENTE_CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_temporaria_que_sera_com:
+        coluna: REFERENTE_CODI_COLUNA
+        ops: [eq, in]
+      origem_da_coluna_f_fixo_i_importado_v_va:
+        coluna: ORIGEM_COLUNA
+        ops: [eq, in]
+      valor_fixo_origem_coluna_f:
+        coluna: VALOR_FIXO
+        ops: [contem, prefixo]
+      codigo_do_leiaute_origem_coluna_i:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_origem_coluna_i:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_do_campo_origem_coluna_i:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      valor_da_variavel_automatica_d_data_atua:
+        coluna: VALOR_AUTOMATICO
+        ops: [eq, in]
+      coluna_de_quebra_da_variavel_automatica:
+        coluna: COLUNA_QUEBRA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 24.631 linhas.', 'valor_da_variavel_automatica_d_data_atua: todos os valores reais estão no comentário do banco (nulo=23.751,
+        S=657, U=171, D=46, E=6).', 'Vínculo geimportador_definicao_d (GEIMPORTADOR_DEFINICAO_DADOS_TABELAS): 0 de 24.631 linhas sem registro relacionado.', 'Vínculo
+        geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 2.782 de 24.631 linhas sem registro relacionado.', 'Vínculo geimportador_tabelas_est (GEIMPORTADOR_TABELAS_ESTRANGEIRAS):
+        11.073 de 24.631 linhas sem registro relacionado.', 'Vínculo geimportador_argumentos (GEIMPORTADOR_ARGUMENTOS): 0 de 24.631 linhas sem registro relacionado.',
+      'Vínculo geimportador_regras (GEIMPORTADOR_REGRAS): 10.249 de 24.631 linhas sem registro relacionado.', 'Vínculo geimportador_manipulacao (GEIMPORTADOR_MANIPULACAO_CARACTERES):
+        11.240 de 24.631 linhas sem registro relacionado.']
+  geimportador_leiautes_registros_campos:
+    titulo: Campos dos registros dos leiautes
+    descricao: 'Campos dos registros dos leiautes. 23.006 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_CAMPO.'
+    tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_CAMPO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro: CODI_REGISTRO
+      codigo_do_campo: CODI_CAMPO
+      nome_do_campo: NOME_CAMPO
+      tipo_de_dado_do_campo_c_caractere_r_deci: {coluna: TIPO_CAMPO, dominio: geimportador_leiautes_registros_campos_tipo_de_dado_do_}
+      formato_de_dado_do_campo: FORMATO_CAMPO
+      posicao_inicial_do_campo: POS_INICIAL
+      posicao_final_do_campo: POS_FINAL
+      casas_decimais_do_campo: DEC_INFO
+      campo_identificador_s_n_tipo_de_elemento: {coluna: IDENT_CAMPO, dominio: geimportador_leiautes_registros_campos_campo_identifica}
+      valor_identificador: VALOR_CAMPO
+      codigo_da_tabela_de_equivalencia: CODI_EQUIVALENCIA
+      ordem_do_campo: ORDEM
+      comentario_do_campo: COMENTARIO
+      campo_requerido_s_n_arquivo_xml: REQUERIDO
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro}
+        colunas: {geimportador_leiautes_re_nome: NOME_REGISTRO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_do_campo:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      nome_do_campo:
+        coluna: NOME_CAMPO
+        ops: [contem, prefixo]
+      tipo_de_dado_do_campo_c_caractere_r_deci:
+        coluna: TIPO_CAMPO
+        ops: [eq, in]
+      formato_de_dado_do_campo:
+        coluna: FORMATO_CAMPO
+        ops: [contem, prefixo]
+      campo_identificador_s_n_tipo_de_elemento:
+        coluna: IDENT_CAMPO
+        ops: [eq, in]
+      valor_identificador:
+        coluna: VALOR_CAMPO
+        ops: [contem, prefixo]
+      codigo_da_tabela_de_equivalencia:
+        coluna: CODI_EQUIVALENCIA
+        ops: [eq, in]
+      comentario_do_campo:
+        coluna: COMENTARIO
+        ops: [contem, prefixo]
+      campo_requerido_s_n_arquivo_xml:
+        coluna: REQUERIDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23.006 linhas.', 'tipo_de_dado_do_campo_c_caractere_r_deci: todos os valores reais estão no comentário do banco (C=14.661, R=4.618,
+        N=2.964, D=532, G=230, H=1).', 'campo_identificador_s_n_tipo_de_elemento: valores reais fora do comentário do banco (N=7.423, S=500); tratar o domínio como
+        hipótese.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS): 0 de 23.006 linhas sem registro relacionado.']
+  geimportador_regras_clausulas_condicoes:
+    titulo: Condições das cláusulas das regras
+    descricao: 'Condições das cláusulas das regras. 15.396 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA, CODI_CLAUSULA, CODI_CONDICAO.'
+    tabela: GEIMPORTADOR_REGRAS_CLAUSULAS_CONDICOES
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA, CODI_CLAUSULA, CODI_CONDICAO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro_do_leiaute: CODI_REGISTRO
+      codigo_da_regra: CODI_REGRA
+      codigo_da_clausula: CODI_CLAUSULA
+      codigo_da_condicao: CODI_CONDICAO
+      codigo_do_campo_do_registro: CODI_CAMPO
+      condicao_do_campo_bw_vv_vi_li_ld: CONDICAO
+      valor_da_condicao: VALOR1
+      valor2_da_condicao_entre_bw: VALOR2
+      operador_logico_e_o_ou: OPERADOR
+      origem_da_coluna_i_importado_p_definicao: {coluna: ORIGEM_COLUNA, dominio: geimportador_regras_clausulas_condicoes_origem_da_colun}
+      definicao_de_dados_da_qual_dependente_or: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      coluna_da_tabela_da_qual_dependentee_ori: DEPENDENTE_CODI_COLUNA
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: CODI_REGRA
+        ops: [eq, in]
+      codigo_da_clausula:
+        coluna: CODI_CLAUSULA
+        ops: [eq, in]
+      codigo_da_condicao:
+        coluna: CODI_CONDICAO
+        ops: [eq, in]
+      codigo_do_campo_do_registro:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      condicao_do_campo_bw_vv_vi_li_ld:
+        coluna: CONDICAO
+        ops: [eq, in]
+      valor_da_condicao:
+        coluna: VALOR1
+        ops: [contem, prefixo]
+      valor2_da_condicao_entre_bw:
+        coluna: VALOR2
+        ops: [contem, prefixo]
+      operador_logico_e_o_ou:
+        coluna: OPERADOR
+        ops: [eq, in]
+      origem_da_coluna_i_importado_p_definicao:
+        coluna: ORIGEM_COLUNA
+        ops: [eq, in]
+      definicao_de_dados_da_qual_dependente_or:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_da_definicao_de_dados_da_qual_dep:
+        coluna: DEPENDENTE_CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_da_qual_dependentee_ori:
+        coluna: DEPENDENTE_CODI_COLUNA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15.396 linhas.', 'Colunas expostas nulas em 100% das linhas (1): valor2_da_condicao_entre_bw.', 'origem_da_coluna_i_importado_p_definicao:
+        todos os valores reais estão no comentário do banco (P=11.885, I=3.511).', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 11.885
+        de 15.396 linhas sem registro relacionado.']
+  geimportador_regras_clausulas:
+    titulo: Cláusulas das regras
+    descricao: 'Cláusulas das regras. 6.538 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA, CODI_CLAUSULA.'
+    tabela: GEIMPORTADOR_REGRAS_CLAUSULAS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA, CODI_CLAUSULA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro: CODI_REGISTRO
+      codigo_da_regra: CODI_REGRA
+      codigo_da_clausula: CODI_CLAUSULA
+      identificacao_da_clausula: IDENTIFICACAO
+      tipo_de_retorno_f_fixo_i_importado_v_var: {coluna: TIPO_RETORNO, dominio: geimportador_regras_clausulas_tipo_de_retorno_f_fixo_i_impo}
+      valor_fixo_tipo_retorno_f: VALOR_FIXO
+      codigo_do_campo_do_registro_tipo_retorno: CODI_CAMPO
+      valor_da_variavel_automatica_d_data_atua: {coluna: VALOR_AUTOMATICO, dominio: geimportador_regras_clausulas_valor_da_variavel_automatica_}
+      codigo_do_argumento_tipo_retorno_a: CODI_ARG
+      definicao_de_dados_da_qual_dependente_ti: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      coluna_da_tabela_da_qual_dependentee_tip: DEPENDENTE_CODI_COLUNA
+    vinculos:
+      geimportador_argumentos:
+        tabela: GEIMPORTADOR_ARGUMENTOS
+        liga: {codi_arg: codi_arg}
+        colunas: {geimportador_argumentos_nome: NOME_ARG}
+      geimportador_regras:
+        tabela: GEIMPORTADOR_REGRAS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_regra: codi_regra}
+        colunas: {geimportador_regras_nome: NOME_REGRA}
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: CODI_REGRA
+        ops: [eq, in]
+      codigo_da_clausula:
+        coluna: CODI_CLAUSULA
+        ops: [eq, in]
+      identificacao_da_clausula:
+        coluna: IDENTIFICACAO
+        ops: [contem, prefixo]
+      tipo_de_retorno_f_fixo_i_importado_v_var:
+        coluna: TIPO_RETORNO
+        ops: [eq, in]
+      valor_fixo_tipo_retorno_f:
+        coluna: VALOR_FIXO
+        ops: [contem, prefixo]
+      codigo_do_campo_do_registro_tipo_retorno:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      valor_da_variavel_automatica_d_data_atua:
+        coluna: VALOR_AUTOMATICO
+        ops: [eq, in]
+      codigo_do_argumento_tipo_retorno_a:
+        coluna: CODI_ARG
+        ops: [eq, in]
+      definicao_de_dados_da_qual_dependente_ti:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_da_definicao_de_dados_da_qual_dep:
+        coluna: DEPENDENTE_CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_da_qual_dependentee_tip:
+        coluna: DEPENDENTE_CODI_COLUNA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.538 linhas.', 'tipo_de_retorno_f_fixo_i_importado_v_var: todos os valores reais estão no comentário do banco (A=4.529, F=989,
+        P=630, I=367, V=23).', 'valor_da_variavel_automatica_d_data_atua: todos os valores reais estão no comentário do banco (nulo=6.515, U=11, E=11, D=1).', 'Vínculo
+        geimportador_argumentos (GEIMPORTADOR_ARGUMENTOS): 0 de 6.538 linhas sem registro relacionado.', 'Vínculo geimportador_regras (GEIMPORTADOR_REGRAS): 0 de
+        6.538 linhas sem registro relacionado.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 6.170 de 6.538 linhas sem registro relacionado.']
+  geimportador_definicao_dados_tabelas:
+    titulo: Tabelas da definição de dados
+    descricao: 'Tabelas da definição de dados. 4.844 linhas no catálogo; chave: CODI_DEFINICAO, CODI_TABELA.'
+    tabela: GEIMPORTADOR_DEFINICAO_DADOS_TABELAS
+    chave: [CODI_DEFINICAO, CODI_TABELA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_DEFINICAO, asc]
+    - [CODI_TABELA, asc]
+    colunas:
+      codigo_da_definicao: CODI_DEFINICAO
+      codigo_da_tabela: CODI_TABELA
+      identificacao_da_tabela: IDENTIFICACAO
+      tipo_da_tabela_d_dados_c_complementar_t: {coluna: TIPO_TABELA, dominio: geimportador_definicao_dados_tabelas_tipo_da_tabela_d_dad}
+      nome_da_tabela: TABELA
+      definicao_de_dados_da_qual_dependente_ti: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      ordem_da_tabela: ORDEM
+    vinculos:
+      geimportador_definicao_d:
+        tabela: GEIMPORTADOR_DEFINICAO_DADOS
+        liga: {codi_definicao: codi_definicao}
+        colunas: {geimportador_definicao_d_nome: NOME}
+    filtros:
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      codigo_da_tabela:
+        coluna: CODI_TABELA
+        ops: [eq, in]
+      identificacao_da_tabela:
+        coluna: IDENTIFICACAO
+        ops: [contem, prefixo]
+      tipo_da_tabela_d_dados_c_complementar_t:
+        coluna: TIPO_TABELA
+        ops: [eq, in]
+      nome_da_tabela:
+        coluna: TABELA
+        ops: [contem, prefixo]
+      definicao_de_dados_da_qual_dependente_ti:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_da_definicao_de_dados_da_qual_dep:
+        coluna: DEPENDENTE_CODI_TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.844 linhas.', 'tipo_da_tabela_d_dados_c_complementar_t: todos os valores reais estão no comentário do banco (D=2.185, T=1.744,
+        C=915).', 'Vínculo geimportador_definicao_d (GEIMPORTADOR_DEFINICAO_DADOS): 0 de 4.844 linhas sem registro relacionado.']
+  geimportador_leiautes_registros:
+    titulo: Registros dos leiautes
+    descricao: 'Registros dos leiautes. 4.004 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO.'
+    tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_do_registro: CODI_REGISTRO, nome_do_registro: NOME_REGISTRO, registro_referente: CODI_REGISTRO_REFERENTE, nivel_do_registro: NIVEL_REGISTRO,
+      ordem_do_registro: ORDEM_REGISTRO}
+    vinculos:
+      geimportador_leiautes:
+        tabela: GEIMPORTADOR_LEIAUTES
+        liga: {codi_leiaute: codi_leiaute}
+        colunas: {geimportador_leiautes_nome: NOME_LEIAUTE}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      nome_do_registro:
+        coluna: NOME_REGISTRO
+        ops: [contem, prefixo]
+      registro_referente:
+        coluna: CODI_REGISTRO_REFERENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.004 linhas.', 'Vínculo geimportador_leiautes (GEIMPORTADOR_LEIAUTES): 0 de 4.004 linhas sem registro relacionado.']
+  geimportador_campos_calculados:
+    titulo: Campos calculados
+    descricao: 'Campos calculados. 3.149 linhas no catálogo; chave: CODI_DEFINICAO, CODI_TABELA, CODI_COLUNA, CODI_CALCULADO.'
+    tabela: GEIMPORTADOR_CAMPOS_CALCULADOS
+    chave: [CODI_DEFINICAO, CODI_TABELA, CODI_COLUNA, CODI_CALCULADO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_DEFINICAO, asc]
+    - [CODI_TABELA, asc]
+    colunas:
+      codigo_da_definicao: CODI_DEFINICAO
+      codigo_da_tabela: CODI_TABELA
+      codigo_da_coluna: CODI_COLUNA
+      codigo_do_campo_calculado: CODI_CALCULADO
+      origem_da_coluna_f_fixo_i_importado_p_pr: {coluna: ORIGEM_COLUNA, dominio: geimportador_campos_calculados_origem_da_coluna_f_fixo_i_import}
+      valor_fixo: VALOR
+      codigo_do_leiaute_origem_coluna_i: CODI_LEIAUTE
+      codigo_do_registro_origem_coluna_i: CODI_REGISTRO
+      codigo_do_campo_do_registro_origem_colun: CODI_CAMPO
+      definicao_de_dados_da_qual_depende_orige: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      coluna_da_tabela_da_qual_depende_origem: DEPENDENTE_CODI_COLUNA
+      operacao_aritmetica: OPERACAO
+      operacao_do_grupo: OPERACAO_GRUPO
+      grupo: GRUPO
+      ordem_do_campo: ORDEM
+    vinculos:
+      geimportador_definicao_d:
+        tabela: GEIMPORTADOR_DEFINICAO_DADOS_TABELAS_COLUNAS
+        liga: {codi_definicao: codi_definicao, codi_tabela: codi_tabela, codi_coluna: codi_coluna}
+        colunas: {geimportador_definicao_d_nome: NOME_COLUNA}
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+    filtros:
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      codigo_da_tabela:
+        coluna: CODI_TABELA
+        ops: [eq, in]
+      codigo_da_coluna:
+        coluna: CODI_COLUNA
+        ops: [eq, in]
+      codigo_do_campo_calculado:
+        coluna: CODI_CALCULADO
+        ops: [eq, in]
+      origem_da_coluna_f_fixo_i_importado_p_pr:
+        coluna: ORIGEM_COLUNA
+        ops: [eq, in]
+      codigo_do_leiaute_origem_coluna_i:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_origem_coluna_i:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_do_campo_do_registro_origem_colun:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      definicao_de_dados_da_qual_depende_orige:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_da_definicao_de_dados_da_qual_dep:
+        coluna: DEPENDENTE_CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_da_qual_depende_origem:
+        coluna: DEPENDENTE_CODI_COLUNA
+        ops: [eq, in]
+      operacao_aritmetica:
+        coluna: OPERACAO
+        ops: [eq, in]
+      operacao_do_grupo:
+        coluna: OPERACAO_GRUPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.149 linhas.', 'origem_da_coluna_f_fixo_i_importado_p_pr: todos os valores reais estão no comentário do banco (I=1.256, F=1.029,
+        P=864).', 'Vínculo geimportador_definicao_d (GEIMPORTADOR_DEFINICAO_DADOS_TABELAS_COLUNAS): 0 de 3.149 linhas sem registro relacionado.', 'Vínculo geimportador_leiautes_re
+        (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 1.893 de 3.149 linhas sem registro relacionado.']
+  geimportador_definicao_dados:
+    titulo: Definição de dados
+    descricao: 'Definição de dados. 2.608 linhas no catálogo; chave: CODI_DEFINICAO.'
+    tabela: GEIMPORTADOR_DEFINICAO_DADOS
+    chave: [CODI_DEFINICAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_DEFINICAO, asc]
+    colunas: {codigo_da_definicao: CODI_DEFINICAO, nome_da_definicao: NOME, descricao_da_definicao: DESCRICAO, codigo_do_leiaute_referente: CODI_LEIAUTE, codigo_do_registro_do_leiaute_referente: CODI_REGISTRO,
+      dependente_de_outra_definicao_s_n: DEPENDENTE, definicao_de_dados_da_qual_depende: DEPENDENTE_CODI_DEFINICAO, padrao_da_dominio_sistemas: PADRAO, diferenciar_maiusculo_de_minusculo: DIFERENCIAR_MAIUSCULO_MINUSCULO}
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro}
+        colunas: {geimportador_leiautes_re_nome: NOME_REGISTRO}
+    filtros:
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      nome_da_definicao:
+        coluna: NOME
+        ops: [contem, prefixo]
+      descricao_da_definicao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_leiaute_referente:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute_referente:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      dependente_de_outra_definicao_s_n:
+        coluna: DEPENDENTE
+        ops: [eq, in]
+      definicao_de_dados_da_qual_depende:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+      diferenciar_maiusculo_de_minusculo:
+        coluna: DIFERENCIAR_MAIUSCULO_MINUSCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.608 linhas.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS): 0 de 2.608 linhas sem registro relacionado.']
+  geimportador_conjunto_dados_definicoes_dados:
+    titulo: Definições de dados dos conjunto de dados
+    descricao: 'Definições de dados dos conjunto de dados. 2.596 linhas no catálogo; chave: CODI_CONJUNTO, CODI_DEFINICAO.'
+    tabela: GEIMPORTADOR_CONJUNTO_DADOS_DEFINICOES_DADOS
+    chave: [CODI_CONJUNTO, CODI_DEFINICAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_CONJUNTO, asc]
+    - [CODI_DEFINICAO, asc]
+    colunas: {codigo_do_conjunto: CODI_CONJUNTO, codigo_da_definicao: CODI_DEFINICAO, ordem_da_definicao_de_dados: ORDEM}
+    vinculos:
+      geimportador_conjunto_da:
+        tabela: GEIMPORTADOR_CONJUNTO_DADOS
+        liga: {codi_conjunto: codi_conjunto}
+        colunas: {geimportador_conjunto_da_nome: NOME_CONJUNTO}
+      geimportador_definicao_d:
+        tabela: GEIMPORTADOR_DEFINICAO_DADOS
+        liga: {codi_definicao: codi_definicao}
+        colunas: {geimportador_definicao_d_nome: NOME}
+    filtros:
+      codigo_do_conjunto:
+        coluna: CODI_CONJUNTO
+        ops: [eq, in]
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.596 linhas.', 'Vínculo geimportador_conjunto_da (GEIMPORTADOR_CONJUNTO_DADOS): 0 de 2.596 linhas sem registro relacionado.',
+      'Vínculo geimportador_definicao_d (GEIMPORTADOR_DEFINICAO_DADOS): 0 de 2.596 linhas sem registro relacionado.']
+  geimportador_definicao_dados_identificacao:
+    titulo: Identificação da definição de dados
+    descricao: 'Identificação da definição de dados. 2.402 linhas no catálogo; chave: CODI_DEFINICAO, CODI_IDENTIFICACAO.'
+    tabela: GEIMPORTADOR_DEFINICAO_DADOS_IDENTIFICACAO
+    chave: [CODI_DEFINICAO, CODI_IDENTIFICACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_DEFINICAO, asc]
+    - [CODI_IDENTIFICACAO, asc]
+    colunas: {codigo_da_definicao: CODI_DEFINICAO, codigo_da_identificacao: CODI_IDENTIFICACAO, codigo_do_leiaute_referente: CODI_LEIAUTE, codigo_do_registro_do_leiaute_referente: CODI_REGISTRO,
+      codigo_do_campo_do_registro: CODI_CAMPO, condicao_do_campo_bw_vv_vi_li_ld: CONDICAO, valor_da_condicao: VALOR1, valor2_da_condicao_entre_bw: VALOR2, operador_logico_e_o_ou: OPERADOR}
+    vinculos:
+      geimportador_definicao_d:
+        tabela: GEIMPORTADOR_DEFINICAO_DADOS
+        liga: {codi_definicao: codi_definicao}
+        colunas: {geimportador_definicao_d_nome: NOME}
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+    filtros:
+      codigo_da_definicao:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      codigo_da_identificacao:
+        coluna: CODI_IDENTIFICACAO
+        ops: [eq, in]
+      codigo_do_leiaute_referente:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute_referente:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_do_campo_do_registro:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      condicao_do_campo_bw_vv_vi_li_ld:
+        coluna: CONDICAO
+        ops: [eq, in]
+      valor_da_condicao:
+        coluna: VALOR1
+        ops: [contem, prefixo]
+      valor2_da_condicao_entre_bw:
+        coluna: VALOR2
+        ops: [contem, prefixo]
+      operador_logico_e_o_ou:
+        coluna: OPERADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.402 linhas.', 'Vínculo geimportador_definicao_d (GEIMPORTADOR_DEFINICAO_DADOS): 0 de 2.402 linhas sem registro relacionado.',
+      'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 0 de 2.402 linhas sem registro relacionado.']
+  geimportador_regras:
+    titulo: Regras
+    descricao: 'Regras. 1.384 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA.'
+    tabela: GEIMPORTADOR_REGRAS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_REGRA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_do_registro: CODI_REGISTRO, codigo_da_regra: CODI_REGRA, nome_da_regra: NOME_REGRA, retorno_padrao_da_regra: RETORNO_PADRAO,
+      exibir_advertencias_referentes_a_retorno: EXIBIR_ADVERTENCIA_RETORNO, definicao_de_dados_da_qual_as_clausulas: DEPENDENTE_CODI_DEFINICAO, padrao_da_dominio_sistemas: PADRAO}
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro}
+        colunas: {geimportador_leiautes_re_nome: NOME_REGISTRO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_regra:
+        coluna: CODI_REGRA
+        ops: [eq, in]
+      nome_da_regra:
+        coluna: NOME_REGRA
+        ops: [contem, prefixo]
+      retorno_padrao_da_regra:
+        coluna: RETORNO_PADRAO
+        ops: [contem, prefixo]
+      exibir_advertencias_referentes_a_retorno:
+        coluna: EXIBIR_ADVERTENCIA_RETORNO
+        ops: [eq, in]
+      definicao_de_dados_da_qual_as_clausulas:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.384 linhas.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS): 0 de 1.384 linhas sem registro relacionado.']
+  geimportador_tabelas_estrangeiras_colunas:
+    titulo: Colunas das tabelas estrangeiras
+    descricao: 'Colunas das tabelas estrangeiras. 1.022 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA, CODI_IDENTIFICACAO, CODI_COLUNA_TABELA_ESTRANGEIRA.'
+    tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS_COLUNAS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA, CODI_IDENTIFICACAO, CODI_COLUNA_TABELA_ESTRANGEIRA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro_do_leiaute: CODI_REGISTRO
+      codigo_da_tabela_estrangeira: CODI_TABELA_ESTRANGEIRA
+      codigo_da_identificacao: CODI_IDENTIFICACAO
+      codigo_da_coluna_da_tabela_estrangeira: CODI_COLUNA_TABELA_ESTRANGEIRA
+      nome_da_coluna_no_banco_de_dados_tabelas: NOME_COLUNA
+      definicao_de_dados_que_contem_a_tabela_t: CODI_DEFINICAO
+      tabela_temporaria_pesquisada_tabelas_tem: CODI_TABELA
+      coluna_da_tabela_temporaria_comparada_ta: CODI_COLUNA
+      condicao_do_campo: CONDICAO
+      origem_da_coluna_f_fixo_i_importado_v_va: {coluna: ORIGEM_COLUNA, dominio: geimportador_tabelas_estrangeiras_colunas_origem_da_coluna_}
+      valor_fixo_origem_coluna_f: VALOR_FIXO
+      codigo_do_campo_do_registro_origem_colun: CODI_CAMPO
+      valor_da_variavel_automatica_d_data_atua: {coluna: VALOR_AUTOMATICO, dominio: geimportador_tabelas_estrangeiras_colunas_valor_da_variavel}
+      codigo_do_argumento_origem_coluna_a: CODI_ARG
+      definicao_de_dados_da_qual_depende_orige: DEPENDENTE_CODI_DEFINICAO
+      tabela_da_definicao_de_dados_da_qual_dep: DEPENDENTE_CODI_TABELA
+      coluna_da_tabela_da_qual_depende_origem: DEPENDENTE_CODI_COLUNA
+      operador_logico_e_o_ou: OPERADOR
+    vinculos:
+      geimportador_tabelas_est:
+        tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS_IDENTIFICACOES
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_tabela_estrangeira: codi_tabela_estrangeira, codi_identificacao: codi_identificacao}
+        colunas: {geimportador_tabelas_est_nome: DESCRICAO}
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+      geimportador_argumentos:
+        tabela: GEIMPORTADOR_ARGUMENTOS
+        liga: {codi_arg: codi_arg}
+        colunas: {geimportador_argumentos_nome: NOME_ARG}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_tabela_estrangeira:
+        coluna: CODI_TABELA_ESTRANGEIRA
+        ops: [eq, in]
+      codigo_da_identificacao:
+        coluna: CODI_IDENTIFICACAO
+        ops: [eq, in]
+      codigo_da_coluna_da_tabela_estrangeira:
+        coluna: CODI_COLUNA_TABELA_ESTRANGEIRA
+        ops: [eq, in]
+      nome_da_coluna_no_banco_de_dados_tabelas:
+        coluna: NOME_COLUNA
+        ops: [contem, prefixo]
+      definicao_de_dados_que_contem_a_tabela_t:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_temporaria_pesquisada_tabelas_tem:
+        coluna: CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_temporaria_comparada_ta:
+        coluna: CODI_COLUNA
+        ops: [eq, in]
+      condicao_do_campo:
+        coluna: CONDICAO
+        ops: [eq, in]
+      origem_da_coluna_f_fixo_i_importado_v_va:
+        coluna: ORIGEM_COLUNA
+        ops: [eq, in]
+      valor_fixo_origem_coluna_f:
+        coluna: VALOR_FIXO
+        ops: [contem, prefixo]
+      codigo_do_campo_do_registro_origem_colun:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      valor_da_variavel_automatica_d_data_atua:
+        coluna: VALOR_AUTOMATICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.022 linhas.', 'Colunas expostas nulas em 100% das linhas (1): valor_da_variavel_automatica_d_data_atua.', 'origem_da_coluna_f_fixo_i_importado_v_va:
+        todos os valores reais estão no comentário do banco (I=511, P=482, F=23, A=6).', 'valor_da_variavel_automatica_d_data_atua: coluna sem nenhum valor preenchido;
+        o domínio do comentário do banco não pôde ser verificado.', 'Vínculo geimportador_tabelas_est (GEIMPORTADOR_TABELAS_ESTRANGEIRAS_IDENTIFICACOES): 0 de 1.022
+        linhas sem registro relacionado.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 511 de 1.022 linhas sem registro relacionado.',
+      'Vínculo geimportador_argumentos (GEIMPORTADOR_ARGUMENTOS): 0 de 1.022 linhas sem registro relacionado.']
+  geimportador_argumentos:
+    titulo: Argumentos
+    descricao: 'Argumentos. 829 linhas no catálogo; chave: CODI_ARG.'
+    tabela: GEIMPORTADOR_ARGUMENTOS
+    chave: [CODI_ARG]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_ARG, asc]
+    colunas:
+      codigo_do_argumento: CODI_ARG
+      nome_do_argumento: NOME_ARG
+      tipo_de_dado_do_argumento_c_caractere_r: {coluna: TIPO_ARG, dominio: geimportador_argumentos_tipo_de_dado_do_argumento_c_caractere_r}
+      origem_do_valor_padrao_n_nenhum_f_fixo_v: {coluna: ORIGEM_ARG, dominio: geimportador_argumentos_origem_do_valor_padrao_n_nenhum_f_fixo_}
+      valor_padrao_fixo_origem_arg_f: VALOR_FIXO
+      valor_padrao_automatica_d_data_atual_e_e: {coluna: VALOR_AUTOMATICO, dominio: geimportador_argumentos_valor_padrao_automatica_d_data_atual_e_}
+      padrao_da_dominio_sistemas: PADRAO
+    filtros:
+      codigo_do_argumento:
+        coluna: CODI_ARG
+        ops: [eq, in]
+      nome_do_argumento:
+        coluna: NOME_ARG
+        ops: [contem, prefixo]
+      tipo_de_dado_do_argumento_c_caractere_r:
+        coluna: TIPO_ARG
+        ops: [eq, in]
+      origem_do_valor_padrao_n_nenhum_f_fixo_v:
+        coluna: ORIGEM_ARG
+        ops: [eq, in]
+      valor_padrao_fixo_origem_arg_f:
+        coluna: VALOR_FIXO
+        ops: [contem, prefixo]
+      valor_padrao_automatica_d_data_atual_e_e:
+        coluna: VALOR_AUTOMATICO
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 829 linhas.', 'tipo_de_dado_do_argumento_c_caractere_r: todos os valores reais estão no comentário do banco (N=736, C=69, D=16,
+        R=8).', 'origem_do_valor_padrao_n_nenhum_f_fixo_v: todos os valores reais estão no comentário do banco (N=696, F=127, V=6).', 'valor_padrao_automatica_d_data_atual_e_e:
+        todos os valores reais estão no comentário do banco (nulo=823, D=6).']
+  geimportador_colunas_valor_inicial:
+    titulo: Valor inicial das colunas
+    descricao: 'Valor inicial das colunas. 823 linhas no catálogo; chave: TABELA, COLUNA.'
+    tabela: GEIMPORTADOR_COLUNAS_VALOR_INICIAL
+    chave: [TABELA, COLUNA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TABELA, asc]
+    - [COLUNA, asc]
+    colunas: {nome_da_tabela: TABELA, nome_da_coluna: COLUNA, valor_inicial_da_coluna: VALOR_INICIAL, ocultar_coluna_na_definicao: OCULTAR}
+    filtros:
+      nome_da_tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      nome_da_coluna:
+        coluna: COLUNA
+        ops: [eq, in]
+      valor_inicial_da_coluna:
+        coluna: VALOR_INICIAL
+        ops: [contem, prefixo]
+      ocultar_coluna_na_definicao:
+        coluna: OCULTAR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 823 linhas.']
+  geimportador_manipulacao_caracteres_colunas:
+    titulo: Colunas da manipulação de caracteres
+    descricao: 'Colunas da manipulação de caracteres. 809 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_MANIPULACAO, CODI_COLUNA.'
+    tabela: GEIMPORTADOR_MANIPULACAO_CARACTERES_COLUNAS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_MANIPULACAO, CODI_COLUNA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro_do_leiaute: CODI_REGISTRO
+      codigo_da_manipulacao_de_caracteres: CODI_MANIPULACAO
+      codigo_da_coluna_da_manipulacao: CODI_COLUNA
+      codigo_do_campo_do_registro: CODI_CAMPO
+      valor_informado: VALOR
+      operacao_de_manipulacao_sn_so_numeros_sl: {coluna: OPERACAO1, dominio: geimportador_manipulacao_caracteres_colunas_operacao_de_m}
+      quantidade_de_caracteres_da_operacao1: QUANTIDADE1
+      operacao2: {coluna: OPERACAO2, dominio: geimportador_manipulacao_caracteres_colunas_operacao_de_m}
+      quantidade_de_caracteres_da_operacao2: QUANTIDADE2
+      operacao3: {coluna: OPERACAO3, dominio: geimportador_manipulacao_caracteres_colunas_operacao_de_m}
+      quantidade_de_caracteres_da_operacao3: QUANTIDADE3
+      ordem_da_coluna: ORDEM
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_campo: codi_campo}
+        colunas: {geimportador_leiautes_re_nome: NOME_CAMPO}
+      geimportador_manipulacao:
+        tabela: GEIMPORTADOR_MANIPULACAO_CARACTERES
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_manipulacao: codi_manipulacao}
+        colunas: {geimportador_manipulacao_nome: DESCRICAO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_manipulacao_de_caracteres:
+        coluna: CODI_MANIPULACAO
+        ops: [eq, in]
+      codigo_da_coluna_da_manipulacao:
+        coluna: CODI_COLUNA
+        ops: [eq, in]
+      codigo_do_campo_do_registro:
+        coluna: CODI_CAMPO
+        ops: [eq, in]
+      valor_informado:
+        coluna: VALOR
+        ops: [contem, prefixo]
+      operacao_de_manipulacao_sn_so_numeros_sl:
+        coluna: OPERACAO1
+        ops: [eq, in]
+      operacao2:
+        coluna: OPERACAO2
+        ops: [eq, in]
+      operacao3:
+        coluna: OPERACAO3
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 809 linhas.', 'Colunas expostas nulas em 100% das linhas (2): operacao3, quantidade_de_caracteres_da_operacao3.', 'operacao_de_manipulacao_sn_so_numeros_sl:
+        todos os valores reais estão no comentário do banco (SN=408, ES=252, nulo=120, SL=14, DI=12, MA=3).', 'operacao2: todos os valores reais estão no comentário
+        do banco (nulo=767, DI=32, ES=8, SN=1, MA=1).', 'operacao3: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.',
+      'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS_CAMPOS): 20 de 809 linhas sem registro relacionado.', 'Vínculo geimportador_manipulacao (GEIMPORTADOR_MANIPULACAO_CARACTERES):
+        0 de 809 linhas sem registro relacionado.']
+  geimportador_tabelas_estrangeiras_identificacoes:
+    titulo: Tabelas estrangeiras
+    descricao: 'Tabelas estrangeiras. 757 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA, CODI_IDENTIFICACAO.'
+    tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS_IDENTIFICACOES
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA, CODI_IDENTIFICACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_do_registro_do_leiaute: CODI_REGISTRO, codigo_da_tabela_estrangeira: CODI_TABELA_ESTRANGEIRA, codigo_da_identificacao: CODI_IDENTIFICACAO,
+      descricao_da_identificacao: DESCRICAO}
+    vinculos:
+      geimportador_tabelas_est:
+        tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro, codi_tabela_estrangeira: codi_tabela_estrangeira}
+        colunas: {geimportador_tabelas_est_nome: NOME_TABELA_ESTRANGEIRA}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_tabela_estrangeira:
+        coluna: CODI_TABELA_ESTRANGEIRA
+        ops: [eq, in]
+      codigo_da_identificacao:
+        coluna: CODI_IDENTIFICACAO
+        ops: [eq, in]
+      descricao_da_identificacao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 757 linhas.', 'Vínculo geimportador_tabelas_est (GEIMPORTADOR_TABELAS_ESTRANGEIRAS): 0 de 757 linhas sem registro relacionado.']
+  geimportador_manipulacao_caracteres:
+    titulo: Manipulação de caracteres
+    descricao: 'Manipulação de caracteres. 716 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_MANIPULACAO.'
+    tabela: GEIMPORTADOR_MANIPULACAO_CARACTERES
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_MANIPULACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_do_registro: CODI_REGISTRO, codigo_da_manipulacao_de_caracteres: CODI_MANIPULACAO, descricao_da_manipulacao_de_caracteres: DESCRICAO,
+      padrao_da_dominio_sistemas: PADRAO}
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro}
+        colunas: {geimportador_leiautes_re_nome: NOME_REGISTRO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_manipulacao_de_caracteres:
+        coluna: CODI_MANIPULACAO
+        ops: [eq, in]
+      descricao_da_manipulacao_de_caracteres:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 716 linhas.', 'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS): 0 de 716 linhas sem registro relacionado.']
+  geimportador_tabelas_estrangeiras:
+    titulo: Tabelas estrangeiras
+    descricao: 'Tabelas estrangeiras. 626 linhas no catálogo; chave: CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA.'
+    tabela: GEIMPORTADOR_TABELAS_ESTRANGEIRAS
+    chave: [CODI_LEIAUTE, CODI_REGISTRO, CODI_TABELA_ESTRANGEIRA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_REGISTRO, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      codigo_do_registro_do_leiaute: CODI_REGISTRO
+      codigo_da_tabela_estrangeira: CODI_TABELA_ESTRANGEIRA
+      nome_da_tabela_estrangeira: NOME_TABELA_ESTRANGEIRA
+      local_da_pesquisa_s_tabelas_do_sistema_t: {coluna: LOCAL_PESQUISA, dominio: geimportador_tabelas_estrangeiras_local_da_pesquisa_s_tabelas_d}
+      tabela_do_sistema_pesquisada_local_pesqu: TABELA
+      coluna_retornada_da_tabela_pesquisada_lo: COLUNA_RETORNO
+      definicao_de_dados_que_contem_a_tabela_t: CODI_DEFINICAO
+      tabela_temporaria_pesquisada_local_pesqu: CODI_TABELA
+      coluna_da_tabela_temporaria_retornada_lo: CODI_COLUNA
+      retorno_padrao: RETORNO_PADRAO
+      exibir_advertencias_referentes_a_retorno: EXIBIR_ADVERTENCIA_RETORNO
+      tabela_estrangeira_que_identifica_a_empr: IDENTIFICADOR_EMPRESA
+      definicao_de_dados_da_qual_as_colunas_de: DEPENDENTE_CODI_DEFINICAO
+      padrao_da_dominio_sistemas: PADRAO
+    vinculos:
+      geimportador_leiautes_re:
+        tabela: GEIMPORTADOR_LEIAUTES_REGISTROS
+        liga: {codi_leiaute: codi_leiaute, codi_registro: codi_registro}
+        colunas: {geimportador_leiautes_re_nome: NOME_REGISTRO}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_do_registro_do_leiaute:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      codigo_da_tabela_estrangeira:
+        coluna: CODI_TABELA_ESTRANGEIRA
+        ops: [eq, in]
+      nome_da_tabela_estrangeira:
+        coluna: NOME_TABELA_ESTRANGEIRA
+        ops: [contem, prefixo]
+      local_da_pesquisa_s_tabelas_do_sistema_t:
+        coluna: LOCAL_PESQUISA
+        ops: [eq, in]
+      tabela_do_sistema_pesquisada_local_pesqu:
+        coluna: TABELA
+        ops: [contem, prefixo]
+      coluna_retornada_da_tabela_pesquisada_lo:
+        coluna: COLUNA_RETORNO
+        ops: [contem, prefixo]
+      definicao_de_dados_que_contem_a_tabela_t:
+        coluna: CODI_DEFINICAO
+        ops: [eq, in]
+      tabela_temporaria_pesquisada_local_pesqu:
+        coluna: CODI_TABELA
+        ops: [eq, in]
+      coluna_da_tabela_temporaria_retornada_lo:
+        coluna: CODI_COLUNA
+        ops: [eq, in]
+      retorno_padrao:
+        coluna: RETORNO_PADRAO
+        ops: [contem, prefixo]
+      exibir_advertencias_referentes_a_retorno:
+        coluna: EXIBIR_ADVERTENCIA_RETORNO
+        ops: [eq, in]
+      tabela_estrangeira_que_identifica_a_empr:
+        coluna: IDENTIFICADOR_EMPRESA
+        ops: [eq, in]
+      definicao_de_dados_da_qual_as_colunas_de:
+        coluna: DEPENDENTE_CODI_DEFINICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 626 linhas.', 'local_da_pesquisa_s_tabelas_do_sistema_t: todos os valores reais estão no comentário do banco (S=586, T=40).',
+      'Vínculo geimportador_leiautes_re (GEIMPORTADOR_LEIAUTES_REGISTROS): 0 de 626 linhas sem registro relacionado.']
+  geimportador_tabelas_disponiveis:
+    titulo: Tabelas disponíveis para definição no importador
+    descricao: 'Tabelas disponíveis para definição no importador. 533 linhas no catálogo; chave: TABELA.'
+    tabela: GEIMPORTADOR_TABELAS_DISPONIVEIS
+    chave: [TABELA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TABELA, asc]
+    colunas:
+      nome_da_tabela: TABELA
+      descricao_da_tabela: DESCRICAO
+      onde_a_tabela_poder_ser_usada_d_definica: {coluna: TIPO, dominio: geimportador_tabelas_disponiveis_onde_a_tabel}
+      tabela_pai_da_tabela: TABELA_PAI
+      ordem_de_processamento_das_tabelas: ORDEM
+      sobrescrever_registros_p_padrao_n_nota_c: SOBRESCREVER
+      ordem_para_o_resumo_da_importacao: ORDEM_RESUMO
+      ordem_de_gravacao_dos_dados_no_banco: ORDEM_GRAVACAO
+      opcao_considerada_para_sobrescrever_regi: {coluna: OPCAO_SOBRESCREVER, dominio: geimportador_tabelas_disponiveis_opcao_consid}
+    filtros:
+      nome_da_tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      descricao_da_tabela:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      onde_a_tabela_poder_ser_usada_d_definica:
+        coluna: TIPO
+        ops: [eq, in]
+      tabela_pai_da_tabela:
+        coluna: TABELA_PAI
+        ops: [contem, prefixo]
+      sobrescrever_registros_p_padrao_n_nota_c:
+        coluna: SOBRESCREVER
+        ops: [eq, in]
+      ordem_para_o_resumo_da_importacao:
+        coluna: ORDEM_RESUMO
+        ops: [contem, prefixo]
+      opcao_considerada_para_sobrescrever_regi:
+        coluna: OPCAO_SOBRESCREVER
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 533 linhas.', 'onde_a_tabela_poder_ser_usada_d_definica: todos os valores reais estão no comentário do banco (Q=308, nulo=196,
+        T=21, D=8).', 'opcao_considerada_para_sobrescrever_regi: todos os valores reais estão no comentário do banco (nulo=485, M=31, C=17).']
+  geimportador_colunas_resumo:
+    titulo: Colunas exibidas no resumo do importador
+    descricao: 'Colunas exibidas no resumo do importador. 483 linhas no catálogo; chave: TABELA, ORDEM.'
+    tabela: GEIMPORTADOR_COLUNAS_RESUMO
+    chave: [TABELA, ORDEM]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TABELA, asc]
+    - [ORDEM, asc]
+    colunas:
+      nome_da_tabela: TABELA
+      ordem_da_coluna: ORDEM
+      nome_da_coluna_no_banco: NOME_COLUNA
+      descricao_no_cabecalho: DESCRICAO_CABECALHO
+      larguna_no_cabecalho_em_caracteres: LARGURA
+      formato_do_valor_exibido: FORMATO
+      alinhamento_do_valor_exibido_e_esquerda: {coluna: ALINHAMENTO, dominio: geimportador_colunas_resumo_alinhamento}
+      utiliza_tratamento_para_exibir_valor_s_s: {coluna: UTILIZA_TRATAMENTO, dominio: geimportador_colunas_resumo_utiliza_tra}
+    filtros:
+      nome_da_tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      ordem_da_coluna:
+        coluna: ORDEM
+        ops: [eq, in]
+      nome_da_coluna_no_banco:
+        coluna: NOME_COLUNA
+        ops: [contem, prefixo]
+      descricao_no_cabecalho:
+        coluna: DESCRICAO_CABECALHO
+        ops: [contem, prefixo]
+      formato_do_valor_exibido:
+        coluna: FORMATO
+        ops: [contem, prefixo]
+      alinhamento_do_valor_exibido_e_esquerda:
+        coluna: ALINHAMENTO
+        ops: [eq, in]
+      utiliza_tratamento_para_exibir_valor_s_s:
+        coluna: UTILIZA_TRATAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 483 linhas.', 'alinhamento_do_valor_exibido_e_esquerda: todos os valores reais estão no comentário do banco (E=267, D=210, C=6).',
+      'utiliza_tratamento_para_exibir_valor_s_s: todos os valores reais estão no comentário do banco (N=338, S=145).']
+  geimportador_equivalencias_valores:
+    titulo: Valores das tabelas equivalentes
+    descricao: 'Valores das tabelas equivalentes. 335 linhas no catálogo; chave: CODI_LEIAUTE, CODI_EQUIVALENCIA, CODI_VALOR.'
+    tabela: GEIMPORTADOR_EQUIVALENCIAS_VALORES
+    chave: [CODI_LEIAUTE, CODI_EQUIVALENCIA, CODI_VALOR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_EQUIVALENCIA, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_da_tabela_equivalente: CODI_EQUIVALENCIA, codigo_do_valor_da_tabela_equivalente: CODI_VALOR, valor_de_entrada: VALOR_ENTRADA,
+      valor_de_saida: VALOR_SAIDA, descricao_do_valor: DESCRICAO}
+    vinculos:
+      geimportador_equivalenci:
+        tabela: GEIMPORTADOR_EQUIVALENCIAS
+        liga: {codi_leiaute: codi_leiaute, codi_equivalencia: codi_equivalencia}
+        colunas: {geimportador_equivalenci_nome: NOME_EQUIVALENCIA}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_da_tabela_equivalente:
+        coluna: CODI_EQUIVALENCIA
+        ops: [eq, in]
+      codigo_do_valor_da_tabela_equivalente:
+        coluna: CODI_VALOR
+        ops: [eq, in]
+      valor_de_entrada:
+        coluna: VALOR_ENTRADA
+        ops: [contem, prefixo]
+      valor_de_saida:
+        coluna: VALOR_SAIDA
+        ops: [contem, prefixo]
+      descricao_do_valor:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 335 linhas.', 'Vínculo geimportador_equivalenci (GEIMPORTADOR_EQUIVALENCIAS): 0 de 335 linhas sem registro relacionado.']
+  geimportador_leiautes:
+    titulo: Leiautes do importador
+    descricao: 'Leiautes do importador. 209 linhas no catálogo; chave: CODI_LEIAUTE.'
+    tabela: GEIMPORTADOR_LEIAUTES
+    chave: [CODI_LEIAUTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    colunas:
+      codigo_do_leiaute: CODI_LEIAUTE
+      nome_do_leiaute: NOME_LEIAUTE
+      descricao_do_leiaute: DESC_LEIAUTE
+      utiliza_separador_de_campos_s_n: UTILIZA_SEPARADOR_CAMPOS
+      separador_campos: SEPARADOR_CAMPOS
+      ignorar_o_primeiro_caractere_da_linha_qu: IGNORAR_PRIMEIRO_SEPARADOR_CAMPOS
+      estrutura_do_arquivo_h_hierarquico_a_agr: {coluna: ESTRUTURA_ARQUIVO, dominio: geimportador_leiautes_estrutura_do_arquivo_h_hier}
+      utiliza_separador_decimal_s_n: UTILIZA_SEPARADOR_DECIMAL
+      separador_decimal: SEPARADOR_DECIMAL
+      utiliza_delimitador_de_caracteres_s_n: UTILIZA_DELIMITADOR_CARACTERES
+      delimitador_de_caracteres: DELIMITADOR_CARACTERES
+      utiliza_agrupamento_de_notas_s_n: UTILIZA_AGRUPAMENTO_NOTAS
+      padrao_da_dominio_sistemas: PADRAO
+      tipo_do_arquivo_t_txt_x_xml: {coluna: TIPO_ARQUIVO, dominio: geimportador_leiautes_tipo_do_arquivo_t_txt_x_xml}
+      observacao: OBSERVACAO
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      nome_do_leiaute:
+        coluna: NOME_LEIAUTE
+        ops: [contem, prefixo]
+      descricao_do_leiaute:
+        coluna: DESC_LEIAUTE
+        ops: [contem, prefixo]
+      utiliza_separador_de_campos_s_n:
+        coluna: UTILIZA_SEPARADOR_CAMPOS
+        ops: [eq, in]
+      separador_campos:
+        coluna: SEPARADOR_CAMPOS
+        ops: [eq, in]
+      ignorar_o_primeiro_caractere_da_linha_qu:
+        coluna: IGNORAR_PRIMEIRO_SEPARADOR_CAMPOS
+        ops: [eq, in]
+      estrutura_do_arquivo_h_hierarquico_a_agr:
+        coluna: ESTRUTURA_ARQUIVO
+        ops: [eq, in]
+      utiliza_separador_decimal_s_n:
+        coluna: UTILIZA_SEPARADOR_DECIMAL
+        ops: [eq, in]
+      separador_decimal:
+        coluna: SEPARADOR_DECIMAL
+        ops: [eq, in]
+      utiliza_delimitador_de_caracteres_s_n:
+        coluna: UTILIZA_DELIMITADOR_CARACTERES
+        ops: [eq, in]
+      delimitador_de_caracteres:
+        coluna: DELIMITADOR_CARACTERES
+        ops: [eq, in]
+      utiliza_agrupamento_de_notas_s_n:
+        coluna: UTILIZA_AGRUPAMENTO_NOTAS
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+      tipo_do_arquivo_t_txt_x_xml:
+        coluna: TIPO_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 209 linhas.', 'estrutura_do_arquivo_h_hierarquico_a_agr: todos os valores reais estão no comentário do banco (A=114, H=95).',
+      'tipo_do_arquivo_t_txt_x_xml: todos os valores reais estão no comentário do banco (T=124, X=85).']
+  geimportador_conjunto_dados:
+    titulo: Conjunto de dados
+    descricao: 'Conjunto de dados. 163 linhas no catálogo; chave: CODI_CONJUNTO.'
+    tabela: GEIMPORTADOR_CONJUNTO_DADOS
+    chave: [CODI_CONJUNTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_CONJUNTO, asc]
+    colunas:
+      codigo_do_conjunto: CODI_CONJUNTO
+      nome_do_conjunto: NOME_CONJUNTO
+      codigo_do_leiaute_do_conjunto: CODI_LEIAUTE
+      identificar_a_empresa_no_arquivo_s_sim_n: {coluna: IDENTIFICAR_EMPRESA, dominio: geimportador_conjunto_dados_identificar_a_empresa_no_arquivo}
+      registro_usado_para_identificar_a_empres: CODI_REGISTRO
+      tabela_estrangeira_que_identifica_a_empr: CODI_TABELA_ESTRANGEIRA
+      padrao_da_dominio_sistemas: PADRAO
+    vinculos:
+      geimportador_leiautes:
+        tabela: GEIMPORTADOR_LEIAUTES
+        liga: {codi_leiaute: codi_leiaute}
+        colunas: {geimportador_leiautes_nome: NOME_LEIAUTE}
+    filtros:
+      codigo_do_conjunto:
+        coluna: CODI_CONJUNTO
+        ops: [eq, in]
+      nome_do_conjunto:
+        coluna: NOME_CONJUNTO
+        ops: [contem, prefixo]
+      codigo_do_leiaute_do_conjunto:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      identificar_a_empresa_no_arquivo_s_sim_n:
+        coluna: IDENTIFICAR_EMPRESA
+        ops: [eq, in]
+      registro_usado_para_identificar_a_empres:
+        coluna: CODI_REGISTRO
+        ops: [eq, in]
+      tabela_estrangeira_que_identifica_a_empr:
+        coluna: CODI_TABELA_ESTRANGEIRA
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 163 linhas.', 'identificar_a_empresa_no_arquivo_s_sim_n: todos os valores reais estão no comentário do banco (N=136, S=27).',
+      'Vínculo geimportador_leiautes (GEIMPORTADOR_LEIAUTES): 0 de 163 linhas sem registro relacionado.']
+  geimportador_equivalencias:
+    titulo: Tabelas equivalentes
+    descricao: 'Tabelas equivalentes. 44 linhas no catálogo; chave: CODI_LEIAUTE, CODI_EQUIVALENCIA.'
+    tabela: GEIMPORTADOR_EQUIVALENCIAS
+    chave: [CODI_LEIAUTE, CODI_EQUIVALENCIA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_LEIAUTE, asc]
+    - [CODI_EQUIVALENCIA, asc]
+    colunas: {codigo_do_leiaute: CODI_LEIAUTE, codigo_da_tabela_equivalente: CODI_EQUIVALENCIA, nome_da_tabela_equivalente: NOME_EQUIVALENCIA, retorno_padrao: RETORNO_PADRAO,
+      diferenciar_maiusculas_de_minusculas: DIFERENCIAR_MAIUSC_MINUSC, padrao_da_dominio_sistemas: PADRAO}
+    vinculos:
+      geimportador_leiautes:
+        tabela: GEIMPORTADOR_LEIAUTES
+        liga: {codi_leiaute: codi_leiaute}
+        colunas: {geimportador_leiautes_nome: NOME_LEIAUTE}
+    filtros:
+      codigo_do_leiaute:
+        coluna: CODI_LEIAUTE
+        ops: [eq, in]
+      codigo_da_tabela_equivalente:
+        coluna: CODI_EQUIVALENCIA
+        ops: [eq, in]
+      nome_da_tabela_equivalente:
+        coluna: NOME_EQUIVALENCIA
+        ops: [contem, prefixo]
+      retorno_padrao:
+        coluna: RETORNO_PADRAO
+        ops: [contem, prefixo]
+      diferenciar_maiusculas_de_minusculas:
+        coluna: DIFERENCIAR_MAIUSC_MINUSC
+        ops: [eq, in]
+      padrao_da_dominio_sistemas:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 44 linhas.', 'Vínculo geimportador_leiautes (GEIMPORTADOR_LEIAUTES): 0 de 44 linhas sem registro relacionado.']

@@ -1,0 +1,232 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: societario_nucleo
+titulo: Societário - nucleo (rascunho em lote)
+entidades:
+  rgeventos:
+    titulo: Eventos - Cadastro
+    descricao: 'Eventos - Cadastro. 557 linhas no catálogo; chave: i_ato, i_evento.'
+    tabela: rgeventos
+    chave: [i_ato, i_evento]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_ato, asc]
+    - [i_evento, asc]
+    colunas: {ato: i_ato, codigo: i_evento, descricao: descricao}
+    vinculos:
+      rgatos:
+        tabela: rgatos
+        liga: {i_ato: i_ato}
+        colunas: {rgatos_nome: descricao}
+    filtros:
+      ato:
+        coluna: i_ato
+        ops: [eq, in]
+      codigo:
+        coluna: i_evento
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 557 linhas.', 'Vínculo rgatos (rgatos): 0 de 557 linhas sem registro relacionado.']
+  rgatos:
+    titulo: Atos - Cadastro
+    descricao: 'Atos - Cadastro. 127 linhas no catálogo; chave: i_ato.'
+    tabela: rgatos
+    chave: [i_ato]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_ato, asc]
+    colunas: {codigo: i_ato, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: i_ato
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 127 linhas.']
+  rgcondicoes:
+    titulo: Relacao de Condicoes dos Socios
+    descricao: 'Relacao de Condicoes dos Socios. 48 linhas no catálogo; chave: codigo.'
+    tabela: rgcondicoes
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao, cadastros_onde_o_item_pode_aparecer: FILTRO}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      cadastros_onde_o_item_pode_aparecer:
+        coluna: FILTRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 48 linhas.']
+  rgtestemunhas:
+    titulo: Testemunhas
+    descricao: 'Testemunhas. 8 linhas no catálogo; chave: i_testemunha.'
+    tabela: rgtestemunhas
+    chave: [i_testemunha]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_testemunha, asc]
+    colunas:
+      codigo: i_testemunha
+      nome: nome
+      numero_da_identidade: identidade
+      orgao_emissor_da_identidade: orgao
+      uf_da_identidade: uf_id
+      cpf: {coluna: cpf, sensivel: parcial}
+    filtros:
+      codigo:
+        coluna: i_testemunha
+        ops: [eq, in]
+      nome:
+        coluna: nome
+        ops: [contem, prefixo]
+      numero_da_identidade:
+        coluna: identidade
+        ops: [eq, in]
+      orgao_emissor_da_identidade:
+        coluna: orgao
+        ops: [eq, in]
+      uf_da_identidade:
+        coluna: uf_id
+        ops: [eq, in]
+      cpf:
+        coluna: cpf
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas.']
+  rgdocumentos:
+    titulo: Documentos
+    descricao: 'Documentos. 6 linhas no catálogo; chave: i_documento.'
+    tabela: rgdocumentos
+    chave: [i_documento]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_documento, asc]
+    colunas: {codigo: i_documento, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: i_documento
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  rgadvogados:
+    titulo: Advogados - Cadastro
+    descricao: 'Advogados - Cadastro. 4 linhas no catálogo; chave: i_advogado.'
+    tabela: rgadvogados
+    chave: [i_advogado]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_advogado, asc]
+    colunas:
+      codigo: i_advogado
+      nome: nome
+      registro_na_oab: oab
+      uf_do_registro_na_oab: uf_oab
+      cpf: {coluna: cpf, sensivel: parcial}
+    filtros:
+      codigo:
+        coluna: i_advogado
+        ops: [eq, in]
+      nome:
+        coluna: nome
+        ops: [contem, prefixo]
+      registro_na_oab:
+        coluna: oab
+        ops: [eq, in]
+      uf_do_registro_na_oab:
+        coluna: uf_oab
+        ops: [eq, in]
+      cpf:
+        coluna: cpf
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  rgavisos:
+    titulo: Avisos
+    descricao: 'Avisos. 3 linhas no catálogo; chave: usuario.'
+    tabela: rgavisos
+    chave: [usuario]
+    acesso: {empresa: null, periodo: data, volume: pequeno}
+    ordem:
+    - [data, desc]
+    - [usuario, asc]
+    colunas: {usuario: usuario, data_do_aviso: data, mostrar_aviso_novamente_s_n: mostrar}
+    filtros:
+      usuario:
+        coluna: usuario
+        ops: [eq, in]
+      data_do_aviso:
+        coluna: data
+        ops: [entre, gte, lte]
+      mostrar_aviso_novamente_s_n:
+        coluna: mostrar
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, data de 2018-09-14 a 2021-01-05.']
+  rgdocumentacao:
+    titulo: Documentacao
+    descricao: 'Documentacao. 2 linhas no catálogo; chave: i_documentacao.'
+    tabela: rgdocumentacao
+    chave: [i_documentacao]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_documentacao, asc]
+    colunas: {codigo: i_documentacao, descricao: descricao, observacao: observacao}
+    filtros:
+      codigo:
+        coluna: i_documentacao
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      observacao:
+        coluna: observacao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  rgparmto:
+    titulo: Aviso de processos
+    descricao: 'Aviso de processos. 1 linhas no catálogo; chave: i_codigo.'
+    tabela: rgparmto
+    chave: [i_codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_codigo, asc]
+    colunas: {codigo: i_codigo, numero_de_dias_da_antecedencia_do_aviso: dias_antecedencia}
+    filtros:
+      codigo:
+        coluna: i_codigo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  rgdadosdw:
+    titulo: Dados do relatorios
+    descricao: 'Dados do relatorios. 1 linhas no catálogo; chave: codi_emp, tipo, codigo, nomedw.'
+    tabela: rgdadosdw
+    chave: [codi_emp, tipo, codigo, nomedw]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [tipo, asc]
+    - [codigo, asc]
+    colunas: {empresa: codi_emp, tipo_do_documento: tipo, codigo: codigo, dataobject_ou_codigo_do_relatorio_do_ger: nomedw, total_de_linhas: total_linhas}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_do_documento:
+        coluna: tipo
+        ops: [eq, in]
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      dataobject_ou_codigo_do_relatorio_do_ger:
+        coluna: nomedw
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1).']

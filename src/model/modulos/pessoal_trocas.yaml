@@ -1,0 +1,1035 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_trocas
+titulo: Pessoal - trocas (rascunho em lote)
+dominios:
+  fotrocas_campos_tipo_de_tro:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_campos.tipo_troca estão no comentário do banco (2026-10-18). Distribuição: 3=11.023, 4=11.003, 2=10.622, 1=10.392,
+      5=7.007, 6=2.561.'
+    valores: {'1': Categoria, '2': Ocorrência SEFIP, '3': Simples Nacional, '4': Vínculo empregatício, '5': Sindicalizado, '6': Tipo de serviço, '7': Agente integração,
+      '8': Instituição de ensino, '9': Coordenador de Estágio, '10': Supervisor de Estágio, '11': Categoria eSocial.}
+  fotrocas_campos_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_campos.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=52.608.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_campos_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_campos.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=52.346, 1=262.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_campos_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_campos.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=52.608.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_horas_campo_alter:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.CAMPO estão no comentário do banco (2026-10-18). Distribuição: 3=8.976, 1=8.976, 2=8.816, 4=6.404.'
+    valores: {'1': Horas dia, '2': Horas semana, '3': Horas mês, '4': Horas compensadas}
+  fotrocas_horas_retificacao:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.RETIFICACAO estão no comentário do banco (2026-10-18). Distribuição: 0=31.069, 1=2.103.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_horas_periodo_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.PERIODO_CTRL estão no comentário do banco (2026-10-18). Distribuição: 1=32.202, 0=970.'
+    valores: {'0': Inativo, '1': Ativo}
+  fotrocas_horas_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=30.580, 1=2.592.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+  fotrocas_horas_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=33.052, 0=120.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_horas_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=32.757, 1=415.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_horas_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_HORAS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=33.172.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindpiso_tipo_de_piso_salar:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_SINDPISO.TIPO_PISO_SALARIAL estão no comentário do banco (2026-10-18). Distribuição: 1=8.285, 2=6.026.'
+    valores: {'1': Normal, '2': Período do contrato de experiência}
+  fotrocas_sindpiso_enviar_para_o_esoc:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_SINDPISO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=14.311.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindpiso_gerar_retificacao_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_SINDPISO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=14.311.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindpiso_marcacao_do_evento:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_SINDPISO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=14.311.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_cargos_enviar_para_o_esocial_0_nao_1_sim:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_cargos.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=13.215.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_cargos_gerar_retificacao_para_o_esocial_:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_cargos.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=12.646, 1=569.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_cargos_marcacao_do_evento_para_gerar_o_e:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_cargos.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=13.215.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_ccustos_enviar_para_o_esocial_0:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_ccustos.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=11.828.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_ccustos_gerar_retificacao_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_ccustos.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.828.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_ccustos_marcacao_do_evento_para:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_ccustos.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.828.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_servicos_enviar_para_o_esocial_0_nao_1_s:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_servicos.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=11.421.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_servicos_gerar_retificacao_para_o_esocia:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_servicos.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.348, 1=73.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_servicos_marcacao_do_evento_para_gerar_o:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_servicos.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.421.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_depto_enviar_para_o_eso:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_depto.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=11.346.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_depto_gerar_retificacao:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_depto.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.346.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_depto_marcacao_do_event:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_depto.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=11.346.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_filiais_enviar_para_o_esocial_0_nao_1_si:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FILIAIS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=10.991.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_filiais_gerar_retificacao_para_o_esocial:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FILIAIS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=10.991.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_filiais_marcacao_do_evento_para_gerar_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FILIAIS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=10.991.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_jornadas_controle_do_periodo_0_inativo_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_JORNADAS.PERIODO_CTRL estão no comentário do banco (2026-10-18). Distribuição: 1=8.971, 0=25.'
+    valores: {'0': Inativo, '1': Ativo}
+  fotrocas_jornadas_enviar_para_o_esocial_0_nao_1_si:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_JORNADAS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=8.996.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_jornadas_gerar_retificacao_para_o_esocial:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_JORNADAS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=8.362, 1=634.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_jornadas_marcacao_do_evento_para_gerar_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_JORNADAS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=8.996.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindicatos_enviar_para_o_esocial_0_nao_1:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_sindicatos.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=7.487.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindicatos_gerar_retificacao_para_o_esoc:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_sindicatos.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=6.844, 1=643.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_sindicatos_marcacao_do_evento_para_gerar:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_sindicatos.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=7.487.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_pessoais_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PESSOAIS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=5.531.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+  fotrocas_informacoes_pessoais_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PESSOAIS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=5.531.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_pessoais_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PESSOAIS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.506,
+      1=25.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_pessoais_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PESSOAIS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.531.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_profissionais_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PROFISSIONAIS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=5.357.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+  fotrocas_informacoes_profissionais_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PROFISSIONAIS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=5.357.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_profissionais_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PROFISSIONAIS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.354,
+      1=3.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_informacoes_profissionais_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_INFORMACOES_PROFISSIONAIS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.357.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_funcoes_enviar_para_o_esocial_0_nao_1_si:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FUNCOES.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=2.177.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_funcoes_gerar_retificacao_para_o_esocial:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FUNCOES.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=2.095, 1=82.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_funcoes_marcacao_do_evento_para_gerar_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_FUNCOES.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=2.177.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_operadoraplanosaude_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_OPERADORAPLANOSAUDE.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=5.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_operadoraplanosaude_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_OPERADORAPLANOSAUDE.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_operadoraplanosaude_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOTROCAS_OPERADORAPLANOSAUDE.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=5.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_turmas_enviar_para_o_esocial_0_nao_1_sim:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_turmas.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=4.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_turmas_gerar_retificacao_para_o_esocial_:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_turmas.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  fotrocas_turmas_marcacao_do_evento_para_gerar_o_e:
+    confirmado: true
+    nota: 'Todos os valores observados em fotrocas_turmas.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  fotrocas_campos:
+    titulo: Trocas de ocorrencia sefip, simples nacional, categoria
+    descricao: 'Trocas de ocorrencia sefip, simples nacional, categoria. 52.536 linhas no catálogo; chave: codi_emp, i_empregados, data_troca, tipo_troca.'
+    tabela: fotrocas_campos
+    chave: [codi_emp, i_empregados, data_troca, tipo_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: medio}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    - [tipo_troca, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      tipo_de_troca_1_categoria_2_ocorrencia_s: {coluna: tipo_troca, dominio: fotrocas_campos_tipo_de_tro}
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      preriodo_inicial_do_empregado: periodo_inicio
+      preriodo_final_do_empregado: periodo_fim
+      valor_do_campo: valor_campo
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_campos_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_campos_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_campos_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      tipo_de_troca_1_categoria_2_ocorrencia_s:
+        coluna: tipo_troca
+        ops: [eq, in]
+      preriodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      preriodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+      valor_do_campo:
+        coluna: valor_campo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 52.608 linhas, 977 empresa(s), data_troca de 1968-01-29 a 2026-10-20.', 'tipo_de_troca_1_categoria_2_ocorrencia_s: todos os valores
+        reais estão no comentário do banco (3=11.023, 4=11.003, 2=10.622, 1=10.392, 5=7.007, 6=2.561).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=52.608).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=52.346, 1=262).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=52.608).', 'Vínculo foempregados (foempregados): 0 de 10 linhas sem registro relacionado (empresa 883).']
+  fotrocas_horas:
+    titulo: Trocas da quantidade de horas trabalhadas pelo empregado.
+    descricao: 'Trocas da quantidade de horas trabalhadas pelo empregado.. 33.110 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA, CAMPO.'
+    tabela: FOTROCAS_HORAS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA, CAMPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_GRAVACAO, volume: medio}
+    ordem:
+    - [DATA_GRAVACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [DATA_TROCA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao: DATA_TROCA
+      campo_alterado_1_horas_dia_2_horas_seman: {coluna: CAMPO, dominio: fotrocas_horas_campo_alter}
+      valor_alterado: VALOR
+      data_da_gravacao: DATA_GRAVACAO
+      horario_da_gravacao: HORARIO_GRAVACAO
+      retificacao_0_nao_1_sim: {coluna: RETIFICACAO, dominio: fotrocas_horas_retificacao}
+      periodo_de_controle_0_inativo_1_ativo: {coluna: PERIODO_CTRL, dominio: fotrocas_horas_periodo_de_}
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: fotrocas_horas_origem_do_r}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_horas_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_horas_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_horas_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      campo_alterado_1_horas_dia_2_horas_seman:
+        coluna: CAMPO
+        ops: [eq, in]
+      data_da_gravacao:
+        coluna: DATA_GRAVACAO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 33.172 linhas, 439 empresa(s), DATA_GRAVACAO de 1900-01-01 a 2026-10-16.', 'campo_alterado_1_horas_dia_2_horas_seman: todos os
+        valores reais estão no comentário do banco (3=8.976, 1=8.976, 2=8.816, 4=6.404).', 'retificacao_0_nao_1_sim: todos os valores reais estão no comentário do
+        banco (0=31.069, 1=2.103).', 'periodo_de_controle_0_inativo_1_ativo: todos os valores reais estão no comentário do banco (1=32.202, 0=970).', 'origem_do_registro_0_sistema_1_imp_tabel:
+        todos os valores reais estão no comentário do banco (0=30.580, 1=2.592).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário
+        do banco (1=33.052, 0=120).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=32.757, 1=415).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=33.172).', 'Vínculo foempregados (foempregados): 0 de 16 linhas sem registro relacionado (empresa 9054).']
+  fotrocas_sindpiso:
+    titulo: TROCAS DOS PISOS DOS SINDICATOS
+    descricao: 'TROCAS DOS PISOS DOS SINDICATOS. 14.289 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA, TIPO_PISO_SALARIAL.'
+    tabela: FOTROCAS_SINDPISO
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA, TIPO_PISO_SALARIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TROCA, volume: medio}
+    ordem:
+    - [DATA_TROCA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PISO_SALARIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_troca: DATA_TROCA
+      tipo_de_piso_salarial_1_normal_2_periodo: {coluna: TIPO_PISO_SALARIAL, dominio: fotrocas_sindpiso_tipo_de_piso_salar}
+      codigo_do_sindicato: I_SINDICATOS
+      codigo_do_piso_do_sindicato: I_SINDPISO
+      usiario: USUARIO
+      periodo_de_controle: PERIODO_CTRL
+      periodo_inicial: PERIODO_INICIO
+      periodo_final: PERIODO_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_sindpiso_enviar_para_o_esoc}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_sindpiso_gerar_retificacao_}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_sindpiso_marcacao_do_evento}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fosindpiso:
+        tabela: FOSINDPISO
+        liga: {i_sindicatos: i_sindicatos, i_sindpiso: i_sindpiso}
+        colunas: {fosindpiso_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_troca:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      tipo_de_piso_salarial_1_normal_2_periodo:
+        coluna: TIPO_PISO_SALARIAL
+        ops: [eq, in]
+      periodo_inicial:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      codigo_do_sindicato:
+        coluna: I_SINDICATOS
+        ops: [eq, in]
+      codigo_do_piso_do_sindicato:
+        coluna: I_SINDPISO
+        ops: [eq, in]
+      usiario:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14.311 linhas, 436 empresa(s), DATA_TROCA de 1988-10-06 a 2026-10-20.', 'tipo_de_piso_salarial_1_normal_2_periodo: todos os valores
+        reais estão no comentário do banco (1=8.285, 2=6.026).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=14.311).',
+      'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=14.311).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais
+        estão no comentário do banco (0=14.311).', 'Vínculo foempregados (foempregados): 0 de 7 linhas sem registro relacionado (empresa 1103).', 'Vínculo fosindpiso
+        (FOSINDPISO): 3 de 7 linhas sem registro relacionado (empresa 1103).']
+  fotrocas_cargos:
+    titulo: Trocas de cargos
+    descricao: 'Trocas de cargos. 13.193 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_cargos
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: medio}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_do_cargos: i_cargos
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      codigo_da_empresa_do_cargo: CODI_EMP_CARGOS
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_cargos_enviar_para_o_esocial_0_nao_1_sim}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_cargos_gerar_retificacao_para_o_esocial_}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_cargos_marcacao_do_evento_para_gerar_o_e}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      focargos:
+        tabela: focargos
+        liga: {codi_emp_cargos: codi_emp, i_cargos: i_cargos}
+        colunas: {focargos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_do_cargos:
+        coluna: i_cargos
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+      codigo_da_empresa_do_cargo:
+        coluna: CODI_EMP_CARGOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13.215 linhas, 977 empresa(s), data_troca de 1968-01-29 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=13.215).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=12.646, 1=569).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=13.215).', 'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 9092).',
+      'Vínculo focargos (focargos): 0 de 2 linhas sem registro relacionado (empresa 9092).']
+  fotrocas_ccustos:
+    titulo: Trocas de centro de custos
+    descricao: 'Trocas de centro de custos. 11.812 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_ccustos
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: medio}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_do_c_custos: i_ccustos
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_ccustos_enviar_para_o_esocial_0}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_ccustos_gerar_retificacao_para_}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_ccustos_marcacao_do_evento_para}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      foccustos:
+        tabela: foccustos
+        liga: {codi_emp: codi_emp, i_ccustos: i_ccustos}
+        colunas: {foccustos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_do_c_custos:
+        coluna: i_ccustos
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.828 linhas, 977 empresa(s), data_troca de 1968-01-29 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=11.828).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=11.828).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=11.828).', 'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 640).',
+      'Vínculo foccustos (foccustos): 0 de 2 linhas sem registro relacionado (empresa 640).']
+  fotrocas_servicos:
+    titulo: Trocas de servicos
+    descricao: 'Trocas de servicos. 11.405 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_servicos
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: medio}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_do_servicos: i_servicos
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      quantidade_de_horas_trabalhadas_no_prime: HORAS_TRABALHADAS_PRIMEIRO_DIA
+      quantidade_de_horas_trabalhadas_no_ultim: HORAS_TRABALHADAS_ULTIMO_DIA
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_servicos_enviar_para_o_esocial_0_nao_1_s}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_servicos_gerar_retificacao_para_o_esocia}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_servicos_marcacao_do_evento_para_gerar_o}
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO
+    vinculos:
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_do_servicos:
+        coluna: i_servicos
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 11.421 linhas, 977 empresa(s), data_troca de 1968-01-29 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=11.421).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=11.348, 1=73).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=11.421).', 'Vínculo foservicos (foservicos): 0 de 2 linhas sem registro relacionado (empresa 640).']
+  fotrocas_depto:
+    titulo: Tabela de trocas de departametos
+    descricao: 'Tabela de trocas de departametos. 11.330 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_depto
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: medio}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_do_departamento: i_depto
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_depto_enviar_para_o_eso}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_depto_gerar_retificacao}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_depto_marcacao_do_event}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fodepto:
+        tabela: fodepto
+        liga: {codi_emp: codi_emp, i_depto: i_depto}
+        colunas: {fodepto_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_do_departamento:
+        coluna: i_depto
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.346 linhas, 977 empresa(s), data_troca de 1968-01-29 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=11.346).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=11.346).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=11.346).', 'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 640).',
+      'Vínculo fodepto (fodepto): 0 de 2 linhas sem registro relacionado (empresa 640).']
+  fotrocas_filiais:
+    titulo: Trocas de filiais.
+    descricao: 'Trocas de filiais.. 10.975 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA.'
+    tabela: FOTROCAS_FILIAIS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TROCA, volume: medio}
+    ordem:
+    - [DATA_TROCA, desc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_troca: DATA_TROCA
+      codigo_da_filial: I_FILIAIS
+      nome_do_usuario_que_fez_a_troca: USUARIO
+      controle_do_periodo_0_inativo_1_ativo: PERIODO_CTRL
+      periodo_inicial_de_vigencia_da_troca: PERIODO_INICIO
+      periodo_final_de_vigencia_da_troca: PERIODO_FIM
+      codigo_da_filial_anterior: I_FILIAIS_ANTERIOR
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_filiais_enviar_para_o_esocial_0_nao_1_si}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_filiais_gerar_retificacao_para_o_esocial}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_filiais_marcacao_do_evento_para_gerar_o_}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_troca:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      periodo_inicial_de_vigencia_da_troca:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final_de_vigencia_da_troca:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      codigo_da_filial:
+        coluna: I_FILIAIS
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: USUARIO
+        ops: [eq, in]
+      codigo_da_filial_anterior:
+        coluna: I_FILIAIS_ANTERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10.991 linhas, 977 empresa(s), DATA_TROCA de 1968-01-29 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=10.991).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=10.991).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=10.991).']
+  fotrocas_jornadas:
+    titulo: Trocas de jornada.
+    descricao: 'Trocas de jornada.. 8.979 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA.'
+    tabela: FOTROCAS_JORNADAS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TROCA, volume: pequeno}
+    ordem:
+    - [DATA_TROCA, desc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_troca: DATA_TROCA
+      codigo_da_jornada: I_JORNADA
+      nome_do_usuario_que_fez_a_troca: USUARIO
+      controle_do_periodo_0_inativo_1_ativo: {coluna: PERIODO_CTRL, dominio: fotrocas_jornadas_controle_do_periodo_0_inativo_1_}
+      periodo_inicial: PERIODO_INICIO
+      periodo_final: PERIODO_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_jornadas_enviar_para_o_esocial_0_nao_1_si}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_jornadas_gerar_retificacao_para_o_esocial}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_jornadas_marcacao_do_evento_para_gerar_o_}
+    vinculos:
+      fojornadas:
+        tabela: FOJORNADAS
+        liga: {codi_emp: codi_emp, i_jornada: i_jornada}
+        colunas: {fojornadas_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_troca:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      periodo_inicial:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      codigo_da_jornada:
+        coluna: I_JORNADA
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8.996 linhas, 439 empresa(s), DATA_TROCA de 1988-10-06 a 2026-10-20.', 'controle_do_periodo_0_inativo_1_ativo: todos os valores
+        reais estão no comentário do banco (1=8.971, 0=25).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=8.996).',
+      'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=8.362, 1=634).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores
+        reais estão no comentário do banco (0=8.996).', 'Vínculo fojornadas (FOJORNADAS): 0 de 4 linhas sem registro relacionado (empresa 9108).']
+  fotrocas_sindicatos:
+    titulo: Trocas de sindicatos
+    descricao: 'Trocas de sindicatos. 7.476 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_sindicatos
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: pequeno}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_da_convencao_coletiva: i_sindicatos
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_sindicatos_enviar_para_o_esocial_0_nao_1}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_sindicatos_gerar_retificacao_para_o_esoc}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_sindicatos_marcacao_do_evento_para_gerar}
+      codigo_do_cadastro_do_sindicato: I_SINDICATOS_CADASTRO
+    vinculos:
+      fosindicatos_cadastro:
+        tabela: FOSINDICATOS_CADASTRO
+        liga: {i_sindicatos_cadastro: i_sindicatos_cadastro}
+        colunas: {fosindicatos_cadastro_nome: NOME}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fosindicatos:
+        tabela: fosindicatos
+        liga: {i_sindicatos: i_sindicatos}
+        colunas: {fosindicatos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_da_convencao_coletiva:
+        coluna: i_sindicatos
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+      codigo_do_cadastro_do_sindicato:
+        coluna: I_SINDICATOS_CADASTRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7.487 linhas, 423 empresa(s), data_troca de 1988-10-06 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=7.487).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=6.844, 1=643).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=7.487).', 'Vínculo fosindicatos_cadastro (FOSINDICATOS_CADASTRO): 0 de 4 linhas sem registro relacionado
+        (empresa 9034).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 9034).', 'Vínculo fosindicatos (fosindicatos): 0 de
+        4 linhas sem registro relacionado (empresa 9034).']
+  fotrocas_informacoes_pessoais:
+    titulo: Alterações das informações pessoais do empregado.
+    descricao: 'Alterações das informações pessoais do empregado.. 5.527 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, CAMPO, DATA_ALTERACAO.'
+    tabela: FOTROCAS_INFORMACOES_PESSOAIS
+    chave: [CODI_EMP, I_EMPREGADOS, CAMPO, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_GRAVACAO, volume: pequeno}
+    ordem:
+    - [DATA_GRAVACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [CAMPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      campo_alterado: CAMPO
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      valor_anterior_a_alteracao: DE
+      valor_posterior_a_alteracao: PARA
+      data_de_gravacao_da_alteracao: DATA_GRAVACAO
+      horario_de_gravacao_da_alteracao: HORARIO_GRAVACAO
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: fotrocas_informacoes_pessoais_origem_do_r}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_informacoes_pessoais_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_informacoes_pessoais_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_informacoes_pessoais_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      campo_alterado:
+        coluna: CAMPO
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      data_de_gravacao_da_alteracao:
+        coluna: DATA_GRAVACAO
+        ops: [entre, gte, lte]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [contem, prefixo]
+      valor_posterior_a_alteracao:
+        coluna: PARA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.531 linhas, 157 empresa(s), DATA_GRAVACAO de 2015-06-25 a 2026-10-16.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os
+        valores reais estão no comentário do banco (0=5.531).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=5.531).',
+      'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=5.506, 1=25).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores
+        reais estão no comentário do banco (0=5.531).', 'Vínculo foempregados (foempregados): 0 de 11 linhas sem registro relacionado (empresa 46).']
+  fotrocas_informacoes_profissionais:
+    titulo: Alterações das informações profissionais do empregado.
+    descricao: 'Alterações das informações profissionais do empregado.. 5.351 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, CAMPO, DATA_ALTERACAO.'
+    tabela: FOTROCAS_INFORMACOES_PROFISSIONAIS
+    chave: [CODI_EMP, I_EMPREGADOS, CAMPO, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_GRAVACAO, volume: pequeno}
+    ordem:
+    - [DATA_GRAVACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [CAMPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      campo_alterado: CAMPO
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      valor_anterior_a_alteracao: DE
+      valor_posterior_a_alteracao: PARA
+      data_de_gravacao_da_alteracao: DATA_GRAVACAO
+      horario_de_gravacao_da_alteracao: HORARIO_GRAVACAO
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: fotrocas_informacoes_profissionais_origem_do_r}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_informacoes_profissionais_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_informacoes_profissionais_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_informacoes_profissionais_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      campo_alterado:
+        coluna: CAMPO
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      data_de_gravacao_da_alteracao:
+        coluna: DATA_GRAVACAO
+        ops: [entre, gte, lte]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [contem, prefixo]
+      valor_posterior_a_alteracao:
+        coluna: PARA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.357 linhas, 312 empresa(s), DATA_GRAVACAO de 2015-08-26 a 2026-10-16.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os
+        valores reais estão no comentário do banco (0=5.357).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=5.357).',
+      'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=5.354, 1=3).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores
+        reais estão no comentário do banco (0=5.357).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 775).']
+  fotrocas_funcoes:
+    titulo: Trocas de funções
+    descricao: 'Trocas de funções. 2.175 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA.'
+    tabela: FOTROCAS_FUNCOES
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TROCA, volume: pequeno}
+    ordem:
+    - [DATA_TROCA, desc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_troca: DATA_TROCA
+      codigo_da_funcao: I_FUNCAO
+      nome_do_usuario_que_fez_a_troca: USUARIO
+      controle_do_1_ativo_0_inativo: PERIODO_CTRL
+      periodo_inicial_do_empregado: PERIODO_INICIO
+      periodo_final_do_empregado: PERIODO_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_funcoes_enviar_para_o_esocial_0_nao_1_si}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_funcoes_gerar_retificacao_para_o_esocial}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_funcoes_marcacao_do_evento_para_gerar_o_}
+    vinculos:
+      fofuncoes:
+        tabela: FOFUNCOES
+        liga: {codi_emp: codi_emp, i_funcao: i_funcao}
+        colunas: {fofuncoes_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_troca:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      codigo_da_funcao:
+        coluna: I_FUNCAO
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.177 linhas, 14 empresa(s), DATA_TROCA de 2010-11-03 a 2026-10-20.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (1=2.177).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=2.095, 1=82).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=2.177).', 'Vínculo fofuncoes (FOFUNCOES): 0 de 3 linhas sem registro relacionado (empresa 650).']
+  fotrocas_operadoraplanosaude:
+    titulo: '** SEM USO ** Trocas de operadora de plano de saúde'
+    descricao: '** SEM USO ** Trocas de operadora de plano de saúde. 5 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_TROCA.'
+    tabela: FOTROCAS_OPERADORAPLANOSAUDE
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_TROCA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TROCA, volume: pequeno}
+    ordem:
+    - [DATA_TROCA, desc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_troca: DATA_TROCA
+      codigo_da_operadora_do_plano_de_saude: I_OPERADORAPLANOSAUDE
+      usuario_que_realizou_a_troca: USUARIO
+      controle_0_inativo_1_ativo: PERIODO_CTRL
+      periodo_inicial: PERIODO_INICIO
+      periodo_final: PERIODO_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_operadoraplanosaude_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_operadoraplanosaude_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_operadoraplanosaude_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fooperadoraplanosaude:
+        tabela: FOOPERADORAPLANOSAUDE
+        liga: {i_operadoraplanosaude: i_operadoraplanosaude}
+        colunas: {fooperadoraplanosaude_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_troca:
+        coluna: DATA_TROCA
+        ops: [eq, in]
+      periodo_inicial:
+        coluna: PERIODO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FIM
+        ops: [entre, gte, lte]
+      codigo_da_operadora_do_plano_de_saude:
+        coluna: I_OPERADORAPLANOSAUDE
+        ops: [eq, in]
+      usuario_que_realizou_a_troca:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas, 1 empresa(s), DATA_TROCA de 2005-01-02 a 2005-01-25.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_operadora_do_plano_de_saude.',
+      'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=5).', 'gerar_retificacao_esocial: todos os valores reais estão no
+        comentário do banco (0=5).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=5).', 'Vínculo foempregados
+        (foempregados): 0 de 5 linhas sem registro relacionado (empresa 9999).', 'Vínculo fooperadoraplanosaude (FOOPERADORAPLANOSAUDE): 0 de 5 linhas sem registro
+        relacionado (empresa 9999).']
+  fotrocas_turmas:
+    titulo: Trocas de cargos
+    descricao: 'Trocas de cargos. 4 linhas no catálogo; chave: codi_emp, i_empregados, data_troca.'
+    tabela: fotrocas_turmas
+    chave: [codi_emp, i_empregados, data_troca]
+    acesso: {empresa: codi_emp, periodo: data_troca, volume: pequeno}
+    ordem:
+    - [data_troca, desc]
+    - [i_empregados, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      data_da_troca: data_troca
+      codigo_de_turmas: i_turmas
+      nome_do_usuario_que_fez_a_troca: usuario
+      controle_do_1_ativo_0_inativo: periodo_ctrl
+      periodo_inicial_do_empregado: periodo_inicio
+      periodo_final_do_empregado: periodo_fim
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: fotrocas_turmas_enviar_para_o_esocial_0_nao_1_sim}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: fotrocas_turmas_gerar_retificacao_para_o_esocial_}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: fotrocas_turmas_marcacao_do_evento_para_gerar_o_e}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      poturmas:
+        tabela: poturmas
+        liga: {codi_emp: codi_emp, i_turmas: i_turmas}
+        colunas: {poturmas_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      data_da_troca:
+        coluna: data_troca
+        ops: [eq, in]
+      periodo_inicial_do_empregado:
+        coluna: periodo_inicio
+        ops: [entre, gte, lte]
+      periodo_final_do_empregado:
+        coluna: periodo_fim
+        ops: [entre, gte, lte]
+      codigo_de_turmas:
+        coluna: i_turmas
+        ops: [eq, in]
+      nome_do_usuario_que_fez_a_troca:
+        coluna: usuario
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), data_troca de 2012-06-01 a 2019-03-18.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão
+        no comentário do banco (1=4).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=4).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=4).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 9999).',
+      'Vínculo poturmas (poturmas): 0 de 4 linhas sem registro relacionado (empresa 9999).']

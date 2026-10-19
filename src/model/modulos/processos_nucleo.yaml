@@ -1,0 +1,509 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: processos_nucleo
+titulo: Processos - nucleo (rascunho em lote)
+dominios:
+  pcatividade_periodicidade_1_mensal_2_bimestral_3_tr:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.PERIODICIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=15, 12=5.'
+    valores: {'1': MENSAL, '2': BIMESTRAL, '3': TRIMESTRAL, '4': QUADRIMESTRAL, '6': SEMESTRAL, '12': ANUAL, '24': BIENAL, '36': TRIENAL, '48': QUADRIENAL, '60': QUINQUENAL,
+      '98': DIÁRIA, '99': SEM PERIODICIDADE}
+  pcatividade_vencimento_tipo_1_dias_corridos_direto_:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.VENCIMENTO_TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=16, 1=3, 4=1.'
+    valores: {'1': Dias corridos direto, '2': Dias corridos antecipados, '3': Dias corridos adiado, '4': Dias úteis}
+  pcatividade_inicio_mes_1_anterior_ao_vencimento_2_i:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.INICIO_MES estão no comentário do banco (2026-10-18). Distribuição: 3=14, 1=5, 2=1.'
+    valores: {'1': Anterior ao vencimento, '2': Informar quantidade de meses anteriores ao vencimento, '3': No mesmo do vencimento}
+  pcatividade_competencia_de_referencia_mes_1_anterio:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.COMPETENCIA_MES estão no comentário do banco (2026-10-18). Distribuição: 1=12, 3=6, 2=2.'
+    valores: {'1': Anterior ao vencimento, '2': Informar quantidade de meses anteriores ao vencimento, '3': No mesmo do vencimento}
+  pcatividade_vencimento_legal_tipo_1_dias_corridos_d:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.VENCIMENTO_LEGAL_TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=20.'
+    valores: {'1': Dias corridos direto, '2': Dias corridos antecipados, '3': Dias corridos adiado, '4': Dias úteis}
+  pcatividade_vencimento_legal_mes_1_anterior_ao_venc:
+    confirmado: true
+    nota: 'Todos os valores observados em PCATIVIDADE.VENCIMENTO_LEGAL_MES estão no comentário do banco (2026-10-18). Distribuição: 1=20.'
+    valores: {'1': Anterior ao vencimento, '2': Informar quantidade de meses anteriores ao vencimento, '3': No mesmo do vencimento}
+  pcprocesso_periodicidade_1_mensal_2_bimestral_3_tri:
+    confirmado: true
+    nota: 'Todos os valores observados em PCPROCESSO.PERIODICIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=15, 12=5.'
+    valores: {'1': MENSAL, '2': BIMESTRAL, '3': TRIMESTRAL, '4': QUADRIMESTRAL, '6': SEMESTRAL, '12': ANUAL, '24': BIENAL, '36': TRIENAL, '48': QUADRIENAL, '60': QUINQUENAL,
+      '98': DIÁRIA, '99': SEM PERIODICIDADE}
+entidades:
+  prmovitens:
+    titulo: Movimento de documentos - Itens
+    descricao: 'Movimento de documentos - Itens. 21.624 linhas no catálogo; chave: nume_mod, codi_ite, sequ_mov.'
+    tabela: prMovitens
+    chave: [nume_mod, codi_ite, sequ_mov]
+    acesso: {empresa: null, periodo: vcto_mov, volume: medio}
+    ordem:
+    - [vcto_mov, desc]
+    - [nume_mod, asc]
+    - [codi_ite, asc]
+    colunas: {nro_protocolo: nume_mod, item: codi_ite, sequencial: sequ_mov, codigo_receita: crec_mov, vencimento: vcto_mov, valor: vlor_mov, nro_livro: nliv_mov,
+      observacao_imposto: obse_imp, periodo_inicial: peri_ini, periodo_final: peri_fim, observao_outro: obse_out, data_de_retorno: dret_mov, funcionario: codi_fun,
+      observacao_de_retorno: obse_ret, observao_livro: obse_liv, baixado_1_sim_0_nao: baix_mov, competencia: COMPETENCIA, hora_da_baixa: HORA_BAIXA, recepcao_dos_documentos_no_cliente: FUNCIONARIO_RECEPCAO_DOCUMENTO_CLIENTE,
+      codigo_observacao: CODI_OBS, usuario_da_baixa: COD_USU_BAIXA}
+    vinculos:
+      pritens:
+        tabela: prItens
+        liga: {codi_ite: codi_ite}
+        colunas: {pritens_nome: desc_ite}
+      probservacoes:
+        tabela: probservacoes
+        liga: {codi_obs: codi_obs}
+        colunas: {probservacoes_nome: desc_obs}
+    filtros:
+      nro_protocolo:
+        coluna: nume_mod
+        ops: [eq, in]
+      item:
+        coluna: codi_ite
+        ops: [eq, in]
+      sequencial:
+        coluna: sequ_mov
+        ops: [eq, in]
+      vencimento:
+        coluna: vcto_mov
+        ops: [entre, gte, lte]
+      periodo_inicial:
+        coluna: peri_ini
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: peri_fim
+        ops: [entre, gte, lte]
+      data_de_retorno:
+        coluna: dret_mov
+        ops: [entre, gte, lte]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_receita:
+        coluna: crec_mov
+        ops: [eq, in]
+      observacao_imposto:
+        coluna: obse_imp
+        ops: [contem, prefixo]
+      observao_outro:
+        coluna: obse_out
+        ops: [contem, prefixo]
+      funcionario:
+        coluna: codi_fun
+        ops: [eq, in]
+      observacao_de_retorno:
+        coluna: obse_ret
+        ops: [contem, prefixo]
+      observao_livro:
+        coluna: obse_liv
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 21.624 linhas.', 'Colunas expostas nulas em 100% das linhas (7): codigo_receita, vencimento, valor, observacao_imposto, observacao_de_retorno,
+        competencia, codigo_observacao.', 'Vínculo pritens (prItens): 0 de 21.624 linhas sem registro relacionado.', 'Vínculo probservacoes (probservacoes): 0 de
+        21.624 linhas sem registro relacionado.']
+  prmovtodocto:
+    titulo: Movimento de documentos
+    descricao: 'Movimento de documentos. 10.747 linhas no catálogo; chave: nume_mod.'
+    tabela: prMovtoDocto
+    chave: [nume_mod]
+    acesso: {empresa: codi_emp, periodo: dret_mod, volume: medio}
+    ordem:
+    - [dret_mod, desc]
+    - [nume_mod, asc]
+    colunas: {nro_protocolo: nume_mod, cliente: codi_emp, funcionario: codi_fun, data_de_retorno_se_ouver_retorno: dret_mod, competencia: comp_mod, tipo_1_saiu_2_entrou: stat_mod,
+      cliente_eventual: codi_cev, tipo_de_cliente_n_normal_e_eventual: tipo_cli, observacao: obs_mod, baixado_nulo_pendente_1_total_0_parcial: baix_mod, recebido_por: recb_mod,
+      usuario: CODI_USU, codigo_da_observacao: CODI_OBS}
+    vinculos:
+      prfuncionarios:
+        tabela: prFuncionarios
+        liga: {codi_fun: codi_fun}
+        colunas: {prfuncionarios_nome: nome_fun}
+      prclieve:
+        tabela: prCliEve
+        liga: {codi_cev: codi_cev}
+        colunas: {prclieve_nome: nome_cev}
+      probservacoes:
+        tabela: probservacoes
+        liga: {codi_obs: codi_obs}
+        colunas: {probservacoes_nome: desc_obs}
+    filtros:
+      nro_protocolo:
+        coluna: nume_mod
+        ops: [eq, in]
+      data_de_retorno_se_ouver_retorno:
+        coluna: dret_mod
+        ops: [entre, gte, lte]
+      competencia:
+        coluna: comp_mod
+        ops: [entre, gte, lte]
+      funcionario:
+        coluna: codi_fun
+        ops: [eq, in]
+      cliente_eventual:
+        coluna: codi_cev
+        ops: [eq, in]
+      tipo_de_cliente_n_normal_e_eventual:
+        coluna: tipo_cli
+        ops: [eq, in]
+      observacao:
+        coluna: obs_mod
+        ops: [contem, prefixo]
+      recebido_por:
+        coluna: recb_mod
+        ops: [contem, prefixo]
+      usuario:
+        coluna: CODI_USU
+        ops: [contem, prefixo]
+      codigo_da_observacao:
+        coluna: CODI_OBS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10.747 linhas, 681 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): data_de_retorno_se_ouver_retorno, codigo_da_observacao.',
+      'Vínculo prfuncionarios (prFuncionarios): 0 de 3 linhas sem registro relacionado (empresa 715).', 'Vínculo prclieve (prCliEve): 0 de 3 linhas sem registro relacionado
+        (empresa 715).', 'Vínculo probservacoes (probservacoes): 0 de 3 linhas sem registro relacionado (empresa 715).']
+  pritens:
+    titulo: Itens - Cadastro
+    descricao: 'Itens - Cadastro. 356 linhas no catálogo; chave: codi_ite.'
+    tabela: prItens
+    chave: [codi_ite]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_ite, asc]
+    colunas: {codigo: codi_ite, descricao: desc_ite, tipo_i_imposto_l_livro_o_outro: impo_ite, imposto: cimp_esc, periodicidade_m_mensal_1q_1aq_2q_2aq_1d: peri_ite,
+      deve_retornar_s_sim_n_nao: reto_ite, depende_de_sistema_s_sim_n_nao: depe_ite, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      codigo:
+        coluna: codi_ite
+        ops: [eq, in]
+      descricao:
+        coluna: desc_ite
+        ops: [contem, prefixo]
+      tipo_i_imposto_l_livro_o_outro:
+        coluna: impo_ite
+        ops: [eq, in]
+      periodicidade_m_mensal_1q_1aq_2q_2aq_1d:
+        coluna: peri_ite
+        ops: [eq, in]
+      deve_retornar_s_sim_n_nao:
+        coluna: reto_ite
+        ops: [eq, in]
+      depende_de_sistema_s_sim_n_nao:
+        coluna: depe_ite
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 356 linhas.', 'Colunas expostas nulas em 100% das linhas (3): imposto, periodicidade_m_mensal_1q_1aq_2q_2aq_1d, depende_de_sistema_s_sim_n_nao.']
+  prclieve:
+    titulo: Clientes Eventuais - Cadastro
+    descricao: 'Clientes Eventuais - Cadastro. 23 linhas no catálogo; chave: codi_cev.'
+    tabela: prCliEve
+    chave: [codi_cev]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_cev, asc]
+    colunas:
+      codigo: codi_cev
+      nome: nome_cev
+      contato: cont_cev
+      endereco: {coluna: ende_cev, sensivel: parcial}
+      complemento: comp_cev
+      bairro: {coluna: bair_cev, sensivel: parcial}
+      cep: {coluna: cepe_cev, sensivel: parcial}
+      cidade: cida_cev
+      fone: {coluna: fone_cev, sensivel: parcial}
+      esta_cev: esta_cev
+      apelido: apel_cev
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+    filtros:
+      codigo:
+        coluna: codi_cev
+        ops: [eq, in]
+      nome:
+        coluna: nome_cev
+        ops: [contem, prefixo]
+      contato:
+        coluna: cont_cev
+        ops: [contem, prefixo]
+      endereco:
+        coluna: ende_cev
+        ops: [contem, prefixo]
+      complemento:
+        coluna: comp_cev
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bair_cev
+        ops: [contem, prefixo]
+      cep:
+        coluna: cepe_cev
+        ops: [eq, in]
+      cidade:
+        coluna: cida_cev
+        ops: [contem, prefixo]
+      fone:
+        coluna: fone_cev
+        ops: [eq, in]
+      esta_cev:
+        coluna: esta_cev
+        ops: [eq, in]
+      apelido:
+        coluna: apel_cev
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 23 linhas.']
+  prfuncionarios:
+    titulo: Funcionarios - Cadastro
+    descricao: 'Funcionarios - Cadastro. 22 linhas no catálogo; chave: codi_fun.'
+    tabela: prFuncionarios
+    chave: [codi_fun]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_fun, asc]
+    colunas: {codigo: codi_fun, nome: nome_fun, origem_do_registro_0_sistema_1_imp_tabel: origem_reg, usuario_no_sistema: CODI_USU}
+    filtros:
+      codigo:
+        coluna: codi_fun
+        ops: [eq, in]
+      nome:
+        coluna: nome_fun
+        ops: [contem, prefixo]
+      usuario_no_sistema:
+        coluna: CODI_USU
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22 linhas.']
+  prparam:
+    titulo: Parametros - Cadastro - Protocolos
+    descricao: 'Parametros - Cadastro - Protocolos. 1 linhas no catálogo; chave: seqn_par.'
+    tabela: prparam
+    chave: [seqn_par]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [seqn_par, asc]
+    colunas: {sequencial: seqn_par, protocolar_recebimento_s_sim_n_nao: emit_par, modelo_do_relatorio: mode_par, ultimo_nro_de_protocolo: ulti_par, empresa_do_escritorio: CODI_EMP_ESCRITORIO,
+      emitir_comprovante_na_emissao_do_protoco: EMITIR_COMPROVANTE_EMISSAO_PROTOCOLO, modelo_para_a_emissao_de_protocolo: MODELO_EMISSAO_PROTOCOLO, checkbox_para_cadastrar_funcionario_auto: CADASTRAR_FUNC_AUTOMATICO}
+    filtros:
+      sequencial:
+        coluna: seqn_par
+        ops: [eq, in]
+      protocolar_recebimento_s_sim_n_nao:
+        coluna: emit_par
+        ops: [eq, in]
+      modelo_do_relatorio:
+        coluna: mode_par
+        ops: [contem, prefixo]
+      empresa_do_escritorio:
+        coluna: CODI_EMP_ESCRITORIO
+        ops: [eq, in]
+      emitir_comprovante_na_emissao_do_protoco:
+        coluna: EMITIR_COMPROVANTE_EMISSAO_PROTOCOLO
+        ops: [eq, in]
+      modelo_para_a_emissao_de_protocolo:
+        coluna: MODELO_EMISSAO_PROTOCOLO
+        ops: [contem, prefixo]
+      checkbox_para_cadastrar_funcionario_auto:
+        coluna: CADASTRAR_FUNC_AUTOMATICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  pcatividade:
+    titulo: Atividades
+    descricao: 'Atividades. 20 linhas no catálogo; chave: I_ATIVIDADE.'
+    tabela: PCATIVIDADE
+    chave: [I_ATIVIDADE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ATIVIDADE, asc]
+    colunas:
+      codigo: I_ATIVIDADE
+      nome: NOME
+      periodicidade_1_mensal_2_bimestral_3_tri: {coluna: PERIODICIDADE, dominio: pcatividade_periodicidade_1_mensal_2_bimestral_3_tr}
+      vencimento_dias: VENCIMENTO_DIA
+      vencimento_tipo: {coluna: VENCIMENTO_TIPO, dominio: pcatividade_vencimento_tipo_1_dias_corridos_direto_}
+      vencimento_mes_1o_bimestre: VENCIMENTO_BIMESTRE1
+      vencimento_mes_2o_bimestre: VENCIMENTO_BIMESTRE2
+      vencimento_mes_3o_bimestre: VENCIMENTO_BIMESTRE3
+      vencimento_mes_4o_bimestre: VENCIMENTO_BIMESTRE4
+      vencimento_mes_5o_bimestre: VENCIMENTO_BIMESTRE5
+      vencimento_mes_6o_bimestre: VENCIMENTO_BIMESTRE6
+      vencimento_mes_1o_trimestre: VENCIMENTO_TRIMESTRE1
+      vencimento_mes_2o_trimestre: VENCIMENTO_TRIMESTRE2
+      vencimento_mes_3o_trimestre: VENCIMENTO_TRIMESTRE3
+      vencimento_mes_4o_trimestre: VENCIMENTO_TRIMESTRE4
+      vencimento_mes_1o_quadrimestre: VENCIMENTO_QUADRIMESTRE1
+      vencimento_mes_2o_quadrimestre: VENCIMENTO_QUADRIMESTRE2
+      vencimento_mes_3o_quadrimestre: VENCIMENTO_QUADRIMESTRE3
+      vencimento_mes_1o_semestre: VENCIMENTO_SEMESTRE1
+      vencimento_mes_2o_semestre: VENCIMENTO_SEMESTRE2
+      vencimento_mes_ano: VENCIMENTO_ANUAL
+      inicio_dias: INICIO_DIA
+      inicio_mes_1_anterior_ao_vencimento_2_in: {coluna: INICIO_MES, dominio: pcatividade_inicio_mes_1_anterior_ao_vencimento_2_i}
+      inicio_meses_anteriores: INICIO_MES_ANTERIOR
+      competencia_de_referencia_mes_1_anterior: {coluna: COMPETENCIA_MES, dominio: pcatividade_competencia_de_referencia_mes_1_anterio}
+      competencia_de_referencia_meses_anterior: COMPETENCIA_MES_ANTERIOR
+      e_uma_atividade_executada_e_concluida_no: ATIVIDADE_SISTEMA
+      faz_parte_da_agenda_de_obrigacao_da_empr: AGENDA_OBRIGACAO
+      vencimento_legal_dias: VENCIMENTO_LEGAL_DIA
+      vencimento_legal_tipo_1_dias_corridos_di: {coluna: VENCIMENTO_LEGAL_TIPO, dominio: pcatividade_vencimento_legal_tipo_1_dias_corridos_d}
+      vencimento_legal_mes_1_anterior_ao_venci: {coluna: VENCIMENTO_LEGAL_MES, dominio: pcatividade_vencimento_legal_mes_1_anterior_ao_venc}
+      vencimento_legal_meses_anteriores: VENCIMENTO_LEGAL_MES_ANTERIOR
+      vencimento_legal_mes_1o_bimestre: VENCIMENTO_LEGAL_BIMESTRE1
+      vencimento_legal_mes_2o_bimestre: VENCIMENTO_LEGAL_BIMESTRE2
+      vencimento_legal_mes_3o_bimestre: VENCIMENTO_LEGAL_BIMESTRE3
+      vencimento_legal_mes_4o_bimestre: VENCIMENTO_LEGAL_BIMESTRE4
+      vencimento_legal_mes_5o_bimestre: VENCIMENTO_LEGAL_BIMESTRE5
+      vencimento_legal_mes_6o_bimestre: VENCIMENTO_LEGAL_BIMESTRE6
+      vencimento_legal_mes_1o_trimestre: VENCIMENTO_LEGAL_TRIMESTRE1
+      vencimento_legal_mes_2o_trimestre: VENCIMENTO_LEGAL_TRIMESTRE2
+      vencimento_legal_mes_3o_trimestre: VENCIMENTO_LEGAL_TRIMESTRE3
+      vencimento_legal_mes_4o_trimestre: VENCIMENTO_LEGAL_TRIMESTRE4
+      vencimento_legal_mes_1o_quadrimestre: VENCIMENTO_LEGAL_QUADRIMESTRE1
+      vencimento_legal_mes_2o_quadrimestre: VENCIMENTO_LEGAL_QUADRIMESTRE2
+      vencimento_legal_mes_3o_quadrimestre: VENCIMENTO_LEGAL_QUADRIMESTRE3
+      vencimento_legal_mes_1o_semestre: VENCIMENTO_LEGAL_SEMESTRE1
+      vencimento_legal_mes_2o_semestre: VENCIMENTO_LEGAL_SEMESTRE2
+      vencimento_legal_mes_ano: VENCIMENTO_LEGAL_ANUAL
+      emitir_avisos_sobre_inicio_da_atividade: AVISO_INICIO_ATIVIDADE
+      numero_de_dias_uteis_de_antecedencia_ini: AVISO_INICIO_ATIVIDADE_DIA
+      emitir_avisos_sobre_vencimento_da_ativid: AVISO_VENCIMENTO_ATIVIDADE
+      numero_de_dias_uteis_de_antecedencia_ven: AVISO_VENCIMENTO_ATIVIDADE_DIA
+      codigo_do_modulo: I_MODULO
+      codigo_do_menu: I_MENU
+      codigo_da_opcao: I_SUBMENU
+      codigo_da_uf: I_UF
+      i_opcao: I_OPCAO
+      considerar_sabado_como_dia_util_s_n: CONSIDERAR_SABADO_DIA_UTIL
+      vencimento_legal_considerar_sabado_como: VENCIMENTO_LEGAL_CONSIDERAR_SABADO_DIA_UTIL
+      permite_anexar_comprovante: PERMITIR_ANEXAR_COMPROVANTE
+    vinculos:
+      pcatividade_modulo:
+        tabela: PCATIVIDADE_MODULO
+        liga: {i_modulo: i_modulo}
+        colunas: {pcatividade_modulo_nome: NOME}
+      pcatividade_modulo_menu:
+        tabela: PCATIVIDADE_MODULO_MENU_SUBMENU_UF_OPCAO
+        liga: {i_opcao: i_opcao}
+        colunas: {pcatividade_modulo_menu_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      vencimento_tipo:
+        coluna: VENCIMENTO_TIPO
+        ops: [eq, in]
+      e_uma_atividade_executada_e_concluida_no:
+        coluna: ATIVIDADE_SISTEMA
+        ops: [eq, in]
+      faz_parte_da_agenda_de_obrigacao_da_empr:
+        coluna: AGENDA_OBRIGACAO
+        ops: [eq, in]
+      vencimento_legal_tipo_1_dias_corridos_di:
+        coluna: VENCIMENTO_LEGAL_TIPO
+        ops: [eq, in]
+      emitir_avisos_sobre_inicio_da_atividade:
+        coluna: AVISO_INICIO_ATIVIDADE
+        ops: [eq, in]
+      emitir_avisos_sobre_vencimento_da_ativid:
+        coluna: AVISO_VENCIMENTO_ATIVIDADE
+        ops: [eq, in]
+      codigo_do_modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      codigo_do_menu:
+        coluna: I_MENU
+        ops: [eq, in]
+      codigo_da_opcao:
+        coluna: I_SUBMENU
+        ops: [eq, in]
+      codigo_da_uf:
+        coluna: I_UF
+        ops: [eq, in]
+      i_opcao:
+        coluna: I_OPCAO
+        ops: [eq, in]
+      considerar_sabado_como_dia_util_s_n:
+        coluna: CONSIDERAR_SABADO_DIA_UTIL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_uf.', 'periodicidade_1_mensal_2_bimestral_3_tri: todos
+        os valores reais estão no comentário do banco (1=15, 12=5).', 'vencimento_tipo: todos os valores reais estão no comentário do banco (2=16, 1=3, 4=1).', 'inicio_mes_1_anterior_ao_vencimento_2_in:
+        todos os valores reais estão no comentário do banco (3=14, 1=5, 2=1).', 'competencia_de_referencia_mes_1_anterior: todos os valores reais estão no comentário
+        do banco (1=12, 3=6, 2=2).', 'vencimento_legal_tipo_1_dias_corridos_di: todos os valores reais estão no comentário do banco (1=20).', 'vencimento_legal_mes_1_anterior_ao_venci:
+        todos os valores reais estão no comentário do banco (1=20).', 'Vínculo pcatividade_modulo (PCATIVIDADE_MODULO): 0 de 20 linhas sem registro relacionado.',
+      'Vínculo pcatividade_modulo_menu (PCATIVIDADE_MODULO_MENU_SUBMENU_UF_OPCAO): 0 de 20 linhas sem registro relacionado.']
+  pcprocesso:
+    titulo: Processos
+    descricao: 'Processos. 20 linhas no catálogo; chave: I_PROCESSO.'
+    tabela: PCPROCESSO
+    chave: [I_PROCESSO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PROCESSO, asc]
+    colunas:
+      codigo: I_PROCESSO
+      nome: NOME
+      periodicidade_1_mensal_2_bimestral_3_tri: {coluna: PERIODICIDADE, dominio: pcprocesso_periodicidade_1_mensal_2_bimestral_3_tri}
+      codigo_do_departamento: I_DEPARTAMENTO
+    vinculos:
+      pcdepartamento:
+        tabela: PCDEPARTAMENTO
+        liga: {i_departamento: i_departamento}
+        colunas: {pcdepartamento_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_PROCESSO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      codigo_do_departamento:
+        coluna: I_DEPARTAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas.', 'periodicidade_1_mensal_2_bimestral_3_tri: todos os valores reais estão no comentário do banco (1=15, 12=5).', 'Vínculo
+        pcdepartamento (PCDEPARTAMENTO): 0 de 20 linhas sem registro relacionado.']
+  pcdepartamento:
+    titulo: Departamentos
+    descricao: 'Departamentos. 6 linhas no catálogo; chave: I_DEPARTAMENTO.'
+    tabela: PCDEPARTAMENTO
+    chave: [I_DEPARTAMENTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_DEPARTAMENTO, asc]
+    colunas: {codigo: I_DEPARTAMENTO, nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_DEPARTAMENTO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas.']
+  pcparametro:
+    titulo: Parâmetros
+    descricao: 'Parâmetros. 1 linhas no catálogo; chave: I_PARAMETRO.'
+    tabela: PCPARAMETRO
+    chave: [I_PARAMETRO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PARAMETRO, asc]
+    colunas: {codigo: I_PARAMETRO, empresa_do_escritorio: CODI_EMP, nome_da_coluna_definida_para_a_ordem_da: ORDEM_CONSULTA_PROCESSO, demonstrar_empresas_bloqueadas_pelo_modu: DEMONSTRAR_EMPRESA_BLOQUEADA,
+      incluir_todos_os_responsaveis_informados: INCLUIR_TODOS_RESPONSAVEIS_VINCULO, demonstrar_empresas_inativas: DEMONSTRAR_EMPRESAS_INATIVAS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_PARAMETRO
+        ops: [eq, in]
+      nome_da_coluna_definida_para_a_ordem_da:
+        coluna: ORDEM_CONSULTA_PROCESSO
+        ops: [contem, prefixo]
+      demonstrar_empresas_bloqueadas_pelo_modu:
+        coluna: DEMONSTRAR_EMPRESA_BLOQUEADA
+        ops: [eq, in]
+      incluir_todos_os_responsaveis_informados:
+        coluna: INCLUIR_TODOS_RESPONSAVEIS_VINCULO
+        ops: [eq, in]
+      demonstrar_empresas_inativas:
+        coluna: DEMONSTRAR_EMPRESAS_INATIVAS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1).']

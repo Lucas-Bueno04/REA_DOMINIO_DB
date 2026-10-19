@@ -1,0 +1,7 @@
+# eftabela_classificacao_servicos — Tabela Classificacao de Itens dos Servicos de Comunicacao e Telecomunicacao
+59 linhas
+
+| Coluna | Tipo | PK | Nulo | Comentário |
+|---|---|---|---|---|
+| codigo | integer(4) | PK |  | Codigo |
+| descricao | varchar(512) |  | S | Descricao |

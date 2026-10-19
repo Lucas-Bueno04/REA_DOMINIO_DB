@@ -1,0 +1,558 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_irpj
+titulo: Contábil - irpj (rascunho em lote)
+dominios:
+  lrirpj_real_parte_b_origem_do_lancamento_m_manu:
+    confirmado: true
+    nota: 'Todos os valores observados em LRIRPJ_REAL_PARTE_B.ORIGEM_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: S=2.582, M=2.'
+    valores: {M: Manual, S: Sistema, C: Cisão, I: Incorporação}
+  lrirpj_real_parte_b_origem_do_lancamento_p_prej:
+    confirmado: true
+    nota: 'Todos os valores observados em LRIRPJ_REAL_PARTE_B.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: P=2.450, C=104, O=30.'
+    valores: {P: Prejuízo, C: Compensação, O: Outros, L: Liquid. Parc. IN 1687, T: Pert. Lei 13.496}
+  lrirpj_real_parte_b_tipo_de_atividade_g_ativida:
+    confirmado: true
+    nota: 'Todos os valores observados em LRIRPJ_REAL_PARTE_B.TIPO_ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição: G=2.584.'
+    valores: {G: Atividade geral, R: Atividade rural, A: Ambos}
+  lrirpj_real_adicao_origem_do_l:
+    confirmado: true
+    nota: 'Todos os valores observados em LRIRPJ_REAL_ADICAO.ORIGEM_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: M=306, S=260.'
+    valores: {M: Manual, S: Sistema}
+entidades:
+  lrirpj_real_parte_b:
+    titulo: Lançamentos da Parte B
+    descricao: 'Lançamentos da Parte B. 2.584 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_PARTE_B.'
+    tabela: LRIRPJ_REAL_PARTE_B
+    chave: [CODI_EMP, I_IRPJ_REAL_PARTE_B]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_IRPJ_REAL_PARTE_B, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_IRPJ_REAL_PARTE_B
+      competencia: COMPETENCIA
+      conta_parte_b: I_PARTE_B
+      historico: HISTORICO
+      mes_referencia: MES_REFERENCIA
+      valor_a_corrigir: VALOR_CORRIGIR
+      coeficiente: COEFICIENTE
+      debito: VALOR_DEBITO
+      credito: VALOR_CREDITO
+      origem_do_lancamento_m_manual_s_sistema: {coluna: ORIGEM_LANCAMENTO, dominio: lrirpj_real_parte_b_origem_do_lancamento_m_manu}
+      scp: I_SCP
+      origem_do_lancamento_p_prejuizo_c_compen: {coluna: TIPO_LANCAMENTO, dominio: lrirpj_real_parte_b_origem_do_lancamento_p_prej}
+      codigo_do_lancamento_de_incentivo_fiscal: I_IRPJ_INCENTIVO_FISCAL
+      codigo_do_lancamento_de_adicao: I_IRPJ_REAL_ADICAO
+      codigo_do_lancamento_de_adicao_item: I_IRPJ_REAL_ADICAO_ITEM
+      codigo_do_lancamento_de_exlcusao: I_IRPJ_REAL_EXCLUSAO
+      codigo_do_lancamento_de_exlcusao_item: I_IRPJ_REAL_EXCLUSAO_ITEM
+      tipo_de_atividade_g_atividade_geral_r_at: {coluna: TIPO_ATIVIDADE, dominio: lrirpj_real_parte_b_tipo_de_atividade_g_ativida}
+      ajuste_anual: AJUSTE_ANUAL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrbase_negativa_parte_b:
+        tabela: LRBASE_NEGATIVA_PARTE_B
+        liga: {codi_emp: codi_emp, i_parte_b: i_base_negativa_parte_b}
+        colunas: {lrbase_negativa_parte_b_nome: DESCRICAO}
+      lrirpj_real_adicao_item:
+        tabela: LRIRPJ_REAL_ADICAO_ITEM
+        liga: {codi_emp: codi_emp, i_irpj_real_adicao: i_irpj_real_adicao, i_irpj_real_adicao_item: i_item}
+        colunas: {lrirpj_real_adicao_item_nome: DESCRICAO}
+      lrirpj_real_exclusao_ite:
+        tabela: LRIRPJ_REAL_EXCLUSAO_ITEM
+        liga: {codi_emp: codi_emp, i_irpj_real_exclusao: i_irpj_real_exclusao, i_irpj_real_exclusao_item: i_item}
+        colunas: {lrirpj_real_exclusao_ite_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_REAL_PARTE_B
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      mes_referencia:
+        coluna: MES_REFERENCIA
+        ops: [entre, gte, lte]
+      conta_parte_b:
+        coluna: I_PARTE_B
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      origem_do_lancamento_m_manual_s_sistema:
+        coluna: ORIGEM_LANCAMENTO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      origem_do_lancamento_p_prejuizo_c_compen:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      codigo_do_lancamento_de_incentivo_fiscal:
+        coluna: I_IRPJ_INCENTIVO_FISCAL
+        ops: [eq, in]
+      codigo_do_lancamento_de_adicao:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      codigo_do_lancamento_de_adicao_item:
+        coluna: I_IRPJ_REAL_ADICAO_ITEM
+        ops: [eq, in]
+      codigo_do_lancamento_de_exlcusao:
+        coluna: I_IRPJ_REAL_EXCLUSAO
+        ops: [eq, in]
+      codigo_do_lancamento_de_exlcusao_item:
+        coluna: I_IRPJ_REAL_EXCLUSAO_ITEM
+        ops: [eq, in]
+      tipo_de_atividade_g_atividade_geral_r_at:
+        coluna: TIPO_ATIVIDADE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.584 linhas, 66 empresa(s), COMPETENCIA de 2018-03-01 a 2026-08-01.', 'Colunas expostas nulas em 100% das linhas (4): scp, codigo_do_lancamento_de_incentivo_fiscal,
+        codigo_do_lancamento_de_adicao, codigo_do_lancamento_de_adicao_item.', 'origem_do_lancamento_m_manual_s_sistema: todos os valores reais estão no comentário
+        do banco (S=2.582, M=2).', 'origem_do_lancamento_p_prejuizo_c_compen: todos os valores reais estão no comentário do banco (P=2.450, C=104, O=30).', 'tipo_de_atividade_g_atividade_geral_r_at:
+        todos os valores reais estão no comentário do banco (G=2.584).', 'Vínculo geempre (geempre): 0 de 25 linhas sem registro relacionado (empresa 648).', 'Vínculo
+        gescp (GESCP): 25 de 25 linhas sem registro relacionado (empresa 648).', 'Vínculo lrbase_negativa_parte_b (LRBASE_NEGATIVA_PARTE_B): 0 de 25 linhas sem registro
+        relacionado (empresa 648).', 'Vínculo lrirpj_real_adicao_item (LRIRPJ_REAL_ADICAO_ITEM): 25 de 25 linhas sem registro relacionado (empresa 648).', 'Vínculo
+        lrirpj_real_exclusao_ite (LRIRPJ_REAL_EXCLUSAO_ITEM): 25 de 25 linhas sem registro relacionado (empresa 648).']
+  lrirpj_real_adicao_lancamento:
+    titulo: Lançamentos de Adições do Imposto de Renda - Lancamentos Contábeis
+    descricao: 'Lançamentos de Adições do Imposto de Renda - Lancamentos Contábeis. 2.568 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM, I_LANCAMENTO.'
+    tabela: LRIRPJ_REAL_ADICAO_LANCAMENTO
+    chave: [CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM, I_LANCAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_IRPJ_REAL_ADICAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_adicao_da_irpj: I_IRPJ_REAL_ADICAO, sequencial_da_adicao: I_ITEM, sequencial: I_LANCAMENTO, numero_lote_lancamento: NUMERO_LOTE,
+      data: DATA_LANCAMENTO, conta: CONTA, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_historico: CODIGO_HISTORICO, historico: HISTORICO,
+      tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrirpj_real_adicao_item:
+        tabela: LRIRPJ_REAL_ADICAO_ITEM
+        liga: {codi_emp: codi_emp, i_irpj_real_adicao: i_irpj_real_adicao, i_item: i_item}
+        colunas: {lrirpj_real_adicao_item_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_adicao_da_irpj:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      sequencial_da_adicao:
+        coluna: I_ITEM
+        ops: [eq, in]
+      sequencial:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_historico:
+        coluna: CODIGO_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.568 linhas, 44 empresa(s), DATA_LANCAMENTO de 2013-02-28 a 2026-08-31.', 'Vínculo lrirpj_real_adicao_item (LRIRPJ_REAL_ADICAO_ITEM):
+        0 de 15 linhas sem registro relacionado (empresa 1022).']
+  lrirpj_real_adicao:
+    titulo: Lançamentos de Adições do Imposto de Renda
+    descricao: 'Lançamentos de Adições do Imposto de Renda. 566 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_ADICAO.'
+    tabela: LRIRPJ_REAL_ADICAO
+    chave: [CODI_EMP, I_IRPJ_REAL_ADICAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_IRPJ_REAL_ADICAO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_IRPJ_REAL_ADICAO
+      data_do_lancamento: DATA_LANCAMENTO
+      complemento: COMPLEMENTO
+      origem_do_lancamento_m_manual_s_sistema: {coluna: ORIGEM_LANCAMENTO, dominio: lrirpj_real_adicao_origem_do_l}
+      scp: I_SCP
+      grupo_geral: I_GRUPO_IRPJ_ADICAO_GERAL
+      grupo_sistema_financeiro: I_GRUPO_IRPJ_ADICAO_SF
+      grupo_sociedade_seguradora: I_GRUPO_IRPJ_ADICAO_S
+      tipo_de_lancamento_g_geral_r_rural: TIPO_LANCAMENTO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrtabela_grupo_irpj_adic:
+        tabela: LRTABELA_GRUPO_IRPJ_ADICAO_SEGURADORA
+        liga: {i_grupo_irpj_adicao_s: i_grupo_irpj_adicao_s}
+        colunas: {lrtabela_grupo_irpj_adic_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+      origem_do_lancamento_m_manual_s_sistema:
+        coluna: ORIGEM_LANCAMENTO
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      grupo_geral:
+        coluna: I_GRUPO_IRPJ_ADICAO_GERAL
+        ops: [eq, in]
+      grupo_sistema_financeiro:
+        coluna: I_GRUPO_IRPJ_ADICAO_SF
+        ops: [eq, in]
+      grupo_sociedade_seguradora:
+        coluna: I_GRUPO_IRPJ_ADICAO_S
+        ops: [eq, in]
+      tipo_de_lancamento_g_geral_r_rural:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 566 linhas, 60 empresa(s), DATA_LANCAMENTO de 2013-02-28 a 2026-08-31.', 'Colunas expostas nulas em 100% das linhas (3): scp,
+        grupo_sistema_financeiro, grupo_sociedade_seguradora.', 'origem_do_lancamento_m_manual_s_sistema: todos os valores reais estão no comentário do banco (M=306,
+        S=260).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 758).', 'Vínculo gescp (GESCP): 5 de 5 linhas sem registro relacionado
+        (empresa 758).', 'Vínculo lrtabela_grupo_irpj_adic (LRTABELA_GRUPO_IRPJ_ADICAO_SEGURADORA): 0 de 5 linhas sem registro relacionado (empresa 758).']
+  lrirpj_real_adicao_item:
+    titulo: Lançamentos de Adições do Imposto de Renda - Adições
+    descricao: 'Lançamentos de Adições do Imposto de Renda - Adições. 561 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM.'
+    tabela: LRIRPJ_REAL_ADICAO_ITEM
+    chave: [CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_IRPJ_REAL_ADICAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_adicao_da_irpj: I_IRPJ_REAL_ADICAO, sequencial: I_ITEM, adicao: I_ADICAO, descricao: DESCRICAO, valor: VALOR,
+      valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_lancamento_de_adicao_da_csll: I_CSLL_REAL_ADICAO, tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_adicao_da_irpj:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_lancamento_de_adicao_da_csll:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 561 linhas, 60 empresa(s).', 'Vínculo lradicao (LRADICAO): 0 de 5 linhas sem registro relacionado (empresa 758).']
+  lrirpj_real_deducao:
+    titulo: Deduções do Imposto de Renda (Real)
+    descricao: 'Deduções do Imposto de Renda (Real). 551 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_DEDUCAO.'
+    tabela: LRIRPJ_REAL_DEDUCAO
+    chave: [CODI_EMP, I_IRPJ_REAL_DEDUCAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_SALDO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_SALDO, desc]
+    - [I_IRPJ_REAL_DEDUCAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_IRPJ_REAL_DEDUCAO, competencia: COMPETENCIA, ir_pgo_em_meses_anteriores: VALOR_IR_PAGO_EM_MES_ANTERIOR, irrf: VALOR_IRRF,
+      irrf_por_orgaos_publicos_federais: VALOR_IRRF_ORGAO_PUBLICO_FEDERAL, irrf_administracao_publica: VALOR_IRRF_ADMINISTRACAO_PUBLICA, outras_deducoes: VALOR_OUTRA_DEDUCAO,
+      scp: I_SCP, pago_no_exterior_sobre_lucros_rendimento: VALOR_PAGO_EXTERIOR, pago_incidente_sobre_ganhos_no_mercado_d: VALOR_PAGO_INCIDENTE_SOBRE_GANHOS, parcelamento_formalizado_de_ir_sobre_a_b: VALOR_PARCELAMENTO_FORMALIZADO,
+      compensacao_de_impostos_federais_de_peri: VALOR_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR, ajuste_anual: AJUSTE_ANUAL, valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC,
+      importar_retencoes_como_valor_pago_em_me: RETENCOES_PAGO_MESES_ANT, data_de_inicio_do_controle_de_saldo: DATA_INICIO_SALDO, valor_irrf_a_ser_desconsiderado_no_calcu: VALOR_IRRF_DESCONSIDERAR,
+      desconsiderar_saldo_de_dezembro: DESCONSIDERAR_SALDO_DEZEMBRO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_REAL_DEDUCAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_inicio_do_controle_de_saldo:
+        coluna: DATA_INICIO_SALDO
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      importar_retencoes_como_valor_pago_em_me:
+        coluna: RETENCOES_PAGO_MESES_ANT
+        ops: [eq, in]
+      desconsiderar_saldo_de_dezembro:
+        coluna: DESCONSIDERAR_SALDO_DEZEMBRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 551 linhas, 35 empresa(s), DATA_INICIO_SALDO de 2024-12-11 a 2026-09-29.', 'Colunas expostas nulas em 100% das linhas (1): scp.',
+      'Vínculo geempre (geempre): 0 de 12 linhas sem registro relacionado (empresa 1664).', 'Vínculo gescp (GESCP): 12 de 12 linhas sem registro relacionado (empresa
+        1664).']
+  lrirpj_estimado_deducao:
+    titulo: Deduções do Imposto de Renda (Estimado)
+    descricao: 'Deduções do Imposto de Renda (Estimado). 362 linhas no catálogo; chave: CODI_EMP, I_IRPJ_ESTIMADO_DEDUCAO.'
+    tabela: LRIRPJ_ESTIMADO_DEDUCAO
+    chave: [CODI_EMP, I_IRPJ_ESTIMADO_DEDUCAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_SALDO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_SALDO, desc]
+    - [I_IRPJ_ESTIMADO_DEDUCAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_IRPJ_ESTIMADO_DEDUCAO, competencia: COMPETENCIA, ir_pgo_em_meses_anteriores: VALOR_IR_PAGO_EM_MES_ANTERIOR, irrf: VALOR_IRRF,
+      irrf_por_orgaos_publicos_federais: VALOR_IRRF_ORGAO_PUBLICO_FEDERAL, irrf_administracao_publica: VALOR_IRRF_ADMINISTRACAO_PUBLICA, outras_deducoes: VALOR_OUTRA_DEDUCAO,
+      scp: I_SCP, pago_no_exterior_sobre_lucros_rendimento: VALOR_PAGO_EXTERIOR, pago_incidente_sobre_ganhos_no_mercado_d: VALOR_PAGO_INCIDENTE_SOBRE_GANHOS, compensacao_de_impostos_federais_de_peri: VALOR_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR,
+      valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC, data_de_inicio_do_controle_de_saldo: DATA_INICIO_SALDO, valor_irrf_a_ser_desconsiderado_no_calcu: VALOR_IRRF_DESCONSIDERAR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_ESTIMADO_DEDUCAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_inicio_do_controle_de_saldo:
+        coluna: DATA_INICIO_SALDO
+        ops: [entre, gte, lte]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 362 linhas, 24 empresa(s), DATA_INICIO_SALDO de 2024-12-09 a 2026-09-29.', 'Colunas expostas nulas em 100% das linhas (1): scp.',
+      'Vínculo geempre (geempre): 0 de 13 linhas sem registro relacionado (empresa 1663).', 'Vínculo gescp (GESCP): 13 de 13 linhas sem registro relacionado (empresa
+        1663).']
+  lrirpj_incentivo_fiscal:
+    titulo: Lançamentos de Incentivos Fiscais
+    descricao: 'Lançamentos de Incentivos Fiscais. 203 linhas no catálogo; chave: CODI_EMP, I_IRPJ_INCENTIVO_FISCAL.'
+    tabela: LRIRPJ_INCENTIVO_FISCAL
+    chave: [CODI_EMP, I_IRPJ_INCENTIVO_FISCAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_IRPJ_INCENTIVO_FISCAL, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_IRPJ_INCENTIVO_FISCAL, competencia: COMPETENCIA, incentivo_fiscal: I_INCENTIVO_FISCAL, numero_de_refeicoes: NUMERO_REFEICAO,
+      valor_base: VALOR_BASE, aliquota: ALIQUOTA, total: VALOR_TOTAL, scp: I_SCP, data_limite_que_sera_aproveitado: APROVEITAR_ATE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrincentivo_fiscal:
+        tabela: LRINCENTIVO_FISCAL
+        liga: {codi_emp: codi_emp, i_incentivo_fiscal: i_incentivo_fiscal}
+        colunas: {lrincentivo_fiscal_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_INCENTIVO_FISCAL
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_limite_que_sera_aproveitado:
+        coluna: APROVEITAR_ATE
+        ops: [entre, gte, lte]
+      incentivo_fiscal:
+        coluna: I_INCENTIVO_FISCAL
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 203 linhas, 9 empresa(s), COMPETENCIA de 2013-01-01 a 2026-08-01.', 'Colunas expostas nulas em 100% das linhas (1): scp.', 'Vínculo
+        geempre (geempre): 0 de 16 linhas sem registro relacionado (empresa 836).', 'Vínculo gescp (GESCP): 16 de 16 linhas sem registro relacionado (empresa 836).',
+      'Vínculo lrincentivo_fiscal (LRINCENTIVO_FISCAL): 0 de 16 linhas sem registro relacionado (empresa 836).']
+  lrirpj_real_exclusao_lancamento:
+    titulo: Lançamentos de Exclusões do Imposto de Renda - Lancamentos Contábeis
+    descricao: 'Lançamentos de Exclusões do Imposto de Renda - Lancamentos Contábeis. 150 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_EXCLUSAO, I_ITEM, I_LANCAMENTO.'
+    tabela: LRIRPJ_REAL_EXCLUSAO_LANCAMENTO
+    chave: [CODI_EMP, I_IRPJ_REAL_EXCLUSAO, I_ITEM, I_LANCAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_IRPJ_REAL_EXCLUSAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_exclusao_da_irpj: I_IRPJ_REAL_EXCLUSAO, sequencial_da_exclusao: I_ITEM, sequencial: I_LANCAMENTO, numero_lote_lancamento: NUMERO_LOTE,
+      data: DATA_LANCAMENTO, conta: CONTA, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_historico: CODIGO_HISTORICO, historico: HISTORICO,
+      tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrirpj_real_exclusao_ite:
+        tabela: LRIRPJ_REAL_EXCLUSAO_ITEM
+        liga: {codi_emp: codi_emp, i_irpj_real_exclusao: i_irpj_real_exclusao, i_item: i_item}
+        colunas: {lrirpj_real_exclusao_ite_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_exclusao_da_irpj:
+        coluna: I_IRPJ_REAL_EXCLUSAO
+        ops: [eq, in]
+      sequencial_da_exclusao:
+        coluna: I_ITEM
+        ops: [eq, in]
+      sequencial:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_historico:
+        coluna: CODIGO_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 150 linhas, 8 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-06-30.', 'Vínculo lrirpj_real_exclusao_ite (LRIRPJ_REAL_EXCLUSAO_ITEM):
+        0 de 16 linhas sem registro relacionado (empresa 1548).']
+  lrirpj_real_exclusao:
+    titulo: Lançamentos de Exclusões do Imposto de Renda
+    descricao: 'Lançamentos de Exclusões do Imposto de Renda. 119 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_EXCLUSAO.'
+    tabela: LRIRPJ_REAL_EXCLUSAO
+    chave: [CODI_EMP, I_IRPJ_REAL_EXCLUSAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_IRPJ_REAL_EXCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_IRPJ_REAL_EXCLUSAO, data_do_lancamento: DATA_LANCAMENTO, complemento: COMPLEMENTO, scp: I_SCP, grupo_geral: I_GRUPO_IRPJ_EXCLUSAO_GERAL,
+      grupo_sistema_financeiro: I_GRUPO_IRPJ_EXCLUSAO_SF, grupo_sociedade_seguradora: I_GRUPO_IRPJ_EXCLUSAO_S, tipo_de_lancamento_g_geral_r_rural: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+      lrtabela_grupo_irpj_excl:
+        tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_SEGURADORA
+        liga: {i_grupo_irpj_exclusao_s: i_grupo_irpj_exclusao_s}
+        colunas: {lrtabela_grupo_irpj_excl_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_IRPJ_REAL_EXCLUSAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      complemento:
+        coluna: COMPLEMENTO
+        ops: [contem, prefixo]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      grupo_geral:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_GERAL
+        ops: [eq, in]
+      grupo_sistema_financeiro:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_SF
+        ops: [eq, in]
+      grupo_sociedade_seguradora:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_S
+        ops: [eq, in]
+      tipo_de_lancamento_g_geral_r_rural:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 119 linhas, 9 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2026-06-30.', 'Colunas expostas nulas em 100% das linhas (3): scp, grupo_sistema_financeiro,
+        grupo_sociedade_seguradora.', 'Vínculo geempre (geempre): 0 de 8 linhas sem registro relacionado (empresa 1619).', 'Vínculo gescp (GESCP): 8 de 8 linhas sem
+        registro relacionado (empresa 1619).', 'Vínculo lrtabela_grupo_irpj_excl (LRTABELA_GRUPO_IRPJ_EXCLUSAO_SEGURADORA): 0 de 8 linhas sem registro relacionado
+        (empresa 1619).']
+  lrirpj_real_exclusao_item:
+    titulo: Lançamentos de Exclusões do Imposto de Renda - Exclusões
+    descricao: 'Lançamentos de Exclusões do Imposto de Renda - Exclusões. 119 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_EXCLUSAO, I_ITEM.'
+    tabela: LRIRPJ_REAL_EXCLUSAO_ITEM
+    chave: [CODI_EMP, I_IRPJ_REAL_EXCLUSAO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_IRPJ_REAL_EXCLUSAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_exclusoes_da_irp: I_IRPJ_REAL_EXCLUSAO, sequencial: I_ITEM, exclusao: I_EXCLUSAO, descricao: DESCRICAO, valor: VALOR,
+      valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_lancamento_de_exclusoes_da_csl: I_CSLL_REAL_EXCLUSAO, tipo_saldo_d_devedor_ou_c_credor: TIPO_SALDO}
+    vinculos:
+      lrexclusao:
+        tabela: LREXCLUSAO
+        liga: {codi_emp: codi_emp, i_exclusao: i_exclusao}
+        colunas: {lrexclusao_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_exclusoes_da_irp:
+        coluna: I_IRPJ_REAL_EXCLUSAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      exclusao:
+        coluna: I_EXCLUSAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_lancamento_de_exclusoes_da_csl:
+        coluna: I_CSLL_REAL_EXCLUSAO
+        ops: [eq, in]
+      tipo_saldo_d_devedor_ou_c_credor:
+        coluna: TIPO_SALDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 119 linhas, 9 empresa(s).', 'Vínculo lrexclusao (LREXCLUSAO): 0 de 8 linhas sem registro relacionado (empresa 1619).']
+  lrirpj_real_adicao_item_ajuste_anual:
+    titulo: Lançamentos de Adições do Imposto de Renda - Adições - Ajuste Anual
+    descricao: 'Lançamentos de Adições do Imposto de Renda - Adições - Ajuste Anual. 6 linhas no catálogo; chave: CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM.'
+    tabela: LRIRPJ_REAL_ADICAO_ITEM_AJUSTE_ANUAL
+    chave: [CODI_EMP, I_IRPJ_REAL_ADICAO, I_ITEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_IRPJ_REAL_ADICAO, asc]
+    - [I_ITEM, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_lancamento_de_adicao_da_irpj: I_IRPJ_REAL_ADICAO, sequencial: I_ITEM, adicao: I_ADICAO, descricao: DESCRICAO, valor: VALOR,
+      valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL, codigo_do_lancamento_de_adicao_da_csll: I_CSLL_REAL_ADICAO}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      codigo_do_lancamento_de_adicao_da_irpj:
+        coluna: I_IRPJ_REAL_ADICAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ITEM
+        ops: [eq, in]
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_lancamento_de_adicao_da_csll:
+        coluna: I_CSLL_REAL_ADICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 6 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_lancamento_de_adicao_da_csll.', 'Vínculo lradicao
+        (LRADICAO): 0 de 1 linhas sem registro relacionado (empresa 1420).']

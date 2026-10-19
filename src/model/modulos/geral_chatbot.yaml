@@ -1,0 +1,168 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_chatbot
+titulo: Geral - chatbot (rascunho em lote)
+entidades:
+  gechatbot_comandos:
+    titulo: Tabela com os comandos em ordem de execução para cada relatório.
+    descricao: 'Tabela com os comandos em ordem de execução para cada relatório.. 191 linhas no catálogo; chave: CODIGO, CODIGO_RELATORIO.'
+    tabela: GECHATBOT_COMANDOS
+    chave: [CODIGO, CODIGO_RELATORIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [CODIGO_RELATORIO, asc]
+    colunas: {codigo_do_comando: CODIGO, codigo_do_relatorio: CODIGO_RELATORIO, tipo_do_componente_1_command_button_2_ra: TIPO_COMPONENTE, class_name_do_componente: COMPONENTE,
+      descricao_do_componente: TEXTO_COMPONENTE, nome_do_parametro: PARAMETRO, nome_da_janela_a_ser_aberta: JANELA, nome_do_dataobject_utilizado_quando_o_co: NOME_DATAOBJECT,
+      nome_da_coluna_sobre_a_qual_sera_realiza: NOME_COLUNA, tipo_da_acao_1_preencher_2_selecionar: TIPO_ACAO, caso_o_parametro_de_busca_no_json_nao_fo: PARAMETRO_VALOR_PADRAO}
+    vinculos:
+      gechatbot_relatorios:
+        tabela: GECHATBOT_RELATORIOS
+        liga: {codigo_relatorio: codigo}
+        colunas: {gechatbot_relatorios_nome: RELATORIO}
+    filtros:
+      codigo_do_comando:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_relatorio:
+        coluna: CODIGO_RELATORIO
+        ops: [eq, in]
+      tipo_do_componente_1_command_button_2_ra:
+        coluna: TIPO_COMPONENTE
+        ops: [eq, in]
+      class_name_do_componente:
+        coluna: COMPONENTE
+        ops: [contem, prefixo]
+      descricao_do_componente:
+        coluna: TEXTO_COMPONENTE
+        ops: [contem, prefixo]
+      nome_do_parametro:
+        coluna: PARAMETRO
+        ops: [contem, prefixo]
+      nome_da_janela_a_ser_aberta:
+        coluna: JANELA
+        ops: [contem, prefixo]
+      nome_do_dataobject_utilizado_quando_o_co:
+        coluna: NOME_DATAOBJECT
+        ops: [contem, prefixo]
+      nome_da_coluna_sobre_a_qual_sera_realiza:
+        coluna: NOME_COLUNA
+        ops: [contem, prefixo]
+      tipo_da_acao_1_preencher_2_selecionar:
+        coluna: TIPO_ACAO
+        ops: [eq, in]
+      caso_o_parametro_de_busca_no_json_nao_fo:
+        coluna: PARAMETRO_VALOR_PADRAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 191 linhas.', 'Vínculo gechatbot_relatorios (GECHATBOT_RELATORIOS): 0 de 191 linhas sem registro relacionado.']
+  gechatbot_relatorios:
+    titulo: Tabela com os relatórios configurados para o chatbot.
+    descricao: 'Tabela com os relatórios configurados para o chatbot.. 32 linhas no catálogo; chave: CODIGO.'
+    tabela: GECHATBOT_RELATORIOS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_do_relatorio: CODIGO, descricao_do_relatorio: RELATORIO, codigo_do_modulo_do_relatorio: CODIGO_MODULO, tempo_limite_para_a_execucao_do_relatori: TEMPO_LIMITE_EXECUCAO,
+      versao_minima_do_contabil_para_a_execuca: VERSAO_CONTABIL, definir_que_o_relatorio_possui_sub_relat: POSSUI_SUB_RELATORIO, campos_responsavel_por_controlar_o_nome: PARAMETRO_LINK_DOCUMENTO,
+      layout_da_mensagem_para_ser_enviada_ao_c: LAYOUT_MENSAGEM_RESPOSTA, campo_que_define_o_formato_do_nome_do_do: LAYOUT_NOME_DOCUMENTO}
+    filtros:
+      codigo_do_relatorio:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_do_relatorio:
+        coluna: RELATORIO
+        ops: [contem, prefixo]
+      codigo_do_modulo_do_relatorio:
+        coluna: CODIGO_MODULO
+        ops: [eq, in]
+      versao_minima_do_contabil_para_a_execuca:
+        coluna: VERSAO_CONTABIL
+        ops: [eq, in]
+      campos_responsavel_por_controlar_o_nome:
+        coluna: PARAMETRO_LINK_DOCUMENTO
+        ops: [contem, prefixo]
+      layout_da_mensagem_para_ser_enviada_ao_c:
+        coluna: LAYOUT_MENSAGEM_RESPOSTA
+        ops: [contem, prefixo]
+      campo_que_define_o_formato_do_nome_do_do:
+        coluna: LAYOUT_NOME_DOCUMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 32 linhas.']
+  gechatbot_relatorios_permissao:
+    titulo: Configuração de permissão de relatórios para o Assistente Virtual
+    descricao: 'Configuração de permissão de relatórios para o Assistente Virtual. 32 linhas no catálogo; chave: CODIGO_RELATORIO.'
+    tabela: GECHATBOT_RELATORIOS_PERMISSAO
+    chave: [CODIGO_RELATORIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_RELATORIO, asc]
+    colunas: {codigo_do_relatorio_que_a_permissao_esta: CODIGO_RELATORIO, descricao_do_nome_do_relatorio: DESCRICAO, nome_do_modulo_ao_qual_o_relatorio_perte: MODULO,
+      descricao_do_menu_ao_qual_o_relatorio_pe: MENU, informa_se_pode_emitir_o_relatorio_pelo: PERMITE_EMITIR}
+    vinculos:
+      gechatbot_relatorios:
+        tabela: GECHATBOT_RELATORIOS
+        liga: {codigo_relatorio: codigo}
+        colunas: {gechatbot_relatorios_nome: RELATORIO}
+    filtros:
+      codigo_do_relatorio_que_a_permissao_esta:
+        coluna: CODIGO_RELATORIO
+        ops: [eq, in]
+      descricao_do_nome_do_relatorio:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      nome_do_modulo_ao_qual_o_relatorio_perte:
+        coluna: MODULO
+        ops: [contem, prefixo]
+      descricao_do_menu_ao_qual_o_relatorio_pe:
+        coluna: MENU
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 32 linhas.', 'Vínculo gechatbot_relatorios (GECHATBOT_RELATORIOS): 0 de 32 linhas sem registro relacionado.']
+  gechatbot_sub_relatorios:
+    titulo: Relação de sub-relatórios para o Assistente Virtual
+    descricao: 'Relação de sub-relatórios para o Assistente Virtual. 3 linhas no catálogo; chave: CODIGO, CODIGO_RELATORIO.'
+    tabela: GECHATBOT_SUB_RELATORIOS
+    chave: [CODIGO, CODIGO_RELATORIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [CODIGO_RELATORIO, asc]
+    colunas: {codigo_sequencial: CODIGO, relatorio_principal: CODIGO_RELATORIO, codigo_dos_sub_relatorios: CODIGO_SUB_RELATORIO}
+    vinculos:
+      gechatbot_relatorios:
+        tabela: GECHATBOT_RELATORIOS
+        liga: {codigo_relatorio: codigo}
+        colunas: {gechatbot_relatorios_nome: RELATORIO}
+    filtros:
+      codigo_sequencial:
+        coluna: CODIGO
+        ops: [eq, in]
+      relatorio_principal:
+        coluna: CODIGO_RELATORIO
+        ops: [eq, in]
+      codigo_dos_sub_relatorios:
+        coluna: CODIGO_SUB_RELATORIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas.', 'Vínculo gechatbot_relatorios (GECHATBOT_RELATORIOS): 0 de 3 linhas sem registro relacionado.']
+  gechatbot_limpeza_dados:
+    titulo: Controla quando deve limpar os dados referente ao chatbot quando houver cancelamento, downgrade ou cessão de direitos envolvendo FRP no Onvio Messenger
+    descricao: 'Controla quando deve limpar os dados referente ao chatbot quando houver cancelamento, downgrade ou cessão de direitos envolvendo FRP no Onvio Messenger.
+      1 linhas no catálogo; chave: CHAVE.'
+    tabela: GECHATBOT_LIMPEZA_DADOS
+    chave: [CHAVE]
+    acesso: {empresa: null, periodo: DATA_SOLICITACAO_LIMPEZA, volume: pequeno}
+    ordem:
+    - [DATA_SOLICITACAO_LIMPEZA, desc]
+    - [CHAVE, asc]
+    colunas: {chave: CHAVE, c_0_nao_executar_limpeza_1_executar_limp: STATUS_LIMPEZA_DADOS, data_em_que_foi_recebida_a_informacao_qu: DATA_SOLICITACAO_LIMPEZA, data_da_ultima_limpeza_de_dados_executad: DATA_ULTIMA_LIMPEZA}
+    filtros:
+      chave:
+        coluna: CHAVE
+        ops: [eq, in]
+      data_em_que_foi_recebida_a_informacao_qu:
+        coluna: DATA_SOLICITACAO_LIMPEZA
+        ops: [entre, gte, lte]
+      data_da_ultima_limpeza_de_dados_executad:
+        coluna: DATA_ULTIMA_LIMPEZA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_SOLICITACAO_LIMPEZA de 2021-10-26 a 2021-10-26.', 'Colunas expostas nulas em 100% das linhas (1): data_da_ultima_limpeza_de_dados_executad.']

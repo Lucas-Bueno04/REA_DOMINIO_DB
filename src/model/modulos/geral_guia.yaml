@@ -1,0 +1,319 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_guia
+titulo: Geral - guia (rascunho em lote)
+dominios:
+  geguia_contribuicao_previdenciaria_saldos_recolher_valores_c_tipo_de_gui:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER_VALORES_COMPENSADOS.TIPO_GUIA estão no comentário do banco (2026-10-18).
+      Distribuição: 3=3.134.689, 1=76.482, 2=15.336.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  geguia_contribuicao_previdenciaria_saldos_recolher_valores_c_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER_VALORES_COMPENSADOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=3.226.507.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  geguia_contribuicao_previdenciaria_saldos_recolher_tipo_de_gui:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição: 3=633.540,
+      1=18.558, 2=3.413.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  geguia_contribuicao_previdenciaria_saldos_recolher_valor_alter:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER.ALTERADO_MANUALMENTE estão no comentário do banco (2026-10-18). Distribuição:
+      0=654.154, 1=1.357.'
+    valores: {'0': Não, '1': Sim}
+  geguia_contribuicao_previdenciaria_saldos_recolher_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição:
+      0=655.511.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  geguia_contribuicao_previdenciaria_saldos_compensar_tipo_de_gui:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_COMPENSAR.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição: 3=82.960,
+      1=19.356, 2=2.883.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  geguia_contribuicao_previdenciaria_saldos_compensar_valor_alter:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_COMPENSAR.ALTERADO_MANUALMENTE estão no comentário do banco (2026-10-18). Distribuição:
+      0=105.195, 1=4.'
+    valores: {'0': Não, '1': Sim}
+  geguia_contribuicao_previdenciaria_saldos_compensar_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_COMPENSAR.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição:
+      0=105.199.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  geguia_contribuicao_previdenciaria_tipo_de_guia_1:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição: 3=17.166, 1=4.695,
+      2=651.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  geguia_contribuicao_previdenciaria_origem_do_regi:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=22.512.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  geguia_contribuicao_previdenciaria_compensacoes_dcomp_tipo_de_gui:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_COMPENSACOES_DCOMP.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição:
+      1=10.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  geguia_contribuicao_previdenciaria_compensacoes_dcomp_tipo_de_cre:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_COMPENSACOES_DCOMP.TIPO_CREDITO estão no comentário do banco (2026-10-18). Distribuição:
+      2=5, 1=4, 3=1.'
+    valores: {'1': Pagamento indevido ou a maior, '2': Retenções, '3': Outros}
+  geguia_contribuicao_previdenciaria_compensacoes_dcomp_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_COMPENSACOES_DCOMP.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição:
+      0=10.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+entidades:
+  geguia_contribuicao_previdenciaria_saldos_recolher_valores_c:
+    titulo: Guia da contribuição previdenciária - Valores compensados do saldo a recolher.
+    descricao: 'Guia da contribuição previdenciária - Valores compensados do saldo a recolher.. 3.219.687 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA,
+      TIPO_SALDO_RECOLHER, TIPO_SALDO_COMPENSAR, SEQUENCIAL.'
+    tabela: GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER_VALORES_COMPENSADOS
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_SALDO_RECOLHER, TIPO_SALDO_COMPENSAR, SEQUENCIAL]
+    acesso:
+      empresa: CODI_EMP
+      periodo: COMPETENCIA
+      exige_algum: [competencia]
+      volume: grande
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_GUIA, asc]
+    - [TIPO_SALDO_RECOLHER, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: geguia_contribuicao_previdenciaria_saldos_recolher_valores_c_tipo_de_gui}
+      tipo_de_saldo_a_recolher: TIPO_SALDO_RECOLHER
+      tipo_de_saldo_a_compensar: TIPO_SALDO_COMPENSAR
+      sequencial: SEQUENCIAL
+      valor_compensado: VALOR_COMPENSADO
+      codi_emp_escrita_fiscal: CODI_EMP_ESCRITA_FISCAL
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: geguia_contribuicao_previdenciaria_saldos_recolher_valores_c_origem_do_r}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_escrita_fiscal: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      tipo_de_saldo_a_recolher:
+        coluna: TIPO_SALDO_RECOLHER
+        ops: [eq, in]
+      tipo_de_saldo_a_compensar:
+        coluna: TIPO_SALDO_COMPENSAR
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codi_emp_escrita_fiscal:
+        coluna: CODI_EMP_ESCRITA_FISCAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.226.507 linhas, 934 empresa(s), COMPETENCIA de 2011-04-01 a 2026-11-01.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os
+        valores reais estão no comentário do banco (3=3.134.689, 1=76.482, 2=15.336).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no
+        comentário do banco (0=3.226.507).', 'Vínculo geempre (geempre): 0 de 4.125 linhas sem registro relacionado (empresa 1524).']
+  geguia_contribuicao_previdenciaria_saldos_recolher:
+    titulo: Guia da contribuição previdenciária - Valores de saldo a recolher.
+    descricao: 'Guia da contribuição previdenciária - Valores de saldo a recolher.. 654.147 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_SALDO_RECOLHER,
+      SEQUENCIAL.'
+    tabela: GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_RECOLHER
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_SALDO_RECOLHER, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_GUIA, asc]
+    - [TIPO_SALDO_RECOLHER, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: geguia_contribuicao_previdenciaria_saldos_recolher_tipo_de_gui}
+      tipo_saldo_recolher: TIPO_SALDO_RECOLHER
+      sequencial: SEQUENCIAL
+      valor_alterado_manualmente_0_nao_1_sim: {coluna: ALTERADO_MANUALMENTE, dominio: geguia_contribuicao_previdenciaria_saldos_recolher_valor_alter}
+      valor_devido: VALOR_DEVIDO
+      valor_compensado: VALOR_COMPENSADO
+      saldo_recolher: SALDO_RECOLHER
+      codi_emp_escrita_fiscal: CODI_EMP_ESCRITA_FISCAL
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: geguia_contribuicao_previdenciaria_saldos_recolher_origem_do_r}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_escrita_fiscal: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      tipo_saldo_recolher:
+        coluna: TIPO_SALDO_RECOLHER
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codi_emp_escrita_fiscal:
+        coluna: CODI_EMP_ESCRITA_FISCAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 655.511 linhas, 934 empresa(s), COMPETENCIA de 2011-04-01 a 2026-11-01.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os
+        valores reais estão no comentário do banco (3=633.540, 1=18.558, 2=3.413).', 'valor_alterado_manualmente_0_nao_1_sim: todos os valores reais estão no comentário
+        do banco (0=654.154, 1=1.357).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=655.511).', 'Vínculo geempre
+        (geempre): 0 de 831 linhas sem registro relacionado (empresa 1071).']
+  geguia_contribuicao_previdenciaria_saldos_compensar:
+    titulo: Guia da contribuição previdenciária  - Valores de saldo a compensar.
+    descricao: 'Guia da contribuição previdenciária  - Valores de saldo a compensar.. 105.054 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_SALDO_COMPENSAR,
+      SEQUENCIAL.'
+    tabela: GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_SALDOS_COMPENSAR
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_SALDO_COMPENSAR, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_GUIA, asc]
+    - [TIPO_SALDO_COMPENSAR, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: geguia_contribuicao_previdenciaria_saldos_compensar_tipo_de_gui}
+      tipo_de_saldo_a_compensar_1_compensacao: TIPO_SALDO_COMPENSAR
+      sequencial: SEQUENCIAL
+      valor_alterado_manualmente_0_nao_1_sim: {coluna: ALTERADO_MANUALMENTE, dominio: geguia_contribuicao_previdenciaria_saldos_compensar_valor_alter}
+      valor_compensar: VALOR_COMPENSAR
+      valor_compensado: VALOR_COMPENSADO
+      codi_emp_escrita_fiscal: CODI_EMP_ESCRITA_FISCAL
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: geguia_contribuicao_previdenciaria_saldos_compensar_origem_do_r}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp_escrita_fiscal: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      tipo_de_saldo_a_compensar_1_compensacao:
+        coluna: TIPO_SALDO_COMPENSAR
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codi_emp_escrita_fiscal:
+        coluna: CODI_EMP_ESCRITA_FISCAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 105.199 linhas, 934 empresa(s), COMPETENCIA de 2011-04-01 a 2026-11-01.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os
+        valores reais estão no comentário do banco (3=82.960, 1=19.356, 2=2.883).', 'valor_alterado_manualmente_0_nao_1_sim: todos os valores reais estão no comentário
+        do banco (0=105.195, 1=4).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=105.199).', 'Vínculo geempre
+        (geempre): 0 de 95 linhas sem registro relacionado (empresa 1512).']
+  geguia_contribuicao_previdenciaria:
+    titulo: Guia da contribuição previdenciária.
+    descricao: 'Guia da contribuição previdenciária.. 22.483 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA, SEQUENCIAL.'
+    tabela: GEGUIA_CONTRIBUICAO_PREVIDENCIARIA
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: medio}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [COMPETENCIA, asc]
+    - [TIPO_GUIA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: geguia_contribuicao_previdenciaria_tipo_de_guia_1}
+      sequencial: SEQUENCIAL
+      data_vencimento: DATA_VENCIMENTO
+      valor_recolher: VALOR_RECOLHER
+      codi_emp_escrita_fiscal: CODI_EMP_ESCRITA_FISCAL
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: geguia_contribuicao_previdenciaria_origem_do_regi}
+      considerar_saldo_inferior_a_10_reais_s_n: CONSIDERAR_SALDO_INFERIOR_10_REAIS
+      modulo_origem_5_escrita_fiscal_12_folha: MODULO_ORIGEM
+      saldo_devedor: SALDO_DEVEDOR
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      codi_emp_escrita_fiscal:
+        coluna: CODI_EMP_ESCRITA_FISCAL
+        ops: [eq, in]
+      considerar_saldo_inferior_a_10_reais_s_n:
+        coluna: CONSIDERAR_SALDO_INFERIOR_10_REAIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22.512 linhas, 934 empresa(s), DATA_VENCIMENTO de 1900-01-01 a 2026-12-18.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos
+        os valores reais estão no comentário do banco (3=17.166, 1=4.695, 2=651).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário
+        do banco (0=22.512).', 'Vínculo geempre (geempre): 0 de 20 linhas sem registro relacionado (empresa 1578).']
+  geguia_contribuicao_previdenciaria_compensacoes_dcomp:
+    titulo: Guia da contribuição previdenciária - Valores compensados do saldo a recolher.
+    descricao: 'Guia da contribuição previdenciária - Valores compensados do saldo a recolher.. 10 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_CREDITO,
+      SEQUENCIAL.'
+    tabela: GEGUIA_CONTRIBUICAO_PREVIDENCIARIA_COMPENSACOES_DCOMP
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, TIPO_CREDITO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_GUIA, asc]
+    - [TIPO_CREDITO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: geguia_contribuicao_previdenciaria_compensacoes_dcomp_tipo_de_gui}
+      tipo_de_credito_1_pagamento_indevido_ou: {coluna: TIPO_CREDITO, dominio: geguia_contribuicao_previdenciaria_compensacoes_dcomp_tipo_de_cre}
+      sequencial_unico: SEQUENCIAL
+      numero_da_dcomp: NUMERO_DCOMP
+      valor_compensado: VALOR
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: geguia_contribuicao_previdenciaria_compensacoes_dcomp_origem_do_r}
+      descricao_de_impostos: IMPOSTO_COMPENSAR
+      resgistrando_que_salvou_a_coluna_tipo_de: REGISTRO_SALVO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      tipo_de_credito_1_pagamento_indevido_ou:
+        coluna: TIPO_CREDITO
+        ops: [eq, in]
+      sequencial_unico:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      numero_da_dcomp:
+        coluna: NUMERO_DCOMP
+        ops: [contem, prefixo]
+      descricao_de_impostos:
+        coluna: IMPOSTO_COMPENSAR
+        ops: [contem, prefixo]
+      resgistrando_que_salvou_a_coluna_tipo_de:
+        coluna: REGISTRO_SALVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, 7 empresa(s), COMPETENCIA de 2022-01-01 a 2025-05-01.', 'Colunas expostas nulas em 100% das linhas (1): descricao_de_impostos.',
+      'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os valores reais estão no comentário do banco (1=10).', 'tipo_de_credito_1_pagamento_indevido_ou: todos os
+        valores reais estão no comentário do banco (2=5, 1=4, 3=1).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco
+        (0=10).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 967).']

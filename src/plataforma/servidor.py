@@ -18,6 +18,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 from plataforma import dados as dd  # noqa: E402
+from plataforma import biblioteca_dados as bib  # noqa: E402
 
 WEB = pathlib.Path(__file__).with_name("web") / "index.html"
 MAX_CORPO = 512 * 1024
@@ -91,6 +92,10 @@ class H(BaseHTTPRequestHandler):
                 return self._json(dd.historico(int(q.get("n", 80))))
             if u.path == "/api/tabela":
                 return self._json(dd.detalhe(q.get("nome", "")))
+            if u.path == "/api/biblioteca":
+                return self._json(bib.painel())
+            if u.path == "/api/biblioteca/ferramenta":
+                return self._json(bib.ferramenta(q.get("nome", "")))
             if u.path == "/api/rascunho":
                 return self._json(dd.rascunho_salvo(q.get("tabela", "")) or {})
             return self._erro(404, "rota inexistente")

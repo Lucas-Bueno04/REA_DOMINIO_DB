@@ -1,0 +1,1842 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_outros
+titulo: Geral - outros (rascunho em lote)
+dominios:
+  gediagnostico_processamento_dominio_web:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDIAGNOSTICO_PROCESSAMENTO.DOMINIO_WEB estão no comentário do banco (2026-10-18). Distribuição: 0=3.916.'
+    valores: {'1': Sim, '0': Nao}
+  geibge_tipo_obras_servicos_tipo_i_ibge:
+    confirmado: true
+    nota: 'Todos os valores observados em GEIBGE_TIPO_OBRAS_SERVICOS.TIPO_IBS estão no comentário do banco (2026-10-18). Distribuição: I=86.'
+    valores: {I: IBGE, N: NOVO}
+  gedctf_web_pagamento_lancto_tipo_de_gui:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO_LANCTO.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição: 3=60, 1=19, 2=5.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  gedctf_web_pagamento_lancto_tipo_do_lan:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO_LANCTO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 0=66, 1=18.'
+    valores: {'0': Usuário, '1': Principal, '2': Juros, '3': Multa, '4': Valor pago a maior, '5': Correção}
+  gedctf_web_pagamento_lancto_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO_LANCTO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=84.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes, '5': Digital Bank}
+  gedctf_web_pagamento_lancto_lancamento_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO_LANCTO.LANCAMENTO_DISCRIMINADO_POR_IMPOSTO estão no comentário do banco (2026-10-18). Distribuição:
+      0=84.'
+    valores: {'0': Não, '1': Sim}
+  gedctf_web_pagamento_tipo_de_guia_1_mensal_2_13o_sa:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO.TIPO_GUIA estão no comentário do banco (2026-10-18). Distribuição: 3=58, 1=19, 2=5.'
+    valores: {'1': Mensal, '2': 13º salário, '3': Tributos federais}
+  gedctf_web_pagamento_origem_do_registro_0_sistema_1:
+    confirmado: true
+    nota: 'Todos os valores observados em GEDCTF_WEB_PAGAMENTO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=82.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout, '3': Importação tabelas concorrentes, '4': Importação de baixas Conta Azul, '5': Digital
+        Bank}
+  gequadrosocietario_socios_representante_legal_tipo_s_soci:
+    confirmado: true
+    nota: 'Todos os valores observados em GEQUADROSOCIETARIO_SOCIOS_REPRESENTANTE_LEGAL.TIPO estão no comentário do banco (2026-10-18). Distribuição: S=34.'
+    valores: {S: Sócio, A: Administrador, R: Representante Legal, E: Empresário}
+  gequadrosocietario_socios_representante_legal_qualificaca:
+    confirmado: true
+    nota: 'Todos os valores observados em GEQUADROSOCIETARIO_SOCIOS_REPRESENTANTE_LEGAL.QUALIFICACAO estão no comentário do banco (2026-10-18). Distribuição: 6=32,
+      1=2.'
+    valores: {'1': Procurador, '2': Curador, '3': Mãe, '4': Pai, '5': Tutor, '6': Outro}
+entidades:
+  genotificacoes_usuario_atendimento:
+    titulo: Notificações por usuário do Domínio Atendimento
+    descricao: 'Notificações por usuário do Domínio Atendimento. 393.561 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GENOTIFICACOES_USUARIO_ATENDIMENTO
+    chave: [SEQUENCIAL]
+    acesso:
+      empresa: null
+      volume: medio
+      exige_algum: [sequencial, visualizado]
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas:
+      sequencial: SEQUENCIAL
+      tipo_notificacao: TIPO_NOTIFICACAO
+      codigo: CODIGO
+      usuario: USUARIO
+      empresa: EMPRESA
+      responsavel: RESPONSAVEL
+      departamento: DEPARTAMENTO
+      situacao: SITUACAO
+      assunto: ASSUNTO
+      tipo: TIPO
+      nome_empregado: NOME_EMPREGADO
+      cpf_empregado: {coluna: CPF_EMPREGADO, sensivel: parcial}
+      visualizado: VISUALIZADO
+      flag_que_indica_se_o_registro_vem_do_da: ORIGEM_ATENDIMENTO
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_notificacao:
+        coluna: TIPO_NOTIFICACAO
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      departamento:
+        coluna: DEPARTAMENTO
+        ops: [contem, prefixo]
+      situacao:
+        coluna: SITUACAO
+        ops: [eq, in]
+      assunto:
+        coluna: ASSUNTO
+        ops: [contem, prefixo]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      nome_empregado:
+        coluna: NOME_EMPREGADO
+        ops: [contem, prefixo]
+      cpf_empregado:
+        coluna: CPF_EMPREGADO
+        ops: [eq, in]
+      visualizado:
+        coluna: VISUALIZADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 393.561 linhas.']
+  gerarotinas_processos:
+    titulo: PROCESSOS DAS ROTINAS AUTOMÁTICAS
+    descricao: 'PROCESSOS DAS ROTINAS AUTOMÁTICAS. 53.754 linhas no catálogo; chave: I_ROTINAS, I_SISTEMA, I_PROCESSOS.'
+    tabela: GERAROTINAS_PROCESSOS
+    chave: [I_ROTINAS, I_SISTEMA, I_PROCESSOS]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [I_ROTINAS, asc]
+    - [I_SISTEMA, asc]
+    colunas: {codigo_da_rotina: I_ROTINAS, codigo_do_sistema: I_SISTEMA, i_processos: I_PROCESSOS, selecionado: SELECIONADO, opcoes_da_tela: OPCOES_TELA}
+    vinculos:
+      gerarotinas:
+        tabela: GERAROTINAS
+        liga: {i_rotinas: i_rotinas, i_sistema: i_sistema}
+        colunas: {gerarotinas_nome: DESCRICAO}
+    filtros:
+      codigo_da_rotina:
+        coluna: I_ROTINAS
+        ops: [eq, in]
+      codigo_do_sistema:
+        coluna: I_SISTEMA
+        ops: [eq, in]
+      i_processos:
+        coluna: I_PROCESSOS
+        ops: [eq, in]
+      opcoes_da_tela:
+        coluna: OPCOES_TELA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 53.754 linhas.', 'Vínculo gerarotinas (GERAROTINAS): 0 de 53.754 linhas sem registro relacionado.']
+  gegestta_atividade:
+    titulo: Conclusão de atividades no módulo Processos
+    descricao: 'Conclusão de atividades no módulo Processos. 47.858 linhas no catálogo; chave: CODIGO.'
+    tabela: GEGESTTA_ATIVIDADE
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, atividade: ATIVIDADE, c_1_erro_0_nao_processado_1_processado: PROCESSADO, c_1_contabil_2_agente: TIPO_PROCESSAMENTO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      c_1_contabil_2_agente:
+        coluna: TIPO_PROCESSAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 47.858 linhas.']
+  geindice_diario:
+    titulo: Índice diário
+    descricao: 'Índice diário. 24.907 linhas no catálogo; chave: I_INDICE, DATA_INDICE.'
+    tabela: GEINDICE_DIARIO
+    chave: [I_INDICE, DATA_INDICE]
+    acesso: {empresa: null, periodo: DATA_INDICE, volume: medio}
+    ordem:
+    - [DATA_INDICE, desc]
+    - [I_INDICE, asc]
+    colunas: {codigo_do_indice: I_INDICE, data: DATA_INDICE, valor: VALOR}
+    vinculos:
+      geindice:
+        tabela: GEINDICE
+        liga: {i_indice: i_indice}
+        colunas: {geindice_nome: DESCRICAO}
+    filtros:
+      codigo_do_indice:
+        coluna: I_INDICE
+        ops: [eq, in]
+      data:
+        coluna: DATA_INDICE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24.907 linhas, DATA_INDICE de 1964-10-01 a 2026-01-01.', 'Vínculo geindice (GEINDICE): 0 de 24.907 linhas sem registro relacionado.']
+  geindice_medio:
+    titulo: Índice médio
+    descricao: 'Índice médio. 1.185 linhas no catálogo; chave: I_INDICE, DATA_INDICE.'
+    tabela: GEINDICE_MEDIO
+    chave: [I_INDICE, DATA_INDICE]
+    acesso: {empresa: null, periodo: DATA_INDICE, volume: pequeno}
+    ordem:
+    - [DATA_INDICE, desc]
+    - [I_INDICE, asc]
+    colunas: {codigo_do_indice: I_INDICE, data: DATA_INDICE, valor: VALOR}
+    vinculos:
+      geindice:
+        tabela: GEINDICE
+        liga: {i_indice: i_indice}
+        colunas: {geindice_nome: DESCRICAO}
+    filtros:
+      codigo_do_indice:
+        coluna: I_INDICE
+        ops: [eq, in]
+      data:
+        coluna: DATA_INDICE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.185 linhas, DATA_INDICE de 1964-10-01 a 2018-12-01.', 'Vínculo geindice (GEINDICE): 0 de 1.185 linhas sem registro relacionado.']
+  gecsperguntas_solucoes:
+    titulo: Perguntas e soluções da Central de Soluções
+    descricao: 'Perguntas e soluções da Central de Soluções. 7.968 linhas no catálogo; chave: ID.'
+    tabela: GECSPERGUNTAS_SOLUCOES
+    chave: [ID]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID, asc]
+    colunas: {id: ID, codigo: CODIGO, sistema: SISTEMA, modulo: MODULO, classificacao: CLASSIFICACAO, pergunta: PERGUNTA, titulo: TITULO, tipo: TIPO, tags: TAGS,
+      quantidade_acessos: QUANTIDADE_ACESSOS, quantidade_total_acessos: QUANTIDADE_TOTAL_ACESSOS, ids_telas_contabil: IDS_TELAS_CONTABIL, ativo: ATIVO}
+    filtros:
+      id:
+        coluna: ID
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      pergunta:
+        coluna: PERGUNTA
+        ops: [contem, prefixo]
+      titulo:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      tags:
+        coluna: TAGS
+        ops: [contem, prefixo]
+      ids_telas_contabil:
+        coluna: IDS_TELAS_CONTABIL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7.968 linhas.']
+  gecampo_cabecalho_auditor:
+    titulo: Cabeçalho Auditor Digital
+    descricao: 'Cabeçalho Auditor Digital. 5.606 linhas no catálogo; chave: CODIGO_CAMPO.'
+    tabela: GECAMPO_CABECALHO_AUDITOR
+    chave: [CODIGO_CAMPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_CAMPO, asc]
+    colunas: {codigo_do_campo: CODIGO_CAMPO, codigo_do_arquivo: CODIGO_ARQUIVO, campo: CAMPO, descricao_do_campo: CAMPO_DESC}
+    vinculos:
+      getipo_arquivo_auditor:
+        tabela: GETIPO_ARQUIVO_AUDITOR
+        liga: {codigo_arquivo: codigo_arquivo}
+        colunas: {getipo_arquivo_auditor_nome: ARQUIVO}
+    filtros:
+      codigo_do_campo:
+        coluna: CODIGO_CAMPO
+        ops: [eq, in]
+      codigo_do_arquivo:
+        coluna: CODIGO_ARQUIVO
+        ops: [eq, in]
+      campo:
+        coluna: CAMPO
+        ops: [contem, prefixo]
+      descricao_do_campo:
+        coluna: CAMPO_DESC
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.606 linhas.', 'Vínculo getipo_arquivo_auditor (GETIPO_ARQUIVO_AUDITOR): 0 de 5.606 linhas sem registro relacionado.']
+  gediagnostico_processamento:
+    titulo: Tempos de processamento de funcionalidades
+    descricao: 'Tempos de processamento de funcionalidades. 3.954 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, FUNCIONALIDADE.'
+    tabela: GEDIAGNOSTICO_PROCESSAMENTO
+    chave: [CODI_EMP, COMPETENCIA, FUNCIONALIDADE]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [FUNCIONALIDADE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia_data: COMPETENCIA
+      funcionalidade_apuracao_folhapagamento: FUNCIONALIDADE
+      usuario_do_sistema: USUARIO
+      versao_do_sistema: VERSAO
+      dominio_web_1_sim_0_nao: {coluna: DOMINIO_WEB, dominio: gediagnostico_processamento_dominio_web}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia_data:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      funcionalidade_apuracao_folhapagamento:
+        coluna: FUNCIONALIDADE
+        ops: [eq, in]
+      usuario_do_sistema:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      versao_do_sistema:
+        coluna: VERSAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.916 linhas, 700 empresa(s), COMPETENCIA de 2012-10-01 a 2026-09-01.', 'dominio_web_1_sim_0_nao: todos os valores reais estão
+        no comentário do banco (0=3.916).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 1727).']
+  gediagnostico_performance_ct:
+    titulo: Diagnóstico de Performance (retenção 90 dias)
+    descricao: 'Diagnóstico de Performance (retenção 90 dias). 2.464 linhas no catálogo; chave: I_LOG.'
+    tabela: GEDIAGNOSTICO_PERFORMANCE_CT
+    chave: [I_LOG]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO_DATA_INICIAL, volume: pequeno}
+    ordem:
+    - [PERIODO_DATA_INICIAL, desc]
+    - [I_LOG, asc]
+    colunas: {identificador_unico_do_registro: I_LOG, codigo_da_empresa: CODI_EMP, codigo_da_scp_sera_considerado_0_para_so: SCP, funcionalidade_sped_contabil_sped_ecf: FUNCIONALIDADE,
+      usuario_que_executou_o_processo: USUARIO, versao_do_sistema_no_momento_da_execucao: VERSAO_SISTEMA, codigos_de_filiais_envolvidas_separadas: CODIGOS_FILIAIS,
+      data_inicial_do_periodo_do_relatorio_pro: PERIODO_DATA_INICIAL, data_final_do_periodo_do_relatorio_proce: PERIODO_DATA_FINAL, total_de_lancamentos: TOTAL_LANCAMENTOS,
+      total_de_contas: TOTAL_CONTAS_CONTABEIS, total_de_centros_de_custo: TOTAL_CENTROS_CUSTO, tempo_de_geracao_cpu_ms_sem_espera_ocios: TEMPO_GERACAO_MS, c_1_dominio_web_0_nao: DOMINIO_WEB}
+    filtros:
+      identificador_unico_do_registro:
+        coluna: I_LOG
+        ops: [eq, in]
+      data_inicial_do_periodo_do_relatorio_pro:
+        coluna: PERIODO_DATA_INICIAL
+        ops: [entre, gte, lte]
+      data_final_do_periodo_do_relatorio_proce:
+        coluna: PERIODO_DATA_FINAL
+        ops: [entre, gte, lte]
+      codigo_da_scp_sera_considerado_0_para_so:
+        coluna: SCP
+        ops: [eq, in]
+      funcionalidade_sped_contabil_sped_ecf:
+        coluna: FUNCIONALIDADE
+        ops: [contem, prefixo]
+      usuario_que_executou_o_processo:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      versao_do_sistema_no_momento_da_execucao:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      codigos_de_filiais_envolvidas_separadas:
+        coluna: CODIGOS_FILIAIS
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.464 linhas, 427 empresa(s), PERIODO_DATA_INICIAL de 2022-01-01 a 2025-12-01.']
+  geatvsecundaria_vigencia:
+    titulo: Empresa - Cadastro - Atividades secundarias Vigencia
+    descricao: 'Empresa - Cadastro - Atividades secundarias Vigencia. 3.952 linhas no catálogo; chave: codigo_cnae, codi_emp, data.'
+    tabela: geatvsecundaria_vigencia
+    chave: [codigo_cnae, codi_emp, data]
+    acesso: {empresa: codi_emp, periodo: data, volume: pequeno}
+    ordem:
+    - [data, desc]
+    - [codigo_cnae, asc]
+    colunas: {codigo_cnae: codigo_cnae, codigo_da_empresa: codi_emp, data_da_vigencia: data, usa_o_cnae_2_0_s_n: usa_cnae20, ordem: ordem}
+    filtros:
+      codigo_cnae:
+        coluna: codigo_cnae
+        ops: [eq, in]
+      data_da_vigencia:
+        coluna: data
+        ops: [eq, in]
+      usa_o_cnae_2_0_s_n:
+        coluna: usa_cnae20
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.952 linhas, 950 empresa(s), data de 1990-01-01 a 1990-01-01.']
+  getabelas_exclusao_empresa:
+    titulo: Tabelas ordenadas para realizar a exclusão da empresa
+    descricao: 'Tabelas ordenadas para realizar a exclusão da empresa. 3.632 linhas no catálogo; chave: ORDEM, TABELA.'
+    tabela: GETABELAS_EXCLUSAO_EMPRESA
+    chave: [ORDEM, TABELA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ORDEM, asc]
+    colunas: {a_ordem_que_a_tabela_deve_ser_excluida: ORDEM, nome_da_tabela: TABELA}
+    filtros:
+      a_ordem_que_a_tabela_deve_ser_excluida:
+        coluna: ORDEM
+        ops: [eq, in]
+      nome_da_tabela:
+        coluna: TABELA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.632 linhas.']
+  usconfusuario_configurado:
+    titulo: Cadastro de usuário - indica se o usuario esta configurado
+    descricao: 'Cadastro de usuário - indica se o usuario esta configurado. 2.144 linhas no catálogo; chave: i_confusuario, tipo, modulo.'
+    tabela: usconfusuario_configurado
+    chave: [i_confusuario, tipo, modulo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_confusuario, asc]
+    - [tipo, asc]
+    colunas: {codigo: i_confusuario, tipo: tipo, codigo_do_modulo: modulo}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {tipo: tipo, i_confusuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo:
+        coluna: i_confusuario
+        ops: [eq, in]
+      tipo:
+        coluna: tipo
+        ops: [eq, in]
+      codigo_do_modulo:
+        coluna: modulo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.144 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 2.144 linhas sem registro relacionado.']
+  usconfusuario_preferencias:
+    titulo: Tabela para armazenar as preferências do usuário
+    descricao: 'Tabela para armazenar as preferências do usuário. 69 linhas no catálogo; chave: CODI_TIPO_USUARIO, CODI_USUARIO.'
+    tabela: USCONFUSUARIO_PREFERENCIAS
+    chave: [CODI_TIPO_USUARIO, CODI_USUARIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_TIPO_USUARIO, asc]
+    - [CODI_USUARIO, asc]
+    colunas: {codigo_do_tipo_de_usuario: CODI_TIPO_USUARIO, codigo_do_usuario: CODI_USUARIO, c_1_abre_o_pdf_depois_que_salva_um_relat: RELATORIO_ABRIR_PDF_APOS_SALVAR,
+      c_1_abre_o_planilha_depois_que_salva_um: RELATORIO_ABRIR_PLANILHA_APOS_SALVAR, c_0_proprio_1_por_procuracao: RELATORIO_CERTIFICADO_PROPRIO_PROCURACAO}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {codi_tipo_usuario: tipo, codi_usuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_tipo_de_usuario:
+        coluna: CODI_TIPO_USUARIO
+        ops: [eq, in]
+      codigo_do_usuario:
+        coluna: CODI_USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 70 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 70 linhas sem registro relacionado.']
+  usconfusuario_expediente:
+    titulo: Expediente do usuário
+    descricao: 'Expediente do usuário. 5 linhas no catálogo; chave: CODI_TIPO_USUARIO, CODI_USUARIO, CODI_EXIGENCIA.'
+    tabela: USCONFUSUARIO_EXPEDIENTE
+    chave: [CODI_TIPO_USUARIO, CODI_USUARIO, CODI_EXIGENCIA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_TIPO_USUARIO, asc]
+    - [CODI_USUARIO, asc]
+    colunas: {codi_tipo_usuario: CODI_TIPO_USUARIO, codi_usuario: CODI_USUARIO, codi_exigencia: CODI_EXIGENCIA, c_1_domingo_2_segunda_feira_3_terca_feir: DIA_SEMANA,
+      hora_inicial: HORA_INICIAL, hora_final: HORA_FINAL}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {codi_tipo_usuario: tipo, codi_usuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codi_tipo_usuario:
+        coluna: CODI_TIPO_USUARIO
+        ops: [eq, in]
+      codi_usuario:
+        coluna: CODI_USUARIO
+        ops: [eq, in]
+      codi_exigencia:
+        coluna: CODI_EXIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 5 linhas sem registro relacionado.']
+  geempresas_moduloweb:
+    titulo: Relação de empresas que utilizam o Domínio Atendimento
+    descricao: 'Relação de empresas que utilizam o Domínio Atendimento. 1.969 linhas no catálogo; chave: CODI_EMP.'
+    tabela: GEEMPRESAS_MODULOWEB
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas: {codi_emp: CODI_EMP, usa_dominio_web: USA_DOMINIO_WEB, sincronizar_dados: SINCRONIZAR_DADOS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    regras: ['Medido em 2026-10-18: 1.969 linhas, 1.969 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 123).']
+  gecontador_envios_esocial:
+    titulo: Liga contadores aos eventos e-Social gerados - Tabela de relacionamento entre contador e eventos e-Social através de CODI_EMP_DADOS_EVENTOS e I_DADOS_EVENTOS
+    descricao: 'Liga contadores aos eventos e-Social gerados - Tabela de relacionamento entre contador e eventos e-Social através de CODI_EMP_DADOS_EVENTOS e I_DADOS_EVENTOS.
+      1.829 linhas no catálogo; chave: codi_con, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: GECONTADOR_ENVIOS_ESOCIAL
+    chave: [codi_con, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_con, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas: {codi_con: codi_con, codi_emp_dados_eventos: CODI_EMP_DADOS_EVENTOS, i_dados_eventos: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      gecontador:
+        tabela: GeContador
+        liga: {codi_con: codi_con}
+        colunas: {gecontador_nome: nome_con}
+    filtros:
+      codi_con:
+        coluna: codi_con
+        ops: [eq, in]
+      codi_emp_dados_eventos:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      i_dados_eventos:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.831 linhas.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 1.831 linhas sem registro relacionado.', 'Vínculo
+        gecontador (GeContador): 0 de 1.831 linhas sem registro relacionado.']
+  geprperguntas_respostas:
+    titulo: Perguntas e Respostas do Checkpoint
+    descricao: 'Perguntas e Respostas do Checkpoint. 1.529 linhas no catálogo; chave: ID.'
+    tabela: GEPRPERGUNTAS_RESPOSTAS
+    chave: [ID]
+    acesso: {empresa: null, periodo: DATA_VIGENCIA_ATE, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA_ATE, desc]
+    - [ID, asc]
+    colunas: {id: ID, id_fisco: ID_FISCO, replica: REPLICA, tipo_atendimento: TIPO_ATENDIMENTO, status: STATUS, data_vigencia_ate: DATA_VIGENCIA_ATE, excluido: EXCLUIDO}
+    filtros:
+      id:
+        coluna: ID
+        ops: [eq, in]
+      data_vigencia_ate:
+        coluna: DATA_VIGENCIA_ATE
+        ops: [entre, gte, lte]
+      tipo_atendimento:
+        coluna: TIPO_ATENDIMENTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.529 linhas, DATA_VIGENCIA_ATE de 2018-10-10 a 2018-10-10.']
+  gecheckpoint_incentivos_fiscais_cnae:
+    titulo: Codigo de atividade economica
+    descricao: 'Codigo de atividade economica. 1.510 linhas no catálogo; chave: CNAE22, CAMPO_SITE.'
+    tabela: GECHECKPOINT_INCENTIVOS_FISCAIS_CNAE
+    chave: [CNAE22, CAMPO_SITE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CNAE22, asc]
+    - [CAMPO_SITE, asc]
+    colunas: {cnae22: CNAE22, campo_site: CAMPO_SITE}
+    filtros:
+      cnae22:
+        coluna: CNAE22
+        ops: [eq, in]
+      campo_site:
+        coluna: CAMPO_SITE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.510 linhas.']
+  gecheckpoint_comparativo_regime_tributacao:
+    titulo: Checkpoint - Comparativo de Regime de Tributação
+    descricao: 'Checkpoint - Comparativo de Regime de Tributação. 168 linhas no catálogo; chave: CODI_EMP, ANO_CALENDARIO, MES.'
+    tabela: GECHECKPOINT_COMPARATIVO_REGIME_TRIBUTACAO
+    chave: [CODI_EMP, ANO_CALENDARIO, MES]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [ANO_CALENDARIO, asc]
+    - [MES, asc]
+    colunas: {empresa: CODI_EMP, ano_calendario: ANO_CALENDARIO, mes: MES, folha_salarios_em_12_meses: FOLHA_SALARIO_12_MESES, saldo_ipi: SALDO_IPI, saldo_icms: SALDO_ICMS,
+      folha_salarios: FOLHA_SALARIO, folha_contribuintes: FOLHA_CONTRIBUINTE, outras_despesas: OUTRAS_DESPESAS, base_de_calculo_credito_de_pis: BASE_CALCULO_CREDITO_PIS,
+      base_de_calculo_credito_de_cofins: BASE_CALCULO_CREDITO_COFINS, adicoes_do_lalur_exceto_csll: ADICAO_LALUR, exclusoes_do_lalur: EXCLUSAO_LALUR, coluna_receita_bruta_comercio_exportacao: RB_COMERCIO_EXPORTACAO,
+      rb_comercio_exportacao_ind: RB_COMERCIO_EXPORTACAO_IND, coluna_receita_bruta_comercio_nao_tribut: RB_COMERCIO_N_TRIB_PISCOFINS, coluna_receita_bruta_comercio_demais_ati: RB_COMERCIO_DEMAIS_ATIV,
+      coluna_receita_bruta_servico_exportacao: RB_SERVICO_EXPORTACAO, coluna_receita_bruta_servico_nao_tributa: RB_SERVICO_N_TRIB_PISCOFINS, coluna_receita_bruta_servico_demais_ativ: RB_SERVICO_DEMAIS_ATIV,
+      coluna_receita_bruta_industria_exportaca: RB_INDUSTRIA_EXPORTACAO, rb_industria_exportacao_ind: RB_INDUSTRIA_EXPORTACAO_IND, coluna_receita_bruta_industria_nao_tribu: RB_INDUSTRIA_N_TRIB_PISCOFINS,
+      coluna_receita_bruta_industria_pis_cofin: RB_INDUSTRIA_PISCOFINS_MONO, rb_industria_piscofins_st: RB_INDUSTRIA_PISCOFINS_ST, coluna_receita_bruta_industria_demais_at: RB_INDUSTRIA_DEMAIS_ATIV,
+      coluna_receita_bruta_mercado_interno_em: RB_MERCADO_INTERNO_12_MESES, coluna_receita_bruta_mercado_externo_em: RB_MERCADO_EXTERNO_12_MESES, coluna_receita_financeiras_de_jcp: RF_JCP,
+      coluna_receita_financeira_exceto_jcp: RF_EXCETO_JCP, coluna_pis_monofasico_e_st: PIS_MONO_E_ST, coluna_cofins_monofasico_e_st: COFINS_MONO_E_ST}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      ano_calendario:
+        coluna: ANO_CALENDARIO
+        ops: [eq, in]
+      mes:
+        coluna: MES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 168 linhas, 13 empresa(s).', 'Vínculo geempre (geempre): 0 de 12 linhas sem registro relacionado (empresa 635).']
+  gecheckpoint_comparativo_regime_tributacao_saldo:
+    titulo: Checkpoint - Comparativo de Regime de Tributação - Informações saldos
+    descricao: 'Checkpoint - Comparativo de Regime de Tributação - Informações saldos. 40 linhas no catálogo; chave: CODI_EMP, CAMPO.'
+    tabela: GECHECKPOINT_COMPARATIVO_REGIME_TRIBUTACAO_SALDO
+    chave: [CODI_EMP, CAMPO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CAMPO, asc]
+    colunas: {empresa: CODI_EMP, coluna: CAMPO, determinar_a_forma_de_importar_o_saldo_d: DETERMINAR_FORMA_IMPORTACAO_SALDO, forma_de_importar_o_saldo_das_contas_con: TIPO_SALDO_IMPORTACAO,
+      importar_valores_c_das_contas_contabeis: ORIGEM_IMPORTAR_VALORES}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      coluna:
+        coluna: CAMPO
+        ops: [eq, in]
+      determinar_a_forma_de_importar_o_saldo_d:
+        coluna: DETERMINAR_FORMA_IMPORTACAO_SALDO
+        ops: [eq, in]
+      forma_de_importar_o_saldo_das_contas_con:
+        coluna: TIPO_SALDO_IMPORTACAO
+        ops: [eq, in]
+      importar_valores_c_das_contas_contabeis:
+        coluna: ORIGEM_IMPORTAR_VALORES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 40 linhas, 13 empresa(s).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 586).']
+  gecnae_previdencia_social:
+    titulo: Tabela de CNAE da previdência social
+    descricao: 'Tabela de CNAE da previdência social. 1.301 linhas no catálogo; chave: I_CNAE.'
+    tabela: GECNAE_PREVIDENCIA_SOCIAL
+    chave: [I_CNAE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CNAE, asc]
+    colunas: {codigo_cnae: I_CNAE, descricao: DESCRICAO}
+    filtros:
+      codigo_cnae:
+        coluna: I_CNAE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.301 linhas.']
+  gecnae_classificacao_tributaria:
+    titulo: 'Classificação de códigos CNAE quanto à elegibilidade ao Simples Nacional: impeditivos, híbridos ou fator R'
+    descricao: 'Classificação de códigos CNAE quanto à elegibilidade ao Simples Nacional: impeditivos, híbridos ou fator R. 185 linhas no catálogo; chave: I_CNAE20.'
+    tabela: GECNAE_CLASSIFICACAO_TRIBUTARIA
+    chave: [I_CNAE20]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CNAE20, asc]
+    colunas: {i_cnae20: I_CNAE20, descricao: DESCRICAO, c_0_sem_impeditivo_1_impeditivo_simples: TIPO_IMPEDITIVO}
+    vinculos:
+      gecnae20:
+        tabela: gecnae20
+        liga: {i_cnae20: i_cnae20}
+        colunas: {gecnae20_nome: descricao}
+    filtros:
+      i_cnae20:
+        coluna: I_CNAE20
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      c_0_sem_impeditivo_1_impeditivo_simples:
+        coluna: TIPO_IMPEDITIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 185 linhas.', 'Vínculo gecnae20 (gecnae20): 0 de 185 linhas sem registro relacionado.']
+  geestacoes_moduloweb:
+    titulo: Usuário e máquina que configurou o Domínio Atendimento para o usuário
+    descricao: 'Usuário e máquina que configurou o Domínio Atendimento para o usuário. 357 linhas no catálogo; chave: I_CONFUSUARIO, TIPO, MACADRESS.'
+    tabela: GEESTACOES_MODULOWEB
+    chave: [I_CONFUSUARIO, TIPO, MACADRESS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CONFUSUARIO, asc]
+    - [TIPO, asc]
+    colunas: {i_confusuario: I_CONFUSUARIO, tipo: TIPO, macadress: MACADRESS}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {tipo: tipo, i_confusuario: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      i_confusuario:
+        coluna: I_CONFUSUARIO
+        ops: [eq, in]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      macadress:
+        coluna: MACADRESS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 357 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 357 linhas sem registro relacionado.']
+  gepastas_moduloweb:
+    titulo: Pastas de publicação do Onvio
+    descricao: 'Pastas de publicação do Onvio. 261 linhas no catálogo; chave: MODULO, DEPARTAMENTO, JANELA, PASTA.'
+    tabela: GEPASTAS_MODULOWEB
+    chave: [MODULO, DEPARTAMENTO, JANELA, PASTA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [MODULO, asc]
+    - [DEPARTAMENTO, asc]
+    colunas: {modulo: MODULO, departamento: DEPARTAMENTO, janela: JANELA, pasta: PASTA, padrao: PADRAO, c_0_pasta_do_da_legado_1_pasta_do_onvio: PASTA_ONVIO}
+    filtros:
+      modulo:
+        coluna: MODULO
+        ops: [eq, in]
+      departamento:
+        coluna: DEPARTAMENTO
+        ops: [eq, in]
+      janela:
+        coluna: JANELA
+        ops: [eq, in]
+      pasta:
+        coluna: PASTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 263 linhas.']
+  geinformacoes_sgd_modulo_bloqueado:
+    titulo: Informações das tentativas de acessos aos modulos bloqueados para serem enviadas para o SGD
+    descricao: 'Informações das tentativas de acessos aos modulos bloqueados para serem enviadas para o SGD. 170 linhas no catálogo; chave: I_ACESSO.'
+    tabela: GEINFORMACOES_SGD_MODULO_BLOQUEADO
+    chave: [I_ACESSO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ACESSO, asc]
+    colunas: {sequencial: I_ACESSO, codigo_do_modulo: CODIGO_MODULO, codigo_do_usuario_relacionado_com_a_tabe: I_USUARIO, tipo_do_usuario_relacionado_com_a_tabela: TIPO_USUARIO}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {i_usuario: i_confusuario, tipo_usuario: tipo}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      sequencial:
+        coluna: I_ACESSO
+        ops: [eq, in]
+      codigo_do_modulo:
+        coluna: CODIGO_MODULO
+        ops: [eq, in]
+      codigo_do_usuario_relacionado_com_a_tabe:
+        coluna: I_USUARIO
+        ops: [eq, in]
+      tipo_do_usuario_relacionado_com_a_tabela:
+        coluna: TIPO_USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 170 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 170 linhas sem registro relacionado.']
+  geinformacoes_modulos:
+    titulo: INFORMAÇÕES SOBRE OS MÓDULOS
+    descricao: 'INFORMAÇÕES SOBRE OS MÓDULOS. 12 linhas no catálogo; chave: I_MODULO.'
+    tabela: GEINFORMACOES_MODULOS
+    chave: [I_MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MODULO, asc]
+    colunas: {i_modulo: I_MODULO, numero_acessos: NUMERO_ACESSOS}
+    filtros:
+      i_modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12 linhas.']
+  geselecao_empresas_contabil:
+    titulo: Filtros de seleção de empresas
+    descricao: 'Filtros de seleção de empresas. 149 linhas no catálogo; chave: I_SELECAO, I_MODULO.'
+    tabela: GESELECAO_EMPRESAS_CONTABIL
+    chave: [I_SELECAO, I_MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SELECAO, asc]
+    - [I_MODULO, asc]
+    colunas: {identificador_do_filtro: I_SELECAO, identificador_do_modulo_0_nao_filtra_por: I_MODULO, nome_do_filtro: NOME, nome_do_computador_proprietario_do_filtr: NOME_COMPUTADOR}
+    filtros:
+      identificador_do_filtro:
+        coluna: I_SELECAO
+        ops: [eq, in]
+      identificador_do_modulo_0_nao_filtra_por:
+        coluna: I_MODULO
+        ops: [eq, in]
+      nome_do_filtro:
+        coluna: NOME
+        ops: [contem, prefixo]
+      nome_do_computador_proprietario_do_filtr:
+        coluna: NOME_COMPUTADOR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 149 linhas.']
+  geselecao_filtro:
+    titulo: Armazena os dados da seleção - Filtro
+    descricao: 'Armazena os dados da seleção - Filtro. 62 linhas no catálogo; chave: I_SELECAO, I_TIPO_SELECAO, I_TIPO_SELECAO_SELECIONAR.'
+    tabela: GESELECAO_FILTRO
+    chave: [I_SELECAO, I_TIPO_SELECAO, I_TIPO_SELECAO_SELECIONAR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SELECAO, asc]
+    - [I_TIPO_SELECAO, asc]
+    colunas: {sequencial_da_selecao: I_SELECAO, sequencial_do_tipo_de_selecao: I_TIPO_SELECAO, sequencial_da_opcao_selecionar: I_TIPO_SELECAO_SELECIONAR, filtro: FILTRO}
+    vinculos:
+      geselecao:
+        tabela: GESELECAO
+        liga: {i_selecao: i_selecao, i_tipo_selecao: i_tipo_selecao}
+        colunas: {geselecao_nome: DESCRICAO}
+      getipo_selecao_seleciona:
+        tabela: GETIPO_SELECAO_SELECIONAR
+        liga: {i_tipo_selecao: i_tipo_selecao, i_tipo_selecao_selecionar: i_tipo_selecao_selecionar}
+        colunas: {getipo_selecao_seleciona_nome: NOME}
+    filtros:
+      sequencial_da_selecao:
+        coluna: I_SELECAO
+        ops: [eq, in]
+      sequencial_do_tipo_de_selecao:
+        coluna: I_TIPO_SELECAO
+        ops: [eq, in]
+      sequencial_da_opcao_selecionar:
+        coluna: I_TIPO_SELECAO_SELECIONAR
+        ops: [eq, in]
+      filtro:
+        coluna: FILTRO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 62 linhas.', 'Vínculo geselecao (GESELECAO): 0 de 62 linhas sem registro relacionado.', 'Vínculo getipo_selecao_seleciona (GETIPO_SELECAO_SELECIONAR):
+        0 de 62 linhas sem registro relacionado.']
+  getabela_relacionamento_cnae_atividade_inss:
+    titulo: CNAE e Atividade INSS - Relacionamento
+    descricao: 'CNAE e Atividade INSS - Relacionamento. 131 linhas no catálogo; chave: I_CNAE, I_ATIVIDADE.'
+    tabela: GETABELA_RELACIONAMENTO_CNAE_ATIVIDADE_INSS
+    chave: [I_CNAE, I_ATIVIDADE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CNAE, asc]
+    - [I_ATIVIDADE, asc]
+    colunas: {codigo_cnae: I_CNAE, codigo_de_atividade_inss: I_ATIVIDADE}
+    filtros:
+      codigo_cnae:
+        coluna: I_CNAE
+        ops: [eq, in]
+      codigo_de_atividade_inss:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 131 linhas.']
+  getabela_grupo_tributo:
+    titulo: Grupo de Tributo
+    descricao: 'Grupo de Tributo. 13 linhas no catálogo; chave: CODI_GRUPO_TRIBUTO.'
+    tabela: GETABELA_GRUPO_TRIBUTO
+    chave: [CODI_GRUPO_TRIBUTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_GRUPO_TRIBUTO, asc]
+    colunas: {codigo_do_grupo_de_tributo: CODI_GRUPO_TRIBUTO, descricao_do_grupo_de_tributo: DESCRICAO}
+    filtros:
+      codigo_do_grupo_de_tributo:
+        coluna: CODI_GRUPO_TRIBUTO
+        ops: [eq, in]
+      descricao_do_grupo_de_tributo:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 13 linhas.']
+  getipo_selecao_selecionar:
+    titulo: Tipos de seleção - selecionar
+    descricao: 'Tipos de seleção - selecionar. 127 linhas no catálogo; chave: I_TIPO_SELECAO, I_TIPO_SELECAO_SELECIONAR.'
+    tabela: GETIPO_SELECAO_SELECIONAR
+    chave: [I_TIPO_SELECAO, I_TIPO_SELECAO_SELECIONAR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO_SELECAO, asc]
+    - [I_TIPO_SELECAO_SELECIONAR, asc]
+    colunas: {sequencial_do_tipo_de_selecao: I_TIPO_SELECAO, sequencial_da_opcao_selecionar: I_TIPO_SELECAO_SELECIONAR, nome_da_opcao_selecionar: NOME}
+    vinculos:
+      getipo_selecao:
+        tabela: GETIPO_SELECAO
+        liga: {i_tipo_selecao: i_tipo_selecao}
+        colunas: {getipo_selecao_nome: NOME}
+    filtros:
+      sequencial_do_tipo_de_selecao:
+        coluna: I_TIPO_SELECAO
+        ops: [eq, in]
+      sequencial_da_opcao_selecionar:
+        coluna: I_TIPO_SELECAO_SELECIONAR
+        ops: [eq, in]
+      nome_da_opcao_selecionar:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 127 linhas.', 'Vínculo getipo_selecao (GETIPO_SELECAO): 0 de 127 linhas sem registro relacionado.']
+  getipo_selecao:
+    titulo: Tipos de seleção
+    descricao: 'Tipos de seleção. 50 linhas no catálogo; chave: I_TIPO_SELECAO.'
+    tabela: GETIPO_SELECAO
+    chave: [I_TIPO_SELECAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO_SELECAO, asc]
+    colunas: {sequencial_do_tipo_de_selecao: I_TIPO_SELECAO, nome_do_tipo_de_selecao: NOME, sistema: SISTEMA}
+    filtros:
+      sequencial_do_tipo_de_selecao:
+        coluna: I_TIPO_SELECAO
+        ops: [eq, in]
+      nome_do_tipo_de_selecao:
+        coluna: NOME
+        ops: [contem, prefixo]
+      sistema:
+        coluna: SISTEMA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 50 linhas.']
+  getipo_arquivo_auditor:
+    titulo: Dados dos Tipos de Arquivos.
+    descricao: 'Dados dos Tipos de Arquivos.. 29 linhas no catálogo; chave: CODIGO_ARQUIVO.'
+    tabela: GETIPO_ARQUIVO_AUDITOR
+    chave: [CODIGO_ARQUIVO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_ARQUIVO, asc]
+    colunas: {chave_primaria: CODIGO_ARQUIVO, nome_do_arquivo: ARQUIVO}
+    filtros:
+      chave_primaria:
+        coluna: CODIGO_ARQUIVO
+        ops: [eq, in]
+      nome_do_arquivo:
+        coluna: ARQUIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 29 linhas.']
+  geperfil_empresa_modulo:
+    titulo: Perfis de Empresas - Módulos
+    descricao: 'Perfis de Empresas - Módulos. 119 linhas no catálogo; chave: I_PERFIL_EMPRESA, I_MODULO.'
+    tabela: GEPERFIL_EMPRESA_MODULO
+    chave: [I_PERFIL_EMPRESA, I_MODULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PERFIL_EMPRESA, asc]
+    - [I_MODULO, asc]
+    colunas: {sequencial_do_perfil: I_PERFIL_EMPRESA, sequencial_do_modulo: I_MODULO, configurar_s_n: CONFIGURAR, empresa: CODI_EMP, ef_parametros: EF_PARAMETRO,
+      ef_historicos_padroes: EF_HISTORICO_PADRAO, ef_plano_de_contas: EF_PLANO_CONTA, ef_impostos_e_ajustes: EF_IMPOSTO_AJUSTE, ef_acumuladores: EF_ACUMULADOR, ef_fornecedores: EF_FORNECEDOR,
+      ef_clientes: EF_CLIENTE, ef_remetentes_destinatarios: EF_REMETENTE_DESTINATARIO, ef_grupos_de_produtos: EF_GRUPO_PRODUTO, ef_produtos: EF_PRODUTO, ef_observacoes: EF_OBSERVACAO,
+      ef_configuracao_de_reducoes_z: EF_CONFIGURACAO_REDUCAO_Z, ef_configuracao_de_importacao_de_nf_e_do: EF_CONFIGURACAO_IMPORTACAO_NFE_PORTAL, ef_configuracao_de_importacao_de_nf_e_ar: EF_CONFIGURACAO_IMPORTACAO_NFE_ARQUIVO_XML,
+      ef_configuracao_de_importacao_de_nfc_e_a: EF_CONFIGURACAO_IMPORTACAO_NFCE_ARQUIVO_XML, ef_configuracao_de_importacao_de_ct_e_do: EF_CONFIGURACAO_IMPORTACAO_CTE_PORTAL,
+      ef_configuracao_de_importacao_de_ct_e_ar: EF_CONFIGURACAO_IMPORTACAO_CTE_ARQUIVO_XML, ef_configuracao_de_importacao_do_sped_fi: EF_CONFIGURACAO_IMPORTACAO_SPED_FISCAL,
+      ef_configuracao_de_importacao_do_ato_cot: EF_CONFIGURACAO_IMPORTACAO_ATO_COTEPE, fo_parametros: FO_PARAMETRO, fo_cargos: FO_CARGO, fo_departamentos: FO_DEPARTAMENTO,
+      fo_centros_de_custos: FO_CENTRO_CUSTO, fo_horarios: FO_HORARIO, fo_jornadas: FO_JORNADA, ct_parametros: CT_PARAMETRO, ct_historicos: CT_HISTORICO, ct_contas_contabeis: CT_CONTA_CONTABIL,
+      ct_natureza_das_contas: CT_NATUREZA_CONTA, ct_zeramento: CT_ZERAMENTO, ct_livro_caixa: CT_LIVRO_CAIXA, ct_estrutura_do_dre: CT_ESTRUTURA_DRE, ct_estrutura_do_dra: CT_ESTRUTURA_DRA,
+      ct_estrutura_do_dva: CT_ESTRUTURA_DVA, ct_estrutura_do_dlpa: CT_ESTRUTURA_DLPA, ct_estrutura_do_doar: CT_ESTRUTURA_DOAR, ct_estrutura_do_dmpl: CT_ESTRUTURA_DMPL,
+      ct_estrutura_do_dfc: CT_ESTRUTURA_DFC, ct_estrutura_do_dsp: CT_ESTRUTURA_DSP, ct_estrutura_do_ebitda_lajida: CT_ESTRUTURA_EBITDA_LAJIDA, ct_plano_referencial_sped: CT_PLANO_REFERENCIAL_SPED,
+      ct_plano_referencial_sped_ecf: CT_PLANO_REFERENCIAL_SPED_ECF, ct_plano_referencial_aneel: CT_PLANO_REFERENCIAL_ANEEL, ct_plano_referencial_cofi: CT_PLANO_REFERENCIAL_COFI,
+      ct_outros_idiomas: CT_PLANO_OUTRO_IDIOMA, ct_contas_gerenciais: CT_CONTA_GERENCIAL, ct_rateio_gerencial: CT_RATEIO_GERENCIAL, ct_departamento: CT_DEPARTAMENTO,
+      ct_centros_de_custos: CT_CENTRO_CUSTO, ct_rateio_centro_de_custo: CT_RATEIO_CENTRO_CUSTO, pm_grupos_contabeis: PM_GRUPO_CONTABIL, pm_contas_patrimoniais: PM_CONTA_PATRIMONIAL,
+      pm_departamentos: PM_DEPARTAMENTO, pm_centros_de_custos: PM_CENTRO_CUSTO, hr_clientes: HR_CLIENTE, hr_fornecedores: HR_FORNECEDOR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gemodulos:
+        tabela: GEMODULOS
+        liga: {i_modulo: i_modulo}
+        colunas: {gemodulos_nome: NOME}
+      geperfil_empresa:
+        tabela: GEPERFIL_EMPRESA
+        liga: {i_perfil_empresa: i_perfil_empresa}
+        colunas: {geperfil_empresa_nome: NOME}
+    filtros:
+      sequencial_do_perfil:
+        coluna: I_PERFIL_EMPRESA
+        ops: [eq, in]
+      sequencial_do_modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      configurar_s_n:
+        coluna: CONFIGURAR
+        ops: [eq, in]
+      ef_parametros:
+        coluna: EF_PARAMETRO
+        ops: [eq, in]
+      ef_historicos_padroes:
+        coluna: EF_HISTORICO_PADRAO
+        ops: [eq, in]
+      ef_plano_de_contas:
+        coluna: EF_PLANO_CONTA
+        ops: [eq, in]
+      ef_impostos_e_ajustes:
+        coluna: EF_IMPOSTO_AJUSTE
+        ops: [eq, in]
+      ef_acumuladores:
+        coluna: EF_ACUMULADOR
+        ops: [eq, in]
+      ef_fornecedores:
+        coluna: EF_FORNECEDOR
+        ops: [eq, in]
+      ef_clientes:
+        coluna: EF_CLIENTE
+        ops: [eq, in]
+      ef_remetentes_destinatarios:
+        coluna: EF_REMETENTE_DESTINATARIO
+        ops: [eq, in]
+      ef_grupos_de_produtos:
+        coluna: EF_GRUPO_PRODUTO
+        ops: [eq, in]
+      ef_produtos:
+        coluna: EF_PRODUTO
+        ops: [eq, in]
+      ef_observacoes:
+        coluna: EF_OBSERVACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 119 linhas, 8 empresa(s).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 9992).', 'Vínculo gemodulos
+        (GEMODULOS): 0 de 4 linhas sem registro relacionado (empresa 9992).', 'Vínculo geperfil_empresa (GEPERFIL_EMPRESA): 0 de 4 linhas sem registro relacionado
+        (empresa 9992).']
+  geperfil_empresa:
+    titulo: Perfis de Empresas
+    descricao: 'Perfis de Empresas. 17 linhas no catálogo; chave: I_PERFIL_EMPRESA.'
+    tabela: GEPERFIL_EMPRESA
+    chave: [I_PERFIL_EMPRESA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PERFIL_EMPRESA, asc]
+    colunas: {sequencial: I_PERFIL_EMPRESA, nome: NOME}
+    filtros:
+      sequencial:
+        coluna: I_PERFIL_EMPRESA
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 17 linhas.']
+  geibge_tipo_obras_servicos:
+    titulo: Cadastro dos tipos de obras e serviços segundo classificação do IBGE
+    descricao: 'Cadastro dos tipos de obras e serviços segundo classificação do IBGE. 86 linhas no catálogo; chave: CODI_IBS.'
+    tabela: GEIBGE_TIPO_OBRAS_SERVICOS
+    chave: [CODI_IBS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_IBS, asc]
+    colunas:
+      codigo: CODI_IBS
+      codigo_do_ibge: CODI_IBGE
+      tipo_i_ibge_n_novo: {coluna: TIPO_IBS, dominio: geibge_tipo_obras_servicos_tipo_i_ibge}
+      descricao: DESCRICAO_IBS
+    filtros:
+      codigo:
+        coluna: CODI_IBS
+        ops: [eq, in]
+      codigo_do_ibge:
+        coluna: CODI_IBGE
+        ops: [eq, in]
+      tipo_i_ibge_n_novo:
+        coluna: TIPO_IBS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_IBS
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 86 linhas.', 'tipo_i_ibge_n_novo: todos os valores reais estão no comentário do banco (I=86).']
+  gedctf_web_pagamento_lancto:
+    titulo: DCTF Web - Pagamentos X Lançamentos contábeis
+    descricao: 'DCTF Web - Pagamentos X Lançamentos contábeis. 84 linhas no catálogo; chave: CODI_EMP, NUME_LAN, FILI_LAN, COMPETENCIA, TIPO_GUIA, I_PAGAMENTO, SEQUENCIAL.'
+    tabela: GEDCTF_WEB_PAGAMENTO_LANCTO
+    chave: [CODI_EMP, NUME_LAN, FILI_LAN, COMPETENCIA, TIPO_GUIA, I_PAGAMENTO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [NUME_LAN, asc]
+    - [FILI_LAN, asc]
+    colunas:
+      empresa_do_lancamento: CODI_EMP
+      numero_lancamento: NUME_LAN
+      empresa_do_pagamento: FILI_LAN
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: gedctf_web_pagamento_lancto_tipo_de_gui}
+      sequencial_do_pagamento: I_PAGAMENTO
+      sequencial: SEQUENCIAL
+      imposto: CODI_IMP
+      grupo_do_lancamento: GRUPO
+      tipo_do_lancamento_0_usuario_1_principal: {coluna: TIPO, dominio: gedctf_web_pagamento_lancto_tipo_do_lan}
+      codigo_do_lancamento_contrapartida_para: CONTRA_PARTIDA
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: gedctf_web_pagamento_lancto_origem_do_r}
+      lancamento_discriminado_por_imposto_0_na: {coluna: LANCAMENTO_DISCRIMINADO_POR_IMPOSTO, dominio: gedctf_web_pagamento_lancto_lancamento_}
+      ordem_do_lancamento_no_momento_da_gravac: ORDEM_GRAVACAO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      numero_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      empresa_do_pagamento:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      sequencial_do_pagamento:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      tipo_do_lancamento_0_usuario_1_principal:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 84 linhas, 2 empresa(s), COMPETENCIA de 2021-10-01 a 2025-03-01.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os valores
+        reais estão no comentário do banco (3=60, 1=19, 2=5).', 'tipo_do_lancamento_0_usuario_1_principal: todos os valores reais estão no comentário do banco (0=66,
+        1=18).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=84).', 'lancamento_discriminado_por_imposto_0_na:
+        todos os valores reais estão no comentário do banco (0=84).', 'Vínculo geempre (geempre): 0 de 68 linhas sem registro relacionado (empresa 1).']
+  gedctf_web_pagamento:
+    titulo: DCTF Web - Pagamentos
+    descricao: 'DCTF Web - Pagamentos. 82 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_GUIA, I_PAGAMENTO, SEQUENCIAL.'
+    tabela: GEDCTF_WEB_PAGAMENTO
+    chave: [CODI_EMP, COMPETENCIA, TIPO_GUIA, I_PAGAMENTO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [COMPETENCIA, asc]
+    - [TIPO_GUIA, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr: {coluna: TIPO_GUIA, dominio: gedctf_web_pagamento_tipo_de_guia_1_mensal_2_13o_sa}
+      sequencial_do_pagamento: I_PAGAMENTO
+      sequencial: SEQUENCIAL
+      imposto: CODI_IMP
+      data_do_pagamento: DATA_PAGAMENTO
+      valor_pago: VALOR_PAGO
+      valor_da_multa: VALOR_MULTA
+      valor_dos_juros: VALOR_JUROS
+      valor_pago_a_maior: VALOR_PAGO_A_MAIOR
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: gedctf_web_pagamento_origem_do_registro_0_sistema_1}
+      conta_corrente_escritorio_honorarios: I_MOVIMENTO_ESCRITORIO
+      sequencial_baixa_parcial_conta_azul: I_PAGAMENTO_CONTA_AZUL
+      identificador_integracao_conta_azul: GUID_CONTABIL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_guia_1_mensal_2_13o_salario_3_tr:
+        coluna: TIPO_GUIA
+        ops: [eq, in]
+      sequencial_do_pagamento:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_do_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      conta_corrente_escritorio_honorarios:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      sequencial_baixa_parcial_conta_azul:
+        coluna: I_PAGAMENTO_CONTA_AZUL
+        ops: [eq, in]
+      identificador_integracao_conta_azul:
+        coluna: GUID_CONTABIL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 82 linhas, 3 empresa(s), DATA_PAGAMENTO de 2021-11-19 a 2025-04-18.', 'Colunas expostas nulas em 100% das linhas (2): sequencial_baixa_parcial_conta_azul,
+        identificador_integracao_conta_azul.', 'tipo_de_guia_1_mensal_2_13o_salario_3_tr: todos os valores reais estão no comentário do banco (3=58, 1=19, 2=5).',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=82).', 'Vínculo geempre (geempre): 0 de 16 linhas sem registro
+        relacionado (empresa 930).']
+  gefarol_ss_usuario_atendimento:
+    titulo: Situação dos atendimentos por usuário
+    descricao: 'Situação dos atendimentos por usuário. 78 linhas no catálogo; chave: CODIGO_USUARIO.'
+    tabela: GEFAROL_SS_USUARIO_ATENDIMENTO
+    chave: [CODIGO_USUARIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_USUARIO, asc]
+    colunas: {codigo_usuario: CODIGO_USUARIO, possui_ss_pendente: POSSUI_SS_PENDENTE}
+    filtros:
+      codigo_usuario:
+        coluna: CODIGO_USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 78 linhas.']
+  gefarol_ss_usuario_atendimento_onvio:
+    titulo: Usuários do Onvio que possuem solicitações pendentes
+    descricao: 'Usuários do Onvio que possuem solicitações pendentes. 14 linhas no catálogo; chave: CONTACT_ID.'
+    tabela: GEFAROL_SS_USUARIO_ATENDIMENTO_ONVIO
+    chave: [CONTACT_ID]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CONTACT_ID, asc]
+    colunas: {codigo_guid_do_usuario_no_onvio: CONTACT_ID}
+    filtros:
+      codigo_guid_do_usuario_no_onvio:
+        coluna: CONTACT_ID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas.']
+  gepermissoes_usuario_atendimento:
+    titulo: Permissões do usuário no Domínio Atendimento
+    descricao: 'Permissões do usuário no Domínio Atendimento. 78 linhas no catálogo; chave: CODIGO_USUARIO, USUARIO.'
+    tabela: GEPERMISSOES_USUARIO_ATENDIMENTO
+    chave: [CODIGO_USUARIO, USUARIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_USUARIO, asc]
+    - [USUARIO, asc]
+    colunas: {codigo_usuario: CODIGO_USUARIO, usuario: USUARIO, gerenciar_estrutura_pasta: GERENCIAR_ESTRUTURA_PASTA, permite_publicar_relatorio: PERMITE_PUBLICAR_RELATORIO,
+      notificar_nfe: NOTIFICAR_NFE, situacao_do_usuario_no_atendimento_1_ati: ATIVO}
+    filtros:
+      codigo_usuario:
+        coluna: CODIGO_USUARIO
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 78 linhas.']
+  geatendimentolog_frp:
+    titulo: Log das requisições de FRP do Portal do Empregado
+    descricao: 'Log das requisições de FRP do Portal do Empregado. 72 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOLOG_FRP
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, endpoint: ENDPOINT, request_usuario_logado: REQUEST_USUARIO_LOGADO, request_usuario_autenticacao: REQUEST_USUARIO_AUTENTICACAO, thread_id: THREAD_ID,
+      process_id: PROCESS_ID, request_tool: REQUEST_TOOL, request_firmid: REQUEST_FIRMID, response_contabilfirmid: RESPONSE_CONTABILFIRMID}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      endpoint:
+        coluna: ENDPOINT
+        ops: [contem, prefixo]
+      request_usuario_logado:
+        coluna: REQUEST_USUARIO_LOGADO
+        ops: [contem, prefixo]
+      request_usuario_autenticacao:
+        coluna: REQUEST_USUARIO_AUTENTICACAO
+        ops: [contem, prefixo]
+      request_tool:
+        coluna: REQUEST_TOOL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 68 linhas.']
+  geferiados_febraban:
+    titulo: Feriados da FEBRABAN (Tabela Interna)
+    descricao: 'Feriados da FEBRABAN (Tabela Interna). 39 linhas no catálogo; chave: I_FERIADOS_FEBRABAN.'
+    tabela: GEFERIADOS_FEBRABAN
+    chave: [I_FERIADOS_FEBRABAN]
+    acesso: {empresa: null, periodo: DATA_FERIADO, volume: pequeno}
+    ordem:
+    - [DATA_FERIADO, desc]
+    - [I_FERIADOS_FEBRABAN, asc]
+    colunas: {codigo_sequencial_auto_incremental: I_FERIADOS_FEBRABAN, ano_de_vigencia_do_feriado: ANO_VIGENCIA, data_do_feriado: DATA_FERIADO, descricao_do_feriado: DESCRICAO}
+    filtros:
+      codigo_sequencial_auto_incremental:
+        coluna: I_FERIADOS_FEBRABAN
+        ops: [eq, in]
+      data_do_feriado:
+        coluna: DATA_FERIADO
+        ops: [entre, gte, lte]
+      descricao_do_feriado:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 39 linhas, DATA_FERIADO de 2024-01-01 a 2026-12-25.']
+  gequadrosocietario_socios_representante_legal:
+    titulo: Empresa - Cadastro - Quadro Societario - Socios - Representante Legal
+    descricao: 'Empresa - Cadastro - Quadro Societario - Socios - Representante Legal. 34 linhas no catálogo; chave: CODI_EMP, DATA, I_SOCIO, TIPO, I_REPRESENTANTE.'
+    tabela: GEQUADROSOCIETARIO_SOCIOS_REPRESENTANTE_LEGAL
+    chave: [CODI_EMP, DATA, I_SOCIO, TIPO, I_REPRESENTANTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_SOCIO, asc]
+    - [TIPO, asc]
+    colunas:
+      empresa: CODI_EMP
+      data: DATA
+      socio: I_SOCIO
+      tipo_s_socio_a_administrador_r_represent: {coluna: TIPO, dominio: gequadrosocietario_socios_representante_legal_tipo_s_soci}
+      sequencial: I_REPRESENTANTE
+      cpf: {coluna: CPF, sensivel: parcial}
+      nome: NOME
+      qualificacao_1_procurador_2_curador_3_ma: {coluna: QUALIFICACAO, dominio: gequadrosocietario_socios_representante_legal_qualificaca}
+    vinculos:
+      gequadrosocietario_socio:
+        tabela: gequadrosocietario_socios
+        liga: {codi_emp: codi_emp, data: data, i_socio: i_socio, tipo: tipo}
+        colunas: {gequadrosocietario_socio_nome: NOME_RESPONSAVEL_LEGAL}
+    filtros:
+      data:
+        coluna: DATA
+        ops: [eq, in]
+      socio:
+        coluna: I_SOCIO
+        ops: [eq, in]
+      tipo_s_socio_a_administrador_r_represent:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_REPRESENTANTE
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 34 linhas, 19 empresa(s), DATA de 2010-08-10 a 2022-10-26.', 'tipo_s_socio_a_administrador_r_represent: todos os valores reais
+        estão no comentário do banco (S=34).', 'qualificacao_1_procurador_2_curador_3_ma: todos os valores reais estão no comentário do banco (6=32, 1=2).', 'Vínculo
+        gequadrosocietario_socio (gequadrosocietario_socios): 0 de 2 linhas sem registro relacionado (empresa 1011).']
+  gexcount_log_comunicacao:
+    titulo: XCOUNT - Log de Comunicação
+    descricao: 'XCOUNT - Log de Comunicação. 19 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL.'
+    tabela: GEXCOUNT_LOG_COMUNICACAO
+    chave: [CODI_EMP, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_erros: I_SEQUENCIAL, usuario: USUARIO, versao_do_sistema: VERSAO_SISTEMA, arquivo_de_atualizacao: ATUALIZACAO,
+      versao_do_banco_de_dados: VERSAO_BANCO, codigo_do_processo_no_contabil: PROCESSO_CONTABIL, id_do_processo_na_xcount: XCOUNT_ID_PROCESSO, indica_se_o_token_obtido_foi_validado_e: XCOUNT_PROCESSO_VALIDADO,
+      motivo_do_token_nao_ser_reportado_i_inva: XCOUNT_MOTIVO_NAO_REPORTADO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_de_erros:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      versao_do_sistema:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      id_do_processo_na_xcount:
+        coluna: XCOUNT_ID_PROCESSO
+        ops: [eq, in]
+      indica_se_o_token_obtido_foi_validado_e:
+        coluna: XCOUNT_PROCESSO_VALIDADO
+        ops: [eq, in]
+      motivo_do_token_nao_ser_reportado_i_inva:
+        coluna: XCOUNT_MOTIVO_NAO_REPORTADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19 linhas, 5 empresa(s).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 709).']
+  gegerencia_versoes:
+    titulo: Gerencia Versoes de Sistema
+    descricao: 'Gerencia Versoes de Sistema. 7 linhas no catálogo; chave: i_sequencial.'
+    tabela: gegerencia_versoes
+    chave: [i_sequencial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_sequencial, asc]
+    colunas: {sequencial: i_sequencial, versao_do_banco_para_o_contabil: contabil_banco, versao_do_banco_para_a_folha: folha_banco, versao_do_banco_para_o_ponto: ponto_banco,
+      versao_do_sistema_para_o_contabil: contabil_sistema, versao_do_sistema_para_a_folha: folha_sistema, versao_do_sistema_para_o_ponto: ponto_sistema}
+    filtros:
+      sequencial:
+        coluna: i_sequencial
+        ops: [eq, in]
+      versao_do_sistema_para_o_contabil:
+        coluna: contabil_sistema
+        ops: [contem, prefixo]
+      versao_do_sistema_para_a_folha:
+        coluna: folha_sistema
+        ops: [contem, prefixo]
+      versao_do_sistema_para_o_ponto:
+        coluna: ponto_sistema
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas.']
+  geconfiguracao_envio_email_parametros_usuarios:
+    titulo: Tabela de relação dos usuários com a configuração de parâmetros
+    descricao: 'Tabela de relação dos usuários com a configuração de parâmetros. 6 linhas no catálogo; chave: I_CONFUSUARIO, TIPO_USUARIO.'
+    tabela: GECONFIGURACAO_ENVIO_EMAIL_PARAMETROS_USUARIOS
+    chave: [I_CONFUSUARIO, TIPO_USUARIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CONFUSUARIO, asc]
+    - [TIPO_USUARIO, asc]
+    colunas: {codigo_do_usuario: I_CONFUSUARIO, tipo_usuario: TIPO_USUARIO, codigo_da_configuracao_de_parametros_do: CODIGO_CONFIGURACAO_PARAMETROS}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {i_confusuario: i_confusuario, tipo_usuario: tipo}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_usuario:
+        coluna: I_CONFUSUARIO
+        ops: [eq, in]
+      tipo_usuario:
+        coluna: TIPO_USUARIO
+        ops: [eq, in]
+      codigo_da_configuracao_de_parametros_do:
+        coluna: CODIGO_CONFIGURACAO_PARAMETROS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 6 linhas sem registro relacionado.']
+  geconfiguracao_envio_email:
+    titulo: Tabela para definição do tipo da configuração do envio de email
+    descricao: 'Tabela para definição do tipo da configuração do envio de email. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECONFIGURACAO_ENVIO_EMAIL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_para_controle_de_linha_unica: CODIGO, tipo_configuracao: TIPO_CONFIGURACAO, c_0_configuracao_geral_1_configuracao_po: CONFIGURACAO_POR_USUARIO}
+    filtros:
+      codigo_para_controle_de_linha_unica:
+        coluna: CODIGO
+        ops: [eq, in]
+      tipo_configuracao:
+        coluna: TIPO_CONFIGURACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimentocolunas_tipos:
+    titulo: Tipo de colunas para envio de dados
+    descricao: 'Tipo de colunas para envio de dados. 3 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOCOLUNAS_TIPOS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas.']
+  gefarois_atendimento:
+    titulo: Situação dos faróis de notificações
+    descricao: 'Situação dos faróis de notificações. 1 linhas no catálogo; chave: CODIGO_CLIENTE.'
+    tabela: GEFAROIS_ATENDIMENTO
+    chave: [CODIGO_CLIENTE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_CLIENTE, asc]
+    colunas: {coluna_depreciada_nao_representa_o_codig: CODIGO_CLIENTE, possui_ss_sem_responsavel_pendente: POSSUI_SS_SEM_RESPONSAVEL_PENDENTE, possui_solicitacao_cadastro_empregado_pe: POSSUI_SOLICITACAO_CADASTRO_EMPREGADO_PENDENTE,
+      possui_solicitacao_lancamento_pendente: POSSUI_SOLICITACAO_LANCAMENTO_PENDENTE, possui_solicitacao_dominio_beneficios: POSSUI_SOLICITACAO_DOMINIO_BENEFICIOS}
+    filtros:
+      coluna_depreciada_nao_representa_o_codig:
+        coluna: CODIGO_CLIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geversao_agente:
+    titulo: Versão do Agente de Comunicação
+    descricao: 'Versão do Agente de Comunicação. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEVERSAO_AGENTE
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, versao_desejada: VERSAO_DESEJADA, versao_atual: VERSAO_ATUAL, versao_atual_servico: VERSAO_ATUAL_SERVICO, coluna_que_indica_se_foi_baixada_uma_nov: EXISTE_VERSAO_NOVA_BAIXADA,
+      versao_desejada_do_agente_e_social_certi: VERSAO_DESEJADA_ESOCIAL}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      versao_desejada:
+        coluna: VERSAO_DESEJADA
+        ops: [eq, in]
+      versao_atual:
+        coluna: VERSAO_ATUAL
+        ops: [eq, in]
+      versao_atual_servico:
+        coluna: VERSAO_ATUAL_SERVICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geprversao_tabelas:
+    titulo: Versão das tabelas do perguntas e respostas do Checkpoint
+    descricao: 'Versão das tabelas do perguntas e respostas do Checkpoint. 1 linhas no catálogo; chave: ID.'
+    tabela: GEPRVERSAO_TABELAS
+    chave: [ID]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID, asc]
+    colunas: {id: ID}
+    filtros:
+      id:
+        coluna: ID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geprultima_verificacao:
+    titulo: Verificação das perguntas e respostas do Checkpoint
+    descricao: 'Verificação das perguntas e respostas do Checkpoint. 1 linhas no catálogo; chave: ULTIMA_VERIFICACAO.'
+    tabela: GEPRULTIMA_VERIFICACAO
+    chave: [ULTIMA_VERIFICACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ULTIMA_VERIFICACAO, asc]
+    colunas: {ultima_verificacao: ULTIMA_VERIFICACAO}
+    filtros:
+      ultima_verificacao:
+        coluna: ULTIMA_VERIFICACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gecsversao_tabelas:
+    titulo: Versão das tabelas da Central de Soluções
+    descricao: 'Versão das tabelas da Central de Soluções. 1 linhas no catálogo; chave: ID.'
+    tabela: GECSVERSAO_TABELAS
+    chave: [ID]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID, asc]
+    colunas: {id: ID}
+    filtros:
+      id:
+        coluna: ID
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gecsultima_verificacao:
+    titulo: Última verificação da Central de Soluções
+    descricao: 'Última verificação da Central de Soluções. 1 linhas no catálogo; chave: ULTIMA_VERIFICACAO.'
+    tabela: GECSULTIMA_VERIFICACAO
+    chave: [ULTIMA_VERIFICACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ULTIMA_VERIFICACAO, asc]
+    colunas: {ultima_verificacao: ULTIMA_VERIFICACAO}
+    filtros:
+      ultima_verificacao:
+        coluna: ULTIMA_VERIFICACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gedados_auditor:
+    titulo: Dados do Auditor Digital
+    descricao: 'Dados do Auditor Digital. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEDADOS_AUDITOR
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {chave_primaria: CODIGO, codigo_identificador_do_contrato_da_asis: CODIGO_CONTROLE_ASIS, codigo_identificador_da_aplicacao_parece: CODIGO_CONTROLE_APLICACAO,
+      situacao_do_contrato_1_inativo_0_sem_con: SITUACAO_CONTRATO, situacao_da_verificacao_1_executando_0_p: SITUACAO_VERIFICACAO, indica_se_a_liberacao_e_de_vendedor_0_na: LIBERACAO_VENDEDOR,
+      codigo_do_produto_auditor_fiscal_utiliza: PRODUTO}
+    filtros:
+      chave_primaria:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_identificador_do_contrato_da_asis:
+        coluna: CODIGO_CONTROLE_ASIS
+        ops: [contem, prefixo]
+      codigo_identificador_da_aplicacao_parece:
+        coluna: CODIGO_CONTROLE_APLICACAO
+        ops: [contem, prefixo]
+      situacao_do_contrato_1_inativo_0_sem_con:
+        coluna: SITUACAO_CONTRATO
+        ops: [eq, in]
+      situacao_da_verificacao_1_executando_0_p:
+        coluna: SITUACAO_VERIFICACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gedados_reforma_tributaria:
+    titulo: Dados da Reforma Tributária - Acesso ao módulo
+    descricao: 'Dados da Reforma Tributária - Acesso ao módulo. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEDADOS_REFORMA_TRIBUTARIA
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: DATA_INCLUSAO, volume: pequeno}
+    ordem:
+    - [DATA_INCLUSAO, desc]
+    - [CODIGO, asc]
+    colunas: {chave_primaria: CODIGO, situacao_do_contrato_0_sem_contrato_1_at: SITUACAO_CONTRATO, data_de_inclusao: DATA_INCLUSAO, data_de_verificacao: DATA_VERIFICACAO}
+    filtros:
+      chave_primaria:
+        coluna: CODIGO
+        ops: [eq, in]
+      data_de_inclusao:
+        coluna: DATA_INCLUSAO
+        ops: [entre, gte, lte]
+      data_de_verificacao:
+        coluna: DATA_VERIFICACAO
+        ops: [entre, gte, lte]
+      situacao_do_contrato_0_sem_contrato_1_at:
+        coluna: SITUACAO_CONTRATO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_INCLUSAO de 1900-01-01 a 1900-01-01.']
+  geverificacao_exclusao_notas_contabil:
+    titulo: Tabela com configurações do OnBalance.
+    descricao: 'Tabela com configurações do OnBalance.. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEVERIFICACAO_EXCLUSAO_NOTAS_CONTABIL
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_sequencial_das_configuracoes: CODIGO}
+    filtros:
+      codigo_sequencial_das_configuracoes:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gecomunicador_web_parada_processo:
+    titulo: Controle de pedido de parada do processo do Busca NF-e
+    descricao: 'Controle de pedido de parada do processo do Busca NF-e. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECOMUNICADOR_WEB_PARADA_PROCESSO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, acao_processo: ACAO_PROCESSO, minutos_para_a_migracao_do_sybase17: MINUTOS_MIGRACAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gecomunicador_web_processo:
+    titulo: Situação do processo do Busca NF-e
+    descricao: 'Situação do processo do Busca NF-e. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GECOMUNICADOR_WEB_PROCESSO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, nome_estacao: NOME_ESTACAO, situacao_processo: SITUACAO_PROCESSO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      nome_estacao:
+        coluna: NOME_ESTACAO
+        ops: [contem, prefixo]
+      situacao_processo:
+        coluna: SITUACAO_PROCESSO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'Colunas expostas nulas em 100% das linhas (1): nome_estacao.']
+  geonvio_dados_sessao_company:
+    titulo: Dados de sessão do company referentes à Company
+    descricao: 'Dados de sessão do company referentes à Company. 1 linhas no catálogo; chave: CHAVE.'
+    tabela: GEONVIO_DADOS_SESSAO_COMPANY
+    chave: [CHAVE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CHAVE, asc]
+    colunas: {chave: CHAVE, possui_a_frp_applications_brcustos: POSSUI_MODULO_CUSTOS, possui_a_frp_applications_bremployeeport: POSSUI_MODULO_PORTAL_EMPREGADO, possui_a_frp_applications_brprocess: POSSUI_MODULO_GESTTA_PROCESSOS,
+      possui_a_frp_applications_brchat: POSSUI_MODULO_CHAT, possui_a_frp_applications_briceberg: POSSUI_MODULO_ICEBERG, possui_a_frp_applications_bremprestimoco: POSSUI_MODULO_CONSIGNADO,
+      possui_acesso_importacao_api: POSSUI_ACESSO_IMPORTACAO_API, possui_iac_br_enablepublishingpubliclink: POSSUI_LINK_PUBLICO, possui_a_frp_de_carga_inicial_brclient: POSSUI_CARGA_INICIAL_BR_CLIENT,
+      possui_a_frp_de_cadastro_brclient: POSSUI_CADASTRO_EMP_BR_CLIENT, possui_a_frp_applications_bratendimento: POSSUI_MODULO_PORTAL_DO_CLIENTE, ja_integrou_alguma_vez_com_dominio_inova: CONECTADO_DOMINIO_INOVA,
+      possui_mudanca_portal_empregado: POSSUI_MUDANCA_PORTAL_EMPREGADO, possui_iac_br_newemployeeportal_ou_frp_o: POSSUI_APP_PARA_VOCE, possui_frp_certificado: POSSUI_ENVIO_CERTIFICADO,
+      possui_produto_certificado: POSSUI_PRODUTO_CERTIFICADO}
+    filtros:
+      chave:
+        coluna: CHAVE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geacoes_suporte_configuracoes:
+    titulo: Tabela de configurações de ações exclusivas do suporte
+    descricao: 'Tabela de configurações de ações exclusivas do suporte. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEACOES_SUPORTE_CONFIGURACOES
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_unico: CODIGO, quantidade_maxima_de_arquivos_de_request: QUANTIDADE_MAXIMA_ARQUIVOS, tamanho_maximo_do_arquivo_de_request_log: TAMANHO_MAXIMO_ARQUIVO,
+      tempo_em_horas_que_o_processo_ficara_ati: TEMPO_ATIVO, caminho_em_que_os_arquivos_serao_gravado: CAMINHO, status_iniciado: STATUS_INICIADO}
+    filtros:
+      codigo_unico:
+        coluna: CODIGO
+        ops: [eq, in]
+      caminho_em_que_os_arquivos_serao_gravado:
+        coluna: CAMINHO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gebuscanfe_controle_acesso:
+    titulo: Controla acesso ao Busca NFE
+    descricao: 'Controla acesso ao Busca NFE. 1 linhas no catálogo; chave: DATA_ACESSO.'
+    tabela: GEBUSCANFE_CONTROLE_ACESSO
+    chave: [DATA_ACESSO]
+    acesso: {empresa: null, periodo: DATA_ACESSO, volume: pequeno}
+    ordem:
+    - [DATA_ACESSO, desc]
+    colunas: {data_da_ultima_tentativa_ou_conclusao_de: DATA_ACESSO, conseguiu_acessar: CONSEGUIU_ACESSAR, possui_buscanfe: POSSUI_BUSCANFE}
+    filtros:
+      data_da_ultima_tentativa_ou_conclusao_de:
+        coluna: DATA_ACESSO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_ACESSO de 2024-02-16 a 2024-02-16.']
+  gesieg_dados_sessao_company:
+    titulo: Dados da sessão referentes à SIEG
+    descricao: 'Dados da sessão referentes à SIEG. 1 linhas no catálogo; chave: CHAVE.'
+    tabela: GESIEG_DADOS_SESSAO_COMPANY
+    chave: [CHAVE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CHAVE, asc]
+    colunas: {chave: CHAVE, company_esta_ativa_na_sieg: API_ATIVADA, login_esta_valido: CREDENCIAIS_VALIDAS}
+    filtros:
+      chave:
+        coluna: CHAVE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geprocessando_digial_bank:
+    titulo: GEPROCESSANDO_DIGIAL_BANK
+    descricao: 'GEPROCESSANDO_DIGIAL_BANK. 1 linhas no catálogo; chave: USUARIO.'
+    tabela: GEPROCESSANDO_DIGIAL_BANK
+    chave: [USUARIO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [USUARIO, asc]
+    colunas: {usuario: USUARIO, connection_id: CONNECTION_ID}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  gever_executado:
+    titulo: Arquivos .ver executados na versão
+    descricao: 'Arquivos .ver executados na versão. 1 linhas no catálogo; chave: CODIGO.'
+    tabela: GEVER_EXECUTADO
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, versao_dominio: VERSAO_DOMINIO, ponto_ver: PONTO_VER, comandos_count: COMANDOS_COUNT, ultimo_executado: ULTIMO_EXECUTADO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      versao_dominio:
+        coluna: VERSAO_DOMINIO
+        ops: [eq, in]
+      ponto_ver:
+        coluna: PONTO_VER
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  geatendimento_publicar_documentos:
+    titulo: Relação de documentos publicados
+    descricao: 'Relação de documentos publicados. 42.851 linhas no catálogo; chave: I_DOCUMENTO.'
+    tabela: GEATENDIMENTO_PUBLICAR_DOCUMENTOS
+    chave: [I_DOCUMENTO]
+    acesso: {empresa: null, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_DOCUMENTO, asc]
+    colunas:
+      i_documento: I_DOCUMENTO
+      empresa: EMPRESA
+      departamento: DEPARTAMENTO
+      pasta: PASTA
+      nome: NOME
+      arquivo: ARQUIVO
+      usuario: USUARIO
+      substituir: SUBSTITUIR
+      observacao: OBSERVACAO
+      competencia_do_relatorio_publicado: COMPETENCIA
+      vencimento_do_relatorio_publicado: VENCIMENTO
+      cnpj_da_empresa_que_publicou_o_documento: {coluna: CPF_CNPJ_CEI_EMPRESA, sensivel: parcial}
+      nome_do_arquivo_a_ser_publicado_no_onvio: NOME_ARQUIVO_ONVIO
+      nome_completo_da_guia_publicada: NOME_COMPLETO
+      valor_da_guia_publicada: VALOR
+      c_0_nao_a_imposto_1_a_imposto: IMPOSTO
+      tipo_de_publicaaao_1_documents_2_portal: DESTINO_PUBLICACAO
+      json_de_contrato_para_upload: JSON_CONTRATO
+      i_empregados: I_EMPREGADOS
+      c_0_publicacao_gerada_pelo_usuario_1_pub: ONVIO_CHAT
+      campo_informa_qual_a_versao_do_arquivo_e: VERSAO_DOCUMENTO
+      link_da_publicacao: LINK_PUBLICACAO
+      json_para_publicar_no_app_para_voce: JSON_APP_PARA_VOCE
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {i_empregados: i_empregados, empresa: codi_emp}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      i_documento:
+        coluna: I_DOCUMENTO
+        ops: [eq, in]
+      competencia_do_relatorio_publicado:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      vencimento_do_relatorio_publicado:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+      pasta:
+        coluna: PASTA
+        ops: [contem, prefixo]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      arquivo:
+        coluna: ARQUIVO
+        ops: [contem, prefixo]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      cnpj_da_empresa_que_publicou_o_documento:
+        coluna: CPF_CNPJ_CEI_EMPRESA
+        ops: [contem, prefixo]
+      nome_do_arquivo_a_ser_publicado_no_onvio:
+        coluna: NOME_ARQUIVO_ONVIO
+        ops: [contem, prefixo]
+      nome_completo_da_guia_publicada:
+        coluna: NOME_COMPLETO
+        ops: [contem, prefixo]
+      json_de_contrato_para_upload:
+        coluna: JSON_CONTRATO
+        ops: [contem, prefixo]
+      i_empregados:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      link_da_publicacao:
+        coluna: LINK_PUBLICACAO
+        ops: [contem, prefixo]
+      json_para_publicar_no_app_para_voce:
+        coluna: JSON_APP_PARA_VOCE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 42.996 linhas, COMPETENCIA de 2021-08-01 a 2026-09-01.', 'Colunas expostas nulas em 100% das linhas (2): departamento, usuario.',
+      'Vínculo foempregados (foempregados): 0 de 42.996 linhas sem registro relacionado.']
+  geatendimento_contas_iceberg:
+    titulo: Contas financeiras Iceberg
+    descricao: 'Contas financeiras Iceberg. 5 linhas no catálogo; chave: CODI_EMP, I_BANCO.'
+    tabela: GEATENDIMENTO_CONTAS_ICEBERG
+    chave: [CODI_EMP, I_BANCO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CRIACAO, volume: pequeno}
+    ordem:
+    - [DATA_CRIACAO, desc]
+    - [I_BANCO, asc]
+    colunas: {escritorio: CODI_EMP, codigo_de_identificacao_do_banco: I_BANCO, conta_corrente: CONTA_CORRENTE, digito_verificador_da_conta_corrente: DV_CONTA_CORRENTE,
+      agencia_bancaria: CODI_AGE, digito_verificador_da_agencia_bancaria: AGENCIA_DV, data_de_criacao_da_conta: DATA_CRIACAO, c_0_bloqueada_1_ativa_2_aguardando_confi: STATUS,
+      nome_da_instituicao_banco: NOME_BANCO, nome_da_instituicao_banco_formatado: DESCRICAO_BANCO, link_de_consentimento_gerado_via_open_fi: LINK, id_gerado_via_open_finance: ACCOUNT_ID,
+      origem_do_banco_0_nao_1_sim: OPEN_FINANCE, codigo_da_instituicao_financeira: CODIGO_BANCO, conta_corrente_formatada_para_uso_visual: CONTA_CORRENTE_FORMATADA,
+      parceiro_de_conexao_open_banking: PARTNER, identificador_do_consentimento_open_bank: CONSENT_ID, c_0_aguardando_processamento_da_conta_ap: CONTA_PROCESSADA}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geatendimento_bancos_ice:
+        tabela: GEATENDIMENTO_BANCOS_ICEBERG
+        liga: {codigo_banco: codigo_banco}
+        colunas: {geatendimento_bancos_ice_nome: DESCRICAO_BANCO}
+    filtros:
+      codigo_de_identificacao_do_banco:
+        coluna: I_BANCO
+        ops: [eq, in]
+      data_de_criacao_da_conta:
+        coluna: DATA_CRIACAO
+        ops: [entre, gte, lte]
+      conta_corrente:
+        coluna: CONTA_CORRENTE
+        ops: [eq, in]
+      digito_verificador_da_conta_corrente:
+        coluna: DV_CONTA_CORRENTE
+        ops: [eq, in]
+      agencia_bancaria:
+        coluna: CODI_AGE
+        ops: [eq, in]
+      digito_verificador_da_agencia_bancaria:
+        coluna: AGENCIA_DV
+        ops: [eq, in]
+      nome_da_instituicao_banco:
+        coluna: NOME_BANCO
+        ops: [contem, prefixo]
+      nome_da_instituicao_banco_formatado:
+        coluna: DESCRICAO_BANCO
+        ops: [contem, prefixo]
+      link_de_consentimento_gerado_via_open_fi:
+        coluna: LINK
+        ops: [contem, prefixo]
+      id_gerado_via_open_finance:
+        coluna: ACCOUNT_ID
+        ops: [contem, prefixo]
+      codigo_da_instituicao_financeira:
+        coluna: CODIGO_BANCO
+        ops: [eq, in]
+      conta_corrente_formatada_para_uso_visual:
+        coluna: CONTA_CORRENTE_FORMATADA
+        ops: [eq, in]
+      parceiro_de_conexao_open_banking:
+        coluna: PARTNER
+        ops: [contem, prefixo]
+      identificador_do_consentimento_open_bank:
+        coluna: CONSENT_ID
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5 linhas, 4 empresa(s).', 'Colunas expostas nulas em 100% das linhas (7): digito_verificador_da_conta_corrente, agencia_bancaria,
+        digito_verificador_da_agencia_bancaria, data_de_criacao_da_conta, link_de_consentimento_gerado_via_open_fi, parceiro_de_conexao_open_banking, identificador_do_consentimento_open_bank.',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 864).', 'Vínculo geatendimento_bancos_ice (GEATENDIMENTO_BANCOS_ICEBERG): 0 de 1
+        linhas sem registro relacionado (empresa 864).']

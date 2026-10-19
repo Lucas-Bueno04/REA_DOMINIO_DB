@@ -1,0 +1,159 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_credito
+titulo: Fiscal - credito (rascunho em lote)
+entidades:
+  efcredito_presumido_piscofins_receitas_vigencia_detalhamento:
+    titulo: Tabela de Crédito Presumido PIS e COFINS sobre as Receitas - Relação de NCM
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS sobre as Receitas - Relação de NCM. 4.424 linhas no catálogo; chave: CODI_EMP, I_CREDITO_PRESUMIDO, VIGENCIA,
+      I_CREDITO_PRESUMIDO_DETALHAMENTO.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS_RECEITAS_VIGENCIA_DETALHAMENTO
+    chave: [CODI_EMP, I_CREDITO_PRESUMIDO, VIGENCIA, I_CREDITO_PRESUMIDO_DETALHAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CREDITO_PRESUMIDO, asc]
+    - [I_CREDITO_PRESUMIDO_DETALHAMENTO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CREDITO_PRESUMIDO, vigencia: VIGENCIA, sequencial_detalhamento: I_CREDITO_PRESUMIDO_DETALHAMENTO, ncm: NCM, descricao_ncm: DESCRICAO,
+      percentual_credito_presumido: PERCENTUAL_CREDITO_PRESUMIDO, aliquota_pis_ajustada: ALIQUOTA_PIS_AJUSTADA, aliquota_cofins_ajustada: ALIQUOTA_COFINS_AJUSTADA,
+      utilizado_como_insumo: UTILIZADO_COMO_INSUMO}
+    filtros:
+      sequencial:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      sequencial_detalhamento:
+        coluna: I_CREDITO_PRESUMIDO_DETALHAMENTO
+        ops: [eq, in]
+      ncm:
+        coluna: NCM
+        ops: [eq, in]
+      descricao_ncm:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      utilizado_como_insumo:
+        coluna: UTILIZADO_COMO_INSUMO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.424 linhas, 632 empresa(s), VIGENCIA de 2013-10-01 a 2013-10-01.']
+  efcredito_presumido_piscofins_receitas:
+    titulo: Tabela de Crédito Presumido PIS e COFINS Sobre as Receitas - Geral
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS Sobre as Receitas - Geral. 632 linhas no catálogo; chave: CODI_EMP, I_CREDITO_PRESUMIDO.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS_RECEITAS
+    chave: [CODI_EMP, I_CREDITO_PRESUMIDO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CREDITO_PRESUMIDO, codigo_interno_do_credito_presumido: CODIGO_TABELA, descricao: DESCRICAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      codigo_interno_do_credito_presumido:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 632 linhas, 632 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 884).']
+  efcredito_presumido_piscofins_receitas_vigencia:
+    titulo: Tabela de Crédito Presumido PIS e COFINS sobre as Receitas - Vigência
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS sobre as Receitas - Vigência. 632 linhas no catálogo; chave: CODI_EMP, I_CREDITO_PRESUMIDO, VIGENCIA.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS_RECEITAS_VIGENCIA
+    chave: [CODI_EMP, I_CREDITO_PRESUMIDO, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_CREDITO_PRESUMIDO, vigencia: VIGENCIA, descricao: DESCRICAO, aliquota_pis: ALIQUOTA_PIS, aliquota_cofins: ALIQUOTA_COFINS}
+    filtros:
+      sequencial:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 632 linhas, 632 empresa(s), VIGENCIA de 2013-10-01 a 2013-10-01.']
+  efcredito_presumido_piscofins_vigencia_detalhamento:
+    titulo: Tabela de Crédito Presumido PIS e COFINS - Relação de NCM
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS - Relação de NCM. 9 linhas no catálogo; chave: I_CREDITO_PRESUMIDO, VIGENCIA, I_CREDITO_PRESUMIDO_DETALHAMENTO.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS_VIGENCIA_DETALHAMENTO
+    chave: [I_CREDITO_PRESUMIDO, VIGENCIA, I_CREDITO_PRESUMIDO_DETALHAMENTO]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CREDITO_PRESUMIDO, asc]
+    - [I_CREDITO_PRESUMIDO_DETALHAMENTO, asc]
+    colunas: {sequencial_do_credito_presumido: I_CREDITO_PRESUMIDO, vigencia: VIGENCIA, sequencial_do_detalhamento: I_CREDITO_PRESUMIDO_DETALHAMENTO, ncm: NCM, descricao_do_ncm: DESCRICAO,
+      ex_tipi: EX_TIPI, valor_de_pis: VALOR_PIS, valor_de_cofins: VALOR_COFINS}
+    filtros:
+      sequencial_do_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      sequencial_do_detalhamento:
+        coluna: I_CREDITO_PRESUMIDO_DETALHAMENTO
+        ops: [eq, in]
+      ncm:
+        coluna: NCM
+        ops: [eq, in]
+      descricao_do_ncm:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      ex_tipi:
+        coluna: EX_TIPI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas, VIGENCIA de 2013-05-01 a 2015-05-01.']
+  efcredito_presumido_piscofins_vigencia:
+    titulo: Tabela de Crédito Presumido PIS e COFINS - Vigência
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS - Vigência. 3 linhas no catálogo; chave: I_CREDITO_PRESUMIDO, VIGENCIA.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS_VIGENCIA
+    chave: [I_CREDITO_PRESUMIDO, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {sequencial_do_credito_presumido: I_CREDITO_PRESUMIDO, vigencia: VIGENCIA, descricao: DESCRICAO, percentual_do_credito_presumido_na_aquis: PERCENTUAL_AQUISICAO_SIMPLES_NACIONAL_PIS,
+      percentual_aquisicao_simples_nacional_co: PERCENTUAL_AQUISICAO_SIMPLES_NACIONAL_COFINS}
+    filtros:
+      sequencial_do_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, VIGENCIA de 2013-05-01 a 2015-05-01.']
+  efcredito_presumido_piscofins:
+    titulo: Tabela de Crédito Presumido PIS e COFINS - Geral
+    descricao: 'Tabela de Crédito Presumido PIS e COFINS - Geral. 2 linhas no catálogo; chave: I_CREDITO_PRESUMIDO.'
+    tabela: EFCREDITO_PRESUMIDO_PISCOFINS
+    chave: [I_CREDITO_PRESUMIDO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CREDITO_PRESUMIDO, asc]
+    colunas: {sequencial_do_credito_presumido: I_CREDITO_PRESUMIDO, codigo_interno_do_credito_presumido: CODIGO_TABELA, descricao: DESCRICAO}
+    filtros:
+      sequencial_do_credito_presumido:
+        coluna: I_CREDITO_PRESUMIDO
+        ops: [eq, in]
+      codigo_interno_do_credito_presumido:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']

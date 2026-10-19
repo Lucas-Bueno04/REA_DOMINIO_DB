@@ -1,0 +1,169 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_atendimentoacoes
+titulo: Geral - atendimentoacoes (rascunho em lote)
+entidades:
+  geatendimentoacoes_onvio:
+    titulo: Ações à serem enviadas para o Onvio.
+    descricao: 'Ações à serem enviadas para o Onvio.. 1.081.410 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOACOES_ONVIO
+    chave: [CODIGO]
+    acesso:
+      empresa: CODI_EMP
+      exige_algum: [sequencial_autoincremento]
+      volume: grande
+    ordem:
+    - [CODIGO, asc]
+    colunas: {sequencial_autoincremento: CODIGO, codigo_da_tabela: CODIGO_TABELA, acao: ACAO, clausula_com_argumentos_para_geracao_de: CLAUSULA, tipos_de_status_3_ignorado_2_aguardando: STATUS,
+      endpoint_referencial_do_registro_no_onvi: ENDPOINT_EXCLUSAO, codigo_da_empresa: CODI_EMP, ordem_da_tabela_no_envio: ORDEM, c_0_aplicacao_1_carga_inicial_2_reenvio: ORIGEM_ACAO,
+      coluna_que_indica_o_codigo_referente_a_f: I_FILIAL, coluna_que_indica_a_quantidade_de_vezes: NUMERO_TENTATIVAS, empresa_usa_o_da_quando_a_acao_foi_proce: EMPRESA_USA_DA,
+      codigo_do_usuario_utilizado_para_realiza: I_CONFUSUARIO, indica_que_ocorreu_conflito_no_envio_do: REGISTRO_CONFLITADO, endpoint_para_consulta_de_envio_assincro: OPERATION_LOCATION,
+      indica_que_a_acao_foi_enviada_com_metodo: ATUALIZAR_REGISTRO}
+    vinculos:
+      geatendimentotabelastran:
+        tabela: GEATENDIMENTOTABELASTRANSFERIR
+        liga: {codigo_tabela: codigo}
+        colunas: {geatendimentotabelastran_nome: NOME_XML}
+    filtros:
+      sequencial_autoincremento:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_da_tabela:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      clausula_com_argumentos_para_geracao_de:
+        coluna: CLAUSULA
+        ops: [contem, prefixo]
+      endpoint_referencial_do_registro_no_onvi:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+      coluna_que_indica_o_codigo_referente_a_f:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      codigo_do_usuario_utilizado_para_realiza:
+        coluna: I_CONFUSUARIO
+        ops: [eq, in]
+      endpoint_para_consulta_de_envio_assincro:
+        coluna: OPERATION_LOCATION
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.082.429 linhas, 1.864 empresa(s).', 'Vínculo geatendimentotabelastran (GEATENDIMENTOTABELASTRANSFERIR): 0 de 29 linhas sem registro
+        relacionado (empresa 1347).']
+  geatendimentoacoes_onvio_avisos:
+    titulo: Avisos gerados pelas ações enviadas ao Onvio.
+    descricao: 'Avisos gerados pelas ações enviadas ao Onvio.. 13.713 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOACOES_ONVIO_AVISOS
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {sequencial_autoincremento: CODIGO, codigo_do_grupo: CODIGO_GRUPO, codigo_da_tabela: CODIGO_TABELA, codigo_da_acao: CODIGO_ACAO, c_1_documento_ja_existe_2_documento_ja_v: TIPO_AVISO,
+      codigo_da_empresa: CODI_EMP, indica_se_o_aviso_deve_ser_mostrado: MOSTRAR_AVISO, mensagem_do_aviso: MENSAGEM_ERRO}
+    vinculos:
+      geatendimentogrupoexecuc:
+        tabela: GEATENDIMENTOGRUPOEXECUCAO
+        liga: {codigo_grupo: codigo}
+        colunas: {geatendimentogrupoexecuc_nome: DESCRICAO_GRUPO}
+      geatendimentotabelastran:
+        tabela: GEATENDIMENTOTABELASTRANSFERIR
+        liga: {codigo_tabela: codigo}
+        colunas: {geatendimentotabelastran_nome: NOME_XML}
+    filtros:
+      sequencial_autoincremento:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_grupo:
+        coluna: CODIGO_GRUPO
+        ops: [eq, in]
+      codigo_da_tabela:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      codigo_da_acao:
+        coluna: CODIGO_ACAO
+        ops: [eq, in]
+      c_1_documento_ja_existe_2_documento_ja_v:
+        coluna: TIPO_AVISO
+        ops: [eq, in]
+      mensagem_do_aviso:
+        coluna: MENSAGEM_ERRO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 13.713 linhas, 793 empresa(s).', 'Vínculo geatendimentogrupoexecuc (GEATENDIMENTOGRUPOEXECUCAO): 0 de 9 linhas sem registro relacionado
+        (empresa 421).', 'Vínculo geatendimentotabelastran (GEATENDIMENTOTABELASTRANSFERIR): 0 de 9 linhas sem registro relacionado (empresa 421).']
+  geatendimentoacoes_erro:
+    titulo: Erros gerados ao tentar enviar alguma ação ao Onvio ou ao Domínio Atendimento
+    descricao: 'Erros gerados ao tentar enviar alguma ação ao Onvio ou ao Domínio Atendimento. 1.402 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOACOES_ERRO
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, codigo_grupo: CODIGO_GRUPO, codigo_tabela: CODIGO_TABELA, codigo_acao: CODIGO_ACAO, codi_emp: CODI_EMP, mensagem: MENSAGEM, versao_agente: VERSAO_AGENTE}
+    vinculos:
+      geatendimentogrupoexecuc:
+        tabela: GEATENDIMENTOGRUPOEXECUCAO
+        liga: {codigo_grupo: codigo}
+        colunas: {geatendimentogrupoexecuc_nome: DESCRICAO_GRUPO}
+      geatendimentotabelastran:
+        tabela: GEATENDIMENTOTABELASTRANSFERIR
+        liga: {codigo_tabela: codigo}
+        colunas: {geatendimentotabelastran_nome: NOME_XML}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_grupo:
+        coluna: CODIGO_GRUPO
+        ops: [eq, in]
+      codigo_tabela:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      codigo_acao:
+        coluna: CODIGO_ACAO
+        ops: [eq, in]
+      mensagem:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+      versao_agente:
+        coluna: VERSAO_AGENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.400 linhas, 156 empresa(s).', 'Vínculo geatendimentogrupoexecuc (GEATENDIMENTOGRUPOEXECUCAO): 0 de 2 linhas sem registro relacionado
+        (empresa 229).', 'Vínculo geatendimentotabelastran (GEATENDIMENTOTABELASTRANSFERIR): 0 de 2 linhas sem registro relacionado (empresa 229).']
+  geatendimentoacoes_avisos:
+    titulo: Avisos gerados pelas ações enviadas ao Domínio Atendimento
+    descricao: 'Avisos gerados pelas ações enviadas ao Domínio Atendimento. 337 linhas no catálogo; chave: CODIGO.'
+    tabela: GEATENDIMENTOACOES_AVISOS
+    chave: [CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, codigo_grupo: CODIGO_GRUPO, codigo_tabela: CODIGO_TABELA, codigo_acao: CODIGO_ACAO, tipo_aviso: TIPO_AVISO, codi_emp: CODI_EMP, mostrar_aviso: MOSTRAR_AVISO,
+      mensagem_do_aviso_quando_vindo_de_erro: MENSAGEM_ERRO}
+    vinculos:
+      geatendimentogrupoexecuc:
+        tabela: GEATENDIMENTOGRUPOEXECUCAO
+        liga: {codigo_grupo: codigo}
+        colunas: {geatendimentogrupoexecuc_nome: DESCRICAO_GRUPO}
+      geatendimentotabelastran:
+        tabela: GEATENDIMENTOTABELASTRANSFERIR
+        liga: {codigo_tabela: codigo}
+        colunas: {geatendimentotabelastran_nome: NOME_XML}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_grupo:
+        coluna: CODIGO_GRUPO
+        ops: [eq, in]
+      codigo_tabela:
+        coluna: CODIGO_TABELA
+        ops: [eq, in]
+      codigo_acao:
+        coluna: CODIGO_ACAO
+        ops: [eq, in]
+      tipo_aviso:
+        coluna: TIPO_AVISO
+        ops: [eq, in]
+      mensagem_do_aviso_quando_vindo_de_erro:
+        coluna: MENSAGEM_ERRO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 337 linhas, 145 empresa(s).', 'Vínculo geatendimentogrupoexecuc (GEATENDIMENTOGRUPOEXECUCAO): 0 de 1 linhas sem registro relacionado
+        (empresa 1021).', 'Vínculo geatendimentotabelastran (GEATENDIMENTOTABELASTRANSFERIR): 0 de 1 linhas sem registro relacionado (empresa 1021).']

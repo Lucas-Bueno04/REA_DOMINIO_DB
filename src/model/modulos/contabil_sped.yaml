@@ -1,0 +1,978 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_sped
+titulo: Contábil - sped (rascunho em lote)
+dominios:
+  ctsped_contabil_od_alteracao_plano_conta_anterior_natureza_c_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_CONTABIL_OD_ALTERACAO_PLANO_CONTA_ANTERIOR.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: D=4.549,
+      C=2.474.'
+    valores: {C: CREDORA, D: DEVEDORA}
+  ctsped_ecf_od_y600_tipo_s_socio_a:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_Y600.TIPO estão no comentário do banco (2026-10-18). Distribuição: S=6.627, E=19, A=17.'
+    valores: {S: Sócio, A: Administrador, R: Representante Legal, E: Empresário}
+  ctsped_ecf_od_m410_tipo_da_conta_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_M410.TIPO_CONTA estão no comentário do banco (2026-10-18). Distribuição: P=2.551, B=2.532.'
+    valores: {B: Base Negativa, P: Parte B}
+  ctsped_ecf_od_m410_indicador_do_l:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_M410.INDICADOR_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: PF=2.501, BC=2.486, DB=96.'
+    valores: {DB: Débito, CR: Crédito, PF: Prejuízo do exercício, BC: Base de cálculo negativa da CSLL}
+  ctsped_ecf_od_w100_modalidade_1_e:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_W100.MODALIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=2.531.'
+    valores: {'1': Entidade substituta, '2': Preenchimento local}
+  ctsped_ecf_od_w100_idioma_en_ingl:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_W100.IDIOMA estão no comentário do banco (2026-10-18). Distribuição: EN=2.531.'
+    valores: {EN: Inglês, ES: Espanhol, PT: Português}
+  ctsped_ecf_od_m010_tipo_da_conta_:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_M010.TIPO_CONTA estão no comentário do banco (2026-10-18). Distribuição: P=289, B=231.'
+    valores: {B: Base Negativa, P: Parte B}
+  ctsped_ecf_od_m010_indicador_do_s:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_M010.INDICADOR_SALDO_INICIAL estão no comentário do banco (2026-10-18). Distribuição: D=518, C=2.'
+    valores: {D: Prejuízos ou valores que reduzam o lucro real ou a base de cálculo da contribuição social em períodos subsequent, C: Valores que aumentam o lucro
+        real ou a base de cálculo da contribuição social em períodos subsequentes}
+  ctsped_ecf_od_y612_tipo_s_socio_a:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_Y612.TIPO estão no comentário do banco (2026-10-18). Distribuição: S=128.'
+    valores: {S: Sócio, A: Administrador, R: Representante Legal, E: Empresário}
+  ctsped_ecf_od_y620_tipo_de_relaci:
+    confirmado: true
+    nota: 'Todos os valores observados em CTSPED_ECF_OD_Y620.TIPO_RELACIONAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=13, 3=3.'
+    valores: {'1': Controle, '2': Controle Conjunto, '3': Influência Significativa, '4': Outras causas para aplicar MEP, '5': Exclusão do MEP}
+entidades:
+  ctsped_ecf_od_y570:
+    titulo: SPED ECF - Outros Dados - Registro Y570
+    descricao: 'SPED ECF - Outros Dados - Registro Y570. 18.290 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_DEMONSTRATIVO_IR_CSLL.'
+    tabela: CTSPED_ECF_OD_Y570
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_DEMONSTRATIVO_IR_CSLL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_DEMONSTRATIVO_IR_CSLL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      sequencial_interno: I_DEMONSTRATIVO_IR_CSLL
+      cnpj: {coluna: CNPJ, sensivel: parcial}
+      nome_empresarial: NOME_EMPRESARIAL
+      orgao_publico: ORGAO_PUBLICO
+      codigo_da_receita: I_RECEITA
+      rendimento_bruto_receita: VALOR_RENDIMENTO_BRUTO_RECEITA
+      ir_retido_na_fonte: VALOR_IR_RETIDO_FONTE
+      csll_retida_na_fonte: VALOR_CSLL_RETIDA_FONTE
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_DEMONSTRATIVO_IR_CSLL
+        ops: [eq, in]
+      cnpj:
+        coluna: CNPJ
+        ops: [eq, in]
+      nome_empresarial:
+        coluna: NOME_EMPRESARIAL
+        ops: [contem, prefixo]
+      orgao_publico:
+        coluna: ORGAO_PUBLICO
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: I_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 18.290 linhas, 349 empresa(s).']
+  ctsped_ecf_od_l200:
+    titulo: SPED ECF - Outros Dados - Registro L200
+    descricao: 'SPED ECF - Outros Dados - Registro L200. 8.546 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, COMPETENCIA.'
+    tabela: CTSPED_ECF_OD_L200
+    chave: [CODI_EMP, I_OUTROS_DADOS, COMPETENCIA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_OUTROS_DADOS, competencia: COMPETENCIA, metodo_de_avaliacao_do_estoque_final_0_n: METODO_AVALIACAO_ESTOQUE_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.546 linhas, 443 empresa(s), COMPETENCIA de 2017-01-01 a 2025-12-31.']
+  ctsped_contabil_od_alteracao_plano_conta_anterior:
+    titulo: SPED Contábil - Outros Dados - Alteração plano de contas anterior
+    descricao: 'SPED Contábil - Outros Dados - Alteração plano de contas anterior. 7.023 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_CONTA, I_CONTA_ANTERIOR.'
+    tabela: CTSPED_CONTABIL_OD_ALTERACAO_PLANO_CONTA_ANTERIOR
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_CONTA, I_CONTA_ANTERIOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_CONTA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_dos_outros_dados: I_OUTROS_DADOS
+      sequencial_da_tabela_pai: I_CONTA
+      sequencial: I_CONTA_ANTERIOR
+      conta_contabil_anterior: CODI_CTA_ANTERIOR
+      classificacao_anterior: CLASSIFICACAO_ANTERIOR
+      saldo: SALDO
+      natureza_c_credora_d_devedora: {coluna: NATUREZA, dominio: ctsped_contabil_od_alteracao_plano_conta_anterior_natureza_c_}
+      codigo_centro_de_custo: CODI_CCU_ANTERIOR
+      codigo_centro_de_custo_atual: CODI_CCU_ATUAL
+    filtros:
+      sequencial_dos_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_da_tabela_pai:
+        coluna: I_CONTA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA_ANTERIOR
+        ops: [eq, in]
+      conta_contabil_anterior:
+        coluna: CODI_CTA_ANTERIOR
+        ops: [contem, prefixo]
+      classificacao_anterior:
+        coluna: CLASSIFICACAO_ANTERIOR
+        ops: [contem, prefixo]
+      natureza_c_credora_d_devedora:
+        coluna: NATUREZA
+        ops: [eq, in]
+      codigo_centro_de_custo:
+        coluna: CODI_CCU_ANTERIOR
+        ops: [eq, in]
+      codigo_centro_de_custo_atual:
+        coluna: CODI_CCU_ATUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7.023 linhas, 112 empresa(s).', 'natureza_c_credora_d_devedora: todos os valores reais estão no comentário do banco (D=4.549,
+        C=2.474).']
+  ctsped_ecf_od_y600:
+    titulo: SPED ECF - Outros Dados - Registro Y600
+    descricao: 'SPED ECF - Outros Dados - Registro Y600. 6.663 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_SOCIO_TITULAR.'
+    tabela: CTSPED_ECF_OD_Y600
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_SOCIO_TITULAR]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_SOCIO_TITULAR, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      sequencial_interno: I_SOCIO_TITULAR
+      data: DATA
+      codigo_do_socio: I_SOCIO
+      tipo_s_socio_a_administrador_r_represent: {coluna: TIPO, dominio: ctsped_ecf_od_y600_tipo_s_socio_a}
+      qualificacao: QUALIFICACAO
+      remuneracao: VALOR_REMUNERACAO
+      lucros_dividendos: VALOR_LUCRO_DIVIDENDO
+      juros_capital_proprio: VALOR_JUROS_CAPITAL_PROPRIO
+      demais_rendimentos: VALOR_DEMAIS_RENDIMENTOS
+      irrf: VALOR_IRRF
+      cpf_cnpj: {coluna: CPF_CNPJ, sensivel: parcial}
+      data_ingresso: DATA_INGRESSO
+      data_saida: DATA_SAIDA
+      participacao: PARTICIPACAO
+      capital_votante: CAPITAL_VOTANTE
+      indicador_de_qualificacao: TIPO_INDICADOR_QUALIFICACAO
+    vinculos:
+      gesocios:
+        tabela: gesocios
+        liga: {i_socio: i_socio}
+        colunas: {gesocios_nome: nome}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_SOCIO_TITULAR
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      data_ingresso:
+        coluna: DATA_INGRESSO
+        ops: [entre, gte, lte]
+      data_saida:
+        coluna: DATA_SAIDA
+        ops: [entre, gte, lte]
+      codigo_do_socio:
+        coluna: I_SOCIO
+        ops: [eq, in]
+      tipo_s_socio_a_administrador_r_represent:
+        coluna: TIPO
+        ops: [eq, in]
+      cpf_cnpj:
+        coluna: CPF_CNPJ
+        ops: [eq, in]
+      indicador_de_qualificacao:
+        coluna: TIPO_INDICADOR_QUALIFICACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.663 linhas, 577 empresa(s), DATA de 1900-01-01 a 2025-12-17.', 'tipo_s_socio_a_administrador_r_represent: todos os valores reais
+        estão no comentário do banco (S=6.627, E=19, A=17).', 'Vínculo gesocios (gesocios): 0 de 6 linhas sem registro relacionado (empresa 1408).']
+  ctsped_ecf_od_m410:
+    titulo: SPED ECF - Outros Dados - Registro M410
+    descricao: 'SPED ECF - Outros Dados - Registro M410. 5.083 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, COMPETENCIA, SEQUENCIAL, TIPO_CONTA.'
+    tabela: CTSPED_ECF_OD_M410
+    chave: [CODI_EMP, I_OUTROS_DADOS, COMPETENCIA, SEQUENCIAL, TIPO_CONTA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      competencia: COMPETENCIA
+      sequencial_interno: SEQUENCIAL
+      tipo_da_conta_b_base_negativa_p_parte_b: {coluna: TIPO_CONTA, dominio: ctsped_ecf_od_m410_tipo_da_conta_}
+      historico: HISTORICO
+      lanc_realizacao_de_valores_cuja_tributac: LANCAR_REALIZACAO_VALOR_TRIBUTACAO_DIFERIDA
+      codigo_da_parte_b_ou_base_negativa: I_BASE_NEGATIVA_PARTE_B
+      valor: VALOR
+      indicador_do_lancamento_db_debito_cr_cre: {coluna: INDICADOR_LANCAMENTO, dominio: ctsped_ecf_od_m410_indicador_do_l}
+      identificador_sped_ecf: IDENTIFICADOR_SPED_ECF
+      codigo_conta_contra_partida: CONTA_CONTRAPARTIDA
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_da_conta_b_base_negativa_p_parte_b:
+        coluna: TIPO_CONTA
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      lanc_realizacao_de_valores_cuja_tributac:
+        coluna: LANCAR_REALIZACAO_VALOR_TRIBUTACAO_DIFERIDA
+        ops: [eq, in]
+      codigo_da_parte_b_ou_base_negativa:
+        coluna: I_BASE_NEGATIVA_PARTE_B
+        ops: [eq, in]
+      indicador_do_lancamento_db_debito_cr_cre:
+        coluna: INDICADOR_LANCAMENTO
+        ops: [eq, in]
+      identificador_sped_ecf:
+        coluna: IDENTIFICADOR_SPED_ECF
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.083 linhas, 62 empresa(s), COMPETENCIA de 2018-03-01 a 2025-12-31.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_parte_b_ou_base_negativa.',
+      'tipo_da_conta_b_base_negativa_p_parte_b: todos os valores reais estão no comentário do banco (P=2.551, B=2.532).', 'indicador_do_lancamento_db_debito_cr_cre:
+        todos os valores reais estão no comentário do banco (PF=2.501, BC=2.486, DB=96).']
+  ctsped_contabil_od_alteracao_plano_conta:
+    titulo: SPED Contábil - Outros Dados - Alteração plano de contas
+    descricao: 'SPED Contábil - Outros Dados - Alteração plano de contas. 4.293 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_CONTA.'
+    tabela: CTSPED_CONTABIL_OD_ALTERACAO_PLANO_CONTA
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_CONTA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_CONTA, asc]
+    colunas: {empresa: CODI_EMP, sequencial_dos_outros_dados: I_OUTROS_DADOS, sequencial: I_CONTA, conta_contabil: CODI_CTA}
+    vinculos:
+      ctsped_contabil_od:
+        tabela: CTSPED_CONTABIL_OD
+        liga: {codi_emp: codi_emp, i_outros_dados: i_outros_dados}
+        colunas: {ctsped_contabil_od_nome: NOME_AUDITOR}
+    filtros:
+      sequencial_dos_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CONTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.293 linhas, 112 empresa(s).', 'Vínculo ctsped_contabil_od (CTSPED_CONTABIL_OD): 0 de 23 linhas sem registro relacionado (empresa
+        963).']
+  ctsped_ecf_od_m410_origem_importacao:
+    titulo: Tabela de origem da importação registros M410
+    descricao: 'Tabela de origem da importação registros M410. 4.250 linhas no catálogo; chave: CODI_EMP, MES_COMPETENCIA, ANO_COMPETENCIA, TIPO_IMPORTACAO, PERIODICIDADE.'
+    tabela: CTSPED_ECF_OD_M410_ORIGEM_IMPORTACAO
+    chave: [CODI_EMP, MES_COMPETENCIA, ANO_COMPETENCIA, TIPO_IMPORTACAO, PERIODICIDADE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [MES_COMPETENCIA, asc]
+    - [ANO_COMPETENCIA, asc]
+    colunas: {codigo_empresa: CODI_EMP, mes_competencia_da_origem: MES_COMPETENCIA, ano_competencia_da_origem: ANO_COMPETENCIA, a_lacs_u_lalur: TIPO_IMPORTACAO, a_anual_m_mensal_t_trimestral: PERIODICIDADE,
+      importar_prejuizos_e_outros_m_origem_man: ORIGEM_IMPORTACAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      mes_competencia_da_origem:
+        coluna: MES_COMPETENCIA
+        ops: [eq, in]
+      ano_competencia_da_origem:
+        coluna: ANO_COMPETENCIA
+        ops: [eq, in]
+      a_lacs_u_lalur:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+      a_anual_m_mensal_t_trimestral:
+        coluna: PERIODICIDADE
+        ops: [eq, in]
+      importar_prejuizos_e_outros_m_origem_man:
+        coluna: ORIGEM_IMPORTACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4.250 linhas, 60 empresa(s).', 'Vínculo geempre (geempre): 0 de 78 linhas sem registro relacionado (empresa 1420).']
+  ctsped_ecf_od_y800:
+    titulo: SPED ECF - Outros Dados - Registro Y800
+    descricao: 'SPED ECF - Outros Dados - Registro Y800. 2.531 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_ECF_OD_Y800
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, anexar_arquivo_externo: ANEXAR_ARQUIVO_EXTERNO, caminho_do_arquivo: CAMINHO_ARQUIVO, memoria_de_calculo_incorporacao: MEMORIA_CALCULO_INCORPORACAO,
+      caminho_do_arquivo_da_memoria_de_calculo: CAMINHO_MEMORIA_CALCULO_INCORPORACAO, laudo_de_avaliacao_a_valor_justo: LAUDO_AVALIACAO_VALOR_JUSTO, caminho_do_arquivo_do_laudo_de_avaliacao: CAMINHO_LAUDO_AVALIACAO_VALOR_JUSTO}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      anexar_arquivo_externo:
+        coluna: ANEXAR_ARQUIVO_EXTERNO
+        ops: [eq, in]
+      caminho_do_arquivo:
+        coluna: CAMINHO_ARQUIVO
+        ops: [contem, prefixo]
+      memoria_de_calculo_incorporacao:
+        coluna: MEMORIA_CALCULO_INCORPORACAO
+        ops: [eq, in]
+      caminho_do_arquivo_da_memoria_de_calculo:
+        coluna: CAMINHO_MEMORIA_CALCULO_INCORPORACAO
+        ops: [contem, prefixo]
+      laudo_de_avaliacao_a_valor_justo:
+        coluna: LAUDO_AVALIACAO_VALOR_JUSTO
+        ops: [eq, in]
+      caminho_do_arquivo_do_laudo_de_avaliacao:
+        coluna: CAMINHO_LAUDO_AVALIACAO_VALOR_JUSTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.531 linhas, 612 empresa(s).']
+  ctsped_ecf_od_y720:
+    titulo: SPED ECF - Outros Dados - Registro Y720
+    descricao: 'SPED ECF - Outros Dados - Registro Y720. 2.531 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_ECF_OD_Y720
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_FINAL_PERIODO_APURACAO_LUCRO_LIQUIDO, volume: pequeno}
+    ordem:
+    - [DATA_FINAL_PERIODO_APURACAO_LUCRO_LIQUIDO, desc]
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, gerar_informacoes_de_periodos_anteriores: GERAR_INFORMACAO_PERIODO_ANTERIOR, valor_lucro_liquido_do_ultimo_periodo_de: VALOR_LUCRO_LIQUIDO_PELA_TAXA_SELIC,
+      data_final_do_periodo_de_apuracao_do_luc: DATA_FINAL_PERIODO_APURACAO_LUCRO_LIQUIDO, receita_bruta_do_periodo_anterior: VALOR_RECEITA_BRUTA_PERIODO_ANTERIOR,
+      houve_termo_de_intimacao_pela_rfb_para_e: HOUVE_TERMO_INTIMACAO_RFB_ENTREGA_DESTE_ECF, a_transmissao_desta_ecf_esta_dentro_do_p: TRANSMISSAO_DESTA_ECF_DENTRO_PRAZO_PREVISTO_INTIMACAO}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      data_final_do_periodo_de_apuracao_do_luc:
+        coluna: DATA_FINAL_PERIODO_APURACAO_LUCRO_LIQUIDO
+        ops: [entre, gte, lte]
+      gerar_informacoes_de_periodos_anteriores:
+        coluna: GERAR_INFORMACAO_PERIODO_ANTERIOR
+        ops: [eq, in]
+      houve_termo_de_intimacao_pela_rfb_para_e:
+        coluna: HOUVE_TERMO_INTIMACAO_RFB_ENTREGA_DESTE_ECF
+        ops: [eq, in]
+      a_transmissao_desta_ecf_esta_dentro_do_p:
+        coluna: TRANSMISSAO_DESTA_ECF_DENTRO_PRAZO_PREVISTO_INTIMACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.531 linhas, 612 empresa(s), DATA_FINAL_PERIODO_APURACAO_LUCRO_LIQUIDO de 1900-01-01 a 2024-12-31.']
+  ctsped_ecf_od_w100:
+    titulo: SPED ECF - Outros Dados - Registro W100
+    descricao: 'SPED ECF - Outros Dados - Registro W100. 2.531 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_ECF_OD_W100
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO_PERIODO_SOCIETARIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_PERIODO_SOCIETARIO, desc]
+    - [I_OUTROS_DADOS, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      nome_do_grupo_multinacional: NOME_GRUPO_MULTINACIONAL
+      a_pj_e_controladora_final_s_n: A_PJ_CONTROLADORA_FINAL
+      nome_da_controladora_final: NOME_CONTROLADORA_FINAL
+      jurisdicao_da_controladora_final: I_JURISDICAO_CONTROLADORA_FINAL
+      tin_da_controladora_final: TIN_CONTROLADORA_FINAL
+      responsavel_pela_declaracao: RESPONSAVEL_DECLARACAO
+      modalidade_1_entidade_substituta_2_preen: {coluna: MODALIDADE, dominio: ctsped_ecf_od_w100_modalidade_1_e}
+      nome_da_entidade_substituta_local: NOME_ENTIDADE_SUBSTITUTIVA
+      jurisdicao_entidade_substituta_local: I_JURISDICAO_ENTIDADE_SUBSTITUTIVA
+      tin_da_entidade_substituta: TIN_ENTIDADE_SUBSTITUTIVA
+      data_de_inicio_periodo_societario: DATA_INICIO_PERIODO_SOCIETARIO
+      data_final_periodo_societario: DATA_FINAL_PERIODO_SOCIETARIO
+      moeda: I_TIPO_MOEDA
+      idioma_en_ingles_es_espanhol_pt_portugue: {coluna: IDIOMA, dominio: ctsped_ecf_od_w100_idioma_en_ingl}
+    vinculos:
+      cttabela_sped_ecf_jurisd:
+        tabela: CTTABELA_SPED_ECF_JURISDICAO
+        liga: {i_jurisdicao_entidade_substitutiva: i_jurisdicao}
+        colunas: {cttabela_sped_ecf_jurisd_nome: NOME}
+      cttabela_sped_ecf_tipo_m:
+        tabela: CTTABELA_SPED_ECF_TIPO_MOEDA
+        liga: {i_tipo_moeda: i_tipo_moeda}
+        colunas: {cttabela_sped_ecf_tipo_m_nome: NOME}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      data_de_inicio_periodo_societario:
+        coluna: DATA_INICIO_PERIODO_SOCIETARIO
+        ops: [entre, gte, lte]
+      data_final_periodo_societario:
+        coluna: DATA_FINAL_PERIODO_SOCIETARIO
+        ops: [entre, gte, lte]
+      nome_do_grupo_multinacional:
+        coluna: NOME_GRUPO_MULTINACIONAL
+        ops: [contem, prefixo]
+      a_pj_e_controladora_final_s_n:
+        coluna: A_PJ_CONTROLADORA_FINAL
+        ops: [eq, in]
+      nome_da_controladora_final:
+        coluna: NOME_CONTROLADORA_FINAL
+        ops: [contem, prefixo]
+      jurisdicao_da_controladora_final:
+        coluna: I_JURISDICAO_CONTROLADORA_FINAL
+        ops: [eq, in]
+      tin_da_controladora_final:
+        coluna: TIN_CONTROLADORA_FINAL
+        ops: [contem, prefixo]
+      nome_da_entidade_substituta_local:
+        coluna: NOME_ENTIDADE_SUBSTITUTIVA
+        ops: [contem, prefixo]
+      jurisdicao_entidade_substituta_local:
+        coluna: I_JURISDICAO_ENTIDADE_SUBSTITUTIVA
+        ops: [eq, in]
+      tin_da_entidade_substituta:
+        coluna: TIN_ENTIDADE_SUBSTITUTIVA
+        ops: [contem, prefixo]
+      moeda:
+        coluna: I_TIPO_MOEDA
+        ops: [eq, in]
+      idioma_en_ingles_es_espanhol_pt_portugue:
+        coluna: IDIOMA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.531 linhas, 612 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): data_de_inicio_periodo_societario, data_final_periodo_societario.',
+      'modalidade_1_entidade_substituta_2_preen: todos os valores reais estão no comentário do banco (1=2.531).', 'idioma_en_ingles_es_espanhol_pt_portugue: todos
+        os valores reais estão no comentário do banco (EN=2.531).', 'Vínculo cttabela_sped_ecf_jurisd (CTTABELA_SPED_ECF_JURISDICAO): 0 de 3 linhas sem registro relacionado
+        (empresa 965).', 'Vínculo cttabela_sped_ecf_tipo_m (CTTABELA_SPED_ECF_TIPO_MOEDA): 0 de 3 linhas sem registro relacionado (empresa 965).']
+  ctsped_ecf_od_y672:
+    titulo: SPED ECF - Outros Dados - Registro Y672
+    descricao: 'SPED ECF - Outros Dados - Registro Y672. 2.121 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_ECF_OD_Y672
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, regime_de_apuracao_das_receitas: REGIME_APURACAO_RECEITA, metodo_de_avaliacao_de_estoques: METODO_AVALIACAO_ESTOQUE}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.121 linhas, 552 empresa(s).']
+  ctsped_contabil_od:
+    titulo: SPED Contábil - Outros Dados
+    descricao: 'SPED Contábil - Outros Dados. 2.033 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_CONTABIL_OD
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ARQUIVAMENTO_ATOS_CONSTITUTIVOS, volume: pequeno}
+    ordem:
+    - [DATA_ARQUIVAMENTO_ATOS_CONSTITUTIVOS, desc]
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial_dos_outros_dados: I_OUTROS_DADOS, competencia: COMPETENCIA, empresa_scp: CODI_EMP_I_SCP, scp: I_SCP, indicador_de_situacao_especial: INDICADOR_SITUACAO_ESPECIAL,
+      situacao_especial: SITUACAO_ESPECIAL, indicador_de_inicio_de_periodo: INDICADOR_INICIO_PERIODO, indicador_de_existencia_de_nire: INDICADOR_EXISTENCIA_NIRE,
+      finalidade_da_escrituracao: FINALIDADE_ESCRITURACAO, hash_da_escrituracao_substituida: HASH_ESCRITURACAO_SUBSTITUIDA, nire_da_escrituracao_substituida: NIRE_ESCRITURACAO_SUBSTITUIDA,
+      indicador_de_empresa_de_grande_porte: INDICADOR_EMPRESA_GRANDE_PORTE, data_do_arquivamento_dos_atos_constituti: DATA_ARQUIVAMENTO_ATOS_CONSTITUTIVOS, data_de_encerramento_do_exercicio_social: DATA_ENCERRAMENTO_EXERCICIO_SOCIAL,
+      informar_data_de_arquivamento_do_ato_de: INFORMAR_DATA_ARQUIVAMENTO_ATO_CONVERSAO, data_de_arquivamento_do_ato_de_conversao: DATA_ARQUIVAMENTO_ATO_CONVERSAO,
+      gerar_somente_contas_com_movimento: GERAR_SOMENTE_CONTAS_MOVIMENTO, gera_lancamentos_por_centro_de_custo: GERA_LANCAMENTOS_CENTRO_CUSTO, nao_gerar_o_registro_i051_com_o_plano_de: NAO_GERAR_REGISTRO_I051,
+      plano_de_contas_referencial: PLANO_CONTAS_REFERENCIAL, gera_as_contas_contabeis_por: GERAR_CONTAS_CONTABEIS_POR, numero_do_livro: NUMERO_LIVRO, possui_auditoria_independente: POSSUI_AUDITORIA_INDEPENDENTE,
+      nome_do_auditor: NOME_AUDITOR, registro_do_auditor_na_cvm: REGISTRO_AUDITOR_CVM, gerar_balanco_patrimonial: GERAR_BALANCO_PATRIMONIAL, gerar_balanco_patrimonial_grau_maximo: GERAR_BALANCO_PATRIMONIAL_GRAU_MAXIMO,
+      gerar_demonstrativo_do_resultado_do_exer: GERAR_DRE, gerar_dlpa: GERAR_DLPA, gerar_dmpl: GERAR_DMPL, gerar_dra: GERAR_DRA, gerar_dva: GERAR_DVA, gerar_doar: GERAR_DOAR,
+      gerar_dfc: GERAR_DFC, gerar_notas_explicativas: GERAR_NOTAS_EXPLICATIVAS, gerar_arquivo_s_externo_s: GERAR_ARQUIVO_EXTERNO, gerar_arquivo_s_externo_s_caminho: GERAR_ARQUIVO_EXTERNO_CAMINHO,
+      gerar_os_registros_anuais_quando_houver: GERAR_REGISTROS_ANUAIS, nao_gerar_as_contas_contabeis_com_saldo: NAO_GERAR_CONTAS_SALDO_ZERO_BALANCO, considerar_o_sado_anterior_lancado_no_pr: CONSIDERAR_SALDO_ANTERIOR_LANCADO_EXERCICIO,
+      nao_gerar_o_registro_i050_com_o_plano_de: EF_GERAL_GERAR_I050_PLANO_CONTAS, ef_geral_numero_do_livro: EF_GERAL_NUMERO_LIVRO, ef_geral_nome_do_livro: EF_GERAL_NOME_LIVRO,
+      ef_escrituracao_principal_numero: EF_ESCRITURACAO_PRINCIPAL_NUMERO_LIVRO, ef_escrituracao_principal_nome: EF_ESCRITURACAO_PRINCIPAL_NOME, ef_escrituracao_principal_tipo_0_digital: EF_ESCRITURACAO_PRINCIPAL_TIPO,
+      forma_que_as_contas_foram_geradas_no_per: FORMA_CONTA_FOI_GERADA_PERIODO_ANTERIOR, gerar_coeficiente_de_analise: GERAR_COEFICIENTE_ANALISE, gerar_balanco_patrimonial_em_rtf: GERAR_BALANCO_RTF,
+      gerar_dre_em_rtf: GERAR_DRE_RTF, pm_geral_nao_gerar_i050_plano_contas: PM_GERAL_NAO_GERAR_I050_PLANO_CONTAS, pm_geral_numero_do_livro: PM_GERAL_NUMERO_LIVRO,
+      pm_geral_nome_do_livro: PM_GERAL_NOME_LIVRO, pm_escrituracao_principal_numero: PM_ESCRITURACAO_PRINCIPAL_NUMERO_LIVRO, pm_escrituracao_principal_nome: PM_ESCRITURACAO_PRINCIPAL_NOME,
+      pm_escrituracao_principal_tipo_0_digital: PM_ESCRITURACAO_PRINCIPAL_TIPO, ef_sped_contabil_contas_a_pagar_e_recebe: EF_SPED_CONTABIL_CR_CP_GERAR_I050_PLANO_CONTAS,
+      ef_sped_cp_cr_numero_livro: EF_SPED_CP_CR_NUMERO_LIVRO, ef_sped_cp_cr_nome_livro: EF_SPED_CP_CR_NOME_LIVRO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      gescp:
+        tabela: GESCP
+        liga: {codi_emp_i_scp: codi_emp, i_scp: i_scp}
+        colunas: {gescp_nome: DESCRICAO}
+    filtros:
+      sequencial_dos_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_do_arquivamento_dos_atos_constituti:
+        coluna: DATA_ARQUIVAMENTO_ATOS_CONSTITUTIVOS
+        ops: [entre, gte, lte]
+      data_de_encerramento_do_exercicio_social:
+        coluna: DATA_ENCERRAMENTO_EXERCICIO_SOCIAL
+        ops: [entre, gte, lte]
+      data_de_arquivamento_do_ato_de_conversao:
+        coluna: DATA_ARQUIVAMENTO_ATO_CONVERSAO
+        ops: [entre, gte, lte]
+      empresa_scp:
+        coluna: CODI_EMP_I_SCP
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      indicador_de_situacao_especial:
+        coluna: INDICADOR_SITUACAO_ESPECIAL
+        ops: [eq, in]
+      situacao_especial:
+        coluna: SITUACAO_ESPECIAL
+        ops: [eq, in]
+      hash_da_escrituracao_substituida:
+        coluna: HASH_ESCRITURACAO_SUBSTITUIDA
+        ops: [contem, prefixo]
+      informar_data_de_arquivamento_do_ato_de:
+        coluna: INFORMAR_DATA_ARQUIVAMENTO_ATO_CONVERSAO
+        ops: [eq, in]
+      gerar_somente_contas_com_movimento:
+        coluna: GERAR_SOMENTE_CONTAS_MOVIMENTO
+        ops: [eq, in]
+      gera_lancamentos_por_centro_de_custo:
+        coluna: GERA_LANCAMENTOS_CENTRO_CUSTO
+        ops: [eq, in]
+      nao_gerar_o_registro_i051_com_o_plano_de:
+        coluna: NAO_GERAR_REGISTRO_I051
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.033 linhas, 524 empresa(s), DATA_ARQUIVAMENTO_ATOS_CONSTITUTIVOS de 1968-01-29 a 2025-10-09.', 'Vínculo geempre (geempre): 0
+        de 3 linhas sem registro relacionado (empresa 637).', 'Vínculo gescp (GESCP): 0 de 3 linhas sem registro relacionado (empresa 637).']
+  ctsped_ecf_od_x360:
+    titulo: SPED ECF - Outros Dados - Informações Econômicas
+    descricao: 'SPED ECF - Outros Dados - Informações Econômicas. 1.144 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, COMPETENCIA.'
+    tabela: CTSPED_ECF_OD_X360
+    chave: [CODI_EMP, I_OUTROS_DADOS, COMPETENCIA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_OUTROS_DADOS, data_de_competencia: COMPETENCIA, tipo_de_arquivo_local: TIPO_ARQUIVO_LOCAL, ajustes_em_funcao_das_regras_de_preco_de: REGRA_PRECO_TRANSFERENCIA,
+      houve_reestruturacao: HOUVE_REESTRUTURACAO, houve_transferencia_de_intangiveis: HOUVE_TRANSFERENCIA_INTANGIVEL}
+    filtros:
+      sequencial:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      data_de_competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_arquivo_local:
+        coluna: TIPO_ARQUIVO_LOCAL
+        ops: [eq, in]
+      ajustes_em_funcao_das_regras_de_preco_de:
+        coluna: REGRA_PRECO_TRANSFERENCIA
+        ops: [eq, in]
+      houve_reestruturacao:
+        coluna: HOUVE_REESTRUTURACAO
+        ops: [eq, in]
+      houve_transferencia_de_intangiveis:
+        coluna: HOUVE_TRANSFERENCIA_INTANGIVEL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.144 linhas, 468 empresa(s), COMPETENCIA de 2020-01-01 a 2025-01-01.']
+  ctsped_ecf_od_m010:
+    titulo: SPED ECF - Outros Dados - Registro M010
+    descricao: 'SPED ECF - Outros Dados - Registro M010. 520 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_BASE_NEGATIVA_PARTE_B, TIPO_CONTA.'
+    tabela: CTSPED_ECF_OD_M010
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_BASE_NEGATIVA_PARTE_B, TIPO_CONTA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CRIACAO, volume: pequeno}
+    ordem:
+    - [DATA_CRIACAO, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_BASE_NEGATIVA_PARTE_B, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      codigo_da_parte_b_ou_base_negativa: I_BASE_NEGATIVA_PARTE_B
+      tipo_da_conta_b_base_negativa_p_parte_b: {coluna: TIPO_CONTA, dominio: ctsped_ecf_od_m010_tipo_da_conta_}
+      data_de_criacao: DATA_CRIACAO
+      saldo_inicial: SALDO_INICIAL
+      descricao_da_parte_b_ou_base_negativa: DESCRICAO
+      indicador_do_saldo_inicial_d_prejuizos_o: {coluna: INDICADOR_SALDO_INICIAL, dominio: ctsped_ecf_od_m010_indicador_do_s}
+      identificador_sped_ecf: IDENTIFICADOR_SPED_ECF
+      codigo_padrao_rfb_parte_b: TIPO_CONTA_RFB_PARTE_B
+      descricao_codigo_padrao_rfb_parte_b: DESCRICAO_TIPO_CONTA_RFB_PARTE_B
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      codigo_da_parte_b_ou_base_negativa:
+        coluna: I_BASE_NEGATIVA_PARTE_B
+        ops: [eq, in]
+      tipo_da_conta_b_base_negativa_p_parte_b:
+        coluna: TIPO_CONTA
+        ops: [eq, in]
+      data_de_criacao:
+        coluna: DATA_CRIACAO
+        ops: [entre, gte, lte]
+      descricao_da_parte_b_ou_base_negativa:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      indicador_do_saldo_inicial_d_prejuizos_o:
+        coluna: INDICADOR_SALDO_INICIAL
+        ops: [eq, in]
+      identificador_sped_ecf:
+        coluna: IDENTIFICADOR_SPED_ECF
+        ops: [contem, prefixo]
+      codigo_padrao_rfb_parte_b:
+        coluna: TIPO_CONTA_RFB_PARTE_B
+        ops: [eq, in]
+      descricao_codigo_padrao_rfb_parte_b:
+        coluna: DESCRICAO_TIPO_CONTA_RFB_PARTE_B
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 520 linhas, 64 empresa(s), DATA_CRIACAO de 2017-12-31 a 2025-12-31.', 'tipo_da_conta_b_base_negativa_p_parte_b: todos os valores
+        reais estão no comentário do banco (P=289, B=231).', 'indicador_do_saldo_inicial_d_prejuizos_o: todos os valores reais estão no comentário do banco (D=518,
+        C=2).']
+  ctsped_contabil_od_signatario:
+    titulo: SPED Contábil - Outros Dados - Signatários
+    descricao: 'SPED Contábil - Outros Dados - Signatários. 329 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_SIGNATARIO.'
+    tabela: CTSPED_CONTABIL_OD_SIGNATARIO
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_SIGNATARIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VALIDADE_CRC, volume: pequeno}
+    ordem:
+    - [DATA_VALIDADE_CRC, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_SIGNATARIO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_dos_outros_dados: I_OUTROS_DADOS
+      sequencial_do_signatario: I_SIGNATARIO
+      nome_do_signatario: NOME_SIGNATARIO
+      cpf: {coluna: CPF, sensivel: parcial}
+      qualificacao: QUALIFICACAO
+      telefone: {coluna: TELEFONE, sensivel: parcial}
+      e_mail: {coluna: EMAIL, sensivel: parcial}
+      crc: CRC
+      sequencial_do_crc: SEQUENCIAL_CRC
+      data_de_validade_do_crc: DATA_VALIDADE_CRC
+      uf_crc: UF_CRC
+    vinculos:
+      ctsped_contabil_od:
+        tabela: CTSPED_CONTABIL_OD
+        liga: {codi_emp: codi_emp, i_outros_dados: i_outros_dados}
+        colunas: {ctsped_contabil_od_nome: NOME_AUDITOR}
+    filtros:
+      sequencial_dos_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_do_signatario:
+        coluna: I_SIGNATARIO
+        ops: [eq, in]
+      data_de_validade_do_crc:
+        coluna: DATA_VALIDADE_CRC
+        ops: [entre, gte, lte]
+      nome_do_signatario:
+        coluna: NOME_SIGNATARIO
+        ops: [contem, prefixo]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      telefone:
+        coluna: TELEFONE
+        ops: [eq, in]
+      e_mail:
+        coluna: EMAIL
+        ops: [contem, prefixo]
+      crc:
+        coluna: CRC
+        ops: [eq, in]
+      sequencial_do_crc:
+        coluna: SEQUENCIAL_CRC
+        ops: [eq, in]
+      uf_crc:
+        coluna: UF_CRC
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 329 linhas, 181 empresa(s), DATA_VALIDADE_CRC de 2024-12-31 a 2026-08-16.', 'Vínculo ctsped_contabil_od (CTSPED_CONTABIL_OD):
+        0 de 1 linhas sem registro relacionado (empresa 982).']
+  ctsped_ecf_od_y540:
+    titulo: SPED ECF - Outros Dados - Registro Y540
+    descricao: 'SPED ECF - Outros Dados - Registro Y540. 262 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_RECEITA_VENDA.'
+    tabela: CTSPED_ECF_OD_Y540
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_RECEITA_VENDA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_RECEITA_VENDA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      sequencial_interno: I_RECEITA_VENDA
+      cnpj: {coluna: CNPJ, sensivel: parcial}
+      receita_de_vendas: VALOR_RECEITA_VENDA
+      cnae: I_CNAE20
+    vinculos:
+      gecnae20:
+        tabela: gecnae20
+        liga: {i_cnae20: i_cnae20}
+        colunas: {gecnae20_nome: descricao}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_RECEITA_VENDA
+        ops: [eq, in]
+      cnpj:
+        coluna: CNPJ
+        ops: [eq, in]
+      cnae:
+        coluna: I_CNAE20
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 262 linhas, 156 empresa(s).', 'Vínculo gecnae20 (gecnae20): 0 de 2 linhas sem registro relacionado (empresa 576).']
+  ctsped_ecf_od_y671:
+    titulo: SPED ECF - Outros Dados - Registro Y671
+    descricao: 'SPED ECF - Outros Dados - Registro Y671. 237 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS.'
+    tabela: CTSPED_ECF_OD_Y671
+    chave: [CODI_EMP, I_OUTROS_DADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, alteracao_capital: ALTERACAO_CAPITAL, opcao_pela_escrituracao_no_ativo_da_base: OPCAO_ESCRITURACAO}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      alteracao_capital:
+        coluna: ALTERACAO_CAPITAL
+        ops: [eq, in]
+      opcao_pela_escrituracao_no_ativo_da_base:
+        coluna: OPCAO_ESCRITURACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 237 linhas, 66 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): alteracao_capital, opcao_pela_escrituracao_no_ativo_da_base.']
+  ctsped_ecf_od_y612:
+    titulo: SPED ECF - Outros Dados - Registro Y612
+    descricao: 'SPED ECF - Outros Dados - Registro Y612. 128 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_RENDIMENTOS.'
+    tabela: CTSPED_ECF_OD_Y612
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_RENDIMENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_RENDIMENTOS, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      sequencial_interno: I_RENDIMENTOS
+      data: DATA
+      tipo_s_socio_a_administrador_r_represent: {coluna: TIPO, dominio: ctsped_ecf_od_y612_tipo_s_socio_a}
+      qualificacao: QUALIFICACAO
+      rendimentos_do_trabalho: VALOR_RENDIMENTO_TRABALHO
+      demais_rendimentos: VALOR_DEMAIS_RENDIMENTOS
+      irrf: VALOR_IRRF
+      vinculo_com_ctdirigentes_conselheiros: I_DIRIGENTE_CONSELHEIRO
+    vinculos:
+      ctdirigentes_conselheiro:
+        tabela: CTDIRIGENTES_CONSELHEIROS
+        liga: {codi_emp: codi_emp, i_dirigente_conselheiro: i_dirigente_conselheiro}
+        colunas: {ctdirigentes_conselheiro_nome: NOME}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_RENDIMENTOS
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      tipo_s_socio_a_administrador_r_represent:
+        coluna: TIPO
+        ops: [eq, in]
+      vinculo_com_ctdirigentes_conselheiros:
+        coluna: I_DIRIGENTE_CONSELHEIRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 128 linhas, 33 empresa(s), DATA de 2017-01-01 a 2025-01-01.', 'tipo_s_socio_a_administrador_r_represent: todos os valores reais
+        estão no comentário do banco (S=128).', 'Vínculo ctdirigentes_conselheiro (CTDIRIGENTES_CONSELHEIROS): 0 de 3 linhas sem registro relacionado (empresa 1047).']
+  ctsped_ecf_od_x450_registro:
+    titulo: SPED ECF - Outros Dados - Registro X450 - Registros filhos
+    descricao: 'SPED ECF - Outros Dados - Registro X450 - Registros filhos. 96 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_PAGAMENTO_REMESSA_SERVICO, COMPETENCIA,
+      REGISTRO, CODIGO, VIGENCIA.'
+    tabela: CTSPED_ECF_OD_X450_REGISTRO
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_PAGAMENTO_REMESSA_SERVICO, COMPETENCIA, REGISTRO, CODIGO, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_PAGAMENTO_REMESSA_SERVICO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_OUTROS_DADOS, pagamento_remessa_servico: I_PAGAMENTO_REMESSA_SERVICO, competencia: COMPETENCIA, registro: REGISTRO,
+      codigo_do_registro: CODIGO, vigencia_do_registro: VIGENCIA, valor: VALOR}
+    filtros:
+      sequencial:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      pagamento_remessa_servico:
+        coluna: I_PAGAMENTO_REMESSA_SERVICO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      registro:
+        coluna: REGISTRO
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODIGO
+        ops: [eq, in]
+      vigencia_do_registro:
+        coluna: VIGENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 96 linhas, 6 empresa(s), COMPETENCIA de 2024-01-01 a 2025-01-01.']
+  ctsped_ecf_od_y620:
+    titulo: SPED ECF - Outros Dados - Registro Y620
+    descricao: 'SPED ECF - Outros Dados - Registro Y620. 16 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_PARTICIPACAO.'
+    tabela: CTSPED_ECF_OD_Y620
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_PARTICIPACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EVENTO, volume: pequeno}
+    ordem:
+    - [DATA_EVENTO, desc]
+    - [I_OUTROS_DADOS, asc]
+    - [I_PARTICIPACAO, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_outros_dados: I_OUTROS_DADOS
+      sequencial_interno: I_PARTICIPACAO
+      data_do_evento: DATA_EVENTO
+      tipo_de_relacionamento_1_controle_2_cont: {coluna: TIPO_RELACIONAMENTO, dominio: ctsped_ecf_od_y620_tipo_de_relaci}
+      pais: CODIGO_PAIS
+      cnpj_da_coligada: {coluna: CNPJ_COLIGADA, sensivel: parcial}
+      nome_empresarial: NOME_EMPRESARIAL
+      valor_da_participacao_em_reais: VALOR_PARTICIPACAO_REAL
+      valor_da_participacao_em_moeda_original: VALOR_PARTICIPACAO_MOEDA_ORIGINAL
+      percentual_no_capital_total: VALOR_PERCENTUAL_CAPITAL_TOTAL
+      percentual_no_capital_votante: VALOR_PERCENTUAL_CAPITAL_VOLANTE
+      resultado_da_equivalencia_patrimonial: VALOR_RESULTADO_EQUIVALENCIA_PATRIMONIAL
+      data_da_primeira_aquisicao: DATA_PRIMEIRA_AQUISICAO
+      registrado_em_cartorio: REGISTRADO_CARTORIO
+      numero_do_registro: NUMERO_REGISTRO
+      nome_do_cartorio: NOME_CARTORIO
+      valor_justo: VALOR_JUSTO
+      numero_da_avaliacao_do_valor_justo: NUMERO_AVALIACAO_VALOR_JUSTO
+    vinculos:
+      gepais:
+        tabela: gepais
+        liga: {codigo_pais: codigo_pais}
+        colunas: {gepais_nome: nome_pais}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_PARTICIPACAO
+        ops: [eq, in]
+      data_do_evento:
+        coluna: DATA_EVENTO
+        ops: [entre, gte, lte]
+      data_da_primeira_aquisicao:
+        coluna: DATA_PRIMEIRA_AQUISICAO
+        ops: [entre, gte, lte]
+      tipo_de_relacionamento_1_controle_2_cont:
+        coluna: TIPO_RELACIONAMENTO
+        ops: [eq, in]
+      pais:
+        coluna: CODIGO_PAIS
+        ops: [eq, in]
+      cnpj_da_coligada:
+        coluna: CNPJ_COLIGADA
+        ops: [eq, in]
+      nome_empresarial:
+        coluna: NOME_EMPRESARIAL
+        ops: [contem, prefixo]
+      registrado_em_cartorio:
+        coluna: REGISTRADO_CARTORIO
+        ops: [eq, in]
+      numero_do_registro:
+        coluna: NUMERO_REGISTRO
+        ops: [contem, prefixo]
+      nome_do_cartorio:
+        coluna: NOME_CARTORIO
+        ops: [contem, prefixo]
+      valor_justo:
+        coluna: VALOR_JUSTO
+        ops: [eq, in]
+      numero_da_avaliacao_do_valor_justo:
+        coluna: NUMERO_AVALIACAO_VALOR_JUSTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 16 linhas, 11 empresa(s), DATA_EVENTO de 2019-08-21 a 2025-07-01.', 'tipo_de_relacionamento_1_controle_2_cont: todos os valores
+        reais estão no comentário do banco (1=13, 3=3).', 'Vínculo gepais (gepais): 0 de 1 linhas sem registro relacionado (empresa 1619).']
+  ctsped_ecf_od_x430:
+    titulo: SPED ECF - Outros Dados - Registro X430
+    descricao: 'SPED ECF - Outros Dados - Registro X430. 6 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_RENDIMENTO_SERVICO.'
+    tabela: CTSPED_ECF_OD_X430
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_RENDIMENTO_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_RENDIMENTO_SERVICO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, sequencial_interno: I_RENDIMENTO_SERVICO, pais: CODIGO_PAIS, servicos_de_assistencia_tecnica_cientifi: VALOR_ASSISTENCIA_TECNICA,
+      servicos_tecnicos_e_de_assistencia_sem_t: VALOR_ASSISTENCIA_TECNICA_BRASIL, valor_assistencia_tecnica_exterior: VALOR_ASSISTENCIA_TECNICA_EXTERIOR, juros_sobre_o_capital_proprio: VALOR_JUROS_CAPITAL_PROPRIO,
+      demais_juros: VALOR_DEMAIS_JUROS, dividendos: VALOR_DIVIDENDO}
+    vinculos:
+      gepais:
+        tabela: gepais
+        liga: {codigo_pais: codigo_pais}
+        colunas: {gepais_nome: nome_pais}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_RENDIMENTO_SERVICO
+        ops: [eq, in]
+      pais:
+        coluna: CODIGO_PAIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 5 empresa(s).', 'Vínculo gepais (gepais): 0 de 1 linhas sem registro relacionado (empresa 1633).']
+  ctsped_ecf_od_x450:
+    titulo: SPED ECF - Outros Dados - Registro X450
+    descricao: 'SPED ECF - Outros Dados - Registro X450. 6 linhas no catálogo; chave: CODI_EMP, I_OUTROS_DADOS, I_PAGAMENTO_REMESSA_SERVICO.'
+    tabela: CTSPED_ECF_OD_X450
+    chave: [CODI_EMP, I_OUTROS_DADOS, I_PAGAMENTO_REMESSA_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_OUTROS_DADOS, asc]
+    - [I_PAGAMENTO_REMESSA_SERVICO, asc]
+    colunas: {empresa: CODI_EMP, sequencial_outros_dados: I_OUTROS_DADOS, sequencial_interno: I_PAGAMENTO_REMESSA_SERVICO, pais: CODIGO_PAIS, servicos_de_assistencia_tecnica_cientifi: VALOR_ASSISTENCIA_TECNICA,
+      servicos_tecnicos_e_de_assistencia_sem_t: VALOR_ASSISTENCIA_TECNICA_BRASIL, valor_assistencia_tecnica_exterior: VALOR_ASSISTENCIA_TECNICA_EXTERIOR, juros_sobre_o_capital_proprio_pagos_a_pe: VALOR_JUROS_PESSOA_FISICA,
+      valor_juros_pessoa_juridica: VALOR_JUROS_PESSOA_JURIDICA, demais_juros: VALOR_DEMAIS_JUROS, dividendos_pagos_a_pessoa_fisica: VALOR_DIVIDENDO_PESSOA_FISICA,
+      dividendos_pagos_a_pessoa_juridica: VALOR_DIVIDENDO_PESSOA_JURIDICA}
+    vinculos:
+      gepais:
+        tabela: gepais
+        liga: {codigo_pais: codigo_pais}
+        colunas: {gepais_nome: nome_pais}
+    filtros:
+      sequencial_outros_dados:
+        coluna: I_OUTROS_DADOS
+        ops: [eq, in]
+      sequencial_interno:
+        coluna: I_PAGAMENTO_REMESSA_SERVICO
+        ops: [eq, in]
+      pais:
+        coluna: CODIGO_PAIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 6 empresa(s).', 'Vínculo gepais (gepais): 0 de 1 linhas sem registro relacionado (empresa 98).']

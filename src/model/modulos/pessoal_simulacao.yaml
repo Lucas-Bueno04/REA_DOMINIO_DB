@@ -1,0 +1,319 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_simulacao
+titulo: Pessoal - simulacao (rascunho em lote)
+dominios:
+  fosimulacao_rescisao_empregados_usa_media_manual_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO_EMPREGADOS.MEDIA_MANUAL estão no comentário do banco (2026-10-18). Distribuição: 0=1.889.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_rescisao_tipo_de_aviso_previo_1_traba:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO.TIPO_AVISO_PREVIO estão no comentário do banco (2026-10-18). Distribuição: 2=586, 1=380, 3=134.'
+    valores: {'1': Trabalhado, '2': Indenizado, '3': Ausência}
+  fosimulacao_rescisao_informar_o_valor_liquido_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO.INFORMAR_VALOR_LIQUIDO_MES_ANTERIOR estão no comentário do banco (2026-10-18). Distribuição: 0=1.099,
+      1=1.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_rescisao_cumpriu_toda_a_carga_horaria:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO.CUMPRIU_TODA_CARGA_HORARIA_SEMANA_RESCISAO estão no comentário do banco (2026-10-18). Distribuição:
+      0=1.092, 1=8.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_rescisao_sabado_compensado_2_nao_1_si:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO.SABADO_COMPENSADO estão no comentário do banco (2026-10-18). Distribuição: 2=1.099, 1=1.'
+    valores: {'2': Não, '1': Sim}
+  fosimulacao_rescisao_origem_do_registro_0_sistema:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_RESCISAO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=1.100.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  fosimulacao_ferias_empregados_pagar_abono_pecunia:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS_EMPREGADOS.PAGA_ABONO estão no comentário do banco (2026-10-18). Distribuição: 0=522, 1=29.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_empregados_usa_media_manual_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS_EMPREGADOS.MEDIA_MANUAL estão no comentário do banco (2026-10-18). Distribuição: 0=538, 1=13.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_adiantar_1a_parcela:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.ADIANTAR_PRIMEIRA_PARCELA_13_SALARIO estão no comentário do banco (2026-10-18). Distribuição: 0=461,
+      1=1.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_descontar_faltas_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.DESCONTAR_FALTAS estão no comentário do banco (2026-10-18). Distribuição: 1=462.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_descontar_faltas_no:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.DESCONTAR_FALTAS_NOTURNAS estão no comentário do banco (2026-10-18). Distribuição: 0=462.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_descontar_faltas_su:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.DESCONTAR_FALTAS_SUSPENSAS estão no comentário do banco (2026-10-18). Distribuição: 0=462.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_descontar_faltas_pa:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.DESCONTAR_FALTAS_PARCIAIS estão no comentário do banco (2026-10-18). Distribuição: 0=456, 1=6.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_pagar_abono_pecunia:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.PAGA_ABONO estão no comentário do banco (2026-10-18). Distribuição: 0=439, 1=23.'
+    valores: {'0': Não, '1': Sim}
+  fosimulacao_ferias_origem_do_registro_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOSIMULACAO_FERIAS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=462.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+entidades:
+  fosimulacao_rescisao_empregados:
+    titulo: Simulação de rescisão - Empregados
+    descricao: 'Simulação de rescisão - Empregados. 1.889 linhas no catálogo; chave: CODI_EMP, I_SIMULACAO_RESCISAO, I_EMPREGADOS.'
+    tabela: FOSIMULACAO_RESCISAO_EMPREGADOS
+    chave: [CODI_EMP, I_SIMULACAO_RESCISAO, I_EMPREGADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SIMULACAO_RESCISAO, asc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_de_simulacao_da_rescisao: {coluna: I_SIMULACAO_RESCISAO, sensivel: financeiro}
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_calculo_de_rescisao_vinculado: {coluna: I_CALCULOS_OLD, sensivel: financeiro}
+      usa_media_manual_0_nao_1_sim: {coluna: MEDIA_MANUAL, dominio: fosimulacao_rescisao_empregados_usa_media_manual_}
+      media_valor_de_ferias: VALOR_MANUAL_MEDIA_VALOR_FERIAS
+      media_hora_de_ferias: VALOR_MANUAL_MEDIA_HORA_FERIAS
+      media_hora_aula_de_ferias: VALOR_MANUAL_MEDIA_HORA_AULA_FERIAS
+      vantagem_de_ferias: VALOR_MANUAL_VANTAGEM_FERIAS
+      media_valor_de_13o: VALOR_MANUAL_MEDIA_VALOR_13
+      media_hora_de_13o: VALOR_MANUAL_MEDIA_HORA_13
+      media_hora_aula_de_13o: VALOR_MANUAL_MEDIA_HORA_AULA_13
+      vantagem_de_13o: VALOR_MANUAL_VANTAGEM_13
+      i_calculos: I_CALCULOS
+    vinculos:
+      fosimulacao_rescisao:
+        tabela: FOSIMULACAO_RESCISAO
+        liga: {codi_emp: codi_emp, i_simulacao_rescisao: i_simulacao_rescisao}
+        colunas: {fosimulacao_rescisao_nome: DESCRICAO}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      sequencial_de_simulacao_da_rescisao:
+        coluna: I_SIMULACAO_RESCISAO
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_calculo_de_rescisao_vinculado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      i_calculos:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.889 linhas, 183 empresa(s).', 'Colunas expostas nulas em 100% das linhas (7): media_hora_de_ferias, media_hora_aula_de_ferias,
+        vantagem_de_ferias, media_valor_de_13o, media_hora_de_13o, media_hora_aula_de_13o, vantagem_de_13o.', 'usa_media_manual_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (0=1.889).', 'Vínculo fosimulacao_rescisao (FOSIMULACAO_RESCISAO): 0 de 4 linhas sem registro relacionado (empresa 886).', 'Vínculo
+        foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 886).']
+  fosimulacao_rescisao:
+    titulo: Simulação de rescisão
+    descricao: 'Simulação de rescisão. 1.100 linhas no catálogo; chave: CODI_EMP, I_SIMULACAO_RESCISAO.'
+    tabela: FOSIMULACAO_RESCISAO
+    chave: [CODI_EMP, I_SIMULACAO_RESCISAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_DEMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_DEMISSAO, desc]
+    - [I_SIMULACAO_RESCISAO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_de_simulacao_da_rescisao: {coluna: I_SIMULACAO_RESCISAO, sensivel: financeiro}
+      descricao: DESCRICAO
+      data_de_demissao: DATA_DEMISSAO
+      motivo_da_rescisao: MOTIVO
+      data_do_aviso_previo: DATA_AVISO_PREVIO
+      tipo_de_aviso_previo_1_trabalhado_2_inde: {coluna: TIPO_AVISO_PREVIO, dominio: fosimulacao_rescisao_tipo_de_aviso_previo_1_traba}
+      data_de_pagamento: DATA_PAGAMENTO
+      informar_o_valor_liquido_do_mes_anterior: {coluna: INFORMAR_VALOR_LIQUIDO_MES_ANTERIOR, dominio: fosimulacao_rescisao_informar_o_valor_liquido_do_}
+      cumpriu_toda_a_carga_horaria_da_semana_d: {coluna: CUMPRIU_TODA_CARGA_HORARIA_SEMANA_RESCISAO, dominio: fosimulacao_rescisao_cumpriu_toda_a_carga_horaria}
+      sabado_compensado_2_nao_1_sim: {coluna: SABADO_COMPENSADO, dominio: fosimulacao_rescisao_sabado_compensado_2_nao_1_si}
+      codigo_do_saque_fgts: CODIGO_SAQUE_FGTS
+      codigo_causa_do_afastamento: CODIGO_CAUSA_AFASTAMENTO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosimulacao_rescisao_origem_do_registro_0_sistema}
+      calcular_saldo_de_salario_proporcional_a: CALCULAR_SALDO_SALARIO_MP_936
+      descontar_ferias_pagas_a_maior_0_nao_1_s: DESCONTAR_FERIAS_PAGAS_MAIOR
+      considerar_o_sabado_compensado_para_cont: CONSIDERAR_SABADO_COMPENSADO_AVO_13_FERIAS
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_de_simulacao_da_rescisao:
+        coluna: I_SIMULACAO_RESCISAO
+        ops: [eq, in]
+      data_de_demissao:
+        coluna: DATA_DEMISSAO
+        ops: [entre, gte, lte]
+      data_do_aviso_previo:
+        coluna: DATA_AVISO_PREVIO
+        ops: [entre, gte, lte]
+      data_de_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_aviso_previo_1_trabalhado_2_inde:
+        coluna: TIPO_AVISO_PREVIO
+        ops: [eq, in]
+      codigo_do_saque_fgts:
+        coluna: CODIGO_SAQUE_FGTS
+        ops: [eq, in]
+      codigo_causa_do_afastamento:
+        coluna: CODIGO_CAUSA_AFASTAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.100 linhas, 185 empresa(s), DATA_DEMISSAO de 2018-06-29 a 2026-12-31.', 'tipo_de_aviso_previo_1_trabalhado_2_inde: todos os
+        valores reais estão no comentário do banco (2=586, 1=380, 3=134).', 'informar_o_valor_liquido_do_mes_anterior: todos os valores reais estão no comentário
+        do banco (0=1.099, 1=1).', 'cumpriu_toda_a_carga_horaria_da_semana_d: todos os valores reais estão no comentário do banco (0=1.092, 1=8).', 'sabado_compensado_2_nao_1_sim:
+        todos os valores reais estão no comentário do banco (2=1.099, 1=1).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário
+        do banco (0=1.100).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 374).']
+  fosimulacao_ferias_empregados:
+    titulo: Simulação de férias - Empregados
+    descricao: 'Simulação de férias - Empregados. 551 linhas no catálogo; chave: CODI_EMP, I_SIMULACAO_FERIAS, I_EMPREGADOS.'
+    tabela: FOSIMULACAO_FERIAS_EMPREGADOS
+    chave: [CODI_EMP, I_SIMULACAO_FERIAS, I_EMPREGADOS]
+    acesso: {empresa: CODI_EMP, periodo: GOZO_INICIO, volume: pequeno}
+    ordem:
+    - [GOZO_INICIO, desc]
+    - [I_SIMULACAO_FERIAS, asc]
+    - [I_EMPREGADOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_de_simulacao_de_ferias: I_SIMULACAO_FERIAS
+      codigo_do_empregado: I_EMPREGADOS
+      sequencial_do_periodo_aquisitivo: I_FERIAS_AQUISITIVOS
+      sequencial_do_periodo_de_gozo: I_FERIAS_GOZO
+      data_de_inicio_do_periodo_de_gozo: GOZO_INICIO
+      data_do_fim_do_periodo_de_gozo: GOZO_FIM
+      pagar_abono_pecuniario_0_nao_1_sim: {coluna: PAGA_ABONO, dominio: fosimulacao_ferias_empregados_pagar_abono_pecunia}
+      data_de_inicio_do_periodo_de_abono: ABONO_INICIO
+      data_do_fim_do_periodo_de_abono: ABONO_FIM
+      dias_de_direito_do_periodo_aquisitivo_co: DIAS_DIREITO
+      inicio_do_periodo_de_gozo_numerico: GOZO_INICIO_DN
+      fim_do_periodo_de_gozo_numerico: GOZO_FIM_DN
+      inicio_do_periodo_de_abono_numerico: ABONO_INICIO_DN
+      fim_do_periodo_de_abono_numerico: ABONO_FIM_DN
+      usa_media_manual_0_nao_1_sim: {coluna: MEDIA_MANUAL, dominio: fosimulacao_ferias_empregados_usa_media_manual_0_}
+      media_valor_de_ferias: VALOR_MANUAL_MEDIA_VALOR_FERIAS
+      media_hora_de_ferias: VALOR_MANUAL_MEDIA_HORA_FERIAS
+      media_hora_aula_de_ferias: VALOR_MANUAL_MEDIA_HORA_AULA_FERIAS
+      vantagem_de_ferias: VALOR_MANUAL_VANTAGEM_FERIAS
+      media_valor_de_13o: VALOR_MANUAL_MEDIA_VALOR_13
+      media_hora_de_13o: VALOR_MANUAL_MEDIA_HORA_13
+      media_hora_aula_de_13o: VALOR_MANUAL_MEDIA_HORA_AULA_13
+      vantagem_de_13o: VALOR_MANUAL_VANTAGEM_13
+    vinculos:
+      fosimulacao_ferias:
+        tabela: FOSIMULACAO_FERIAS
+        liga: {codi_emp: codi_emp, i_simulacao_ferias: i_simulacao_ferias}
+        colunas: {fosimulacao_ferias_nome: DESCRICAO}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      sequencial_de_simulacao_de_ferias:
+        coluna: I_SIMULACAO_FERIAS
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_de_inicio_do_periodo_de_gozo:
+        coluna: GOZO_INICIO
+        ops: [entre, gte, lte]
+      data_do_fim_do_periodo_de_gozo:
+        coluna: GOZO_FIM
+        ops: [entre, gte, lte]
+      data_de_inicio_do_periodo_de_abono:
+        coluna: ABONO_INICIO
+        ops: [entre, gte, lte]
+      data_do_fim_do_periodo_de_abono:
+        coluna: ABONO_FIM
+        ops: [entre, gte, lte]
+      sequencial_do_periodo_aquisitivo:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      sequencial_do_periodo_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 551 linhas, 67 empresa(s), GOZO_INICIO de 2018-08-15 a 2027-01-26.', 'Colunas expostas nulas em 100% das linhas (7): media_hora_de_ferias,
+        media_hora_aula_de_ferias, vantagem_de_ferias, media_valor_de_13o, media_hora_de_13o, media_hora_aula_de_13o, vantagem_de_13o.', 'pagar_abono_pecuniario_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=522, 1=29).', 'usa_media_manual_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=538,
+        1=13).', 'Vínculo fosimulacao_ferias (FOSIMULACAO_FERIAS): 0 de 2 linhas sem registro relacionado (empresa 644).', 'Vínculo foempregados (foempregados): 0
+        de 2 linhas sem registro relacionado (empresa 644).']
+  fosimulacao_ferias:
+    titulo: Simulação do cálculo de férias
+    descricao: 'Simulação do cálculo de férias. 462 linhas no catálogo; chave: CODI_EMP, I_SIMULACAO_FERIAS.'
+    tabela: FOSIMULACAO_FERIAS
+    chave: [CODI_EMP, I_SIMULACAO_FERIAS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGTO, desc]
+    - [I_SIMULACAO_FERIAS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_de_simulacao_de_ferias: I_SIMULACAO_FERIAS
+      descricao: DESCRICAO
+      adiantar_1a_parcela_do_13o_salario_0_nao: {coluna: ADIANTAR_PRIMEIRA_PARCELA_13_SALARIO, dominio: fosimulacao_ferias_adiantar_1a_parcela}
+      descontar_faltas_0_nao_1_sim: {coluna: DESCONTAR_FALTAS, dominio: fosimulacao_ferias_descontar_faltas_0_}
+      descontar_faltas_noturnas_0_nao_1_sim: {coluna: DESCONTAR_FALTAS_NOTURNAS, dominio: fosimulacao_ferias_descontar_faltas_no}
+      descontar_faltas_suspensas_0_nao_1_sim: {coluna: DESCONTAR_FALTAS_SUSPENSAS, dominio: fosimulacao_ferias_descontar_faltas_su}
+      descontar_faltas_parciais_0_nao_1_sim: {coluna: DESCONTAR_FALTAS_PARCIAIS, dominio: fosimulacao_ferias_descontar_faltas_pa}
+      data_de_inicio_do_periodo_de_gozo: GOZO_INICIO
+      data_do_fim_do_periodo_de_gozo: GOZO_FIM
+      pagar_abono_pecuniario_0_nao_1_sim: {coluna: PAGA_ABONO, dominio: fosimulacao_ferias_pagar_abono_pecunia}
+      data_de_inicio_do_periodo_de_abono: ABONO_INICIO
+      data_do_fim_do_periodo_de_abono: ABONO_FIM
+      inicio_do_periodo_de_gozo_numerico: GOZO_INICIO_DN
+      fim_do_periodo_de_gozo_numerico: GOZO_FIM_DN
+      inicio_do_periodo_de_abono_numerico: ABONO_INICIO_DN
+      fim_do_periodo_de_abono_numerico: ABONO_FIM_DN
+      data_de_pagamento: DATA_PAGTO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: fosimulacao_ferias_origem_do_registro_}
+      nao_calcular_adicional_mp_927: NAO_CALCULAR_ADICIONAL_MP_927
+      indica_se_as_ferias_foram_pagas: PAGA_FERIAS
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_de_simulacao_de_ferias:
+        coluna: I_SIMULACAO_FERIAS
+        ops: [eq, in]
+      data_de_inicio_do_periodo_de_gozo:
+        coluna: GOZO_INICIO
+        ops: [entre, gte, lte]
+      data_do_fim_do_periodo_de_gozo:
+        coluna: GOZO_FIM
+        ops: [entre, gte, lte]
+      data_de_inicio_do_periodo_de_abono:
+        coluna: ABONO_INICIO
+        ops: [entre, gte, lte]
+      data_do_fim_do_periodo_de_abono:
+        coluna: ABONO_FIM
+        ops: [entre, gte, lte]
+      data_de_pagamento:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 462 linhas, 72 empresa(s), DATA_PAGTO de 2018-08-13 a 2027-01-18.', 'adiantar_1a_parcela_do_13o_salario_0_nao: todos os valores
+        reais estão no comentário do banco (0=461, 1=1).', 'descontar_faltas_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=462).', 'descontar_faltas_noturnas_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=462).', 'descontar_faltas_suspensas_0_nao_1_sim: todos os valores reais estão no comentário do banco
+        (0=462).', 'descontar_faltas_parciais_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=456, 1=6).', 'pagar_abono_pecuniario_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=439, 1=23).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário
+        do banco (0=462).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 800).']

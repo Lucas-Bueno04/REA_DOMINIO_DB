@@ -1,0 +1,215 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: processos_outros
+titulo: Processos - outros (rascunho em lote)
+entidades:
+  pcresponsavel_empresa:
+    titulo: Responsáveis empresas
+    descricao: 'Responsáveis empresas. 469 linhas no catálogo; chave: I_RESPONSAVEL, RESPONSAVEL_TIPO, CODI_EMP.'
+    tabela: PCRESPONSAVEL_EMPRESA
+    chave: [I_RESPONSAVEL, RESPONSAVEL_TIPO, CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RESPONSAVEL, asc]
+    - [RESPONSAVEL_TIPO, asc]
+    colunas: {codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO, empresa: CODI_EMP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 469 linhas, 468 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 378).', 'Vínculo usconfusuario
+        (usConfUsuario): 0 de 1 linhas sem registro relacionado (empresa 378).']
+  pcmovimento_atividade:
+    titulo: Movimentos atividades
+    descricao: 'Movimentos atividades. 61 linhas no catálogo; chave: I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_MOVIMENTO.'
+    tabela: PCMOVIMENTO_ATIVIDADE
+    chave: [I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_MOVIMENTO]
+    acesso: {empresa: null, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_VINCULO, asc]
+    - [I_SEQUENCIAL_ATIVIDADE, asc]
+    colunas: {codigo_do_vinculo: I_VINCULO, sequencial_da_atividade: I_SEQUENCIAL_ATIVIDADE, sequencial: I_SEQUENCIAL_MOVIMENTO, data_de_inicio: DATA_INICIO, competencia_de_referencia: COMPETENCIA_REFERENCIA,
+      data_de_vencimento_original: DATA_VENCIMENTO_ORIGINAL, data_de_vencimento: DATA_VENCIMENTO, data_de_vencimento_legal_original: DATA_VENCIMENTO_LEGAL_ORIGINAL,
+      data_de_vencimento_legal: DATA_VENCIMENTO_LEGAL, concluida_s_n: CONCLUIDA, usuario_que_concluiu: USUARIO_CONCLUSAO, anotacao: ANOTACAO, data_do_vencimento_do_aviso: DATA_VENCIMENTO_AVISO,
+      data_que_inicia_o_aviso: DATA_INICIO_AVISO, informar_neste_campo_se_o_movimento_foi: ALTERADO_INICIO_VENCIMENTO_UTILITARIO}
+    filtros:
+      codigo_do_vinculo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      sequencial_da_atividade:
+        coluna: I_SEQUENCIAL_ATIVIDADE
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_MOVIMENTO
+        ops: [eq, in]
+      data_de_inicio:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      competencia_de_referencia:
+        coluna: COMPETENCIA_REFERENCIA
+        ops: [entre, gte, lte]
+      data_de_vencimento_original:
+        coluna: DATA_VENCIMENTO_ORIGINAL
+        ops: [entre, gte, lte]
+      data_de_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      data_de_vencimento_legal_original:
+        coluna: DATA_VENCIMENTO_LEGAL_ORIGINAL
+        ops: [entre, gte, lte]
+      data_de_vencimento_legal:
+        coluna: DATA_VENCIMENTO_LEGAL
+        ops: [entre, gte, lte]
+      data_do_vencimento_do_aviso:
+        coluna: DATA_VENCIMENTO_AVISO
+        ops: [entre, gte, lte]
+      data_que_inicia_o_aviso:
+        coluna: DATA_INICIO_AVISO
+        ops: [entre, gte, lte]
+      concluida_s_n:
+        coluna: CONCLUIDA
+        ops: [eq, in]
+      usuario_que_concluiu:
+        coluna: USUARIO_CONCLUSAO
+        ops: [contem, prefixo]
+      anotacao:
+        coluna: ANOTACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 61 linhas, DATA_INICIO de 2018-01-26 a 2020-06-10.', 'Colunas expostas nulas em 100% das linhas (1): anotacao.']
+  pcmovimento_atividade_responsavel:
+    titulo: Movimentos atividades - Responsáveis
+    descricao: 'Movimentos atividades - Responsáveis. 61 linhas no catálogo; chave: I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_MOVIMENTO, I_SEQUENCIAL_RESPONSAVEL.'
+    tabela: PCMOVIMENTO_ATIVIDADE_RESPONSAVEL
+    chave: [I_VINCULO, I_SEQUENCIAL_ATIVIDADE, I_SEQUENCIAL_MOVIMENTO, I_SEQUENCIAL_RESPONSAVEL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_VINCULO, asc]
+    - [I_SEQUENCIAL_ATIVIDADE, asc]
+    colunas: {codigo_do_vinculo: I_VINCULO, sequencial_da_atividade: I_SEQUENCIAL_ATIVIDADE, sequencial_do_movimento: I_SEQUENCIAL_MOVIMENTO, sequencial_do_responsavel: I_SEQUENCIAL_RESPONSAVEL,
+      codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO}
+    vinculos:
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_vinculo:
+        coluna: I_VINCULO
+        ops: [eq, in]
+      sequencial_da_atividade:
+        coluna: I_SEQUENCIAL_ATIVIDADE
+        ops: [eq, in]
+      sequencial_do_movimento:
+        coluna: I_SEQUENCIAL_MOVIMENTO
+        ops: [eq, in]
+      sequencial_do_responsavel:
+        coluna: I_SEQUENCIAL_RESPONSAVEL
+        ops: [eq, in]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 61 linhas.', 'Vínculo usconfusuario (usConfUsuario): 0 de 61 linhas sem registro relacionado.']
+  pcprocesso_responsavel:
+    titulo: Processos - Responsáveis
+    descricao: 'Processos - Responsáveis. 24 linhas no catálogo; chave: I_PROCESSO, I_RESPONSAVEL, RESPONSAVEL_TIPO.'
+    tabela: PCPROCESSO_RESPONSAVEL
+    chave: [I_PROCESSO, I_RESPONSAVEL, RESPONSAVEL_TIPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PROCESSO, asc]
+    - [I_RESPONSAVEL, asc]
+    colunas: {codigo_do_processo: I_PROCESSO, codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO}
+    vinculos:
+      pcprocesso:
+        tabela: PCPROCESSO
+        liga: {i_processo: i_processo}
+        colunas: {pcprocesso_nome: NOME}
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_do_processo:
+        coluna: I_PROCESSO
+        ops: [eq, in]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24 linhas.', 'Vínculo pcprocesso (PCPROCESSO): 0 de 24 linhas sem registro relacionado.', 'Vínculo usconfusuario (usConfUsuario):
+        0 de 24 linhas sem registro relacionado.']
+  pcprocesso_atividade:
+    titulo: Processos - Atividades
+    descricao: 'Processos - Atividades. 20 linhas no catálogo; chave: I_PROCESSO, I_SEQUENCIAL_ATIVIDADE.'
+    tabela: PCPROCESSO_ATIVIDADE
+    chave: [I_PROCESSO, I_SEQUENCIAL_ATIVIDADE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_PROCESSO, asc]
+    - [I_SEQUENCIAL_ATIVIDADE, asc]
+    colunas: {codigo_do_processo: I_PROCESSO, sequencial: I_SEQUENCIAL_ATIVIDADE, ordem: ORDEM, codigo_da_atividade: I_ATIVIDADE, atividade_dependente_s_n: DEPENDENTE}
+    vinculos:
+      pcatividade:
+        tabela: PCATIVIDADE
+        liga: {i_atividade: i_atividade}
+        colunas: {pcatividade_nome: NOME}
+      pcprocesso:
+        tabela: PCPROCESSO
+        liga: {i_processo: i_processo}
+        colunas: {pcprocesso_nome: NOME}
+    filtros:
+      codigo_do_processo:
+        coluna: I_PROCESSO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_ATIVIDADE
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      atividade_dependente_s_n:
+        coluna: DEPENDENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas.', 'Vínculo pcatividade (PCATIVIDADE): 0 de 20 linhas sem registro relacionado.', 'Vínculo pcprocesso (PCPROCESSO):
+        0 de 20 linhas sem registro relacionado.']
+  pccampos_localizar_comprovante:
+    titulo: Campos utilizados para localizador comprovantes
+    descricao: 'Campos utilizados para localizador comprovantes. 4 linhas no catálogo; chave: I_CAMPO_LOCALIZAR.'
+    tabela: PCCAMPOS_LOCALIZAR_COMPROVANTE
+    chave: [I_CAMPO_LOCALIZAR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CAMPO_LOCALIZAR, asc]
+    colunas: {sequencial: I_CAMPO_LOCALIZAR, descricao_do_campo: DESCRICAO, habilitar_definir_formato: HABILITA_DEFINIR_FORMATO, formato_padrao: FORMATO_PADRAO}
+    filtros:
+      sequencial:
+        coluna: I_CAMPO_LOCALIZAR
+        ops: [eq, in]
+      descricao_do_campo:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      habilitar_definir_formato:
+        coluna: HABILITA_DEFINIR_FORMATO
+        ops: [eq, in]
+      formato_padrao:
+        coluna: FORMATO_PADRAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']

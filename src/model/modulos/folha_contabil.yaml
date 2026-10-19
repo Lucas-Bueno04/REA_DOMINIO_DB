@@ -1,0 +1,115 @@
+# Modelo de entidades da INTEGRAÇÃO FOLHA × CONTABILIDADE: configuração (contas e históricos por tipo), eventos que alimentam cada configuração e os lançamentos contábeis gerados.
+# Curado à mão e conciliado no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# ATENÇÃO: a legenda de `tipo` NÃO está no banco (o comentário diz só "Tipo de configuração/integração"). Ver o domínio tipo_integracao_folha.
+modulo: folha_contabil
+titulo: Integração da folha com a contabilidade
+dominios:
+  tipo_separador_integracao:
+    descricao: Tipo de separador da integração (fointegcontlanc.tipo_separador)
+    confirmado: true      # comentário da coluna
+    valores: {0: Sem separador, 1: Centro de custos, 2: Departamentos, 3: Serviços, 4: Filiais}
+  tipo_integracao_folha:
+    descricao: Tipo da configuração/integração da folha com a contabilidade
+    confirmado: false
+    nota: >
+      O banco não traz legenda. Em uso: 1, 2, 3, 4, 5, 6, 7, 8 e 10. As descrições das configurações cadastradas dão pistas, mas NÃO fecham uma legenda: o tipo 1 reúne salários, descontos, pró-labore e
+      contribuição sindical; os tipos 1, 3 e 4 repetem as mesmas 53 descrições (ex.: vale transporte) e os tipos 2, 5, 6 e 7 têm PIS, o 8 rescisão e o 10 INSS sobre valores pagos a cooperativa
+      de trabalho. Tentativa de conciliar valores lançados por tipo com os totais da folha (empresa 1430, 2026-08) não identificou uma correspondência exata. Não usar como regra.
+    valores: {1: Sem legenda, 2: Sem legenda, 3: Sem legenda, 4: Sem legenda, 5: Sem legenda, 6: Sem legenda, 7: Sem legenda, 8: Sem legenda, 10: Sem legenda}
+
+entidades:
+  configuracao_integracao_folha:
+    titulo: Configuração da integração da folha com a contabilidade
+    descricao: >
+      Para cada empresa, separador (centro de custos, departamento...), código e tipo: descrição (ex.: salários, vale transporte, PIS sobre folha), conta de débito e de crédito, histórico
+      padrão e, para guias, contas de juros e multa. 112.913 linhas, 706 empresas; todas de origem "sistema".
+    tabela: fointegcont
+    chave: [codi_emp, i_separador, i_codigo, tipo]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[i_separador, asc], [i_codigo, asc]]
+    colunas:
+      separador: i_separador
+      codigo: i_codigo
+      tipo: {coluna: tipo, dominio: tipo_integracao_folha}
+      descricao: descricao
+      conta_credito: conta_cred
+      conta_debito: conta_deb
+      historico_codigo: i_historico
+      historico_complemento: comp_hist
+      conta_debito_juros: deb_juros
+      historico_juros_codigo: hist_juros
+      historico_juros_complemento: hist_juros_comp
+      conta_debito_multa: deb_multa
+      historico_multa_codigo: hist_multa
+      historico_multa_complemento: hist_multa_comp
+    filhos:
+      eventos: {entidade: evento_integracao_folha, liga: {codi_emp: codi_emp, i_separador: separador, i_codigo: codigo, tipo: tipo}}
+    filtros:
+      separador: {coluna: i_separador, ops: [eq, in]}
+      codigo: {coluna: i_codigo, ops: [eq, in]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+      descricao: {coluna: descricao, ops: [contem, prefixo]}
+    regras:
+      - "Cada configuração (empresa, separador, código, tipo) é a chave; as contas e o histórico são os usados quando a folha é contabilizada. Todas as 112.913 linhas têm origem 0 (sistema)."
+      - "Descrições típicas do tipo 1: SALÁRIOS, DESCONTOS DE FOLHA, PRO-LABORE, DESCONTOS PRO-LABORE, CONTRIBUIÇÃO SINDICAL, VALE TRANSPORTE."
+
+  evento_integracao_folha:
+    titulo: Eventos de cada configuração da integração
+    descricao: >
+      Liga cada configuração da integração (separador, código e tipo) aos eventos (rubricas) da folha que a alimentam. 831.213 linhas, 706 empresas.
+    tabela: fointegconteve
+    chave: [codi_emp, i_separador, i_codigo, i_eventos, tipo]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[i_separador, asc], [i_codigo, asc], [i_eventos, asc]]
+    colunas:
+      separador: i_separador
+      codigo: i_codigo
+      evento_codigo: i_eventos
+      tipo: {coluna: tipo, dominio: tipo_integracao_folha}
+    vinculos:
+      configuracao:
+        tabela: fointegcont
+        liga: {codi_emp: codi_emp, i_separador: i_separador, i_codigo: i_codigo, tipo: tipo}
+        colunas: {configuracao_descricao: descricao}
+      evento:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {evento_nome: nome}
+    filtros:
+      separador: {coluna: i_separador, ops: [eq, in]}
+      codigo: {coluna: i_codigo, ops: [eq, in]}
+      evento_codigo: {coluna: i_eventos, ops: [eq, in]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    regras:
+      - "Toda linha tem a configuração correspondente (0 sem registro na amostra da empresa 927, 1.194 linhas)."
+
+  lancamento_integracao_folha:
+    titulo: Lançamentos contábeis gerados pela integração da folha
+    descricao: >
+      Registra, por empresa da folha, competência e tipo de integração, o número do lançamento contábil gerado (na empresa da contabilidade `codi_emp_cta`), com o separador usado.
+      213.590 linhas, 457 empresas, de 2013-01 a 2026-09. Os valores ficam em contabil.lancamento.
+    tabela: fointegcontlanc
+    chave: [codi_emp, competencia, nume_lanc, tipo]
+    acesso: {empresa: codi_emp, periodo: competencia, volume: medio}
+    ordem: [[competencia, desc], [nume_lanc, asc], [tipo, asc]]
+    colunas:
+      competencia: competencia
+      lancamento_numero: nume_lanc
+      tipo: {coluna: tipo, dominio: tipo_integracao_folha}
+      empresa_contabilidade: codi_emp_cta
+      tipo_separador: {coluna: TIPO_SEPARADOR, dominio: tipo_separador_integracao}
+      separador: I_SEPARADOR
+    vinculos:
+      lancamento:
+        tabela: ctlancto
+        liga: {codi_emp_cta: codi_emp, nume_lanc: nume_lan}
+        colunas: {lancamento_data: data_lan, lancamento_valor: vlor_lan}
+    filtros:
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      lancamento_numero: {coluna: nume_lanc, ops: [eq, in]}
+      tipo: {coluna: tipo, ops: [eq, in]}
+    regras:
+      - "Integridade: todo lançamento registrado existe em ctlancto (0 sem lançamento nos 38.065 de 2025)."
+      - "Tipos em uso: 1 (102.127 linhas), 5 (30.117), 6 (25.574), 4 (21.715), 2 (16.688), 3 (16.268) e 10 (1.213). Quase tudo sem separador (211.854); 1.714 por centro de custos."
+      - "Empresa 1430, 2026-08: valor lançado por tipo 1 = 108.484,19 (9 lançamentos), 2 = 13.978,47, 3 = 9.473,61, 4 = 22.725,96, 5 = 10.687,46, 6 = 5.380,51; a folha do mês soma proventos 144.751,35, descontos 96.374,31 e líquido 48.377,04, sem correspondência exata com um tipo."

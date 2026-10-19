@@ -1,0 +1,1302 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_nucleo
+titulo: Fiscal - nucleo (rascunho em lote)
+dominios:
+  efcfghistorico_tipo_1_entradas_2_entrad:
+    confirmado: parcial
+    nota: 'Valores em efcfghistorico.i_tipo fora do comentário do banco: 35=1.408, 38=1.408, 15=1.408, 31=1.408, 32=1.408, 34=1.408, 17=1.408, 16=1.408. Distribuição:
+      1=1.427, 12=1.408, 35=1.408, 38=1.408, 15=1.408, 31=1.408, 32=1.408, 34=1.408 (2026-10-18).'
+    valores: {'1': Entradas, '2': Entradas Sintetica, '3': Entradas Imposto, '4': Saidas, '5': Saidas Sintetica, '6': Saidas Imposto, '7': Servicos, '8': Servicos
+        Sintetica, '9': Servicos Imposto, '10': Apuracao, '11': Pagamento de Impostos, '12': Pagamento de Parcelas}
+  eftabfax_tipo_v_valor_p_percentu:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabfax.tipo_fax estão no comentário do banco (2026-10-18). Distribuição: P=441, V=19.'
+    valores: {V: Valor, P: Percentual}
+  efmovacu_origem_das_r:
+    confirmado: true
+    nota: 'Todos os valores observados em efmovacu.dacon_origem_mac estão no comentário do banco (2026-10-18). Distribuição: I=171.'
+    valores: {I: interna, E: externa}
+  efmgexclusoes_tipo_da_exclusao_e_entradas_:
+    confirmado: true
+    nota: 'Todos os valores observados em efmgexclusoes.tipo_emg estão no comentário do banco (2026-10-18). Distribuição: E=28, S=19.'
+    valores: {E: Entradas, S: Saidas}
+  efmgexclusoes_regime_da_exclusao_2_me_4_ep:
+    confirmado: true
+    nota: 'Todos os valores observados em efmgexclusoes.regime_emg estão no comentário do banco (2026-10-18). Distribuição: 4=28, 2=19.'
+    valores: {'2': ME, '4': EPP}
+  efmaqecf_tipo_de_equipamento_1_ecf_mr_2_ecf_if:
+    confirmado: true
+    nota: 'Todos os valores observados em efmaqecf.tipo_mec estão no comentário do banco (2026-10-18). Distribuição: 3=8.'
+    valores: {'1': ECF-MR, '2': ECF-IF-INTERLIGADO A UAP, '3': OUTROS, '4': ECF-PDV}
+  eftabelamuni_tipo_i_selecao_de_iten:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabelamuni.tipo estão no comentário do banco (2026-10-18). Distribuição: I=6.'
+    valores: {I: Selecao de itens, L: Campo livre}
+  eftabelamuni_formato_c_caracter_d_d:
+    confirmado: true
+    nota: 'Todos os valores observados em eftabelamuni.formato estão no comentário do banco (2026-10-18). Distribuição: C=6.'
+    valores: {C: Caracter, D: Data, V: Valor}
+  efmovaju_descricao_no_l:
+    confirmado: true
+    nota: 'Todos os valores observados em efmovaju.desc_livro_maj estão no comentário do banco (2026-10-18). Distribuição: N=3.'
+    valores: {N: Nome do ajuste, O: Observacao do movimento}
+  efmovaju_origem_do_cred:
+    confirmado: true
+    nota: 'Todos os valores observados em efmovaju.dacon_origem_maj estão no comentário do banco (2026-10-18). Distribuição: I=3.'
+    valores: {I: interno, E: externo}
+  efmovaju_fomentar_opera:
+    confirmado: true
+    nota: 'Todos os valores observados em efmovaju.fomentar_operacao_maj estão no comentário do banco (2026-10-18). Distribuição: N=3.'
+    valores: {N: Nao incentivada, I: Incentivada, F: Não financiada}
+  efincentivosmuni_tipo_de_calculo_c_c:
+    confirmado: true
+    nota: 'Todos os valores observados em efincentivosmuni.tipocalc_inc estão no comentário do banco (2026-10-18). Distribuição: D=1, C=1.'
+    valores: {C: Cascata, D: Direto}
+  efincentivosmuni_valores_a_anual_m_m:
+    confirmado: true
+    nota: 'Todos os valores observados em efincentivosmuni.valores_inc estão no comentário do banco (2026-10-18). Distribuição: A=2.'
+    valores: {A: Anual, M: Mensal}
+  efincentivosmuni_base_de_calculo_r_r:
+    confirmado: true
+    nota: 'Todos os valores observados em efincentivosmuni.BASE_CALCULO_INC estão no comentário do banco (2026-10-18). Distribuição: R=1, Q=1.'
+    valores: {R: Receita bruta, Q: Quantidade de profissional habilitado}
+  efconversao_indica_como:
+    confirmado: true
+    nota: 'Todos os valores observados em efconversao.status_cnv estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'0': Nao definido, '1': Dados convertidos}
+entidades:
+  efapuracao:
+    titulo: Parametros de Apuracao
+    descricao: 'Parametros de Apuracao. 63.964 linhas no catálogo; chave: codi_emp, data_apu.'
+    tabela: efapuracao
+    chave: [codi_emp, data_apu]
+    acesso: {empresa: codi_emp, periodo: data_apu, volume: medio}
+    ordem:
+    - [data_apu, desc]
+    colunas: {empresa: codi_emp, data_da_apuracao: data_apu, calcula_fundosocial: fundosocial_apu, calcula_seitec: seitec_apu, efetua_doacao_para_o_fundosocial_substit: FUNDOSOCIAL_SUBTRI_APU,
+      calcular_credito_adicional_fundosocial_i: ADICIONAL_FUNDOSOCIAL_APU, calcula_estoque_diario: CALCULA_ESTOQUE_DIARIO, realizar_apuracao_previdenciaria: REALIZA_APURACAO_PREVIDENCIARIA,
+      calcular_adicional_de_icms_estimativa_ar: CALCULA_ADICIONAL_ICMS_ESTIMATIVA, periodo_apurado: PERIODO_APURADO, calcula_prodec: PRODEC_APU}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      data_da_apuracao:
+        coluna: data_apu
+        ops: [eq, in]
+      calcula_fundosocial:
+        coluna: fundosocial_apu
+        ops: [eq, in]
+      calcula_seitec:
+        coluna: seitec_apu
+        ops: [eq, in]
+      efetua_doacao_para_o_fundosocial_substit:
+        coluna: FUNDOSOCIAL_SUBTRI_APU
+        ops: [eq, in]
+      calcular_credito_adicional_fundosocial_i:
+        coluna: ADICIONAL_FUNDOSOCIAL_APU
+        ops: [eq, in]
+      calcula_estoque_diario:
+        coluna: CALCULA_ESTOQUE_DIARIO
+        ops: [eq, in]
+      realizar_apuracao_previdenciaria:
+        coluna: REALIZA_APURACAO_PREVIDENCIARIA
+        ops: [eq, in]
+      calcular_adicional_de_icms_estimativa_ar:
+        coluna: CALCULA_ADICIONAL_ICMS_ESTIMATIVA
+        ops: [eq, in]
+      periodo_apurado:
+        coluna: PERIODO_APURADO
+        ops: [eq, in]
+      calcula_prodec:
+        coluna: PRODEC_APU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 64.002 linhas, 1.384 empresa(s), data_apu de 2007-04-01 a 2026-09-01.', 'Vínculo geempre (geempre): 0 de 33 linhas sem registro
+        relacionado (empresa 1447).']
+  efmvvpro:
+    titulo: Notas Fiscais de Serviços - Produtos
+    descricao: 'Notas Fiscais de Serviços - Produtos. 53.933 linhas no catálogo; chave: CODI_EMP, CODI_SER, NUME_MVP.'
+    tabela: EFMVVPRO
+    chave: [CODI_EMP, CODI_SER, NUME_MVP]
+    acesso: {empresa: CODI_EMP, periodo: DATA_MVP, volume: medio}
+    ordem:
+    - [DATA_MVP, desc]
+    - [CODI_SER, asc]
+    - [NUME_MVP, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_SER, sequencial: NUME_MVP, produto: CODI_PDI, data: DATA_MVP, quantidade: QTDE_MVP, valor_do_produto: VPRO_MVP, valor_do_desconto: VDES_MVP,
+      valor_unitario: VALOR_UNIT_MVP, cst_do_issqn: CST_ISSQN_MVP, base_de_calculo_issqn: BC_ISSQN_MVP, aliquota_de_issqn: ALIQ_ISSQN_MVP, valor_issqn: VALOR_ISSQN_MVP,
+      isentas_de_iss: ISENTAS_ISSQN_MVP, nao_incidencia_de_iss: NAO_INCIDENCIA_ISSQN_MVP, iss_retido: ISS_RETIDO_MVP, quantidade_cancelada: QTDE_CANCELADA_MVP, valor_do_cancelamento: VALOR_CANCEL_MVP,
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, cst_do_pis: CST_PIS_MVP, base_de_calculo_do_pis: BC_PIS_MVP, aliquota_do_pis: ALIQ_PIS_MVP, valor_do_pis: VALOR_PIS_MVP,
+      cst_do_cofins: CST_COFINS_MVP, base_de_calculo_do_cofins: BC_COFINS_MVP, aliquota_do_cofins: ALIQ_COFINS_MVP, valor_do_cofins: VALOR_COFINS_MVP, valor_contabil_produto: VALOR_CONTABIL_MVP,
+      dados_referente_ao_pis_cofins_ok_s_n: DADOS_PISCOFINS_OK, descricao_complementar: DESCRICAO_COMPLEMENTAR_MVP, natureza_da_receita_do_pis: NATUREZA_RECEITA_PIS_MVP,
+      natureza_da_receita_do_cofins: NATUREZA_RECEITA_COFINS_MVP, exclusao_cooperativa: EXCLUSAO_COOPERATIVA_MVP, percentual_reducao_base_calculo_pis: PERCENTUAL_REDUCAO_BC_PIS_MVP,
+      percentual_reducao_base_calculo_cofins: PERCENTUAL_REDUCAO_BC_COFINS_MVP, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS, codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS,
+      codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS, codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS, valor_iss_retido: VALOR_ISSRET_MVP}
+    vinculos:
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita_pis_mvp: codigo, cst_pis_mvp: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODI_SER
+        ops: [eq, in]
+      sequencial:
+        coluna: NUME_MVP
+        ops: [eq, in]
+      data:
+        coluna: DATA_MVP
+        ops: [entre, gte, lte]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      dados_referente_ao_pis_cofins_ok_s_n:
+        coluna: DADOS_PISCOFINS_OK
+        ops: [eq, in]
+      descricao_complementar:
+        coluna: DESCRICAO_COMPLEMENTAR_MVP
+        ops: [contem, prefixo]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 54.046 linhas, 101 empresa(s), DATA_MVP de 2013-01-01 a 2026-10-01.', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA):
+        0 de 16 linhas sem registro relacionado (empresa 832).']
+  efcfghistorico:
+    titulo: Configuracao de historico
+    descricao: 'Configuracao de historico. 38.445 linhas no catálogo; chave: codi_emp, i_tipo.'
+    tabela: efcfghistorico
+    chave: [codi_emp, i_tipo]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [i_tipo, asc]
+    colunas:
+      empresa: codi_emp
+      tipo_1_entradas_2_entradas_sintetica_3_e: {coluna: i_tipo, dominio: efcfghistorico_tipo_1_entradas_2_entrad}
+      historico: historico
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      tipo_1_entradas_2_entradas_sintetica_3_e:
+        coluna: i_tipo
+        ops: [eq, in]
+      historico:
+        coluna: historico
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 38.445 linhas, 1.445 empresa(s).', 'tipo_1_entradas_2_entradas_sintetica_3_e: valores reais fora do comentário do banco (35=1.408,
+        38=1.408, 15=1.408, 31=1.408, 32=1.408, 34=1.408); tratar o domínio como hipótese.', 'Vínculo geempre (geempre): 0 de 27 linhas sem registro relacionado (empresa
+        658).']
+  efsdosubtri:
+    titulo: Saldo da Substituicao Tributaria por Estado
+    descricao: 'Saldo da Substituicao Tributaria por Estado. 28.512 linhas no catálogo; chave: codi_emp, codi_imp, data_sim, pdic_sim, sigl_est.'
+    tabela: efsdosubtri
+    chave: [codi_emp, codi_imp, data_sim, pdic_sim, sigl_est]
+    acesso: {empresa: codi_emp, periodo: data_sim, volume: medio}
+    ordem:
+    - [data_sim, desc]
+    - [codi_imp, asc]
+    - [pdic_sim, asc]
+    colunas: {empresa: codi_emp, imposto: codi_imp, competencia: data_sim, pdic_sim: pdic_sim, estado: sigl_est, saldo_devedor: sdev_sst, saldo_credor: scre_sst,
+      valor_contabil_das_entradas: vcoe_sst, base_calculo_das_entradas: bcae_sst, valor_imposto_das_entradas: vime_sst, valor_contabil_das_saidas: vcos_sst, base_calculo_das_saidas: bcas_sst,
+      valor_imposto_das_saidas: vims_sst, origem_do_registro_0_sistema_1_imp_tabel: origem_reg, valor_do_ressarcimento: RESSARCIMENTO_SST, valor_do_ressarcimento_icms_st: RESSARCIMENTO_ICMS_SST,
+      saldo_inferior_a_quantidade_minima_para: SALDO_INFERIOR_QUANT_MINIMA_RECOLHIMENTO_SST, saldo_anterior_inferior_a_quantidade_min: SALDO_ANT_INFERIOR_QUANT_MINIMA_RECOLHIMENTO_SST,
+      saldo_credor_anterior_de_icms_st_utiliza: SALDO_CREDOR_ANT_UTIL_PARA_COMP_DEB_ICMS_PROPRIO}
+    filtros:
+      imposto:
+        coluna: codi_imp
+        ops: [eq, in]
+      competencia:
+        coluna: data_sim
+        ops: [eq, in]
+      pdic_sim:
+        coluna: pdic_sim
+        ops: [eq, in]
+      estado:
+        coluna: sigl_est
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 28.512 linhas, 35 empresa(s), data_sim de 2010-01-01 a 2026-09-01.']
+  efindices:
+    titulo: Indices Diarios - Cadastro
+    descricao: 'Indices Diarios - Cadastro. 19.901 linhas no catálogo; chave: data_ind, codi_ind.'
+    tabela: efindices
+    chave: [data_ind, codi_ind]
+    acesso: {empresa: null, periodo: data_ind, volume: medio}
+    ordem:
+    - [data_ind, desc]
+    - [codi_ind, asc]
+    colunas: {data: data_ind, codigo: codi_ind, nome: nome_ind, valor: vlor_ind, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      data:
+        coluna: data_ind
+        ops: [eq, in]
+      codigo:
+        coluna: codi_ind
+        ops: [eq, in]
+      nome:
+        coluna: nome_ind
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19.901 linhas, data_ind de 1964-10-01 a 2011-12-31.']
+  efgrupopdi:
+    titulo: Grupos de Produtos - Cadastro
+    descricao: 'Grupos de Produtos - Cadastro. 19.625 linhas no catálogo; chave: codi_emp, codi_gru.'
+    tabela: efgrupopdi
+    chave: [codi_emp, codi_gru]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [codi_gru, asc]
+    colunas: {empresa: codi_emp, codigo: codi_gru, nome: nome_gru, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      codigo:
+        coluna: codi_gru
+        ops: [eq, in]
+      nome:
+        coluna: nome_gru
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 19.625 linhas, 1.400 empresa(s).']
+  efncm:
+    titulo: TABELA DE NCM
+    descricao: 'TABELA DE NCM. 15.899 linhas no catálogo; chave: NCM.'
+    tabela: EFNCM
+    chave: [NCM]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [NCM, asc]
+    colunas: {ncm: NCM, descricao: DESCRICAO}
+    filtros:
+      ncm:
+        coluna: NCM
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 15.899 linhas.']
+  efmunifederal:
+    titulo: Municipios Federais - Cadastro
+    descricao: 'Municipios Federais - Cadastro. 5.559 linhas no catálogo; chave: sigl_est, codigo_fed.'
+    tabela: efmunifederal
+    chave: [sigl_est, codigo_fed]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [sigl_est, asc]
+    - [codigo_fed, asc]
+    colunas: {estado: sigl_est, codigo: codigo_fed, nome: nome_fed, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      estado:
+        coluna: sigl_est
+        ops: [eq, in]
+      codigo:
+        coluna: codigo_fed
+        ops: [eq, in]
+      nome:
+        coluna: nome_fed
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.559 linhas.']
+  efnbs:
+    titulo: Tabela de NBS
+    descricao: 'Tabela de NBS. 1.237 linhas no catálogo; chave: NBS.'
+    tabela: EFNBS
+    chave: [NBS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [NBS, asc]
+    colunas: {nbs: NBS, descricao: DESCRICAO}
+    filtros:
+      nbs:
+        coluna: NBS
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.237 linhas.']
+  efunidades:
+    titulo: Unidades de medida - Cadastro
+    descricao: 'Unidades de medida - Cadastro. 876 linhas no catálogo; chave: codigo_unidade.'
+    tabela: efunidades
+    chave: [codigo_unidade]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_unidade, asc]
+    colunas: {codigo: codigo_unidade, unidade: unidade, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo_unidade
+        ops: [eq, in]
+      unidade:
+        coluna: unidade
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 876 linhas.']
+  efindmed:
+    titulo: Indices Medios - Cadastro
+    descricao: 'Indices Medios - Cadastro. 720 linhas no catálogo; chave: data_ind, codi_ind.'
+    tabela: efindmed
+    chave: [data_ind, codi_ind]
+    acesso: {empresa: null, periodo: data_ind, volume: pequeno}
+    ordem:
+    - [data_ind, desc]
+    - [codi_ind, asc]
+    colunas: {data_ind: data_ind, codigo: codi_ind, nome: nome_ind, valor: vlor_ind, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      data_ind:
+        coluna: data_ind
+        ops: [eq, in]
+      codigo:
+        coluna: codi_ind
+        ops: [eq, in]
+      nome:
+        coluna: nome_ind
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 720 linhas, data_ind de 1964-10-01 a 2011-12-01.']
+  efimoveis:
+    titulo: Imóveis - Cadastro
+    descricao: 'Imóveis - Cadastro. 612 linhas no catálogo; chave: CODI_EMP, I_IMOVEL.'
+    tabela: EFIMOVEIS
+    chave: [CODI_EMP, I_IMOVEL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CADASTRO_IMOVEL, volume: pequeno}
+    ordem:
+    - [DATA_CADASTRO_IMOVEL, desc]
+    - [I_IMOVEL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_do_imovel: I_IMOVEL
+      descricao_do_imovel: DESCRICAO_IMOVEL
+      data_do_imovel: DATA_CADASTRO_IMOVEL
+      cliente_do_imovel: CODI_CLI
+      endereco_do_imovel: {coluna: ENDERECO_IMOVEL, sensivel: parcial}
+      numero_do_imovel: NUMERO_IMOVEL
+      complemento_do_imovel: COMPLEMENTO_IMOVEL
+      cep_do_imovel: {coluna: CEP_IMOVEL, sensivel: parcial}
+      bairro_do_imovel: {coluna: BAIRRO_IMOVEL, sensivel: parcial}
+      tipo_do_imovel_u_r: TIPO_IMOVEL
+      municipio_do_imovel: CODIGO_MUNICIPIO_IMOVEL
+      uf_do_imovel: UF_IMOVEL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio_imovel: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      codigo_do_imovel:
+        coluna: I_IMOVEL
+        ops: [eq, in]
+      data_do_imovel:
+        coluna: DATA_CADASTRO_IMOVEL
+        ops: [entre, gte, lte]
+      descricao_do_imovel:
+        coluna: DESCRICAO_IMOVEL
+        ops: [contem, prefixo]
+      cliente_do_imovel:
+        coluna: CODI_CLI
+        ops: [eq, in]
+      endereco_do_imovel:
+        coluna: ENDERECO_IMOVEL
+        ops: [contem, prefixo]
+      complemento_do_imovel:
+        coluna: COMPLEMENTO_IMOVEL
+        ops: [contem, prefixo]
+      cep_do_imovel:
+        coluna: CEP_IMOVEL
+        ops: [eq, in]
+      bairro_do_imovel:
+        coluna: BAIRRO_IMOVEL
+        ops: [contem, prefixo]
+      tipo_do_imovel_u_r:
+        coluna: TIPO_IMOVEL
+        ops: [eq, in]
+      municipio_do_imovel:
+        coluna: CODIGO_MUNICIPIO_IMOVEL
+        ops: [eq, in]
+      uf_do_imovel:
+        coluna: UF_IMOVEL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 612 linhas, 52 empresa(s), DATA_CADASTRO_IMOVEL de 2012-11-29 a 4201-01-01.', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro
+        relacionado (empresa 766).', 'Vínculo efclientes (efclientes): 0 de 3 linhas sem registro relacionado (empresa 766).', 'Vínculo gemunicipio (gemunicipio):
+        0 de 3 linhas sem registro relacionado (empresa 766).']
+  efmunici:
+    titulo: Municipios - Cadastro
+    descricao: 'Municipios - Cadastro. 476 linhas no catálogo; chave: codi_mun.'
+    tabela: efmunici
+    chave: [codi_mun]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_mun, asc]
+    colunas: {codigo: codi_mun, estado: sigl_est, nome: nome_mun, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      codigo:
+        coluna: codi_mun
+        ops: [eq, in]
+      estado:
+        coluna: sigl_est
+        ops: [eq, in]
+      nome:
+        coluna: nome_mun
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 476 linhas.']
+  eftabfax:
+    titulo: Incentivos - Cadastro - Faixas
+    descricao: 'Incentivos - Cadastro - Faixas. 460 linhas no catálogo; chave: codi_tab, vigi_tab, sequ_fax.'
+    tabela: eftabfax
+    chave: [codi_tab, vigi_tab, sequ_fax]
+    acesso: {empresa: null, periodo: vigi_tab, volume: pequeno}
+    ordem:
+    - [vigi_tab, desc]
+    - [codi_tab, asc]
+    - [sequ_fax, asc]
+    colunas:
+      codigo_da_tabela: codi_tab
+      vigencia: vigi_tab
+      faixa: sequ_fax
+      faixa_inicial: inic_fax
+      faixa_final: fina_fax
+      tax1_fax: tax1_fax
+      tax2_fax: tax2_fax
+      tax3_fax: tax3_fax
+      tax4_fax: tax4_fax
+      tipo_v_valor_p_percentual: {coluna: tipo_fax, dominio: eftabfax_tipo_v_valor_p_percentu}
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+    filtros:
+      codigo_da_tabela:
+        coluna: codi_tab
+        ops: [eq, in]
+      vigencia:
+        coluna: vigi_tab
+        ops: [eq, in]
+      faixa:
+        coluna: sequ_fax
+        ops: [eq, in]
+      tipo_v_valor_p_percentual:
+        coluna: tipo_fax
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 460 linhas, vigi_tab de 1990-01-01 a 2007-01-01.', 'tipo_v_valor_p_percentual: todos os valores reais estão no comentário do banco
+        (P=441, V=19).']
+  efmovacu:
+    titulo: Outros Movimentos - Impostos Calculados
+    descricao: 'Outros Movimentos - Impostos Calculados. 171 linhas no catálogo; chave: codi_emp, CODI_MAC.'
+    tabela: efmovacu
+    chave: [codi_emp, CODI_MAC]
+    acesso: {empresa: codi_emp, periodo: data_mac, volume: pequeno}
+    ordem:
+    - [data_mac, desc]
+    - [CODI_MAC, asc]
+    colunas:
+      empresa: codi_emp
+      codigo: CODI_MAC
+      acumulador: codi_acu
+      data: data_mac
+      valor: vlor_mac
+      operacao: oper_mac
+      observacao: obse_mac
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      ganhos_lucros_e_aplicacoes_financeiras: ganhos_mac
+      origem_das_receitas_despesas_i_interna_e: {coluna: dacon_origem_mac, dominio: efmovacu_origem_das_r}
+      valor_do_imposto_gerado_no_patrimonio: IMPOSTO_PATRIMONIO_MAC
+      tipo_de_credito_do_pis_e_cofins: TIPO_CREDITO_MAC
+      movimento_efetuado_pelo_patrimonio_s_n: MOVIMENTO_PATRIMONIO_MAC
+      municipio: CODIGO_MUNICIPIO
+      sequencial_do_scp: I_SCP
+      produto_vinculado_a_deducao: CODI_PDI_VINCULADO_DEDUCAO
+    vinculos:
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+    filtros:
+      codigo:
+        coluna: CODI_MAC
+        ops: [eq, in]
+      data:
+        coluna: data_mac
+        ops: [entre, gte, lte]
+      acumulador:
+        coluna: codi_acu
+        ops: [eq, in]
+      observacao:
+        coluna: obse_mac
+        ops: [contem, prefixo]
+      origem_das_receitas_despesas_i_interna_e:
+        coluna: dacon_origem_mac
+        ops: [eq, in]
+      tipo_de_credito_do_pis_e_cofins:
+        coluna: TIPO_CREDITO_MAC
+        ops: [eq, in]
+      movimento_efetuado_pelo_patrimonio_s_n:
+        coluna: MOVIMENTO_PATRIMONIO_MAC
+        ops: [eq, in]
+      municipio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      produto_vinculado_a_deducao:
+        coluna: CODI_PDI_VINCULADO_DEDUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 171 linhas, 18 empresa(s), data_mac de 2018-01-01 a 2026-03-31.', 'Colunas expostas nulas em 100% das linhas (4): tipo_de_credito_do_pis_e_cofins,
+        municipio, sequencial_do_scp, produto_vinculado_a_deducao.', 'origem_das_receitas_despesas_i_interna_e: todos os valores reais estão no comentário do banco
+        (I=171).', 'Vínculo gemunicipio (gemunicipio): 0 de 6 linhas sem registro relacionado (empresa 1534).']
+  efmtisentas:
+    titulo: Codigos de detalhamentos de isentas - MT
+    descricao: 'Codigos de detalhamentos de isentas - MT. 150 linhas no catálogo; chave: codigo_mtisentas.'
+    tabela: efmtisentas
+    chave: [codigo_mtisentas]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_mtisentas, asc]
+    colunas: {codigo: codigo_mtisentas, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo_mtisentas
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 150 linhas.']
+  eftabelas:
+    titulo: Incentivos - Cadastro
+    descricao: 'Incentivos - Cadastro. 54 linhas no catálogo; chave: codi_tab, vigi_tab.'
+    tabela: eftabelas
+    chave: [codi_tab, vigi_tab]
+    acesso: {empresa: null, periodo: vigi_tab, volume: pequeno}
+    ordem:
+    - [vigi_tab, desc]
+    - [codi_tab, asc]
+    colunas: {codigo: codi_tab, vigencia: vigi_tab, indice_moeda: indi_tab, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      codigo:
+        coluna: codi_tab
+        ops: [eq, in]
+      vigencia:
+        coluna: vigi_tab
+        ops: [eq, in]
+      indice_moeda:
+        coluna: indi_tab
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 54 linhas, vigi_tab de 1990-01-01 a 2007-01-01.']
+  efmgtransferencias:
+    titulo: Motivos de Transferencias - Cadastro - MG
+    descricao: 'Motivos de Transferencias - Cadastro - MG. 53 linhas no catálogo; chave: codigo_mgt.'
+    tabela: efmgtransferencias
+    chave: [codigo_mgt]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_mgt, asc]
+    colunas: {codigo: codigo_mgt, artigo: artigo_mgt, inciso: inciso_mgt, paragrafo: paragrafo_mgt, item: item_mgt, motivo: motivo_mgt, destino: destino_mgt, competencia: competencia_mgt,
+      requisito: requisito_mgt, normal_legal: NORMA_LEGAL}
+    filtros:
+      codigo:
+        coluna: codigo_mgt
+        ops: [eq, in]
+      artigo:
+        coluna: artigo_mgt
+        ops: [eq, in]
+      inciso:
+        coluna: inciso_mgt
+        ops: [eq, in]
+      paragrafo:
+        coluna: paragrafo_mgt
+        ops: [eq, in]
+      item:
+        coluna: item_mgt
+        ops: [eq, in]
+      motivo:
+        coluna: motivo_mgt
+        ops: [contem, prefixo]
+      destino:
+        coluna: destino_mgt
+        ops: [contem, prefixo]
+      competencia:
+        coluna: competencia_mgt
+        ops: [eq, in]
+      requisito:
+        coluna: requisito_mgt
+        ops: [contem, prefixo]
+      normal_legal:
+        coluna: NORMA_LEGAL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 53 linhas.']
+  efmgexclusoes:
+    titulo: Exclusoes - Cadastro - MG
+    descricao: 'Exclusoes - Cadastro - MG. 47 linhas no catálogo; chave: tipo_emg, regime_emg, codigo_emg.'
+    tabela: efmgexclusoes
+    chave: [tipo_emg, regime_emg, codigo_emg]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [tipo_emg, asc]
+    - [regime_emg, asc]
+    colunas:
+      tipo_da_exclusao_e_entradas_s_saidas: {coluna: tipo_emg, dominio: efmgexclusoes_tipo_da_exclusao_e_entradas_}
+      regime_da_exclusao_2_me_4_epp: {coluna: regime_emg, dominio: efmgexclusoes_regime_da_exclusao_2_me_4_ep}
+      codigo: codigo_emg
+      descricao: descricao_emg
+    filtros:
+      tipo_da_exclusao_e_entradas_s_saidas:
+        coluna: tipo_emg
+        ops: [eq, in]
+      regime_da_exclusao_2_me_4_epp:
+        coluna: regime_emg
+        ops: [eq, in]
+      codigo:
+        coluna: codigo_emg
+        ops: [eq, in]
+      descricao:
+        coluna: descricao_emg
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 47 linhas.', 'tipo_da_exclusao_e_entradas_s_saidas: todos os valores reais estão no comentário do banco (E=28, S=19).', 'regime_da_exclusao_2_me_4_epp:
+        todos os valores reais estão no comentário do banco (4=28, 2=19).']
+  efceespecies:
+    titulo: Especies - Cadastro - CE
+    descricao: 'Especies - Cadastro - CE. 35 linhas no catálogo; chave: i_especie.'
+    tabela: efceespecies
+    chave: [i_especie]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_especie, asc]
+    colunas: {codigo: i_especie, descricao: descricao_esp, modelo: modelo_esp, modelo_geral: modelo_relac_esp}
+    filtros:
+      codigo:
+        coluna: i_especie
+        ops: [eq, in]
+      descricao:
+        coluna: descricao_esp
+        ops: [contem, prefixo]
+      modelo:
+        coluna: modelo_esp
+        ops: [eq, in]
+      modelo_geral:
+        coluna: modelo_relac_esp
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 35 linhas.']
+  efimportando:
+    titulo: Usuários importando
+    descricao: 'Usuários importando. 33 linhas no catálogo; chave: CODI_EMP, USUARIO, TABELA_IMPORTADA, CONNECTION_ID.'
+    tabela: EFIMPORTANDO
+    chave: [CODI_EMP, USUARIO, TABELA_IMPORTADA, CONNECTION_ID]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [USUARIO, asc]
+    - [TABELA_IMPORTADA, asc]
+    colunas: {empresa: CODI_EMP, usuario: USUARIO, tabela_que_esta_sendo_importada: TABELA_IMPORTADA, identificador_da_conexao: CONNECTION_ID, propriedade_logintime_do_connection_id: LOGIN_TIME}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      tabela_que_esta_sendo_importada:
+        coluna: TABELA_IMPORTADA
+        ops: [eq, in]
+      identificador_da_conexao:
+        coluna: CONNECTION_ID
+        ops: [eq, in]
+      propriedade_logintime_do_connection_id:
+        coluna: LOGIN_TIME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 42 linhas, 14 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1021).']
+  efalespecies:
+    titulo: Especies - Cadastro - AL
+    descricao: 'Especies - Cadastro - AL. 29 linhas no catálogo; chave: i_especie.'
+    tabela: efalespecies
+    chave: [i_especie]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_especie, asc]
+    colunas: {codigo: i_especie, descricao: descricao_esp, modelo: modelo_esp}
+    filtros:
+      codigo:
+        coluna: i_especie
+        ops: [eq, in]
+      descricao:
+        coluna: descricao_esp
+        ops: [contem, prefixo]
+      modelo:
+        coluna: modelo_esp
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 29 linhas.']
+  efestados:
+    titulo: Estados - Cadastro
+    descricao: 'Estados - Cadastro. 28 linhas no catálogo; chave: sigl_est.'
+    tabela: efestados
+    chave: [sigl_est]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [sigl_est, asc]
+    colunas: {sigla: sigl_est, codigo: codi_est, nome: nome_est, aliquota: aliq_est, regiao: regi_est, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      sigla:
+        coluna: sigl_est
+        ops: [eq, in]
+      codigo:
+        coluna: codi_est
+        ops: [eq, in]
+      nome:
+        coluna: nome_est
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 28 linhas.']
+  efexclusoes:
+    titulo: Exclusoes DIEF e GIA B - Cadastro
+    descricao: 'Exclusoes DIEF e GIA B - Cadastro. 19 linhas no catálogo; chave: codi_exc.'
+    tabela: efexclusoes
+    chave: [codi_exc]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codi_exc, asc]
+    colunas: {codigo: codi_exc, descricao: nome_exc}
+    filtros:
+      codigo:
+        coluna: codi_exc
+        ops: [eq, in]
+      descricao:
+        coluna: nome_exc
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 19 linhas.']
+  efmaqecf:
+    titulo: Maquinas ECF
+    descricao: 'Maquinas ECF. 8 linhas no catálogo; chave: codi_emp, codi_mec.'
+    tabela: efmaqecf
+    chave: [codi_emp, codi_mec]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [codi_mec, asc]
+    colunas:
+      codi_emp: codi_emp
+      codi_mec: codi_mec
+      nser_mec: nser_mec
+      desc_mec: desc_mec
+      sald_mec: sald_mec
+      nro_do_ultimo_contador_final_digitado: contadorf_mec
+      modelo_do_documento_fiscal: reducaoz_mec
+      valor_acumulado_no_contador_de_reinicio: cro_mec
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      tipo_de_equipamento_1_ecf_mr_2_ecf_if_in: {coluna: tipo_mec, dominio: efmaqecf_tipo_de_equipamento_1_ecf_mr_2_ecf_if}
+      modelo: modelo_mec
+      codigo_da_especie: I_MODELO_ESPECIE
+      detalhar_a_ordem_das_aliquotas_s_n: DETALHAR_ORDEM_ALIQUOTA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efmodelo_especie:
+        tabela: EFMODELO_ESPECIE
+        liga: {i_modelo_especie: i_modelo_especie}
+        colunas: {efmodelo_especie_nome: DESCRICAO}
+    filtros:
+      codi_mec:
+        coluna: codi_mec
+        ops: [eq, in]
+      nser_mec:
+        coluna: nser_mec
+        ops: [contem, prefixo]
+      desc_mec:
+        coluna: desc_mec
+        ops: [contem, prefixo]
+      tipo_de_equipamento_1_ecf_mr_2_ecf_if_in:
+        coluna: tipo_mec
+        ops: [eq, in]
+      modelo:
+        coluna: modelo_mec
+        ops: [contem, prefixo]
+      codigo_da_especie:
+        coluna: I_MODELO_ESPECIE
+        ops: [eq, in]
+      detalhar_a_ordem_das_aliquotas_s_n:
+        coluna: DETALHAR_ORDEM_ALIQUOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 8 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): nro_do_ultimo_contador_final_digitado, valor_acumulado_no_contador_de_reinicio.',
+      'tipo_de_equipamento_1_ecf_mr_2_ecf_if_in: todos os valores reais estão no comentário do banco (3=8).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro
+        relacionado (empresa 10055).', 'Vínculo efmodelo_especie (EFMODELO_ESPECIE): 0 de 1 linhas sem registro relacionado (empresa 10055).']
+  eftabelamuni:
+    titulo: Tabelas Municipais - Cadastro
+    descricao: 'Tabelas Municipais - Cadastro. 6 linhas no catálogo; chave: i_tabela.'
+    tabela: eftabelamuni
+    chave: [i_tabela]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tabela, asc]
+    colunas:
+      codigo: i_tabela
+      estado: sigl_est
+      codigo_do_municipio_federal: codigo_fed
+      descricao: descricao
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      tipo_i_selecao_de_itens_l_campo_livre: {coluna: tipo, dominio: eftabelamuni_tipo_i_selecao_de_iten}
+      formato_c_caracter_d_data_v_valor: {coluna: formato, dominio: eftabelamuni_formato_c_caracter_d_d}
+    filtros:
+      codigo:
+        coluna: i_tabela
+        ops: [eq, in]
+      estado:
+        coluna: sigl_est
+        ops: [eq, in]
+      codigo_do_municipio_federal:
+        coluna: codigo_fed
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      tipo_i_selecao_de_itens_l_campo_livre:
+        coluna: tipo
+        ops: [eq, in]
+      formato_c_caracter_d_data_v_valor:
+        coluna: formato
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas.', 'tipo_i_selecao_de_itens_l_campo_livre: todos os valores reais estão no comentário do banco (I=6).', 'formato_c_caracter_d_data_v_valor:
+        todos os valores reais estão no comentário do banco (C=6).']
+  efobsnota:
+    titulo: Observacoes das notas - Cadastro
+    descricao: 'Observacoes das notas - Cadastro. 6 linhas no catálogo; chave: codi_emp, codi_obs.'
+    tabela: efobsnota
+    chave: [codi_emp, codi_obs]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [codi_obs, asc]
+    colunas: {empresa: codi_emp, codigo: codi_obs, descricao: descricao, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: codi_obs
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6 linhas, 5 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1672).']
+  efmovaju:
+    titulo: Outros Movimentos - Impostos Lancados
+    descricao: 'Outros Movimentos - Impostos Lancados. 3 linhas no catálogo; chave: codi_emp, codi_aju, data_maj.'
+    tabela: efmovaju
+    chave: [codi_emp, codi_aju, data_maj]
+    acesso: {empresa: codi_emp, periodo: data_maj, volume: pequeno}
+    ordem:
+    - [data_maj, desc]
+    - [codi_aju, asc]
+    colunas:
+      empresa: codi_emp
+      ajuste: codi_aju
+      data: data_maj
+      valor: vlor_maj
+      codigo_da_receita: crec_maj
+      observacao: obse_maj
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      classe_de_vencimento: classe_maj
+      data_de_vencimento: vcto_maj
+      descricao_dos_debitos_dime_sc: descdeb_maj
+      descricao_no_livro_n_nome_do_ajuste_o_ob: {coluna: desc_livro_maj, dominio: efmovaju_descricao_no_l}
+      codigo_da_especie: cod_especie_maj
+      dae_ou_ida: numero_maj
+      descricao_de_outro_credito: descricao_ce_maj
+      numero_do_processo_dime_sc: processo_maj
+      codigo_do_estado: codigo_uf
+      valor_pago_do_debito: valor_pago_maj
+      numero_do_acordo_dime_sc: acordo_maj
+      origem_do_credito_i_interno_e_externo: {coluna: dacon_origem_maj, dominio: efmovaju_origem_do_cred}
+      fomentar_operacao_fiscal_n_nao_incentiva: {coluna: fomentar_operacao_maj, dominio: efmovaju_fomentar_opera}
+      incide_protege_go_s_n: PROTEGE_MAJ
+      dispositivo_protege_go: PROTEGE_DISPOSITIVO_MAJ
+      numero_do_tare_protege_go: PROTEGE_TARE_MAJ
+      detalhamento_do_movimento_de_ajuste_rs: DETALHAMENTO_MAJ
+      codigo_da_tabela_de_ajustes_sped: CODIGO_AJUSTE_SPED_MAJ
+      numero_guia_dar: NUMERO_GUIA_DAR_MAJ
+      numero_de_parcelas: NUMERO_PARCELA_MAJ
+      operacao_nao_vinculada_ao_projeto_desenv: BA_OPERACAO_PROJETO_DESENVOLVE
+      sequencial_do_codigo_de_recolhimento: I_RECOLHIMENTO
+      i_ajuste_sef: I_AJUSTE_SEF
+      descricao_do_credito: DESCRICAO_CREDITO
+      operacao_nao_vinculada_ao_psdi_programa: SE_OPERACAO_VINCULADA_PSDI
+      ms_operacao_vinculada_ao_beneficio_do_pr: MS_OPER_VINCULADA_BENEFICIO_PROGRAMA_FOMENTO
+      df_ajuste_referente_lei_5005: DF_AJUSTE_REFERENTE_LEI_5005
+      registro_convertido_para_a_nova_tela_de: REGISTRO_CONVERTIDO
+      sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM
+    vinculos:
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped_maj: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+      eftabela_pe_ajuste_sef:
+        tabela: EFTABELA_PE_AJUSTE_SEF
+        liga: {i_ajuste_sef: i_ajuste_sef}
+        colunas: {eftabela_pe_ajuste_sef_nome: DESCRICAO}
+    filtros:
+      ajuste:
+        coluna: codi_aju
+        ops: [eq, in]
+      data:
+        coluna: data_maj
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: vcto_maj
+        ops: [entre, gte, lte]
+      codigo_da_receita:
+        coluna: crec_maj
+        ops: [eq, in]
+      observacao:
+        coluna: obse_maj
+        ops: [contem, prefixo]
+      descricao_no_livro_n_nome_do_ajuste_o_ob:
+        coluna: desc_livro_maj
+        ops: [eq, in]
+      codigo_da_especie:
+        coluna: cod_especie_maj
+        ops: [eq, in]
+      descricao_de_outro_credito:
+        coluna: descricao_ce_maj
+        ops: [contem, prefixo]
+      numero_do_processo_dime_sc:
+        coluna: processo_maj
+        ops: [eq, in]
+      codigo_do_estado:
+        coluna: codigo_uf
+        ops: [eq, in]
+      origem_do_credito_i_interno_e_externo:
+        coluna: dacon_origem_maj
+        ops: [eq, in]
+      fomentar_operacao_fiscal_n_nao_incentiva:
+        coluna: fomentar_operacao_maj
+        ops: [eq, in]
+      incide_protege_go_s_n:
+        coluna: PROTEGE_MAJ
+        ops: [eq, in]
+      numero_do_tare_protege_go:
+        coluna: PROTEGE_TARE_MAJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s), data_maj de 2013-01-31 a 2013-03-31.', 'Colunas expostas nulas em 100% das linhas (19): codigo_da_receita,
+        observacao, classe_de_vencimento, data_de_vencimento, descricao_dos_debitos_dime_sc, codigo_da_especie, dae_ou_ida, descricao_de_outro_credito, numero_do_processo_dime_sc,
+        codigo_do_estado, dispositivo_protege_go, numero_do_tare_protege_go ....', 'descricao_no_livro_n_nome_do_ajuste_o_ob: todos os valores reais estão no comentário
+        do banco (N=3).', 'origem_do_credito_i_interno_e_externo: todos os valores reais estão no comentário do banco (I=3).', 'fomentar_operacao_fiscal_n_nao_incentiva:
+        todos os valores reais estão no comentário do banco (N=3).', 'Vínculo geestado (geestado): 0 de 3 linhas sem registro relacionado (empresa 9997).', 'Vínculo
+        eftabela_movaju_ajuste_s (EFTABELA_MOVAJU_AJUSTE_SPED): 0 de 3 linhas sem registro relacionado (empresa 9997).', 'Vínculo eftabela_pe_ajuste_sef (EFTABELA_PE_AJUSTE_SEF):
+        0 de 3 linhas sem registro relacionado (empresa 9997).']
+  eftabaju:
+    titulo: Outros Movimentos - Impostos Lancados - Detalhamento de Ajustes - RS
+    descricao: 'Outros Movimentos - Impostos Lancados - Detalhamento de Ajustes - RS. 3 linhas no catálogo; chave: codi_emp, codi_aju, codi_taj, cgce_taj, data_maj.'
+    tabela: eftabaju
+    chave: [codi_emp, codi_aju, codi_taj, cgce_taj, data_maj]
+    acesso: {empresa: codi_emp, periodo: data_maj, volume: pequeno}
+    ordem:
+    - [data_maj, desc]
+    - [codi_aju, asc]
+    - [codi_taj, asc]
+    colunas:
+      empresa: codi_emp
+      ajuste: codi_aju
+      codigo: codi_taj
+      cnpj: {coluna: cgce_taj, sensivel: parcial}
+      data: data_maj
+      periodo_de_referencia: peri_taj
+      dia_final: diaf_taj
+      data_de_vencimento: dvct_taj
+      valor_devido: vdev_taj
+      valor_pago: vpag_taj
+      inscricao_estadual: {coluna: iest_taj, sensivel: parcial}
+      dispositivo_legal_regulamentador_da_tran: disp_taj
+      modelo_da_nota_de_transferencia_se: modelo_taj
+      serie_da_nota_de_transferencia_se: serie_taj
+      numero_da_nota_de_transferencia_se: numero_taj
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+    filtros:
+      ajuste:
+        coluna: codi_aju
+        ops: [eq, in]
+      codigo:
+        coluna: codi_taj
+        ops: [eq, in]
+      cnpj:
+        coluna: cgce_taj
+        ops: [eq, in]
+      data:
+        coluna: data_maj
+        ops: [eq, in]
+      periodo_de_referencia:
+        coluna: peri_taj
+        ops: [entre, gte, lte]
+      data_de_vencimento:
+        coluna: dvct_taj
+        ops: [entre, gte, lte]
+      inscricao_estadual:
+        coluna: iest_taj
+        ops: [eq, in]
+      dispositivo_legal_regulamentador_da_tran:
+        coluna: disp_taj
+        ops: [contem, prefixo]
+      serie_da_nota_de_transferencia_se:
+        coluna: serie_taj
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s), data_maj de 2013-01-31 a 2013-03-31.', 'Colunas expostas nulas em 100% das linhas (5): dia_final, valor_devido,
+        valor_pago, inscricao_estadual, dispositivo_legal_regulamentador_da_tran.', 'Vínculo efajustes (efajustes): 0 de 3 linhas sem registro relacionado (empresa
+        9997).']
+  efincentivosmuni:
+    titulo: Incentivos Municipais - Cadastro
+    descricao: 'Incentivos Municipais - Cadastro. 2 linhas no catálogo; chave: codigo_fed, sigl_est, vigencia_inc.'
+    tabela: efincentivosmuni
+    chave: [codigo_fed, sigl_est, vigencia_inc]
+    acesso: {empresa: null, periodo: vigencia_inc, volume: pequeno}
+    ordem:
+    - [vigencia_inc, desc]
+    - [codigo_fed, asc]
+    - [sigl_est, asc]
+    colunas:
+      codigo_do_municipio_federal: codigo_fed
+      sigla_do_estado: sigl_est
+      vigencia: vigencia_inc
+      indice: indice_inc
+      tipo_de_calculo_c_cascata_d_direto: {coluna: tipocalc_inc, dominio: efincentivosmuni_tipo_de_calculo_c_c}
+      valores_a_anual_m_mensal: {coluna: valores_inc, dominio: efincentivosmuni_valores_a_anual_m_m}
+      base_de_calculo_r_receita_bruta_q_quanti: {coluna: BASE_CALCULO_INC, dominio: efincentivosmuni_base_de_calculo_r_r}
+    vinculos:
+      efmunifederal:
+        tabela: efmunifederal
+        liga: {sigl_est: sigl_est, codigo_fed: codigo_fed}
+        colunas: {efmunifederal_nome: nome_fed}
+    filtros:
+      codigo_do_municipio_federal:
+        coluna: codigo_fed
+        ops: [eq, in]
+      sigla_do_estado:
+        coluna: sigl_est
+        ops: [eq, in]
+      vigencia:
+        coluna: vigencia_inc
+        ops: [eq, in]
+      indice:
+        coluna: indice_inc
+        ops: [eq, in]
+      tipo_de_calculo_c_cascata_d_direto:
+        coluna: tipocalc_inc
+        ops: [eq, in]
+      valores_a_anual_m_mensal:
+        coluna: valores_inc
+        ops: [eq, in]
+      base_de_calculo_r_receita_bruta_q_quanti:
+        coluna: BASE_CALCULO_INC
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, vigencia_inc de 2004-01-01 a 2009-01-01.', 'tipo_de_calculo_c_cascata_d_direto: todos os valores reais estão no comentário
+        do banco (D=1, C=1).', 'valores_a_anual_m_mensal: todos os valores reais estão no comentário do banco (A=2).', 'base_de_calculo_r_receita_bruta_q_quanti:
+        todos os valores reais estão no comentário do banco (R=1, Q=1).', 'Vínculo efmunifederal (efmunifederal): 0 de 2 linhas sem registro relacionado.']
+  efdesenvolve:
+    titulo: DESENVOLVE - BA
+    descricao: 'DESENVOLVE - BA. 2 linhas no catálogo; chave: codi_emp, sequencial.'
+    tabela: efdesenvolve
+    chave: [codi_emp, sequencial]
+    acesso: {empresa: codi_emp, periodo: inicial, volume: pequeno}
+    ordem:
+    - [inicial, desc]
+    - [sequencial, asc]
+    colunas: {empresa: codi_emp, sequencial: sequencial, periodo_inicial: inicial, periodo_final: final, mes_base_da_correcao: mes_base, percentual_do_incentivo: percentual,
+      carencia: carencia, vencimento: vencimento, resolucao: resolucao, empreendimentos_ja_instalados_s_n: empreendimentos}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      periodo_inicial:
+        coluna: inicial
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: final
+        ops: [entre, gte, lte]
+      resolucao:
+        coluna: resolucao
+        ops: [contem, prefixo]
+      empreendimentos_ja_instalados_s_n:
+        coluna: empreendimentos
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s), inicial de 2015-01-01 a 2015-01-01.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado
+        (empresa 10101).']
+  efcalculando:
+    titulo: Usuarios calculando apuracao
+    descricao: 'Usuarios calculando apuracao. 1 linhas no catálogo; chave: codi_emp, usuario, connection_id.'
+    tabela: efcalculando
+    chave: [codi_emp, usuario, connection_id]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [usuario, asc]
+    - [connection_id, asc]
+    colunas: {empresa: codi_emp, usuario: usuario, identificador_da_conexao: connection_id, propriedade_logintime_do_connection_id: LOGIN_TIME}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      usuario:
+        coluna: usuario
+        ops: [eq, in]
+      identificador_da_conexao:
+        coluna: connection_id
+        ops: [eq, in]
+      propriedade_logintime_do_connection_id:
+        coluna: LOGIN_TIME
+        ops: [contem, prefixo]
+    regras: [Tabela sem linhas na data da medição.]
+  efconversao:
+    titulo: Conversao de municpios de clientes e fornecedores
+    descricao: 'Conversao de municpios de clientes e fornecedores. 1 linhas no catálogo; chave: status_cnv.'
+    tabela: efconversao
+    chave: [status_cnv]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [status_cnv, asc]
+    colunas:
+      indica_como_esta_o_processo_de_conversao: {coluna: status_cnv, dominio: efconversao_indica_como}
+    filtros:
+      indica_como_esta_o_processo_de_conversao:
+        coluna: status_cnv
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'indica_como_esta_o_processo_de_conversao: todos os valores reais estão no comentário do banco (1=1).']
+  atmovimp:
+    titulo: Movimentacao dos Impostos em atraso
+    descricao: 'Movimentacao dos Impostos em atraso. 3.412 linhas no catálogo; chave: codi_emp, comp_mov, pdic_imp, codi_imp, codigorec_mov, codigofilial_mov, codigoservico_mov,
+      tiposervico_mov, tipoguia_mov, CODI_REC, CODI_FOR, DOCUMENTO_ENTRADA, NUMERO_PARCELA, I_SCP, I_EMPREGADO, I_SINDICATO.'
+    tabela: atmovimp
+    chave: [codi_emp, comp_mov, pdic_imp, codi_imp, codigorec_mov, codigofilial_mov, codigoservico_mov, tiposervico_mov, tipoguia_mov, CODI_REC, CODI_FOR, DOCUMENTO_ENTRADA,
+      NUMERO_PARCELA, I_SCP, I_EMPREGADO, I_SINDICATO]
+    acesso: {empresa: codi_emp, periodo: vecn_mov, volume: pequeno}
+    ordem:
+    - [vecn_mov, desc]
+    - [comp_mov, asc]
+    - [pdic_imp, asc]
+    colunas: {empresa: codi_emp, competencia: comp_mov, pdic_imp: pdic_imp, imposto: codi_imp, codigo_de_recolhimento_gps: codigorec_mov, codigo_da_filial_da_folha: codigofilial_mov,
+      codigo_do_servico_da_folha: codigoservico_mov, tipo_do_servico: tiposervico_mov, tipo_da_guia: tipoguia_mov, codigo_de_recolhimento: CODI_REC, codigo_do_fornecedor: CODI_FOR,
+      numero_do_documento_da_nota_de_entrada: DOCUMENTO_ENTRADA, numero_da_parcela: NUMERO_PARCELA, codigo_do_scp: I_SCP, codigo_do_empregado: I_EMPREGADO, codigo_do_sindicato: I_SINDICATO,
+      vencimento: vecn_mov, data_pagamento: pgto_mov, valor_devido: vldv_mov, valor_em_real: vreal_mov, atualizacao_monetaria: vlatua_mov, juros: vljuro_mov, multa: vlmult_mov,
+      valor_total: vlto_mov, percentual_de_juros: juro_mov, percentual_de_multa: mult_mov, valor_de_outras_entidades: voutent_mov, valor_real_de_outras_entidades: vrealent_mov,
+      atualizacao_monetaria_de_outras_entidade: vatuaent_mov, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      competencia:
+        coluna: comp_mov
+        ops: [eq, in]
+      pdic_imp:
+        coluna: pdic_imp
+        ops: [eq, in]
+      imposto:
+        coluna: codi_imp
+        ops: [eq, in]
+      codigo_de_recolhimento_gps:
+        coluna: codigorec_mov
+        ops: [eq, in]
+      codigo_da_filial_da_folha:
+        coluna: codigofilial_mov
+        ops: [eq, in]
+      codigo_do_servico_da_folha:
+        coluna: codigoservico_mov
+        ops: [eq, in]
+      tipo_do_servico:
+        coluna: tiposervico_mov
+        ops: [eq, in]
+      tipo_da_guia:
+        coluna: tipoguia_mov
+        ops: [eq, in]
+      codigo_de_recolhimento:
+        coluna: CODI_REC
+        ops: [eq, in]
+      codigo_do_fornecedor:
+        coluna: CODI_FOR
+        ops: [eq, in]
+      numero_do_documento_da_nota_de_entrada:
+        coluna: DOCUMENTO_ENTRADA
+        ops: [eq, in]
+      numero_da_parcela:
+        coluna: NUMERO_PARCELA
+        ops: [eq, in]
+      codigo_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.412 linhas, 358 empresa(s), vecn_mov de 2016-03-24 a 2025-01-31.', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado
+        (empresa 695).', 'Vínculo geimposto (geimposto): 0 de 4 linhas sem registro relacionado (empresa 695).']
+  attabinss:
+    titulo: SELIC - Cadastro
+    descricao: 'SELIC - Cadastro. 549 linhas no catálogo; chave: comp_tin.'
+    tabela: attabinss
+    chave: [comp_tin]
+    acesso: {empresa: null, periodo: comp_tin, volume: pequeno}
+    ordem:
+    - [comp_tin, desc]
+    colunas: {competencia: comp_tin, coeficiente_de_ufir: cufi_tin, percentual_de_juros: juro_tin, valor_da_selic: valor_sel, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      competencia:
+        coluna: comp_tin
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 549 linhas, comp_tin de 1981-01-01 a 2026-09-01.']
+  attab13:
+    titulo: INSS - Cadastro - 13o. Salario
+    descricao: 'INSS - Cadastro - 13o. Salario. 33 linhas no catálogo; chave: comp_t13.'
+    tabela: attab13
+    chave: [comp_t13]
+    acesso: {empresa: null, periodo: comp_t13, volume: pequeno}
+    ordem:
+    - [comp_t13, desc]
+    colunas: {competencia: comp_t13, coeficiente_de_ufir: cufi_t13, percentual_de_juros: juro_t13, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      competencia:
+        coluna: comp_t13
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 33 linhas, comp_t13 de 1993-01-01 a 2025-01-01.']
+  atferiados:
+    titulo: Feriados - Cadastro
+    descricao: 'Feriados - Cadastro. 11 linhas no catálogo; chave: data_fer.'
+    tabela: atferiados
+    chave: [data_fer]
+    acesso: {empresa: null, periodo: data_fer, volume: pequeno}
+    ordem:
+    - [data_fer, desc]
+    colunas: {data: data_fer, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      data:
+        coluna: data_fer
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11 linhas, data_fer de 2005-01-01 a 2005-12-25.']

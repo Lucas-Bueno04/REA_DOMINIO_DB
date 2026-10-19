@@ -1,0 +1,811 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_importacao
+titulo: Fiscal - importacao (rascunho em lote)
+dominios:
+  efimportacao_site_nfe_entrada_lancar_dife:
+    confirmado: true
+    nota: 'Todos os valores observados em EFIMPORTACAO_SITE_NFE_ENTRADA.DEFINICAO_EXCECAO_DIFERENCA_BC_IPI estão no comentário do banco (2026-10-18). Distribuição:
+      O=1.188, nulo=22.'
+    valores: {I: Isentas, O: Outras, N: Nenhuma}
+  efimportacao_site_nfe_saida_lancar_dife:
+    confirmado: true
+    nota: 'Todos os valores observados em EFIMPORTACAO_SITE_NFE_SAIDA.DEFINICAO_EXCECAO_DIFERENCA_BC_IPI estão no comentário do banco (2026-10-18). Distribuição:
+      O=1.188, nulo=22.'
+    valores: {I: Isentas, O: Outras, N: Nenhuma}
+  efimportacao_site_nfe_entrada_diferenca_bc_ipi_definicao_d:
+    confirmado: true
+    nota: 'Todos os valores observados em EFIMPORTACAO_SITE_NFE_ENTRADA_DIFERENCA_BC_IPI.DEFINICAO estão no comentário do banco (2026-10-18). Distribuição: I=1.177,
+      O=11.'
+    valores: {I: Isentas, O: Outras, N: Nenhuma}
+  efimportacao_site_nfe_saida_diferenca_bc_ipi_definicao_d:
+    confirmado: true
+    nota: 'Todos os valores observados em EFIMPORTACAO_SITE_NFE_SAIDA_DIFERENCA_BC_IPI.DEFINICAO estão no comentário do banco (2026-10-18). Distribuição: I=1.187,
+      O=1.'
+    valores: {I: Isentas, O: Outras, N: Nenhuma}
+  efimportacao_site_nfe_campos_tipo_do_campo_imagem_1_t:
+    confirmado: true
+    nota: 'Todos os valores observados em EFIMPORTACAO_SITE_NFE_CAMPOS.TIPO_CAMPO estão no comentário do banco (2026-10-18). Distribuição: 1=86, 2=65, nulo=23.'
+    valores: {'1': Texto, '2': Numérico}
+entidades:
+  efimportacao_site_nfe_acumuladores_cfops:
+    titulo: Configuração da importação da NFe - Tabela de acumuladores e seus CFOPs
+    descricao: 'Configuração da importação da NFe - Tabela de acumuladores e seus CFOPs. 504.015 linhas no catálogo; chave: CODI_EMP, TIPO_NOTA, CFOP, VERSAO_CFOP,
+      I_ACUMULADOR.'
+    tabela: EFIMPORTACAO_SITE_NFE_ACUMULADORES_CFOPS
+    chave: [CODI_EMP, TIPO_NOTA, CFOP, VERSAO_CFOP, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [TIPO_NOTA, asc]
+    - [CFOP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, tipo_da_nota: TIPO_NOTA, cfop: CFOP, versao_cfop: VERSAO_CFOP, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU,
+      operacao_abrangente: OPERACAO}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+    filtros:
+      tipo_da_nota:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      cfop:
+        coluna: CFOP
+        ops: [eq, in]
+      versao_cfop:
+        coluna: VERSAO_CFOP
+        ops: [eq, in]
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      operacao_abrangente:
+        coluna: OPERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 504.015 linhas, 1.213 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 423 linhas sem registro relacionado (empresa 138).',
+      'Vínculo efacumulador (EFACUMULADOR): 0 de 423 linhas sem registro relacionado (empresa 138).']
+  efimportacao_site_nfe_acumuladores:
+    titulo: Configuração da importação da NFe - Tabela de acumuladores
+    descricao: 'Configuração da importação da NFe - Tabela de acumuladores. 271.192 linhas no catálogo; chave: CODI_EMP, TIPO_NOTA, I_ACUMULADOR.'
+    tabela: EFIMPORTACAO_SITE_NFE_ACUMULADORES
+    chave: [CODI_EMP, TIPO_NOTA, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [TIPO_NOTA, asc]
+    - [I_ACUMULADOR, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, tipo_da_nota: TIPO_NOTA, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU, operacao_abrangente: OPERACAO,
+      selecao_do_cst: SELECAO_CST, selecao_do_fornecedor: SELECAO_FORNECEDOR, selecao_do_produto: SELECAO_PRODUTO, selecao_do_ncm: SELECAO_NCM, versao_leiaute: VERSAO_LEIAUTE,
+      selecao_da_forma_de_pagamento: SELECAO_FORMA_PAGAMENTO, origem_do_acumulador_t_todos_s_seleciona: SELECAO_ORIGEM, selecao_do_grupo: SELECAO_GRUPO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+    filtros:
+      tipo_da_nota:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      operacao_abrangente:
+        coluna: OPERACAO
+        ops: [eq, in]
+      selecao_do_cst:
+        coluna: SELECAO_CST
+        ops: [eq, in]
+      selecao_do_fornecedor:
+        coluna: SELECAO_FORNECEDOR
+        ops: [eq, in]
+      selecao_do_produto:
+        coluna: SELECAO_PRODUTO
+        ops: [eq, in]
+      selecao_do_ncm:
+        coluna: SELECAO_NCM
+        ops: [eq, in]
+      selecao_da_forma_de_pagamento:
+        coluna: SELECAO_FORMA_PAGAMENTO
+        ops: [eq, in]
+      origem_do_acumulador_t_todos_s_seleciona:
+        coluna: SELECAO_ORIGEM
+        ops: [eq, in]
+      selecao_do_grupo:
+        coluna: SELECAO_GRUPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 271.192 linhas, 1.213 empresa(s).', 'Vínculo geempre (geempre): 0 de 227 linhas sem registro relacionado (empresa 394).', 'Vínculo
+        efacumulador (EFACUMULADOR): 0 de 227 linhas sem registro relacionado (empresa 394).']
+  efimportacao_site_nfe_cfop_cfops:
+    titulo: Configuração da importação da NFe - CFOP entrada - CFOPs
+    descricao: 'Configuração da importação da NFe - CFOP entrada - CFOPs. 220.989 linhas no catálogo; chave: CODI_EMP, CFOP, VERSAO_CFOP, CFOP_SAIDA, VERSAO_CFOP_SAIDA.'
+    tabela: EFIMPORTACAO_SITE_NFE_CFOP_CFOPS
+    chave: [CODI_EMP, CFOP, VERSAO_CFOP, CFOP_SAIDA, VERSAO_CFOP_SAIDA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CFOP, asc]
+    - [VERSAO_CFOP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, cfop: CFOP, versao_cfop: VERSAO_CFOP, cfop_saida: CFOP_SAIDA, versao_cfop_saida: VERSAO_CFOP_SAIDA}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop_saida: codi_nat, versao_cfop_saida: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      cfop:
+        coluna: CFOP
+        ops: [eq, in]
+      versao_cfop:
+        coluna: VERSAO_CFOP
+        ops: [eq, in]
+      cfop_saida:
+        coluna: CFOP_SAIDA
+        ops: [eq, in]
+      versao_cfop_saida:
+        coluna: VERSAO_CFOP_SAIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 220.989 linhas, 1.214 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 186 linhas sem registro relacionado (empresa 1156).']
+  efimportacao_site_nfe_cfop:
+    titulo: Configuração da importação da NFe - CFOP entrada
+    descricao: 'Configuração da importação da NFe - CFOP entrada. 178.283 linhas no catálogo; chave: CODI_EMP, CFOP, VERSAO_CFOP.'
+    tabela: EFIMPORTACAO_SITE_NFE_CFOP
+    chave: [CODI_EMP, CFOP, VERSAO_CFOP]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CFOP, asc]
+    - [VERSAO_CFOP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, cfop: CFOP, versao_cfop: VERSAO_CFOP, selecao_do_cst: SELECAO_CST}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      cfop:
+        coluna: CFOP
+        ops: [eq, in]
+      versao_cfop:
+        coluna: VERSAO_CFOP
+        ops: [eq, in]
+      selecao_do_cst:
+        coluna: SELECAO_CST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 178.283 linhas, 1.214 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 150 linhas sem registro relacionado (empresa 1666).',
+      'Vínculo geempre (geempre): 0 de 150 linhas sem registro relacionado (empresa 1666).']
+  efimportacao_site_nfe_entrada_diferenca_bc_icms:
+    titulo: Configuração da importação da NFe - Entrada - Diferença entre valor contábil e base de cálculo ICMS
+    descricao: 'Configuração da importação da NFe - Entrada - Diferença entre valor contábil e base de cálculo ICMS. 8.319 linhas no catálogo; chave: CODI_EMP, I_DIFERENCA.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_DIFERENCA_BC_ICMS
+    chave: [CODI_EMP, I_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DIFERENCA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_diferenca: I_DIFERENCA, codigo_do_cst: CST, definicao_da_diferenca: DEFINICAO, chave_sequencial_do_cst: I_SEQUENCIAL_CST,
+      mg_detalhamento_de_outros_valores: DETALHAMENTO_OUTROS_VALORES_MG}
+    filtros:
+      sequencial_da_diferenca:
+        coluna: I_DIFERENCA
+        ops: [eq, in]
+      definicao_da_diferenca:
+        coluna: DEFINICAO
+        ops: [eq, in]
+      chave_sequencial_do_cst:
+        coluna: I_SEQUENCIAL_CST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.319 linhas, 1.188 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): mg_detalhamento_de_outros_valores.']
+  efimportacao_site_nfe_saida_diferenca_bc_icms:
+    titulo: Configuração da importação da NFe - Saída - Diferença entre valor contábil e base de cálculo ICMS
+    descricao: 'Configuração da importação da NFe - Saída - Diferença entre valor contábil e base de cálculo ICMS. 8.316 linhas no catálogo; chave: CODI_EMP, I_DIFERENCA.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA_DIFERENCA_BC_ICMS
+    chave: [CODI_EMP, I_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DIFERENCA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_diferenca: I_DIFERENCA, codigo_do_cst: CST, definicao_da_diferenca: DEFINICAO, chave_sequencial_do_cst: I_SEQUENCIAL_CST,
+      mg_detalhamento_de_outros_valores: DETALHAMENTO_OUTROS_VALORES_MG}
+    filtros:
+      sequencial_da_diferenca:
+        coluna: I_DIFERENCA
+        ops: [eq, in]
+      definicao_da_diferenca:
+        coluna: DEFINICAO
+        ops: [eq, in]
+      chave_sequencial_do_cst:
+        coluna: I_SEQUENCIAL_CST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.316 linhas, 1.188 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): mg_detalhamento_de_outros_valores.']
+  efimportacao_site_nfe_configuracao:
+    titulo: Configuração da importação da NFe pelo site da Receita Federal
+    descricao: 'Configuração da importação da NFe pelo site da Receita Federal. 1.215 linhas no catálogo; chave: CODI_EMP.'
+    tabela: EFIMPORTACAO_SITE_NFE_CONFIGURACAO
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      data_do_cadastro_do_fornecedor_cliente: DATA_CADASTRO_FORCLI
+      codigo_do_imposto_pis: CODI_IMP_PIS
+      codigo_do_imposto_cofins: CODI_IMP_COFINS
+      define_onde_ira_o_pis_e_o_cofins_em_nota: PIS_COFINS_SEGUIMENTADA
+      definir_acumulador_para_excessao_nas_sai: ACU_SAI_EXCESSAO
+      codigo_do_acumulador_para_excessao_nas_s: CODI_ACU_SAI_EXCESSAO
+      definir_cfop_para_excessao_nas_entradas: CFOP_ENT_EXCESSAO
+      cfop_para_excessao_nas_entradas_estaduai: CFOP_ENT_EXCESSAO_ESTADUAL
+      versao_do_cfop_estadual_na_entrada: CFOP_ENT_VERSAO_ESTADUAL
+      cfop_para_excessao_nas_entradas_interest: CFOP_ENT_EXCESSAO_INTERESTADUAL
+      versao_do_cfop_interestadual_na_entrada: CFOP_ENT_VERSAO_INTERESTADUAL
+      acu_ent_excessao: ACU_ENT_EXCESSAO
+      codigo_do_acumulador_para_excessao_nas_e: CODI_ACU_ENT_EXCESSAO
+      cfop_para_notas_estaduais_de_saidas_canc: CFOP_SAI_CANCELADA_ESTADUAL
+      versao_do_cfop_para_notas_estaduais_de_s: CFOP_SAI_VERSAO_CANCELADA_ESTADUAL
+      cfop_para_notas_interestaduais_de_saidas: CFOP_SAI_CANCELADA_INTERESTADUAL
+      versao_do_cfop_para_notas_interestaduais: CFOP_SAI_VERSAO_CANCELADA_INTERESTADUAL
+      cfop_para_notas_do_exterior_canceladas: CFOP_SAI_CANCELADA_EXTERIOR
+      versao_do_cfop_para_notas_do_exterior_ca: CFOP_SAI_VERSAO_CANCELADA_EXTERIOR
+      importar_movimento_de_produtos_das_notas: IMPORTAR_PROD_SAI
+      notas_de_saida_campo_a_ser_considerado_p: PROCURA_PROD_SAI
+      notas_de_saida_quando_o_produto_a_ser_im: PROD_NOVO_SAI
+      notas_de_saida_grupo_para_cadastros_novo: CODI_GRU_SAI
+      notas_de_saida_cadastrar_unidade_automat: CAD_UNI_AUTO_SAI
+      importar_prod_ent: IMPORTAR_PROD_ENT
+      notas_de_entrada_campo_a_ser_considerado: PROCURA_PROD_ENT
+      notas_de_entrada_quando_o_produto_a_ser: PROD_NOVO_ENT
+      notas_de_entrada_grupo_para_cadastros_no: CODI_GRU_ENT
+      notas_de_entrada_cadastrar_unidade_autom: CAD_UNI_AUTO_ENT
+      ignorar_impostos_nao_definidos_no_acumul: IGNORAR_IMPOSTOS_ACU_ENT
+      gerar_pagamento_para_parcelas_com_data_d: GERAR_PAGAMENTO_PARCELA_SAI
+      gerar_parcela_com_pagamento_para_notas_s: GERAR_PARCELA_COM_PAGAMENTO_SAI
+      informar_data_de_saida_no_momento_da_imp: INFORMAR_DATA_SAIDA
+      informar_data_de_entrada_no_momento_da_i: INFORMAR_DATA_ENTRADA
+      notas_de_saida_complemento_padrao_do_icm: COMPLEMENTO_CFOP_CAT_17_99_SAI
+      notas_de_entrada_complemento_padrao_do_i: COMPLEMENTO_CFOP_CAT_17_99_ENT
+      considerar_o_percentual_de_base_de_calcu: CONSIDERAR_ICMS_ACU_ENT
+      beneficiario_de_credito_fiscal_presumido: BENEFICIARIA_CREDITO_PRESUMIDO_ENTRADA
+      sobrescrever_cadastros_existentes: SOBRESCREVER_CADASTROS
+      sobrescrever_movimentos_existentes: SOBRESCREVER_MOVIMENTOS
+      definir_excecao_para_cst_csosn: CST_CSOSN_EXCECAO
+      gerar_cst_csosn: GERAR_CST_CSOSN_INFORMADO_NOTA
+      codigo_do_cst_csosn_para_excecao_das_ent: CST_CSOSN_DEFINIDO
+      notas_de_entrada_gerar_lancamentos_conta: GERAR_LANCAMENTOS_CONTABEIS_ENT
+      notas_de_saida_gerar_lancamentos_contabe: GERAR_LANCAMENTOS_CONTABEIS_SAI
+      identificacao_do_cadastro_do_fornecedor: IDENTIFICACAO_FORCLI
+      criar_conta_contabil_para_fornecedor_cli: CRIAR_CONTA_FORCLI
+      utilizar_a_mesma_conta_do_grupo_cnpj_do: {coluna: CONTA_MESMO_GRUPO_CNPJ, sensivel: parcial}
+      permitir_relacionar_o_mesmo_cfop_de_said: PERMITE_RELACIONAR_MAIS_CFOP_ENT
+      gerar_observacao_informada_no_cadastro_d: GERAR_OBSERVACAO_ACUMULADOR_ENT
+      gerar_observacao_acumulador_sai: GERAR_OBSERVACAO_ACUMULADOR_SAI
+      notas_de_saida_produtos_para_notas_segme: PRODUTOS_NOTAS_SEGMENTADAS_SAI
+      notas_de_entrada_produtos_para_notas_seg: PRODUTOS_NOTAS_SEGMENTADAS_ENT
+      formato_de_letras_nos_cadastros: FORMATO_LETRAS_CADASTROS
+      sequencial_do_cst_csosn_para_excecao_das: I_SEQUENCIAL_CST_CSOSN_DEFINIDO
+      notas_de_entrada_efetuar_a_importacao_da: UTILIZAR_CFOP_CADASTRO_PRODUTO_ENT
+      notas_de_entrada_considerar_as_definicoe: CONSIDERAR_IPI_ACU_ENT
+      notas_de_entrada_importar_o_valor_do_cre: IMPORTAR_CREDITO_ICMS_ART23_ENT
+      notas_de_entrada_permitir_relacionar_o_m: PERMITE_RELACIONAR_CFOP_MAIS_ACU_ENT
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu_sai_excessao: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop_ent_excessao_interestadual: codi_nat, cfop_ent_versao_interestadual: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      efgrupopdi:
+        tabela: efgrupopdi
+        liga: {codi_emp: codi_emp, codi_gru_sai: codi_gru}
+        colunas: {efgrupopdi_nome: nome_gru}
+      efcomplemento_cfop_cat_1:
+        tabela: EFCOMPLEMENTO_CFOP_CAT_17_99
+        liga: {complemento_cfop_cat_17_99_sai: complemento_cfop_cat_17_99}
+        colunas: {efcomplemento_cfop_cat_1_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      eftabela_aliquota_icms:
+        tabela: EFTABELA_ALIQUOTA_ICMS
+        liga: {codi_emp: codi_emp, tabela_icms_prod_ent: i_tabela_icms}
+        colunas: {eftabela_aliquota_icms_nome: DESCRICAO}
+    filtros:
+      data_do_cadastro_do_fornecedor_cliente:
+        coluna: DATA_CADASTRO_FORCLI
+        ops: [eq, in]
+      codigo_do_imposto_pis:
+        coluna: CODI_IMP_PIS
+        ops: [eq, in]
+      codigo_do_imposto_cofins:
+        coluna: CODI_IMP_COFINS
+        ops: [eq, in]
+      define_onde_ira_o_pis_e_o_cofins_em_nota:
+        coluna: PIS_COFINS_SEGUIMENTADA
+        ops: [eq, in]
+      definir_acumulador_para_excessao_nas_sai:
+        coluna: ACU_SAI_EXCESSAO
+        ops: [eq, in]
+      codigo_do_acumulador_para_excessao_nas_s:
+        coluna: CODI_ACU_SAI_EXCESSAO
+        ops: [eq, in]
+      definir_cfop_para_excessao_nas_entradas:
+        coluna: CFOP_ENT_EXCESSAO
+        ops: [eq, in]
+      acu_ent_excessao:
+        coluna: ACU_ENT_EXCESSAO
+        ops: [eq, in]
+      codigo_do_acumulador_para_excessao_nas_e:
+        coluna: CODI_ACU_ENT_EXCESSAO
+        ops: [eq, in]
+      importar_movimento_de_produtos_das_notas:
+        coluna: IMPORTAR_PROD_SAI
+        ops: [eq, in]
+      notas_de_saida_campo_a_ser_considerado_p:
+        coluna: PROCURA_PROD_SAI
+        ops: [eq, in]
+      notas_de_saida_quando_o_produto_a_ser_im:
+        coluna: PROD_NOVO_SAI
+        ops: [eq, in]
+      notas_de_saida_grupo_para_cadastros_novo:
+        coluna: CODI_GRU_SAI
+        ops: [eq, in]
+      notas_de_saida_cadastrar_unidade_automat:
+        coluna: CAD_UNI_AUTO_SAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.215 linhas, 1.215 empresa(s).', 'Colunas expostas nulas em 100% das linhas (4): notas_de_saida_complemento_padrao_do_icm, notas_de_entrada_complemento_padrao_do_i,
+        codigo_do_cst_csosn_para_excecao_das_ent, sequencial_do_cst_csosn_para_excecao_das.', 'Vínculo efacumulador (EFACUMULADOR): 1 de 1 linhas sem registro relacionado
+        (empresa 1669).', 'Vínculo efnatureza (efnatureza): 0 de 1 linhas sem registro relacionado (empresa 1669).', 'Vínculo efgrupopdi (efgrupopdi): 0 de 1 linhas
+        sem registro relacionado (empresa 1669).', 'Vínculo efcomplemento_cfop_cat_1 (EFCOMPLEMENTO_CFOP_CAT_17_99): 0 de 1 linhas sem registro relacionado (empresa
+        1669).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1669).', 'Vínculo eftabela_aliquota_icms (EFTABELA_ALIQUOTA_ICMS): 0
+        de 1 linhas sem registro relacionado (empresa 1669).']
+  efimportacao_site_nfe_entrada:
+    titulo: Configuração da importação da NFe - Entrada
+    descricao: 'Configuração da importação da NFe - Entrada. 1.210 linhas no catálogo; chave: CODI_EMP.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      definir_excecao_para_diferenca_entre_val: DIFERENCA_BC_ICMS_EXCECAO
+      lancar_diferenca_entre_valor_contabil_e: DEFINICAO_BC_ICMS_EXCECAO
+      nao_considerar_as_definicoes_para_os_val: NAO_CONSIDERA_DEFINICAO_VALORES
+      produtos_define_conta_contabil: PRODUTOS_DEFINE_CONTA
+      produtos_conta_contabil_em_seu_poder: PRODUTOS_CONTA_EM_SEU_PODER
+      produtos_conta_contabil_em_poder_de_terc: PRODUTOS_CONTA_EM_PODER_DE_TERCEIROS
+      produtos_conta_contabil_de_terceiros_em: PRODUTOS_CONTA_DE_TERCEIROS_EM_SEU_PODER
+      definir_excecao_diferenca_bc_ipi: DEFINIR_EXCECAO_DIFERENCA_BC_IPI
+      definicao_excecao_diferenca_bc_ipi: {coluna: DEFINICAO_EXCECAO_DIFERENCA_BC_IPI, dominio: efimportacao_site_nfe_entrada_lancar_dife}
+      ipi_nao_considerar_as_definicoes_para_os: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+      ipi_lancar_subtri_em: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+      nao_incluir_o_codigo_de_atividade_confor: NAO_INCLUIR_CODIGO_ATIVIDADE_INSS
+      tipo_do_item_a_ser_informado_no_cadastro: TIPO_ITEM_NOVOS_PRODUTOS
+      definir_excecao_do_tipo_do_item: TIPO_ITEM_DEFINIR_EXCECAO
+      excecao_do_tipo_do_item: TIPO_ITEM_EXCECAO
+      ipi_determinar_o_relacionamento_de_cst: DETERMINAR_RELACIONAMENTO_CST_IPI
+      ipi_definir_excecao_do_relacionamento_de: DEFINIR_EXCECAO_RELACIONAMENTO_CST_IPI
+      ipi_definicao_da_excecao_do_relacionamen: DEFINICAO_EXCECAO_RELACIONAMENTO_CST_IPI
+      definir_excecao_dos_dados_de_pis_cofins: DEFINIR_EXCECAO_PIS_COFINS_CONFORME_CFOP
+      definicao_da_excecao_dos_dados_de_pis_co: DEFINICAO_EXCECAO_PIS_COFINS_CONFORME_CFOP
+      realizar_lancamento_de_produto_generico: REALIZAR_LANCAMENTO_PRODUTO_GENERICO
+      importar_descricao_complementar_do_produ: IMPORTAR_DESCRICAO_COMPLEMENTAR_PRODUTO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      definir_excecao_para_diferenca_entre_val:
+        coluna: DIFERENCA_BC_ICMS_EXCECAO
+        ops: [eq, in]
+      lancar_diferenca_entre_valor_contabil_e:
+        coluna: DEFINICAO_BC_ICMS_EXCECAO
+        ops: [eq, in]
+      nao_considerar_as_definicoes_para_os_val:
+        coluna: NAO_CONSIDERA_DEFINICAO_VALORES
+        ops: [eq, in]
+      produtos_define_conta_contabil:
+        coluna: PRODUTOS_DEFINE_CONTA
+        ops: [eq, in]
+      definir_excecao_diferenca_bc_ipi:
+        coluna: DEFINIR_EXCECAO_DIFERENCA_BC_IPI
+        ops: [eq, in]
+      definicao_excecao_diferenca_bc_ipi:
+        coluna: DEFINICAO_EXCECAO_DIFERENCA_BC_IPI
+        ops: [eq, in]
+      ipi_nao_considerar_as_definicoes_para_os:
+        coluna: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+        ops: [eq, in]
+      ipi_lancar_subtri_em:
+        coluna: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+        ops: [eq, in]
+      nao_incluir_o_codigo_de_atividade_confor:
+        coluna: NAO_INCLUIR_CODIGO_ATIVIDADE_INSS
+        ops: [eq, in]
+      tipo_do_item_a_ser_informado_no_cadastro:
+        coluna: TIPO_ITEM_NOVOS_PRODUTOS
+        ops: [eq, in]
+      definir_excecao_do_tipo_do_item:
+        coluna: TIPO_ITEM_DEFINIR_EXCECAO
+        ops: [eq, in]
+      excecao_do_tipo_do_item:
+        coluna: TIPO_ITEM_EXCECAO
+        ops: [eq, in]
+      ipi_determinar_o_relacionamento_de_cst:
+        coluna: DETERMINAR_RELACIONAMENTO_CST_IPI
+        ops: [eq, in]
+      ipi_definir_excecao_do_relacionamento_de:
+        coluna: DEFINIR_EXCECAO_RELACIONAMENTO_CST_IPI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.210 linhas, 1.210 empresa(s).', 'Colunas expostas nulas em 100% das linhas (4): produtos_conta_contabil_em_poder_de_terc, produtos_conta_contabil_de_terceiros_em,
+        excecao_do_tipo_do_item, ipi_definicao_da_excecao_do_relacionamen.', 'definicao_excecao_diferenca_bc_ipi: todos os valores reais estão no comentário do banco
+        (O=1.188, nulo=22).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 902).']
+  efimportacao_site_nfe_saida:
+    titulo: Configuração da importação da NFe - Saída
+    descricao: 'Configuração da importação da NFe - Saída. 1.210 linhas no catálogo; chave: CODI_EMP.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      definir_excecao_para_diferenca_entre_val: DIFERENCA_BC_ICMS_EXCECAO
+      lancar_diferenca_entre_valor_contabil_e: DEFINICAO_BC_ICMS_EXCECAO
+      nao_considerar_as_definicoes_para_os_val: NAO_CONSIDERAR_DIFERENCA_BC_IPI_EXCECAO
+      lancar_ipi_em: DEFINICAO_DIFERENCA_BC_IPI_EXCECAO
+      nao_considerar_diferenca_bc_subtri_excec: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO
+      lancar_subtri_em: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO
+      determinar_dispositivo_para_os_produtos: PROTEGE_GO_DETERMINAR_DISPOSITIVO_SEM_BENEFICIO_FISCAL
+      data_do_cupom_fiscal_referenciado: DATA_CUPOM_FISCAL_REFERENCIADO
+      produtos_define_conta_contabil: PRODUTOS_DEFINE_CONTA
+      produtos_conta_contabil_em_seu_poder: PRODUTOS_CONTA_EM_SEU_PODER
+      produtos_conta_contabil_em_poder_de_terc: PRODUTOS_CONTA_EM_PODER_DE_TERCEIROS
+      produtos_conta_contabil_de_terceiros_em: PRODUTOS_CONTA_DE_TERCEIROS_EM_SEU_PODER
+      definir_excecao_diferenca_bc_ipi: DEFINIR_EXCECAO_DIFERENCA_BC_IPI
+      definicao_excecao_diferenca_bc_ipi: {coluna: DEFINICAO_EXCECAO_DIFERENCA_BC_IPI, dominio: efimportacao_site_nfe_saida_lancar_dife}
+      ipi_nao_considerar_as_definicoes_para_os: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+      ipi_lancar_subtri_em: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+      nao_incluir_o_codigo_de_atividade_confor: NAO_INCLUIR_CODIGO_ATIVIDADE_INSS
+      tipo_do_item_a_ser_informado_no_cadastro: TIPO_ITEM_NOVOS_PRODUTOS
+      definir_excecao_do_tipo_do_item: TIPO_ITEM_DEFINIR_EXCECAO
+      excecao_do_tipo_do_item: TIPO_ITEM_EXCECAO
+      cfop_excecao: CFOP_EXCECAO
+      cfop_estadual_excecao: CFOP_ESTADUAL_EXCECAO
+      versao_cfop_estadual_excecao: VERSAO_CFOP_ESTADUAL_EXCECAO
+      cfop_interestadual_excecao: CFOP_INTERESTADUAL_EXCECAO
+      versao_cfop_interestadual_excecao: VERSAO_CFOP_INTERESTADUAL_EXCECAO
+      definir_excecao_dos_dados_de_pis_cofins: DEFINIR_EXCECAO_PIS_COFINS_CONFORME_CFOP
+      definicao_da_excecao_dos_dados_de_pis_co: DEFINICAO_EXCECAO_PIS_COFINS_CONFORME_CFOP
+      realizar_lancamento_de_produto_generico: REALIZAR_LANCAMENTO_PRODUTO_GENERICO
+      considerar_como_exceaao_a_opaao_todos_da: CONSIDERAR_TODOS_COMO_EXCECAO_CFOP_SAI
+      importar_descricao_complementar_do_produ: IMPORTAR_DESCRICAO_COMPLEMENTAR_PRODUTO
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop_estadual_excecao: codi_nat, versao_cfop_estadual_excecao: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      definir_excecao_para_diferenca_entre_val:
+        coluna: DIFERENCA_BC_ICMS_EXCECAO
+        ops: [eq, in]
+      lancar_diferenca_entre_valor_contabil_e:
+        coluna: DEFINICAO_BC_ICMS_EXCECAO
+        ops: [eq, in]
+      nao_considerar_as_definicoes_para_os_val:
+        coluna: NAO_CONSIDERAR_DIFERENCA_BC_IPI_EXCECAO
+        ops: [eq, in]
+      lancar_ipi_em:
+        coluna: DEFINICAO_DIFERENCA_BC_IPI_EXCECAO
+        ops: [eq, in]
+      nao_considerar_diferenca_bc_subtri_excec:
+        coluna: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO
+        ops: [eq, in]
+      lancar_subtri_em:
+        coluna: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO
+        ops: [eq, in]
+      determinar_dispositivo_para_os_produtos:
+        coluna: PROTEGE_GO_DETERMINAR_DISPOSITIVO_SEM_BENEFICIO_FISCAL
+        ops: [eq, in]
+      data_do_cupom_fiscal_referenciado:
+        coluna: DATA_CUPOM_FISCAL_REFERENCIADO
+        ops: [eq, in]
+      produtos_define_conta_contabil:
+        coluna: PRODUTOS_DEFINE_CONTA
+        ops: [eq, in]
+      definir_excecao_diferenca_bc_ipi:
+        coluna: DEFINIR_EXCECAO_DIFERENCA_BC_IPI
+        ops: [eq, in]
+      definicao_excecao_diferenca_bc_ipi:
+        coluna: DEFINICAO_EXCECAO_DIFERENCA_BC_IPI
+        ops: [eq, in]
+      ipi_nao_considerar_as_definicoes_para_os:
+        coluna: NAO_CONSIDERAR_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+        ops: [eq, in]
+      ipi_lancar_subtri_em:
+        coluna: DEFINICAO_DIFERENCA_BC_SUBTRI_EXCECAO_IPI
+        ops: [eq, in]
+      nao_incluir_o_codigo_de_atividade_confor:
+        coluna: NAO_INCLUIR_CODIGO_ATIVIDADE_INSS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.210 linhas, 1.210 empresa(s).', 'Colunas expostas nulas em 100% das linhas (7): produtos_conta_contabil_em_poder_de_terc, produtos_conta_contabil_de_terceiros_em,
+        excecao_do_tipo_do_item, cfop_estadual_excecao, versao_cfop_estadual_excecao, cfop_interestadual_excecao, versao_cfop_interestadual_excecao.', 'definicao_excecao_diferenca_bc_ipi:
+        todos os valores reais estão no comentário do banco (O=1.188, nulo=22).', 'Vínculo efnatureza (efnatureza): 0 de 1 linhas sem registro relacionado (empresa
+        902).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 902).']
+  efimportacao_site_nfe_entrada_diferenca_bc_ipi:
+    titulo: Configuração da importação da NFe - Entrada - Diferença entre valor contábil e base de cálculo IPI
+    descricao: 'Configuração da importação da NFe - Entrada - Diferença entre valor contábil e base de cálculo IPI. 1.188 linhas no catálogo; chave: CODI_EMP, I_DIFERENCA.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_DIFERENCA_BC_IPI
+    chave: [CODI_EMP, I_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DIFERENCA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_da_diferenca: I_DIFERENCA
+      codigo_do_cst: CST
+      definicao_da_diferenca_i_isentas_o_outra: {coluna: DEFINICAO, dominio: efimportacao_site_nfe_entrada_diferenca_bc_ipi_definicao_d}
+    filtros:
+      sequencial_da_diferenca:
+        coluna: I_DIFERENCA
+        ops: [eq, in]
+      definicao_da_diferenca_i_isentas_o_outra:
+        coluna: DEFINICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.188 linhas, 1.188 empresa(s).', 'definicao_da_diferenca_i_isentas_o_outra: todos os valores reais estão no comentário do banco
+        (I=1.177, O=11).']
+  efimportacao_site_nfe_saida_diferenca_bc_ipi:
+    titulo: Configuração da importação da NFe - Saída - Diferença entre valor contábil e base de cálculo IPI
+    descricao: 'Configuração da importação da NFe - Saída - Diferença entre valor contábil e base de cálculo IPI. 1.188 linhas no catálogo; chave: CODI_EMP, I_DIFERENCA.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA_DIFERENCA_BC_IPI
+    chave: [CODI_EMP, I_DIFERENCA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DIFERENCA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_da_diferenca: I_DIFERENCA
+      codigo_do_cst: CST
+      definicao_da_diferenca_i_isentas_o_outra: {coluna: DEFINICAO, dominio: efimportacao_site_nfe_saida_diferenca_bc_ipi_definicao_d}
+    filtros:
+      sequencial_da_diferenca:
+        coluna: I_DIFERENCA
+        ops: [eq, in]
+      definicao_da_diferenca_i_isentas_o_outra:
+        coluna: DEFINICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.188 linhas, 1.188 empresa(s).', 'definicao_da_diferenca_i_isentas_o_outra: todos os valores reais estão no comentário do banco
+        (I=1.187, O=1).']
+  efimportacao_site_nfe_entrada_dados_pis_cofins:
+    titulo: Configuração da importação da NFe - Entrada - Dados de PIS/COFINS
+    descricao: 'Configuração da importação da NFe - Entrada - Dados de PIS/COFINS. 850 linhas no catálogo; chave: CODI_EMP, I_DADOS_PIS_COFINS.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_DADOS_PIS_COFINS
+    chave: [CODI_EMP, I_DADOS_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DADOS_PIS_COFINS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_dos_dados_de_pis_cofins: I_DADOS_PIS_COFINS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_dos_dados_de_pis_cofins:
+        coluna: I_DADOS_PIS_COFINS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 850 linhas, 850 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1669).']
+  efimportacao_site_nfe_saida_dados_pis_cofins:
+    titulo: Configuração da importação da NFe - Saída - Dados de PIS/COFINS
+    descricao: 'Configuração da importação da NFe - Saída - Dados de PIS/COFINS. 850 linhas no catálogo; chave: CODI_EMP, I_DADOS_PIS_COFINS.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA_DADOS_PIS_COFINS
+    chave: [CODI_EMP, I_DADOS_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DADOS_PIS_COFINS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_dos_dados_de_pis_cofins: I_DADOS_PIS_COFINS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_dos_dados_de_pis_cofins:
+        coluna: I_DADOS_PIS_COFINS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 850 linhas, 850 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1669).']
+  efimportacao_site_nfe_campos:
+    titulo: Importação da NFe - Leiaute
+    descricao: 'Importação da NFe - Leiaute. 174 linhas no catálogo; chave: CAMPO.'
+    tabela: EFIMPORTACAO_SITE_NFE_CAMPOS
+    chave: [CAMPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CAMPO, asc]
+    colunas:
+      campo_da_pagina: CAMPO
+      texto_do_campo_na_pagina: TEXTO
+      tipo_do_campo_imagem_1_texto_2_numerico: {coluna: TIPO_CAMPO, dominio: efimportacao_site_nfe_campos_tipo_do_campo_imagem_1_t}
+    filtros:
+      campo_da_pagina:
+        coluna: CAMPO
+        ops: [eq, in]
+      texto_do_campo_na_pagina:
+        coluna: TEXTO
+        ops: [contem, prefixo]
+      tipo_do_campo_imagem_1_texto_2_numerico:
+        coluna: TIPO_CAMPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 174 linhas.', 'tipo_do_campo_imagem_1_texto_2_numerico: todos os valores reais estão no comentário do banco (1=86, 2=65, nulo=23).']
+  efimportacao_site_nfe_acumuladores_ncm:
+    titulo: Configuração da importação da NFe - Tabela de acumuladores e seus NCMs
+    descricao: 'Configuração da importação da NFe - Tabela de acumuladores e seus NCMs. 18 linhas no catálogo; chave: CODI_EMP, TIPO_NOTA, I_NCM, I_ACUMULADOR.'
+    tabela: EFIMPORTACAO_SITE_NFE_ACUMULADORES_NCM
+    chave: [CODI_EMP, TIPO_NOTA, I_NCM, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [TIPO_NOTA, asc]
+    - [I_NCM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, tipo_da_nota: TIPO_NOTA, sequencial_do_ncm: I_NCM, sequencial_do_acumulador: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU,
+      operacao_abrangente: OPERACAO, ncm: NCM}
+    filtros:
+      tipo_da_nota:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      sequencial_do_ncm:
+        coluna: I_NCM
+        ops: [eq, in]
+      sequencial_do_acumulador:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      operacao_abrangente:
+        coluna: OPERACAO
+        ops: [eq, in]
+      ncm:
+        coluna: NCM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 18 linhas, 1 empresa(s).']
+  efimportacao_site_nfe_entrada_cst_csosn_cfop:
+    titulo: Configuração do leiaute NF-e XML do Importador Fixo - Entrada - CST/CSOSN - CFOP
+    descricao: 'Configuração do leiaute NF-e XML do Importador Fixo - Entrada - CST/CSOSN - CFOP. 10 linhas no catálogo; chave: CODI_EMP, I_CST_CSOSN, I_CFOP.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_CST_CSOSN_CFOP
+    chave: [CODI_EMP, I_CST_CSOSN, I_CFOP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CST_CSOSN, asc]
+    - [I_CFOP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_cst_csosn: I_CST_CSOSN, sequencial_do_cfop: I_CFOP, cfop: CFOP, versao_do_cfop: VERSAO_CFOP}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      sequencial_do_cst_csosn:
+        coluna: I_CST_CSOSN
+        ops: [eq, in]
+      sequencial_do_cfop:
+        coluna: I_CFOP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, 4 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 2 linhas sem registro relacionado (empresa 499).']
+  efimportacao_site_nfe_entrada_cst_csosn:
+    titulo: Configuração do leiaute NF-e XML do Importador Fixo - Entrada - CST/CSOSN
+    descricao: 'Configuração do leiaute NF-e XML do Importador Fixo - Entrada - CST/CSOSN. 8 linhas no catálogo; chave: CODI_EMP, I_CST_CSOSN.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_CST_CSOSN
+    chave: [CODI_EMP, I_CST_CSOSN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CST_CSOSN, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_cst_csosn: I_CST_CSOSN, cst_csosn: CST_CSOSN, cst_csosn_da_nota: CST_CSOSN_NOTA, chave_sequencial_do_cst_csosn: I_SEQUENCIAL_CST_CSOSN,
+      chave_sequencial_do_cst_csosn_da_nota: I_SEQUENCIAL_CST_CSOSN_NOTA, selecao_da_origem: SELECAO_ORIGEM}
+    vinculos:
+      efimportacao_site_nfe_en:
+        tabela: EFIMPORTACAO_SITE_NFE_ENTRADA
+        liga: {codi_emp: codi_emp}
+        colunas: {efimportacao_site_nfe_en_nome: IMPORTAR_DESCRICAO_COMPLEMENTAR_PRODUTO}
+    filtros:
+      sequencial_do_cst_csosn:
+        coluna: I_CST_CSOSN
+        ops: [eq, in]
+      chave_sequencial_do_cst_csosn:
+        coluna: I_SEQUENCIAL_CST_CSOSN
+        ops: [eq, in]
+      chave_sequencial_do_cst_csosn_da_nota:
+        coluna: I_SEQUENCIAL_CST_CSOSN_NOTA
+        ops: [eq, in]
+      selecao_da_origem:
+        coluna: SELECAO_ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 4 empresa(s).', 'Vínculo efimportacao_site_nfe_en (EFIMPORTACAO_SITE_NFE_ENTRADA): 0 de 2 linhas sem registro relacionado
+        (empresa 499).']
+  efimportacao_site_nfe_saida_cfop:
+    titulo: Configuração do portal NF-e - Saída - CFOP
+    descricao: 'Configuração do portal NF-e - Saída - CFOP. 8 linhas no catálogo; chave: CODI_EMP, I_CFOP_SAIDA.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA_CFOP
+    chave: [CODI_EMP, I_CFOP_SAIDA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CFOP_SAIDA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_cfop_de_entrada: I_CFOP_SAIDA, cfop_de_entrada: CFOP, versao_do_cfop_de_entrada: VERSAO_CFOP, selecao_cst: SELECAO_CST}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_do_cfop_de_entrada:
+        coluna: I_CFOP_SAIDA
+        ops: [eq, in]
+      selecao_cst:
+        coluna: SELECAO_CST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 3 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 2 linhas sem registro relacionado (empresa 109).', 'Vínculo geempre
+        (geempre): 0 de 2 linhas sem registro relacionado (empresa 109).']
+  efimportacao_site_nfe_saida_cfop_entrada:
+    titulo: Configuração da importação da NFe - Saída - CFOP - CFOP
+    descricao: 'Configuração da importação da NFe - Saída - CFOP - CFOP. 8 linhas no catálogo; chave: CODI_EMP, I_CFOP_SAIDA, I_CFOP_ENTRADA.'
+    tabela: EFIMPORTACAO_SITE_NFE_SAIDA_CFOP_ENTRADA
+    chave: [CODI_EMP, I_CFOP_SAIDA, I_CFOP_ENTRADA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CFOP_SAIDA, asc]
+    - [I_CFOP_ENTRADA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_cfop_de_saida: I_CFOP_SAIDA, sequencial_do_cfop_de_entrada: I_CFOP_ENTRADA, cfop_de_entrada: CFOP, versao_do_cfop_de_entrada: VERSAO_CFOP}
+    filtros:
+      sequencial_do_cfop_de_saida:
+        coluna: I_CFOP_SAIDA
+        ops: [eq, in]
+      sequencial_do_cfop_de_entrada:
+        coluna: I_CFOP_ENTRADA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 3 empresa(s).']
+  efimportacao_site_nfe_entrada_impostos_gerados:
+    titulo: Configuração da importação da NFe - Entrada - Impostos gerados
+    descricao: 'Configuração da importação da NFe - Entrada - Impostos gerados. 1 linhas no catálogo; chave: CODI_EMP, I_IMPOSTO.'
+    tabela: EFIMPORTACAO_SITE_NFE_ENTRADA_IMPOSTOS_GERADOS
+    chave: [CODI_EMP, I_IMPOSTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_IMPOSTO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_imposto_gerado: I_IMPOSTO, codigo_do_imposto: CODI_IMP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      sequencial_do_imposto_gerado:
+        coluna: I_IMPOSTO
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1574).', 'Vínculo geimposto
+        (geimposto): 0 de 1 linhas sem registro relacionado (empresa 1574).']

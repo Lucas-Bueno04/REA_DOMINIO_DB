@@ -1,0 +1,461 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_rescisoes
+titulo: Pessoal - rescisoes (rascunho em lote)
+dominios:
+  forescisoes_termo_configuracao_campos_modelo_1_tr:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO_CAMPOS.MODELO estão no comentário do banco (2026-10-18). Distribuição: 2=11.010, 1=341.'
+    valores: {'1': TRCT Portaria MTE 1621, '2010': Alterado, '2': TRCT Portaria MTE 1621}
+  forescisoes_termo_tipo_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=5.520, 2=232.'
+    valores: {'1': Normal, '2': Complementar, '3': Parcial, '4': Simulação}
+  forescisoes_simulacao_tipo_de_calculo_de_rescisao_:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_SIMULACAO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 4=1.902.'
+    valores: {'1': Normal, '2': Complementar, '3': Parcial, '4': Simulação}
+  forescisoes_termo_ferias_vencidas_tipo_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_FERIAS_VENCIDAS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=1.794, 2=94.'
+    valores: {'1': Normal, '2': Complementar, '3': Parcial, '4': Simulação}
+  forescisoes_termo_configuracao_modelo_1_trct_port:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.MODELO estão no comentário do banco (2026-10-18). Distribuição: 2=367, 1=11.'
+    valores: {'1': TRCT Portaria MTE 1621, '2010': Alterado, '2': TRCT Portaria MTE 1621}
+  forescisoes_termo_configuracao_tipo_de_demonstrac:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.TIPO_DEMONSTRACAO estão no comentário do banco (2026-10-18). Distribuição: 3=375, 2=2, 1=1.'
+    valores: {'1': Todos, '2': Nenhum, '3': Seleção}
+  forescisoes_termo_configuracao_tipo_do_codigo_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.TIPO_CODIGO_CAMPO_27 estão no comentário do banco (2026-10-18). Distribuição: 1=376, 0=2.'
+    valores: {'0': Todos, '1': Código afastamento homolognet, '2': Código do saque FGTS}
+  forescisoes_termo_configuracao_configuracao_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.CONFIGURACAO_CAMPO_23 estão no comentário do banco (2026-10-18). Distribuição: 1=375, 3=2,
+      2=1.'
+    valores: {'1': De acordo com a configuração das rubricas, '2': Salário contratual e adicionais, '3': Zerado}
+  forescisoes_termo_configuracao_demonstrar_em_bran:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.DEMONSTRAR_BRANCO_CAMPOS_SEM_VALOR estão no comentário do banco (2026-10-18). Distribuição:
+      0=236, 1=142.'
+    valores: {'0': Não, '1': Sim}
+  forescisoes_termo_configuracao_demonstrar_no_camp:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.DEMONSTRAR_QUANTIDADE_DIAS_FERIAS_GOZADOS_MES_RESCISAO_CAMPO_50 estão no comentário do banco
+      (2026-10-18). Distribuição: 0=377, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  forescisoes_termo_configuracao_considerar_para_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.CONSIDERAR_FOLHA_COMPLEMENTAR_CAMPO_23 estão no comentário do banco (2026-10-18). Distribuição:
+      0=378.'
+    valores: {'0': Não, '1': Sim}
+  forescisoes_termo_configuracao_demonstrar_codigo_:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.DEMONSTRAR_CODIGO_ENTIDADE_SINDICAL_CAMPO_31_TRABALHADOR_RURAL estão no comentário do banco
+      (2026-10-18). Distribuição: 0=377, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  forescisoes_termo_configuracao_demonstrar_nos_out:
+    confirmado: true
+    nota: 'Todos os valores observados em FORESCISOES_TERMO_CONFIGURACAO.DEMONSTRAR_VALOR_INFORMADO_OUTROS_DESCONTOS estão no comentário do banco (2026-10-18). Distribuição:
+      0=377, 1=1.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  forescisoes_termo_configuracao_campos:
+    titulo: Recibo de Rescisão - Configuração de Campos sem Valor
+    descricao: 'Recibo de Rescisão - Configuração de Campos sem Valor. 11.351 linhas no catálogo; chave: CODI_EMP, CAMPO, MODELO.'
+    tabela: FORESCISOES_TERMO_CONFIGURACAO_CAMPOS
+    chave: [CODI_EMP, CAMPO, MODELO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CAMPO, asc]
+    - [MODELO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      nome_codigo_do_campo: CAMPO
+      modelo_1_trct_portaria_mte_1621_2010_ane: {coluna: MODELO, dominio: forescisoes_termo_configuracao_campos_modelo_1_tr}
+    filtros:
+      nome_codigo_do_campo:
+        coluna: CAMPO
+        ops: [eq, in]
+      modelo_1_trct_portaria_mte_1621_2010_ane:
+        coluna: MODELO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.351 linhas, 367 empresa(s).', 'modelo_1_trct_portaria_mte_1621_2010_ane: todos os valores reais estão no comentário do banco
+        (2=11.010, 1=341).']
+  forescisoes_termo:
+    titulo: Discriminação das verbas rescisórias do TRCT - (13º salário e férias)
+    descricao: 'Discriminação das verbas rescisórias do TRCT - (13º salário e férias). 5.750 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS.'
+    tabela: FORESCISOES_TERMO
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_de_calculo_de_rescisao_1_normal_2_c: {coluna: TIPO, dominio: forescisoes_termo_tipo_de_cal, sensivel: financeiro}
+      codigo_do_calculo: I_CALCULOS
+      quantidade_de_avos_de_13o_salario_pagos: AVOS_13
+      quantidade_de_avos_de_ferias_pagos: AVOS_FERIAS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      valor_das_ferias_vencidas_valor_lancado: VALOR_FERIAS_VENCIDAS
+      valor_das_ferias_em_dobro_valor_lancado: VALOR_FERIAS_DOBRO
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_de_calculo_de_rescisao_1_normal_2_c:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.752 linhas, 360 empresa(s).', 'tipo_de_calculo_de_rescisao_1_normal_2_c: todos os valores reais estão no comentário do banco
+        (1=5.520, 2=232).']
+  forescisoes_envios_esocial:
+    titulo: Envios das rescisões ao eSocial
+    descricao: 'Envios das rescisões ao eSocial. 5.230 linhas no catálogo; chave: codi_emp, i_empregados, tipo, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS, I_CALCULOS.'
+    tabela: FORESCISOES_ENVIOS_ESOCIAL
+    chave: [codi_emp, i_empregados, tipo, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS, I_CALCULOS]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [i_empregados, asc]
+    - [tipo, asc]
+    colunas:
+      codigo_da_empresa: codi_emp
+      codigo_do_empregado: i_empregados
+      tipo_de_rescisao: {coluna: tipo, sensivel: financeiro}
+      codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      tipo_de_rescisao:
+        coluna: tipo
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.237 linhas, 249 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 6 linhas sem registro relacionado
+        (empresa 1448).']
+  forescisoes_simulacao:
+    titulo: Simulação da rescisão
+    descricao: 'Simulação da rescisão. 1.902 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS.'
+    tabela: FORESCISOES_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AVISO, volume: pequeno}
+    ordem:
+    - [DATA_AVISO, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_empresa: CODI_EMP
+      empregado: I_EMPREGADOS
+      tipo_de_calculo_de_rescisao_1_normal_2_c: {coluna: TIPO, dominio: forescisoes_simulacao_tipo_de_calculo_de_rescisao_, sensivel: financeiro}
+      codigo_do_calculo: I_CALCULOS
+      data_demissao: DEMISSAO
+      motivo: MOTIVO
+      data_aviso: DATA_AVISO
+      aviso_indenizado: AVISO_INDENIZADO
+      avos_pago_13_c: AVOS_PAGO_13
+      no_ferias_vencidas: NUM_FER_VENC
+      meses_ferias_prop: MESES_FER_PROP
+      codigo_saque_fgts: CODIGO_SAQUE_FGTS
+      saldo_fgts: SALDO_FGTS
+      fgts_mes_anterior_depositado: FGTS_MES_ANT_DEP
+      salario: {coluna: SALARIO, sensivel: financeiro}
+      provento: {coluna: PROVENTOS, sensivel: financeiro}
+      desconto: DESCONTOS
+      media_ferias_vencidas: MED_FER_VEN_I
+      media_ferias_prop: MED_FER_PRO_I
+      med_13_i: MED_13_I
+      valor_fgts_anteriro: VAL_FGTS_ANT
+      valor_fgts_rescisao: {coluna: VAL_FGTS_RES, sensivel: financeiro}
+      pago_medias: PAGO_MEDIAS
+      pago_adicionais: PAGO_ADICIONAIS
+      desconto_outro_motivo: DESC_OUTR_MOTIVO
+      minimo_mes_rescisao: {coluna: MIN_MES_RES, sensivel: financeiro}
+      data_pagamento: DATA_PAGTO
+      recolher_grfc: RECOLHER_GRFP
+      desconto_faltas: DESC_FALTA
+      base_fgts_13_c: BASE_FGTS_13
+      maior_remuneracao: {coluna: MAIOR_REMUNERACAO, sensivel: financeiro}
+      base_irrf_ferias: BASE_IRRF_FER
+      abatimento_irrf_ferias: ABAT_IRRF_FER
+      taxa_irrf_ferias: TAXA_IRRF_FER
+      base_irrf_13_c: BASE_IRRF_13
+      abat_irrf_13: ABAT_IRRF_13
+      taxa_irrf_13_c: TAXA_IRRF_13
+      valor_irrf_ferias: VALOR_IRRF_FER
+      deducao_irrf_ferias: DED_IRRF_FER
+      valor_irrf_13_c: VALOR_IRRF_13
+      ded_irrf_13: DED_IRRF_13
+      dias_estabilidade: DIAS_ESTAB
+      media_informada: MEDIA_INFORMADA
+      dias_aviso: DIAS_AVISO
+      valor_media_do_aviso: VALOR_MED_AVISO
+      data_acordo_dissidio: DISSIDIO_ACORDO_DATA
+      inss_empresa_13_c: INSS_EMPRESA_13
+      acid_trab_13: ACID_TRAB_13
+      inss_terc_13: INSS_TERC_13
+      valor_pis_13_c: VALOR_PIS_13
+      desc_lei_irrf_13: DESC_LEI_IRRF_13
+      desconto_irrf_ferias: DESC_LEI_IRRF_FER
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      sequencial_de_pagamento: I_PAGTO
+      indica_se_e_para_calcular_dsr_na_semana: DSR_SEMANA_RESC
+      aviso_previo_1_trab_2_indeizado_3_ausenc: AVISO_PREVIO
+      a_vaga_sera_reposta_1_sim_0_nao: REPOSICAO_VAGA
+      complemento_do_saldo_do_fgts: COMPLEMENTO_SALDO_FGTS
+      competencia_da_rescisao: COMPETENCIA
+      tipo_de_processo_da_rescisao: {coluna: TIPO_PROCESS, sensivel: financeiro}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_de_calculo_de_rescisao_1_normal_2_c:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      data_demissao:
+        coluna: DEMISSAO
+        ops: [entre, gte, lte]
+      data_aviso:
+        coluna: DATA_AVISO
+        ops: [entre, gte, lte]
+      data_pagamento:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      data_acordo_dissidio:
+        coluna: DISSIDIO_ACORDO_DATA
+        ops: [entre, gte, lte]
+      competencia_da_rescisao:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      aviso_indenizado:
+        coluna: AVISO_INDENIZADO
+        ops: [eq, in]
+      codigo_saque_fgts:
+        coluna: CODIGO_SAQUE_FGTS
+        ops: [eq, in]
+      fgts_mes_anterior_depositado:
+        coluna: FGTS_MES_ANT_DEP
+        ops: [eq, in]
+      pago_medias:
+        coluna: PAGO_MEDIAS
+        ops: [eq, in]
+      pago_adicionais:
+        coluna: PAGO_ADICIONAIS
+        ops: [eq, in]
+      desconto_outro_motivo:
+        coluna: DESC_OUTR_MOTIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.902 linhas, 183 empresa(s), DATA_AVISO de 2018-05-30 a 2026-12-31.', 'Colunas expostas nulas em 100% das linhas (9): desconto_outro_motivo,
+        desconto_faltas, valor_media_do_aviso, data_acordo_dissidio, inss_empresa_13_c, acid_trab_13, inss_terc_13, valor_pis_13_c, sequencial_de_pagamento.', 'tipo_de_calculo_de_rescisao_1_normal_2_c:
+        todos os valores reais estão no comentário do banco (4=1.902).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 886).']
+  forescisoes_termo_simulacao:
+    titulo: Simulação do termo rescisão
+    descricao: 'Simulação do termo rescisão. 1.902 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS.'
+    tabela: FORESCISOES_TERMO_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_da_rescisao: {coluna: TIPO, sensivel: financeiro}
+      codigo_do_calculo: I_CALCULOS
+      quantidade_de_avos_de_13o_salario_pagos: AVOS_13
+      quantidade_de_avos_de_ferias_pagos: AVOS_FERIAS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      valor_das_ferias_vencidas_valor_lancado: VALOR_FERIAS_VENCIDAS
+      valor_das_ferias_em_dobro_valor_lancado: VALOR_FERIAS_DOBRO
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_da_rescisao:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.902 linhas, 183 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): valor_das_ferias_vencidas_valor_lancado, valor_das_ferias_em_dobro_valor_lancado.']
+  forescisoes_termo_ferias_vencidas:
+    titulo: Discriminação das verbas rescisórias do TRCT - (férias vencidas)
+    descricao: 'Discriminação das verbas rescisórias do TRCT - (férias vencidas). 1.888 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, I_FERIAS_AQUISITIVOS,
+      I_CALCULOS.'
+    tabela: FORESCISOES_TERMO_FERIAS_VENCIDAS
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, I_FERIAS_AQUISITIVOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_de_calculo_de_rescisao_1_normal_2_c: {coluna: TIPO, dominio: forescisoes_termo_ferias_vencidas_tipo_de_cal, sensivel: financeiro}
+      codigo_do_periodo_aquisitivo: I_FERIAS_AQUISITIVOS
+      codigo_do_calculo: I_CALCULOS
+      valor: VALOR
+      valor_em_dobro: VALOR_DOBRO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      valor_das_ferias: VALOR_FERIAS
+      valor_do_1_3_de_ferias: VALOR_ADICIONAL
+      valor_de_medias_e_vantagens: VALOR_MEDIAS_VANTAGENS
+      valor_do_pis: VALOR_PIS
+      valor_do_1_3_de_ferias_em_dobro: VALOR_ADICIONAL_DOBRO
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      valor_do_adicional_de_ferias_sem_conside: VALOR_ADICIONAL_SEM_MEDIAS_VANTAGENS
+      valor_do_adicional_de_ferias_das_medias: VALOR_ADICIONAL_MEDIAS_VANTAGENS
+      valor_de_ferias_vencidas_do_dirigente_si: VALOR_DIRIGENTE_SINDICAL
+      base_de_ferias_vencidas_do_dirigente_sin: BASE_DIRIGENTE_SINDICAL
+      base_de_ferias_vencidas: BASE_FERIAS
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_de_calculo_de_rescisao_1_normal_2_c:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_periodo_aquisitivo:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.888 linhas, 247 empresa(s).', 'tipo_de_calculo_de_rescisao_1_normal_2_c: todos os valores reais estão no comentário do banco
+        (1=1.794, 2=94).']
+  forescisoes_termo_ferias_vencidas_simulacao:
+    titulo: Simulação do termo de férias vencidas da rescisão
+    descricao: 'Simulação do termo de férias vencidas da rescisão. 1.020 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, I_FERIAS_AQUISITIVOS, I_CALCULOS.'
+    tabela: FORESCISOES_TERMO_FERIAS_VENCIDAS_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, I_FERIAS_AQUISITIVOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_da_rescisao: {coluna: TIPO, sensivel: financeiro}
+      codigo_do_periodo_aquisitivo: I_FERIAS_AQUISITIVOS
+      codigo_do_calculo: I_CALCULOS
+      valor: VALOR
+      valor_em_dobro: VALOR_DOBRO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      valor_das_ferias: VALOR_FERIAS
+      valor_do_1_3_de_ferias: VALOR_ADICIONAL
+      valor_de_medias_e_vantagens: VALOR_MEDIAS_VANTAGENS
+      valor_do_pis: VALOR_PIS
+      valor_do_1_3_de_ferias_em_dobro: VALOR_ADICIONAL_DOBRO
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      valor_adicional_sem_medias_vantagens: VALOR_ADICIONAL_SEM_MEDIAS_VANTAGENS
+      valor_adicional_de_medias_vantagens: VALOR_ADICIONAL_MEDIAS_VANTAGENS
+      valor_de_ferias_vencidas_do_dirigente_si: VALOR_DIRIGENTE_SINDICAL
+      base_de_ferias_vencidas_do_dirigente_sin: BASE_DIRIGENTE_SINDICAL
+      base_de_ferias_vencidas: BASE_FERIAS
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_da_rescisao:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_periodo_aquisitivo:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.020 linhas, 142 empresa(s).']
+  forescisoes_termo_configuracao:
+    titulo: Recibo de Rescisão - Configuração
+    descricao: 'Recibo de Rescisão - Configuração. 378 linhas no catálogo; chave: CODI_EMP, MODELO.'
+    tabela: FORESCISOES_TERMO_CONFIGURACAO
+    chave: [CODI_EMP, MODELO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [MODELO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      modelo_1_trct_portaria_mte_1621_2010_ane: {coluna: MODELO, dominio: forescisoes_termo_configuracao_modelo_1_trct_port}
+      tipo_demonstracao: {coluna: TIPO_DEMONSTRACAO, dominio: forescisoes_termo_configuracao_tipo_de_demonstrac}
+      tipo_do_codigo_do_campo_27_0_todos_1_cod: {coluna: TIPO_CODIGO_CAMPO_27, dominio: forescisoes_termo_configuracao_tipo_do_codigo_do_}
+      imprimir_a_identificacao_do_empregador_t: IMPRIMIR_IDENTIFICACAO
+      imprimir_as_deducoes_na_sequencia_das_ve: IMPRIMIR_DEDUCOES_SEQUENCIA
+      configuracao_para_emissao_do_campo_2_do: {coluna: CONFIGURACAO_CAMPO_23, dominio: forescisoes_termo_configuracao_configuracao_para_}
+      demonstrar_em_branco_os_campos_sem_valor: {coluna: DEMONSTRAR_BRANCO_CAMPOS_SEM_VALOR, dominio: forescisoes_termo_configuracao_demonstrar_em_bran}
+      demonstrar_no_campo_50_a_quantidade_de_d: {coluna: DEMONSTRAR_QUANTIDADE_DIAS_FERIAS_GOZADOS_MES_RESCISAO_CAMPO_50, dominio: forescisoes_termo_configuracao_demonstrar_no_camp}
+      considerar_para_o_campo_23_remuneracao_m: {coluna: CONSIDERAR_FOLHA_COMPLEMENTAR_CAMPO_23, dominio: forescisoes_termo_configuracao_considerar_para_o_}
+      demonstrar_codigo_da_entidade_sindical_n: {coluna: DEMONSTRAR_CODIGO_ENTIDADE_SINDICAL_CAMPO_31_TRABALHADOR_RURAL, dominio: forescisoes_termo_configuracao_demonstrar_codigo_}
+      demonstrar_nos_outros_descontos_o_valor: {coluna: DEMONSTRAR_VALOR_INFORMADO_OUTROS_DESCONTOS, dominio: forescisoes_termo_configuracao_demonstrar_nos_out}
+      imprimir_dados_da_conta_bancaria_do_cola: EMITIR_DADOS_CONTA_BANCARIA_COLABORADOR
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      modelo_1_trct_portaria_mte_1621_2010_ane:
+        coluna: MODELO
+        ops: [eq, in]
+      tipo_demonstracao:
+        coluna: TIPO_DEMONSTRACAO
+        ops: [eq, in]
+      tipo_do_codigo_do_campo_27_0_todos_1_cod:
+        coluna: TIPO_CODIGO_CAMPO_27
+        ops: [eq, in]
+      demonstrar_codigo_da_entidade_sindical_n:
+        coluna: DEMONSTRAR_CODIGO_ENTIDADE_SINDICAL_CAMPO_31_TRABALHADOR_RURAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 378 linhas, 367 empresa(s).', 'modelo_1_trct_portaria_mte_1621_2010_ane: todos os valores reais estão no comentário do banco (2=367,
+        1=11).', 'tipo_demonstracao: todos os valores reais estão no comentário do banco (3=375, 2=2, 1=1).', 'tipo_do_codigo_do_campo_27_0_todos_1_cod: todos os
+        valores reais estão no comentário do banco (1=376, 0=2).', 'configuracao_para_emissao_do_campo_2_do: todos os valores reais estão no comentário do banco (1=375,
+        3=2, 2=1).', 'demonstrar_em_branco_os_campos_sem_valor: todos os valores reais estão no comentário do banco (0=236, 1=142).', 'demonstrar_no_campo_50_a_quantidade_de_d:
+        todos os valores reais estão no comentário do banco (0=377, 1=1).', 'considerar_para_o_campo_23_remuneracao_m: todos os valores reais estão no comentário
+        do banco (0=378).', 'demonstrar_codigo_da_entidade_sindical_n: todos os valores reais estão no comentário do banco (0=377, 1=1).', 'demonstrar_nos_outros_descontos_o_valor:
+        todos os valores reais estão no comentário do banco (0=377, 1=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1664).']

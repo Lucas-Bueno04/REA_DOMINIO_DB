@@ -1,0 +1,581 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_nucleo
+titulo: Financeiro do escritório - nucleo (rascunho em lote)
+dominios:
+  hrpagamento_origem_do_lancamento_:
+    confirmado: true
+    nota: 'Todos os valores observados em HRPAGAMENTO.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: M=8.118.'
+    valores: {M: Manual, A: Automática}
+  hradiantamento_origem_m_manual_r_recebimento:
+    confirmado: true
+    nota: 'Todos os valores observados em HRADIANTAMENTO.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: M=157, R=1.'
+    valores: {M: Manual, R: Recebimento}
+  hneventos_unidade_v_valor_q:
+    confirmado: true
+    nota: 'Todos os valores observados em hneventos.unidade_evt estão no comentário do banco (2026-10-18). Distribuição: V=28, Q=18.'
+    valores: {V: Valor, Q: Quantidade, P: Percentual}
+  hnagencias_banco_da_cooperativa_u:
+    confirmado: true
+    nota: 'Todos os valores observados em hnagencias.COOPERATIVA_CREDITO_BANCO estão no comentário do banco (2026-10-18). Distribuição: U=8.'
+    valores: {U: UNICRED, S: SICOOB, N: UNIPRIME}
+  hntipocontrato_tipo_de_reajuste_do_co:
+    confirmado: true
+    nota: 'Todos os valores observados em hntipocontrato.tiporeajuste_crt estão no comentário do banco (2026-10-18). Distribuição: D=1, M=1, A=1.'
+    valores: {M: Mensal, B: Bimestral, T: Trimestral, Q: Quadrimestral, S: Semestral, A: Anual, D: Data base}
+  hntipocontrato_periodicidade_de_fatur:
+    confirmado: true
+    nota: 'Todos os valores observados em hntipocontrato.periodicidadefat_crt estão no comentário do banco (2026-10-18). Distribuição: M=3.'
+    valores: {M: Mensal, B: Bimestral, T: Trimestral, Q: Quadrimestral, S: Semestral, A: Anual}
+entidades:
+  hrpagamento:
+    titulo: Pagamentos de contas a pagar
+    descricao: 'Pagamentos de contas a pagar. 8.118 linhas no catálogo; chave: CODI_EMP, I_PAGAR, I_PARCELA, I_PAGAMENTO.'
+    tabela: HRPAGAMENTO
+    chave: [CODI_EMP, I_PAGAR, I_PARCELA, I_PAGAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [I_PAGAR, asc]
+    - [I_PARCELA, asc]
+    colunas:
+      escritorio: CODI_EMP
+      lancamento_a_pagar: I_PAGAR
+      parcela: I_PARCELA
+      codigo: I_PAGAMENTO
+      conta_corrente_escritorio: I_MOVIMENTO_ESCRITORIO
+      conta_financeira: I_CONTA_FINANCEIRA
+      codigo_do_historico: I_HISTORICO
+      historico: HISTORICO
+      data_do_pagamento: DATA_PAGAMENTO
+      gerar_valor_i_individual_por_parcela_a_a: GERAR_VALOR
+      valor_liquido_do_pagamento: VALOR
+      valor_bruto_do_pagamento: VALOR_PAGO
+      valor_do_juros: VALOR_JUROS
+      valor_da_multa: VALOR_MULTA
+      valor_de_desconto: VALOR_DESCONTO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      realizar_pagamento_com_cheques_s_n: REALIZAR_PAGAMENTO_COM_CHEQUE
+      realizar_pagamento_com_cheques_recebidos: REALIZAR_PAGAMENTO_COM_CHEQUE_RECEBIDO_DE_CLIENTE
+      origem_do_lancamento_m_manual_a_automati: {coluna: ORIGEM, dominio: hrpagamento_origem_do_lancamento_}
+    vinculos:
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+      hrhistorico:
+        tabela: HRHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {hrhistorico_nome: HISTORICO}
+    filtros:
+      lancamento_a_pagar:
+        coluna: I_PAGAR
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      codigo:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      data_do_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      conta_corrente_escritorio:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      conta_financeira:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      gerar_valor_i_individual_por_parcela_a_a:
+        coluna: GERAR_VALOR
+        ops: [eq, in]
+      realizar_pagamento_com_cheques_s_n:
+        coluna: REALIZAR_PAGAMENTO_COM_CHEQUE
+        ops: [eq, in]
+      realizar_pagamento_com_cheques_recebidos:
+        coluna: REALIZAR_PAGAMENTO_COM_CHEQUE_RECEBIDO_DE_CLIENTE
+        ops: [eq, in]
+      origem_do_lancamento_m_manual_a_automati:
+        coluna: ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.118 linhas, 2 empresa(s), DATA_PAGAMENTO de 2018-01-03 a 2025-12-26.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_historico.',
+      'origem_do_lancamento_m_manual_a_automati: todos os valores reais estão no comentário do banco (M=8.118).', 'Vínculo hrconta_financeira (HRCONTA_FINANCEIRA):
+        0 de 8.072 linhas sem registro relacionado (empresa 1).', 'Vínculo hrhistorico (HRHISTORICO): 8.072 de 8.072 linhas sem registro relacionado (empresa 1).']
+  hrrenegociacao:
+    titulo: Renegociacoes
+    descricao: 'Renegociacoes. 1.031 linhas no catálogo; chave: CODI_EMP, I_RENEGOCIACAO.'
+    tabela: HRRENEGOCIACAO
+    chave: [CODI_EMP, I_RENEGOCIACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_RENEGOCIACAO, volume: pequeno}
+    ordem:
+    - [DATA_RENEGOCIACAO, desc]
+    - [I_RENEGOCIACAO, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_RENEGOCIACAO, cliente: I_CLIENTE, data: DATA_RENEGOCIACAO, codigo_do_historico: I_HISTORICO, historico: HISTORICO, valor_recebido: VALOR_RECEBIDO,
+      gerar_novo_faturamento_s_n: GERAR_NOVO, valor_do_novo_faturamento: NOVO_VALOR, competencia_do_novo_faturamento: NOVO_COMPETENCIA, vencimento_do_novo_faturamento: NOVO_VENCIMENTO,
+      reparcelar_gerando_novo_faturamento_s_n: REPARCELAR, valor_do_reparcelar_gerando_novo_faturam: REPARCELAR_VALOR, quitar_sem_recebimento_s_n: QUITAR, valor_do_quitar_sem_recebimento: QUITAR_VALOR,
+      quantidade_de_parcelas_do_reparcelar: REPARCELAR_QUANTIDADE, intervalo_de_dias_do_reparcelar: REPARCELAR_INTERVALO, competencia_do_reparcelar: REPARCELAR_COMPETENCIA,
+      mes_do_vencimento_do_reparcelar_n_no_mes: REPARCELAR_MES_VENCIMENTO, dia_vencimento_do_reparcelar: REPARCELAR_DIA_VENCIMENTO, gerar_eventos_m_mesmos_eventos_u_unico_e: GERAR_EVENTO,
+      novo_evento: I_EVENTO, alterar_vencimento_s_n: ALTERAR_VENCIMENTO, vencimento_original_da_parcela: VENCIMENTO_ORIGEM, vencimento_alterado: VENCIMENTO_DESTINO,
+      faturamento_do_vencimento_alterado: I_FATURAMENTO, parcela_do_vencimento_alterado: I_PARCELA, origem_r_recebida_e_renegociada_n_renego: ORIGEM, usuario_que_efetuou_a_renegociacao: USUARIO,
+      cobrar_juros_s_n: COBRAR_JUROS, valor_do_juros: JUROS_VALOR, evento_de_juros: JUROS_EVENTO, cobrar_multa_s_n: COBRAR_MULTA, valor_da_multa: MULTA_VALOR, evento_de_multa: MULTA_EVENTO,
+      valor_do_juros_utilizado_no_novo_faturam: VALOR_JUROS_REFATURADO, valor_do_juros_utilizado_no_reparcelamen: VALOR_JUROS_REPARCELADO, valor_da_multa_utilizado_no_novo_faturam: VALOR_MULTA_REFATURADO,
+      valor_da_multa_utilizado_no_reparcelamen: VALOR_MULTA_REPARCELADO, desconto_da_renegociaaao: DESCONTO_VALOR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      hrcliente:
+        tabela: HRCLIENTE
+        liga: {codi_emp: codi_emp, i_cliente: i_cliente}
+        colunas: {hrcliente_nome: NOME}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+      hrhistorico:
+        tabela: HRHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {hrhistorico_nome: HISTORICO}
+    filtros:
+      codigo:
+        coluna: I_RENEGOCIACAO
+        ops: [eq, in]
+      data:
+        coluna: DATA_RENEGOCIACAO
+        ops: [entre, gte, lte]
+      competencia_do_novo_faturamento:
+        coluna: NOVO_COMPETENCIA
+        ops: [entre, gte, lte]
+      vencimento_do_novo_faturamento:
+        coluna: NOVO_VENCIMENTO
+        ops: [entre, gte, lte]
+      competencia_do_reparcelar:
+        coluna: REPARCELAR_COMPETENCIA
+        ops: [entre, gte, lte]
+      vencimento_original_da_parcela:
+        coluna: VENCIMENTO_ORIGEM
+        ops: [entre, gte, lte]
+      vencimento_alterado:
+        coluna: VENCIMENTO_DESTINO
+        ops: [entre, gte, lte]
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      gerar_novo_faturamento_s_n:
+        coluna: GERAR_NOVO
+        ops: [eq, in]
+      reparcelar_gerando_novo_faturamento_s_n:
+        coluna: REPARCELAR
+        ops: [eq, in]
+      quitar_sem_recebimento_s_n:
+        coluna: QUITAR
+        ops: [eq, in]
+      mes_do_vencimento_do_reparcelar_n_no_mes:
+        coluna: REPARCELAR_MES_VENCIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.031 linhas, 2 empresa(s), DATA_RENEGOCIACAO de 2018-03-23 a 2025-08-25.', 'Colunas expostas nulas em 100% das linhas (5): codigo_do_historico,
+        valor_recebido, intervalo_de_dias_do_reparcelar, novo_evento, evento_de_multa.', 'Vínculo geempre (geempre): 0 de 1.027 linhas sem registro relacionado (empresa
+        1).', 'Vínculo hrcliente (HRCLIENTE): 0 de 1.027 linhas sem registro relacionado (empresa 1).', 'Vínculo hrevento (HREVENTO): 1.027 de 1.027 linhas sem registro
+        relacionado (empresa 1).', 'Vínculo hrhistorico (HRHISTORICO): 1.027 de 1.027 linhas sem registro relacionado (empresa 1).']
+  hradiantamento:
+    titulo: Adiantamentos
+    descricao: 'Adiantamentos. 158 linhas no catálogo; chave: CODI_EMP, I_ADIANTAMENTO.'
+    tabela: HRADIANTAMENTO
+    chave: [CODI_EMP, I_ADIANTAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ADIANTAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_ADIANTAMENTO, desc]
+    - [I_ADIANTAMENTO, asc]
+    colunas:
+      escritorio: CODI_EMP
+      codigo: I_ADIANTAMENTO
+      conta_corrente_cliente: I_MOVIMENTO_CLIENTE
+      conta_corrente_cliente_sequencial: I_MOVIMENTO_CLIENTE_SEQ
+      conta_corrente_escritorio: I_MOVIMENTO_ESCRITORIO
+      cliente: I_CLIENTE
+      data: DATA_ADIANTAMENTO
+      valor: VALOR
+      conta_financeira: I_CONTA_FINANCEIRA
+      codigo_do_historico: I_HISTORICO
+      historico: HISTORICO
+      somente_eventos_com_categoria_s_n: SOMENTE_EVENTO_CATEGORIA
+      categoria: I_CATEGORIA_RECEBER
+      incluir_eventos_cadastrados_depois_do_ad: INCLUIR_EVENTO_DEPOIS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      origem_m_manual_r_recebimento: {coluna: ORIGEM, dominio: hradiantamento_origem_m_manual_r_recebimento}
+    vinculos:
+      hrcategoria_receber:
+        tabela: HRCATEGORIA_RECEBER
+        liga: {codi_emp: codi_emp, i_categoria_receber: i_categoria_receber}
+        colunas: {hrcategoria_receber_nome: DESCRICAO}
+      hrcliente:
+        tabela: HRCLIENTE
+        liga: {codi_emp: codi_emp, i_cliente: i_cliente}
+        colunas: {hrcliente_nome: NOME}
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+      hrhistorico:
+        tabela: HRHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {hrhistorico_nome: HISTORICO}
+    filtros:
+      codigo:
+        coluna: I_ADIANTAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_ADIANTAMENTO
+        ops: [entre, gte, lte]
+      conta_corrente_cliente:
+        coluna: I_MOVIMENTO_CLIENTE
+        ops: [eq, in]
+      conta_corrente_cliente_sequencial:
+        coluna: I_MOVIMENTO_CLIENTE_SEQ
+        ops: [eq, in]
+      conta_corrente_escritorio:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      conta_financeira:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      somente_eventos_com_categoria_s_n:
+        coluna: SOMENTE_EVENTO_CATEGORIA
+        ops: [eq, in]
+      categoria:
+        coluna: I_CATEGORIA_RECEBER
+        ops: [eq, in]
+      incluir_eventos_cadastrados_depois_do_ad:
+        coluna: INCLUIR_EVENTO_DEPOIS
+        ops: [eq, in]
+      origem_m_manual_r_recebimento:
+        coluna: ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 158 linhas, 2 empresa(s), DATA_ADIANTAMENTO de 2019-02-18 a 2025-03-18.', 'Colunas expostas nulas em 100% das linhas (2): codigo_do_historico,
+        categoria.', 'origem_m_manual_r_recebimento: todos os valores reais estão no comentário do banco (M=157, R=1).', 'Vínculo hrcategoria_receber (HRCATEGORIA_RECEBER):
+        156 de 156 linhas sem registro relacionado (empresa 1).', 'Vínculo hrcliente (HRCLIENTE): 0 de 156 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        hrconta_financeira (HRCONTA_FINANCEIRA): 0 de 156 linhas sem registro relacionado (empresa 1).', 'Vínculo hrhistorico (HRHISTORICO): 156 de 156 linhas sem
+        registro relacionado (empresa 1).']
+  hraviso:
+    titulo: Avisos do modulo Honorarios
+    descricao: 'Avisos do modulo Honorarios. 13 linhas no catálogo; chave: USUARIO, TIPO.'
+    tabela: HRAVISO
+    chave: [USUARIO, TIPO]
+    acesso: {empresa: null, periodo: DATA_AVISO, volume: pequeno}
+    ordem:
+    - [DATA_AVISO, desc]
+    - [USUARIO, asc]
+    - [TIPO, asc]
+    colunas: {usuario: USUARIO, tipo_do_aviso_p_contas_a_pagar_v_convers: TIPO, data: DATA_AVISO, mostrar_s_n: MOSTRAR}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      tipo_do_aviso_p_contas_a_pagar_v_convers:
+        coluna: TIPO
+        ops: [eq, in]
+      data:
+        coluna: DATA_AVISO
+        ops: [entre, gte, lte]
+      mostrar_s_n:
+        coluna: MOSTRAR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas, DATA_AVISO de 2022-07-01 a 2026-07-17.']
+  hrparametro:
+    titulo: Parametro Honorarios
+    descricao: 'Parametro Honorarios. 3 linhas no catálogo; chave: CODI_EMP.'
+    tabela: HRPARAMETRO
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: FECHAMENTO_DATA, volume: pequeno}
+    ordem:
+    - [FECHAMENTO_DATA, desc]
+    colunas: {escritorio: CODI_EMP, compentencia_de_trabalho: COMPETENCIA_TRABALHO, sequencial_usado_na_cobranca_registrada: COBRANCA_REGISTRADA_SEQUENCIAL, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      cobranca_registrada_sequencial_237: COBRANCA_REGISTRADA_SEQUENCIAL_237, cobranca_registrada_sequencial_748: COBRANCA_REGISTRADA_SEQUENCIAL_748, cobranca_registrada_sequencial_756: COBRANCA_REGISTRADA_SEQUENCIAL_756,
+      data_do_fechamento: FECHAMENTO_DATA, cobranca_registrada_sequencial_104: COBRANCA_REGISTRADA_SEQUENCIAL_104, cobranca_registrada_sequencial_41: COBRANCA_REGISTRADA_SEQUENCIAL_41,
+      cobranca_registrada_sequencial_85: COBRANCA_REGISTRADA_SEQUENCIAL_85, cobranca_registrada_sequencial_097: COBRANCA_REGISTRADA_SEQUENCIAL_097, cobranca_registrada_sequencial_136: COBRANCA_REGISTRADA_SEQUENCIAL_136,
+      cobranca_registrada_sequencial_422: COBRANCA_REGISTRADA_SEQUENCIAL_422, cobranca_registrada_sequencial_341: COBRANCA_REGISTRADA_SEQUENCIAL_341, cobranca_registrada_sequencial_84: COBRANCA_REGISTRADA_SEQUENCIAL_84,
+      cobranca_registrada_sequencial_218: COBRANCA_REGISTRADA_SEQUENCIAL_218, cobranca_registrada_sequencial_077: COBRANCA_REGISTRADA_SEQUENCIAL_077, cobranca_registrada_sequencial_133: COBRANCA_REGISTRADA_SEQUENCIAL_133}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      compentencia_de_trabalho:
+        coluna: COMPETENCIA_TRABALHO
+        ops: [entre, gte, lte]
+      data_do_fechamento:
+        coluna: FECHAMENTO_DATA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s), FECHAMENTO_DATA de 2023-01-01 a 2023-06-01.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado
+        (empresa 9996).']
+  hrobservacao:
+    titulo: Observacoes
+    descricao: 'Observacoes. 2 linhas no catálogo; chave: I_OBSERVACAO.'
+    tabela: HROBSERVACAO
+    chave: [I_OBSERVACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_OBSERVACAO, asc]
+    colunas: {codigo: I_OBSERVACAO, descricao: DESCRICAO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_OBSERVACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']
+  hrconversao:
+    titulo: Conversao para o Dominio Honorarios
+    descricao: 'Conversao para o Dominio Honorarios. 1 linhas no catálogo; chave: STATUS.'
+    tabela: HRCONVERSAO
+    chave: [STATUS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [STATUS, asc]
+    colunas: {indica_como_esta_o_processo_de_conversao: STATUS}
+    filtros:
+      indica_como_esta_o_processo_de_conversao:
+        coluna: STATUS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  hneventos:
+    titulo: Eventos - Cadastro - Novo Honorarios
+    descricao: 'Eventos - Cadastro - Novo Honorarios. 46 linhas no catálogo; chave: i_evento.'
+    tabela: hneventos
+    chave: [i_evento]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_evento, asc]
+    colunas:
+      codigo: i_evento
+      descricao: desc_evt
+      soma_no_faturamento_s_n: somafat_evt
+      soma_irrf_s_n: somairrf_evt
+      soma_iss_s_n: somaiss_evt
+      aliquota_do_irrf: aliqirrf_evt
+      aliquota_iss: aliqiss_evt
+      provento_desconto_p_d: provdesc_evt
+      formula_do_evento: formula_evt
+      conta_contabil: conta_evt
+      codigo_do_historico_padrao: chis_evt
+      soma_contribuicoes_retidas_na_fonte_s_n: somacrf_evt
+      aliquota_das_contribuicoes_retidas_na_fo: aliqcrf_evt
+      complemento_do_evento: compl_evt
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      soma_inss_s_n: somainss_evt
+      aliquota_do_inss: aliqinss_evt
+      soma_iss_retido_s_n: somaissr_evt
+      aliquota_do_iss_retido: aliqissr_evt
+      unidade_v_valor_q_quantidade_p_percentua: {coluna: unidade_evt, dominio: hneventos_unidade_v_valor_q}
+      referencia: referencia_evt
+    filtros:
+      codigo:
+        coluna: i_evento
+        ops: [eq, in]
+      descricao:
+        coluna: desc_evt
+        ops: [contem, prefixo]
+      soma_no_faturamento_s_n:
+        coluna: somafat_evt
+        ops: [eq, in]
+      soma_irrf_s_n:
+        coluna: somairrf_evt
+        ops: [eq, in]
+      soma_iss_s_n:
+        coluna: somaiss_evt
+        ops: [eq, in]
+      provento_desconto_p_d:
+        coluna: provdesc_evt
+        ops: [eq, in]
+      formula_do_evento:
+        coluna: formula_evt
+        ops: [contem, prefixo]
+      soma_contribuicoes_retidas_na_fonte_s_n:
+        coluna: somacrf_evt
+        ops: [eq, in]
+      complemento_do_evento:
+        coluna: compl_evt
+        ops: [contem, prefixo]
+      soma_inss_s_n:
+        coluna: somainss_evt
+        ops: [eq, in]
+      soma_iss_retido_s_n:
+        coluna: somaissr_evt
+        ops: [eq, in]
+      unidade_v_valor_q_quantidade_p_percentua:
+        coluna: unidade_evt
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 46 linhas.', 'unidade_v_valor_q_quantidade_p_percentua: todos os valores reais estão no comentário do banco (V=28, Q=18).']
+  hnbancos:
+    titulo: Bancos - Cadastro
+    descricao: 'Bancos - Cadastro. 9 linhas no catálogo; chave: i_banco.'
+    tabela: hnbancos
+    chave: [i_banco]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_banco, asc]
+    colunas: {sequencial: i_banco, nome: nome_ban, codigo_do_banco: codi_ban, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      sequencial:
+        coluna: i_banco
+        ops: [eq, in]
+      nome:
+        coluna: nome_ban
+        ops: [contem, prefixo]
+      codigo_do_banco:
+        coluna: codi_ban
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas.']
+  hnagencias:
+    titulo: Agencias Bancarias - Cadastro
+    descricao: 'Agencias Bancarias - Cadastro. 8 linhas no catálogo; chave: i_agencia.'
+    tabela: hnagencias
+    chave: [i_agencia]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_agencia, asc]
+    colunas:
+      sequencial: i_agencia
+      banco: i_banco
+      nome: nome_age
+      digito_verificador: agencia_dv
+      codigo_da_agencia: codi_age
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+      endereco: {coluna: endereco, sensivel: parcial}
+      bairro: {coluna: bairro, sensivel: parcial}
+      cidade: cidade
+      numero: numero
+      uf: uf
+      cep: {coluna: cep, sensivel: parcial}
+      complemento: complemento
+      ddd: ddd
+      fone: {coluna: fone, sensivel: parcial}
+      cooperativa_de_credito_s_n: COOPERATIVA_CREDITO
+      cnpj_da_cooperativa_de_credito: {coluna: COOPERATIVA_CREDITO_CNPJ, sensivel: parcial}
+      agencia_da_cooperativa: COOPERATIVA_CREDITO_AGENCIA
+      agencia_da_cooperativa_digito_verificado: COOPERATIVA_CREDITO_AGENCIA_DV
+      banco_da_cooperativa_u_unicred_s_sicoob: {coluna: COOPERATIVA_CREDITO_BANCO, dominio: hnagencias_banco_da_cooperativa_u}
+      codigo_da_cooperativa: COOPERATIVA_CREDITO_CODIGO
+      prefixo_da_cooperativa: COOPERATIVA_CREDITO_PREFIXO
+    vinculos:
+      hnbancos:
+        tabela: hnbancos
+        liga: {i_banco: i_banco}
+        colunas: {hnbancos_nome: nome_ban}
+    filtros:
+      sequencial:
+        coluna: i_agencia
+        ops: [eq, in]
+      banco:
+        coluna: i_banco
+        ops: [eq, in]
+      nome:
+        coluna: nome_age
+        ops: [contem, prefixo]
+      digito_verificador:
+        coluna: agencia_dv
+        ops: [eq, in]
+      codigo_da_agencia:
+        coluna: codi_age
+        ops: [eq, in]
+      endereco:
+        coluna: endereco
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bairro
+        ops: [contem, prefixo]
+      cidade:
+        coluna: cidade
+        ops: [contem, prefixo]
+      uf:
+        coluna: uf
+        ops: [eq, in]
+      cep:
+        coluna: cep
+        ops: [eq, in]
+      complemento:
+        coluna: complemento
+        ops: [contem, prefixo]
+      fone:
+        coluna: fone
+        ops: [eq, in]
+      cooperativa_de_credito_s_n:
+        coluna: COOPERATIVA_CREDITO
+        ops: [eq, in]
+      cnpj_da_cooperativa_de_credito:
+        coluna: COOPERATIVA_CREDITO_CNPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas.', 'Colunas expostas nulas em 100% das linhas (6): complemento, cnpj_da_cooperativa_de_credito, agencia_da_cooperativa,
+        agencia_da_cooperativa_digito_verificado, codigo_da_cooperativa, prefixo_da_cooperativa.', 'banco_da_cooperativa_u_unicred_s_sicoob: todos os valores reais
+        estão no comentário do banco (U=8).', 'Vínculo hnbancos (hnbancos): 0 de 8 linhas sem registro relacionado.']
+  hntipocontrato:
+    titulo: Tipos de Contratos - Cadastro
+    descricao: 'Tipos de Contratos - Cadastro. 3 linhas no catálogo; chave: i_tipocontrato.'
+    tabela: hntipocontrato
+    chave: [i_tipocontrato]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_tipocontrato, asc]
+    colunas:
+      codigo_do_tipo_de_contrato: i_tipocontrato
+      tipo_de_reajuste_do_contrato_m_mensal_b: {coluna: tiporeajuste_crt, dominio: hntipocontrato_tipo_de_reajuste_do_co}
+      periodicidade_de_faturamento_m_mensal_b: {coluna: periodicidadefat_crt, dominio: hntipocontrato_periodicidade_de_fatur}
+      descricao_dos_servicos: descricao_crt
+      mes_base_para_reajuste_do_contrato_utili: mesbase_crt
+      origem_do_registro_0_sistema_1_imp_tabel: origem_reg
+    filtros:
+      codigo_do_tipo_de_contrato:
+        coluna: i_tipocontrato
+        ops: [eq, in]
+      tipo_de_reajuste_do_contrato_m_mensal_b:
+        coluna: tiporeajuste_crt
+        ops: [eq, in]
+      periodicidade_de_faturamento_m_mensal_b:
+        coluna: periodicidadefat_crt
+        ops: [eq, in]
+      descricao_dos_servicos:
+        coluna: descricao_crt
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas.', 'tipo_de_reajuste_do_contrato_m_mensal_b: todos os valores reais estão no comentário do banco (D=1, M=1, A=1).', 'periodicidade_de_faturamento_m_mensal_b:
+        todos os valores reais estão no comentário do banco (M=3).']
+  hnclassificacoes:
+    titulo: Classificacao dos Clientes - Cadastro
+    descricao: 'Classificacao dos Clientes - Cadastro. 2 linhas no catálogo; chave: i_classificacoes.'
+    tabela: hnclassificacoes
+    chave: [i_classificacoes]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_classificacoes, asc]
+    colunas: {codigo: i_classificacoes, descricao: descricao_cla, origem_do_registro_0_sistema_1_imp_tabel: origem_reg}
+    filtros:
+      codigo:
+        coluna: i_classificacoes
+        ops: [eq, in]
+      descricao:
+        coluna: descricao_cla
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas.']

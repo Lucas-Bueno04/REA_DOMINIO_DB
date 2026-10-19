@@ -24,6 +24,8 @@ Servidor SOMENTE LEITURA do banco do Sistema Domínio (contabilidade). Três cam
    esta camada: ela já resolve joins, nomes legíveis e armadilhas. Leia descrever_entidade antes (regras validadas + filtros obrigatórios).
 3) CONSULTA GENÉRICA: consultar_tabela (qualquer uma das ~4.700 tabelas legíveis) quando não houver entidade.
 Consultas prontas: balancete (contabilidade) e contas_a_receber (honorários).
+4) BIBLIOTECA DE FERRAMENTAS (uma ou mais por tabela + casos de uso): buscar_ferramentas, descrever_ferramenta, executar_ferramenta. Cada ferramenta já
+   traz a descrição da tabela, filtros obrigatórios, legendas de códigos e regras de negócio; os casos de uso (ex.: receita_bruta_simples) aparecem direto na lista.
 
 REGRAS QUE EVITAM RESPOSTAS ERRADAS (todas validadas contra os dados):
 - Quase toda tabela é multiempresa: informe 'empresa' (= codi_emp). Em Honorários, 'empresa'/'escritorio' é o ESCRITÓRIO (1 ou 930), não o cliente.
@@ -75,10 +77,17 @@ def listar_modulos() -> dict:
 
 
 @ferramenta
-def listar_entidades(modulo: str | None = None) -> dict:
-    """Lista as entidades de negócio consultáveis com consultar_entidade (nome, tabela, volume, se exige empresa, filtros disponíveis).
-    modulo: fiscal | contabil | folha | honorarios | geral | comum (opcional)."""
-    return motor().listar_entidades(modulo)
+def listar_entidades(modulo: str | None = None, limite: int = 100, offset: int = 0) -> dict:
+    """Lista (paginada) as entidades de negócio consultáveis com consultar_entidade: nome, tabela, volume, se exige empresa, filtros disponíveis.
+    São centenas: para achar uma, prefira buscar_entidades. modulo: nome do módulo (veja listar_modulos). A resposta traz proximo_offset."""
+    return motor().listar_entidades(modulo, limite, offset)
+
+
+@ferramenta
+def buscar_entidades(termo: str, modulo: str | None = None, limite: int = 25) -> dict:
+    """Acha entidades de negócio por palavras (ex.: 'saldo produto', 'cupom fiscal', 'guia inss', 'lalur'); todas as palavras devem aparecer em nome,
+    título, descrição, tabela ou campos. Devolve as mais relevantes primeiro. Depois use descrever_entidade e consultar_entidade."""
+    return motor().buscar_entidades(termo, modulo, limite)
 
 
 @ferramenta
@@ -163,7 +172,13 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--transport", choices=["stdio", "streamable-http", "sse"], default="stdio")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8765)
+    ap.add_argument("--perfil", choices=["compacto", "completo"], default="compacto",
+                    help="compacto: gateway + casos de uso; completo: todas as tools da biblioteca (uma ou mais por tabela)")
+    ap.add_argument("--modulos", default="", help="com --perfil completo, limita a estes módulos da biblioteca (separados por vírgula)")
     a = ap.parse_args(argv)
+    from biblioteca.servidor import registrar
+    n = registrar(srv, motor, a.perfil, {m.strip() for m in a.modulos.split(",") if m.strip()} or None)
+    print(f"[dominio-db] biblioteca: +{n} tools ({a.perfil})", file=sys.stderr, flush=True)
     print(f"[dominio-db] iniciando ({a.transport})", file=sys.stderr, flush=True)
     if a.transport == "stdio":
         srv.run("stdio")

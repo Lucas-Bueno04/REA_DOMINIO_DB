@@ -1,0 +1,66 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: outros_outros
+titulo: Outros - outros (rascunho em lote)
+entidades:
+  relatorios_atualizacao:
+    titulo: CONTROLE DE ATUALIZACO DE RELATORIOS DO GERADOR
+    descricao: 'CONTROLE DE ATUALIZACO DE RELATORIOS DO GERADOR. 910 linhas no catálogo; chave: I_RELATORIOS_ATUALIZACAO.'
+    tabela: RELATORIOS_ATUALIZACAO
+    chave: [I_RELATORIOS_ATUALIZACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_RELATORIOS_ATUALIZACAO, asc]
+    colunas: {sequencial: I_RELATORIOS_ATUALIZACAO, identificador_do_relatorio: PADRAO, revisao_do_relatorio_no_banco_de_dados: REVISAO_DB, revisao_do_relatorio_no_ponto_ver: REVISAO_VER,
+      usado_pelos_comandos_de_insert_na_atuali: I_RELATORIO, c_1_classificacao_0_relatorio: EH_CLASSIFICACAO}
+    filtros:
+      sequencial:
+        coluna: I_RELATORIOS_ATUALIZACAO
+        ops: [eq, in]
+      identificador_do_relatorio:
+        coluna: PADRAO
+        ops: [contem, prefixo]
+      revisao_do_relatorio_no_banco_de_dados:
+        coluna: REVISAO_DB
+        ops: [contem, prefixo]
+      revisao_do_relatorio_no_ponto_ver:
+        coluna: REVISAO_VER
+        ops: [contem, prefixo]
+      usado_pelos_comandos_de_insert_na_atuali:
+        coluna: I_RELATORIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 910 linhas.']
+  tria_controle:
+    titulo: Controle de funcionalidades que utilizam TRIA
+    descricao: 'Controle de funcionalidades que utilizam TRIA. 9 linhas no catálogo; chave: CODIGO.'
+    tabela: TRIA_CONTROLE
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_identificador: CODIGO, descricao: DESCRICAO, c_0_desativado_1_ativado: STATUS}
+    filtros:
+      codigo_identificador:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 9 linhas.']
+  confatualizacao:
+    titulo: Configuracao do gerenciador de atualizacoes
+    descricao: 'Configuracao do gerenciador de atualizacoes. 1 linhas no catálogo; chave: i_confatualizacao.'
+    tabela: confatualizacao
+    chave: [i_confatualizacao]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [i_confatualizacao, asc]
+    colunas: {i_confatualizacao: i_confatualizacao, se_eh_para_testar_se_tem_uma_versao_disp: verificar_versao, caminho_para_verificar_se_tem_novas_vers: caminho}
+    filtros:
+      i_confatualizacao:
+        coluna: i_confatualizacao
+        ops: [eq, in]
+      caminho_para_verificar_se_tem_novas_vers:
+        coluna: caminho
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

@@ -1,0 +1,952 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_outros
+titulo: Financeiro do escritório - outros (rascunho em lote)
+dominios:
+  hrlote_nfse_situacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em HRLOTE_NFSE.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: 4=33.094.'
+    valores: {'0': Enviado, '1': Nao Recebido, '2': Nao Processado, '3': Processado com Erro, '4': Processado com Sucesso, '5': Aguardando assinatura}
+  hrurl_nfse_acao_1_cons:
+    confirmado: true
+    nota: 'Todos os valores observados em HRURL_NFSE.ACAO estão no comentário do banco (2026-10-18). Distribuição: 6=1.055, 4=898, 2=898, 8=199, 3=132, 5=100, 12=4,
+      9=2.'
+    valores: {'1': CONSULTA SITUACAO NFSE, '2': CONSULTA SITUACAO LOTE, '3': CONSULTA NFSE RPS, '4': CONSULTA LOTE RPS, '5': CONSULTA NFSE, '6': ENVIO LOTE, '7': CANCELAR
+        NFSE, '8': CANCELAR LOTE, '9': GERAR TOKEN, '10': INUTILIZAR INTERVALO, '12': BAIXAR ARQUIVO DE RETORNO}
+  hrurl_nfse_tipo_da_url:
+    confirmado: true
+    nota: 'Todos os valores observados em HRURL_NFSE.OFICIAL_TESTE estão no comentário do banco (2026-10-18). Distribuição: O=1.753, T=1.535.'
+    valores: {O: Oficial, T: Teste}
+  hrcustos_itens_automaticos_unidade_1_v:
+    confirmado: true
+    nota: 'Todos os valores observados em HRCUSTOS_ITENS_AUTOMATICOS.UNIDADE estão no comentário do banco (2026-10-18). Distribuição: 1=18, 2=17, 3=9.'
+    valores: {'1': Valor, '2': Quantidade, '3': Horas}
+  hrcustos_itens_automaticos_tipo_de_emp:
+    confirmado: true
+    nota: 'Todos os valores observados em HRCUSTOS_ITENS_AUTOMATICOS.TIPO_EMPRESA estão no comentário do banco (2026-10-18). Distribuição: 2=28, 1=16.'
+    valores: {'1': Escritorio, '2': Cliente}
+entidades:
+  hrrecebimento_lancto:
+    titulo: Recebimento de contas a receber X Lancamentos Contabeis
+    descricao: 'Recebimento de contas a receber X Lancamentos Contabeis. 41.380 linhas no catálogo; chave: CODI_EMP, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO, EMPRESA_LAN,
+      NUME_LAN.'
+    tabela: HRRECEBIMENTO_LANCTO
+    chave: [CODI_EMP, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_FATURAMENTO, asc]
+    - [I_PARCELA, asc]
+    colunas: {escritorio: CODI_EMP, faturamento: I_FATURAMENTO, parcela: I_PARCELA, recebimento: I_RECEBIMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE, tipo_do_lancamento_contabil_s_sistema_u: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      recebimento:
+        coluna: I_RECEBIMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 41.380 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 39.407 linhas sem registro relacionado (empresa 1).']
+  hrlote_nfse:
+    titulo: Lotes para notas fiscais de servico eletronica emitidas
+    descricao: 'Lotes para notas fiscais de servico eletronica emitidas. 33.094 linhas no catálogo; chave: CODI_EMP, I_LOTE.'
+    tabela: HRLOTE_NFSE
+    chave: [CODI_EMP, I_LOTE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_LOTE, asc]
+    colunas:
+      escritorio: CODI_EMP
+      lote: I_LOTE
+      numero_do_protocolo: NUMERO_PROTOCOLO
+      situacao_do_lote_0_enviado_1_nao_recebid: {coluna: SITUACAO, dominio: hrlote_nfse_situacao_do}
+      descriaao_do_lote: DESCRICAO
+      nfse_ambiente_de_envio: NFSE_AMBIENTE_ENVIO
+      sequencial_do_lote: I_SEQUENCIAL_LOTE
+      numero_do_lote_de_envio: NUMERO_LOTE_ENVIO
+      sequencial_do_lote_nfse_nacional: I_SEQUENCIAL_LOTE_NACIONAL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      lote:
+        coluna: I_LOTE
+        ops: [eq, in]
+      numero_do_protocolo:
+        coluna: NUMERO_PROTOCOLO
+        ops: [contem, prefixo]
+      situacao_do_lote_0_enviado_1_nao_recebid:
+        coluna: SITUACAO
+        ops: [eq, in]
+      descriaao_do_lote:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      nfse_ambiente_de_envio:
+        coluna: NFSE_AMBIENTE_ENVIO
+        ops: [eq, in]
+      sequencial_do_lote:
+        coluna: I_SEQUENCIAL_LOTE
+        ops: [eq, in]
+      sequencial_do_lote_nfse_nacional:
+        coluna: I_SEQUENCIAL_LOTE_NACIONAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 33.094 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): descriaao_do_lote.', 'situacao_do_lote_0_enviado_1_nao_recebid:
+        todos os valores reais estão no comentário do banco (4=33.094).', 'Vínculo geempre (geempre): 0 de 31.235 linhas sem registro relacionado (empresa 1).']
+  hrconta_corrente_escritorio_lancto:
+    titulo: Conta corrente do escritorio X Lancamentos Contabeis
+    descricao: 'Conta corrente do escritorio X Lancamentos Contabeis. 6.781 linhas no catálogo; chave: CODI_EMP, I_MOVIMENTO_ESCRITORIO, EMPRESA_LAN, NUME_LAN.'
+    tabela: HRCONTA_CORRENTE_ESCRITORIO_LANCTO
+    chave: [CODI_EMP, I_MOVIMENTO_ESCRITORIO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_MOVIMENTO_ESCRITORIO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {escritorio: CODI_EMP, conta_corrente_escritorio: I_MOVIMENTO_ESCRITORIO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE, tipo_do_lancamento_contabil_s_sistema_u: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      conta_corrente_escritorio:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.781 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 5.982 linhas sem registro relacionado (empresa 1).']
+  hrconta_corrente_escritorio_impostos:
+    titulo: Tabela de detalhamento de imposto/encargo para cada movimentacao financeira
+    descricao: 'Tabela de detalhamento de imposto/encargo para cada movimentacao financeira. 634 linhas no catálogo; chave: CODI_EMP, I_MOVIMENTO_ESCRITORIO, I_SEQUENCIAL.'
+    tabela: HRCONTA_CORRENTE_ESCRITORIO_IMPOSTOS
+    chave: [CODI_EMP, I_MOVIMENTO_ESCRITORIO, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_MOVIMENTO_ESCRITORIO, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {escritorio: CODI_EMP, codigo_movimentacao_financeira: I_MOVIMENTO_ESCRITORIO, sequencial: I_SEQUENCIAL, imposto: CODI_IMP, valor_do_imposto: VALOR}
+    filtros:
+      codigo_movimentacao_financeira:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 634 linhas, 2 empresa(s).']
+  hrconta_financeira_intervalo:
+    titulo: Conta financeira - intervalo de numeracao
+    descricao: 'Conta financeira - intervalo de numeracao. 21 linhas no catálogo; chave: CODI_EMP, I_CONTA_FINANCEIRA, I_INTERVALO.'
+    tabela: HRCONTA_FINANCEIRA_INTERVALO
+    chave: [CODI_EMP, I_CONTA_FINANCEIRA, I_INTERVALO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTA_FINANCEIRA, asc]
+    - [I_INTERVALO, asc]
+    colunas: {escritorio: CODI_EMP, conta_financeira: I_CONTA_FINANCEIRA, codigo: I_INTERVALO, inicial: INICIAL, final: FINAL, ultimo_codigo_de_intervalo_utilizado_pel: ULTIMO_UTILIZADO,
+      inutilizar_intervalo_s_n: INUTILIZAR_INTERVALO, tipo_de_invervalo_u_usuario_s_sistema: TIPO_INTERVALO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    vinculos:
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+    filtros:
+      conta_financeira:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      codigo:
+        coluna: I_INTERVALO
+        ops: [eq, in]
+      inutilizar_intervalo_s_n:
+        coluna: INUTILIZAR_INTERVALO
+        ops: [eq, in]
+      tipo_de_invervalo_u_usuario_s_sistema:
+        coluna: TIPO_INTERVALO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21 linhas, 3 empresa(s).', 'Vínculo hrconta_financeira (HRCONTA_FINANCEIRA): 0 de 5 linhas sem registro relacionado (empresa 930).']
+  hrpagamento_lancto:
+    titulo: Pagamentos de contas a pagar X Lancamentos Contabeis
+    descricao: 'Pagamentos de contas a pagar X Lancamentos Contabeis. 5.051 linhas no catálogo; chave: CODI_EMP, I_PAGAR, I_PARCELA, I_PAGAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: HRPAGAMENTO_LANCTO
+    chave: [CODI_EMP, I_PAGAR, I_PARCELA, I_PAGAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PAGAR, asc]
+    - [I_PARCELA, asc]
+    colunas: {escritorio: CODI_EMP, lancamento_a_pagar: I_PAGAR, parcela: I_PARCELA, pagamento: I_PAGAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE, tipo_do_lancamento_contabil_s_sistema_u: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      lancamento_a_pagar:
+        coluna: I_PAGAR
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      pagamento:
+        coluna: I_PAGAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.051 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 5.005 linhas sem registro relacionado (empresa 1).']
+  hrurl_nfse:
+    titulo: Armazena as RULs usadas na nota fiscal de servico eletronica
+    descricao: 'Armazena as RULs usadas na nota fiscal de servico eletronica. 3.288 linhas no catálogo; chave: CODIGO_MUNICIPIO_SRF, ACAO, OFICIAL_TESTE, VIGENCIA.'
+    tabela: HRURL_NFSE
+    chave: [CODIGO_MUNICIPIO_SRF, ACAO, OFICIAL_TESTE, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODIGO_MUNICIPIO_SRF, asc]
+    - [ACAO, asc]
+    colunas:
+      codigo_do_municipio_da_secretaria_da_rec: CODIGO_MUNICIPIO_SRF
+      acao_1_consulta_situacao_nfse_2_consulta: {coluna: ACAO, dominio: hrurl_nfse_acao_1_cons}
+      tipo_da_url_o_oficial_t_teste: {coluna: OFICIAL_TESTE, dominio: hrurl_nfse_tipo_da_url}
+      vigencia_da_url: VIGENCIA
+      url: URL
+      url_usada_para_determinar_uma_acao: URL_ACAO
+      url_usada_para_logar: URL_LOGAR
+    filtros:
+      codigo_do_municipio_da_secretaria_da_rec:
+        coluna: CODIGO_MUNICIPIO_SRF
+        ops: [eq, in]
+      acao_1_consulta_situacao_nfse_2_consulta:
+        coluna: ACAO
+        ops: [eq, in]
+      tipo_da_url_o_oficial_t_teste:
+        coluna: OFICIAL_TESTE
+        ops: [eq, in]
+      vigencia_da_url:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      url:
+        coluna: URL
+        ops: [contem, prefixo]
+      url_usada_para_determinar_uma_acao:
+        coluna: URL_ACAO
+        ops: [contem, prefixo]
+      url_usada_para_logar:
+        coluna: URL_LOGAR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.288 linhas, VIGENCIA de 1900-01-01 a 1900-01-01.', 'acao_1_consulta_situacao_nfse_2_consulta: todos os valores reais estão no
+        comentário do banco (6=1.055, 4=898, 2=898, 8=199, 3=132, 5=100, 12=4, 9=2).', 'tipo_da_url_o_oficial_t_teste: todos os valores reais estão no comentário
+        do banco (O=1.753, T=1.535).']
+  hrreajuste_contrato:
+    titulo: Reajuste de contratos
+    descricao: 'Reajuste de contratos. 2.979 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, COMPETENCIA.'
+    tabela: HRREAJUSTE_CONTRATO
+    chave: [CODI_EMP, I_CONTRATO, COMPETENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_REAJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_REAJUSTE, desc]
+    - [I_CONTRATO, asc]
+    - [COMPETENCIA, asc]
+    colunas: {escritorio: CODI_EMP, contrato: I_CONTRATO, competencia: COMPETENCIA, data_que_ocorreu_o_reajuste: DATA_REAJUSTE, compentencia_em_que_o_contrato_deveria_t: DATA_VENCIMENTO,
+      codigo_do_historico: I_HISTORICO, historico: HISTORICO, forma_de_reajuste_p_percentual_a_adicion: FORMA_REAJUSTE, valor_aplicado_ao_contrato: VALOR_APLICADO,
+      novo_valor_do_contrato_apos_reajuste: VALOR_NOVO_CONTRATO, valor_do_contrato_antes_do_reajuste: VALOR_ANTERIOR_REAJUSTE}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrhistorico:
+        tabela: HRHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {hrhistorico_nome: HISTORICO}
+    filtros:
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      data_que_ocorreu_o_reajuste:
+        coluna: DATA_REAJUSTE
+        ops: [entre, gte, lte]
+      compentencia_em_que_o_contrato_deveria_t:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      forma_de_reajuste_p_percentual_a_adicion:
+        coluna: FORMA_REAJUSTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.979 linhas, 1 empresa(s), DATA_REAJUSTE de 2018-02-21 a 2025-05-02.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_historico.',
+      'Vínculo hrcontrato (HRCONTRATO): 0 de 2.979 linhas sem registro relacionado (empresa 1).', 'Vínculo hrhistorico (HRHISTORICO): 2.979 de 2.979 linhas sem registro
+        relacionado (empresa 1).']
+  hrnumero_utilizado_recebimento:
+    titulo: Tabela para ser usada na geração de números e verificar se os números estão sendo utilizados
+    descricao: 'Tabela para ser usada na geração de números e verificar se os números estão sendo utilizados. 872 linhas no catálogo; chave: CODI_EMP, I_NUMERO_UTILIZADO.'
+    tabela: HRNUMERO_UTILIZADO_RECEBIMENTO
+    chave: [CODI_EMP, I_NUMERO_UTILIZADO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_NUMERO_UTILIZADO, asc]
+    colunas: {empresa: CODI_EMP, numero: I_NUMERO_UTILIZADO, conta_financeira: I_CONTA_FINANCEIRA, usuario: USUARIO, tipo_de_recebimento: TIPO_RECEBIMENTO, identificador_de_conexao: CONNECTION_ID}
+    filtros:
+      numero:
+        coluna: I_NUMERO_UTILIZADO
+        ops: [eq, in]
+      conta_financeira:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      tipo_de_recebimento:
+        coluna: TIPO_RECEBIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 872 linhas, 1 empresa(s).']
+  hrrenegociacao_recebimento:
+    titulo: Renegociacao - Recebimento
+    descricao: 'Renegociacao - Recebimento. 508 linhas no catálogo; chave: CODI_EMP, I_RENEGOCIACAO, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO.'
+    tabela: HRRENEGOCIACAO_RECEBIMENTO
+    chave: [CODI_EMP, I_RENEGOCIACAO, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RENEGOCIACAO, asc]
+    - [I_FATURAMENTO, asc]
+    colunas: {escritorio: CODI_EMP, renegociacao: I_RENEGOCIACAO, faturamento: I_FATURAMENTO, parcela: I_PARCELA, recebimento: I_RECEBIMENTO}
+    filtros:
+      renegociacao:
+        coluna: I_RENEGOCIACAO
+        ops: [eq, in]
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      recebimento:
+        coluna: I_RECEBIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 508 linhas, 2 empresa(s).']
+  hrrenegociacao_faturamento:
+    titulo: Renegociacao - Faturamento
+    descricao: 'Renegociacao - Faturamento. 483 linhas no catálogo; chave: CODI_EMP, I_RENEGOCIACAO, I_FATURAMENTO_ORIGEM, I_PARCELA_ORIGEM, I_FATURAMENTO_DESTINO,
+      I_PARCELA_DESTINO.'
+    tabela: HRRENEGOCIACAO_FATURAMENTO
+    chave: [CODI_EMP, I_RENEGOCIACAO, I_FATURAMENTO_ORIGEM, I_PARCELA_ORIGEM, I_FATURAMENTO_DESTINO, I_PARCELA_DESTINO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_RENEGOCIACAO, asc]
+    - [I_FATURAMENTO_ORIGEM, asc]
+    colunas: {escritorio: CODI_EMP, renegociacao: I_RENEGOCIACAO, faturamento_origem: I_FATURAMENTO_ORIGEM, parcela_origem: I_PARCELA_ORIGEM, faturamento_destino: I_FATURAMENTO_DESTINO,
+      parcela_destino: I_PARCELA_DESTINO, tipo_de_renegociacao_que_originou_o_fatu: TIPO_RENEGOCIACAO}
+    filtros:
+      renegociacao:
+        coluna: I_RENEGOCIACAO
+        ops: [eq, in]
+      faturamento_origem:
+        coluna: I_FATURAMENTO_ORIGEM
+        ops: [eq, in]
+      parcela_origem:
+        coluna: I_PARCELA_ORIGEM
+        ops: [eq, in]
+      faturamento_destino:
+        coluna: I_FATURAMENTO_DESTINO
+        ops: [eq, in]
+      parcela_destino:
+        coluna: I_PARCELA_DESTINO
+        ops: [eq, in]
+      tipo_de_renegociacao_que_originou_o_fatu:
+        coluna: TIPO_RENEGOCIACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 483 linhas, 1 empresa(s).']
+  hradiantamento_aproveitamento:
+    titulo: Adiantamentos - Aproveitamentos
+    descricao: 'Adiantamentos - Aproveitamentos. 215 linhas no catálogo; chave: CODI_EMP, I_ADIANTAMENTO, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO, I_EVENTO, PAGO_ESCRITORIO.'
+    tabela: HRADIANTAMENTO_APROVEITAMENTO
+    chave: [CODI_EMP, I_ADIANTAMENTO, I_FATURAMENTO, I_PARCELA, I_RECEBIMENTO, I_EVENTO, PAGO_ESCRITORIO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ADIANTAMENTO, asc]
+    - [I_FATURAMENTO, asc]
+    colunas: {escritorio: CODI_EMP, adiantamento: I_ADIANTAMENTO, faturamento: I_FATURAMENTO, parcela: I_PARCELA, recebimento: I_RECEBIMENTO, evento: I_EVENTO, pago_pelo_escritorio_s_n: PAGO_ESCRITORIO,
+      origem_c_cadastro_de_adiantamento_f_fatu: ORIGEM, valor_aproveitado: VALOR, usuario_que_efetuou_o_aproveitamento: USUARIO}
+    filtros:
+      adiantamento:
+        coluna: I_ADIANTAMENTO
+        ops: [eq, in]
+      faturamento:
+        coluna: I_FATURAMENTO
+        ops: [eq, in]
+      parcela:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      recebimento:
+        coluna: I_RECEBIMENTO
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      pago_pelo_escritorio_s_n:
+        coluna: PAGO_ESCRITORIO
+        ops: [eq, in]
+      origem_c_cadastro_de_adiantamento_f_fatu:
+        coluna: ORIGEM
+        ops: [eq, in]
+      usuario_que_efetuou_o_aproveitamento:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 215 linhas, 2 empresa(s).']
+  hradiantamento_evento:
+    titulo: Adiantamentos - Eventos
+    descricao: 'Adiantamentos - Eventos. 196 linhas no catálogo; chave: CODI_EMP, I_ADIANTAMENTO, I_EVENTO.'
+    tabela: HRADIANTAMENTO_EVENTO
+    chave: [CODI_EMP, I_ADIANTAMENTO, I_EVENTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ADIANTAMENTO, asc]
+    - [I_EVENTO, asc]
+    colunas: {escritorio: CODI_EMP, adiantamento: I_ADIANTAMENTO, evento: I_EVENTO, ordem_de_aproveitamento: ORDEM}
+    vinculos:
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      adiantamento:
+        coluna: I_ADIANTAMENTO
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 196 linhas, 2 empresa(s).', 'Vínculo hrevento (HREVENTO): 0 de 192 linhas sem registro relacionado (empresa 1).']
+  hradiantamento_lancto:
+    titulo: Adiantamentos X Lancamento Contabeis
+    descricao: 'Adiantamentos X Lancamento Contabeis. 155 linhas no catálogo; chave: CODI_EMP, I_ADIANTAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: HRADIANTAMENTO_LANCTO
+    chave: [CODI_EMP, I_ADIANTAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ADIANTAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {escritorio: CODI_EMP, adiantamento: I_ADIANTAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE, tipo_do_lancamento_contabil_s_sistema_u: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      adiantamento:
+        coluna: I_ADIANTAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 155 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 153 linhas sem registro relacionado (empresa 1).']
+  hrcategoria_pagar:
+    titulo: Categorias de contas a receber
+    descricao: 'Categorias de contas a receber. 201 linhas no catálogo; chave: CODI_EMP, I_CATEGORIA_PAGAR.'
+    tabela: HRCATEGORIA_PAGAR
+    chave: [CODI_EMP, I_CATEGORIA_PAGAR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CATEGORIA_PAGAR, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_CATEGORIA_PAGAR, descricao: DESCRICAO, tipo_t_totalizadora_n_nao_totalizadora: TIPO, subordinado_a: SUBORDINADA_PAGAR,
+      conta_de_despesa: CONTA_DESPESA, historico: HISTORICO_CONTABIL, gerar_lancamentos_na_conta_do_fornecedor: GERA_LANCAMENTO, fornecedor: I_FORNECEDOR, conta_financeira_para_pagamento: I_CONTA_FINANCEIRA,
+      considerar_para_o_fluxo_de_caixa_projeta: CONSIDERAR_FLUXO_CAIXA, lancamento_fluxo_caixa: LANCAMENTO_FLUXO_CAIXA, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    vinculos:
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, i_fornecedor: codi_for}
+        colunas: {effornece_nome: nomr_for}
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_CATEGORIA_PAGAR
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_t_totalizadora_n_nao_totalizadora:
+        coluna: TIPO
+        ops: [eq, in]
+      gerar_lancamentos_na_conta_do_fornecedor:
+        coluna: GERA_LANCAMENTO
+        ops: [eq, in]
+      fornecedor:
+        coluna: I_FORNECEDOR
+        ops: [eq, in]
+      conta_financeira_para_pagamento:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      considerar_para_o_fluxo_de_caixa_projeta:
+        coluna: CONSIDERAR_FLUXO_CAIXA
+        ops: [eq, in]
+      lancamento_fluxo_caixa:
+        coluna: LANCAMENTO_FLUXO_CAIXA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 201 linhas, 2 empresa(s).', 'Vínculo effornece (effornece): 96 de 105 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        hrconta_financeira (HRCONTA_FINANCEIRA): 100 de 105 linhas sem registro relacionado (empresa 1).']
+  hrcategoria_receber:
+    titulo: Categorias contas a receber
+    descricao: 'Categorias contas a receber. 84 linhas no catálogo; chave: CODI_EMP, I_CATEGORIA_RECEBER.'
+    tabela: HRCATEGORIA_RECEBER
+    chave: [CODI_EMP, I_CATEGORIA_RECEBER]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CATEGORIA_RECEBER, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_CATEGORIA_RECEBER, descricao: DESCRICAO, tipo_t_totalizadora_n_nao_totalizadora: TIPO, subordinado_a: SUBORDINADA_RECEBER,
+      classificacao_r_receitas_o_outras_receit: CLASSIFICACAO, considerar_para_o_fluxo_de_caixa_projeta: CONSIDERAR_CONTRATO, considerar_adicional: CONSIDERAR_ADICIONAL,
+      considerar_fixo: CONSIDERAR_FIXO, considerar_mensal: CONSIDERAR_MENSAL, considerar_orcado: CONSIDERAR_ORCADO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      codigo_da_conta_credito: CONTA_CREDITO, codigo_do_historico_de_credito: HISTORICO_CREDITO}
+    filtros:
+      codigo:
+        coluna: I_CATEGORIA_RECEBER
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_t_totalizadora_n_nao_totalizadora:
+        coluna: TIPO
+        ops: [eq, in]
+      classificacao_r_receitas_o_outras_receit:
+        coluna: CLASSIFICACAO
+        ops: [eq, in]
+      considerar_para_o_fluxo_de_caixa_projeta:
+        coluna: CONSIDERAR_CONTRATO
+        ops: [eq, in]
+      considerar_adicional:
+        coluna: CONSIDERAR_ADICIONAL
+        ops: [eq, in]
+      considerar_fixo:
+        coluna: CONSIDERAR_FIXO
+        ops: [eq, in]
+      considerar_mensal:
+        coluna: CONSIDERAR_MENSAL
+        ops: [eq, in]
+      considerar_orcado:
+        coluna: CONSIDERAR_ORCADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 84 linhas, 2 empresa(s).']
+  hrnota_nfse_gerar_tag_cfps_cst:
+    titulo: Tabela de validação para CFPS x CST
+    descricao: 'Tabela de validação para CFPS x CST. 72 linhas no catálogo; chave: CODIGO_MUNICIPIO_SRF, I_CST, I_CFPS.'
+    tabela: HRNOTA_NFSE_GERAR_TAG_CFPS_CST
+    chave: [CODIGO_MUNICIPIO_SRF, I_CST, I_CFPS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO_MUNICIPIO_SRF, asc]
+    - [I_CST, asc]
+    colunas: {codigo_do_municipio_srf: CODIGO_MUNICIPIO_SRF, cst_codigos_de_situacao_tributaria: I_CST, cfps_codigo_fiscal_de_prestacao_de_servi: I_CFPS, gera_base_de_calculo_s_sim_n_nao: GERA_BASE_CALCULO}
+    filtros:
+      codigo_do_municipio_srf:
+        coluna: CODIGO_MUNICIPIO_SRF
+        ops: [eq, in]
+      cst_codigos_de_situacao_tributaria:
+        coluna: I_CST
+        ops: [eq, in]
+      cfps_codigo_fiscal_de_prestacao_de_servi:
+        coluna: I_CFPS
+        ops: [eq, in]
+      gera_base_de_calculo_s_sim_n_nao:
+        coluna: GERA_BASE_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 72 linhas.']
+  hrclassificacao_tributaria_ibs_cbs:
+    titulo: Classificações Tributárias IBS e CBS
+    descricao: 'Classificações Tributárias IBS e CBS. 69 linhas no catálogo; chave: CODIGO.'
+    tabela: HRCLASSIFICACAO_TRIBUTARIA_IBS_CBS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_classificacao_tributaria: CODIGO, descricao_da_classificacao_tributaria: DESCRICAO, codigo_de_situacao_tributaria_vinculado: CST, descricao_do_cst: CST_DESCRICAO,
+      percentual_de_reducao_ibs: REDUCAO_IBS, percentual_de_reducao_cbs: REDUCAO_CBS}
+    filtros:
+      codigo_da_classificacao_tributaria:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_da_classificacao_tributaria:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_de_situacao_tributaria_vinculado:
+        coluna: CST
+        ops: [eq, in]
+      descricao_do_cst:
+        coluna: CST_DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 69 linhas.']
+  hrcustos_itens_automaticos:
+    titulo: Itens de custos automáticos pré definidos
+    descricao: 'Itens de custos automáticos pré definidos. 44 linhas no catálogo; chave: CODI_ITEM_AUTOMATICO.'
+    tabela: HRCUSTOS_ITENS_AUTOMATICOS
+    chave: [CODI_ITEM_AUTOMATICO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_ITEM_AUTOMATICO, asc]
+    colunas:
+      codigo_do_item_automatico: CODI_ITEM_AUTOMATICO
+      descricao_do_item: DESCRICAO
+      unidade_1_valor_2_quantidade_3_horas: {coluna: UNIDADE, dominio: hrcustos_itens_automaticos_unidade_1_v}
+      tipo_de_empresa_1_escritorio_2_cliente: {coluna: TIPO_EMPRESA, dominio: hrcustos_itens_automaticos_tipo_de_emp}
+      modulo_origem_da_informacao: MODULO
+    filtros:
+      codigo_do_item_automatico:
+        coluna: CODI_ITEM_AUTOMATICO
+        ops: [eq, in]
+      descricao_do_item:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_de_empresa_1_escritorio_2_cliente:
+        coluna: TIPO_EMPRESA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 44 linhas.', 'unidade_1_valor_2_quantidade_3_horas: todos os valores reais estão no comentário do banco (1=18, 2=17, 3=9).', 'tipo_de_empresa_1_escritorio_2_cliente:
+        todos os valores reais estão no comentário do banco (2=28, 1=16).']
+  hrcustos_geral:
+    titulo: Dados gerais referente ao custos
+    descricao: 'Dados gerais referente ao custos. 1 linhas no catálogo; chave: CHAVE.'
+    tabela: HRCUSTOS_GERAL
+    chave: [CHAVE]
+    acesso: {empresa: null, periodo: DATA_ULTIMA_LIMPEZA, volume: pequeno}
+    ordem:
+    - [DATA_ULTIMA_LIMPEZA, desc]
+    - [CHAVE, asc]
+    colunas: {chave: CHAVE, c_0_nao_executar_limpeza_1_executar_limp: STATUS_LIMPEZA_DADOS, data_da_ultima_limpeza_de_dados_executad: DATA_ULTIMA_LIMPEZA}
+    filtros:
+      chave:
+        coluna: CHAVE
+        ops: [eq, in]
+      data_da_ultima_limpeza_de_dados_executad:
+        coluna: DATA_ULTIMA_LIMPEZA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_ULTIMA_LIMPEZA de 2021-09-23 a 2021-09-23.']
+  hrtipo_contrato:
+    titulo: Tipo de contrato
+    descricao: 'Tipo de contrato. 38 linhas no catálogo; chave: CODI_EMP, I_TIPO_CONTRATO.'
+    tabela: HRTIPO_CONTRATO
+    chave: [CODI_EMP, I_TIPO_CONTRATO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TIPO_CONTRATO, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_TIPO_CONTRATO, nome: NOME, periodicidade_1_mensal_2_bimestral_3_tri: PERIODICIDADE, tipo_reajuste: TIPO_REAJUSTE, mes_base: MES_BASE,
+      indexador_m_moeda_corrente_i_indices: INDEXADOR, indice: INDICE, proporcional_a_data_do_contrato_s_n: PROPORCIONAL, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      codigo_do_indice_do_reajuste: I_INDICE_REAJUSTE}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geindice:
+        tabela: GEINDICE
+        liga: {i_indice_reajuste: i_indice}
+        colunas: {geindice_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_TIPO_CONTRATO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_reajuste:
+        coluna: TIPO_REAJUSTE
+        ops: [eq, in]
+      indexador_m_moeda_corrente_i_indices:
+        coluna: INDEXADOR
+        ops: [eq, in]
+      indice:
+        coluna: INDICE
+        ops: [eq, in]
+      proporcional_a_data_do_contrato_s_n:
+        coluna: PROPORCIONAL
+        ops: [eq, in]
+      codigo_do_indice_do_reajuste:
+        coluna: I_INDICE_REAJUSTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): indice.', 'Vínculo geempre (geempre): 0 de 26 linhas
+        sem registro relacionado (empresa 1).', 'Vínculo geindice (GEINDICE): 0 de 26 linhas sem registro relacionado (empresa 1).']
+  hrindicador_operacoes_ibs_cbs:
+    titulo: Indicadores de Operação IBS/CBS
+    descricao: 'Indicadores de Operação IBS/CBS. 36 linhas no catálogo; chave: CODIGO.'
+    tabela: HRINDICADOR_OPERACOES_IBS_CBS
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_sequencial_do_registro: CODIGO, codigo_do_indicador_de_operacao: CODIGO_OPERACAO, descricao_do_indicador_de_operacao: DESCRICAO}
+    filtros:
+      codigo_sequencial_do_registro:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_indicador_de_operacao:
+        coluna: CODIGO_OPERACAO
+        ops: [eq, in]
+      descricao_do_indicador_de_operacao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 36 linhas.']
+  hrorcado_pagar:
+    titulo: Lancamentos orcados de contas a pagar
+    descricao: 'Lancamentos orcados de contas a pagar. 20 linhas no catálogo; chave: CODI_EMP, I_ORCADO_PAGAR.'
+    tabela: HRORCADO_PAGAR
+    chave: [CODI_EMP, I_ORCADO_PAGAR]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO, volume: pequeno}
+    ordem:
+    - [VENCIMENTO, desc]
+    - [I_ORCADO_PAGAR, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_ORCADO_PAGAR, descricao: DESCRICAO, categoria: I_CATEGORIA_PAGAR, possivel_fornecedor: I_FORNECEDOR, possivel_conta_para_pagamento: I_CONTA_FINANCEIRA,
+      valor: VALOR, vencimento: VENCIMENTO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    vinculos:
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, i_fornecedor: codi_for}
+        colunas: {effornece_nome: nomr_for}
+      hrcategoria_pagar:
+        tabela: HRCATEGORIA_PAGAR
+        liga: {codi_emp: codi_emp, i_categoria_pagar: i_categoria_pagar}
+        colunas: {hrcategoria_pagar_nome: DESCRICAO}
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_ORCADO_PAGAR
+        ops: [eq, in]
+      vencimento:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      categoria:
+        coluna: I_CATEGORIA_PAGAR
+        ops: [eq, in]
+      possivel_fornecedor:
+        coluna: I_FORNECEDOR
+        ops: [eq, in]
+      possivel_conta_para_pagamento:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas, 1 empresa(s), VENCIMENTO de 2024-04-05 a 2024-12-19.', 'Vínculo effornece (effornece): 0 de 20 linhas sem registro
+        relacionado (empresa 1).', 'Vínculo hrcategoria_pagar (HRCATEGORIA_PAGAR): 0 de 20 linhas sem registro relacionado (empresa 1).', 'Vínculo hrconta_financeira
+        (HRCONTA_FINANCEIRA): 0 de 20 linhas sem registro relacionado (empresa 1).']
+  hrdocumento_ole_modelo:
+    titulo: Modelos de documentos OLEs
+    descricao: 'Modelos de documentos OLEs. 19 linhas no catálogo; chave: I_MODELO, I_TIPO.'
+    tabela: HRDOCUMENTO_OLE_MODELO
+    chave: [I_MODELO, I_TIPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MODELO, asc]
+    - [I_TIPO, asc]
+    colunas: {codigo: I_MODELO, tipo: I_TIPO, descricao: DESCRICAO, codigo_padrao: PADRAO, c_1_office_2_openoffice: EDITOR}
+    vinculos:
+      hrdocumento_ole_tipo:
+        tabela: HRDOCUMENTO_OLE_TIPO
+        liga: {i_tipo: i_tipo}
+        colunas: {hrdocumento_ole_tipo_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_MODELO
+        ops: [eq, in]
+      tipo:
+        coluna: I_TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_padrao:
+        coluna: PADRAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19 linhas.', 'Vínculo hrdocumento_ole_tipo (HRDOCUMENTO_OLE_TIPO): 0 de 19 linhas sem registro relacionado.']
+  hrdocumento_ole_tipo:
+    titulo: Tipos de Documentos
+    descricao: 'Tipos de Documentos. 4 linhas no catálogo; chave: I_TIPO.'
+    tabela: HRDOCUMENTO_OLE_TIPO
+    chave: [I_TIPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO, asc]
+    colunas: {codigo: I_TIPO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: I_TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  hrcliente_conta_despesa:
+    titulo: Clientes Fixos e Eventuais - Contas de Despesas
+    descricao: 'Clientes Fixos e Eventuais - Contas de Despesas. 11 linhas no catálogo; chave: CODI_EMP, I_CLIENTE, I_EVENTO.'
+    tabela: HRCLIENTE_CONTA_DESPESA
+    chave: [CODI_EMP, I_CLIENTE, I_EVENTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CLIENTE, asc]
+    - [I_EVENTO, asc]
+    colunas: {escritorio: CODI_EMP, cliente: I_CLIENTE, evento: I_EVENTO, conta_contabil: CONTA, historico_contabil: HISTORICO_CONTABIL}
+    vinculos:
+      hrcliente:
+        tabela: HRCLIENTE
+        liga: {codi_emp: codi_emp, i_cliente: i_cliente}
+        colunas: {hrcliente_nome: NOME}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11 linhas, 1 empresa(s).', 'Vínculo hrcliente (HRCLIENTE): 0 de 11 linhas sem registro relacionado (empresa 1).', 'Vínculo hrevento
+        (HREVENTO): 0 de 11 linhas sem registro relacionado (empresa 1).']
+  hrservico_prestado:
+    titulo: Codigo do servico prestado
+    descricao: 'Codigo do servico prestado. 3 linhas no catálogo; chave: CODI_EMP, I_SEQUENCIAL.'
+    tabela: HRSERVICO_PRESTADO
+    chave: [CODI_EMP, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_SEQUENCIAL, asc]
+    colunas: {escritorio: CODI_EMP, sequencial: I_SEQUENCIAL, codigo: I_SERVICO_PRESTADO, descricao: DESCRICAO, codigo_de_tributacao_municipal: CODIGO_TRIBUTACAO,
+      aliquota_de_impostos_conforme_ibpt: I_ALIQUOTA_IBPT, aliquota_ibpt_2015: ALIQUOTA_IBPT_2015, aliquota_ibpt_municipal: ALIQUOTA_IBPT_MUNICIPAL, e_nfse_n_nfse_nacional: MODELO_NOTA_FISCAL}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      hrtabela_nfse_aliquota_i:
+        tabela: HRTABELA_NFSE_ALIQUOTA_IBPT
+        liga: {i_aliquota_ibpt: i_aliquota}
+        colunas: {hrtabela_nfse_aliquota_i_nome: DESCRICAO}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo:
+        coluna: I_SERVICO_PRESTADO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_de_tributacao_municipal:
+        coluna: CODIGO_TRIBUTACAO
+        ops: [eq, in]
+      aliquota_de_impostos_conforme_ibpt:
+        coluna: I_ALIQUOTA_IBPT
+        ops: [eq, in]
+      e_nfse_n_nfse_nacional:
+        coluna: MODELO_NOTA_FISCAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_de_tributacao_municipal.', 'Vínculo geempre (geempre):
+        0 de 2 linhas sem registro relacionado (empresa 1).', 'Vínculo hrtabela_nfse_aliquota_i (HRTABELA_NFSE_ALIQUOTA_IBPT): 0 de 2 linhas sem registro relacionado
+        (empresa 1).']
+  hrcodigo_cancelamento_nfse:
+    titulo: Código de cancelamento NFS-e Tecnospeed
+    descricao: 'Código de cancelamento NFS-e Tecnospeed. 2 linhas no catálogo; chave: CODI_EMP, CODIGO.'
+    tabela: HRCODIGO_CANCELAMENTO_NFSE
+    chave: [CODI_EMP, CODIGO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_de_cancelamento: CODIGO, descricao_do_cancelamento: DESCRICAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_de_cancelamento:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao_do_cancelamento:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 930).']
+  hrhistorico:
+    titulo: Historicos financeiros
+    descricao: 'Historicos financeiros. 11 linhas no catálogo; chave: CODI_EMP, I_HISTORICO.'
+    tabela: HRHISTORICO
+    chave: [CODI_EMP, I_HISTORICO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_HISTORICO, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_HISTORICO, tipo_1_geral_2_lancto_de_contas_a_pagar: TIPO, descricao: HISTORICO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      tipo_1_geral_2_lancto_de_contas_a_pagar:
+        coluna: TIPO
+        ops: [eq, in]
+      descricao:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 11 linhas, 3 empresa(s).', 'Vínculo geempre (geempre): 0 de 4 linhas sem registro relacionado (empresa 930).']

@@ -1,0 +1,73 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_tabcalcirrf
+titulo: Pessoal - tabcalcirrf (rascunho em lote)
+entidades:
+  fotabcalcirrf_faixas:
+    titulo: Tabela de IRRF - Faixas
+    descricao: 'Tabela de IRRF - Faixas. 235 linhas no catálogo; chave: I_TABCALCIRRF, VALOR_ATE.'
+    tabela: FOTABCALCIRRF_FAIXAS
+    chave: [I_TABCALCIRRF, VALOR_ATE]
+    acesso: {empresa: null, periodo: I_TABCALCIRRF, volume: pequeno}
+    ordem:
+    - [I_TABCALCIRRF, desc]
+    - [VALOR_ATE, asc]
+    colunas: {competencia: I_TABCALCIRRF, valor_ate: VALOR_ATE, taxa: TAXA, desconto: DESCONTO}
+    filtros:
+      competencia:
+        coluna: I_TABCALCIRRF
+        ops: [eq, in]
+      valor_ate:
+        coluna: VALOR_ATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 235 linhas, I_TABCALCIRRF de 1998-01-01 a 2025-05-01.']
+  fotabcalcirrf_faixas_complemento:
+    titulo: Tabela de faixas para complementar o IRRF a partir de 01/2026 conforme LEI Nº 1,087 DE 2025
+    descricao: 'Tabela de faixas para complementar o IRRF a partir de 01/2026 conforme LEI Nº 1,087 DE 2025. 2 linhas no catálogo; chave: DATA, VALOR_ATE.'
+    tabela: FOTABCALCIRRF_FAIXAS_COMPLEMENTO
+    chave: [DATA, VALOR_ATE]
+    acesso: {empresa: null, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [VALOR_ATE, asc]
+    colunas: {competencia: DATA, valor_maximo_da_faixa: VALOR_ATE, valor_de_reducao_da_faixa: REDUCAO, fator_de_correcao_aplicado: FATOR_CORRECAO}
+    filtros:
+      competencia:
+        coluna: DATA
+        ops: [eq, in]
+      valor_maximo_da_faixa:
+        coluna: VALOR_ATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, DATA de 2026-01-01 a 2026-01-01.']
+  fotabcalcirrf_exterior:
+    titulo: Tabela de IRRF para residentes no exterior.
+    descricao: 'Tabela de IRRF para residentes no exterior.. 1 linhas no catálogo; chave: I_TABCALCIRRF_EXTERIOR.'
+    tabela: FOTABCALCIRRF_EXTERIOR
+    chave: [I_TABCALCIRRF_EXTERIOR]
+    acesso: {empresa: null, periodo: I_TABCALCIRRF_EXTERIOR, volume: pequeno}
+    ordem:
+    - [I_TABCALCIRRF_EXTERIOR, desc]
+    colunas: {competencia: I_TABCALCIRRF_EXTERIOR, desconto_por_dependente: DESC_DEPEND, minimo_para_retencao: MINIMO_RETENCAO}
+    filtros:
+      competencia:
+        coluna: I_TABCALCIRRF_EXTERIOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, I_TABCALCIRRF_EXTERIOR de 1998-01-01 a 1998-01-01.']
+  fotabcalcirrf_exterior_faixas:
+    titulo: Faixas da tabela de IRRF para residentes no exterior.
+    descricao: 'Faixas da tabela de IRRF para residentes no exterior.. 1 linhas no catálogo; chave: I_TABCALCIRRF_EXTERIOR, VALOR_ATE.'
+    tabela: FOTABCALCIRRF_EXTERIOR_FAIXAS
+    chave: [I_TABCALCIRRF_EXTERIOR, VALOR_ATE]
+    acesso: {empresa: null, periodo: I_TABCALCIRRF_EXTERIOR, volume: pequeno}
+    ordem:
+    - [I_TABCALCIRRF_EXTERIOR, desc]
+    - [VALOR_ATE, asc]
+    colunas: {competencia: I_TABCALCIRRF_EXTERIOR, valor_ate: VALOR_ATE, taxa: TAXA, desconto: DESCONTO}
+    filtros:
+      competencia:
+        coluna: I_TABCALCIRRF_EXTERIOR
+        ops: [eq, in]
+      valor_ate:
+        coluna: VALOR_ATE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, I_TABCALCIRRF_EXTERIOR de 1998-01-01 a 1998-01-01.']

@@ -1,0 +1,183 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: processos_atividade
+titulo: Processos - atividade (rascunho em lote)
+entidades:
+  pcatividade_modulo_menu_submenu_uf_opcao:
+    titulo: Módulos - Menu - Submenu - UF - Opção
+    descricao: 'Módulos - Menu - Submenu - UF - Opção. 850 linhas no catálogo; chave: I_OPCAO.'
+    tabela: PCATIVIDADE_MODULO_MENU_SUBMENU_UF_OPCAO
+    chave: [I_OPCAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_OPCAO, asc]
+    colunas: {codigo: I_OPCAO, modulo: I_MODULO, menu: I_MENU, submenu: I_SUBMENU, i_uf: I_UF, nome: NOME, ordem: ORDEM, a_opcao_representa_um_imposto_s_n: CONFORME_IMPOSTO,
+      codigo_do_imposto_no_sistema: CODIGO_IMPOSTO, inativo_s_n: INATIVO}
+    vinculos:
+      pcatividade_modulo:
+        tabela: PCATIVIDADE_MODULO
+        liga: {i_modulo: i_modulo}
+        colunas: {pcatividade_modulo_nome: NOME}
+      pcatividade_modulo_menu:
+        tabela: PCATIVIDADE_MODULO_MENU_SUBMENU_UF
+        liga: {i_uf: i_uf}
+        colunas: {pcatividade_modulo_menu_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_OPCAO
+        ops: [eq, in]
+      modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      menu:
+        coluna: I_MENU
+        ops: [eq, in]
+      submenu:
+        coluna: I_SUBMENU
+        ops: [eq, in]
+      i_uf:
+        coluna: I_UF
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      a_opcao_representa_um_imposto_s_n:
+        coluna: CONFORME_IMPOSTO
+        ops: [eq, in]
+      codigo_do_imposto_no_sistema:
+        coluna: CODIGO_IMPOSTO
+        ops: [eq, in]
+      inativo_s_n:
+        coluna: INATIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 850 linhas.', 'Vínculo pcatividade_modulo (PCATIVIDADE_MODULO): 0 de 850 linhas sem registro relacionado.', 'Vínculo pcatividade_modulo_menu
+        (PCATIVIDADE_MODULO_MENU_SUBMENU_UF): 0 de 850 linhas sem registro relacionado.']
+  pcatividade_modulo_menu_submenu:
+    titulo: Módulos - Menu - Submenu
+    descricao: 'Módulos - Menu - Submenu. 62 linhas no catálogo; chave: I_SUBMENU.'
+    tabela: PCATIVIDADE_MODULO_MENU_SUBMENU
+    chave: [I_SUBMENU]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_SUBMENU, asc]
+    colunas: {codigo: I_SUBMENU, modulo: I_MODULO, menu: I_MENU, nome: NOME, conforme_uf_s_n: CONFORME_UF, ordem: ORDEM}
+    vinculos:
+      pcatividade_modulo:
+        tabela: PCATIVIDADE_MODULO
+        liga: {i_modulo: i_modulo}
+        colunas: {pcatividade_modulo_nome: NOME}
+      pcatividade_modulo_menu:
+        tabela: PCATIVIDADE_MODULO_MENU
+        liga: {i_menu: i_menu}
+        colunas: {pcatividade_modulo_menu_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_SUBMENU
+        ops: [eq, in]
+      modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      menu:
+        coluna: I_MENU
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      conforme_uf_s_n:
+        coluna: CONFORME_UF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 62 linhas.', 'Vínculo pcatividade_modulo (PCATIVIDADE_MODULO): 0 de 62 linhas sem registro relacionado.', 'Vínculo pcatividade_modulo_menu
+        (PCATIVIDADE_MODULO_MENU): 0 de 62 linhas sem registro relacionado.']
+  pcatividade_modulo_menu_submenu_uf:
+    titulo: Módulos - Menu - Submenu - UF
+    descricao: 'Módulos - Menu - Submenu - UF. 27 linhas no catálogo; chave: I_UF.'
+    tabela: PCATIVIDADE_MODULO_MENU_SUBMENU_UF
+    chave: [I_UF]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_UF, asc]
+    colunas: {codigo: I_UF, nome: NOME, ordem: ORDEM}
+    filtros:
+      codigo:
+        coluna: I_UF
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 27 linhas.']
+  pcatividade_responsavel:
+    titulo: Atividades - Responsáveis
+    descricao: 'Atividades - Responsáveis. 26 linhas no catálogo; chave: I_ATIVIDADE, I_RESPONSAVEL, RESPONSAVEL_TIPO.'
+    tabela: PCATIVIDADE_RESPONSAVEL
+    chave: [I_ATIVIDADE, I_RESPONSAVEL, RESPONSAVEL_TIPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ATIVIDADE, asc]
+    - [I_RESPONSAVEL, asc]
+    colunas: {codigo_da_atividade: I_ATIVIDADE, codigo_do_responsavel: I_RESPONSAVEL, responsavel_tipo: RESPONSAVEL_TIPO}
+    vinculos:
+      pcatividade:
+        tabela: PCATIVIDADE
+        liga: {i_atividade: i_atividade}
+        colunas: {pcatividade_nome: NOME}
+      usconfusuario:
+        tabela: usConfUsuario
+        liga: {responsavel_tipo: tipo, i_responsavel: i_confusuario}
+        colunas: {usconfusuario_nome: NOME}
+    filtros:
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE
+        ops: [eq, in]
+      codigo_do_responsavel:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      responsavel_tipo:
+        coluna: RESPONSAVEL_TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 26 linhas.', 'Vínculo pcatividade (PCATIVIDADE): 0 de 26 linhas sem registro relacionado.', 'Vínculo usconfusuario (usConfUsuario):
+        0 de 26 linhas sem registro relacionado.']
+  pcatividade_modulo_menu:
+    titulo: Módulos - Menu
+    descricao: 'Módulos - Menu. 12 linhas no catálogo; chave: I_MENU.'
+    tabela: PCATIVIDADE_MODULO_MENU
+    chave: [I_MENU]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MENU, asc]
+    colunas: {codigo: I_MENU, modulo: I_MODULO, nome: NOME, ordem: ORDEM}
+    vinculos:
+      pcatividade_modulo:
+        tabela: PCATIVIDADE_MODULO
+        liga: {i_modulo: i_modulo}
+        colunas: {pcatividade_modulo_nome: NOME}
+    filtros:
+      codigo:
+        coluna: I_MENU
+        ops: [eq, in]
+      modulo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 12 linhas.', 'Vínculo pcatividade_modulo (PCATIVIDADE_MODULO): 0 de 12 linhas sem registro relacionado.']
+  pcatividade_modulo:
+    titulo: Módulos
+    descricao: 'Módulos. 6 linhas no catálogo; chave: I_MODULO.'
+    tabela: PCATIVIDADE_MODULO
+    chave: [I_MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_MODULO, asc]
+    colunas: {codigo: I_MODULO, nome: NOME, codigo_do_sistema: CODIGO_SISTEMA, ordem: ORDEM}
+    filtros:
+      codigo:
+        coluna: I_MODULO
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      codigo_do_sistema:
+        coluna: CODIGO_SISTEMA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas.']

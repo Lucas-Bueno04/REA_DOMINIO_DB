@@ -1,0 +1,1152 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_tabela
+titulo: Contábil - tabela (rascunho em lote)
+dominios:
+  lrtabela_padrao_rfb_parte_b_tributo_i_i:
+    confirmado: true
+    nota: 'Todos os valores observados em LRTABELA_PADRAO_RFB_PARTE_B.TRIBUTO estão no comentário do banco (2026-10-18). Distribuição: A=116, I=4, C=2.'
+    valores: {I: IRPJ, C: CSLL, A: AMBOS}
+  cttabela_diops_od_registro_tipo_1_titul:
+    confirmado: true
+    nota: 'Todos os valores observados em CTTABELA_DIOPS_OD_REGISTRO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=118, 1=3.'
+    valores: {'1': Título, '2': Valor, '3': Calculado, '4': Valor de outro registro, '5': Fórmula condicional com valor de outro registro, '6': Valor conta desabilitada,
+      '7': Fórmula condicional com valor de outro registro habilitado}
+entidades:
+  lrtabela_grupo_irpj_adicao_geral_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ ADICAO GERAL POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ ADICAO GERAL POR VIGENCIA. 1.014 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_GERAL, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_GERAL_VIGENCIA
+    chave: [I_GRUPO_IRPJ_ADICAO_GERAL, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_ADICAO_GERAL, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_ADICAO_GERAL, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_ADICAO_GERAL
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.014 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_adicao_geral_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL ADICAO GERAL POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL ADICAO GERAL POR VIGENCIA. 908 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_GERAL, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_GERAL_VIGENCIA
+    chave: [I_GRUPO_CSLL_ADICAO_GERAL, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_ADICAO_GERAL, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_ADICAO_GERAL, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_ADICAO_GERAL
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 908 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_exclusao_geral_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO GERAL POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO GERAL POR VIGENCIA. 720 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_GERAL, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_GERAL_VIGENCIA
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_GERAL, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_GERAL, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_EXCLUSAO_GERAL, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO,
+      importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_GERAL
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 720 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_exclusao_geral_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO GERAL POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO GERAL POR VIGENCIA. 638 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_GERAL, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_GERAL_VIGENCIA
+    chave: [I_GRUPO_CSLL_EXCLUSAO_GERAL, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_GERAL, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_EXCLUSAO_GERAL, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO,
+      importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_GERAL
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 638 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_irpj_adicao_geral:
+    titulo: Tabela grupos de Adições da IRPJ - Geral
+    descricao: 'Tabela grupos de Adições da IRPJ - Geral. 500 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_GERAL.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_GERAL
+    chave: [I_GRUPO_IRPJ_ADICAO_GERAL]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_ADICAO_GERAL, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_ADICAO_GERAL, codigo_sped_ecf_geral: CODIGO_ECF_GERAL, codigo_sped_ecf_rural: CODIGO_ECF_RURAL, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO,
+      fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_ADICAO_GERAL
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf_geral:
+        coluna: CODIGO_ECF_GERAL
+        ops: [eq, in]
+      codigo_sped_ecf_rural:
+        coluna: CODIGO_ECF_RURAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 500 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_adicao_sistema_financeiro_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ ADICAO SISTEMA FINANCEIRO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ ADICAO SISTEMA FINANCEIRO POR VIGENCIA. 485 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_SF, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_SISTEMA_FINANCEIRO_VIGENCIA
+    chave: [I_GRUPO_IRPJ_ADICAO_SF, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_ADICAO_SF, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_ADICAO_SF, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_ADICAO_SF
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 485 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_adicao_sistema_financeiro_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL ADICAO SISTEMA FINANCEIRO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL ADICAO SISTEMA FINANCEIRO POR VIGENCIA. 460 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_SF, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_SISTEMA_FINANCEIRO_VIGENCIA
+    chave: [I_GRUPO_CSLL_ADICAO_SF, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_ADICAO_SF, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_ADICAO_SF, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_ADICAO_SF
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 460 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_adicao_geral:
+    titulo: Tabela grupos de Adições da CSLL - Geral
+    descricao: 'Tabela grupos de Adições da CSLL - Geral. 457 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_GERAL.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_GERAL
+    chave: [I_GRUPO_CSLL_ADICAO_GERAL]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_ADICAO_GERAL, asc]
+    colunas: {codigo: I_GRUPO_CSLL_ADICAO_GERAL, codigo_sped_ecf_geral: CODIGO_ECF_GERAL, codigo_sped_ecf_rural: CODIGO_ECF_RURAL, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO,
+      fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_ADICAO_GERAL
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf_geral:
+        coluna: CODIGO_ECF_GERAL
+        ops: [eq, in]
+      codigo_sped_ecf_rural:
+        coluna: CODIGO_ECF_RURAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 457 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_exclusao_sistema_financeiro_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO SISTEMA FINANCEIRO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO SISTEMA FINANCEIRO POR VIGENCIA. 457 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_SF, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_SISTEMA_FINANCEIRO_VIGENCIA
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_SF, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_SF, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_EXCLUSAO_SF, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_SF
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 457 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_exclusao_sistema_financeiro_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO SISTEMA FINANCEIRO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO SISTEMA FINANCEIRO POR VIGENCIA. 437 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_SF, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_SISTEMA_FINANCEIRO_VIGENCIA
+    chave: [I_GRUPO_CSLL_EXCLUSAO_SF, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_SF, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_EXCLUSAO_SF, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_SF
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 437 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_irpj_adicao_seguradora_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ ADICAO SEGURADORA POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ ADICAO SEGURADORA POR VIGENCIA. 420 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_S, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_SEGURADORA_VIGENCIA
+    chave: [I_GRUPO_IRPJ_ADICAO_S, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_ADICAO_S, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_ADICAO_S, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_ADICAO_S
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 420 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_adicao_seguradora_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL ADICAO SEGURADORA POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL ADICAO SEGURADORA POR VIGENCIA. 414 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_S, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_SEGURADORA_VIGENCIA
+    chave: [I_GRUPO_CSLL_ADICAO_S, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_ADICAO_S, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_ADICAO_S, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_ADICAO_S
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 414 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_exclusao_geral:
+    titulo: Tabela grupos de Exclusões da IRPJ - Geral
+    descricao: 'Tabela grupos de Exclusões da IRPJ - Geral. 355 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_GERAL.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_GERAL
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_GERAL]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_GERAL, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_EXCLUSAO_GERAL, codigo_sped_ecf_geral: CODIGO_ECF_GERAL, codigo_sped_ecf_rural: CODIGO_ECF_RURAL, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO,
+      fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_GERAL
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf_geral:
+        coluna: CODIGO_ECF_GERAL
+        ops: [eq, in]
+      codigo_sped_ecf_rural:
+        coluna: CODIGO_ECF_RURAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 355 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_exclusao_geral:
+    titulo: Tabela grupos de Exclusões da CSLL - Geral
+    descricao: 'Tabela grupos de Exclusões da CSLL - Geral. 322 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_GERAL.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_GERAL
+    chave: [I_GRUPO_CSLL_EXCLUSAO_GERAL]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_GERAL, asc]
+    colunas: {codigo: I_GRUPO_CSLL_EXCLUSAO_GERAL, codigo_sped_ecf_geral: CODIGO_ECF_GERAL, codigo_sped_ecf_rural: CODIGO_ECF_RURAL, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO,
+      fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_GERAL
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf_geral:
+        coluna: CODIGO_ECF_GERAL
+        ops: [eq, in]
+      codigo_sped_ecf_rural:
+        coluna: CODIGO_ECF_RURAL
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 322 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_grupo_irpj_exclusao_seguradora_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO SEGURADORA POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO IRPJ EXCLUSAO SEGURADORA POR VIGENCIA. 291 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_S, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_SEGURADORA_VIGENCIA
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_S, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_S, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_IRPJ_EXCLUSAO_S, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_S
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 291 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_irpj_exclusao_sistema_financeiro:
+    titulo: Tabela grupos de Exclusões da IRPJ - Sistema Financeiro
+    descricao: 'Tabela grupos de Exclusões da IRPJ - Sistema Financeiro. 268 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_SF.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_SISTEMA_FINANCEIRO
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_SF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_SF, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_EXCLUSAO_SF, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_SF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 268 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_exclusao_seguradora_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO SEGURADORA POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO CSLL EXCLUSAO SEGURADORA POR VIGENCIA. 265 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_S, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_SEGURADORA_VIGENCIA
+    chave: [I_GRUPO_CSLL_EXCLUSAO_S, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_S, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_CSLL_EXCLUSAO_S, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO, importar_adicoes_e_exclusoes_de_parte_b: IMPORTA_ADICAO_EXCLUSAO_PARTE_B,
+      importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B, guarda_o_tipo_de_relacionamento: TIPO_IMPORTACAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_S
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_adicoes_e_exclusoes_de_parte_b:
+        coluna: IMPORTA_ADICAO_EXCLUSAO_PARTE_B
+        ops: [eq, in]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+      guarda_o_tipo_de_relacionamento:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 265 linhas, VIGENCIA de 1900-01-01 a 2025-01-01.']
+  lrtabela_grupo_irpj_adicao_sistema_financeiro:
+    titulo: Tabela grupos de Adições da IRPJ - Sistema Financeiro
+    descricao: 'Tabela grupos de Adições da IRPJ - Sistema Financeiro. 264 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_SF.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_SISTEMA_FINANCEIRO
+    chave: [I_GRUPO_IRPJ_ADICAO_SF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_ADICAO_SF, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_ADICAO_SF, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_ADICAO_SF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 264 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_exclusao_sistema_financeiro:
+    titulo: Tabela grupos de Exclusão da CSLL - Sistema Financeiro
+    descricao: 'Tabela grupos de Exclusão da CSLL - Sistema Financeiro. 260 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_SF.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_SISTEMA_FINANCEIRO
+    chave: [I_GRUPO_CSLL_EXCLUSAO_SF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_SF, asc]
+    colunas: {codigo: I_GRUPO_CSLL_EXCLUSAO_SF, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_SF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 260 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_adicao_sistema_financeiro:
+    titulo: Tabela grupos de Adições da CSLL - Sistema Financeiro
+    descricao: 'Tabela grupos de Adições da CSLL - Sistema Financeiro. 253 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_SF.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_SISTEMA_FINANCEIRO
+    chave: [I_GRUPO_CSLL_ADICAO_SF]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_ADICAO_SF, asc]
+    colunas: {codigo: I_GRUPO_CSLL_ADICAO_SF, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_ADICAO_SF
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 253 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_adicao_seguradora:
+    titulo: Tabela grupos de Adições da IRPJ - Seguradoras ou Entidades Abertas de Previdência Complementar
+    descricao: 'Tabela grupos de Adições da IRPJ - Seguradoras ou Entidades Abertas de Previdência Complementar. 227 linhas no catálogo; chave: I_GRUPO_IRPJ_ADICAO_S.'
+    tabela: LRTABELA_GRUPO_IRPJ_ADICAO_SEGURADORA
+    chave: [I_GRUPO_IRPJ_ADICAO_S]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_ADICAO_S, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_ADICAO_S, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_ADICAO_S
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 227 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_csll_adicao_seguradora:
+    titulo: Tabela grupos de Adições da CSLL - Seguradoras ou Entidades Abertas de Previdência Complementar
+    descricao: 'Tabela grupos de Adições da CSLL - Seguradoras ou Entidades Abertas de Previdência Complementar. 226 linhas no catálogo; chave: I_GRUPO_CSLL_ADICAO_S.'
+    tabela: LRTABELA_GRUPO_CSLL_ADICAO_SEGURADORA
+    chave: [I_GRUPO_CSLL_ADICAO_S]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_ADICAO_S, asc]
+    colunas: {codigo: I_GRUPO_CSLL_ADICAO_S, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_ADICAO_S
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 226 linhas, VALIDADE_INICIO de 2015-01-01 a 2026-01-01.']
+  lrtabela_grupo_irpj_exclusao_seguradora:
+    titulo: Tabela grupos de Exclusões da IRPJ - Seguradoras ou Entidades Abertas de Previdência Complementar
+    descricao: 'Tabela grupos de Exclusões da IRPJ - Seguradoras ou Entidades Abertas de Previdência Complementar. 157 linhas no catálogo; chave: I_GRUPO_IRPJ_EXCLUSAO_S.'
+    tabela: LRTABELA_GRUPO_IRPJ_EXCLUSAO_SEGURADORA
+    chave: [I_GRUPO_IRPJ_EXCLUSAO_S]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_IRPJ_EXCLUSAO_S, asc]
+    colunas: {codigo: I_GRUPO_IRPJ_EXCLUSAO_S, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_IRPJ_EXCLUSAO_S
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 157 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_grupo_csll_exclusao_seguradora:
+    titulo: Tabela grupos de Exclusão da CSLL - Seguradoras ou Entidades Abertas de Previdência Complementar
+    descricao: 'Tabela grupos de Exclusão da CSLL - Seguradoras ou Entidades Abertas de Previdência Complementar. 147 linhas no catálogo; chave: I_GRUPO_CSLL_EXCLUSAO_S.'
+    tabela: LRTABELA_GRUPO_CSLL_EXCLUSAO_SEGURADORA
+    chave: [I_GRUPO_CSLL_EXCLUSAO_S]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_CSLL_EXCLUSAO_S, asc]
+    colunas: {codigo: I_GRUPO_CSLL_EXCLUSAO_S, codigo_sped_ecf: CODIGO_ECF, descricao: DESCRICAO, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM, importar_somente_contas_de_relacionament: IMPORTA_CONTAS_PARTE_B}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_CSLL_EXCLUSAO_S
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      importar_somente_contas_de_relacionament:
+        coluna: IMPORTA_CONTAS_PARTE_B
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 147 linhas, VALIDADE_INICIO de 2015-01-01 a 2025-01-01.']
+  lrtabela_padrao_rfb_parte_b:
+    titulo: Tabela Padrão RFB - Parte B/Base Negativa
+    descricao: 'Tabela Padrão RFB - Parte B/Base Negativa. 122 linhas no catálogo; chave: CODIGO.'
+    tabela: LRTABELA_PADRAO_RFB_PARTE_B
+    chave: [CODIGO]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [CODIGO, asc]
+    colunas:
+      sequencial: CODIGO
+      descricao: DESCRICAO
+      inicio_da_validade: VALIDADE_INICIO
+      final_da_validade: VALIDADE_FIM
+      tributo_i_irpj_c_csll_a_ambos: {coluna: TRIBUTO, dominio: lrtabela_padrao_rfb_parte_b_tributo_i_i}
+    filtros:
+      sequencial:
+        coluna: CODIGO
+        ops: [eq, in]
+      inicio_da_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      final_da_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tributo_i_irpj_c_csll_a_ambos:
+        coluna: TRIBUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 122 linhas, VALIDADE_INICIO de 2018-01-01 a 2024-01-01.', 'Colunas expostas nulas em 100% das linhas (1): final_da_validade.',
+      'tributo_i_irpj_c_csll_a_ambos: todos os valores reais estão no comentário do banco (A=116, I=4, C=2).']
+  lrtabela_grupo_ecf_irpj_dirbi:
+    titulo: Tabela Agrupamento IRPJ DIRBI
+    descricao: 'Tabela Agrupamento IRPJ DIRBI. 39 linhas no catálogo; chave: I_GRUPO_DIRBI, CODIGO_ECF, TIPO_GRUPO.'
+    tabela: LRTABELA_GRUPO_ECF_IRPJ_DIRBI
+    chave: [I_GRUPO_DIRBI, CODIGO_ECF, TIPO_GRUPO]
+    acesso: {empresa: null, periodo: DATA_INICIO_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_VIGENCIA, desc]
+    - [I_GRUPO_DIRBI, asc]
+    - [CODIGO_ECF, asc]
+    colunas: {codigo_grupo_dirbi: I_GRUPO_DIRBI, codigo_ecf: CODIGO_ECF, tipo_grupo_ecf: TIPO_GRUPO, data_inicio_de_vigencia_do_mapeamento: DATA_INICIO_VIGENCIA,
+      data_fim_de_vigencia_do_mapeamento: DATA_FIM_VIGENCIA}
+    vinculos:
+      lrtabela_grupo_dirbi:
+        tabela: LRTABELA_GRUPO_DIRBI
+        liga: {i_grupo_dirbi: i_grupo_dirbi}
+        colunas: {lrtabela_grupo_dirbi_nome: DESCRICAO}
+    filtros:
+      codigo_grupo_dirbi:
+        coluna: I_GRUPO_DIRBI
+        ops: [eq, in]
+      codigo_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      tipo_grupo_ecf:
+        coluna: TIPO_GRUPO
+        ops: [eq, in]
+      data_inicio_de_vigencia_do_mapeamento:
+        coluna: DATA_INICIO_VIGENCIA
+        ops: [entre, gte, lte]
+      data_fim_de_vigencia_do_mapeamento:
+        coluna: DATA_FIM_VIGENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 39 linhas.', 'Colunas expostas nulas em 100% das linhas (2): data_inicio_de_vigencia_do_mapeamento, data_fim_de_vigencia_do_mapeamento.',
+      'Vínculo lrtabela_grupo_dirbi (LRTABELA_GRUPO_DIRBI): 0 de 39 linhas sem registro relacionado.']
+  lrtabela_grupo_ecf_csll_dirbi:
+    titulo: Tabela Agrupamento CSLL DIRBI
+    descricao: 'Tabela Agrupamento CSLL DIRBI. 21 linhas no catálogo; chave: I_GRUPO_DIRBI, CODIGO_ECF, TIPO_GRUPO.'
+    tabela: LRTABELA_GRUPO_ECF_CSLL_DIRBI
+    chave: [I_GRUPO_DIRBI, CODIGO_ECF, TIPO_GRUPO]
+    acesso: {empresa: null, periodo: DATA_INICIO_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_INICIO_VIGENCIA, desc]
+    - [I_GRUPO_DIRBI, asc]
+    - [CODIGO_ECF, asc]
+    colunas: {codigo_grupo_dirbi: I_GRUPO_DIRBI, codigo_ecf: CODIGO_ECF, tipo_grupo_ecf: TIPO_GRUPO, data_inicio_de_vigencia_do_mapeamento: DATA_INICIO_VIGENCIA,
+      data_fim_de_vigencia_do_mapeamento: DATA_FIM_VIGENCIA}
+    vinculos:
+      lrtabela_grupo_dirbi:
+        tabela: LRTABELA_GRUPO_DIRBI
+        liga: {i_grupo_dirbi: i_grupo_dirbi}
+        colunas: {lrtabela_grupo_dirbi_nome: DESCRICAO}
+    filtros:
+      codigo_grupo_dirbi:
+        coluna: I_GRUPO_DIRBI
+        ops: [eq, in]
+      codigo_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+      tipo_grupo_ecf:
+        coluna: TIPO_GRUPO
+        ops: [eq, in]
+      data_inicio_de_vigencia_do_mapeamento:
+        coluna: DATA_INICIO_VIGENCIA
+        ops: [entre, gte, lte]
+      data_fim_de_vigencia_do_mapeamento:
+        coluna: DATA_FIM_VIGENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 21 linhas.', 'Colunas expostas nulas em 100% das linhas (1): data_inicio_de_vigencia_do_mapeamento.', 'Vínculo lrtabela_grupo_dirbi
+        (LRTABELA_GRUPO_DIRBI): 0 de 21 linhas sem registro relacionado.']
+  lrtabela_grupo_adicao_lucro_exploracao:
+    titulo: Tabela grupos de Adições do Lucro da Exploração
+    descricao: 'Tabela grupos de Adições do Lucro da Exploração. 14 linhas no catálogo; chave: I_GRUPO_ADICAO_LUCRO_EXPLORACAO.'
+    tabela: LRTABELA_GRUPO_ADICAO_LUCRO_EXPLORACAO
+    chave: [I_GRUPO_ADICAO_LUCRO_EXPLORACAO]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_ADICAO_LUCRO_EXPLORACAO, asc]
+    colunas: {codigo: I_GRUPO_ADICAO_LUCRO_EXPLORACAO, descricao: DESCRICAO, codigo_sped_ecf: CODIGO_ECF, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_ADICAO_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, VALIDADE_INICIO de 2015-01-01 a 2018-01-01.']
+  lrtabela_grupo_exclusao_lucro_exploracao:
+    titulo: Tabela grupos de Exclusões do Lucro da Exploração
+    descricao: 'Tabela grupos de Exclusões do Lucro da Exploração. 14 linhas no catálogo; chave: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO.'
+    tabela: LRTABELA_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO
+    chave: [I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO]
+    acesso: {empresa: null, periodo: VALIDADE_INICIO, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIO, desc]
+    - [I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, asc]
+    colunas: {codigo: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, descricao: DESCRICAO, codigo_sped_ecf: CODIGO_ECF, inicio_validade: VALIDADE_INICIO, fim_validade: VALIDADE_FIM}
+    filtros:
+      codigo:
+        coluna: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      inicio_validade:
+        coluna: VALIDADE_INICIO
+        ops: [entre, gte, lte]
+      fim_validade:
+        coluna: VALIDADE_FIM
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_sped_ecf:
+        coluna: CODIGO_ECF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14 linhas, VALIDADE_INICIO de 2015-01-01 a 2018-01-01.']
+  lrtabela_grupo_adicao_lucro_exploracao_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO ADICAO LUCRO EXPLORACAO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO ADICAO LUCRO EXPLORACAO POR VIGENCIA. 14 linhas no catálogo; chave: I_GRUPO_ADICAO_LUCRO_EXPLORACAO, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_ADICAO_LUCRO_EXPLORACAO_VIGENCIA
+    chave: [I_GRUPO_ADICAO_LUCRO_EXPLORACAO, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_ADICAO_LUCRO_EXPLORACAO, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_ADICAO_LUCRO_EXPLORACAO, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_ADICAO_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 14 linhas, VIGENCIA de 1900-01-01 a 2018-01-01.']
+  lrtabela_grupo_exclusao_lucro_exploracao_vigencia:
+    titulo: TABELA DESCRICAO DO GRUPO EXCLUSAO LUCRO EXPLORACAO POR VIGENCIA
+    descricao: 'TABELA DESCRICAO DO GRUPO EXCLUSAO LUCRO EXPLORACAO POR VIGENCIA. 14 linhas no catálogo; chave: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, VIGENCIA.'
+    tabela: LRTABELA_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO_VIGENCIA
+    chave: [I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, asc]
+    colunas: {codigo_sequencial_com_referencia_a_tabel: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO, vigencia_da_descricao: VIGENCIA, descricao_utilizada_na_vigencia: DESCRICAO}
+    filtros:
+      codigo_sequencial_com_referencia_a_tabel:
+        coluna: I_GRUPO_EXCLUSAO_LUCRO_EXPLORACAO
+        ops: [eq, in]
+      vigencia_da_descricao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao_utilizada_na_vigencia:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 14 linhas, VIGENCIA de 1900-01-01 a 2018-01-01.']
+  lrtabela_grupo_dirbi:
+    titulo: Tabela Grupo DIRBI
+    descricao: 'Tabela Grupo DIRBI. 10 linhas no catálogo; chave: I_GRUPO_DIRBI.'
+    tabela: LRTABELA_GRUPO_DIRBI
+    chave: [I_GRUPO_DIRBI]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_GRUPO_DIRBI, asc]
+    colunas: {codigo_grupo_dirbi: I_GRUPO_DIRBI, descricao_grupo_dirbi: DESCRICAO}
+    filtros:
+      codigo_grupo_dirbi:
+        coluna: I_GRUPO_DIRBI
+        ops: [eq, in]
+      descricao_grupo_dirbi:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 10 linhas.']
+  cttabela_sped_ecf_natureza_operacao:
+    titulo: SPED ECF - Tabela de natureza da operação
+    descricao: 'SPED ECF - Tabela de natureza da operação. 343 linhas no catálogo; chave: I_NATUREZA_OPERACAO, DATA_INICIO.'
+    tabela: CTTABELA_SPED_ECF_NATUREZA_OPERACAO
+    chave: [I_NATUREZA_OPERACAO, DATA_INICIO]
+    acesso: {empresa: null, periodo: DATA_FIM, volume: pequeno}
+    ordem:
+    - [DATA_FIM, desc]
+    - [I_NATUREZA_OPERACAO, asc]
+    - [DATA_INICIO, asc]
+    colunas: {codigo_da_natureza: I_NATUREZA_OPERACAO, data_de_inicio: DATA_INICIO, nome_da_natureza: NOME, data_de_fim: DATA_FIM}
+    filtros:
+      codigo_da_natureza:
+        coluna: I_NATUREZA_OPERACAO
+        ops: [eq, in]
+      data_de_inicio:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      data_de_fim:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      nome_da_natureza:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 343 linhas, DATA_FIM de 2022-12-31 a 2022-12-31.']
+  cttabela_sped_ecf_jurisdicao:
+    titulo: SPED ECF - Tabela de Jurisdição
+    descricao: 'SPED ECF - Tabela de Jurisdição. 247 linhas no catálogo; chave: I_JURISDICAO.'
+    tabela: CTTABELA_SPED_ECF_JURISDICAO
+    chave: [I_JURISDICAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_JURISDICAO, asc]
+    colunas: {sequencial: I_JURISDICAO, sigla: SIGLA, nome: NOME}
+    filtros:
+      sequencial:
+        coluna: I_JURISDICAO
+        ops: [eq, in]
+      sigla:
+        coluna: SIGLA
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 247 linhas.']
+  cttabela_x300_cnc:
+    titulo: SPED ECF - Tabela de codigos CNC do registro X300
+    descricao: 'SPED ECF - Tabela de codigos CNC do registro X300. 227 linhas no catálogo; chave: I_SEQUENCIAL_CNC.'
+    tabela: CTTABELA_X300_CNC
+    chave: [I_SEQUENCIAL_CNC]
+    acesso: {empresa: null, periodo: VALIDADE_INICIAL, volume: pequeno}
+    ordem:
+    - [VALIDADE_INICIAL, desc]
+    - [I_SEQUENCIAL_CNC, asc]
+    colunas: {sequencial: I_SEQUENCIAL_CNC, codigo: CODIGO_CNC, descricao: DESCRICAO, validade_inicial: VALIDADE_INICIAL, validade_final: VALIDADE_FINAL}
+    filtros:
+      sequencial:
+        coluna: I_SEQUENCIAL_CNC
+        ops: [eq, in]
+      validade_inicial:
+        coluna: VALIDADE_INICIAL
+        ops: [entre, gte, lte]
+      validade_final:
+        coluna: VALIDADE_FINAL
+        ops: [entre, gte, lte]
+      codigo:
+        coluna: CODIGO_CNC
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 227 linhas, VALIDADE_INICIAL de 2014-01-01 a 2014-02-03.']
+  cttabela_sped_ecf_tipo_moeda:
+    titulo: SPED ECF - Tabela Tipos de Moedas
+    descricao: 'SPED ECF - Tabela Tipos de Moedas. 162 linhas no catálogo; chave: I_TIPO_MOEDA.'
+    tabela: CTTABELA_SPED_ECF_TIPO_MOEDA
+    chave: [I_TIPO_MOEDA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_TIPO_MOEDA, asc]
+    colunas: {sequencial: I_TIPO_MOEDA, sigla: SIGLA, nome: NOME}
+    filtros:
+      sequencial:
+        coluna: I_TIPO_MOEDA
+        ops: [eq, in]
+      sigla:
+        coluna: SIGLA
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 162 linhas.']
+  cttabela_diops_od_registro:
+    titulo: DIOPs - Outros Dados - Tabela com colunas dos registros de valor
+    descricao: 'DIOPs - Outros Dados - Tabela com colunas dos registros de valor. 121 linhas no catálogo; chave: REGISTRO, CODIGO, VIGENCIA.'
+    tabela: CTTABELA_DIOPS_OD_REGISTRO
+    chave: [REGISTRO, CODIGO, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [REGISTRO, asc]
+    - [CODIGO, asc]
+    colunas:
+      registro: REGISTRO
+      codigo_do_registro: CODIGO
+      vigencia_do_registro: VIGENCIA
+      descricao: DESCRICAO
+      tipo_1_titulo_2_valor_3_calculado_4_valo: {coluna: TIPO, dominio: cttabela_diops_od_registro_tipo_1_titul}
+      formula: FORMULA
+    filtros:
+      registro:
+        coluna: REGISTRO
+        ops: [eq, in]
+      codigo_do_registro:
+        coluna: CODIGO
+        ops: [eq, in]
+      vigencia_do_registro:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      tipo_1_titulo_2_valor_3_calculado_4_valo:
+        coluna: TIPO
+        ops: [eq, in]
+      formula:
+        coluna: FORMULA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 121 linhas, VIGENCIA de 2016-01-01 a 2022-01-01.', 'tipo_1_titulo_2_valor_3_calculado_4_valo: todos os valores reais estão no
+        comentário do banco (2=118, 1=3).']
+  cttabela_sped_ecf_receita:
+    titulo: SPED ECF - Tabela de receitas
+    descricao: 'SPED ECF - Tabela de receitas. 39 linhas no catálogo; chave: I_RECEITA.'
+    tabela: CTTABELA_SPED_ECF_RECEITA
+    chave: [I_RECEITA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_RECEITA, asc]
+    colunas: {codigo_da_receita: I_RECEITA, nome_da_receita: NOME, orgao_publico: ORGAO_PUBLICO, irrf: IRRF, csll: CSLL}
+    filtros:
+      codigo_da_receita:
+        coluna: I_RECEITA
+        ops: [eq, in]
+      nome_da_receita:
+        coluna: NOME
+        ops: [contem, prefixo]
+      orgao_publico:
+        coluna: ORGAO_PUBLICO
+        ops: [eq, in]
+      irrf:
+        coluna: IRRF
+        ops: [eq, in]
+      csll:
+        coluna: CSLL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 39 linhas.']
+  cttabela_natureza_subconta_correlata:
+    titulo: Natureza Subconta Correlata
+    descricao: 'Natureza Subconta Correlata. 26 linhas no catálogo; chave: CODIGO.'
+    tabela: CTTABELA_NATUREZA_SUBCONTA_CORRELATA
+    chave: [CODIGO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    colunas: {codigo: CODIGO, descricao: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 26 linhas.']

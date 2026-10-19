@@ -1,0 +1,213 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_calculos
+titulo: Pessoal - calculos (rascunho em lote)
+dominios:
+  focalculos_complementos_origem_do_complemento_1_la:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCALCULOS_COMPLEMENTOS.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: 3=108, 2=88, 1=36.'
+    valores: {'1': Lançamento de eventos, '2': Alteração salarial, '3': Rescisão, '4': Alteração salarial CCT}
+entidades:
+  focalculos_bases_inss_terceiros:
+    titulo: Bases de cálculo do INSS
+    descricao: 'Bases de cálculo do INSS. 879.775 linhas no catálogo; chave: CODIGO_CONVENIO, I_CALCULOSBASES.'
+    tabela: FOCALCULOS_BASES_INSS_TERCEIROS
+    chave: [CODIGO_CONVENIO, I_CALCULOSBASES]
+    acesso:
+      empresa: null
+      volume: medio
+      exige_algum: [codigo_da_base_de_calculo, codigo_do_convenio_de_terceiros]
+    ordem:
+    - [CODIGO_CONVENIO, asc]
+    - [I_CALCULOSBASES, asc]
+    colunas: {codigo_do_convenio_de_terceiros: CODIGO_CONVENIO, codigo_da_base_de_calculo: I_CALCULOSBASES, sequencial_da_base_de_calculo: I_CALCULOSBASES_OLD, i_cadbases: I_CADBASES,
+      base: BASE, taxa: TAXA, valor: VALOR}
+    vinculos:
+      foconvenios_terceiros:
+        tabela: FOCONVENIOS_TERCEIROS
+        liga: {codigo_convenio: codigo_convenio}
+        colunas: {foconvenios_terceiros_nome: DESCRICAO}
+      focalculosbases:
+        tabela: focalculosbases
+        liga: {i_calculosbases: i_calculosbases}
+        colunas: {focalculosbases_nome: DESCRICAO_CALCULO}
+    filtros:
+      codigo_do_convenio_de_terceiros:
+        coluna: CODIGO_CONVENIO
+        ops: [eq, in]
+      codigo_da_base_de_calculo:
+        coluna: I_CALCULOSBASES
+        ops: [eq, in]
+      sequencial_da_base_de_calculo:
+        coluna: I_CALCULOSBASES_OLD
+        ops: [eq, in]
+      i_cadbases:
+        coluna: I_CADBASES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 879.820 linhas.', 'Vínculo foconvenios_terceiros (FOCONVENIOS_TERCEIROS): 0 de 879.820 linhas sem registro relacionado.', 'Vínculo
+        focalculosbases (focalculosbases): 0 de 879.820 linhas sem registro relacionado.']
+  focalculos_alteracao_salarial:
+    titulo: Cálculos que pagaram alterações salariais
+    descricao: 'Cálculos que pagaram alterações salariais. 236.299 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, TIPO_GRADE, TIPO_SALARIO, I_CALCULOS.'
+    tabela: FOCALCULOS_ALTERACAO_SALARIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, TIPO_GRADE, TIPO_SALARIO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: medio}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_GRADE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao_salarial: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      tipo_da_alteracao_salarial_1_normal_2_va: TIPO_GRADE
+      tipo_da_utilizacao_da_alteracao_no_calcu: TIPO_SALARIO
+      codigo_do_calculo: I_CALCULOS
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao_salarial:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      tipo_da_alteracao_salarial_1_normal_2_va:
+        coluna: TIPO_GRADE
+        ops: [eq, in]
+      tipo_da_utilizacao_da_alteracao_no_calcu:
+        coluna: TIPO_SALARIO
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 236.333 linhas, 862 empresa(s), DATA_ALTERACAO de 1900-01-01 a 2026-10-13.']
+  focalculos_diferenca_rais:
+    titulo: Todos os calculos com diferença de salario por competência.
+    descricao: 'Todos os calculos com diferença de salario por competência.. 228.569 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, I_CALCULOS.'
+    tabela: FOCALCULOS_DIFERENCA_RAIS
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_CALCULOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia_do_calculo: COMPETENCIA, codigo_do_calculo: I_CALCULOS, codigo_do_calculo_renomeado: I_CALCULOS_OLD}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_do_calculo:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 228.579 linhas, 807 empresa(s), COMPETENCIA de 2013-01-01 a 2026-11-16.']
+  focalculos_eventos_bases:
+    titulo: Contém as bases que não estão vinculadas a eventos para o consulta recibo
+    descricao: 'Contém as bases que não estão vinculadas a eventos para o consulta recibo. 11.488 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CALCULOS, I_EVENTOS,
+      I_CADBASES, I_EMPRESTIMO.'
+    tabela: FOCALCULOS_EVENTOS_BASES
+    chave: [CODI_EMP, I_EMPREGADOS, I_CALCULOS, I_EVENTOS, I_CADBASES, I_EMPRESTIMO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CALCULOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      identificacao_do_calculo: I_CALCULOS
+      codigo_do_evento: I_EVENTOS
+      codigo_da_base: I_CADBASES
+      codigo_do_emprestimo: I_EMPRESTIMO
+      codigo_da_empresa_dos_eventos: CODI_EMP_EVE
+      valor_do_evento: {coluna: VALOR, sensivel: financeiro}
+      valor_da_base: BASE
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      foeventos:
+        tabela: foeventos
+        liga: {codi_emp_eve: codi_emp, i_eventos: i_eventos}
+        colunas: {foeventos_nome: nome}
+      foemprestimos_consignado:
+        tabela: FOEMPRESTIMOS_CONSIGNADOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_emprestimo: i_emprestimo}
+        colunas: {foemprestimos_consignado_nome: DESCRICAO}
+      focadbases:
+        tabela: focadbases
+        liga: {i_cadbases: i_cadbases}
+        colunas: {focadbases_nome: descricao}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      identificacao_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      codigo_da_base:
+        coluna: I_CADBASES
+        ops: [eq, in]
+      codigo_do_emprestimo:
+        coluna: I_EMPRESTIMO
+        ops: [eq, in]
+      codigo_da_empresa_dos_eventos:
+        coluna: CODI_EMP_EVE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.492 linhas, 67 empresa(s).', 'Vínculo geempre (geempre): 0 de 49 linhas sem registro relacionado (empresa 1263).', 'Vínculo
+        foempregados (foempregados): 0 de 49 linhas sem registro relacionado (empresa 1263).', 'Vínculo foeventos (foeventos): 0 de 49 linhas sem registro relacionado
+        (empresa 1263).', 'Vínculo foemprestimos_consignado (FOEMPRESTIMOS_CONSIGNADOS): 0 de 49 linhas sem registro relacionado (empresa 1263).', 'Vínculo focadbases
+        (focadbases): 0 de 49 linhas sem registro relacionado (empresa 1263).']
+  focalculos_complementos:
+    titulo: Complementos de cálculo
+    descricao: 'Complementos de cálculo. 232 linhas no catálogo; chave: I_CALCULOS_COMPLEMENTOS.'
+    tabela: FOCALCULOS_COMPLEMENTOS
+    chave: [I_CALCULOS_COMPLEMENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_CALCULOS_COMPLEMENTOS, asc]
+    colunas:
+      codigo: I_CALCULOS_COMPLEMENTOS
+      codigo_renomeado: I_CALCULOS_COMPLEMENTOS_OLD
+      codigo_da_empresa: CODI_EMP
+      competencia_do_calculo: COMPETENCIA
+      data_do_complemento: DATA
+      origem_do_complemento_1_lancamento_de_ev: {coluna: ORIGEM, dominio: focalculos_complementos_origem_do_complemento_1_la}
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_CALCULOS_COMPLEMENTOS
+        ops: [eq, in]
+      competencia_do_calculo:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_do_complemento:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      codigo_renomeado:
+        coluna: I_CALCULOS_COMPLEMENTOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 232 linhas, 104 empresa(s), DATA de 2014-10-07 a 3024-04-30.', 'origem_do_complemento_1_lancamento_de_ev: todos os valores reais
+        estão no comentário do banco (3=108, 2=88, 1=36).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 710).']

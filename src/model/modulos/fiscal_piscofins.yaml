@@ -1,0 +1,109 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_piscofins
+titulo: Fiscal - piscofins (rascunho em lote)
+entidades:
+  efpiscofins_outros_saldo_retencao:
+    titulo: Saldo de Retenções PIS/COFINS/Outros Saldos de Retenções
+    descricao: 'Saldo de Retenções PIS/COFINS/Outros Saldos de Retenções. 26 linhas no catálogo; chave: CODI_EMP, I_COMPENSACAO_RETENCAO.'
+    tabela: EFPISCOFINS_OUTROS_SALDO_RETENCAO
+    chave: [CODI_EMP, I_COMPENSACAO_RETENCAO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_COMPENSACAO_RETENCAO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial: I_COMPENSACAO_RETENCAO, competencia: COMPETENCIA, imposto: CODI_IMP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      codigo_sequencial:
+        coluna: I_COMPENSACAO_RETENCAO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 26 linhas, 2 empresa(s), COMPETENCIA de 2024-09-01 a 2025-08-01.', 'Vínculo geempre (geempre): 0 de 20 linhas sem registro relacionado
+        (empresa 1558).', 'Vínculo geimposto (geimposto): 0 de 20 linhas sem registro relacionado (empresa 1558).']
+  efpiscofins_outros_saldo_retencao_item:
+    titulo: Saldo de Retenções PIS/COFINS/Outros Saldos de Retenções - Retenções
+    descricao: 'Saldo de Retenções PIS/COFINS/Outros Saldos de Retenções - Retenções. 26 linhas no catálogo; chave: CODI_EMP, I_COMPENSACAO_RETENCAO, PERIODO_APURACAO,
+      NATUREZA_RETENCAO.'
+    tabela: EFPISCOFINS_OUTROS_SALDO_RETENCAO_ITEM
+    chave: [CODI_EMP, I_COMPENSACAO_RETENCAO, PERIODO_APURACAO, NATUREZA_RETENCAO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO_APURACAO, volume: pequeno}
+    ordem:
+    - [PERIODO_APURACAO, desc]
+    - [I_COMPENSACAO_RETENCAO, asc]
+    - [NATUREZA_RETENCAO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial: I_COMPENSACAO_RETENCAO, periodo_da_retencao: PERIODO_APURACAO, natureza_da_retencao: NATUREZA_RETENCAO,
+      valor_total_da_retencao: VALOR_TOTAL_RETENCAO, valor_ja_aproveitado: VALOR_JA_APROVEITADO, valor_utilizado_mediante_restituicao: VALOR_UTILIZADO_MEDIANTE_RESTITUICAO,
+      valor_utilizado_mediante_dcomp: VALOR_UTILIZADO_MEDIANTE_DCOMP, valor_da_retencao_disponivel: VALOR_RETENCAO_DISPONIVEL}
+    filtros:
+      codigo_sequencial:
+        coluna: I_COMPENSACAO_RETENCAO
+        ops: [eq, in]
+      periodo_da_retencao:
+        coluna: PERIODO_APURACAO
+        ops: [eq, in]
+      natureza_da_retencao:
+        coluna: NATUREZA_RETENCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 26 linhas, 2 empresa(s), PERIODO_APURACAO de 2024-09-01 a 2025-08-01.']
+  efpiscofins_apropriacao_direta_credito:
+    titulo: Apropriação Direta de Créditos de PIS e COFINS - Geral
+    descricao: 'Apropriação Direta de Créditos de PIS e COFINS - Geral. 15 linhas no catálogo; chave: CODI_EMP, I_APROPRIACAO.'
+    tabela: EFPISCOFINS_APROPRIACAO_DIRETA_CREDITO
+    chave: [CODI_EMP, I_APROPRIACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_APROPRIACAO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_APROPRIACAO, descricao: DESCRICAO, sequencial_do_scp: I_SCP}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: I_APROPRIACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      sequencial_do_scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15 linhas, 15 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): sequencial_do_scp.', 'Vínculo geempre (geempre): 0
+        de 1 linhas sem registro relacionado (empresa 1013).']
+  efpiscofins_apropriacao_direta_credito_vigencia:
+    titulo: Apropriação Direta de Créditos de PIS e COFINS - Vigência
+    descricao: 'Apropriação Direta de Créditos de PIS e COFINS - Vigência. 15 linhas no catálogo; chave: CODI_EMP, I_APROPRIACAO, VIGENCIA.'
+    tabela: EFPISCOFINS_APROPRIACAO_DIRETA_CREDITO_VIGENCIA
+    chave: [CODI_EMP, I_APROPRIACAO, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_APROPRIACAO, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_APROPRIACAO, vigencia: VIGENCIA, descricao: DESCRICAO, receita_tributada_no_mercado_interno: RECEITA_TRIBUTADA_MERCADO_INTERNO,
+      receita_nao_tributada_no_mercado_interno: RECEITA_NAO_TRIBUTADA_MERCADO_INTERNO, receita_de_exportacao: RECEITA_EXPORTACAO}
+    filtros:
+      sequencial:
+        coluna: I_APROPRIACAO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 15 linhas, 15 empresa(s), VIGENCIA de 2020-01-01 a 2022-01-01.']

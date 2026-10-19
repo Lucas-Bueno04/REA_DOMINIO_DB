@@ -1,0 +1,700 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_entradas
+titulo: Fiscal - entradas (rascunho em lote)
+dominios:
+  efentradas_pis_cofins_origem_1_justi:
+    confirmado: parcial
+    nota: 'Coluna EFENTRADAS_PIS_COFINS.ORIGEM só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {'1': Justiça Federal, '2': Secretaria da Receita Federal do Brasil, '9': Outros}
+  efentradas_pis_cofins_aproveitar_cre:
+    confirmado: true
+    nota: 'Todos os valores observados em EFENTRADAS_PIS_COFINS.APROVEITAR_CREDITO_PROPORCIONAL estão no comentário do banco (2026-10-18). Distribuição: N=32.079.'
+    valores: {N: Crédito vinculado somente as receitas Não Cumulativas, S: Crédito vinculado as receitas Cumulativas e Não Cumulativas}
+  efentradas_nota_devolvida_tipo_do_docu:
+    confirmado: true
+    nota: 'Todos os valores observados em EFENTRADAS_NOTA_DEVOLVIDA.TIPO_DOC_DEVOLVIDO estão no comentário do banco (2026-10-18). Distribuição: S=8, nulo=2.'
+    valores: {S: SAÍDA, C: CUPOM FISCAL, F: CFE, Z: REDUÇÃO Z 2D}
+entidades:
+  efentradas_info_comp_contrib:
+    titulo: Notas Fiscais de Entradas - Informação complementar de interesse do contribuinte
+    descricao: 'Notas Fiscais de Entradas - Informação complementar de interesse do contribuinte. 199.625 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_SEQUENCIAL_CONTRIB.'
+    tabela: EFENTRADAS_INFO_COMP_CONTRIB
+    chave: [CODI_EMP, CODI_ENT, I_SEQUENCIAL_CONTRIB]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_SEQUENCIAL_CONTRIB, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, sequencial: I_SEQUENCIAL_CONTRIB, codigo_da_informacao_complementar: I_INFO_COMP_CONTRIB, descricao_da_informacao_complementar: DESCRICAO_CONTRIB}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTRIB
+        ops: [eq, in]
+      codigo_da_informacao_complementar:
+        coluna: I_INFO_COMP_CONTRIB
+        ops: [eq, in]
+      descricao_da_informacao_complementar:
+        coluna: DESCRICAO_CONTRIB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 200.887 linhas, 208 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_informacao_complementar.']
+  efentradas_efd_reinf:
+    titulo: Notas Fiscais de Entrada - EFD Reinf
+    descricao: 'Notas Fiscais de Entrada - EFD Reinf. 152.216 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_EFD_REINF
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, tipo_de_servico: TIPO_SERVICO, possui_processo_administrativo_judicial: POSSUI_PAJ_ENT, indicativo_de_prestacao_de_servico: INDICATIVO_PRESTACAO_SERVICOS}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      tipo_de_servico:
+        coluna: TIPO_SERVICO
+        ops: [eq, in]
+      possui_processo_administrativo_judicial:
+        coluna: POSSUI_PAJ_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 152.254 linhas, 827 empresa(s).']
+  efentradas_info_comp_fisco:
+    titulo: Notas Fiscais de Entradas - Informação complementar de interesse do fisco
+    descricao: 'Notas Fiscais de Entradas - Informação complementar de interesse do fisco. 51.117 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_SEQUENCIAL_FISCO.'
+    tabela: EFENTRADAS_INFO_COMP_FISCO
+    chave: [CODI_EMP, CODI_ENT, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, sequencial: I_SEQUENCIAL_FISCO, codigo_da_informacao_complementar: I_INFO_COMP_FISCO, descricao_da_informacao_complementar: DESCRICAO_FISCO}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_informacao_complementar:
+        coluna: I_INFO_COMP_FISCO
+        ops: [eq, in]
+      descricao_da_informacao_complementar:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 51.724 linhas, 157 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_informacao_complementar.']
+  efentradas_observacao_contrib:
+    titulo: Notas Fiscais de Entradas - Obseração de interesse do contribuinte
+    descricao: 'Notas Fiscais de Entradas - Obseração de interesse do contribuinte. 50.852 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_SEQUENCIAL_CONTRIB.'
+    tabela: EFENTRADAS_OBSERVACAO_CONTRIB
+    chave: [CODI_EMP, CODI_ENT, I_SEQUENCIAL_CONTRIB]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_SEQUENCIAL_CONTRIB, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, sequencial: I_SEQUENCIAL_CONTRIB, codigo_da_observacao: I_OBSERVACAO_CONTRIB, descricao_da_observacao: DESCRICAO_CONTRIB}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_CONTRIB
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_CONTRIB
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_CONTRIB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 50.852 linhas, 142 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_observacao.']
+  efentradas_pis_cofins:
+    titulo: Notas Fiscais de Entrada - PIS/COFINS
+    descricao: 'Notas Fiscais de Entrada - PIS/COFINS. 31.339 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_PIS_COFINS.'
+    tabela: EFENTRADAS_PIS_COFINS
+    chave: [CODI_EMP, CODI_ENT, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_PIS_COFINS, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_entrada: CODI_ENT
+      sequencial: I_PIS_COFINS
+      cst: CST
+      base_do_credito: BASE_CREDITO
+      natureza_da_receita: NATUREZA_RECEITA
+      valor_contabil: VALOR_CONTABIL
+      exclusoes: EXCLUSOES
+      base_de_calculo: BASE_CALCULO
+      aliquota_do_pis: ALIQUOTA_PIS
+      aliquota_da_cofins: ALIQUOTA_COFINS
+      quantidade_tributada: QUANTIDADE_TRIBUTADA
+      valor_por_unidade_do_pis_por_unidade_de: VALOR_UNIDADE_MEDIDA_PIS
+      valor_por_unidade_da_cofins_por_unidade: VALOR_UNIDADE_MEDIDA_COFINS
+      valor_do_pis: VALOR_PIS
+      valor_da_cofins: VALOR_COFINS
+      natureza_do_frete: NATUREZA_FRETE
+      numero_do_processo_ou_ato_concessorio: NRO_PROCESSO
+      origem_1_justica_federal_2_secretaria_da: {coluna: ORIGEM, dominio: efentradas_pis_cofins_origem_1_justi}
+      aproveitar_credito_proporcional_n_credit: {coluna: APROVEITAR_CREDITO_PROPORCIONAL, dominio: efentradas_pis_cofins_aproveitar_cre}
+      vinculo_do_credito: VINCULO_CREDITO
+      percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC
+      codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS
+      codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS
+      codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS
+      codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS
+      codigo_do_beneficio_dirbi: CODIGO_BENEFICIO_DIRBI
+      calcular_reducao_linear_lc224: CALCULAR_REDUCAO_LINEAR_LC224
+    vinculos:
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita: codigo, cst: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+      eftabela_codigo_base_cal:
+        tabela: EFTABELA_CODIGO_BASE_CALCULO_CREDITO
+        liga: {base_credito: codigo}
+        colunas: {eftabela_codigo_base_cal_nome: DESCRICAO}
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      numero_do_processo_ou_ato_concessorio:
+        coluna: NRO_PROCESSO
+        ops: [eq, in]
+      aproveitar_credito_proporcional_n_credit:
+        coluna: APROVEITAR_CREDITO_PROPORCIONAL
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_beneficio_dirbi:
+        coluna: CODIGO_BENEFICIO_DIRBI
+        ops: [eq, in]
+      calcular_reducao_linear_lc224:
+        coluna: CALCULAR_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 32.079 linhas, 45 empresa(s).', 'Colunas expostas nulas em 100% das linhas (5): numero_do_processo_ou_ato_concessorio, origem_1_justica_federal_2_secretaria_da,
+        codigo_sequencial_do_recolhimento_do_pis, codigo_sequencial_do_recolhimento_do_cof, codigo_do_beneficio_dirbi.', 'origem_1_justica_federal_2_secretaria_da:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'aproveitar_credito_proporcional_n_credit: todos os valores
+        reais estão no comentário do banco (N=32.079).', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA): 0 de 19 linhas sem registro relacionado (empresa
+        1077).', 'Vínculo eftabela_codigo_base_cal (EFTABELA_CODIGO_BASE_CALCULO_CREDITO): 0 de 19 linhas sem registro relacionado (empresa 1077).']
+  efentradas_pis_cofins_base_piscofins:
+    titulo: Notas Fiscais de Entrada - PIS/COFINS - Base PIS COFINS
+    descricao: 'Notas Fiscais de Entrada - PIS/COFINS - Base PIS COFINS. 24.348 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_PIS_COFINS, CODI_IMP, TIPO_CREDITO.'
+    tabela: EFENTRADAS_PIS_COFINS_BASE_PISCOFINS
+    chave: [CODI_EMP, CODI_ENT, I_PIS_COFINS, CODI_IMP, TIPO_CREDITO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_ENT, asc]
+    - [I_PIS_COFINS, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_entrada: CODI_ENT, sequencial: I_PIS_COFINS, imposto: CODI_IMP, tipo_de_credito: TIPO_CREDITO, receita_cumulativa: RECEITA_CUMULATIVA,
+      receita_nao_cumulativa: RECEITA_NAO_CUMULATIVA, interna_tributada: INTERNA_TRIBUTADA, interna_nao_tributada: INTERNA_NAO_TRIBUTADA, externa: EXTERNA, competencia: COMPETENCIA}
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      tipo_de_credito:
+        coluna: TIPO_CREDITO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 24.348 linhas, 12 empresa(s), COMPETENCIA de 2021-11-01 a 2026-09-01.']
+  efentradas_observacao_fisco:
+    titulo: Notas Fiscais de Entradas - Observação de interesse do fisco
+    descricao: 'Notas Fiscais de Entradas - Observação de interesse do fisco. 18.632 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_SEQUENCIAL_FISCO.'
+    tabela: EFENTRADAS_OBSERVACAO_FISCO
+    chave: [CODI_EMP, CODI_ENT, I_SEQUENCIAL_FISCO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_SEQUENCIAL_FISCO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, sequencial: I_SEQUENCIAL_FISCO, codigo_da_observacao: I_OBSERVACAO_FISCO, descricao_da_observacao: DESCRICAO_FISCO}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL_FISCO
+        ops: [eq, in]
+      codigo_da_observacao:
+        coluna: I_OBSERVACAO_FISCO
+        ops: [eq, in]
+      descricao_da_observacao:
+        coluna: DESCRICAO_FISCO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 18.632 linhas, 245 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_observacao.']
+  efentradas_inss_rb:
+    titulo: Notas Fiscais de Entradas - INSS Receita Bruta
+    descricao: 'Notas Fiscais de Entradas - INSS Receita Bruta. 16.526 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_INSS_RB
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, valor_contabil: VALOR_CONTABIL_INSS_RB, deducoes: DEDUCOES_INSS_RB, receita_bruta: RECEITA_BRUTA_INSS_RB, valor_desonerada: DESONERADA_INSS_RB,
+      valor_nao_desonerada: NAO_DESONERADA_INSS_RB, valor_total: TOTAL_INSS_RB, receita_bruta_reinf: RECEITA_BRUTA_TOTAL_REINF, desconto_reinf: DESCONTO_REINF, valor_desonerada_reinf: DESONERADA_INSS_RB_REINF,
+      valor_nao_desonerada_reinf: NAO_DESONERADA_INSS_RB_REINF, valor_total_reinf: TOTAL_INSS_RB_REINF}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 16.536 linhas, 593 empresa(s).']
+  efentradas_mva:
+    titulo: Notas Fiscais de Entradas - MVA
+    descricao: 'Notas Fiscais de Entradas - MVA. 12.109 linhas no catálogo; chave: codi_emp, codi_ent, codi_imp, sequencial.'
+    tabela: efentradas_mva
+    chave: [codi_emp, codi_ent, codi_imp, sequencial]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [codi_ent, asc]
+    - [codi_imp, asc]
+    colunas: {empresa: codi_emp, nota: codi_ent, imposto: codi_imp, sequencial: sequencial, aliquota: aliquota, valor_do_produto: valor_produto, percentual_mva: mva,
+      percentual_de_reducao_do_mva: reducao_mva, valor_contabil: VALOR_CONTABIL, percentual_mva_fidelidade: MVA_FIDELIDADE}
+    filtros:
+      nota:
+        coluna: codi_ent
+        ops: [eq, in]
+      imposto:
+        coluna: codi_imp
+        ops: [eq, in]
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12.109 linhas, 69 empresa(s).']
+  efentradas_estadual_rj:
+    titulo: Notas Fiscais de Entradas - Dados estaduais - RJ
+    descricao: 'Notas Fiscais de Entradas - Dados estaduais - RJ. 5.110 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_RJ
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_entrada: CODI_ENT, codigo_do_valor_adicionado_para_a_declan: CODIGO_VALOR_ADICIONADO, valor_adicionado_para_a_declan_ipm: VALOR_ADICIONADO,
+      outros_beneficios_para_informacao_no_dub: I_DUB_ICMS, dub_icms_valor_operacao: DUB_ICMS_VALOR_OPERACAO, dub_icms_aliquota: DUB_ICMS_ALIQUOTA, dub_icms_valor_icms_nao_recolhido: DUB_ICMS_VALOR_ICMS_NAO_RECOLHIDO}
+    vinculos:
+      eftabela_rj_dub_icms:
+        tabela: EFTABELA_RJ_DUB_ICMS
+        liga: {codi_emp: codi_emp, i_dub_icms: i_dub_icms}
+        colunas: {eftabela_rj_dub_icms_nome: DESCRICAO_RESUMIDA}
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      codigo_do_valor_adicionado_para_a_declan:
+        coluna: CODIGO_VALOR_ADICIONADO
+        ops: [eq, in]
+      outros_beneficios_para_informacao_no_dub:
+        coluna: I_DUB_ICMS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.111 linhas, 26 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): outros_beneficios_para_informacao_no_dub.', 'Vínculo
+        eftabela_rj_dub_icms (EFTABELA_RJ_DUB_ICMS): 41 de 41 linhas sem registro relacionado (empresa 1328).']
+  efentradas_detalhamento_mg:
+    titulo: Notas Fiscais de Entradas - Detalhamentos - MG
+    descricao: 'Notas Fiscais de Entradas - Detalhamentos - MG. 4.899 linhas no catálogo; chave: codi_emp, codi_ent.'
+    tabela: efentradas_detalhamento_mg
+    chave: [codi_emp, codi_ent]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [codi_ent, asc]
+    colunas: {empresa: codi_emp, nota: codi_ent, imposto_sem_aproveitamento_de_credito: sem_aproveitamento, isentas: isentas, nao_tributadas: nao_tributadas, parcela_de_base_de_calculo_reduzida: base_reduzida,
+      diferidas: diferidas, suspensas: suspensas, substituicao_tributaria: substituicao, outras: outras, gerar_no_informativo_dapi: GERAR_NO_INFORMATIVO_DAPI, gerar_no_informativo_dapi_mg: GERAR_NO_INFORMATIVO_DAPI_OPERACAO}
+    filtros:
+      nota:
+        coluna: codi_ent
+        ops: [eq, in]
+      gerar_no_informativo_dapi:
+        coluna: GERAR_NO_INFORMATIVO_DAPI
+        ops: [eq, in]
+      gerar_no_informativo_dapi_mg:
+        coluna: GERAR_NO_INFORMATIVO_DAPI_OPERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.899 linhas, 15 empresa(s).']
+  efentradas_estadual_sc:
+    titulo: Notas Fiscais de Entradas - Dados estaduais - SC
+    descricao: 'Notas Fiscais de Entradas - Dados estaduais - SC. 2.875 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_SC
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota: CODI_ENT, tipo_de_atividade_para_rateio_do_valor_a: SC_TIPO_ATIVIDADE_RATEIO_VALOR_ADICIONADO_DIME}
+    filtros:
+      codigo_da_nota:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      tipo_de_atividade_para_rateio_do_valor_a:
+        coluna: SC_TIPO_ATIVIDADE_RATEIO_VALOR_ADICIONADO_DIME
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.876 linhas, 43 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): tipo_de_atividade_para_rateio_do_valor_a.']
+  efentradas_irrf_apf:
+    titulo: Notas Fiscais de Entrada - Dados IRRF
+    descricao: 'Notas Fiscais de Entrada - Dados IRRF. 1.778 linhas no catálogo; chave: CODI_EMP, CODI_ENT, CODI_IMP.'
+    tabela: EFENTRADAS_IRRF_APF
+    chave: [CODI_EMP, CODI_ENT, CODI_IMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, codigo_nota: CODI_ENT, imposto: CODI_IMP, tipo_de_deducao_aplicada_na_base_de_calc: TIPO_DEDUCAO_BASE_CALCULO, valor_da_deducao: VALOR_DEDUCAO_BASE_CALCULO}
+    filtros:
+      codigo_nota:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      tipo_de_deducao_aplicada_na_base_de_calc:
+        coluna: TIPO_DEDUCAO_BASE_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.782 linhas, 40 empresa(s).']
+  efentradas_info_pag:
+    titulo: Notas Fiscais de Entradas - Informação Pagamento
+    descricao: 'Notas Fiscais de Entradas - Informação Pagamento. 1.701 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_SEQUENCIAL.'
+    tabela: EFENTRADAS_INFO_PAG
+    chave: [CODI_EMP, CODI_ENT, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: CODI_ENT
+      sequencial: I_SEQUENCIAL
+      indicador_da_forma_de_pagamento: INDICADOR_FORMA_PAGAMENTO
+      meio_de_pagamento: MEIO_PAGAMENTO
+      valor_do_pagamento: VALOR_PAGAMENTO
+      tipo_de_integracao_para_pagamento: TIPO_INTEGRACAO_PAGAMENTO
+      cnpj_da_instituicao_de_pagamento: {coluna: CNPJ_INSTITUICAO_PAGAMENTO, sensivel: parcial}
+      bandeira_da_operadora_de_cartao_de_credi: BANDEIRA_OPERADORA_CARTAO_CRED_DEB
+      numero_de_autorizacao_da_operacao_cartao: NUMERO_AUTORIZACAO_OPERACAO_CARTAO_CRED_DEB
+      valor_do_troco: VALOR_TROCO
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_integracao_para_pagamento:
+        coluna: TIPO_INTEGRACAO_PAGAMENTO
+        ops: [eq, in]
+      cnpj_da_instituicao_de_pagamento:
+        coluna: CNPJ_INSTITUICAO_PAGAMENTO
+        ops: [eq, in]
+      numero_de_autorizacao_da_operacao_cartao:
+        coluna: NUMERO_AUTORIZACAO_OPERACAO_CARTAO_CRED_DEB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.345 linhas, 58 empresa(s).']
+  efentradas_estadual_mg:
+    titulo: Notas Fiscais de Entradas - Dados Estaduais - MG
+    descricao: 'Notas Fiscais de Entradas - Dados Estaduais - MG. 1.586 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_MG
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.586 linhas, 22 empresa(s).']
+  efentradas_estadual_ba:
+    titulo: Notas Fiscais de Entradas - Dados estaduais - BA
+    descricao: 'Notas Fiscais de Entradas - Dados estaduais - BA. 1.308 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_BA
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO_MDFE, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO_MDFE, desc]
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_entrada: CODI_ENT, tipo_da_operacao: TIPO_OPERACAO, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN,
+      valor: VALOR_ICMS_SN, data_de_emissao_mdf_e: DATA_EMISSAO_MDFE}
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      data_de_emissao_mdf_e:
+        coluna: DATA_EMISSAO_MDFE
+        ops: [entre, gte, lte]
+      tipo_da_operacao:
+        coluna: TIPO_OPERACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.309 linhas, 15 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): data_de_emissao_mdf_e.']
+  efentradas_estadual_ro:
+    titulo: Notas Fiscais de Entradas - Dados Estaduais - RO
+    descricao: 'Notas Fiscais de Entradas - Dados Estaduais - RO. 695 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_RO
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LEVANTAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LEVANTAMENTO, desc]
+    - [CODI_ENT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota_de_entrada: CODI_ENT, codigo_do_lancamento_do_estoque: I_ESTOQUE, data_do_levantamento_do_estoque: DATA_LEVANTAMENTO,
+      valor_total_do_icms_sobre_o_estoque: VALOR_TOTAL_ICMS_SOBRE_ESTOQUE, valor_da_parcela_do_credito_do_estoque: VALOR_PARCELA_CREDITO, base_de_calculo_icms_simples_nacional: BASE_CALCULO_ICMS_SN,
+      aliquota_icms_simples_nacional: ALIQUOTA_ICMS_SN, valor_icms_simples_nacional: VALOR_ICMS_SN}
+    filtros:
+      codigo_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      data_do_levantamento_do_estoque:
+        coluna: DATA_LEVANTAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_lancamento_do_estoque:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 695 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): codigo_do_lancamento_do_estoque, data_do_levantamento_do_estoque.']
+  efentradas_estadual_rs:
+    titulo: Notas Fiscais de Entradas - Dados estaduais - RS
+    descricao: 'Notas Fiscais de Entradas - Dados estaduais - RS. 105 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_RS
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LEVANTAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LEVANTAMENTO, desc]
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, sequencial: I_UTILIZACAO_CREDITO, dispositivo_do_credito_presumido: DISPOSITIVO_CREDITO_PRESUMIDO, limitar_o_aproveitamento_do_credito_de_i: LIMITAR_CREDITO_ICMS,
+      percentual_de_limitar_o_aproveitamento_d: LIMITAR_CREDITO_ICMS_PERCENTUAL, chp: CHP, codigo_do_lancamento: I_ESTOQUE, data_do_levantamento: DATA_LEVANTAMENTO,
+      valor_total_do_icms_sobre_estoque: VALOR_TOTAL_ICMS_SOBRE_ESTOQUE, valor_da_parcela_do_credito: VALOR_PARCELA_CREDITO, valor_do_icms_destacado_a_maior: VALOR_ICMS_DESTACADO_A_MAIOR,
+      valor_do_icms_estorno_de_debito_decorren: VALOR_ICMS_ESTORNO_DEBITO_DEVOLUCAO_MATERIAL_USO_CONSUMO, visto_eletronico: VISTO_ELETRONICO}
+    vinculos:
+      eftabela_rs_utilizacao_c:
+        tabela: EFTABELA_RS_UTILIZACAO_CREDITO
+        liga: {i_utilizacao_credito: i_utilizacao_credito}
+        colunas: {eftabela_rs_utilizacao_c_nome: DESCRICAO}
+      eftabela_dispositivo_cre:
+        tabela: EFTABELA_DISPOSITIVO_CREDITO_PRESUMIDO_RS
+        liga: {dispositivo_credito_presumido: i_dispositivo}
+        colunas: {eftabela_dispositivo_cre_nome: DESCRICAO}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      data_do_levantamento:
+        coluna: DATA_LEVANTAMENTO
+        ops: [entre, gte, lte]
+      sequencial:
+        coluna: I_UTILIZACAO_CREDITO
+        ops: [eq, in]
+      limitar_o_aproveitamento_do_credito_de_i:
+        coluna: LIMITAR_CREDITO_ICMS
+        ops: [eq, in]
+      chp:
+        coluna: CHP
+        ops: [eq, in]
+      codigo_do_lancamento:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+      visto_eletronico:
+        coluna: VISTO_ELETRONICO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 106 linhas, 5 empresa(s).', 'Colunas expostas nulas em 100% das linhas (5): sequencial, dispositivo_do_credito_presumido, codigo_do_lancamento,
+        data_do_levantamento, visto_eletronico.', 'Vínculo eftabela_rs_utilizacao_c (EFTABELA_RS_UTILIZACAO_CREDITO): 0 de 21 linhas sem registro relacionado (empresa
+        1316).', 'Vínculo eftabela_dispositivo_cre (EFTABELA_DISPOSITIVO_CREDITO_PRESUMIDO_RS): 0 de 21 linhas sem registro relacionado (empresa 1316).']
+  efentradas_estadual_ac:
+    titulo: Notas Fiscais de Entradas - Dados Estaduais - AC
+    descricao: 'Notas Fiscais de Entradas - Dados Estaduais - AC. 82 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_AC
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 82 linhas, 1 empresa(s).']
+  efentradas_valor_presente_provisao:
+    titulo: Notas Fiscais de Entrada - Valor Presente Provisao
+    descricao: 'Notas Fiscais de Entrada - Valor Presente Provisao. 69 linhas no catálogo; chave: CODI_EMP, CODI_ENT, DATA_PROVISAO.'
+    tabela: EFENTRADAS_VALOR_PRESENTE_PROVISAO
+    chave: [CODI_EMP, CODI_ENT, DATA_PROVISAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [CODI_ENT, asc]
+    - [DATA_PROVISAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_nota_de_entrada: CODI_ENT, data_da_provisao: DATA_PROVISAO, data_do_lancamento: DATA_LANCAMENTO, numero_de_dias: NUMERO_DIAS,
+      valor_presente: VALOR_PRESENTE, valor_da_taxa: VALOR_TAXA, valor_de_juros: VALOR_JUROS, valor_de_devolucao: VALOR_DEVOLUCAO, valor_futuro: VALOR_FUTURO, valor_de_saldo_juros: VALOR_SALDO_JUROS}
+    filtros:
+      codigo_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      data_da_provisao:
+        coluna: DATA_PROVISAO
+        ops: [eq, in]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 69 linhas, 11 empresa(s), DATA_LANCAMENTO de 2013-01-31 a 2017-08-31.']
+  efentradas_estadual_sp:
+    titulo: Notas Fiscais de Entradas - Dados Estaduais - SP
+    descricao: 'Notas Fiscais de Entradas - Dados Estaduais - SP. 37 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_SP
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, base_de_calculo: BASE_CALCULO_ICMS_SN, aliquota: ALIQUOTA_ICMS_SN, valor: VALOR_ICMS_SN, valor_dispensado_de_escrituracao_dipam: VALOR_DISPENSADO_DIPAM}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37 linhas, 1 empresa(s).']
+  efentradas_difal_nc:
+    titulo: Notas Fiscais de Entrada - DIFAL NC
+    descricao: 'Notas Fiscais de Entrada - DIFAL NC. 11 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_DIFAL_NC
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_ENT, base_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor_uf_origem: VALOR_UF_ORIGEM, valor_uf_destino: VALOR_UF_DESTINO,
+      valor_total: VALOR_TOTAL, valor_fcp: VALOR_FCP}
+    filtros:
+      codigo:
+        coluna: CODI_ENT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11 linhas, 1 empresa(s).']
+  efentradas_nota_devolvida:
+    titulo: Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida
+    descricao: 'Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida. 10 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA.'
+    tabela: EFENTRADAS_NOTA_DEVOLVIDA
+    chave: [CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_DEVOLVIDA, volume: pequeno}
+    ordem:
+    - [DATA_DEVOLVIDA, desc]
+    - [CODI_ENT, asc]
+    - [I_NOTA_DEVOLVIDA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_entrada: CODI_ENT
+      sequencial: I_NOTA_DEVOLVIDA
+      tipo_do_documento_fiscal_s_saida_c_cupom: {coluna: TIPO_DOC_DEVOLVIDO, dominio: efentradas_nota_devolvida_tipo_do_docu}
+      codigo_da_saida: I_SAIDA_DEVOLVIDA
+      codigo_da_reducaoz: I_REDUCAO_DEVOLVIDA
+      codigo_do_cupom_fiscal: I_CUPOM_DEVOLVIDO
+      data_da_devolucao: DATA_DEVOLVIDA
+      valor_da_nota: VALOR_NOTA
+      valor_pago: VALOR_PAGO
+      valor_em_aberto: VALOR_ABERTO
+      valor_da_devolucao: VALOR_DEVOLUCAO
+      valor_da_deducao: VALOR_DEDUCAO
+      valor_baixa: VALOR_BAIXA
+      valor_ja_devolvido: VALOR_JA_DEVOLVIDO
+      valor_retencoes: VALOR_RETENCOES
+      codigo_da_cfe: I_CFE_DEVOLVIDA
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial:
+        coluna: I_NOTA_DEVOLVIDA
+        ops: [eq, in]
+      data_da_devolucao:
+        coluna: DATA_DEVOLVIDA
+        ops: [entre, gte, lte]
+      tipo_do_documento_fiscal_s_saida_c_cupom:
+        coluna: TIPO_DOC_DEVOLVIDO
+        ops: [eq, in]
+      codigo_da_saida:
+        coluna: I_SAIDA_DEVOLVIDA
+        ops: [eq, in]
+      codigo_da_reducaoz:
+        coluna: I_REDUCAO_DEVOLVIDA
+        ops: [eq, in]
+      codigo_do_cupom_fiscal:
+        coluna: I_CUPOM_DEVOLVIDO
+        ops: [eq, in]
+      codigo_da_cfe:
+        coluna: I_CFE_DEVOLVIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, 2 empresa(s), DATA_DEVOLVIDA de 2023-01-31 a 2025-03-17.', 'Colunas expostas nulas em 100% das linhas (3): codigo_da_reducaoz,
+        codigo_do_cupom_fiscal, codigo_da_cfe.', 'tipo_do_documento_fiscal_s_saida_c_cupom: todos os valores reais estão no comentário do banco (S=8, nulo=2).']
+  efentradas_nota_devolvida_csoc_irpj:
+    titulo: Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida - CSOC/IRPJ
+    descricao: 'Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida - CSOC/IRPJ. 10 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA,
+      I_CSOC_IRPJ.'
+    tabela: EFENTRADAS_NOTA_DEVOLVIDA_CSOC_IRPJ
+    chave: [CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA, I_CSOC_IRPJ]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_NOTA_DEVOLVIDA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota_de_entrada: CODI_ENT, sequencial_da_nota_devolvida: I_NOTA_DEVOLVIDA, sequencial_do_csoc_irpj: I_CSOC_IRPJ,
+      valor_da_recducao: VALOR_DEDUCAO, base_de_calculo_csoc: PERCENTUAL_BC_CSOC, base_de_calculo_irpj: PERCENTUAL_BC_IRPJ, base_calculo_csoc: BASE_CALCULO_CSOC,
+      base_calculo_irpj: BASE_CALCULO_IRPJ, valor_ipi: VALOR_IPI, valor_subtri: VALOR_SUBTRI, valor_icms: VALOR_ICMS}
+    filtros:
+      codigo_da_nota_de_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial_da_nota_devolvida:
+        coluna: I_NOTA_DEVOLVIDA
+        ops: [eq, in]
+      sequencial_do_csoc_irpj:
+        coluna: I_CSOC_IRPJ
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10 linhas, 2 empresa(s).']
+  efentradas_nota_devolvida_pis_cofins:
+    titulo: Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida - PIS/COFINS
+    descricao: 'Notas Fiscais de Entrada - Complementar - Geral - Nota Devolvida - PIS/COFINS. 8 linhas no catálogo; chave: CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA,
+      I_PIS_COFINS.'
+    tabela: EFENTRADAS_NOTA_DEVOLVIDA_PIS_COFINS
+    chave: [CODI_EMP, CODI_ENT, I_NOTA_DEVOLVIDA, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    - [I_NOTA_DEVOLVIDA, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_entrada: CODI_ENT, sequencial_da_nota_devolvida: I_NOTA_DEVOLVIDA, sequencial: I_PIS_COFINS, cst: CST, valor_da_deducao: VALOR_DEDUCAO,
+      base_de_calculo: BASE_CALCULO, aliquota_do_pis: ALIQUOTA_PIS, aliquota_da_cofins: ALIQUOTA_COFINS, quantidade_tributada: QUANTIDADE_TRIBUTADA, valor_unidade_medida_pis: VALOR_UNIDADE_MEDIDA_PIS,
+      valor_unidade_medida_cofins: VALOR_UNIDADE_MEDIDA_COFINS, valor_pis: VALOR_PIS, valor_cofins: VALOR_COFINS, exclusao: EXCLUSAO, percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC}
+    filtros:
+      codigo_da_entrada:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      sequencial_da_nota_devolvida:
+        coluna: I_NOTA_DEVOLVIDA
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 1 empresa(s).']
+  efentradas_estadual_pe:
+    titulo: Notas Fiscais de Entradas - Dados estaduais - PE
+    descricao: 'Notas Fiscais de Entradas - Dados estaduais - PE. 3 linhas no catálogo; chave: CODI_EMP, CODI_ENT.'
+    tabela: EFENTRADAS_ESTADUAL_PE
+    chave: [CODI_EMP, CODI_ENT]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_ENT, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_nota: CODI_ENT, tipo_combustivel: TIPO_COMBUSTIVEL}
+    filtros:
+      codigo_da_nota:
+        coluna: CODI_ENT
+        ops: [eq, in]
+      tipo_combustivel:
+        coluna: TIPO_COMBUSTIVEL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s).']

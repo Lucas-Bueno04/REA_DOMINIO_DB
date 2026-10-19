@@ -1,0 +1,268 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_transferencia
+titulo: Contábil - transferencia (rascunho em lote)
+dominios:
+  pmtransferencia_conta_patrimonial_origem_da_tra:
+    confirmado: true
+    nota: 'Todos os valores observados em PMTRANSFERENCIA_CONTA_PATRIMONIAL.ORIGEM_TRANSFERENCIA estão no comentário do banco (2026-10-18). Distribuição: B=4.354.'
+    valores: {B: Bem, T: Transferência}
+  pmtransferencia_centro_custo_origem_da_trans:
+    confirmado: true
+    nota: 'Todos os valores observados em PMTRANSFERENCIA_CENTRO_CUSTO.ORIGEM_TRANSFERENCIA estão no comentário do banco (2026-10-18). Distribuição: B=4.354.'
+    valores: {B: Bem, T: Transferência}
+  pmtransferencia_matriz_filial_documento_f:
+    confirmado: parcial
+    nota: 'Coluna PMTRANSFERENCIA_MATRIZ_FILIAL.FISCAL_EMITENTE só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do
+      banco.'
+    valores: {T: Terceiros, P: Próprio}
+entidades:
+  pmtransferencia_conta_patrimonial:
+    titulo: Transferência de Contas Patrimoniais
+    descricao: 'Transferência de Contas Patrimoniais. 4.353 linhas no catálogo; chave: CODI_EMP, I_TRANSFERENCIA.'
+    tabela: PMTRANSFERENCIA_CONTA_PATRIMONIAL
+    chave: [CODI_EMP, I_TRANSFERENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TRANSFERENCIA, volume: pequeno}
+    ordem:
+    - [DATA_TRANSFERENCIA, desc]
+    - [I_TRANSFERENCIA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_TRANSFERENCIA
+      bem: I_BEM
+      data_da_transferencia: DATA_TRANSFERENCIA
+      conta_patrimonial_destino: I_CONTA_PATRIMONIAL
+      codigo_do_historico: I_HISTORICO
+      historico: HISTORICO
+      origem_da_transferencia_b_bem_t_transfer: {coluna: ORIGEM_TRANSFERENCIA, dominio: pmtransferencia_conta_patrimonial_origem_da_tra}
+      depreciacao_fiscal_acumulada: VALOR_DEPRECIACAO_FISCAL_ACUMULADA_BEM
+      depreciacao_societaria_acumulada: VALOR_DEPRECIACAO_SOCIETARIA_ACUMULADA_BEM
+      quantidade_de_parcelas_para_calculo_de_d: QUANTIDADE_PARCELAS_DEPRECIACAO_FISCAL
+      codigo_da_transferencia_do_bem_principal: I_TRANSFERENCIA_VINCULO
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+      pmconta_patrimonial:
+        tabela: PMCONTA_PATRIMONIAL
+        liga: {codi_emp: codi_emp, i_conta_patrimonial: i_conta_patrimonial}
+        colunas: {pmconta_patrimonial_nome: DESCRICAO}
+      pmhistorico:
+        tabela: PMHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {pmhistorico_nome: HISTORICO}
+    filtros:
+      codigo:
+        coluna: I_TRANSFERENCIA
+        ops: [eq, in]
+      data_da_transferencia:
+        coluna: DATA_TRANSFERENCIA
+        ops: [entre, gte, lte]
+      conta_patrimonial_destino:
+        coluna: I_CONTA_PATRIMONIAL
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      origem_da_transferencia_b_bem_t_transfer:
+        coluna: ORIGEM_TRANSFERENCIA
+        ops: [eq, in]
+      codigo_da_transferencia_do_bem_principal:
+        coluna: I_TRANSFERENCIA_VINCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.354 linhas, 261 empresa(s), DATA_TRANSFERENCIA de 2001-09-12 a 2026-09-23.', 'Colunas expostas nulas em 100% das linhas (2):
+        codigo_do_historico, codigo_da_transferencia_do_bem_principal.', 'origem_da_transferencia_b_bem_t_transfer: todos os valores reais estão no comentário do
+        banco (B=4.354).', 'Vínculo pmbem (PMBEM): 0 de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo pmconta_patrimonial (PMCONTA_PATRIMONIAL): 0
+        de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo pmhistorico (PMHISTORICO): 4 de 4 linhas sem registro relacionado (empresa 1012).']
+  pmtransferencia_centro_custo:
+    titulo: Transferência de Centros de Custos
+    descricao: 'Transferência de Centros de Custos. 4.353 linhas no catálogo; chave: CODI_EMP, I_TRANSFERENCIA.'
+    tabela: PMTRANSFERENCIA_CENTRO_CUSTO
+    chave: [CODI_EMP, I_TRANSFERENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TRANSFERENCIA, volume: pequeno}
+    ordem:
+    - [DATA_TRANSFERENCIA, desc]
+    - [I_TRANSFERENCIA, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_TRANSFERENCIA
+      bem: I_BEM
+      data_da_transferencia: DATA_TRANSFERENCIA
+      centro_de_custo: I_CENTRO_CUSTO
+      codigo_do_historico: I_HISTORICO
+      historico: HISTORICO
+      origem_da_transferencia_b_bem_t_transfer: {coluna: ORIGEM_TRANSFERENCIA, dominio: pmtransferencia_centro_custo_origem_da_trans}
+      depreciacao_fiscal_acumulada: VALOR_DEPRECIACAO_FISCAL_ACUMULADA_BEM
+      depreciacao_societaria_acumulada: VALOR_DEPRECIACAO_SOCIETARIA_ACUMULADA_BEM
+      codigo_da_transferencia_do_bem_principal: I_TRANSFERENCIA_VINCULO
+    vinculos:
+      ctccusto:
+        tabela: ctccusto
+        liga: {codi_emp: codi_emp, i_centro_custo: codi_ccu}
+        colunas: {ctccusto_nome: desc_ccu}
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+      pmhistorico:
+        tabela: PMHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {pmhistorico_nome: HISTORICO}
+    filtros:
+      codigo:
+        coluna: I_TRANSFERENCIA
+        ops: [eq, in]
+      data_da_transferencia:
+        coluna: DATA_TRANSFERENCIA
+        ops: [entre, gte, lte]
+      centro_de_custo:
+        coluna: I_CENTRO_CUSTO
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      origem_da_transferencia_b_bem_t_transfer:
+        coluna: ORIGEM_TRANSFERENCIA
+        ops: [eq, in]
+      codigo_da_transferencia_do_bem_principal:
+        coluna: I_TRANSFERENCIA_VINCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.354 linhas, 261 empresa(s), DATA_TRANSFERENCIA de 2001-09-12 a 2026-09-23.', 'Colunas expostas nulas em 100% das linhas (2):
+        codigo_do_historico, codigo_da_transferencia_do_bem_principal.', 'origem_da_transferencia_b_bem_t_transfer: todos os valores reais estão no comentário do
+        banco (B=4.354).', 'Vínculo ctccusto (ctccusto): 0 de 4 linhas sem registro relacionado (empresa 1012).', 'Vínculo pmbem (PMBEM): 0 de 4 linhas sem registro
+        relacionado (empresa 1012).', 'Vínculo pmhistorico (PMHISTORICO): 4 de 4 linhas sem registro relacionado (empresa 1012).']
+  pmtransferencia_matriz_filial_lancto:
+    titulo: Transferência de bens entre matriz/filiais - Lançamentos Contábeis
+    descricao: 'Transferência de bens entre matriz/filiais - Lançamentos Contábeis. 28 linhas no catálogo; chave: CODI_EMP, I_TRANSFERENCIA, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMTRANSFERENCIA_MATRIZ_FILIAL_LANCTO
+    chave: [CODI_EMP, I_TRANSFERENCIA, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_TRANSFERENCIA, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, transferencia_de_bens_entre_matriz_filia: I_TRANSFERENCIA, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE}
+    filtros:
+      transferencia_de_bens_entre_matriz_filia:
+        coluna: I_TRANSFERENCIA
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 28 linhas, 2 empresa(s).']
+  pmtransferencia_matriz_filial:
+    titulo: Plano de contas SPED ECF Entidades Fechadas da Previdência Comp Referencial - Saldo anterior por Centro de Custo
+    descricao: 'Plano de contas SPED ECF Entidades Fechadas da Previdência Comp Referencial - Saldo anterior por Centro de Custo. 8 linhas no catálogo; chave: CODI_EMP,
+      I_TRANSFERENCIA.'
+    tabela: PMTRANSFERENCIA_MATRIZ_FILIAL
+    chave: [CODI_EMP, I_TRANSFERENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_TRANSFERENCIA, volume: pequeno}
+    ordem:
+    - [DATA_TRANSFERENCIA, desc]
+    - [I_TRANSFERENCIA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_transferencia: I_TRANSFERENCIA
+      bem: I_BEM
+      data_da_transferencia: DATA_TRANSFERENCIA
+      valor_da_depreciacao_fiscal_acumulada: VALOR_DEPRECIACAO_FISCAL_ACUMULADA
+      valor_da_depreciacao_societaria_acumulad: VALOR_DEPRECIACAO_SOCIETARIA_ACUMULADA
+      valor_do_saldo_do_bem_na_data_de_transfe: VALOR_SALDO_ATUAL
+      empresa_destino_transferencia: CODI_EMP_DESTINO
+      conta_patrimonial_destino_transferencia: I_CONTA_PATRIMONIAL_DESTINO
+      centro_de_custo_destino_transferencia: I_CENTRO_CUSTO_DESTINO
+      bem_destino: I_BEM_DESTINO
+      codigo_historico: I_HISTORICO
+      historico: HISTORICO
+      nao_transferir_credito_remanescente_icms: NAO_TRANSFERIR_CREDITO_REMANESCENTE_ICMS
+      nao_transferir_debito_remanescente_icms: NAO_TRANSFERIR_DEBITO_REMANESCENTE_ICMS
+      documento_fiscal_numero: FISCAL_NUMERO
+      documento_fiscal_serie: FISCAL_SERIE
+      documento_fiscal_data_de_emissao: FISCAL_DATA_EMISSAO
+      documento_fiscal_modelo: FISCAL_MODELO
+      documento_fiscal_chave_nfe: FISCAL_CHAVE_NFE
+      documento_fiscal_cliente: FISCAL_CODI_CLI
+      documento_fiscal_emitente_t_terceiros_p: {coluna: FISCAL_EMITENTE, dominio: pmtransferencia_matriz_filial_documento_f}
+      documento_fiscal_produto: FISCAL_CODI_PDI
+      documento_fiscal_sequencial_do_item: FISCAL_SEQUENCIAL_ITEM
+      nao_transferir_debito_remanescente_icms_c: NAO_TRANSFERIR_DEBITO_REMANESCENTE_ICMS_DIF_ALI
+      ultima_parcela_calculada_credito_icms: ULTIMA_PARCELA_CREDITO_ICMS
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+      ctccusto:
+        tabela: ctccusto
+        liga: {codi_emp_destino: codi_emp, i_centro_custo_destino: codi_ccu}
+        colunas: {ctccusto_nome: desc_ccu}
+      pmconta_patrimonial:
+        tabela: PMCONTA_PATRIMONIAL
+        liga: {codi_emp_destino: codi_emp, i_conta_patrimonial_destino: i_conta_patrimonial}
+        colunas: {pmconta_patrimonial_nome: DESCRICAO}
+      pmhistorico:
+        tabela: PMHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {pmhistorico_nome: HISTORICO}
+    filtros:
+      sequencial_transferencia:
+        coluna: I_TRANSFERENCIA
+        ops: [eq, in]
+      data_da_transferencia:
+        coluna: DATA_TRANSFERENCIA
+        ops: [entre, gte, lte]
+      documento_fiscal_data_de_emissao:
+        coluna: FISCAL_DATA_EMISSAO
+        ops: [entre, gte, lte]
+      empresa_destino_transferencia:
+        coluna: CODI_EMP_DESTINO
+        ops: [eq, in]
+      conta_patrimonial_destino_transferencia:
+        coluna: I_CONTA_PATRIMONIAL_DESTINO
+        ops: [eq, in]
+      centro_de_custo_destino_transferencia:
+        coluna: I_CENTRO_CUSTO_DESTINO
+        ops: [eq, in]
+      codigo_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      nao_transferir_credito_remanescente_icms:
+        coluna: NAO_TRANSFERIR_CREDITO_REMANESCENTE_ICMS
+        ops: [eq, in]
+      nao_transferir_debito_remanescente_icms:
+        coluna: NAO_TRANSFERIR_DEBITO_REMANESCENTE_ICMS
+        ops: [eq, in]
+      documento_fiscal_serie:
+        coluna: FISCAL_SERIE
+        ops: [eq, in]
+      documento_fiscal_chave_nfe:
+        coluna: FISCAL_CHAVE_NFE
+        ops: [contem, prefixo]
+      documento_fiscal_cliente:
+        coluna: FISCAL_CODI_CLI
+        ops: [eq, in]
+      documento_fiscal_emitente_t_terceiros_p:
+        coluna: FISCAL_EMITENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 2 empresa(s), DATA_TRANSFERENCIA de 2025-01-14 a 2025-05-07.', 'Colunas expostas nulas em 100% das linhas (11): codigo_historico,
+        documento_fiscal_numero, documento_fiscal_serie, documento_fiscal_data_de_emissao, documento_fiscal_modelo, documento_fiscal_chave_nfe, documento_fiscal_cliente,
+        documento_fiscal_emitente_t_terceiros_p, documento_fiscal_produto, documento_fiscal_sequencial_do_item, ultima_parcela_calculada_credito_icms.', 'documento_fiscal_emitente_t_terceiros_p:
+        coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'Vínculo pmbem (PMBEM): 0 de 6 linhas sem registro relacionado
+        (empresa 1446).', 'Vínculo ctccusto (ctccusto): 0 de 6 linhas sem registro relacionado (empresa 1446).', 'Vínculo pmconta_patrimonial (PMCONTA_PATRIMONIAL):
+        0 de 6 linhas sem registro relacionado (empresa 1446).', 'Vínculo pmhistorico (PMHISTORICO): 6 de 6 linhas sem registro relacionado (empresa 1446).']

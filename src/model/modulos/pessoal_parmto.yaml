@@ -1,0 +1,267 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_parmto
+titulo: Pessoal - parmto (rascunho em lote)
+dominios:
+  foparmto_configuracao_data_pagamento_tipo_de_emp:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.TIPO_EMPREGADO estão no comentário do banco (2026-10-18). Distribuição: 3=8.136, 1=8.136,
+      2=4.068.'
+    valores: {'1': Empregado, '2': Contribuinte, '3': Estagiário}
+  foparmto_configuracao_data_pagamento_configuraca:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.DECIMO_INTEGRAL_COMPETENCIA_DIFERENTE_DEZEMBRO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=17.628, 1=2.712.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_configuracao_data_pagamento_mes_paga_pa:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.MES_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição: 2=16.429, 1=3.908,
+      3=2, 4=1.'
+    valores: {'1': 1º Mês subsequente, '2': No mesmo mês, '3': 2º Mês subsequente, '4': 1ª Quinzena, '5': 2ª Quinzena}
+  foparmto_configuracao_data_pagamento_forma_de_ve:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.FORMA_VENCIMENTO estão no comentário do banco (2026-10-18). Distribuição: 5=9.189,
+      3=6.708, 4=3.703, 2=740.'
+    valores: {'1': Dias corridos direto, '2': Dias corridos adiados, '3': Dias corridos antecipados, '4': Dias úteis, '5': Último dia útil}
+  foparmto_configuracao_data_pagamento_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=20.340.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout, '3': Importação tabelas concorrentes}
+  foparmto_configuracao_data_pagamento_antecipar_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO.ANTECIPAR_DATA_PAGAMENTO_SABADO estão no comentário do banco (2026-10-18). Distribuição:
+      0=20.297, 1=43.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_cooperativa_0_n:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.COOPERATIVA estão no comentário do banco (2026-10-18). Distribuição: 0=1.459.'
+    valores: {'0': Não, '1': 'Sim, cooperativa de trabalho', '2': 'Sim, cooperativa de produção', '3': 'Sim, outras cooperativas'}
+  foparmto_alteracao_construtora_0_n:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.CONSTRUTORA estão no comentário do banco (2026-10-18). Distribuição: 0=1.456, 1=3.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_optante_pelo_re:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.OPTANTE_REGISTRO_ELETRONICO_EMPREGADOS estão no comentário do banco (2026-10-18). Distribuição: 0=1.267,
+      1=192.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_possui_acordo_i:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.POSSUI_ACORDO_INTERNACIONAL_ISENCAO_MULTA estão no comentário do banco (2026-10-18). Distribuição: 0=1.458,
+      1=1.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_situacao_especi:
+    confirmado: parcial
+    nota: 'Coluna FOPARMTO_ALTERACAO.POSSUI_SITUACAO_ESPECIAL_SITUACAO só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {'1': Extinção, '2': Fusão, '3': Cisão, '4': Incorporação}
+  foparmto_alteracao_sigla_do_minist:
+    confirmado: parcial
+    nota: 'Coluna FOPARMTO_ALTERACAO.SIGLA_MINISTERIO_CONCEDEU_ENTIDADE_BENEFICENTE só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar
+      o comentário do banco.'
+    valores: {'1': CNAS, '2': MEC, '3': MS, '4': MDS, '5': Lei}
+  foparmto_alteracao_contratacao_de_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.CONTRATACAO_PESSOA_COM_DEFICIENCIA estão no comentário do banco (2026-10-18). Distribuição: 1=1.372,
+      4=87.'
+    valores: {'1': Dispensado de acordo com a lei, '2': 'Dispensado, mesmo que parcialmente', '3': Com a exigibilidade suspensa, '4': Obrigado}
+  foparmto_alteracao_enviar_para_o_e:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=869, 0=590.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_gerar_retificac:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=1.433, 1=26.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_marcacao_do_eve:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=1.459.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_origem_do_regis:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.ORIGEM_ALTERACAO estão no comentário do banco (2026-10-18). Distribuição: 1=1.455, 2=4.'
+    valores: {'1': Sistema, '2': Alteração de Faseamento do eSocial}
+  foparmto_alteracao_calcular_funrur:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.CALCULAR_FUNRURAL_SOBRE_FOLHA_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição: 0=1.459.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_utiliza_modulo_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPARMTO_ALTERACAO.UTILIZA_MODULO_WEB_SIMPLIFICADO_ME_EPP_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=1.459.'
+    valores: {'0': Não, '1': Sim}
+  foparmto_alteracao_utiliza_forma_u:
+    confirmado: parcial
+    nota: 'Coluna FOPARMTO_ALTERACAO.UTILIZA_FORMA_UNIFICADA_ESOCIAL só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário
+      do banco.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  foparmto_configuracao_data_pagamento:
+    titulo: Configurações para as datas de pagamento dos cálculos da folha.
+    descricao: 'Configurações para as datas de pagamento dos cálculos da folha.. 20.325 linhas no catálogo; chave: CODI_EMP, TIPO_EMPREGADO, TIPO_PROCESSO, DECIMO_INTEGRAL_COMPETENCIA_DIFERENTE_DEZEMBRO.'
+    tabela: FOPARMTO_CONFIGURACAO_DATA_PAGAMENTO
+    chave: [CODI_EMP, TIPO_EMPREGADO, TIPO_PROCESSO, DECIMO_INTEGRAL_COMPETENCIA_DIFERENTE_DEZEMBRO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [TIPO_EMPREGADO, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      tipo_de_empregado_1_empregado_2_contribu: {coluna: TIPO_EMPREGADO, dominio: foparmto_configuracao_data_pagamento_tipo_de_emp}
+      tipo_de_calculo: TIPO_PROCESSO
+      configuracao_para_o_13o_integral_pago_em: {coluna: DECIMO_INTEGRAL_COMPETENCIA_DIFERENTE_DEZEMBRO, dominio: foparmto_configuracao_data_pagamento_configuraca}
+      mes_paga_pagamento_1_1o_mes_subsequente: {coluna: MES_PAGAMENTO, dominio: foparmto_configuracao_data_pagamento_mes_paga_pa}
+      forma_de_vencimento_1_dias_corridos_dire: {coluna: FORMA_VENCIMENTO, dominio: foparmto_configuracao_data_pagamento_forma_de_ve}
+      total_de_dias_para_o_calculo_da_data_de: TOTAL_DIAS
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foparmto_configuracao_data_pagamento_origem_do_r}
+      antecipar_pagamento_quando_a_data_do_pag: {coluna: ANTECIPAR_DATA_PAGAMENTO_SABADO, dominio: foparmto_configuracao_data_pagamento_antecipar_p}
+    filtros:
+      tipo_de_empregado_1_empregado_2_contribu:
+        coluna: TIPO_EMPREGADO
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      configuracao_para_o_13o_integral_pago_em:
+        coluna: DECIMO_INTEGRAL_COMPETENCIA_DIFERENTE_DEZEMBRO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20.340 linhas, 1.356 empresa(s).', 'tipo_de_empregado_1_empregado_2_contribu: todos os valores reais estão no comentário do banco
+        (3=8.136, 1=8.136, 2=4.068).', 'configuracao_para_o_13o_integral_pago_em: todos os valores reais estão no comentário do banco (0=17.628, 1=2.712).', 'mes_paga_pagamento_1_1o_mes_subsequente:
+        todos os valores reais estão no comentário do banco (2=16.429, 1=3.908, 3=2, 4=1).', 'forma_de_vencimento_1_dias_corridos_dire: todos os valores reais estão
+        no comentário do banco (5=9.189, 3=6.708, 4=3.703, 2=740).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco
+        (0=20.340).', 'antecipar_pagamento_quando_a_data_do_pag: todos os valores reais estão no comentário do banco (0=20.297, 1=43).']
+  foparmto_natureza_desconto_comp:
+    titulo: Tabela de naturezas das rubricas de desconto compulsório
+    descricao: 'Tabela de naturezas das rubricas de desconto compulsório. 11.812 linhas no catálogo; chave: CODI_EMP, NATUREZA_FOLHA_MENSAL.'
+    tabela: FOPARMTO_NATUREZA_DESCONTO_COMP
+    chave: [CODI_EMP, NATUREZA_FOLHA_MENSAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [NATUREZA_FOLHA_MENSAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, natureza_da_rubrica: NATUREZA_FOLHA_MENSAL}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      natureza_da_rubrica:
+        coluna: NATUREZA_FOLHA_MENSAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.812 linhas, 1.969 empresa(s).', 'Vínculo geempre (geempre): 0 de 6 linhas sem registro relacionado (empresa 9082).']
+  foparmto_alteracao_envios_esocial:
+    titulo: Envios das alterações dos parâmetros ao eSocial
+    descricao: 'Envios das alterações dos parâmetros ao eSocial. 1.829 linhas no catálogo; chave: CODI_EMP, VIGENCIA, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOPARMTO_ALTERACAO_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, VIGENCIA, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    - [I_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, vigencia: VIGENCIA, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.831 linhas, 862 empresa(s), VIGENCIA de 1900-01-01 a 2026-09-01.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 2 linhas sem registro relacionado (empresa 856).']
+  foparmto_alteracao:
+    titulo: Tabela de alterações de parâmetros.
+    descricao: 'Tabela de alterações de parâmetros.. 1.457 linhas no catálogo; chave: CODI_EMP, VIGENCIA.'
+    tabela: FOPARMTO_ALTERACAO
+    chave: [CODI_EMP, VIGENCIA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO_ENTIDADE_BENEFICENTE, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO_ENTIDADE_BENEFICENTE, desc]
+    - [VIGENCIA, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      vigencia_da_alteracao: VIGENCIA
+      classificacao_tributaria: CLASSIFICACAO_TRIBUTARIA
+      cooperativa_0_nao_1_sim_cooperativa_de_t: {coluna: COOPERATIVA, dominio: foparmto_alteracao_cooperativa_0_n}
+      construtora_0_nao_1_sim: {coluna: CONSTRUTORA, dominio: foparmto_alteracao_construtora_0_n}
+      optante_pelo_registro_eletronico_de_empr: {coluna: OPTANTE_REGISTRO_ELETRONICO_EMPREGADOS, dominio: foparmto_alteracao_optante_pelo_re}
+      possui_acordo_internacional_para_isencao: {coluna: POSSUI_ACORDO_INTERNACIONAL_ISENCAO_MULTA, dominio: foparmto_alteracao_possui_acordo_i}
+      situacao_especial_1_extincao_2_fusao_3_c: {coluna: POSSUI_SITUACAO_ESPECIAL_SITUACAO, dominio: foparmto_alteracao_situacao_especi}
+      sigla_do_ministerio_que_concedeu_a_class: {coluna: SIGLA_MINISTERIO_CONCEDEU_ENTIDADE_BENEFICENTE, dominio: foparmto_alteracao_sigla_do_minist}
+      data_de_emissao_da_classificacao_de_enti: DATA_EMISSAO_ENTIDADE_BENEFICENTE
+      data_de_vencimento_da_classificacao_de_e: DATA_VENCIMENTO_ENTIDADE_BENEFICENTE
+      numero_do_protocolo_de_renovacao_da_clas: NUMERO_PROTOCOLO_RENOVACAO_ENTIDADE_BENEFICENTE
+      data_do_protocolo_de_renovacao_da_entida: DATA_PROTOCOLO_RENOVACAO_ENTIDADE_BENEFICENTE
+      data_do_diario_oficial_da_uniao_da_class: DATA_DIARIO_OFICIAL_UNIAO_ENTIDADE_BENEFICENTE
+      pagina_do_diario_oficial_da_uniao_da_cla: PAGINAL_DIARIO_OFICIAL_UNIAO_ENTIDADE_BENEFICENTE
+      contratacao_pessoa_com_deficiencia: {coluna: CONTRATACAO_PESSOA_COM_DEFICIENCIA, dominio: foparmto_alteracao_contratacao_de_}
+      codigo_do_processo_judicial_para_contrat: I_PROCESSO_PESSOA_DEFICIENCIA
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foparmto_alteracao_enviar_para_o_e}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foparmto_alteracao_gerar_retificac}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foparmto_alteracao_marcacao_do_eve}
+      origem_do_registro_1_sistema_2_alteracao: {coluna: ORIGEM_ALTERACAO, dominio: foparmto_alteracao_origem_do_regis}
+      calcular_funrural_sobre_a_de_folha_pagam: {coluna: CALCULAR_FUNRURAL_SOBRE_FOLHA_PAGAMENTO, dominio: foparmto_alteracao_calcular_funrur}
+      utiliza_modulo_web_simplificado_me_e_epp: {coluna: UTILIZA_MODULO_WEB_SIMPLIFICADO_ME_EPP_ESOCIAL, dominio: foparmto_alteracao_utiliza_modulo_}
+      utiliza_forma_unificada_a_orgaos_publico: {coluna: UTILIZA_FORMA_UNIFICADA_ESOCIAL, dominio: foparmto_alteracao_utiliza_forma_u}
+      cnpj_do_ente_federativo_responsavel_a_or: {coluna: CNPJ_ENTE_FEDERATIVO_RESPONSAVEL, sensivel: parcial}
+      numero_do_processo_para_contratacao_de_d: {coluna: NUMERO_PROCESSO_DEFICIENTE, sensivel: pessoal}
+      entidade_beneficiente_informacoes_comple: GERA_DADOS_ISENCAO_ENTIDADE_BENEFICIENTE
+    filtros:
+      vigencia_da_alteracao:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      data_de_emissao_da_classificacao_de_enti:
+        coluna: DATA_EMISSAO_ENTIDADE_BENEFICENTE
+        ops: [entre, gte, lte]
+      data_de_vencimento_da_classificacao_de_e:
+        coluna: DATA_VENCIMENTO_ENTIDADE_BENEFICENTE
+        ops: [entre, gte, lte]
+      data_do_protocolo_de_renovacao_da_entida:
+        coluna: DATA_PROTOCOLO_RENOVACAO_ENTIDADE_BENEFICENTE
+        ops: [entre, gte, lte]
+      data_do_diario_oficial_da_uniao_da_class:
+        coluna: DATA_DIARIO_OFICIAL_UNIAO_ENTIDADE_BENEFICENTE
+        ops: [entre, gte, lte]
+      situacao_especial_1_extincao_2_fusao_3_c:
+        coluna: POSSUI_SITUACAO_ESPECIAL_SITUACAO
+        ops: [eq, in]
+      numero_do_protocolo_de_renovacao_da_clas:
+        coluna: NUMERO_PROTOCOLO_RENOVACAO_ENTIDADE_BENEFICENTE
+        ops: [contem, prefixo]
+      pagina_do_diario_oficial_da_uniao_da_cla:
+        coluna: PAGINAL_DIARIO_OFICIAL_UNIAO_ENTIDADE_BENEFICENTE
+        ops: [eq, in]
+      codigo_do_processo_judicial_para_contrat:
+        coluna: I_PROCESSO_PESSOA_DEFICIENCIA
+        ops: [eq, in]
+      cnpj_do_ente_federativo_responsavel_a_or:
+        coluna: CNPJ_ENTE_FEDERATIVO_RESPONSAVEL
+        ops: [eq, in]
+      numero_do_processo_para_contratacao_de_d:
+        coluna: NUMERO_PROCESSO_DEFICIENTE
+        ops: [eq, in]
+      entidade_beneficiente_informacoes_comple:
+        coluna: GERA_DADOS_ISENCAO_ENTIDADE_BENEFICIENTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.459 linhas, 1.356 empresa(s).', 'Colunas expostas nulas em 100% das linhas (12): situacao_especial_1_extincao_2_fusao_3_c, sigla_do_ministerio_que_concedeu_a_class,
+        data_de_emissao_da_classificacao_de_enti, data_de_vencimento_da_classificacao_de_e, numero_do_protocolo_de_renovacao_da_clas, data_do_protocolo_de_renovacao_da_entida,
+        data_do_diario_oficial_da_uniao_da_class, pagina_do_diario_oficial_da_uniao_da_cla, codigo_do_processo_judicial_para_contrat, utiliza_forma_unificada_a_orgaos_publico,
+        cnpj_do_ente_federativo_responsavel_a_or, numero_do_processo_para_contratacao_de_d.', 'cooperativa_0_nao_1_sim_cooperativa_de_t: todos os valores reais estão
+        no comentário do banco (0=1.459).', 'construtora_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=1.456, 1=3).', 'optante_pelo_registro_eletronico_de_empr:
+        todos os valores reais estão no comentário do banco (0=1.267, 1=192).', 'possui_acordo_internacional_para_isencao: todos os valores reais estão no comentário
+        do banco (0=1.458, 1=1).', 'situacao_especial_1_extincao_2_fusao_3_c: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.',
+      'sigla_do_ministerio_que_concedeu_a_class: coluna sem nenhum valor preenchido; o domínio do comentário do banco não pôde ser verificado.', 'contratacao_pessoa_com_deficiencia:
+        todos os valores reais estão no comentário do banco (1=1.372, 4=87).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco
+        (1=869, 0=590).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=1.433, 1=26).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=1.459).', 'origem_do_registro_1_sistema_2_alteracao: todos os valores reais estão no comentário do
+        banco (1=1.455, 2=4).', 'calcular_funrural_sobre_a_de_folha_pagam: todos os valores reais estão no comentário do banco (0=1.459).', 'utiliza_modulo_web_simplificado_me_e_epp:
+        todos os valores reais estão no comentário do banco (0=1.459).', 'utiliza_forma_unificada_a_orgaos_publico: coluna sem nenhum valor preenchido; o domínio
+        do comentário do banco não pôde ser verificado.']

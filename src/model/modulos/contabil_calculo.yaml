@@ -1,0 +1,474 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_calculo
+titulo: Contábil - calculo (rascunho em lote)
+entidades:
+  pmcalculo_depreciacao_fiscal:
+    titulo: Cálculo patrimonial - Depreciação Fsical
+    descricao: 'Cálculo patrimonial - Depreciação Fsical. 112.969 linhas no catálogo; chave: CODI_EMP, I_CALCULO.'
+    tabela: PMCALCULO_DEPRECIACAO_FISCAL
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_CALCULO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CALCULO, numero_da_parcela: PARCELA, valor_depreciado: VALOR_DEPRECIADO, valor_depreciacao_acumulada: VALOR_DEPRECIADO_ACUMULADO,
+      valor_atual_do_bem: VALOR_BEM_ATUAL, valor_da_base_de_calculo_de_pis_e_cofins: VALOR_BASE_CALCULO_PIS_COFINS}
+    filtros:
+      codigo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 113.024 linhas, 240 empresa(s).']
+  pmcalculo_depreciacao_lancto:
+    titulo: Cálculo patrimonial - Depreciação - Lançamentos Contábeis
+    descricao: 'Cálculo patrimonial - Depreciação - Lançamentos Contábeis. 24.647 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMCALCULO_DEPRECIACAO_LANCTO
+    chave: [CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_LANCAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_LANCAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, competencia: COMPETENCIA,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE}
+    filtros:
+      codigo:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24.670 linhas, 227 empresa(s), COMPETENCIA de 2013-01-31 a 2026-09-30.']
+  pmcalculo_depreciacao_societaria:
+    titulo: Cálculo patrimonial - Depreciação Societária
+    descricao: 'Cálculo patrimonial - Depreciação Societária. 6 linhas no catálogo; chave: CODI_EMP, I_CALCULO.'
+    tabela: PMCALCULO_DEPRECIACAO_SOCIETARIA
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CALCULO, numero_da_parcela: PARCELA, valor_depreciado: VALOR_DEPRECIADO, valor_depreciacao_acumulada: VALOR_DEPRECIADO_ACUMULADO,
+      valor_atual_do_bem: VALOR_BEM_ATUAL, base_de_calculo_da_depreciacao: BASE_CALCULO}
+    filtros:
+      codigo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).']
+  pmcalculo_credito_icms:
+    titulo: Cálculo patrimonial - Crédito ICMS
+    descricao: 'Cálculo patrimonial - Crédito ICMS. 6 linhas no catálogo; chave: CODI_EMP, I_CALCULO, MENSAL_QUINZENAL.'
+    tabela: PMCALCULO_CREDITO_ICMS
+    chave: [CODI_EMP, I_CALCULO, MENSAL_QUINZENAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [MENSAL_QUINZENAL, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CALCULO, periodicidade_0_mensal_1_primeira_quinze: MENSAL_QUINZENAL, numero_da_parcela: PARCELA, valor_do_credito: VALOR_CREDITO,
+      valor_do_credito_acumulado: VALOR_CREDITO_ACUMULADO, valor_nao_creditavel: VALOR_NAO_CREDITAVEL, valor_nao_creditavel_acumulado: VALOR_NAO_CREDITAVEL_ACUMULADO,
+      valor_do_credito_original: VALOR_CREDITO_ORIGINAL, valor_do_credito_acumulado_original: VALOR_CREDITO_ACUMULADO_ORIGINAL, valor_nao_creditavel_original: VALOR_NAO_CREDITAVEL_ORIGINAL,
+      valor_nao_creditavel_acumulado_original: VALOR_NAO_CREDITAVEL_ACUMULADO_ORIGINAL, base_de_calculo: BASE_CALCULO, valor_do_credito_total_calculado_na_comp: VALOR_CREDITO_TOTAL}
+    filtros:
+      codigo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      periodicidade_0_mensal_1_primeira_quinze:
+        coluna: MENSAL_QUINZENAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).']
+  pmcalculo_credito_piscofins:
+    titulo: Cálculo patrimonial - Crédito PIS/COFINS
+    descricao: 'Cálculo patrimonial - Crédito PIS/COFINS. 6 linhas no catálogo; chave: CODI_EMP, I_CALCULO.'
+    tabela: PMCALCULO_CREDITO_PISCOFINS
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_CALCULO, numero_da_parcela: PARCELA, valor_do_pis: VALOR_PIS, valor_do_pis_acumulado: VALOR_PIS_ACUMULADO, valor_do_cofins: VALOR_COFINS,
+      valor_do_cofins_acumulado: VALOR_COFINS_ACUMULADO, base_de_calculo_da_pis_cofins: BASE_CALCULO}
+    filtros:
+      codigo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6 linhas, 1 empresa(s).']
+  pmcalculo_credito_icms_lancto:
+    titulo: Cálculo patrimonial - Crédito ICMS - Lançamentos Contábeis
+    descricao: 'Cálculo patrimonial - Crédito ICMS - Lançamentos Contábeis. 4 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMCALCULO_CREDITO_ICMS_LANCTO
+    chave: [CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_LANCAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_LANCAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, competencia: COMPETENCIA,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE}
+    filtros:
+      codigo:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), COMPETENCIA de 2013-01-31 a 2013-01-31.']
+  pmcalculo_credito_piscofins_lancto:
+    titulo: Cálculo patrimonial - Crédito PIS/COFINS - Lançamentos Contábeis
+    descricao: 'Cálculo patrimonial - Crédito PIS/COFINS - Lançamentos Contábeis. 4 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMCALCULO_CREDITO_PISCOFINS_LANCTO
+    chave: [CODI_EMP, I_LANCAMENTO, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_LANCAMENTO, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, codigo: I_LANCAMENTO, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, competencia: COMPETENCIA,
+      empresa_que_originou_o_lancamento_contab: FILI_LAN, codigo_do_lote: CODI_LOTE}
+    filtros:
+      codigo:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), COMPETENCIA de 2013-01-02 a 2013-01-02.']
+  lrcalculo_csll_estimado:
+    titulo: Cálculo do Lalur - Imposto CSLL Estimado
+    descricao: 'Cálculo do Lalur - Imposto CSLL Estimado. 1.278 linhas no catálogo; chave: CODI_EMP, I_CALCULO.'
+    tabela: LRCALCULO_CSLL_ESTIMADO
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, base_de_calculo_das_vendas: VALOR_BASE_CALCULO_VENDA, base_de_calculo_dos_servicos: VALOR_BASE_CALCULO_SERVICO,
+      base_de_calculo_dos_ganhos: VALOR_BASE_CALCULO_GANHO, total_da_base_de_calculo: VALOR_BASE_CALCULO, csll_devida: VALOR_CSLL_DEVIDA, deducoes: VALOR_DEDUCAO,
+      deducao_csll_retida_por_orgaos_publicos: VALOR_DEDUCAO_ORGAO_PUBLICO_FEDERAL, deducao_pago_em_meses_anteriores: VALOR_DEDUCAO_PAGO_EM_MES_ANTERIOR, deducao_csll_retida_por_outras_pessoas_j: VALOR_DEDUCAO_OUTRA_PESSOA_JURIDICA,
+      deducao_csll_retida_por_esados_municipio: VALOR_DEDUCAO_ESTADO_MUNICIPIO, deducao_csll_retida_pela_administracao_p: VALOR_DEDUCAO_ADMINISTRACAO_PUBLICA, deducao_outras_deducoes: VALOR_DEDUCAO_OUTRA_DEDUCAO,
+      bonus_por_adimplencia: VALOR_BONUS_ADIMPLENCIA, csll_diferido_do_periodo_anterior: VALOR_DIFERIDO_PERIODO_ANTERIOR, csll_diferido_do_periodo: VALOR_DIFERIDO_PERIODO,
+      csll_a_recolher: VALOR_A_RECOLHER, valor_a_compensar_para_o_periodo_seguint: VALOR_COMPENSAR_PERIODO_SEGUINTE, valor_compensar_periodo_seguinte_geral: VALOR_COMPENSAR_PERIODO_SEGUINTE_GERAL,
+      valor_compensar_periodo_seguinte_rural: VALOR_COMPENSAR_PERIODO_SEGUINTE_RURAL, valor_a_deduzir_para_o_periodo_seguinte: VALOR_DEDUZIR_PERIODO_SEGUINTE, deducao_pago_no_exterior_sobre_lucros_re: VALOR_DEDUCAO_PAGO_EXTERIOR,
+      deducao_recuperacao_de_credito_de_csll: VALOR_DEDUCAO_RECUPERACAO_CREDITO, deducao_creditos_sobre_depreciacao_de_im: VALOR_DEDUCAO_CREDITO_DEPRECIACAO_IMOBILIZADO,
+      aliquota_do_csll: VALOR_ALIQUOTA_CSLL, compensacao_de_impostos_federais_de_peri: VALOR_DEDUCAO_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR, saldo_de_deducoes_do_periodo_anterior: VALOR_DEDUCAO_SALDO_PERIODO_ANTERIOR,
+      adicional_proporcionalidade_csll: VALOR_ADICIONAL_PROPORCIONALIDADE_CSLL, valor_de_base_de_calculo_de_juros_multa: VALOR_BASE_CALCULO_JUROS_MULTA_OUTRO, valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC,
+      campo_criado_internamento_para_guardar_o: VALOR_IMPOSTO_DEVIDO_MES_ANTES_RETENCOES_PAGAMENTOS}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.278 linhas, 43 empresa(s).']
+  lrcalculo_irpj_estimado:
+    titulo: Cálculo do Lalur - Imposto IRPJ Estimado
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Estimado. 1.278 linhas no catálogo; chave: CODI_EMP, I_CALCULO.'
+    tabela: LRCALCULO_IRPJ_ESTIMADO
+    chave: [CODI_EMP, I_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, base_de_calculo_das_vendas: VALOR_BASE_CALCULO_VENDA, base_de_calculo_dos_servicos: VALOR_BASE_CALCULO_SERVICO,
+      base_de_calculo_do_valor_nao_operacional: VALOR_BASE_CALCULO_NAO_OPERACIONAL, total_da_base_de_calculo: VALOR_BASE_CALCULO, irpj_devido: VALOR_IRPJ_DEVIDO,
+      adicional_de_irpj: VALOR_ADICIONAL, deducoes: VALOR_DEDUCAO, deducao_ir_pago_em_meses_anteriores: VALOR_DEDUCAO_PAGO_EM_MES_ANTERIOR, deducao_irrf: VALOR_DEDUCAO_IRRF,
+      deducao_irrf_por_orgaos_publicos_federai: VALOR_DEDUCAO_ORGAO_PUBLICO_FEDERAL, deducao_irrf_administracao_publica: VALOR_DEDUCAO_ADMINISTRACAO_PUBLICA, deducao_outras_deducoes: VALOR_DEDUCAO_OUTRA_DEDUCAO,
+      incentivos_fiscais: VALOR_INCENTIVO_FISCAL, irpj_diferido_do_periodo_anterior: VALOR_DIFERIDO_PERIODO_ANTERIOR, irpj_diferido_do_periodo: VALOR_DIFERIDO_PERIODO,
+      irpj_a_recolher: VALOR_A_RECOLHER, valor_a_compensar_para_o_periodo_seguint: VALOR_COMPENSAR_PERIODO_SEGUINTE, valor_compensar_periodo_seguinte_geral_o: VALOR_COMPENSAR_PERIODO_SEGUINTE_GERAL_OP,
+      valor_compensar_periodo_seguinte_geral_n: VALOR_COMPENSAR_PERIODO_SEGUINTE_GERAL_NAO_OP, valor_compensar_periodo_seguinte_rural: VALOR_COMPENSAR_PERIODO_SEGUINTE_RURAL,
+      valor_a_deduzir_para_o_periodo_seguinte: VALOR_DEDUZIR_PERIODO_SEGUINTE, valor_nao_operacional_transferido: VALOR_NAO_OPERACIONAL_TRANSFERIDO, deducao_pago_no_exterior_sobre_lucros_re: VALOR_DEDUCAO_PAGO_EXTERIOR,
+      deducao_pago_incidente_sobre_ganhos_no_m: VALOR_DEDUCAO_PAGO_INCIDENTE_SOBRE_GANHOS, compensacao_de_impostos_federais_de_peri: VALOR_DEDUCAO_COMPENSACAO_IMPOSTO_FEDERAL_PERIODO_ANTERIOR,
+      saldo_de_deducoes_do_periodo_anterior: VALOR_DEDUCAO_SALDO_PERIODO_ANTERIOR, valor_de_base_de_calculo_de_juros_multa: VALOR_BASE_CALCULO_JUROS_MULTA_OUTRO,
+      valor_deducao_perse_pgsc: VALOR_DEDUCAO_PERSE_PGSC, campo_criado_internamento_para_guardar_o: VALOR_IMPOSTO_DEVIDO_MES_ANTES_RETENCOES_PAGAMENTOS}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.278 linhas, 43 empresa(s).']
+  lrcalculo_irpj_real_adicao:
+    titulo: Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Adições
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Adições. 815 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_ADICAO, AJUSTE_ANUAL.'
+    tabela: LRCALCULO_IRPJ_REAL_ADICAO
+    chave: [CODI_EMP, I_CALCULO, I_ADICAO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_ADICAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, adicao: I_ADICAO, ajuste_anual: AJUSTE_ANUAL, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 815 linhas, 59 empresa(s).', 'Vínculo lradicao (LRADICAO): 0 de 10 linhas sem registro relacionado (empresa 1555).']
+  lrcalculo_irpj_estimado_operacao_receita:
+    titulo: Cálculo do Lalur - Imposto IRPJ Estimado - Detalhamento de Vendas, Serviços e Não Operacional
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Estimado - Detalhamento de Vendas, Serviços e Não Operacional. 722 linhas no catálogo; chave: CODI_EMP, I_CALCULO,
+      I_OPERACAO_RECEITA.'
+    tabela: LRCALCULO_IRPJ_ESTIMADO_OPERACAO_RECEITA
+    chave: [CODI_EMP, I_CALCULO, I_OPERACAO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_OPERACAO_RECEITA, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, operacao_de_receita_vendas_servicos_ou_n: I_OPERACAO_RECEITA, receita_bruta: VALOR_RECEITA, aliquota: ALIQUOTA,
+      base_de_calculo: VALOR_BASE_CALCULO, valor_de_juros_multa_e_outros: VALOR_JUROS_MULTA_OUTRA, aliquota_de_juros_multa_e_outros: ALIQUOTA_JUROS_MULTA_OUTRA, base_de_calculo_de_juros_multa_e_outros: BASE_CALCULO_JUROS_MULTA_OUTRA,
+      receita: RECEITA, deducao: DEDUCAO}
+    vinculos:
+      lroperacao_receita:
+        tabela: LROPERACAO_RECEITA
+        liga: {codi_emp: codi_emp, i_operacao_receita: i_operacao_receita}
+        colunas: {lroperacao_receita_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      operacao_de_receita_vendas_servicos_ou_n:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 722 linhas, 23 empresa(s).', 'Vínculo lroperacao_receita (LROPERACAO_RECEITA): 0 de 24 linhas sem registro relacionado (empresa
+        1507).']
+  lrcalculo_csll_estimado_operacao_receita:
+    titulo: Cálculo do Lalur - Imposto CSLL Estimado - Detalhamento de Vendas e Serviços
+    descricao: 'Cálculo do Lalur - Imposto CSLL Estimado - Detalhamento de Vendas e Serviços. 713 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_OPERACAO_RECEITA.'
+    tabela: LRCALCULO_CSLL_ESTIMADO_OPERACAO_RECEITA
+    chave: [CODI_EMP, I_CALCULO, I_OPERACAO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_OPERACAO_RECEITA, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, operacao_de_receita_vendas_ou_servicos: I_OPERACAO_RECEITA, receita_bruta: VALOR_RECEITA, aliquota: ALIQUOTA,
+      base_de_calculo: VALOR_BASE_CALCULO, valor_de_juros_multa_e_outros: VALOR_JUROS_MULTA_OUTRA, aliquota_de_juros_multa_e_outros: ALIQUOTA_JUROS_MULTA_OUTRA, base_de_calculo_de_juros_multa_e_outros: BASE_CALCULO_JUROS_MULTA_OUTRA,
+      receita: RECEITA, deducao: DEDUCAO}
+    vinculos:
+      lroperacao_receita:
+        tabela: LROPERACAO_RECEITA
+        liga: {codi_emp: codi_emp, i_operacao_receita: i_operacao_receita}
+        colunas: {lroperacao_receita_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      operacao_de_receita_vendas_ou_servicos:
+        coluna: I_OPERACAO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 713 linhas, 23 empresa(s).', 'Vínculo lroperacao_receita (LROPERACAO_RECEITA): 0 de 24 linhas sem registro relacionado (empresa
+        1507).']
+  lrcalculo_csll_real_adicao:
+    titulo: Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Adições
+    descricao: 'Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Adições. 545 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_ADICAO, AJUSTE_ANUAL.'
+    tabela: LRCALCULO_CSLL_REAL_ADICAO
+    chave: [CODI_EMP, I_CALCULO, I_ADICAO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_ADICAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, adicao: I_ADICAO, ajuste_anual: AJUSTE_ANUAL, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL}
+    vinculos:
+      lradicao:
+        tabela: LRADICAO
+        liga: {codi_emp: codi_emp, i_adicao: i_adicao}
+        colunas: {lradicao_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      adicao:
+        coluna: I_ADICAO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 545 linhas, 45 empresa(s).', 'Vínculo lradicao (LRADICAO): 0 de 11 linhas sem registro relacionado (empresa 1014).']
+  lrcalculo_irpj_real_deducao:
+    titulo: Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Deduções
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Deduções. 283 linhas no catálogo; chave: CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_IRPJ_REAL_DEDUCAO.'
+    tabela: LRCALCULO_IRPJ_REAL_DEDUCAO
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_IRPJ_REAL_DEDUCAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [AJUSTE_ANUAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, ajuste_anual: AJUSTE_ANUAL, deducao: I_IRPJ_REAL_DEDUCAO, valor_irrf: VALOR_IRRF, valor_irrf_por_orgaos_publicos_federais: VALOR_IRRF_ORGAO_PUBLICO_FEDERAL,
+      valor_irrf_administracao_publica: VALOR_IRRF_ADMINISTRACAO_PUBLICA}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      deducao:
+        coluna: I_IRPJ_REAL_DEDUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 283 linhas, 22 empresa(s).']
+  lrcalculo_irpj_incentivo_fiscal:
+    titulo: Cálculo do Lalur - Imposto IRPJ - Detalhamento de Incentivos Fiscais
+    descricao: 'Cálculo do Lalur - Imposto IRPJ - Detalhamento de Incentivos Fiscais. 212 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_IRPJ_INCENTIVO_FISCAL,
+      AJUSTE_ANUAL.'
+    tabela: LRCALCULO_IRPJ_INCENTIVO_FISCAL
+    chave: [CODI_EMP, I_CALCULO, I_IRPJ_INCENTIVO_FISCAL, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_IRPJ_INCENTIVO_FISCAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, codigo_do_movimento_do_incentivo_fiscal: I_IRPJ_INCENTIVO_FISCAL, ajuste_anual: AJUSTE_ANUAL, valor_aproveitado_real: VALOR_REAL,
+      valor_aproveitado_estiamdo: VALOR_ESTIMADO, valor_real_do_incentivo_fiscal_antes_da: VALOR_ANTES_LC224_REAL, valor_estimado_do_incentivo_fiscal_antes: VALOR_ANTES_LC224_ESTIMADO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      codigo_do_movimento_do_incentivo_fiscal:
+        coluna: I_IRPJ_INCENTIVO_FISCAL
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 212 linhas, 7 empresa(s).']
+  lrcalculo_irpj_estimado_deducao:
+    titulo: Cálculo do Lalur - Imposto IRPJ Estimado - Detalhamento de Deduções
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Estimado - Detalhamento de Deduções. 200 linhas no catálogo; chave: CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_IRPJ_ESTIMADO_DEDUCAO.'
+    tabela: LRCALCULO_IRPJ_ESTIMADO_DEDUCAO
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_IRPJ_ESTIMADO_DEDUCAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [AJUSTE_ANUAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, ajuste_anual: AJUSTE_ANUAL, deducao: I_IRPJ_ESTIMADO_DEDUCAO, valor_irrf: VALOR_IRRF, valor_irrf_por_orgaos_publicos_federais: VALOR_IRRF_ORGAO_PUBLICO_FEDERAL,
+      valor_irrf_administracao_publica: VALOR_IRRF_ADMINISTRACAO_PUBLICA}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      deducao:
+        coluna: I_IRPJ_ESTIMADO_DEDUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 200 linhas, 13 empresa(s).']
+  lrcalculo_csll_real_exclusao:
+    titulo: Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Exclusões
+    descricao: 'Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Exclusões. 148 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_EXCLUSAO, AJUSTE_ANUAL.'
+    tabela: LRCALCULO_CSLL_REAL_EXCLUSAO
+    chave: [CODI_EMP, I_CALCULO, I_EXCLUSAO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_EXCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, exclusao: I_EXCLUSAO, ajuste_anual: AJUSTE_ANUAL, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL}
+    vinculos:
+      lrexclusao:
+        tabela: LREXCLUSAO
+        liga: {codi_emp: codi_emp, i_exclusao: i_exclusao}
+        colunas: {lrexclusao_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      exclusao:
+        coluna: I_EXCLUSAO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 148 linhas, 8 empresa(s).', 'Vínculo lrexclusao (LREXCLUSAO): 0 de 13 linhas sem registro relacionado (empresa 1222).']
+  lrcalculo_irpj_real_exclusao:
+    titulo: Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Exclusões
+    descricao: 'Cálculo do Lalur - Imposto IRPJ Real - Detalhamento de Exclusões. 148 linhas no catálogo; chave: CODI_EMP, I_CALCULO, I_EXCLUSAO, AJUSTE_ANUAL.'
+    tabela: LRCALCULO_IRPJ_REAL_EXCLUSAO
+    chave: [CODI_EMP, I_CALCULO, I_EXCLUSAO, AJUSTE_ANUAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [I_EXCLUSAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, exclusao: I_EXCLUSAO, ajuste_anual: AJUSTE_ANUAL, valor: VALOR, valor_geral: VALOR_GERAL, valor_rural: VALOR_RURAL}
+    vinculos:
+      lrexclusao:
+        tabela: LREXCLUSAO
+        liga: {codi_emp: codi_emp, i_exclusao: i_exclusao}
+        colunas: {lrexclusao_nome: DESCRICAO}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      exclusao:
+        coluna: I_EXCLUSAO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 148 linhas, 8 empresa(s).', 'Vínculo lrexclusao (LREXCLUSAO): 0 de 13 linhas sem registro relacionado (empresa 1222).']
+  lrcalculo_csll_real_deducao:
+    titulo: Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Deduções
+    descricao: 'Cálculo do Lalur - Imposto CSLL Real - Detalhamento de Deduções. 105 linhas no catálogo; chave: CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_CSLL_REAL_DEDUCAO.'
+    tabela: LRCALCULO_CSLL_REAL_DEDUCAO
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_CSLL_REAL_DEDUCAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [AJUSTE_ANUAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, ajuste_anual: AJUSTE_ANUAL, deducao: I_CSLL_REAL_DEDUCAO, valor_csll_orgaos_publicos_federais: VALOR_ORGAO_PUBLICO_FEDERAL,
+      valor_csll_outras_pessoas_juridicas: VALOR_OUTRA_PESSOA_JURIDICA, valor_csll_estados_e_municipios: VALOR_ESTADO_MUNICIPIO, valor_csll_administracao_publica: VALOR_ADMINISTRACAO_PUBLICA}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      deducao:
+        coluna: I_CSLL_REAL_DEDUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 105 linhas, 8 empresa(s).']
+  lrcalculo_csll_estimado_deducao:
+    titulo: Cálculo do Lalur - Imposto CSLL Estimado - Detalhamento de Deduções
+    descricao: 'Cálculo do Lalur - Imposto CSLL Estimado - Detalhamento de Deduções. 93 linhas no catálogo; chave: CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_CSLL_ESTIMADO_DEDUCAO.'
+    tabela: LRCALCULO_CSLL_ESTIMADO_DEDUCAO
+    chave: [CODI_EMP, I_CALCULO, AJUSTE_ANUAL, I_CSLL_ESTIMADO_DEDUCAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CALCULO, asc]
+    - [AJUSTE_ANUAL, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_calculo: I_CALCULO, ajuste_anual: AJUSTE_ANUAL, deducao: I_CSLL_ESTIMADO_DEDUCAO, valor_csll_orgaos_publicos_federais: VALOR_ORGAO_PUBLICO_FEDERAL,
+      valor_csll_outras_pessoas_juridicas: VALOR_OUTRA_PESSOA_JURIDICA, valor_csll_estados_e_municipios: VALOR_ESTADO_MUNICIPIO, valor_csll_administracao_publica: VALOR_ADMINISTRACAO_PUBLICA}
+    filtros:
+      codigo_do_calculo:
+        coluna: I_CALCULO
+        ops: [eq, in]
+      ajuste_anual:
+        coluna: AJUSTE_ANUAL
+        ops: [eq, in]
+      deducao:
+        coluna: I_CSLL_ESTIMADO_DEDUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 93 linhas, 6 empresa(s).']

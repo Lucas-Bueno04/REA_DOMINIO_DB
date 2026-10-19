@@ -1,0 +1,366 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_produtos
+titulo: Fiscal - produtos (rascunho em lote)
+dominios: {}
+entidades:
+  efprodutos_valor_unitario:
+    titulo: Produtos - Cadastros - Valor unitário
+    descricao: 'Produtos - Cadastros - Valor unitário. 222.611 linhas no catálogo; chave: CODI_EMP, CODI_PDI, SEQUENCIAL.'
+    tabela: EFPRODUTOS_VALOR_UNITARIO
+    chave: [CODI_EMP, CODI_PDI, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: medio}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODI_PDI, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_produto: CODI_PDI, sequencial: SEQUENCIAL, data: VIGENCIA, valor_unitario: VALOR_UNITARIO}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 222.663 linhas, 472 empresa(s), VIGENCIA de 2013-01-01 a 2026-09-01.', 'Vínculo efprodutos (efprodutos): 0 de 2 linhas sem registro
+        relacionado (empresa 726).']
+  efprodutos_importacao_entradas_produtos:
+    titulo: Tabela de relacionamento de importação de produtos - Entradas - Fornecedores - Produtos
+    descricao: 'Tabela de relacionamento de importação de produtos - Entradas - Fornecedores - Produtos. 121.876 linhas no catálogo; chave: CODI_EMP, CODI_PDI, SEQUENCIAL,
+      CODI_PDI_IMPORTACAO.'
+    tabela: EFPRODUTOS_IMPORTACAO_ENTRADAS_PRODUTOS
+    chave: [CODI_EMP, CODI_PDI, SEQUENCIAL, CODI_PDI_IMPORTACAO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_PDI, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, produto: CODI_PDI, sequencial: SEQUENCIAL, produto_importacao: CODI_PDI_IMPORTACAO}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      produto_importacao:
+        coluna: CODI_PDI_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 121.889 linhas, 210 empresa(s).']
+  efprodutos_importacao_entradas:
+    titulo: Tabela de relacionamento de importação de produtos - Entradas - Fornecedores
+    descricao: 'Tabela de relacionamento de importação de produtos - Entradas - Fornecedores. 121.652 linhas no catálogo; chave: CODI_EMP, CODI_PDI, SEQUENCIAL.'
+    tabela: EFPRODUTOS_IMPORTACAO_ENTRADAS
+    chave: [CODI_EMP, CODI_PDI, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_PDI, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, produto: CODI_PDI, sequencial: SEQUENCIAL, fornecedor: CODI_FOR}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, codi_for: codi_for}
+        colunas: {effornece_nome: nomr_for}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      fornecedor:
+        coluna: CODI_FOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 121.665 linhas, 210 empresa(s).', 'Vínculo geempre (geempre): 0 de 165 linhas sem registro relacionado (empresa 1733).', 'Vínculo
+        efprodutos (efprodutos): 0 de 165 linhas sem registro relacionado (empresa 1733).', 'Vínculo effornece (effornece): 0 de 165 linhas sem registro relacionado
+        (empresa 1733).']
+  efprodutos_fator_conversao:
+    titulo: Produtos - Cadastro - Fator de conversão
+    descricao: 'Produtos - Cadastro - Fator de conversão. 15.295 linhas no catálogo; chave: CODI_PDI, CODI_EMP, CODIGO_UNIDADE.'
+    tabela: EFPRODUTOS_FATOR_CONVERSAO
+    chave: [CODI_PDI, CODI_EMP, CODIGO_UNIDADE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [CODI_PDI, asc]
+    - [CODIGO_UNIDADE, asc]
+    colunas: {produto: CODI_PDI, empresa: CODI_EMP, codigo: CODIGO_UNIDADE, unidade: UNIDADE, fator_de_conversao: FATOR_CONVERSAO, codigo_de_barras: CODIGO_BARRAS}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      efunidades:
+        tabela: efunidades
+        liga: {codigo_unidade: codigo_unidade}
+        colunas: {efunidades_nome: descricao}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo:
+        coluna: CODIGO_UNIDADE
+        ops: [eq, in]
+      unidade:
+        coluna: UNIDADE
+        ops: [eq, in]
+      codigo_de_barras:
+        coluna: CODIGO_BARRAS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15.297 linhas, 136 empresa(s).', 'Vínculo efprodutos (efprodutos): 0 de 25 linhas sem registro relacionado (empresa 1022).', 'Vínculo
+        efunidades (efunidades): 0 de 25 linhas sem registro relacionado (empresa 1022).']
+  efprodutos_saldos:
+    titulo: Produtos - Cadastro - Saldos
+    descricao: 'Produtos - Cadastro - Saldos. 4.106 linhas no catálogo; chave: codi_pdi, codi_emp, data_sal.'
+    tabela: efprodutos_saldos
+    chave: [codi_pdi, codi_emp, data_sal]
+    acesso: {empresa: codi_emp, periodo: data_sal, volume: pequeno}
+    ordem:
+    - [data_sal, desc]
+    - [codi_pdi, asc]
+    colunas: {produto: codi_pdi, empresa: codi_emp, data_do_saldo: data_sal, quantidade_final: qfin_sal, valor_final: vlfin_sal, origem_do_registro_0_sistema_1_imp_tabel: origem_reg,
+      valor_unitario: vuni_sal, icms_recuperavel: ICMS_RECUPERAVEL}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      produto:
+        coluna: codi_pdi
+        ops: [eq, in]
+      data_do_saldo:
+        coluna: data_sal
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4.106 linhas, 39 empresa(s), data_sal de 2017-12-31 a 2024-12-31.', 'Vínculo efprodutos (efprodutos): 0 de 29 linhas sem registro
+        relacionado (empresa 1575).']
+  efprodutos_mssefaz:
+    titulo: Produtos MS SEFAZ
+    descricao: 'Produtos MS SEFAZ. 399 linhas no catálogo; chave: codigo_pms.'
+    tabela: efprodutos_mssefaz
+    chave: [codigo_pms]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo_pms, asc]
+    colunas: {codigo: codigo_pms, descricao: descricao_pms, unidade: unidade_pms}
+    filtros:
+      codigo:
+        coluna: codigo_pms
+        ops: [eq, in]
+      descricao:
+        coluna: descricao_pms
+        ops: [contem, prefixo]
+      unidade:
+        coluna: unidade_pms
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 399 linhas.']
+  efprodutos_importacao_saidas:
+    titulo: Tabela de relacionamento de importação de produtos - Saídas
+    descricao: 'Tabela de relacionamento de importação de produtos - Saídas. 260 linhas no catálogo; chave: CODI_EMP, CODI_PDI, CODI_PDI_IMPORTACAO.'
+    tabela: EFPRODUTOS_IMPORTACAO_SAIDAS
+    chave: [CODI_EMP, CODI_PDI, CODI_PDI_IMPORTACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_PDI, asc]
+    - [CODI_PDI_IMPORTACAO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, produto: CODI_PDI, produto_importacao: CODI_PDI_IMPORTACAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      produto_importacao:
+        coluna: CODI_PDI_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 260 linhas, 12 empresa(s).', 'Vínculo geempre (geempre): 0 de 7 linhas sem registro relacionado (empresa 614).', 'Vínculo efprodutos
+        (efprodutos): 0 de 7 linhas sem registro relacionado (empresa 614).']
+  efprodutos_pasefa:
+    titulo: Tabela de Produtos SEFA - PA
+    descricao: 'Tabela de Produtos SEFA - PA. 197 linhas no catálogo; chave: codigo.'
+    tabela: efprodutos_pasefa
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo: codigo, descricao: descricao}
+    filtros:
+      codigo:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 197 linhas.']
+  efprodutos_alteracao:
+    titulo: Produtos - Alterações - Cadastro
+    descricao: 'Produtos - Alterações - Cadastro. 127 linhas no catálogo; chave: CODI_EMP, CODI_PDI, DATA_ALTERACAO, CAMPO.'
+    tabela: EFPRODUTOS_ALTERACAO
+    chave: [CODI_EMP, CODI_PDI, DATA_ALTERACAO, CAMPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: pequeno}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [CODI_PDI, asc]
+    - [CAMPO, asc]
+    colunas: {empresa: CODI_EMP, produto: CODI_PDI, data_da_alteracao: DATA_ALTERACAO, campo_alterado: CAMPO, valor_anterior_a_alteracao: DE, valor_posterior_a_alteracao: PARA,
+      competencia_geracao_registro_0205: COMPETENCIA_GERACAO_REGISTRO_0205}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      campo_alterado:
+        coluna: CAMPO
+        ops: [eq, in]
+      competencia_geracao_registro_0205:
+        coluna: COMPETENCIA_GERACAO_REGISTRO_0205
+        ops: [entre, gte, lte]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [contem, prefixo]
+      valor_posterior_a_alteracao:
+        coluna: PARA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 127 linhas, 36 empresa(s), DATA_ALTERACAO de 2017-10-01 a 2026-08-04.', 'Vínculo efprodutos (efprodutos): 0 de 2 linhas sem registro
+        relacionado (empresa 808).']
+  efprodutos_importacao_cfops:
+    titulo: Produtos - Cadastro - Importação - Relacionamento de CFOPs
+    descricao: 'Produtos - Cadastro - Importação - Relacionamento de CFOPs. 66 linhas no catálogo; chave: CODI_EMP, CODI_PDI, I_CFOP_ENTRADA.'
+    tabela: EFPRODUTOS_IMPORTACAO_CFOPS
+    chave: [CODI_EMP, CODI_PDI, I_CFOP_ENTRADA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_PDI, asc]
+    - [I_CFOP_ENTRADA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, produto: CODI_PDI, sequencial_do_cfop_de_entrada: I_CFOP_ENTRADA, cfop_de_entrada: CFOP, versao_do_cfop_de_entrada: VERSAO_CFOP}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial_do_cfop_de_entrada:
+        coluna: I_CFOP_ENTRADA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 66 linhas, 2 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 63 linhas sem registro relacionado (empresa 9999).', 'Vínculo
+        efprodutos (efprodutos): 0 de 63 linhas sem registro relacionado (empresa 9999).', 'Vínculo geempre (geempre): 0 de 63 linhas sem registro relacionado (empresa
+        9999).']
+  efprodutos_importacao_cfops_cfop_saida:
+    titulo: Produtos - Cadastro - Importação - Relacionamento de CFOPs - CFOP saída
+    descricao: 'Produtos - Cadastro - Importação - Relacionamento de CFOPs - CFOP saída. 66 linhas no catálogo; chave: CODI_EMP, CODI_PDI, I_CFOP_ENTRADA, I_CFOP_SAIDA.'
+    tabela: EFPRODUTOS_IMPORTACAO_CFOPS_CFOP_SAIDA
+    chave: [CODI_EMP, CODI_PDI, I_CFOP_ENTRADA, I_CFOP_SAIDA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_PDI, asc]
+    - [I_CFOP_ENTRADA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, produto: CODI_PDI, sequencial_do_cfop_de_entrada: I_CFOP_ENTRADA, sequencial_do_cfop_de_saida: I_CFOP_SAIDA, cfop_de_saida: CFOP,
+      versao_do_cfop_de_saida: VERSAO_CFOP}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      sequencial_do_cfop_de_entrada:
+        coluna: I_CFOP_ENTRADA
+        ops: [eq, in]
+      sequencial_do_cfop_de_saida:
+        coluna: I_CFOP_SAIDA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 66 linhas, 2 empresa(s).', 'Vínculo efnatureza (efnatureza): 0 de 63 linhas sem registro relacionado (empresa 9999).']
+  efprodutos_dam_am:
+    titulo: Codigo dos produtos na DAM - AM
+    descricao: 'Codigo dos produtos na DAM - AM. 12 linhas no catálogo; chave: codigo.'
+    tabela: efprodutos_dam_am
+    chave: [codigo]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [codigo, asc]
+    colunas: {codigo_do_produto: codigo, descricao: descricao}
+    filtros:
+      codigo_do_produto:
+        coluna: codigo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 12 linhas.']
+  efprodutos_inss_folha:
+    titulo: Produtos - Cadastro - INSS folha
+    descricao: 'Produtos - Cadastro - INSS folha. 5 linhas no catálogo; chave: CODI_EMP, CODI_PDI, I_ATIVIDADE_INSS_FOLHA.'
+    tabela: EFPRODUTOS_INSS_FOLHA
+    chave: [CODI_EMP, CODI_PDI, I_ATIVIDADE_INSS_FOLHA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_FINAL, volume: pequeno}
+    ordem:
+    - [VIGENCIA_FINAL, desc]
+    - [CODI_PDI, asc]
+    - [I_ATIVIDADE_INSS_FOLHA, asc]
+    colunas: {empresa: CODI_EMP, codigo_do_produto: CODI_PDI, codigo_da_atividade: I_ATIVIDADE_INSS_FOLHA, aliquota: ALIQUOTA, vigencia_final: VIGENCIA_FINAL, vigencia_inicial: VIGENCIA_INICIAL}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      eftabela_atividade_servi:
+        tabela: EFTABELA_ATIVIDADE_SERVICO_FOLHA
+        liga: {i_atividade_inss_folha: i_atividade}
+        colunas: {eftabela_atividade_servi_nome: DESCRICAO}
+    filtros:
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_da_atividade:
+        coluna: I_ATIVIDADE_INSS_FOLHA
+        ops: [eq, in]
+      vigencia_final:
+        coluna: VIGENCIA_FINAL
+        ops: [entre, gte, lte]
+      vigencia_inicial:
+        coluna: VIGENCIA_INICIAL
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 5 linhas, 4 empresa(s), VIGENCIA_FINAL de 2050-12-31 a 2050-12-31.', 'Vínculo efprodutos (efprodutos): 0 de 1 linhas sem registro
+        relacionado (empresa 909).', 'Vínculo eftabela_atividade_servi (EFTABELA_ATIVIDADE_SERVICO_FOLHA): 0 de 1 linhas sem registro relacionado (empresa 909).']

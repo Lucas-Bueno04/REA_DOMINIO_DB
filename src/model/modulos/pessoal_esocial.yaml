@@ -1,0 +1,1461 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_esocial
+titulo: Pessoal - esocial (rascunho em lote)
+dominios:
+  foesocial_log_tipo_do_log_1_lote_2_even:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_LOG.TIPO estão no comentário do banco (2026-10-18). Distribuição: 3=152.907, 1=56.732, 2=392.'
+    valores: {'1': Lote, '2': Evento, '3': Geral}
+  foesocial_controle_periodos_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_CONTROLE_PERIODOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=40.962.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  foesocial_controle_periodos_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_CONTROLE_PERIODOS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=37.247, 0=3.715.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_controle_periodos_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_CONTROLE_PERIODOS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=40.962.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_controle_periodos_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_CONTROLE_PERIODOS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=40.962.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_avisos_vencimento_fechamento_periodo_tipo_de_cal:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_AVISOS_VENCIMENTO_FECHAMENTO_PERIODO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 0=27.376, 1=2.320.'
+    valores: {'0': Mensal, '1': Anual}
+  foesocial_avisos_vencimento_fechamento_periodo_situacao_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_AVISOS_VENCIMENTO_FECHAMENTO_PERIODO.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: 0=27.560,
+      1=2.136.'
+    valores: {'0': Aberto, '1': Fechado}
+  foesocial_fila_eventos_gerar_status_1_pe:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.STATUS estão no comentário do banco (2026-10-18). Distribuição: 3=23.965, 1=385.'
+    valores: {'1': Pendente, '2': Em processamento, '3': Concluído, '4': Em espera}
+  foesocial_fila_eventos_gerar_cadastramen:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.CADASTRAMENTO_INICIAL estão no comentário do banco (2026-10-18). Distribuição: 0=24.339, 1=11.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_fila_eventos_gerar_existe_movi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.EXISTE_MOVIMENTACAO_PERIODO estão no comentário do banco (2026-10-18). Distribuição: 0=14.817,
+      1=9.533.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_fila_eventos_gerar_existe_envi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.EXISTE_ENVIO_CONTRATACAO_TRABALHADORES_AVULSOS_NAO_PORTUARIOS estão no comentário do banco
+      (2026-10-18). Distribuição: 0=24.350.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_fila_eventos_gerar_identifica_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.UTILITARIO_CONVERSAO_REGISTROS_ENVIADOS_OUTRO_BANCO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=24.283, 1=67.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_fila_eventos_gerar_reenviar_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.REENVIAR_EVENTO_AUTOMATICAMENTE estão no comentário do banco (2026-10-18). Distribuição: 0=24.348,
+      1=2.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_fila_eventos_gerar_enviar_o_ev:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_FILA_EVENTOS_GERAR.ENVIO_FORCADO_ANTES_INICIO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=24.350.'
+    valores: {'0': Não, '1': Reclamatória}
+  foesocial_lotes_envios_ocorrencias_tipo_de_ocorrencia_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_LOTES_ENVIOS_OCORRENCIAS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 2=3.326, 1=256.'
+    valores: {'1': Envio, '2': Consulta}
+  foesocial_importacoes_mensagens_tipo_da_men:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_MENSAGENS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=1.846, 4=815, 2=464.'
+    valores: {'1': Aviso, '2': Alerta, '3': Erro, '4': Pergunta}
+  foesocial_importacoes_mensagens_opcao_selec:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_MENSAGENS.OPCAO_SELECIONADA estão no comentário do banco (2026-10-18). Distribuição: 1=2.310, 3=646,
+      2=169.'
+    valores: {'1': Ok, '2': Sim, '3': Não, '4': Cancelar}
+  foesocial_importacoes_mensagens_acao_a_impo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_MENSAGENS.ACAO estão no comentário do banco (2026-10-18). Distribuição: 1=2.635, 2=490.'
+    valores: {'1': Ignorar, '2': Bloquear}
+  foesocial_importacoes_mensagens_indica_se_a:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_MENSAGENS.VERIFICADO estão no comentário do banco (2026-10-18). Distribuição: 0=3.111, 1=14.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_importacoes_colaboradores_tipo_do_col:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_COLABORADORES.TIPO_COLABORADOR estão no comentário do banco (2026-10-18). Distribuição: 1=380, 2=96,
+      3=74.'
+    valores: {'1': Empregado, '2': Estagiário, '3': Contribuinte}
+  foesocial_importacoes_colaboradores_colaborador:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES_COLABORADORES.IMPORTADO estão no comentário do banco (2026-10-18). Distribuição: 1=462, 0=88.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_ingestao_carga_situacao_0_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_INGESTAO_CARGA.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: 2=289.'
+    valores: {'0': Pendente, '1': Em andamento, '2': Concluída, '3': Esgotada}
+  foesocial_controle_periodos_dados_eventos_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_CONTROLE_PERIODOS_DADOS_EVENTOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=227.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  foesocial_importacoes_tipo_de_ace:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES.TIPO_ACESSO estão no comentário do banco (2026-10-18). Distribuição: 3=90, 2=8.'
+    valores: {'2': Certificado própria empresa, '3': Certificado procuração}
+  foesocial_importacoes_importar_to:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES.IMPORTAR_TODAS_ALTERACOES_CADASTRO_COLABORADOR estão no comentário do banco (2026-10-18). Distribuição:
+      0=52, 1=46.'
+    valores: {'0': Não, '1': Sim}
+  foesocial_importacoes_tipo_de_imp:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES.TIPO_IMPORTACAO estão no comentário do banco (2026-10-18). Distribuição: 2=54, 1=44.'
+    valores: {'1': Somente serviços e filiais, '2': Somente colaboradores}
+  foesocial_importacoes_importacao_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_IMPORTACOES.AGENDAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=97, 0=1.'
+    valores: {'0': Não agendada, '1': Agendada}
+  foesocial_erros_validacao_xml_evento_marcado_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOESOCIAL_ERROS_VALIDACAO_XML.REENVIAR estão no comentário do banco (2026-10-18). Distribuição: 0=9.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  foesocial_dados_eventos_tabelas_relacionadas:
+    titulo: Tabelas de dados auxiliares do evento.
+    descricao: 'Tabelas de dados auxiliares do evento.. 531.591 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, SEQUENCIAL.'
+    tabela: FOESOCIAL_DADOS_EVENTOS_TABELAS_RELACIONADAS
+    chave: [CODI_EMP, I_DADOS_EVENTOS, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_registro_de_envio: I_DADOS_EVENTOS, sequencial: SEQUENCIAL, nome_da_tabela_de_dados_que_gerou_o_regi: TABELA_DADOS,
+      chave_do_registro_da_tabela_de_dados: CHAVE_TABELA_DADOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_registro_de_envio:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      nome_da_tabela_de_dados_que_gerou_o_regi:
+        coluna: TABELA_DADOS
+        ops: [contem, prefixo]
+      chave_do_registro_da_tabela_de_dados:
+        coluna: CHAVE_TABELA_DADOS
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 531.701 linhas, 878 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 10 linhas sem registro relacionado
+        (empresa 964).']
+  foesocial_importacoes_log:
+    titulo: Log da última importação de dados do site do eSocial.
+    descricao: 'Log da última importação de dados do site do eSocial.. 490.432 linhas no catálogo; chave: CODI_EMP, I_LOG.'
+    tabela: FOESOCIAL_IMPORTACOES_LOG
+    chave: [CODI_EMP, I_LOG]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_LOG, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_log: I_LOG, titulo_do_texto: TITULO, texto: TEXTO}
+    filtros:
+      codigo_do_log:
+        coluna: I_LOG
+        ops: [eq, in]
+      titulo_do_texto:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      texto:
+        coluna: TEXTO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 497.608 linhas, 94 empresa(s).']
+  foesocial_log_thread_execucao_linha:
+    titulo: Tabela de log das threads relacionadas com o eSocial
+    descricao: 'Tabela de log das threads relacionadas com o eSocial. 357.987 linhas no catálogo; chave: ID_LOG_THREAD_EXECUCAO, SEQUENCIAL_LINHA.'
+    tabela: FOESOCIAL_LOG_THREAD_EXECUCAO_LINHA
+    chave: [ID_LOG_THREAD_EXECUCAO, SEQUENCIAL_LINHA]
+    acesso:
+      empresa: null
+      volume: medio
+      exige_algum: [identificador_unico_do_log_referente_a_f]
+    ordem:
+    - [ID_LOG_THREAD_EXECUCAO, asc]
+    - [SEQUENCIAL_LINHA, asc]
+    colunas: {identificador_unico_do_log_referente_a_f: ID_LOG_THREAD_EXECUCAO, codigo_sequencial_da_linha: SEQUENCIAL_LINHA, tipo_de_registro: TIPO_REGISTRO, mensagem: MENSAGEM}
+    vinculos:
+      foesocial_log_thread_exe:
+        tabela: FOESOCIAL_LOG_THREAD_EXECUCAO
+        liga: {id_log_thread_execucao: id_log_thread_execucao}
+        colunas: {foesocial_log_thread_exe_nome: NAME_CONEXAO}
+    filtros:
+      identificador_unico_do_log_referente_a_f:
+        coluna: ID_LOG_THREAD_EXECUCAO
+        ops: [eq, in]
+      codigo_sequencial_da_linha:
+        coluna: SEQUENCIAL_LINHA
+        ops: [eq, in]
+      tipo_de_registro:
+        coluna: TIPO_REGISTRO
+        ops: [eq, in]
+      mensagem:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 284.045 linhas.', 'Vínculo foesocial_log_thread_exe (FOESOCIAL_LOG_THREAD_EXECUCAO): 0 de 284.045 linhas sem registro relacionado.']
+  foesocial_log:
+    titulo: Tabela de LOG do esocial
+    descricao: 'Tabela de LOG do esocial. 265.588 linhas no catálogo; chave: GUID_LOG.'
+    tabela: FOESOCIAL_LOG
+    chave: [GUID_LOG]
+    acesso:
+      empresa: CODI_EMP
+      volume: medio
+      exige_algum: [identificador_unico_do_log]
+    ordem:
+    - [GUID_LOG, asc]
+    colunas:
+      identificador_unico_do_log: GUID_LOG
+      codigo_sequencial: SEQUENCIAL
+      tipo_do_log_1_lote_2_evento_3_geral: {coluna: TIPO, dominio: foesocial_log_tipo_do_log_1_lote_2_even}
+      codigo_da_empresa: CODI_EMP
+      codigo_do_lote: I_LOTE
+      codigo_do_evento: I_DADOS_EVENTO
+      descricao: DESCRICAO
+      ciclo: CICLO
+    filtros:
+      identificador_unico_do_log:
+        coluna: GUID_LOG
+        ops: [eq, in]
+      tipo_do_log_1_lote_2_evento_3_geral:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: I_LOTE
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_DADOS_EVENTO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 210.031 linhas, 41 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): codigo_sequencial.', 'tipo_do_log_1_lote_2_evento_3_geral:
+        todos os valores reais estão no comentário do banco (3=152.907, 1=56.732, 2=392).']
+  foesocial_lotes_envios:
+    titulo: Registros de envio do lote do e-Social
+    descricao: 'Registros de envio do lote do e-Social. 210.737 linhas no catálogo; chave: CODI_EMP, I_LOTE, SEQUENCIAL.'
+    tabela: FOESOCIAL_LOTES_ENVIOS
+    chave: [CODI_EMP, I_LOTE, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_LOTE, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_lote: I_LOTE, sequencial_de_envio: SEQUENCIAL, codigo_de_resposta_do_envio: I_RESPOSTA_ENVIO, descricao_da_resposta_do_envio: DESCRICAO_RESPOSTA_ENVIO,
+      numero_do_protocolo: NUMERO_PROTOCOLO, codigo_de_resposta_da_consulta: I_RESPOSTA_CONSULTA, descricao_da_resposta_da_consulta: DESCRICAO_RESPOSTA_CONSULTA,
+      versao_do_sistema_no_momento_da_insercao: VERSAO_SISTEMA}
+    filtros:
+      codigo_do_lote:
+        coluna: I_LOTE
+        ops: [eq, in]
+      sequencial_de_envio:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_de_resposta_do_envio:
+        coluna: I_RESPOSTA_ENVIO
+        ops: [eq, in]
+      descricao_da_resposta_do_envio:
+        coluna: DESCRICAO_RESPOSTA_ENVIO
+        ops: [contem, prefixo]
+      numero_do_protocolo:
+        coluna: NUMERO_PROTOCOLO
+        ops: [contem, prefixo]
+      codigo_de_resposta_da_consulta:
+        coluna: I_RESPOSTA_CONSULTA
+        ops: [eq, in]
+      descricao_da_resposta_da_consulta:
+        coluna: DESCRICAO_RESPOSTA_CONSULTA
+        ops: [contem, prefixo]
+      versao_do_sistema_no_momento_da_insercao:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 210.827 linhas, 916 empresa(s).']
+  foesocial_arquivo_retorno_s_5002_categoria_valor:
+    titulo: Informações sobre IRRF do retorno do eSocial no arquivo S-5002.
+    descricao: 'Informações sobre IRRF do retorno do eSocial no arquivo S-5002.. 98.763 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, CODCATEG, TPVALOR, TPPGTO,
+      FONTE.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5002_CATEGORIA_VALOR
+    chave: [CODI_EMP, I_DADOS_EVENTOS, CODCATEG, TPVALOR, TPPGTO, FONTE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [CODCATEG, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, codigo_da_categoria: CODCATEG, tipo_do_valor: TPVALOR, tipo_do_pagamento: TPPGTO,
+      fonte: FONTE, valor: VALOR}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+      tipo_do_valor:
+        coluna: TPVALOR
+        ops: [eq, in]
+      tipo_do_pagamento:
+        coluna: TPPGTO
+        ops: [eq, in]
+      fonte:
+        coluna: FONTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 98.763 linhas, 224 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 88 linhas sem registro relacionado
+        (empresa 912).']
+  foesocial_log_thread_execucao:
+    titulo: Tabela de log das threads relacionadas com o eSocial
+    descricao: 'Tabela de log das threads relacionadas com o eSocial. 44.897 linhas no catálogo; chave: ID_LOG_THREAD_EXECUCAO.'
+    tabela: FOESOCIAL_LOG_THREAD_EXECUCAO
+    chave: [ID_LOG_THREAD_EXECUCAO]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [ID_LOG_THREAD_EXECUCAO, asc]
+    colunas: {identificador_unico_do_log: ID_LOG_THREAD_EXECUCAO, sequencial_de_execucao_da_thread: SEQUENCIAL_EXECUCAO_THREAD, id_da_conexao: ID_CONEXAO, usuario_da_conexao: USER_CONEXAO,
+      nome_da_conexao: NAME_CONEXAO, usuario_do_contabil: USER_CONTABIL}
+    filtros:
+      identificador_unico_do_log:
+        coluna: ID_LOG_THREAD_EXECUCAO
+        ops: [eq, in]
+      usuario_da_conexao:
+        coluna: USER_CONEXAO
+        ops: [contem, prefixo]
+      nome_da_conexao:
+        coluna: NAME_CONEXAO
+        ops: [contem, prefixo]
+      usuario_do_contabil:
+        coluna: USER_CONTABIL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 35.653 linhas.']
+  foesocial_controle_periodos:
+    titulo: Controle de envio de reabertura e fechamento de período da empresa no eSocial.
+    descricao: 'Controle de envio de reabertura e fechamento de período da empresa no eSocial.. 40.958 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_PROCESSO.'
+    tabela: FOESOCIAL_CONTROLE_PERIODOS
+    chave: [CODI_EMP, COMPETENCIA, TIPO_PROCESSO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_processo_enviar_para_o_esocial: TIPO_PROCESSO
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: foesocial_controle_periodos_origem_do_r}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foesocial_controle_periodos_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foesocial_controle_periodos_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foesocial_controle_periodos_marcacao_do}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_processo_enviar_para_o_esocial:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 40.962 linhas, 1.147 empresa(s), COMPETENCIA de 2013-01-01 a 2026-12-01.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os
+        valores reais estão no comentário do banco (0=40.962).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=37.247,
+        0=3.715).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=40.962).', 'marcacao_do_evento_para_gerar_o_evento_d: todos
+        os valores reais estão no comentário do banco (0=40.962).', 'Vínculo geempre (geempre): 0 de 20 linhas sem registro relacionado (empresa 1197).']
+  foesocial_arquivo_retorno_s_5002_categoria:
+    titulo: Informações sobre IRRF do retorno do eSocial no arquivo S-5002.
+    descricao: 'Informações sobre IRRF do retorno do eSocial no arquivo S-5002.. 31.123 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, CODCATEG, INDRESBR,
+      FONTE.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5002_CATEGORIA
+    chave: [CODI_EMP, I_DADOS_EVENTOS, CODCATEG, INDRESBR, FONTE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [CODCATEG, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, codigo_da_categoria: CODCATEG, residencial_brasil: INDRESBR,
+      fonte: FONTE}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+      residencial_brasil:
+        coluna: INDRESBR
+        ops: [eq, in]
+      fonte:
+        coluna: FONTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 31.123 linhas, 224 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 28 linhas sem registro relacionado
+        (empresa 1733).']
+  foesocial_controle_periodos_envios_esocial:
+    titulo: Envios do controle de envio e reabertura/fechamento de período da empresa ao eSocial
+    descricao: 'Envios do controle de envio e reabertura/fechamento de período da empresa ao eSocial. 30.943 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO_PROCESSO,
+      CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOESOCIAL_CONTROLE_PERIODOS_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, COMPETENCIA, TIPO_PROCESSO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO_PROCESSO, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, competencia: COMPETENCIA, tipo_da_folha: TIPO_PROCESSO, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_da_folha:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 30.944 linhas, 803 empresa(s), COMPETENCIA de 2019-01-01 a 2026-10-01.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 20 linhas sem registro relacionado (empresa 755).']
+  foesocial_avisos_vencimento_fechamento_periodo:
+    titulo: Armazena os avisos de vencimentos para os períodos sem fechamentos no eSocial
+    descricao: 'Armazena os avisos de vencimentos para os períodos sem fechamentos no eSocial. 29.696 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, TIPO.'
+    tabela: FOESOCIAL_AVISOS_VENCIMENTO_FECHAMENTO_PERIODO
+    chave: [CODI_EMP, COMPETENCIA, TIPO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      tipo_de_calculo_0_mensal_1_anual: {coluna: TIPO, dominio: foesocial_avisos_vencimento_fechamento_periodo_tipo_de_cal}
+      situacao_0_aberto_1_fechado: {coluna: SITUACAO, dominio: foesocial_avisos_vencimento_fechamento_periodo_situacao_0_}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_calculo_0_mensal_1_anual:
+        coluna: TIPO
+        ops: [eq, in]
+      situacao_0_aberto_1_fechado:
+        coluna: SITUACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 29.696 linhas, 232 empresa(s), COMPETENCIA de 2017-03-01 a 2026-12-01.', 'tipo_de_calculo_0_mensal_1_anual: todos os valores reais
+        estão no comentário do banco (0=27.376, 1=2.320).', 'situacao_0_aberto_1_fechado: todos os valores reais estão no comentário do banco (0=27.560, 1=2.136).',
+      'Vínculo geempre (geempre): 0 de 128 linhas sem registro relacionado (empresa 1136).']
+  foesocial_fila_eventos_gerar_rubricas:
+    titulo: Tabela de rubricas para gerar para o eSocial.
+    descricao: 'Tabela de rubricas para gerar para o eSocial.. 27.137 linhas no catálogo; chave: CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL, I_EVENTOS.'
+    tabela: FOESOCIAL_FILA_EVENTOS_GERAR_RUBRICAS
+    chave: [CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_EVENTO_ESOCIAL, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_esocial: I_EVENTO_ESOCIAL, sequencial: SEQUENCIAL, codigo_da_rubrica: I_EVENTOS}
+    filtros:
+      codigo_do_evento_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_rubrica:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 27.145 linhas, 623 empresa(s).']
+  foesocial_fila_eventos_gerar:
+    titulo: Fila de eventos para gerar o XML do eSocial.
+    descricao: 'Fila de eventos para gerar o XML do eSocial.. 24.762 linhas no catálogo; chave: CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL.'
+    tabela: FOESOCIAL_FILA_EVENTOS_GERAR
+    chave: [CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EXECUCAO_EVENTO, volume: medio}
+    ordem:
+    - [DATA_EXECUCAO_EVENTO, desc]
+    - [I_EVENTO_ESOCIAL, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_do_esocial: I_EVENTO_ESOCIAL
+      sequencial: SEQUENCIAL
+      status_1_pendente_2_em_processamento_3_c: {coluna: STATUS, dominio: foesocial_fila_eventos_gerar_status_1_pe}
+      gerar_evento_de_exclusao: GERAR_EVENTO_EXCLUSAO
+      cadastramento_inicial_0_nao_1_sim: {coluna: CADASTRAMENTO_INICIAL, dominio: foesocial_fila_eventos_gerar_cadastramen}
+      preencher_com_a_data_que_o_evento_deve_s: DATA_EXECUCAO_EVENTO
+      competencia_para_gerar_os_dados_do_calcu: COMPETENCIA_CALCULO
+      gerar_os_dados_do_evento: GERAR_REMUNERACAO_13_SALARIO
+      responsavel_pelo_envio_do_fechamento: I_RESPONSAVEL
+      existe_movimentacao_no_periodo_0_nao_1_s: {coluna: EXISTE_MOVIMENTACAO_PERIODO, dominio: foesocial_fila_eventos_gerar_existe_movi}
+      versao_do_sistema_no_momento_da_insercao: VERSAO_SISTEMA
+      competencia_reenviar_calculo_apos_valida: COMPETENCIA_REENVIAR_CALCULO_APOS_VALIDACAO
+      gerar_limpeza_de_dados_no_esocial: GERAR_LIMPEZA_DADOS_ESOCIAL
+      existe_envio_de_aquisicao_rural_no_perio: {coluna: EXISTE_ENVIO_AQUISICAO_RURAL, dominio: foesocial_fila_eventos_gerar_existe_envi}
+      existe_envio_de_comercializacao_rural_no: {coluna: EXISTE_ENVIO_COMERCIALIZACAO_RURAL, dominio: foesocial_fila_eventos_gerar_existe_envi}
+      identifica_se_o_registro_de_fila_foi_ger: {coluna: UTILITARIO_CONVERSAO_REGISTROS_ENVIADOS_OUTRO_BANCO, dominio: foesocial_fila_eventos_gerar_identifica_}
+      numero_da_conexao_que_esta_processando_a: I_CONEXAO
+      atualizar_o_historico_contratual_dos_emp: ATUALIZAR_HISTORICO_CONTRATUAL
+      existe_envio_remuneracao: {coluna: EXISTE_ENVIO_REMUNERACAO, dominio: foesocial_fila_eventos_gerar_existe_envi}
+      existe_envio_de_pagamento_no_periodo_0_n: {coluna: EXISTE_ENVIO_PAGAMENTO, dominio: foesocial_fila_eventos_gerar_existe_envi}
+      existe_envio_de_contratacao_de_trabalhad: {coluna: EXISTE_ENVIO_CONTRATACAO_TRABALHADORES_AVULSOS_NAO_PORTUARIOS, dominio: foesocial_fila_eventos_gerar_existe_envi}
+      codigo_da_empresa_que_sera_enviado_o_eve: EMPRESA_ENVIO_FECHAMENTO_S_1299
+      efetuar_a_transmissao_imediata_da_dctf_n: EFETUAR_TRANSMISSAO_IMEDIATA_DCTFWEB
+      reenviar_o_evento_automaticamente_0_nao: {coluna: REENVIAR_EVENTO_AUTOMATICAMENTE, dominio: foesocial_fila_eventos_gerar_reenviar_o_}
+      enviar_o_evento_antes_do_inicio_do_esoci: {coluna: ENVIO_FORCADO_ANTES_INICIO_ESOCIAL, dominio: foesocial_fila_eventos_gerar_enviar_o_ev}
+      evento_com_selecao_0_nao_1_sim: EXISTE_SELECAO_EVENTO
+      evento_excluido: I_EVENTO_ESOCIAL_EXCLUIDO_S_3000
+      indica_que_o_s_1210_tem_retificacao_para: GERAR_RETIFICACAO_INFO_IR_COMPLEMEM_S_1210_ANT
+    vinculos:
+      foesocial_eventos:
+        tabela: FOESOCIAL_EVENTOS
+        liga: {i_evento_esocial: i_evento_esocial}
+        colunas: {foesocial_eventos_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geresponsavel:
+        tabela: geresponsavel
+        liga: {empresa_envio_fechamento_s_1299: codi_emp, i_responsavel: i_responsavel}
+        colunas: {geresponsavel_nome: nome}
+    filtros:
+      codigo_do_evento_do_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      preencher_com_a_data_que_o_evento_deve_s:
+        coluna: DATA_EXECUCAO_EVENTO
+        ops: [entre, gte, lte]
+      competencia_para_gerar_os_dados_do_calcu:
+        coluna: COMPETENCIA_CALCULO
+        ops: [entre, gte, lte]
+      competencia_reenviar_calculo_apos_valida:
+        coluna: COMPETENCIA_REENVIAR_CALCULO_APOS_VALIDACAO
+        ops: [entre, gte, lte]
+      responsavel_pelo_envio_do_fechamento:
+        coluna: I_RESPONSAVEL
+        ops: [eq, in]
+      versao_do_sistema_no_momento_da_insercao:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      numero_da_conexao_que_esta_processando_a:
+        coluna: I_CONEXAO
+        ops: [eq, in]
+      evento_excluido:
+        coluna: I_EVENTO_ESOCIAL_EXCLUIDO_S_3000
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24.350 linhas, 634 empresa(s), DATA_EXECUCAO_EVENTO de 1900-01-01 a 2200-06-01.', 'Colunas expostas nulas em 100% das linhas (1):
+        responsavel_pelo_envio_do_fechamento.', 'status_1_pendente_2_em_processamento_3_c: todos os valores reais estão no comentário do banco (3=23.965, 1=385).',
+      'cadastramento_inicial_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=24.339, 1=11).', 'existe_movimentacao_no_periodo_0_nao_1_s: todos
+        os valores reais estão no comentário do banco (0=14.817, 1=9.533).', 'existe_envio_de_aquisicao_rural_no_perio: todos os valores reais estão no comentário
+        do banco (0=24.350).', 'existe_envio_de_comercializacao_rural_no: todos os valores reais estão no comentário do banco (0=24.350).', 'identifica_se_o_registro_de_fila_foi_ger:
+        todos os valores reais estão no comentário do banco (0=24.283, 1=67).', 'existe_envio_remuneracao: todos os valores reais estão no comentário do banco (0=24.350).',
+      'existe_envio_de_pagamento_no_periodo_0_n: todos os valores reais estão no comentário do banco (0=24.350).', 'existe_envio_de_contratacao_de_trabalhad: todos
+        os valores reais estão no comentário do banco (0=24.350).', 'reenviar_o_evento_automaticamente_0_nao: todos os valores reais estão no comentário do banco
+        (0=24.348, 1=2).', 'enviar_o_evento_antes_do_inicio_do_esoci: todos os valores reais estão no comentário do banco (0=24.350).', 'Vínculo foesocial_eventos
+        (FOESOCIAL_EVENTOS): 0 de 5 linhas sem registro relacionado (empresa 886).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 886).',
+      'Vínculo geresponsavel (geresponsavel): 0 de 5 linhas sem registro relacionado (empresa 886).']
+  foesocial_arquivo_retorno_s_5003_base_servicos_matricula:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 22.426 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, MATRICULA,
+      CODI_EMP_SERVICO, SEQUENCIAL.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003_BASE_SERVICOS_MATRICULA
+    chave: [CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, MATRICULA, CODI_EMP_SERVICO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [I_SERVICOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, codigo_do_servico_referente_a_foservicos: I_SERVICOS, matricula: MATRICULA,
+      codigo_da_empresa_do_servico_referente_a: CODI_EMP_SERVICO, sequencial_para_registros_repetidos: SEQUENCIAL, codigo_da_categoria: CODCATEG}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp_servico: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_servico_referente_a_foservicos:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      matricula:
+        coluna: MATRICULA
+        ops: [eq, in]
+      codigo_da_empresa_do_servico_referente_a:
+        coluna: CODI_EMP_SERVICO
+        ops: [eq, in]
+      sequencial_para_registros_repetidos:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22.426 linhas, 259 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 18 linhas sem registro relacionado
+        (empresa 1665).', 'Vínculo foservicos (foservicos): 0 de 18 linhas sem registro relacionado (empresa 1665).']
+  foesocial_arquivo_retorno_s_5003_base_servicos:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 22.398 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, CODI_EMP_SERVICO.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003_BASE_SERVICOS
+    chave: [CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, CODI_EMP_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [I_SERVICOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, codigo_do_servico_referente_a_foservicos: I_SERVICOS, codigo_da_empresa_do_servico_referente_a: CODI_EMP_SERVICO,
+      codigo_da_lotacao: CODLOTACAO}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp_servico: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_servico_referente_a_foservicos:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      codigo_da_empresa_do_servico_referente_a:
+        coluna: CODI_EMP_SERVICO
+        ops: [eq, in]
+      codigo_da_lotacao:
+        coluna: CODLOTACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 22.398 linhas, 259 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 18 linhas sem registro relacionado
+        (empresa 1665).', 'Vínculo foservicos (foservicos): 0 de 18 linhas sem registro relacionado (empresa 1665).']
+  foesocial_arquivo_retorno_s_5003_matricula:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 22.395 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, MATRICULA.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003_MATRICULA
+    chave: [CODI_EMP, I_DADOS_EVENTOS, MATRICULA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [MATRICULA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, matricula: MATRICULA, codigo_da_categoria: CODCATEG}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      matricula:
+        coluna: MATRICULA
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 22.395 linhas, 259 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 18 linhas sem registro relacionado
+        (empresa 1665).']
+  foesocial_arquivo_retorno_s_5003:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 21.991 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003
+    chave: [CODI_EMP, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DTVENC, volume: medio}
+    ordem:
+    - [DTVENC, desc]
+    - [I_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+      cpf: {coluna: CPF, sensivel: parcial}
+      data_de_vencimento: DTVENC
+      versao_do_xml: VERSAO_XML
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: DTVENC
+        ops: [entre, gte, lte]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      versao_do_xml:
+        coluna: VERSAO_XML
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 21.991 linhas, 256 empresa(s), DTVENC de 1900-01-01 a 2024-01-05.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 19 linhas sem registro relacionado (empresa 1033).']
+  foesocial_arquivo_retorno_s_5002:
+    titulo: Informações sobre IRRF do retorno do eSocial no arquivo S-5002.
+    descricao: 'Informações sobre IRRF do retorno do eSocial no arquivo S-5002.. 21.485 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5002
+    chave: [CODI_EMP, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+      cpf: {coluna: CPF, sensivel: parcial}
+      valor_deducao_dependente: VRDEDDEP
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21.485 linhas, 224 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 21 linhas sem registro relacionado
+        (empresa 171).']
+  foesocial_arquivo_retorno_s_5003_base_servicos_matricula_val:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 19.091 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, MATRICULA,
+      TPVALOR, CODI_EMP_SERVICO.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003_BASE_SERVICOS_MATRICULA_VALOR
+    chave: [CODI_EMP, I_DADOS_EVENTOS, I_SERVICOS, MATRICULA, TPVALOR, CODI_EMP_SERVICO]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [I_SERVICOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+      codigo_do_servico_referente_a_foservicos: I_SERVICOS
+      matricula: MATRICULA
+      tipo_do_valor: TPVALOR
+      codigo_da_empresa_do_servico_referente_a: CODI_EMP_SERVICO
+      codigo_da_categoria: CODCATEG
+      valor_de_remuneracao_fgts: {coluna: REMFGTS, sensivel: financeiro}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp_servico: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_servico_referente_a_foservicos:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      matricula:
+        coluna: MATRICULA
+        ops: [eq, in]
+      tipo_do_valor:
+        coluna: TPVALOR
+        ops: [eq, in]
+      codigo_da_empresa_do_servico_referente_a:
+        coluna: CODI_EMP_SERVICO
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19.091 linhas, 179 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 33 linhas sem registro relacionado
+        (empresa 696).', 'Vínculo foservicos (foservicos): 0 de 33 linhas sem registro relacionado (empresa 696).']
+  foesocial_arquivo_retorno_s_5003_matricula_valor:
+    titulo: Informações sobre FGTS do retorno do eSocial no arquivo S-5003.
+    descricao: 'Informações sobre FGTS do retorno do eSocial no arquivo S-5003.. 19.091 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, MATRICULA, CODCATEG,
+      TPDPS.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5003_MATRICULA_VALOR
+    chave: [CODI_EMP, I_DADOS_EVENTOS, MATRICULA, CODCATEG, TPDPS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [MATRICULA, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, matricula: MATRICULA, codigo_da_categoria: CODCATEG, tipo_de_deposito_de_fgts: TPDPS,
+      valor_de_deposito_de_fgts: DPSFGTS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      matricula:
+        coluna: MATRICULA
+        ops: [eq, in]
+      codigo_da_categoria:
+        coluna: CODCATEG
+        ops: [eq, in]
+      tipo_de_deposito_de_fgts:
+        coluna: TPDPS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19.091 linhas, 179 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 33 linhas sem registro relacionado
+        (empresa 696).']
+  foesocial_log_thread_linha_detalhe:
+    titulo: Tabela de log das threads relacionadas com o eSocial
+    descricao: 'Tabela de log das threads relacionadas com o eSocial. 5.261 linhas no catálogo; chave: ID_LOG_THREAD_EXECUCAO, SEQUENCIAL_LINHA, SEQUENCIAL_DETALHE.'
+    tabela: FOESOCIAL_LOG_THREAD_LINHA_DETALHE
+    chave: [ID_LOG_THREAD_EXECUCAO, SEQUENCIAL_LINHA, SEQUENCIAL_DETALHE]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID_LOG_THREAD_EXECUCAO, asc]
+    - [SEQUENCIAL_LINHA, asc]
+    colunas: {identificador_unico_do_log_referente_a_f: ID_LOG_THREAD_EXECUCAO, codigo_sequencial_da_linha_referente_a_f: SEQUENCIAL_LINHA, codigo_sequencial_do_detalhe: SEQUENCIAL_DETALHE,
+      mensagem: MENSAGEM}
+    filtros:
+      identificador_unico_do_log_referente_a_f:
+        coluna: ID_LOG_THREAD_EXECUCAO
+        ops: [eq, in]
+      codigo_sequencial_da_linha_referente_a_f:
+        coluna: SEQUENCIAL_LINHA
+        ops: [eq, in]
+      codigo_sequencial_do_detalhe:
+        coluna: SEQUENCIAL_DETALHE
+        ops: [eq, in]
+      mensagem:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.722 linhas.']
+  foesocial_lotes_envios_ocorrencias:
+    titulo: Ocorrências do lote de envio
+    descricao: 'Ocorrências do lote de envio. 3.582 linhas no catálogo; chave: CODI_EMP, I_LOTE, SEQUENCIAL, TIPO, SEQUENCIAL_OCORRENCIAS.'
+    tabela: FOESOCIAL_LOTES_ENVIOS_OCORRENCIAS
+    chave: [CODI_EMP, I_LOTE, SEQUENCIAL, TIPO, SEQUENCIAL_OCORRENCIAS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_LOTE, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_lote: I_LOTE
+      sequencial_de_envio: SEQUENCIAL
+      tipo_de_ocorrencia_1_envio_2_consulta: {coluna: TIPO, dominio: foesocial_lotes_envios_ocorrencias_tipo_de_ocorrencia_1_}
+      sequencial_de_ocorrencia: SEQUENCIAL_OCORRENCIAS
+      codigo_de_resposta: I_RESPOSTA
+      descricao_da_resposta: DESCRICAO_RESPOSTA
+      localizacao_da_ocorrencia: LOCALIZACAO
+    vinculos:
+      foesocial_lotes_envios:
+        tabela: FOESOCIAL_LOTES_ENVIOS
+        liga: {codi_emp: codi_emp, i_lote: i_lote, sequencial: sequencial}
+        colunas: {foesocial_lotes_envios_nome: DESCRICAO_RESPOSTA_ENVIO}
+    filtros:
+      codigo_do_lote:
+        coluna: I_LOTE
+        ops: [eq, in]
+      sequencial_de_envio:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_ocorrencia_1_envio_2_consulta:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencial_de_ocorrencia:
+        coluna: SEQUENCIAL_OCORRENCIAS
+        ops: [eq, in]
+      codigo_de_resposta:
+        coluna: I_RESPOSTA
+        ops: [eq, in]
+      descricao_da_resposta:
+        coluna: DESCRICAO_RESPOSTA
+        ops: [contem, prefixo]
+      localizacao_da_ocorrencia:
+        coluna: LOCALIZACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3.582 linhas, 379 empresa(s).', 'tipo_de_ocorrencia_1_envio_2_consulta: todos os valores reais estão no comentário do banco (2=3.326,
+        1=256).', 'Vínculo foesocial_lotes_envios (FOESOCIAL_LOTES_ENVIOS): 0 de 3 linhas sem registro relacionado (empresa 941).']
+  foesocial_ingestao_eventos:
+    titulo: Controle de eventos eSocial enviados para a API de ingestão (imediato e noturno)
+    descricao: 'Controle de eventos eSocial enviados para a API de ingestão (imediato e noturno). 3.521 linhas no catálogo; chave: GUID_EVENTO.'
+    tabela: FOESOCIAL_INGESTAO_EVENTOS
+    chave: [GUID_EVENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EVENTO, volume: pequeno}
+    ordem:
+    - [DATA_EVENTO, desc]
+    - [GUID_EVENTO, asc]
+    colunas:
+      identificador_unico_do_evento_eventid_uu: GUID_EVENTO
+      ordem_sequencial_de_criacao_do_evento_fi: SEQUENCIAL
+      codigo_da_empresa_accountinginfo_company: CODI_EMP
+      sequencial_do_empregado_join_dedup_arrep: I_EMPREGADOS
+      vinculo_com_foesocial_dados_eventos: I_DADOS_EVENTOS
+      eventtype_admission_registered_terminati: TIPO_EVENTO
+      janela_de_envio_1_imediato_esocial_event: MODO_ENVIO
+      data_de_referencia_do_evento_dedup: DATA_EVENTO
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_VALIDACAO
+      origem_carga: ORIGEM_CARGA
+      hiringentity_documenttype_cnpj_cpf: {coluna: EMPRESA_TIPO_INSCRICAO, sensivel: parcial}
+      hiringentity_documentvalue_inscricao_da: {coluna: EMPRESA_INSCRICAO, sensivel: parcial}
+      hiringentity_name_razao_social: {coluna: EMPRESA_NOME, sensivel: parcial}
+      employee_documentvalue_cpf_documenttype: {coluna: EMPREGADO_CPF, sensivel: parcial}
+      employee_name_nome_do_colaborador: EMPREGADO_NOME
+      employee_employeetype_empregado_estagiar: TIPO_COLABORADOR
+      additionaldata_receiptnumber_recibo_esoc: NUMERO_RECIBO
+      additionaldata_admissiondate: DATA_ADMISSAO
+      additionaldata_contractualsalary_salario: {coluna: SALARIO_CONTRATUAL, sensivel: financeiro}
+      codigo_do_motivo_esocial_tabela_19_audit: MOTIVO_ESOCIAL_CODIGO
+      additionaldata_esocialreason_texto_descr: MOTIVO_ESOCIAL_TEXTO
+      additionaldata_terminationdate_demitido: DATA_DEMISSAO
+      additionaldata_noticeperiodtype_trabalha: TIPO_AVISO_PREVIO
+      additionaldata_paymentdate: DATA_PAGAMENTO
+      statuses_esocialemploymentstatus_active: ESOCIAL_EMPLOYMENT_STATUS
+      statuses_tremploymentstatus_active_notic: TR_EMPLOYMENT_STATUS
+      statuses_trstatus_working_on_leave: TR_STATUS
+      situacao_0_pendente_1_enviado_2_erro_3_r: SITUACAO_ENVIO
+      numero_de_tentativas_de_envio_do_evento: TENTATIVAS
+      ultimo_status_http_retornado_pela_api: STATUS_ENVIO
+      mensagem_de_erro_da_ultima_tentativa: MENSAGEM_ERRO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      identificador_unico_do_evento_eventid_uu:
+        coluna: GUID_EVENTO
+        ops: [eq, in]
+      data_de_referencia_do_evento_dedup:
+        coluna: DATA_EVENTO
+        ops: [entre, gte, lte]
+      additionaldata_admissiondate:
+        coluna: DATA_ADMISSAO
+        ops: [entre, gte, lte]
+      additionaldata_terminationdate_demitido:
+        coluna: DATA_DEMISSAO
+        ops: [entre, gte, lte]
+      additionaldata_paymentdate:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      sequencial_do_empregado_join_dedup_arrep:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      vinculo_com_foesocial_dados_eventos:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      eventtype_admission_registered_terminati:
+        coluna: TIPO_EVENTO
+        ops: [contem, prefixo]
+      hiringentity_documenttype_cnpj_cpf:
+        coluna: EMPRESA_TIPO_INSCRICAO
+        ops: [eq, in]
+      hiringentity_documentvalue_inscricao_da:
+        coluna: EMPRESA_INSCRICAO
+        ops: [eq, in]
+      hiringentity_name_razao_social:
+        coluna: EMPRESA_NOME
+        ops: [contem, prefixo]
+      employee_documentvalue_cpf_documenttype:
+        coluna: EMPREGADO_CPF
+        ops: [eq, in]
+      employee_name_nome_do_colaborador:
+        coluna: EMPREGADO_NOME
+        ops: [contem, prefixo]
+      employee_employeetype_empregado_estagiar:
+        coluna: TIPO_COLABORADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.619 linhas, 258 empresa(s), DATA_EVENTO de 2026-04-01 a 2026-10-16.', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro
+        relacionado (empresa 710).']
+  foesocial_importacoes_mensagens:
+    titulo: Mensagens e validações provenientes de telas de cadastros e outros processos do contábil à importação do eSocial.
+    descricao: 'Mensagens e validações provenientes de telas de cadastros e outros processos do contábil à importação do eSocial.. 3.080 linhas no catálogo; chave:
+      CODI_EMP, I_MENSAGENS.'
+    tabela: FOESOCIAL_IMPORTACOES_MENSAGENS
+    chave: [CODI_EMP, I_MENSAGENS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_MENSAGENS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_da_mensagem: I_MENSAGENS
+      a_tela_ou_processo_que_originou_a_mensag: ORIGEM
+      tabela_do_sistema_contabil_representado: TABELA_DADOS
+      chave_da_tabela_do_sistema_contabil_repr: CHAVE_TABELA_DADOS
+      chave_do_registro_a_ser_importado_do_eso: CHAVE_TABELA_DADOS_IMPORTACAO
+      titulo_da_mensagem: TITULO
+      mensagem: MENSAGEM
+      tipo_da_mensagem_1_aviso_2_alerta_3_erro: {coluna: TIPO, dominio: foesocial_importacoes_mensagens_tipo_da_men}
+      opcao_selecionada_1_ok_2_sim_3_nao_4_can: {coluna: OPCAO_SELECIONADA, dominio: foesocial_importacoes_mensagens_opcao_selec}
+      acao_a_importacao_1_ignorar_2_bloquear: {coluna: ACAO, dominio: foesocial_importacoes_mensagens_acao_a_impo}
+      indica_se_a_mensagem_foi_verificada_pelo: {coluna: VERIFICADO, dominio: foesocial_importacoes_mensagens_indica_se_a}
+      codigo_da_solucao_se_a_mensagem_carrega: CODIGO_SOLUCAO
+    filtros:
+      codigo_da_mensagem:
+        coluna: I_MENSAGENS
+        ops: [eq, in]
+      tabela_do_sistema_contabil_representado:
+        coluna: TABELA_DADOS
+        ops: [contem, prefixo]
+      chave_da_tabela_do_sistema_contabil_repr:
+        coluna: CHAVE_TABELA_DADOS
+        ops: [contem, prefixo]
+      chave_do_registro_a_ser_importado_do_eso:
+        coluna: CHAVE_TABELA_DADOS_IMPORTACAO
+        ops: [contem, prefixo]
+      titulo_da_mensagem:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      mensagem:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+      tipo_da_mensagem_1_aviso_2_alerta_3_erro:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_da_solucao_se_a_mensagem_carrega:
+        coluna: CODIGO_SOLUCAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.125 linhas, 83 empresa(s).', 'tipo_da_mensagem_1_aviso_2_alerta_3_erro: todos os valores reais estão no comentário do banco
+        (1=1.846, 4=815, 2=464).', 'opcao_selecionada_1_ok_2_sim_3_nao_4_can: todos os valores reais estão no comentário do banco (1=2.310, 3=646, 2=169).', 'acao_a_importacao_1_ignorar_2_bloquear:
+        todos os valores reais estão no comentário do banco (1=2.635, 2=490).', 'indica_se_a_mensagem_foi_verificada_pelo: todos os valores reais estão no comentário
+        do banco (0=3.111, 1=14).']
+  foesocial_arquivo_retorno_s_5002_dependente:
+    titulo: Informações sobre IRRF do retorno do eSocial no arquivo S-5002.
+    descricao: 'Informações sobre IRRF do retorno do eSocial no arquivo S-5002.. 3.055 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS, CPF, TPVALOR.'
+    tabela: FOESOCIAL_ARQUIVO_RETORNO_S_5002_DEPENDENTE
+    chave: [CODI_EMP, I_DADOS_EVENTOS, CPF, TPVALOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_DADOS_EVENTOS, asc]
+    - [CPF, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+      cpf: {coluna: CPF, sensivel: parcial}
+      tipo_do_valor: TPVALOR
+      valor: VALOR
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+      tipo_do_valor:
+        coluna: TPVALOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.055 linhas, 63 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 23 linhas sem registro relacionado
+        (empresa 1733).']
+  foesocial_dados_eventos_validados_manualmente:
+    titulo: Tabela com eventos que foram validados manualmente pelo sistema.
+    descricao: 'Tabela com eventos que foram validados manualmente pelo sistema.. 1.963 linhas no catálogo; chave: CODI_EMP, I_DADOS_EVENTOS.'
+    tabela: FOESOCIAL_DADOS_EVENTOS_VALIDADOS_MANUALMENTE
+    chave: [CODI_EMP, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VALIDADO, volume: pequeno}
+    ordem:
+    - [DATA_VALIDADO, desc]
+    - [I_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_dado_evento_da_tabela_foesocia: I_DADOS_EVENTOS, data_da_validacao: DATA_VALIDADO, numero_de_recibo_validado: NUMERO_RECIBO,
+      status_do_processamento_1_pendente_2_con: STATUS, nome_do_usuario_que_validou_manualmente: USUARIO}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_dado_evento_da_tabela_foesocia:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      data_da_validacao:
+        coluna: DATA_VALIDADO
+        ops: [entre, gte, lte]
+      numero_de_recibo_validado:
+        coluna: NUMERO_RECIBO
+        ops: [contem, prefixo]
+      nome_do_usuario_que_validou_manualmente:
+        coluna: USUARIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.963 linhas, 380 empresa(s), DATA_VALIDADO de 2017-08-01 a 2026-10-06.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 1 linhas sem registro relacionado (empresa 473).']
+  foesocial_importacoes_colaboradores_log:
+    titulo: Log dos colaboradores que foram importados do site do eSocial.
+    descricao: 'Log dos colaboradores que foram importados do site do eSocial.. 1.251 linhas no catálogo; chave: CODI_EMP, I_EVENTO_ESOCIAL, DATA_CRIACAO, I_COLABORADORES.'
+    tabela: FOESOCIAL_IMPORTACOES_COLABORADORES_LOG
+    chave: [CODI_EMP, I_EVENTO_ESOCIAL, DATA_CRIACAO, I_COLABORADORES]
+    acesso: {empresa: CODI_EMP, periodo: DATA_CRIACAO, volume: pequeno}
+    ordem:
+    - [DATA_CRIACAO, desc]
+    - [I_EVENTO_ESOCIAL, asc]
+    - [I_COLABORADORES, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_evento_esocial: I_EVENTO_ESOCIAL, data_de_criacao_do_evento_esocial_trata: DATA_CRIACAO, codigo_do_colaborador: I_COLABORADORES}
+    vinculos:
+      foesocial_eventos:
+        tabela: FOESOCIAL_EVENTOS
+        liga: {i_evento_esocial: i_evento_esocial}
+        colunas: {foesocial_eventos_nome: DESCRICAO}
+    filtros:
+      codigo_do_evento_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      data_de_criacao_do_evento_esocial_trata:
+        coluna: DATA_CRIACAO
+        ops: [eq, in]
+      codigo_do_colaborador:
+        coluna: I_COLABORADORES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.310 linhas, 68 empresa(s), DATA_CRIACAO de 1989-05-22 a 2026-09-17.', 'Vínculo foesocial_eventos (FOESOCIAL_EVENTOS): 0 de 5
+        linhas sem registro relacionado (empresa 1618).']
+  foesocial_importacoes_colaboradores:
+    titulo: Colaboradores a serem importados do site do eSocial.
+    descricao: 'Colaboradores a serem importados do site do eSocial.. 536 linhas no catálogo; chave: CODI_EMP, I_COLABORADORES.'
+    tabela: FOESOCIAL_IMPORTACOES_COLABORADORES
+    chave: [CODI_EMP, I_COLABORADORES]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ADMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_ADMISSAO, desc]
+    - [I_COLABORADORES, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_colaborador: I_COLABORADORES
+      cpf_do_colaborador: {coluna: CPF, sensivel: parcial}
+      data_de_admissao_do_colaborador: DATA_ADMISSAO
+      tipo_do_colaborador_1_empregado_2_estagi: {coluna: TIPO_COLABORADOR, dominio: foesocial_importacoes_colaboradores_tipo_do_col}
+      colaborador_importado_0_nao_1_sim: {coluna: IMPORTADO, dominio: foesocial_importacoes_colaboradores_colaborador}
+      codigo_da_categoria_esocial: CATEGORIA_ESOCIAL
+    filtros:
+      codigo_do_colaborador:
+        coluna: I_COLABORADORES
+        ops: [eq, in]
+      data_de_admissao_do_colaborador:
+        coluna: DATA_ADMISSAO
+        ops: [entre, gte, lte]
+      cpf_do_colaborador:
+        coluna: CPF
+        ops: [eq, in]
+      tipo_do_colaborador_1_empregado_2_estagi:
+        coluna: TIPO_COLABORADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 550 linhas, 73 empresa(s), DATA_ADMISSAO de 1989-05-22 a 2026-09-08.', 'tipo_do_colaborador_1_empregado_2_estagi: todos os valores
+        reais estão no comentário do banco (1=380, 2=96, 3=74).', 'colaborador_importado_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=462,
+        0=88).']
+  foesocial_ingestao_carga:
+    titulo: Controle da carga inicial (dia zero) da ingestão eSocial, por empresa
+    descricao: 'Controle da carga inicial (dia zero) da ingestão eSocial, por empresa. 287 linhas no catálogo; chave: CODI_EMP.'
+    tabela: FOESOCIAL_INGESTAO_CARGA
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: []
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      situacao_0_pendente_1_em_andamento_2_con: {coluna: SITUACAO, dominio: foesocial_ingestao_carga_situacao_0_p}
+      quantidade_de_noites_em_que_a_carga_da_e: NOITES_TENTADAS
+      mensagem_observacao_do_ultimo_ciclo: MENSAGEM
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      situacao_0_pendente_1_em_andamento_2_con:
+        coluna: SITUACAO
+        ops: [eq, in]
+      mensagem_observacao_do_ultimo_ciclo:
+        coluna: MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 289 linhas, 289 empresa(s).', 'situacao_0_pendente_1_em_andamento_2_con: todos os valores reais estão no comentário do banco (2=289).',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1676).']
+  foesocial_fila_eventos_gerar_selecao_1200:
+    titulo: Fila de eventos para gerar o XML do eSocial da seleção do evento 1200.
+    descricao: 'Fila de eventos para gerar o XML do eSocial da seleção do evento 1200.. 256 linhas no catálogo; chave: CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL, CPF.'
+    tabela: FOESOCIAL_FILA_EVENTOS_GERAR_SELECAO_1200
+    chave: [CODI_EMP, I_EVENTO_ESOCIAL, SEQUENCIAL, CPF]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EVENTO_ESOCIAL, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_evento_do_esocial: I_EVENTO_ESOCIAL
+      sequencial: SEQUENCIAL
+      cpf: {coluna: CPF, sensivel: parcial}
+    filtros:
+      codigo_do_evento_do_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      cpf:
+        coluna: CPF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 256 linhas, 19 empresa(s).']
+  foesocial_controle_periodos_dados_eventos:
+    titulo: Lista de envios de abertura/fechamento do período para o eSocial.
+    descricao: 'Lista de envios de abertura/fechamento do período para o eSocial.. 227 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_DADOS_EVENTOS.'
+    tabela: FOESOCIAL_CONTROLE_PERIODOS_DADOS_EVENTOS
+    chave: [CODI_EMP, COMPETENCIA, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia: COMPETENCIA
+      sequencial_de_envio_ao_esocial: I_DADOS_EVENTOS
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: foesocial_controle_periodos_dados_eventos_origem_do_r}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      sequencial_de_envio_ao_esocial:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 227 linhas, 169 empresa(s), COMPETENCIA de 2019-01-01 a 2019-02-01.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores
+        reais estão no comentário do banco (0=227).']
+  foesocial_importacao_sst_log:
+    titulo: Log de importações da FOESOCIAL_IMPORTACAO_SST
+    descricao: 'Log de importações da FOESOCIAL_IMPORTACAO_SST. 143 linhas no catálogo; chave: CODI_EMP, I_LOG.'
+    tabela: FOESOCIAL_IMPORTACAO_SST_LOG
+    chave: [CODI_EMP, I_LOG]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_LOG, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_do_log: I_LOG, titulo: TITULO, texto: TEXTO, arquivo: ARQUIVO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_do_log:
+        coluna: I_LOG
+        ops: [eq, in]
+      titulo:
+        coluna: TITULO
+        ops: [contem, prefixo]
+      texto:
+        coluna: TEXTO
+        ops: [contem, prefixo]
+      arquivo:
+        coluna: ARQUIVO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 143 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 136 linhas sem registro relacionado (empresa 1).']
+  foesocial_importacoes:
+    titulo: Importação de dados do site do eSocial.
+    descricao: 'Importação de dados do site do eSocial.. 97 linhas no catálogo; chave: CODI_EMP.'
+    tabela: FOESOCIAL_IMPORTACOES
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: AGENDAMENTO_DATA, volume: pequeno}
+    ordem:
+    - [AGENDAMENTO_DATA, desc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      competencia_de_inicio_de_utilizacao: COMPETENCIA
+      tipo_de_acesso_2_certificado_propria_emp: {coluna: TIPO_ACESSO, dominio: foesocial_importacoes_tipo_de_ace}
+      importar_todas_as_alteracoes_do_cadastro: {coluna: IMPORTAR_TODAS_ALTERACOES_CADASTRO_COLABORADOR, dominio: foesocial_importacoes_importar_to}
+      versao_do_sistema_no_momento_da_realizac: VERSAO_SISTEMA_IMPORTACAO
+      tipo_de_importacao_1_somente_servicos_e: {coluna: TIPO_IMPORTACAO, dominio: foesocial_importacoes_tipo_de_imp}
+      c_0_importar_sem_recibo_1_importar_com_r: IMPORTAR_RECIBO
+      importacao_agendada_0_nao_agendada_1_age: {coluna: AGENDAMENTO, dominio: foesocial_importacoes_importacao_}
+      data_da_importacao_agendada: AGENDAMENTO_DATA
+      hora_da_importacao_agendada: AGENDAMENTO_HORA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia_de_inicio_de_utilizacao:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_da_importacao_agendada:
+        coluna: AGENDAMENTO_DATA
+        ops: [entre, gte, lte]
+      tipo_de_acesso_2_certificado_propria_emp:
+        coluna: TIPO_ACESSO
+        ops: [eq, in]
+      versao_do_sistema_no_momento_da_realizac:
+        coluna: VERSAO_SISTEMA_IMPORTACAO
+        ops: [contem, prefixo]
+      tipo_de_importacao_1_somente_servicos_e:
+        coluna: TIPO_IMPORTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 98 linhas, 98 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): data_da_importacao_agendada.', 'tipo_de_acesso_2_certificado_propria_emp:
+        todos os valores reais estão no comentário do banco (3=90, 2=8).', 'importar_todas_as_alteracoes_do_cadastro: todos os valores reais estão no comentário do
+        banco (0=52, 1=46).', 'tipo_de_importacao_1_somente_servicos_e: todos os valores reais estão no comentário do banco (2=54, 1=44).', 'importacao_agendada_0_nao_agendada_1_age:
+        todos os valores reais estão no comentário do banco (1=97, 0=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1170).']
+  foesocial_eventos_antecessores:
+    titulo: Lista de eventos que devem sem enviados antes.
+    descricao: 'Lista de eventos que devem sem enviados antes.. 65 linhas no catálogo; chave: I_EVENTO_ESOCIAL, I_EVENTO_ESOCIAL_ANTECESSOR.'
+    tabela: FOESOCIAL_EVENTOS_ANTECESSORES
+    chave: [I_EVENTO_ESOCIAL, I_EVENTO_ESOCIAL_ANTECESSOR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_EVENTO_ESOCIAL, asc]
+    - [I_EVENTO_ESOCIAL_ANTECESSOR, asc]
+    colunas: {codigo_do_evento_do_esocial: I_EVENTO_ESOCIAL, codigo_do_evento_do_esocial_antecessor: I_EVENTO_ESOCIAL_ANTECESSOR}
+    vinculos:
+      foesocial_eventos:
+        tabela: FOESOCIAL_EVENTOS
+        liga: {i_evento_esocial: i_evento_esocial}
+        colunas: {foesocial_eventos_nome: DESCRICAO}
+    filtros:
+      codigo_do_evento_do_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      codigo_do_evento_do_esocial_antecessor:
+        coluna: I_EVENTO_ESOCIAL_ANTECESSOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 65 linhas.', 'Vínculo foesocial_eventos (FOESOCIAL_EVENTOS): 0 de 65 linhas sem registro relacionado.']
+  foesocial_tabelas_controle:
+    titulo: Tabelas que possuem as colunas de controle do eSocial.
+    descricao: 'Tabelas que possuem as colunas de controle do eSocial.. 46 linhas no catálogo; chave: NOME_TABELA.'
+    tabela: FOESOCIAL_TABELAS_CONTROLE
+    chave: [NOME_TABELA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [NOME_TABELA, asc]
+    colunas: {nome_da_tabela: NOME_TABELA}
+    filtros:
+      nome_da_tabela:
+        coluna: NOME_TABELA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 46 linhas.']
+  foesocial_erros_validacao_xml:
+    titulo: Erros de validação do XML (XSD)
+    descricao: 'Erros de validação do XML (XSD). 9 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL.'
+    tabela: FOESOCIAL_ERROS_VALIDACAO_XML
+    chave: [CODI_EMP, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa_dos_eventos: CODI_EMP
+      sequencial_de_erros_do_registro: SEQUENCIAL
+      codigo_do_evento_do_esocial: I_EVENTO_ESOCIAL
+      codigo_esocial_do_registro: CODIGO_ESOCIAL
+      codigo_do_erro: CODIGO_ERRO
+      mensagem_de_erro: MENSAGEM_ERRO
+      tabela_do_registro: TABELA_CHAVE
+      chave_da_tabela_do_registro: CHAVE
+      versao_do_sistema_no_momento_da_insercao: VERSAO_SISTEMA
+      codigo_do_dados_eventos_esocial: I_DADOS_EVENTOS_ESOCIAL
+      gerar_os_dados_do_evento: GERAR_REMUNERACAO_13_SALARIO
+      evento_marcado_para_reenviar_0_nao_1_sim: {coluna: REENVIAR, dominio: foesocial_erros_validacao_xml_evento_marcado_para_}
+      gerar_limpeza_de_dados_no_esocial: GERAR_LIMPEZA_DADOS_ESOCIAL
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      foesocial_eventos:
+        tabela: FOESOCIAL_EVENTOS
+        liga: {i_evento_esocial: i_evento_esocial}
+        colunas: {foesocial_eventos_nome: DESCRICAO}
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp: codi_emp, i_dados_eventos_esocial: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      sequencial_de_erros_do_registro:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_evento_do_esocial:
+        coluna: I_EVENTO_ESOCIAL
+        ops: [eq, in]
+      codigo_esocial_do_registro:
+        coluna: CODIGO_ESOCIAL
+        ops: [contem, prefixo]
+      codigo_do_erro:
+        coluna: CODIGO_ERRO
+        ops: [eq, in]
+      mensagem_de_erro:
+        coluna: MENSAGEM_ERRO
+        ops: [contem, prefixo]
+      tabela_do_registro:
+        coluna: TABELA_CHAVE
+        ops: [contem, prefixo]
+      chave_da_tabela_do_registro:
+        coluna: CHAVE
+        ops: [contem, prefixo]
+      versao_do_sistema_no_momento_da_insercao:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      codigo_do_dados_eventos_esocial:
+        coluna: I_DADOS_EVENTOS_ESOCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9 linhas, 3 empresa(s).', 'evento_marcado_para_reenviar_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=9).',
+      'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 9130).', 'Vínculo foesocial_eventos (FOESOCIAL_EVENTOS): 0 de 2 linhas sem registro
+        relacionado (empresa 9130).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 2 linhas sem registro relacionado (empresa 9130).']
+  foesocial_configuracao_agente:
+    titulo: Configurações do eSocial no Agente de Comunicação.
+    descricao: 'Configurações do eSocial no Agente de Comunicação.. 1 linhas no catálogo; chave: EXPORTAR_XML, CAMINHO_XML, ESPACO_GB_MINIMO_EXIGIDO.'
+    tabela: FOESOCIAL_CONFIGURACAO_AGENTE
+    chave: [EXPORTAR_XML, CAMINHO_XML, ESPACO_GB_MINIMO_EXIGIDO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [EXPORTAR_XML, asc]
+    colunas: {exportar_xml_1_sim_0_nao: EXPORTAR_XML, caminho_para_salvar_os_xmls_do_esocial: CAMINHO_XML, espaco_minimo_exigido_para_que_seja_salv: ESPACO_GB_MINIMO_EXIGIDO}
+    filtros:
+      exportar_xml_1_sim_0_nao:
+        coluna: EXPORTAR_XML
+        ops: [eq, in]
+      caminho_para_salvar_os_xmls_do_esocial:
+        coluna: CAMINHO_XML
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']
+  foesocial_controle_versao:
+    titulo: Controle da versão do eSocial.
+    descricao: 'Controle da versão do eSocial.. 1 linhas no catálogo; chave: DATA_ULTIMA_CONSULTA.'
+    tabela: FOESOCIAL_CONTROLE_VERSAO
+    chave: [DATA_ULTIMA_CONSULTA]
+    acesso: {empresa: null, periodo: DATA_ULTIMA_CONSULTA, volume: pequeno}
+    ordem:
+    - [DATA_ULTIMA_CONSULTA, desc]
+    colunas: {data_da_ultima_consulta_de_versoes: DATA_ULTIMA_CONSULTA, hora_da_ultima_consulta_de_versoes: HORA_ULTIMA_CONSULTA, versao_do_ambiente_oficial: VERSAO_AMBIENTE_OFICIAL,
+      versao_do_ambiente_restrito: VERSAO_AMBIENTE_RESTRITO}
+    filtros:
+      data_da_ultima_consulta_de_versoes:
+        coluna: DATA_ULTIMA_CONSULTA
+        ops: [eq, in]
+      versao_do_ambiente_oficial:
+        coluna: VERSAO_AMBIENTE_OFICIAL
+        ops: [eq, in]
+      versao_do_ambiente_restrito:
+        coluna: VERSAO_AMBIENTE_RESTRITO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, DATA_ULTIMA_CONSULTA de 2023-08-28 a 2023-08-28.']

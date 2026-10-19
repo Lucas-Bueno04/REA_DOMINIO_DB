@@ -1,0 +1,192 @@
+# Modelo de entidades do HISTÓRICO da FOLHA: alterações salariais (FOALTESAL), alterações contratuais, lançamentos de eventos variáveis/fixos e a situação mensal do
+# empregado (FOAFASTAMENTOS_COMPETENCIA). Curado à mão e conciliado por identidades no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# ATENÇÃO - DADOS PESSOAIS E FINANCEIROS: salário por empregado identificável e situação de afastamento (pode revelar condição de saúde). Colunas marcadas `sensivel`.
+#
+# NÃO EXPOSTO DE PROPÓSITO: colunas de estágio (supervisor, instituição, apólice) e de controle do eSocial da alteração contratual; as de grade salarial/nível/classe de
+# foaltesal que não são usadas (só tipo 1 = normal existe nos dados).
+modulo: folha_historico
+titulo: Histórico da folha (salário, contrato, eventos, situação mensal)
+dominios:
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+  tipo_alteracao_salarial:
+    descricao: Tipo da alteração salarial (foaltesal.tipo_alt_grade)
+    confirmado: parcial
+    nota: O comentário lista 1 (normal), 2 (valor hora-aula), 3 (grade salarial) e 4 (resilição de professor, truncado). Nos dados só existe 1 (27.825 linhas).
+    valores: {1: Normal, 2: Valor hora-aula, 3: Grade salarial, 4: Resilição de professor}
+  forma_alteracao_salarial:
+    descricao: Como o novo salário foi obtido (foaltesal.forma_alteracao)
+    confirmado: parcial
+    nota: >
+      O comentário está truncado depois do 3. Confirmados pelos dados: 1 = novo salário informado (23.651 linhas), 2 = adicionar valor (novo = anterior + valor adicionado, 107 de
+      107 linhas) e 3 = percentual de aumento (novo = anterior × (1 + %), 3.727 de 3.731). Os códigos 6 (1 linha) e 7 (335) existem nos dados e não têm legenda no banco.
+    valores: {1: Novo salário, 2: Adicionar valor, 3: Percentual de aumento, 6: Sem legenda (1 linha), 7: Sem legenda (335 linhas)}
+  tipo_lancamento_evento:
+    descricao: Tipo do lançamento de evento (folancamentos_eventos.tipo_lancamento)
+    confirmado: true      # comentário do banco: 1 = mensal, 2 = fixo
+    valores: {1: Mensal, 2: Fixo}
+  origem_lancamento_evento:
+    descricao: Origem do lançamento de evento (folancamentos_eventos.origem_lancamento)
+    confirmado: parcial
+    nota: O comentário está truncado ("1=Lançamento de eventos/2=Alterar Cálculo/3=Importação de lançame..."). Em uso 1 (169.827), 3 (25.772), 4 (17.300), 2 (10.612), 6 (2.477) e 5 (73); 4, 5 e 6 sem legenda.
+    valores: {1: Lançamento de eventos, 2: Alterar cálculo, 3: Importação de lançamentos, 4: Sem legenda, 5: Sem legenda, 6: Sem legenda}
+  tipo_folha_lancamento:
+    descricao: Tipo do processo (folancamentos_eventos.tipo_processo)
+    confirmado: parcial
+    nota: Mesmos códigos do domínio tipo_folha do módulo folha (11 mensal, 41 adiantamento, 42 complementar, 51/52 13º, 70 PLR). Em uso 11 (216.286), 70 (4.323), 41 (3.197), 52 (1.027), 51 (648) e 42 (580).
+    valores: {11: Mensal, 41: Adiantamento, 42: Complementar, 51: Adiantamento de 13º salário, 52: 13º salário, 70: Participação nos lucros}
+
+entidades:
+  alteracao_salarial:
+    titulo: Alterações salariais do empregado
+    descricao: >
+      Cada reajuste ou alteração de salário de um empregado: salário anterior e novo, forma da alteração, motivo, retroatividade e período. 27.825 linhas, 974 empresas, 10.976
+      empregados. Datas anteriores a 2000 (707 linhas) são provavelmente o valor padrão 1900-01-01.
+    tabela: foaltesal
+    chave: [codi_emp, i_empregados, competencia, tipo_alt_grade]
+    acesso: {empresa: codi_emp, exige_algum: [empregado_codigo, periodo], periodo: competencia, volume: medio}
+    ordem: [[competencia, desc], [i_empregados, asc]]
+    privacidade: Salário por empregado identificável (financeiro).
+    colunas:
+      empregado_codigo: i_empregados
+      competencia: competencia
+      tipo: {coluna: tipo_alt_grade, dominio: tipo_alteracao_salarial}
+      forma_alteracao: {coluna: forma_alteracao, dominio: forma_alteracao_salarial}
+      salario_anterior: {coluna: salario_anterior, sensivel: financeiro}
+      novo_salario: {coluna: novo_salario, sensivel: financeiro}
+      valor_adicionado: {coluna: valor_adicionado, sensivel: financeiro}
+      percentual_aumento: perc_aumento
+      motivo: motivo
+      retroativo: {coluna: retroativo, dominio: sim_nao_numerico}
+      retroativo_a_partir_de: retroativo_data
+      forma_ajuste_retroativo: retroativo_ajuste
+      periodo_inicio: periodo_inicio
+      periodo_fim: periodo_fim
+      origem_registro: origem_reg
+    calculadas:
+      novo_pelo_percentual: "salario_anterior * (1 + perc_aumento / 100)"
+      novo_pela_soma: "salario_anterior + valor_adicionado"
+    filtros:
+      empregado_codigo: {coluna: i_empregados, ops: [eq, in]}
+      competencia: {coluna: competencia, ops: [eq, entre, gte, lte]}
+      forma_alteracao: {coluna: forma_alteracao, ops: [eq, in]}
+      retroativo: {coluna: retroativo, ops: [eq]}
+    regras:
+      - "Percentual: em 3.727 de 3.731 alterações de forma 3 (percentual), novo salário = salário anterior × (1 + %) com tolerância de 5 centavos. Adicionar valor: novo = anterior + valor adicionado em 107 de 107 (forma 2)."
+      - "Continuidade: nas 40 empresas com mais alterações, o salário anterior de uma alteração é igual ao novo salário da alteração anterior do mesmo empregado em 8.915 de 8.955 pares (99,6%)."
+      - "Formas de alteração: 1 (novo salário) 23.651 · 3 (percentual) 3.731 · 7 (sem legenda) 335 · 2 (adicionar valor) 107 · 6 (sem legenda) 1. Só existe o tipo 1 (normal)."
+      - "Dados suspeitos: 707 alterações têm data anterior a 2000 (valor padrão 1900-01-01), 6 têm data futura (até 2026-10-20) e 2.225 têm novo salário zero. 4.430 são retroativas."
+
+  alteracao_contratual:
+    titulo: Alterações contratuais do empregado
+    descricao: >
+      Histórico das condições do contrato de cada empregado a partir de uma data: serviço, cargo, função, convenção coletiva, categoria, vínculo, salário, jornada e horas
+      semanais. 33.339 linhas, 977 empresas, todas com salário. Usa 23 das 55 colunas (as demais são de estágio, contrato por prazo determinado e controle do eSocial).
+    tabela: foempregados_alteracao_contratual
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, exige_algum: [empregado_codigo, periodo], periodo: DATA_ALTERACAO, volume: medio}
+    ordem: [[DATA_ALTERACAO, desc], [I_EMPREGADOS, asc]]
+    privacidade: Salário e cargo por empregado identificável (financeiro).
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      data_alteracao: DATA_ALTERACAO
+      servico_codigo: I_SERVICOS
+      cargo_codigo: I_CARGOS
+      funcao_codigo: I_FUNCAO
+      sindicato_codigo: I_SINDICATOS
+      categoria: CATEGORIA
+      vinculo: VINCULO
+      tipo_horario: TIPO_HORARIO
+      salario: {coluna: SALARIO, sensivel: financeiro}
+      horas_semana: HORAS_SEMANA
+      carga_horaria_variavel: {coluna: CARGA_HORARIA_VARIAVEL, dominio: sim_nao_numerico}
+      jornada_codigo: I_JORNADA
+      local_trabalho_codigo: I_LOCAL_TRABALHO
+      remuneracao_variavel_codigo: I_REMUNERACAO_VARIAVEL
+      sindicalizado: {coluna: SINDICALIZADO, dominio: sim_nao_numerico}
+      categoria_esocial: CATEGORIA_ESOCIAL_EMPREGADO
+      tipo_contribuinte: TIPO_CONTRIBUINTE
+      fim_contrato_prazo_determinado: DATA_FIM_CONTRATO_PRAZO_DETERMINADO
+      dias_contrato_prazo_determinado: QUANTIDADE_DIAS_CONTRATO_PRAZO_DETERMINADO
+      alvara_judicial: {coluna: ALVARA_JUDICIAL, dominio: sim_nao_numerico}
+      modalidade_contratacao: MODALIDADE_CONTRATACAO
+      numero_processo: NUMERO_PROCESSO
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      data_alteracao: {coluna: DATA_ALTERACAO, ops: [eq, entre, gte, lte]}
+      cargo_codigo: {coluna: I_CARGOS, ops: [eq, in]}
+    regras:
+      - "33.339 linhas e todas têm salário preenchido; a data mais antiga é 1900-01-01 (valor padrão) e a mais recente 2026-10-20."
+
+  lancamento_evento_folha:
+    titulo: Lançamentos de eventos da folha (variáveis e fixos)
+    descricao: >
+      Eventos lançados para um empregado (horas extras, faltas, comissões, descontos fixos...) com a competência inicial e final, o tipo de folha, o valor informado e a
+      origem do lançamento. 226.061 linhas, 805 empresas. 213.860 não têm competência final (valem sem prazo).
+    tabela: folancamentos_eventos
+    chave: [CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, exige_algum: [empregado_codigo, periodo], periodo: COMPETENCIA_INICIAL, volume: medio}
+    ordem: [[COMPETENCIA_INICIAL, desc], [I_EMPREGADOS, asc], [I_EVENTOS, asc]]
+    privacidade: Valores lançados por empregado identificável (financeiro).
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      evento_codigo: I_EVENTOS
+      tipo_folha: {coluna: TIPO_PROCESSO, dominio: tipo_folha_lancamento}
+      tipo_lancamento: {coluna: TIPO_LANCAMENTO, dominio: tipo_lancamento_evento}
+      competencia_inicial: COMPETENCIA_INICIAL
+      competencia_final: COMPETENCIA_FINAL
+      meses_aplicaveis: MESES
+      prioridade: PRIORIDADE
+      valor_informado: {coluna: VALOR_INFORMADO, sensivel: financeiro}
+      valor_calculado: {coluna: VALOR_CALCULADO, sensivel: financeiro}
+      origem_lancamento: {coluna: ORIGEM_LANCAMENTO, dominio: origem_lancamento_evento}
+      sequencial: SEQUENCIAL
+      competencia_alteracao: COMPETENCIA_ALTERACAO
+      data_pagamento_alteracao_calculo: DATA_PAGAMENTO_ALTERA_CALCULO
+    vinculos:
+      evento:
+        tabela: foeventos
+        liga: {CODI_EMP: codi_emp, I_EVENTOS: i_eventos}
+        colunas: {evento_nome: nome}
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      evento_codigo: {coluna: I_EVENTOS, ops: [eq, in]}
+      tipo_folha: {coluna: TIPO_PROCESSO, ops: [eq, in]}
+      competencia_inicial: {coluna: COMPETENCIA_INICIAL, ops: [eq, entre, gte, lte]}
+    regras:
+      - "Tipo de lançamento: mensal (1) em 203.673 e fixo (2) em 22.388. Origem: lançamento de eventos 169.827 · importação 25.772 · origem 4 (sem legenda) 17.300 · alterar cálculo 10.612 · origem 6 (sem legenda) 2.477 · origem 5 (sem legenda) 73."
+      - "213.860 lançamentos não têm competência final (valem até serem encerrados) e 15.291 têm valor informado zero. Dado suspeito: há competência inicial no ano 2400."
+      - "Por tipo de folha: mensal (11) 216.286 · participação nos lucros (70) 4.323 · adiantamento (41) 3.197 · 13º (52) 1.027 · adiantamento de 13º (51) 648 · complementar (42) 580."
+
+  situacao_mensal_empregado:
+    titulo: Situação mensal do empregado (trabalhando, férias, afastado...)
+    descricao: >
+      Registra, para cada empregado e competência, em que situação ele estava (código de afastamento) e o período correspondente. ATENÇÃO: o código 1 é "Trabalhando": 400.581 de
+      429.093 linhas (93%) são o empregado trabalhando; os afastamentos (férias, doença, maternidade, demitido...) são a minoria. 429.093 linhas, 969 empresas.
+    tabela: foafastamentos_competencia
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, DATA_REAL_DN, DATA_INICIO_DN]
+    acesso: {empresa: CODI_EMP, exige_algum: [empregado_codigo, periodo], periodo: COMPETENCIA, volume: medio}
+    ordem: [[COMPETENCIA, desc], [I_EMPREGADOS, asc]]
+    privacidade: A situação de afastamento pode revelar condição de saúde do empregado.
+    colunas:
+      empregado_codigo: I_EMPREGADOS
+      competencia: COMPETENCIA
+      situacao_codigo: I_AFASTAMENTOS
+      data_real: DATA_REAL
+      data_inicio: DATA_INICIO
+      data_fim: DATA_FIM
+      numero_dias: NUMERO_DIAS
+      origem_registro: ORIGEM_REG
+    vinculos:
+      tipo:
+        tabela: foafastamentos_tipos
+        liga: {I_AFASTAMENTOS: i_afastamentos}
+        colunas: {situacao_descricao: descricao}
+    filtros:
+      empregado_codigo: {coluna: I_EMPREGADOS, ops: [eq, in]}
+      competencia: {coluna: COMPETENCIA, ops: [eq, entre, gte, lte]}
+      situacao_codigo: {coluna: I_AFASTAMENTOS, ops: [eq, in]}
+    regras:
+      - "Situação 1 'Trabalhando' em 400.581 linhas; 9 'Férias' 13.319; 8 'Demitido' 10.418; 6 'Doença período superior a 15 dias' 1.130; 18 'Doença até 15 dias' 1.092; 5 'Licença maternidade' 741. Para listar só afastamentos filtre situacao_codigo diferente de 1."
+      - "O número de dias é igual a (data fim − data início + 1) em 427.267 de 429.093 linhas."
+      - "Dados suspeitos: competências de 1968-01 até 2028-11 (futuras) aparecem; use filtro de período."

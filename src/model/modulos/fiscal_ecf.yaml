@@ -1,0 +1,625 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_ecf
+titulo: Fiscal - ecf (rascunho em lote)
+dominios:
+  efecf_cupom_fiscal_situacao_0_documento_regular_1_do:
+    confirmado: true
+    nota: 'Todos os valores observados em EFECF_CUPOM_FISCAL.SITUACAO estão no comentário do banco (2026-10-18). Distribuição: 0=33.875, 2=506.'
+    valores: {'0': Documento regular, '1': Documento regular extemporâneo, '2': Documento cancelado}
+  efecf_cupom_fiscal_tipo_do_titulo_0_duplicata_1_cheq:
+    confirmado: true
+    nota: 'Todos os valores observados em EFECF_CUPOM_FISCAL.TIPO_TITULO estão no comentário do banco (2026-10-18). Distribuição: 99=34.381.'
+    valores: {'0': Duplicata, '1': Cheque, '2': Promissória, '3': Recibo, '4': Clientes, '5': Documento Fiscal, '99': Outros}
+entidades:
+  efecf_cupom_fiscal_estoque:
+    titulo: ECF - Cupom fiscal - Estoque
+    descricao: 'ECF - Cupom fiscal - Estoque. 189.652 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_CUPOM, I_ESTOQUE.'
+    tabela: EFECF_CUPOM_FISCAL_ESTOQUE
+    chave: [CODI_EMP, I_REDUCAO, I_CUPOM, I_ESTOQUE]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_CUPOM, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_do_cupom_fiscal: I_CUPOM, sequencial_do_estoque: I_ESTOQUE, produto: CODI_PDI, quantidade: QUANTIDADE,
+      quantidade_cancelada: QUANTIDADE_CANCELADA, codigo_da_unidade: CODIGO_UNIDADE, unidade_comercializada: UNIDADE, valor_unitario: VALOR_UNITARIO, valor_total: VALOR_TOTAL,
+      valor_do_desconto: DESCONTO, valor_do_cancelamento: CANCELAMENTO, valor_do_acrescimo: ACRESCIMO, valor_liquido: VALOR_LIQUIDO, valor_do_issqn: VALOR_ISSQN,
+      codigo_da_situacao_tributaria_icms: CST_ICMS, operacao: OPERACAO, cfop: CFOP, base_de_calculo_do_icms: BASE_CALCULO_ICMS, aliquota_do_icms: ALIQUOTA_ICMS, valor_do_icms: VALOR_ICMS,
+      valor_de_isentas_do_icms: ISENTAS_ICMS, valor_nao_tributado_do_icms: NAO_TRIBUTADAS_ICMS, valor_adquirido_com_st: ADQUIRIDA_SUBTRI, base_de_calculo_do_pis: BASE_CALCULO_PIS,
+      aliquota_do_pis: ALIQUOTA_PIS, valor_do_pis: VALOR_PIS, base_de_calculo_da_cofins: BASE_CALCULO_COFINS, aliquota_da_cofins: ALIQUOTA_COFINS, valor_da_cofins: VALOR_COFINS,
+      movimentacao_fisica_de_produto_s_n: MOVIMENTACAO_FISICA, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, cst_do_pis: CST_PIS, cst_da_cofins: CST_COFINS,
+      bico_do_combustivel: I_BICO, quantidade_tributada_pis_por_unidade_de: QTDE_TRIBUTARIA_MEDIDA_PIS, valor_unidade_pis_por_unidade_de_medida: VALOR_UNIDADE_MEDIDA_PIS,
+      valor_pis_por_unidade_de_medida: VALOR_MEDIDA_PIS, quantidade_tributada_cofins_por_unidade: QTDE_TRIBUTARIA_MEDIDA_COFINS, valor_unidade_cofins_por_unidade_de_medi: VALOR_UNIDADE_MEDIDA_COFINS,
+      valor_cofins_por_unidade_de_medida: VALOR_MEDIDA_COFINS, dados_referente_ao_pis_cofins_ok_s_n: DADOS_PISCOFINS_OK, cst_do_issqn: CST_ISSQN, base_de_calculo_do_issqn: BASE_CALCULO_ISSQN,
+      aliquota_do_issqn: ALIQUOTA_ISSQN, isentas_de_issqn: ISENTAS_ISSQN, nao_incidencia_de_issqn: NAO_INCIDENCIA_ISSQN, combustivel_operacao: COMBUSTIVEL_OPERACAO,
+      modal: COMBUSTIVEL_MODAL, codigo_veiculo: COMBUSTIVEL_CODIGO_VEICULO, servico: COMBUSTIVEL_SERVICO, natureza_da_receita_do_pis: NATUREZA_RECEITA_PIS, natureza_da_receita_do_cofins: NATUREZA_RECEITA_COFINS,
+      exclusao_cooperativa: EXCLUSAO_COOPERATIVA, codigo_sequencial_do_cst_de_icms: I_CST_VIGENCIA_ICMS, tanque_do_combustivel: I_TANQUE, percentual_reducao_base_calculo_pis: PERCENTUAL_REDUCAO_BC_PIS,
+      percentual_reducao_base_calculo_cofins: PERCENTUAL_REDUCAO_BC_COFINS, codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita_pis: codigo, cst_pis: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+      efcombustivel_tanque:
+        tabela: EFCOMBUSTIVEL_TANQUE
+        liga: {codi_emp: codi_emp, i_tanque: i_tanque}
+        colunas: {efcombustivel_tanque_nome: DESCRICAO}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_cupom_fiscal:
+        coluna: I_CUPOM
+        ops: [eq, in]
+      sequencial_do_estoque:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_da_unidade:
+        coluna: CODIGO_UNIDADE
+        ops: [eq, in]
+      unidade_comercializada:
+        coluna: UNIDADE
+        ops: [eq, in]
+      movimentacao_fisica_de_produto_s_n:
+        coluna: MOVIMENTACAO_FISICA
+        ops: [eq, in]
+      bico_do_combustivel:
+        coluna: I_BICO
+        ops: [eq, in]
+      dados_referente_ao_pis_cofins_ok_s_n:
+        coluna: DADOS_PISCOFINS_OK
+        ops: [eq, in]
+      codigo_veiculo:
+        coluna: COMBUSTIVEL_CODIGO_VEICULO
+        ops: [eq, in]
+      codigo_sequencial_do_cst_de_icms:
+        coluna: I_CST_VIGENCIA_ICMS
+        ops: [eq, in]
+      tanque_do_combustivel:
+        coluna: I_TANQUE
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 189.652 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (7): bico_do_combustivel, combustivel_operacao, modal,
+        servico, natureza_da_receita_do_pis, natureza_da_receita_do_cofins, tanque_do_combustivel.', 'Vínculo efprodutos (efprodutos): 0 de 20.179 linhas sem registro
+        relacionado (empresa 455).', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA): 0 de 20.179 linhas sem registro relacionado (empresa 455).', 'Vínculo
+        efcombustivel_tanque (EFCOMBUSTIVEL_TANQUE): 20.179 de 20.179 linhas sem registro relacionado (empresa 455).']
+  efecf_cupom_fiscal_pis_cofins:
+    titulo: ECF - Cupom Fiscal - PIS/COFINS
+    descricao: 'ECF - Cupom Fiscal - PIS/COFINS. 57.401 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_CUPOM, I_PIS_COFINS.'
+    tabela: EFECF_CUPOM_FISCAL_PIS_COFINS
+    chave: [CODI_EMP, I_REDUCAO, I_CUPOM, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_CUPOM, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_do_cupom_fiscal: I_CUPOM, sequencial: I_PIS_COFINS, cst: CST, natureza_da_receita: NATUREZA_RECEITA,
+      versao_da_cfop: VERSAO_CFOP, cfop: CFOP, valor_contabil: VALOR_CONTABIL, exclusoes: EXCLUSOES, base_de_calculo: BASE_CALCULO, aliquota_do_pis: ALIQUOTA_PIS,
+      aliquota_da_cofins: ALIQUOTA_COFINS, quantidade_tributada: QUANTIDADE_TRIBUTADA, valor_por_unidade_do_pis_por_unidade_de: VALOR_UNIDADE_MEDIDA_PIS, valor_por_unidade_da_cofins_por_unidade: VALOR_UNIDADE_MEDIDA_COFINS,
+      valor_do_pis: VALOR_PIS, valor_da_cofins: VALOR_COFINS, exclusao_cooperativa: EXCLUSAO_COOPERATIVA, percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC,
+      codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS, codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS, codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS,
+      codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS, calcular_reducao_linear_lc224: CALCULAR_REDUCAO_LINEAR_LC224}
+    vinculos:
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita: codigo, cst: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_cupom_fiscal:
+        coluna: I_CUPOM
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      calcular_reducao_linear_lc224:
+        coluna: CALCULAR_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 57.401 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): natureza_da_receita, codigo_sequencial_do_recolhimento_do_pis,
+        codigo_sequencial_do_recolhimento_do_cof.', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA): 0 de 57.401 linhas sem registro relacionado (empresa
+        364).', 'Vínculo efnatureza (efnatureza): 0 de 57.401 linhas sem registro relacionado (empresa 364).']
+  efecf_reducao_z_estoque:
+    titulo: ECF - Dados da redução Z - Estoque
+    descricao: 'ECF - Dados da redução Z - Estoque. 38.335 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_ESTOQUE.'
+    tabela: EFECF_REDUCAO_Z_ESTOQUE
+    chave: [CODI_EMP, I_REDUCAO, I_ESTOQUE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_REDUCAO, volume: medio}
+    ordem:
+    - [DATA_REDUCAO, desc]
+    - [I_REDUCAO, asc]
+    - [I_ESTOQUE, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_do_estoque: I_ESTOQUE, produto: CODI_PDI, quantidade: QUANTIDADE, quantidade_cancelada: QUANTIDADE_CANCELADA,
+      codigo_da_unidade: CODIGO_UNIDADE, unidade_comercializada: UNIDADE, valor_unitario: VALOR_UNITARIO, valor_total: VALOR_TOTAL, valor_do_desconto: DESCONTO, valor_do_cancelamento: CANCELAMENTO,
+      valor_do_acrescimo: ACRESCIMO, valor_liquido: VALOR_LIQUIDO, codigo_da_situacao_tributaria_icms: CST_ICMS, operacao: OPERACAO, cfop: CFOP, base_de_calculo_do_icms: BASE_CALCULO_ICMS,
+      aliquota_do_icms: ALIQUOTA_ICMS, valor_do_icms: VALOR_ICMS, valor_de_isentas_de_icms: ISENTAS_ICMS, valor_nao_tributado_do_icms: NAO_TRIBUTADAS_ICMS, valor_adquirido_com_st: ADQUIRIDA_SUBTRI,
+      base_de_calculo_do_pis: BASE_CALCULO_PIS, aliquota_do_pis: ALIQUOTA_PIS, valor_do_pis: VALOR_PIS, base_de_calculo_da_cofins: BASE_CALCULO_COFINS, aliquota_da_cofins: ALIQUOTA_COFINS,
+      valor_da_cofins: VALOR_COFINS, movimentacao_fisica_de_produto_s_n: MOVIMENTACAO_FISICA, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, cst_do_pis: CST_PIS,
+      cst_da_cofins: CST_COFINS, bico_do_combustivel: I_BICO, quantidade_tributada_pis_por_unidade_de: QTDE_TRIBUTARIA_MEDIDA_PIS, valor_unidade_pis_por_unidade_de_medida: VALOR_UNIDADE_MEDIDA_PIS,
+      valor_pis_por_unidade_de_medida: VALOR_MEDIDA_PIS, quantidade_tributada_cofins_por_unidade: QTDE_TRIBUTARIA_MEDIDA_COFINS, valor_unidade_cofins_por_unidade_de_medi: VALOR_UNIDADE_MEDIDA_COFINS,
+      valor_cofins_por_unidade_de_medida: VALOR_MEDIDA_COFINS, dados_referente_ao_pis_cofins_ok_s_n: DADOS_PISCOFINS_OK, cst_do_issqn: CST_ISSQN, base_de_calculo_do_issqn: BASE_CALCULO_ISSQN,
+      aliquota_do_issqn: ALIQUOTA_ISSQN, valor_do_issqn: VALOR_ISSQN, isentas_de_issqn: ISENTAS_ISSQN, nao_incidencia_de_issqn: NAO_INCIDENCIA_ISSQN, combustivel_operacao: COMBUSTIVEL_OPERACAO,
+      modal: COMBUSTIVEL_MODAL, codigo_veiculo: COMBUSTIVEL_CODIGO_VEICULO, servico: COMBUSTIVEL_SERVICO, natureza_da_receita_do_pis: NATUREZA_RECEITA_PIS, natureza_da_receita_do_cofins: NATUREZA_RECEITA_COFINS,
+      exclusao_cooperativa: EXCLUSAO_COOPERATIVA, codigo_sequencial_do_cst_de_icms: I_CST_VIGENCIA_ICMS, valor_total_pelo_custo_medio: VALOR_TOTAL_CUSTO_MEDIO, tanque_do_combustivel: I_TANQUE,
+      data_da_reducao_z: DATA_REDUCAO, percentual_reducao_base_calculo_pis: PERCENTUAL_REDUCAO_BC_PIS, percentual_reducao_base_calculo_cofins: PERCENTUAL_REDUCAO_BC_COFINS}
+    vinculos:
+      efprodutos:
+        tabela: efprodutos
+        liga: {codi_pdi: codi_pdi, codi_emp: codi_emp}
+        colunas: {efprodutos_nome: desc_pdi}
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita_pis: codigo, cst_pis: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+      efcombustivel_tanque:
+        tabela: EFCOMBUSTIVEL_TANQUE
+        liga: {codi_emp: codi_emp, i_tanque: i_tanque}
+        colunas: {efcombustivel_tanque_nome: DESCRICAO}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_estoque:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+      data_da_reducao_z:
+        coluna: DATA_REDUCAO
+        ops: [entre, gte, lte]
+      produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      codigo_da_unidade:
+        coluna: CODIGO_UNIDADE
+        ops: [eq, in]
+      unidade_comercializada:
+        coluna: UNIDADE
+        ops: [eq, in]
+      movimentacao_fisica_de_produto_s_n:
+        coluna: MOVIMENTACAO_FISICA
+        ops: [eq, in]
+      bico_do_combustivel:
+        coluna: I_BICO
+        ops: [eq, in]
+      dados_referente_ao_pis_cofins_ok_s_n:
+        coluna: DADOS_PISCOFINS_OK
+        ops: [eq, in]
+      codigo_veiculo:
+        coluna: COMBUSTIVEL_CODIGO_VEICULO
+        ops: [eq, in]
+      codigo_sequencial_do_cst_de_icms:
+        coluna: I_CST_VIGENCIA_ICMS
+        ops: [eq, in]
+      tanque_do_combustivel:
+        coluna: I_TANQUE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38.335 linhas, 3 empresa(s), DATA_REDUCAO de 2018-01-02 a 2020-03-19.', 'Colunas expostas nulas em 100% das linhas (9): bico_do_combustivel,
+        cst_do_issqn, combustivel_operacao, modal, servico, natureza_da_receita_do_pis, natureza_da_receita_do_cofins, codigo_sequencial_do_cst_de_icms, tanque_do_combustivel.',
+      'Vínculo efprodutos (efprodutos): 0 de 8.331 linhas sem registro relacionado (empresa 455).', 'Vínculo eftabela_natureza_receit (EFTABELA_NATUREZA_RECEITA):
+        0 de 8.331 linhas sem registro relacionado (empresa 455).', 'Vínculo efcombustivel_tanque (EFCOMBUSTIVEL_TANQUE): 8.331 de 8.331 linhas sem registro relacionado
+        (empresa 455).']
+  efecf_reducao_z_estoque_apuracao_estoque:
+    titulo: ECF - Dados da Redução Z - Estoque - Apuração de estoque
+    descricao: 'ECF - Dados da Redução Z - Estoque - Apuração de estoque. 37.754 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_ESTOQUE.'
+    tabela: EFECF_REDUCAO_Z_ESTOQUE_APURACAO_ESTOQUE
+    chave: [CODI_EMP, I_REDUCAO, I_ESTOQUE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_MOVIMENTACAO, volume: medio}
+    ordem:
+    - [DATA_MOVIMENTACAO, desc]
+    - [I_REDUCAO, asc]
+    - [I_ESTOQUE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_da_reducao_z: I_REDUCAO, sequencial_do_estoque: I_ESTOQUE, data_da_movimentacao: DATA_MOVIMENTACAO, codigo_do_produto: CODI_PDI,
+      quantidade: QUANTIDADE, valor_unitario: VALOR_UNITARIO, valor_total: VALOR_TOTAL, quantidade_acumulada: QUANTIDADE_ACUMULADA, valor_unitario_medio: VALOR_UNITARIO_MEDIO,
+      valor_acumulado: VALOR_ACUMULADO, valor_do_icms_unitario: ICMS_UNITARIO, valor_do_icms_total: ICMS_TOTAL, valor_do_icms_unitario_medio: ICMS_UNITARIO_MEDIO,
+      valor_do_icms_acumulado: ICMS_ACUMULADO, quantidade_icms_st: ICMS_ST_QUANTIDADE, valor_do_icms_st_unitario: ICMS_ST_UNITARIO, valor_do_icms_st_total: ICMS_ST_TOTAL,
+      quantidade_icms_st_acumulado: ICMS_ST_QUANTIDADE_ACUMULADO, valor_do_icms_st_unitario_medio: ICMS_ST_UNITARIO_MEDIO, icms_st_acumulado: ICMS_ST_ACUMULADO}
+    filtros:
+      sequencial_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_estoque:
+        coluna: I_ESTOQUE
+        ops: [eq, in]
+      data_da_movimentacao:
+        coluna: DATA_MOVIMENTACAO
+        ops: [entre, gte, lte]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 37.754 linhas, 3 empresa(s), DATA_MOVIMENTACAO de 2018-01-02 a 2020-03-19.']
+  efecf_cupom_fiscal:
+    titulo: ECF - Cupom fiscal
+    descricao: 'ECF - Cupom fiscal. 34.381 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_CUPOM.'
+    tabela: EFECF_CUPOM_FISCAL
+    chave: [CODI_EMP, I_REDUCAO, I_CUPOM]
+    acesso: {empresa: CODI_EMP, periodo: EMISSAO, volume: medio}
+    ordem:
+    - [EMISSAO, desc]
+    - [I_REDUCAO, asc]
+    - [I_CUPOM, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_reducao_z: I_REDUCAO
+      sequencial_do_cupom_fiscal: I_CUPOM
+      numero_do_cupom_fiscal: NUMERO
+      data_de_emissao: EMISSAO
+      codigo_do_cliente: CODI_CLI
+      situacao_0_documento_regular_1_documento: {coluna: SITUACAO, dominio: efecf_cupom_fiscal_situacao_0_documento_regular_1_do}
+      valor_dos_produtos: VALOR_PRODUTO
+      valor_do_desconto: VALOR_DESCONTO
+      valor_total: VALOR_TOTAL
+      gerar_parcelas_s_n: GERAR_PARCELAS
+      valor_do_acrescimo: ACRESCIMO
+      tipo_do_titulo_0_duplicata_1_cheque_2_pr: {coluna: TIPO_TITULO, dominio: efecf_cupom_fiscal_tipo_do_titulo_0_duplicata_1_cheq}
+      identificacao: IDENTIFICACAO
+      orderm_de_operacao_coo: ORDEM_OPERACAO
+    vinculos:
+      efclientes:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {efclientes_nome: nomr_cli}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_cupom_fiscal:
+        coluna: I_CUPOM
+        ops: [eq, in]
+      data_de_emissao:
+        coluna: EMISSAO
+        ops: [entre, gte, lte]
+      codigo_do_cliente:
+        coluna: CODI_CLI
+        ops: [eq, in]
+      situacao_0_documento_regular_1_documento:
+        coluna: SITUACAO
+        ops: [eq, in]
+      gerar_parcelas_s_n:
+        coluna: GERAR_PARCELAS
+        ops: [eq, in]
+      tipo_do_titulo_0_duplicata_1_cheque_2_pr:
+        coluna: TIPO_TITULO
+        ops: [eq, in]
+      identificacao:
+        coluna: IDENTIFICACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 34.381 linhas, 3 empresa(s), EMISSAO de 2018-01-02 a 2020-03-19.', 'situacao_0_documento_regular_1_documento: todos os valores
+        reais estão no comentário do banco (0=33.875, 2=506).', 'tipo_do_titulo_0_duplicata_1_cheque_2_pr: todos os valores reais estão no comentário do banco (99=34.381).',
+      'Vínculo efclientes (efclientes): 0 de 4.198 linhas sem registro relacionado (empresa 455).']
+  efecf_reducao_z_situacao_tributaria:
+    titulo: ECF - Dados da redução Z - Situação tributária
+    descricao: 'ECF - Dados da redução Z - Situação tributária. 1.608 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_SITUACAO.'
+    tabela: EFECF_REDUCAO_Z_SITUACAO_TRIBUTARIA
+    chave: [CODI_EMP, I_REDUCAO, I_SITUACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_SITUACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_da_situacao_tributaria: I_SITUACAO, operacao: OPERACAO, valor_da_operacao: VALOR, aliquota_da_operacao: ALIQUOTA,
+      valor_do_imposto_da_operacao: IMPOSTO}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_da_situacao_tributaria:
+        coluna: I_SITUACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.608 linhas, 6 empresa(s).']
+  efecf_reducao_z_situacao_tributaria_detalhamento:
+    titulo: ECF - Dados da redução Z - Situação tributária - Detalhamento
+    descricao: 'ECF - Dados da redução Z - Situação tributária - Detalhamento. 1.608 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_SITUACAO, I_DETALHAMENTO.'
+    tabela: EFECF_REDUCAO_Z_SITUACAO_TRIBUTARIA_DETALHAMENTO
+    chave: [CODI_EMP, I_REDUCAO, I_SITUACAO, I_DETALHAMENTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_SITUACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_da_situacao_tributaria: I_SITUACAO, sequencial_do_detalhamento: I_DETALHAMENTO, acumulador: CODI_ACU,
+      cfop: CODI_NAT, versao_da_cfop: VERSAO_NAT, valor_do_detalhamento: VALOR, valor_do_imposto_do_detalhamento: IMPOSTO, cst: CST}
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      efnatureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_da_situacao_tributaria:
+        coluna: I_SITUACAO
+        ops: [eq, in]
+      sequencial_do_detalhamento:
+        coluna: I_DETALHAMENTO
+        ops: [eq, in]
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      cfop:
+        coluna: CODI_NAT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.608 linhas, 6 empresa(s).', 'Vínculo efacumulador (EFACUMULADOR): 0 de 359 linhas sem registro relacionado (empresa 543).',
+      'Vínculo efnatureza (efnatureza): 0 de 359 linhas sem registro relacionado (empresa 543).']
+  efecf_reducao_z_impostos:
+    titulo: ECF - Dados da redução Z - Impostos
+    descricao: 'ECF - Dados da redução Z - Impostos. 1.493 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_IMPOSTO.'
+    tabela: EFECF_REDUCAO_Z_IMPOSTOS
+    chave: [CODI_EMP, I_REDUCAO, I_IMPOSTO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_IMPOSTO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial_do_imposto: I_IMPOSTO, acumulador: CODI_ACU, cfop: CODI_NAT, versao_da_cfop: VERSAO_NAT,
+      codigo_do_imposto: CODI_IMP, valor_contabil: VALOR_CONTABIL, base_de_calculo: BASE_CALCULO, aliquota: ALIQUOTA, valor_do_imposto: IMPOSTO, valor_isento: ISENTAS,
+      valor_de_outros: OUTROS, valor_de_nao_tributadas: NAO_TRIBUTADAS, valor_de_parcela_reduzida: PARCELA_REDUZIDA, valor_fundo_ampara_rs: VALOR_FUNDO_AMPARA, aliquota_funrural: ALIQUOTA_FUNRURAL}
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      efnatureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      geimposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {geimposto_nome: nome_imp}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial_do_imposto:
+        coluna: I_IMPOSTO
+        ops: [eq, in]
+      acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      cfop:
+        coluna: CODI_NAT
+        ops: [eq, in]
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.493 linhas, 6 empresa(s).', 'Vínculo efacumulador (EFACUMULADOR): 0 de 287 linhas sem registro relacionado (empresa 455).',
+      'Vínculo efnatureza (efnatureza): 0 de 287 linhas sem registro relacionado (empresa 455).', 'Vínculo geimposto (geimposto): 0 de 287 linhas sem registro relacionado
+        (empresa 455).']
+  efecf_reducao_z:
+    titulo: ECF - Dados da redução Z
+    descricao: 'ECF - Dados da redução Z. 459 linhas no catálogo; chave: CODI_EMP, I_REDUCAO.'
+    tabela: EFECF_REDUCAO_Z
+    chave: [CODI_EMP, I_REDUCAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_REDUCAO, volume: pequeno}
+    ordem:
+    - [DATA_REDUCAO, desc]
+    - [I_REDUCAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, codigo_da_maquina_ecf: CODIGO_MAQUINA, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, contador_de_reinicio: CONTADOR_REINICIO,
+      data_da_reducao_z: DATA_REDUCAO, contador_da_reducao_z: CONTADOR_REDUCAO, coo_contador_de_ordem_de_operacao_inicia: CUPOM_INICIAL, coo_contador_de_ordem_de_operacao_final: CUPOM_FINAL,
+      quantidade_de_documentos_cancelados: DOCUMENTOS_CANCELADOS, numero_do_caixa: NUMERO_CAIXA, numero_do_mapa_resumo: MAPA_RESUMO, grande_total_anterior: GT_ANTERIOR,
+      grande_total_final: GT_FINAL, valor_da_venda_bruta: VENDA_BRUTA, valor_dos_cancelamentos: CANCELAMENTOS, valor_dos_descontos: DESCONTOS, valor_da_venda_liquida: VENDA_LIQUIDA,
+      codigo_da_configuracao: I_CONFIGURACAO, data_em_que_foi_feito_o_lancamento: DATA_ORIGEM, codigo_da_observacao_da_nota: CODIGO_OBSERVACAO, observacao_da_nota: OBSERVACAO_REDUCAO,
+      usuario: CODI_USU, conferido_s_n: CONFERIDO}
+    vinculos:
+      efecf_configuracao:
+        tabela: EFECF_CONFIGURACAO
+        liga: {codi_emp: codi_emp, i_configuracao: i_configuracao}
+        colunas: {efecf_configuracao_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      data_da_reducao_z:
+        coluna: DATA_REDUCAO
+        ops: [entre, gte, lte]
+      data_em_que_foi_feito_o_lancamento:
+        coluna: DATA_ORIGEM
+        ops: [entre, gte, lte]
+      codigo_da_maquina_ecf:
+        coluna: CODIGO_MAQUINA
+        ops: [eq, in]
+      codigo_da_configuracao:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      codigo_da_observacao_da_nota:
+        coluna: CODIGO_OBSERVACAO
+        ops: [eq, in]
+      observacao_da_nota:
+        coluna: OBSERVACAO_REDUCAO
+        ops: [contem, prefixo]
+      usuario:
+        coluna: CODI_USU
+        ops: [contem, prefixo]
+      conferido_s_n:
+        coluna: CONFERIDO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 459 linhas, 6 empresa(s), DATA_REDUCAO de 2013-01-02 a 2020-03-19.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_observacao_da_nota.',
+      'Vínculo efecf_configuracao (EFECF_CONFIGURACAO): 123 de 123 linhas sem registro relacionado (empresa 543).', 'Vínculo geempre (geempre): 0 de 123 linhas sem
+        registro relacionado (empresa 543).']
+  efecf_reducao_z_pis_cofins:
+    titulo: ECF - Dados da Redução Z - PIS/COFINS
+    descricao: 'ECF - Dados da Redução Z - PIS/COFINS. 355 linhas no catálogo; chave: CODI_EMP, I_REDUCAO, I_PIS_COFINS.'
+    tabela: EFECF_REDUCAO_Z_PIS_COFINS
+    chave: [CODI_EMP, I_REDUCAO, I_PIS_COFINS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_REDUCAO, asc]
+    - [I_PIS_COFINS, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_reducao_z: I_REDUCAO, sequencial: I_PIS_COFINS, cst: CST, natureza_da_receita: NATUREZA_RECEITA, versao_da_cfop: VERSAO_CFOP,
+      cfop: CFOP, valor_contabil: VALOR_CONTABIL, exclusoes: EXCLUSOES, base_de_calculo: BASE_CALCULO, aliquota_do_pis: ALIQUOTA_PIS, aliquota_da_cofins: ALIQUOTA_COFINS,
+      quantidade_tributada: QUANTIDADE_TRIBUTADA, valor_por_unidade_do_pis_por_unidade_de: VALOR_UNIDADE_MEDIDA_PIS, valor_por_unidade_da_cofins_por_unidade: VALOR_UNIDADE_MEDIDA_COFINS,
+      valor_do_pis: VALOR_PIS, valor_da_cofins: VALOR_COFINS, exclusao_cooperativa: EXCLUSAO_COOPERATIVA, percentual_reducao_base_calculo: PERCENTUAL_REDUCAO_BC,
+      codigo_sequencial_do_recolhimento_do_pis: I_RECOLHIMENTO_PIS, codigo_do_recolhimento_do_pis: CODIGO_RECOLHIMENTO_PIS, codigo_sequencial_do_recolhimento_do_cof: I_RECOLHIMENTO_COFINS,
+      codigo_do_recolhimento_do_cofins: CODIGO_RECOLHIMENTO_COFINS, calcular_reducao_linear_lc224: CALCULAR_REDUCAO_LINEAR_LC224}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {cfop: codi_nat, versao_cfop: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+      eftabela_natureza_receit:
+        tabela: EFTABELA_NATUREZA_RECEITA
+        liga: {natureza_receita: codigo, cst: codigo_cst}
+        colunas: {eftabela_natureza_receit_nome: DESCRICAO}
+    filtros:
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_PIS_COFINS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_pis:
+        coluna: I_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_pis:
+        coluna: CODIGO_RECOLHIMENTO_PIS
+        ops: [eq, in]
+      codigo_sequencial_do_recolhimento_do_cof:
+        coluna: I_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      codigo_do_recolhimento_do_cofins:
+        coluna: CODIGO_RECOLHIMENTO_COFINS
+        ops: [eq, in]
+      calcular_reducao_linear_lc224:
+        coluna: CALCULAR_REDUCAO_LINEAR_LC224
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 355 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): natureza_da_receita, codigo_sequencial_do_recolhimento_do_pis,
+        codigo_sequencial_do_recolhimento_do_cof.', 'Vínculo efnatureza (efnatureza): 0 de 352 linhas sem registro relacionado (empresa 364).', 'Vínculo eftabela_natureza_receit
+        (EFTABELA_NATUREZA_RECEITA): 0 de 352 linhas sem registro relacionado (empresa 364).']
+  efecf_reducao_z_lancto:
+    titulo: Redução Z X Lancamentos contábeis
+    descricao: 'Redução Z X Lancamentos contábeis. 354 linhas no catálogo; chave: CODI_EMP, NUME_LAN, FILI_LAN, I_REDUCAO.'
+    tabela: EFECF_REDUCAO_Z_LANCTO
+    chave: [CODI_EMP, NUME_LAN, FILI_LAN, I_REDUCAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [NUME_LAN, asc]
+    - [FILI_LAN, asc]
+    colunas: {empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, empresa_da_reducao: FILI_LAN, codigo_da_reducao_z: I_REDUCAO, tipo_do_lancamento: TIPO}
+    filtros:
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      empresa_da_reducao:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      codigo_da_reducao_z:
+        coluna: I_REDUCAO
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 354 linhas, 4 empresa(s).']
+  efecf_configuracao_situacoes:
+    titulo: ECF - Configuração da redução Z - Situações
+    descricao: 'ECF - Configuração da redução Z - Situações. 67 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO, I_SITUACAO.'
+    tabela: EFECF_CONFIGURACAO_SITUACOES
+    chave: [CODI_EMP, I_CONFIGURACAO, I_SITUACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    - [I_SITUACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_configuracao: I_CONFIGURACAO, sequencial_da_situacao: I_SITUACAO, operacao: OPERACAO, aliquota: ALIQUOTA, ordem: ORDEM}
+    vinculos:
+      efecf_configuracao:
+        tabela: EFECF_CONFIGURACAO
+        liga: {codi_emp: codi_emp, i_configuracao: i_configuracao}
+        colunas: {efecf_configuracao_nome: DESCRICAO}
+    filtros:
+      codigo_da_configuracao:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      sequencial_da_situacao:
+        coluna: I_SITUACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 67 linhas, 13 empresa(s).', 'Vínculo efecf_configuracao (EFECF_CONFIGURACAO): 0 de 7 linhas sem registro relacionado (empresa
+        10051).']
+  efecf_configuracao_acumuladores:
+    titulo: ECF - Configuração da redução Z - Acumuladores
+    descricao: 'ECF - Configuração da redução Z - Acumuladores. 67 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO, I_SITUACAO, I_ACUMULADOR.'
+    tabela: EFECF_CONFIGURACAO_ACUMULADORES
+    chave: [CODI_EMP, I_CONFIGURACAO, I_SITUACAO, I_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    - [I_SITUACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_configuracao: I_CONFIGURACAO, sequencial_da_situacao: I_SITUACAO, sequencial: I_ACUMULADOR, codigo_do_acumulador: CODI_ACU,
+      cfop: CODI_NAT, versao_da_cfop: VERSAO_NAT, ordem: ORDEM}
+    vinculos:
+      efacumulador:
+        tabela: EFACUMULADOR
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {efacumulador_nome: NOME_ACU}
+      efnatureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      codigo_da_configuracao:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      sequencial_da_situacao:
+        coluna: I_SITUACAO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+      cfop:
+        coluna: CODI_NAT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 67 linhas, 13 empresa(s).', 'Vínculo efacumulador (EFACUMULADOR): 0 de 7 linhas sem registro relacionado (empresa 10051).', 'Vínculo
+        efnatureza (efnatureza): 0 de 7 linhas sem registro relacionado (empresa 10051).']
+  efecf_configuracao:
+    titulo: ECF - Configuração da redução Z
+    descricao: 'ECF - Configuração da redução Z. 13 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO.'
+    tabela: EFECF_CONFIGURACAO
+    chave: [CODI_EMP, I_CONFIGURACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    colunas: {empresa: CODI_EMP, codigo_da_configuracao: I_CONFIGURACAO, descricao: DESCRICAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_configuracao:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 13 linhas, 13 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 10054).']

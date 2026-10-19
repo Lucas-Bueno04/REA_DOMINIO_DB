@@ -1,0 +1,238 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_lancamentos
+titulo: Pessoal - lancamentos (rascunho em lote)
+dominios:
+  folancamentos_eventos_servicos_tipo_do_processo_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOLANCAMENTOS_EVENTOS_SERVICOS.TIPO_PROCESSO estão no comentário do banco (2026-10-18). Distribuição: 11=641, 41=1.'
+    valores: {'11': Mensal, '31': 1ª semana, '32': 2ª semana, '33': 3ª semana, '34': 4ª semana, '35': Última semana, '36': Todas as semanas, '41': Adiantamento, '42': Complementar,
+      '51': Adiantamento de 13º salário, '52': 13º salário integral}
+  folancamentos_eventos_servicos_tipo_de_lancament:
+    confirmado: true
+    nota: 'Todos os valores observados em FOLANCAMENTOS_EVENTOS_SERVICOS.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=642.'
+    valores: {'1': Mensal, '2': Fixo}
+  folancamentos_eventos_servicos_origem_do_registr:
+    confirmado: true
+    nota: 'Todos os valores observados em FOLANCAMENTOS_EVENTOS_SERVICOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=642.'
+    valores: {'0': Sistema, '1': importação de tabelas, '2': importação de leiaute, '3': conversão}
+  folancamentos_eventos_pensao_alimenticia_tipo_de_lan:
+    confirmado: true
+    nota: 'Todos os valores observados em FOLANCAMENTOS_EVENTOS_PENSAO_ALIMENTICIA.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=198,
+      2=72.'
+    valores: {'1': Mensal, '2': Fixo}
+  folancamentos_eventos_pensao_alimenticia_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOLANCAMENTOS_EVENTOS_PENSAO_ALIMENTICIA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=270.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+entidades:
+  folancamentos_eventos_servicos:
+    titulo: Lançamento de evento por serviço.
+    descricao: 'Lançamento de evento por serviço.. 642 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL,
+      SEQUENCIAL, I_SERVICOS.'
+    tabela: FOLANCAMENTOS_EVENTOS_SERVICOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL, SEQUENCIAL, I_SERVICOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIAL, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_evento: I_EVENTOS
+      tipo_do_processo_11_mensal_31_1a_semana: {coluna: TIPO_PROCESSO, dominio: folancamentos_eventos_servicos_tipo_do_processo_}
+      tipo_de_lancamento_1_mensal_2_fixo: {coluna: TIPO_LANCAMENTO, dominio: folancamentos_eventos_servicos_tipo_de_lancament}
+      competencia_inicial: COMPETENCIA_INICIAL
+      sequencial: SEQUENCIAL
+      codigo_do_servico: I_SERVICOS
+      valor_informado: VALOR_INFORMADO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: folancamentos_eventos_servicos_origem_do_registr}
+    vinculos:
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      tipo_do_processo_11_mensal_31_1a_semana:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      tipo_de_lancamento_1_mensal_2_fixo:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      competencia_inicial:
+        coluna: COMPETENCIA_INICIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 642 linhas, 58 empresa(s), COMPETENCIA_INICIAL de 2017-05-01 a 2020-02-01.', 'tipo_do_processo_11_mensal_31_1a_semana: todos os
+        valores reais estão no comentário do banco (11=641, 41=1).', 'tipo_de_lancamento_1_mensal_2_fixo: todos os valores reais estão no comentário do banco (1=642).',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=642).', 'Vínculo foservicos (foservicos): 0 de 2 linhas sem
+        registro relacionado (empresa 1023).']
+  folancamentos_eventos_vale_alimentacao:
+    titulo: Lançamentos de vale alimentação.
+    descricao: 'Lançamentos de vale alimentação.. 528 linhas no catálogo; chave: CODI_EMP, I_VALE_ALIMENTACAO, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, TIPO_LANCAMENTO,
+      SEQUENCIAL.'
+    tabela: FOLANCAMENTOS_EVENTOS_VALE_ALIMENTACAO
+    chave: [CODI_EMP, I_VALE_ALIMENTACAO, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, TIPO_LANCAMENTO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_VALE_ALIMENTACAO, asc]
+    - [I_EMPREGADOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_vale_alimentacao: I_VALE_ALIMENTACAO, codigo_do_empregado: I_EMPREGADOS, competencia_do_lancamento: COMPETENCIA,
+      tipo_de_processo_do_lancamento: TIPO_PROCESSO, tipo_do_lancamento: TIPO_LANCAMENTO, sequencial_do_lancamento: SEQUENCIAL, codigo_da_rubrica_do_lancamento: I_EVENTOS,
+      numero_de_dias: NUMERO_DIAS, numero_de_vales: NUMERO_VALES, valor_a_pagar: VALOR_PAGAR}
+    vinculos:
+      fovale_alimentacao:
+        tabela: FOVALE_ALIMENTACAO
+        liga: {codi_emp: codi_emp, i_vale_alimentacao: i_vale_alimentacao}
+        colunas: {fovale_alimentacao_nome: DESCRICAO}
+    filtros:
+      codigo_do_vale_alimentacao:
+        coluna: I_VALE_ALIMENTACAO
+        ops: [eq, in]
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_do_lancamento:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_processo_do_lancamento:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      sequencial_do_lancamento:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_rubrica_do_lancamento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 530 linhas, 5 empresa(s), COMPETENCIA de 2018-11-01 a 2026-11-01.', 'Vínculo fovale_alimentacao (FOVALE_ALIMENTACAO): 0 de 62
+        linhas sem registro relacionado (empresa 1713).']
+  folancamentos_eventos_complementos:
+    titulo: Lançamentos de eventos para complementos de cálculos
+    descricao: 'Lançamentos de eventos para complementos de cálculos. 446 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO,
+      COMPETENCIA_INICIAL, SEQUENCIAL, I_CALCULOS_COMPLEMENTOS.'
+    tabela: FOLANCAMENTOS_EVENTOS_COMPLEMENTOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL, SEQUENCIAL, I_CALCULOS_COMPLEMENTOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIAL, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, codigo_do_evento: I_EVENTOS, tipo_do_processo_42_complementar: TIPO_PROCESSO, tipo_do_lancamento_1_mensal_2_fixo: TIPO_LANCAMENTO,
+      competencia_inicial_do_lancamento: COMPETENCIA_INICIAL, sequencial_do_lancamento: SEQUENCIAL, codigo_do_complemento_de_calculo: I_CALCULOS_COMPLEMENTOS, codigo_do_complemento_de_calculo_renomea: I_CALCULOS_COMPLEMENTOS_OLD,
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      tipo_do_processo_42_complementar:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      tipo_do_lancamento_1_mensal_2_fixo:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      competencia_inicial_do_lancamento:
+        coluna: COMPETENCIA_INICIAL
+        ops: [eq, in]
+      sequencial_do_lancamento:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_complemento_de_calculo:
+        coluna: I_CALCULOS_COMPLEMENTOS
+        ops: [eq, in]
+      codigo_do_complemento_de_calculo_renomea:
+        coluna: I_CALCULOS_COMPLEMENTOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 446 linhas, 48 empresa(s), COMPETENCIA_INICIAL de 2014-10-01 a 2026-10-01.']
+  folancamentos_eventos_pensao_alimenticia:
+    titulo: Valores de pensão alimentícia por dependente.
+    descricao: 'Valores de pensão alimentícia por dependente.. 270 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL,
+      SEQUENCIAL, I_FILHOS.'
+    tabela: FOLANCAMENTOS_EVENTOS_PENSAO_ALIMENTICIA
+    chave: [CODI_EMP, I_EMPREGADOS, I_EVENTOS, TIPO_PROCESSO, TIPO_LANCAMENTO, COMPETENCIA_INICIAL, SEQUENCIAL, I_FILHOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA_INICIAL, volume: pequeno}
+    ordem:
+    - [COMPETENCIA_INICIAL, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_evento: I_EVENTOS
+      tipo_de_processo: TIPO_PROCESSO
+      tipo_de_lancamento_1_mensal_2_fixo: {coluna: TIPO_LANCAMENTO, dominio: folancamentos_eventos_pensao_alimenticia_tipo_de_lan}
+      competencia_do_lancamento: COMPETENCIA_INICIAL
+      sequencial: SEQUENCIAL
+      codigo_do_dependente: I_FILHOS
+      valor: VALOR
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: folancamentos_eventos_pensao_alimenticia_origem_do_r}
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      tipo_de_processo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      tipo_de_lancamento_1_mensal_2_fixo:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      competencia_do_lancamento:
+        coluna: COMPETENCIA_INICIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 270 linhas, 34 empresa(s), COMPETENCIA_INICIAL de 2017-09-01 a 2026-09-01.', 'tipo_de_lancamento_1_mensal_2_fixo: todos os valores
+        reais estão no comentário do banco (1=198, 2=72).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=270).',
+      'Vínculo fofilhos (fofilhos): 0 de 5 linhas sem registro relacionado (empresa 603).']
+  folancamentos_automaticos_complementos:
+    titulo: Lançamentos automáticos de eventos para complementos de cálculos
+    descricao: 'Lançamentos automáticos de eventos para complementos de cálculos. 115 linhas no catálogo; chave: CODI_EMP, I_LANCTOSAUTO, I_CALCULOS_COMPLEMENTOS.'
+    tabela: FOLANCAMENTOS_AUTOMATICOS_COMPLEMENTOS
+    chave: [CODI_EMP, I_LANCTOSAUTO, I_CALCULOS_COMPLEMENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_LANCTOSAUTO, asc]
+    - [I_CALCULOS_COMPLEMENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_lancamento_automatico: I_LANCTOSAUTO, codigo_do_complemento_de_calculo: I_CALCULOS_COMPLEMENTOS, codigo_do_complemento_de_calculo_renomea: I_CALCULOS_COMPLEMENTOS_OLD,
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO}
+    filtros:
+      codigo_do_lancamento_automatico:
+        coluna: I_LANCTOSAUTO
+        ops: [eq, in]
+      codigo_do_complemento_de_calculo:
+        coluna: I_CALCULOS_COMPLEMENTOS
+        ops: [eq, in]
+      codigo_do_complemento_de_calculo_renomea:
+        coluna: I_CALCULOS_COMPLEMENTOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 115 linhas, 40 empresa(s).']

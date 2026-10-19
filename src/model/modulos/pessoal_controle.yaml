@@ -1,0 +1,183 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_controle
+titulo: Pessoal - controle (rascunho em lote)
+dominios:
+  focontrole_recalculo_status_do_c:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONTROLE_RECALCULO.STATUS_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 3=46.056, 2=6.056.'
+    valores: {'1': NOVO, '2': MODIFICADO, '3': PENDENTE}
+  focontrole_busca_tabelas_calculo_sgd_tipo_da_tab:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONTROLE_BUSCA_TABELAS_CALCULO_SGD.TIPO_TABELA_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 2=3.824,
+      1=3.823, 3=3.821, 4=3.816.'
+    valores: {'1': IRRF Progressiva, '2': INSS e Salário Família, '3': Salário Mínimo, '4': IRRF PLR}
+  focontrole_entrega_equipamentos_protecao_individual_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONTROLE_ENTREGA_EQUIPAMENTOS_PROTECAO_INDIVIDUAL.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição:
+      0=8.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  focontrole_atualizacao_tabelas_calculo_sgd_tipo_da_tab:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONTROLE_ATUALIZACAO_TABELAS_CALCULO_SGD.TIPO_TABELA_CALCULO estão no comentário do banco (2026-10-18). Distribuição:
+      2=1, 1=1, 4=1, 3=1.'
+    valores: {'1': IRRF Progressiva, '2': INSS e Salário Família, '3': Salário Mínimo, '4': IRRF PLR}
+  focontrole_atualizacao_tabelas_calculo_sgd_atualizar_0:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONTROLE_ATUALIZACAO_TABELAS_CALCULO_SGD.ATUALIZAR estão no comentário do banco (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  focontrole_atualiza_dados_rais:
+    titulo: Controle para atualizar as tabelas da RAIS de acordo com o cálculo.
+    descricao: 'Controle para atualizar as tabelas da RAIS de acordo com o cálculo.. 119.726 linhas no catálogo; chave: I_CONTROLE_ATUALIZA_DADOS_RAIS.'
+    tabela: FOCONTROLE_ATUALIZA_DADOS_RAIS
+    chave: [I_CONTROLE_ATUALIZA_DADOS_RAIS]
+    acesso:
+      empresa: CODI_EMP
+      periodo: COMPETENCIA
+      volume: medio
+      exige_algum: [codigo_do_controle]
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_CONTROLE_ATUALIZA_DADOS_RAIS, asc]
+    colunas: {codigo_do_controle: I_CONTROLE_ATUALIZA_DADOS_RAIS, codigo_da_empresa: CODI_EMP, competencia_do_calculo: COMPETENCIA, status: STATUS}
+    filtros:
+      codigo_do_controle:
+        coluna: I_CONTROLE_ATUALIZA_DADOS_RAIS
+        ops: [eq, in]
+      competencia_do_calculo:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 119.738 linhas, 866 empresa(s), COMPETENCIA de 2012-12-01 a 2026-11-01.']
+  focontrole_recalculo:
+    titulo: Controle de alteração nos cálculos para recálculo
+    descricao: 'Controle de alteração nos cálculos para recálculo. 52.082 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO_PROCESSO, COMPETENCIA.'
+    tabela: FOCONTROLE_RECALCULO
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO_PROCESSO, COMPETENCIA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_de_calculo: TIPO_PROCESSO
+      competencia: COMPETENCIA
+      versao_do_calculo: VERSAO_CALCULO
+      versao_do_recalculo: VERSAO_RECALCULO
+      status_calculo: {coluna: STATUS_CALCULO, dominio: focontrole_recalculo_status_do_c}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 52.112 linhas, 337 empresa(s), COMPETENCIA de 2021-05-01 a 2026-11-01.', 'status_calculo: todos os valores reais estão no comentário
+        do banco (3=46.056, 2=6.056).', 'Vínculo geempre (geempre): 0 de 46 linhas sem registro relacionado (empresa 1095).', 'Vínculo foempregados (foempregados):
+        0 de 46 linhas sem registro relacionado (empresa 1095).']
+  focontrole_busca_tabelas_calculo_sgd:
+    titulo: Tabela de controle para buscar atualizações das tabelas de cálculo da Folha no SGD por dia.
+    descricao: 'Tabela de controle para buscar atualizações das tabelas de cálculo da Folha no SGD por dia.. 15.280 linhas no catálogo; chave: DATA_BUSCA, HORARIO_BUSCA,
+      TIPO_TABELA_CALCULO.'
+    tabela: FOCONTROLE_BUSCA_TABELAS_CALCULO_SGD
+    chave: [DATA_BUSCA, HORARIO_BUSCA, TIPO_TABELA_CALCULO]
+    acesso: {empresa: null, periodo: DATA_BUSCA, volume: medio}
+    ordem:
+    - [DATA_BUSCA, desc]
+    - [HORARIO_BUSCA, asc]
+    - [TIPO_TABELA_CALCULO, asc]
+    colunas:
+      data_da_busca: DATA_BUSCA
+      horario_da_busca: HORARIO_BUSCA
+      tipo_da_tabela_de_calculo_1_irrf_progres: {coluna: TIPO_TABELA_CALCULO, dominio: focontrole_busca_tabelas_calculo_sgd_tipo_da_tab}
+    filtros:
+      data_da_busca:
+        coluna: DATA_BUSCA
+        ops: [eq, in]
+      horario_da_busca:
+        coluna: HORARIO_BUSCA
+        ops: [eq, in]
+      tipo_da_tabela_de_calculo_1_irrf_progres:
+        coluna: TIPO_TABELA_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 15.284 linhas, DATA_BUSCA de 2016-05-16 a 2026-10-16.', 'tipo_da_tabela_de_calculo_1_irrf_progres: todos os valores reais estão
+        no comentário do banco (2=3.824, 1=3.823, 3=3.821, 4=3.816).']
+  focontrole_entrega_equipamentos_protecao_individual:
+    titulo: Equipamento de proteção individual - Empregado
+    descricao: 'Equipamento de proteção individual - Empregado. 8 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_EPI, DATA_ENTREGA.'
+    tabela: FOCONTROLE_ENTREGA_EQUIPAMENTOS_PROTECAO_INDIVIDUAL
+    chave: [CODI_EMP, I_EMPREGADOS, I_EPI, DATA_ENTREGA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_EPI, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_epi: I_EPI
+      data_da_entrega: DATA_ENTREGA
+      quantidade: QUANTIDADE
+      observacao: OBSERVACAO
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: focontrole_entrega_equipamentos_protecao_individual_origem_do_r}
+      data_de_vencimento: DATA_VENCIMENTO
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      foequipamentos_protecao:
+        tabela: FOEQUIPAMENTOS_PROTECAO_INDIVIDUAL
+        liga: {codi_emp: codi_emp, i_epi: i_epi}
+        colunas: {foequipamentos_protecao_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_epi:
+        coluna: I_EPI
+        ops: [eq, in]
+      data_da_entrega:
+        coluna: DATA_ENTREGA
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas, 1 empresa(s), DATA_VENCIMENTO de 2017-01-16 a 2017-01-16.', 'Colunas expostas nulas em 100% das linhas (1): observacao.',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=8).', 'Vínculo foempregados (foempregados): 0 de 8 linhas
+        sem registro relacionado (empresa 603).', 'Vínculo foequipamentos_protecao (FOEQUIPAMENTOS_PROTECAO_INDIVIDUAL): 0 de 8 linhas sem registro relacionado (empresa
+        603).']
+  focontrole_atualizacao_tabelas_calculo_sgd:
+    titulo: Tabela de controle para verificação de novas versões das tabelas de cálculo da folha no SGD.
+    descricao: 'Tabela de controle para verificação de novas versões das tabelas de cálculo da folha no SGD.. 4 linhas no catálogo; chave: TIPO_TABELA_CALCULO.'
+    tabela: FOCONTROLE_ATUALIZACAO_TABELAS_CALCULO_SGD
+    chave: [TIPO_TABELA_CALCULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TIPO_TABELA_CALCULO, asc]
+    colunas:
+      tipo_da_tabela_de_calculo_1_irrf_progres: {coluna: TIPO_TABELA_CALCULO, dominio: focontrole_atualizacao_tabelas_calculo_sgd_tipo_da_tab}
+      atualizar_0_nao_1_sim: {coluna: ATUALIZAR, dominio: focontrole_atualizacao_tabelas_calculo_sgd_atualizar_0}
+    filtros:
+      tipo_da_tabela_de_calculo_1_irrf_progres:
+        coluna: TIPO_TABELA_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 4 linhas.', 'tipo_da_tabela_de_calculo_1_irrf_progres: todos os valores reais estão no comentário do banco (2=1, 1=1, 4=1, 3=1).',
+      'atualizar_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=4).']

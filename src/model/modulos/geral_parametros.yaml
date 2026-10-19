@@ -1,0 +1,163 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_parametros
+titulo: Geral - parametros (rascunho em lote)
+entidades:
+  geparametros_listagem_modelo_coluna_filtro:
+    titulo: Configuração dos filtros dos relatórios gerados através do botão Listagem nos cadastros
+    descricao: 'Configuração dos filtros dos relatórios gerados através do botão Listagem nos cadastros. 5.314 linhas no catálogo; chave: ID_MODELO, ID_COLUNA, ID_FILTRO,
+      USUARIO, TIPO_CONDICAO, VALOR_CONDICAO, OPERADOR, AVANCADO.'
+    tabela: GEPARAMETROS_LISTAGEM_MODELO_COLUNA_FILTRO
+    chave: [ID_MODELO, ID_COLUNA, ID_FILTRO, USUARIO, TIPO_CONDICAO, VALOR_CONDICAO, OPERADOR, AVANCADO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID_MODELO, asc]
+    colunas: {id_modelo: ID_MODELO, id_coluna: ID_COLUNA, id_filtro: ID_FILTRO, usuario: USUARIO, tipo_condicao: TIPO_CONDICAO, valor_condicao: VALOR_CONDICAO, operador: OPERADOR,
+      avancado: AVANCADO}
+    filtros:
+      id_modelo:
+        coluna: ID_MODELO
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      tipo_condicao:
+        coluna: TIPO_CONDICAO
+        ops: [eq, in]
+      valor_condicao:
+        coluna: VALOR_CONDICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 5.314 linhas.']
+  geparametros_impressao_relatorio:
+    titulo: Parâmetros de impressao do relatório
+    descricao: 'Parâmetros de impressao do relatório. 2.794 linhas no catálogo; chave: USUARIO, ID_RELATORIO, NOME_ESTACAO, MODULO.'
+    tabela: GEPARAMETROS_IMPRESSAO_RELATORIO
+    chave: [USUARIO, ID_RELATORIO, NOME_ESTACAO, MODULO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [USUARIO, asc]
+    - [ID_RELATORIO, asc]
+    colunas: {usuario: USUARIO, id_relatorio: ID_RELATORIO, nome_estacao: NOME_ESTACAO, modulo: MODULO, impressora_padrao: IMPRESSORA_PADRAO, percentual_zoom: PERCENTUAL_ZOOM,
+      largura_caracter: LARGURA_CARACTER, percentual_aumentar: PERCENTUAL_AUMENTAR, orientacao: ORIENTACAO, espacamento_linhas: ESPACAMENTO_LINHAS, margem_direita: MARGEM_DIREITA,
+      margem_esquerda: MARGEM_ESQUERDA, margem_superior: MARGEM_SUPERIOR, margem_inferior: MARGEM_INFERIOR, largura_papel: LARGURA_PAPEL, personalizadar_margem: PERSONALIZADAR_MARGEM,
+      personalizadar_impressao: PERSONALIZADAR_IMPRESSAO}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      id_relatorio:
+        coluna: ID_RELATORIO
+        ops: [eq, in]
+      nome_estacao:
+        coluna: NOME_ESTACAO
+        ops: [eq, in]
+      modulo:
+        coluna: MODULO
+        ops: [eq, in]
+      impressora_padrao:
+        coluna: IMPRESSORA_PADRAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.794 linhas.']
+  geparametros_impressora:
+    titulo: Parâmetros da impressora
+    descricao: 'Parâmetros da impressora. 786 linhas no catálogo; chave: USUARIO, NOME_IMPRESSORA, NOME_ESTACAO, NOME_EXECUTAVEL.'
+    tabela: GEPARAMETROS_IMPRESSORA
+    chave: [USUARIO, NOME_IMPRESSORA, NOME_ESTACAO, NOME_EXECUTAVEL]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [USUARIO, asc]
+    - [NOME_IMPRESSORA, asc]
+    colunas: {usuario: USUARIO, nome_impressora: NOME_IMPRESSORA, nome_estacao: NOME_ESTACAO, nome_executavel: NOME_EXECUTAVEL, modelo: MODELO, codigo_compactacao10cpp: CODIGO_COMPACTACAO10CPP,
+      codigo_compactacao17cpp: CODIGO_COMPACTACAO17CPP, codigo_compactacao20cpp: CODIGO_COMPACTACAO20CPP, codigo_compactacaooitavos: CODIGO_COMPACTACAOOITAVOS, codigo_compactacaosextos: CODIGO_COMPACTACAOSEXTOS,
+      margem_direita: MARGEM_DIREITA, margem_esquerda: MARGEM_ESQUERDA, margem_superior: MARGEM_SUPERIOR, margem_inferior: MARGEM_INFERIOR, largura_papel: LARGURA_PAPEL,
+      percentual_zoom: PERCENTUAL_ZOOM, largura_caracter: LARGURA_CARACTER, tipo: TIPO, percentual_aumentar: PERCENTUAL_AUMENTAR}
+    filtros:
+      usuario:
+        coluna: USUARIO
+        ops: [eq, in]
+      nome_impressora:
+        coluna: NOME_IMPRESSORA
+        ops: [eq, in]
+      nome_estacao:
+        coluna: NOME_ESTACAO
+        ops: [eq, in]
+      nome_executavel:
+        coluna: NOME_EXECUTAVEL
+        ops: [eq, in]
+      modelo:
+        coluna: MODELO
+        ops: [contem, prefixo]
+      codigo_compactacao10cpp:
+        coluna: CODIGO_COMPACTACAO10CPP
+        ops: [contem, prefixo]
+      codigo_compactacao17cpp:
+        coluna: CODIGO_COMPACTACAO17CPP
+        ops: [contem, prefixo]
+      codigo_compactacao20cpp:
+        coluna: CODIGO_COMPACTACAO20CPP
+        ops: [contem, prefixo]
+      codigo_compactacaooitavos:
+        coluna: CODIGO_COMPACTACAOOITAVOS
+        ops: [contem, prefixo]
+      codigo_compactacaosextos:
+        coluna: CODIGO_COMPACTACAOSEXTOS
+        ops: [contem, prefixo]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 787 linhas.']
+  geparametros_listagem_modelo_coluna:
+    titulo: Configuração das colunas dos relatórios gerados através do botão Listagem nos cadastros
+    descricao: 'Configuração das colunas dos relatórios gerados através do botão Listagem nos cadastros. 95 linhas no catálogo; chave: ID_MODELO, ID_COLUNA, NOME_COLUNA,
+      ORDENACAO, ORDEM_ORDENACAO, ORDEM_APRESENTACAO, SELECIONADA_EMISSAO, TAMANHO_COLUNA, TIPO_DADO, TIPO_FILTRO, NOME_COLUNA_DB.'
+    tabela: GEPARAMETROS_LISTAGEM_MODELO_COLUNA
+    chave: [ID_MODELO, ID_COLUNA, NOME_COLUNA, ORDENACAO, ORDEM_ORDENACAO, ORDEM_APRESENTACAO, SELECIONADA_EMISSAO, TAMANHO_COLUNA, TIPO_DADO, TIPO_FILTRO, NOME_COLUNA_DB]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID_MODELO, asc]
+    colunas: {id_modelo: ID_MODELO, id_coluna: ID_COLUNA, nome_coluna: NOME_COLUNA, ordenacao: ORDENACAO, ordem_ordenacao: ORDEM_ORDENACAO, ordem_apresentacao: ORDEM_APRESENTACAO,
+      selecionada_emissao: SELECIONADA_EMISSAO, tamanho_coluna: TAMANHO_COLUNA, tipo_dado: TIPO_DADO, tipo_filtro: TIPO_FILTRO, nome_coluna_db: NOME_COLUNA_DB}
+    filtros:
+      id_modelo:
+        coluna: ID_MODELO
+        ops: [eq, in]
+      nome_coluna:
+        coluna: NOME_COLUNA
+        ops: [contem, prefixo]
+      tipo_dado:
+        coluna: TIPO_DADO
+        ops: [eq, in]
+      tipo_filtro:
+        coluna: TIPO_FILTRO
+        ops: [eq, in]
+      nome_coluna_db:
+        coluna: NOME_COLUNA_DB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 95 linhas.']
+  geparametros_listagem_modelo:
+    titulo: Configuração dos relatórios gerados através do botão Listagem nos cadastros
+    descricao: 'Configuração dos relatórios gerados através do botão Listagem nos cadastros. 23 linhas no catálogo; chave: ID_MODELO, JANELA, NOME_MODELO, TIPO_PAGINA,
+      DESTACAR_LINHA, NOME_TABELA_DB.'
+    tabela: GEPARAMETROS_LISTAGEM_MODELO
+    chave: [ID_MODELO, JANELA, NOME_MODELO, TIPO_PAGINA, DESTACAR_LINHA, NOME_TABELA_DB]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [ID_MODELO, asc]
+    colunas: {id_modelo: ID_MODELO, janela: JANELA, nome_modelo: NOME_MODELO, tipo_pagina: TIPO_PAGINA, destacar_linha: DESTACAR_LINHA, nome_tabela_db: NOME_TABELA_DB}
+    filtros:
+      id_modelo:
+        coluna: ID_MODELO
+        ops: [eq, in]
+      janela:
+        coluna: JANELA
+        ops: [contem, prefixo]
+      nome_modelo:
+        coluna: NOME_MODELO
+        ops: [contem, prefixo]
+      tipo_pagina:
+        coluna: TIPO_PAGINA
+        ops: [eq, in]
+      nome_tabela_db:
+        coluna: NOME_TABELA_DB
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 23 linhas.', 'Colunas expostas nulas em 100% das linhas (1): nome_tabela_db.']

@@ -1,0 +1,8 @@
+# GERADO por scripts/gerar_biblioteca.py. Para curar este arquivo à mão, troque esta linha por '# CURADO' (o gerador não o sobrescreve mais).
+"""Tabela efprofissional_habilitado_classe (Profissionais Habilitados - Classes) - módulo fiscal_outros."""
+from biblioteca.entidades import ferramentas_da_entidade
+
+TABELA = "efprofissional_habilitado_classe"
+MODULO = "fiscal_outros"
+ENTIDADES = ['efprofissional_habilitado_classe']
+TOOLS = [t for n in ENTIDADES for t in ferramentas_da_entidade(n)]

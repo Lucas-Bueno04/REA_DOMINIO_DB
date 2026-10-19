@@ -43,7 +43,7 @@ class Catalogo:
 def validar(arqs):
     cat = Catalogo()
     erros, avisos, infos = [], [], []
-    docs = {a.stem: yaml.safe_load(a.read_text(encoding="utf-8")) for a in arqs}
+    docs = {a.stem: yaml.load(a.read_text(encoding="utf-8"), Loader=getattr(yaml, "CSafeLoader", yaml.SafeLoader)) for a in arqs}
     dominios = {}
     for d in docs.values():
         dominios.update(d.get("dominios", {}))

@@ -1,0 +1,574 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_empre
+titulo: Geral - empre (rascunho em lote)
+dominios:
+  geempre_alteracao_origem_da_alteracao_1_cadastro_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRE_ALTERACAO.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: 1=4.907, 2=3.'
+    valores: {'1': Cadastro de empresa, '2': Alteração contratual}
+  geempre_alteracao_enviar_para_o_esocial_0_nao_1_s:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRE_ALTERACAO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=4.910.'
+    valores: {'0': Não, '1': Sim}
+  geempre_alteracao_gerar_retificacao_para_o_esocia:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRE_ALTERACAO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=4.910.'
+    valores: {'0': Não, '1': Sim}
+  geempre_alteracao_marcacao_do_evento_para_gerar_o:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRE_ALTERACAO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=4.910.'
+    valores: {'0': Não, '1': Sim}
+  geempre_vigencia_tipo_da_inscricao_1_cnpj:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.tins_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.827, 2=141, 6=1.'
+    valores: {'1': CNPJ, '2': CPF, '3': CEI, '6': CAEPF}
+  geempre_vigencia_situacao_a_ativa_i_inati:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.stat_emp estão no comentário do banco (2026-10-18). Distribuição: I=1.226, A=743.'
+    valores: {A: Ativa, I: Inativa, C: Em Constituicao, M: Ativo sem movimento, B: Em processo de baixa}
+  geempre_vigencia_selecionada_1_sim_0_nao:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.sele_emp estão no comentário do banco (2026-10-18). Distribuição: 0=1.638, 1=331.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_contabilidade_1_sim_:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.ucta_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.383, 0=586.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_livro_caixa_1_sim_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.ucxa_emp estão no comentário do banco (2026-10-18). Distribuição: 0=1.969.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_honorarios_1_sim_0_n:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.uhon_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.466, 0=503.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_escrita_fiscal_1_sim:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.uefi_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.384, 0=585.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_patrimonio_1_sim_0_n:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.upat_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.372, 0=597.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_lalur_1_sim_0_nao:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.ulal_emp estão no comentário do banco (2026-10-18). Distribuição: 0=1.460, 1=509.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_atualizar_1_sim_0_na:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.uatu_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.395, 0=574.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_protocolo_1_sim_0_na:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.upro_emp estão no comentário do banco (2026-10-18). Distribuição: 0=1.964, nulo=5.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_vigencia_usa_registro_1_sim_0_nao:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_vigencia.ureg_emp estão no comentário do banco (2026-10-18). Distribuição: 1=1.477, 0=492.'
+    valores: {'1': Sim, '0': Nao}
+  geempre_centralizadora_tipo_de_inscricao_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em GEEMPRE_CENTRALIZADORA.TINS_EMP estão no comentário do banco (2026-10-18). Distribuição: 1=1.418, 6=1.'
+    valores: {'1': CNPJ, '6': CAEPF}
+  geempre_informacoes_setor_de_atuacao_1_indu:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_informacoes.setor estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'1': Industria, '2': Comercio Varejista, '3': Comercio Atacadista, '4': Servicos, '5': Agricola, '6': Pecuaria, '7': Outros}
+  geempre_informacoes_tipo_de_empresa_1_priva:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_informacoes.tipo estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'1': Privada, '2': Publica, '3': Estatal, '4': Mista, '5': Autarquia, '6': Sem Fins Lucrativos, '7': Estrangeira Domiciliada no Exterior, '8': Estrangeira
+        Domiciliada no Brasil}
+  geempre_informacoes_origem_do_capital_1_nac:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_informacoes.origem_capital estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'1': Nacional, '2': Estrangeiro, '3': Ambos}
+  geempre_informacoes_esfera_de_poder_1_munic:
+    confirmado: parcial
+    nota: 'Coluna geempre_informacoes.esfera_poder só tem valores nulos na data da medição (2026-10-18): sem evidência para confirmar o comentário do banco.'
+    valores: {'1': Municipal, '2': Estatual, '3': Federal, '4': Distrital}
+  geempre_informacoes_tipo_do_imovel_1_propri:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_informacoes.tipo_imovel estão no comentário do banco (2026-10-18). Distribuição: 1=1.'
+    valores: {'1': Proprio Quitado, '2': Proprio Fianciado, '3': Alugado, '4': Familiar, '5': Cedido}
+  geempre_bens_tipo_u_urbano_r_rural:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_bens.tipo estão no comentário do banco (2026-10-18). Distribuição: U=1.'
+    valores: {U: Urbano, R: Rural}
+  geempre_bens_tipo_de_onus_p_penhora_h_hipoteca:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_bens.tipo_onus estão no comentário do banco (2026-10-18). Distribuição: H=1.'
+    valores: {P: Penhora, H: Hipoteca}
+  geempre_comerciais_tipo_c_cliente_f_fo:
+    confirmado: true
+    nota: 'Todos os valores observados em geempre_comerciais.tipo estão no comentário do banco (2026-10-18). Distribuição: A=1.'
+    valores: {C: Cliente, F: Fornecedor, A: Ambos}
+entidades:
+  geempre_alteracao:
+    titulo: Empresa - Alterações
+    descricao: 'Empresa - Alterações. 4.910 linhas no catálogo; chave: CODI_EMP, DATA_ALTERACAO, CAMPO.'
+    tabela: GEEMPRE_ALTERACAO
+    chave: [CODI_EMP, DATA_ALTERACAO, CAMPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: pequeno}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [CAMPO, asc]
+    colunas:
+      empresa: CODI_EMP
+      data_da_alteracao: DATA_ALTERACAO
+      campo_alterado: CAMPO
+      valor_anterior_a_alteracao: DE
+      valor_posterior_a_aleracao: PARA
+      origem_da_alteracao_1_cadastro_de_empres: {coluna: ORIGEM, dominio: geempre_alteracao_origem_da_alteracao_1_cadastro_}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: geempre_alteracao_enviar_para_o_esocial_0_nao_1_s}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: geempre_alteracao_gerar_retificacao_para_o_esocia}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: geempre_alteracao_marcacao_do_evento_para_gerar_o}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      campo_alterado:
+        coluna: CAMPO
+        ops: [eq, in]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [contem, prefixo]
+      valor_posterior_a_aleracao:
+        coluna: PARA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4.910 linhas, 582 empresa(s), DATA_ALTERACAO de 2016-09-08 a 2202-11-28.', 'origem_da_alteracao_1_cadastro_de_empres: todos os
+        valores reais estão no comentário do banco (1=4.907, 2=3).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=4.910).',
+      'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=4.910).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais
+        estão no comentário do banco (0=4.910).', 'Vínculo geempre (geempre): 0 de 7 linhas sem registro relacionado (empresa 1070).']
+  geempre_vigencia:
+    titulo: Empresa - Cadastro Vigencia
+    descricao: 'Empresa - Cadastro Vigencia. 1.969 linhas no catálogo; chave: codi_emp, data.'
+    tabela: geempre_vigencia
+    chave: [codi_emp, data]
+    acesso: {empresa: codi_emp, periodo: data, volume: pequeno}
+    ordem:
+    - [data, desc]
+    colunas:
+      codigo: codi_emp
+      data_da_vigencia: data
+      nome: nome_emp
+      endereco: {coluna: ende_emp, sensivel: parcial}
+      cep: {coluna: cepe_emp, sensivel: parcial}
+      cidade: cida_emp
+      cnpj: {coluna: cgce_emp, sensivel: parcial}
+      inscricao_estadual: {coluna: iest_emp, sensivel: parcial}
+      inscricao_municipal: {coluna: imun_emp, sensivel: parcial}
+      inscricao_na_junta_comercial: {coluna: ijuc_emp, sensivel: parcial}
+      bairro: {coluna: bair_emp, sensivel: parcial}
+      ramo_de_atividade: ramo_emp
+      codigo_da_classificacao: i_classificacoes
+      apelido: apel_emp
+      codigo_do_municipio: codi_mun
+      numero: nume_emp
+      data_de_inscricao_na_junta_comercial: djuc_emp
+      telefone: {coluna: fone_emp, sensivel: parcial}
+      responsavel_legal: rleg_emp
+      estado: esta_emp
+      tipo_da_inscricao_1_cnpj_2_cpf_3_cei_6_c: {coluna: tins_emp, dominio: geempre_vigencia_tipo_da_inscricao_1_cnpj, sensivel: parcial}
+      situacao_a_ativa_i_inativa_c_em_constitu: {coluna: stat_emp, dominio: geempre_vigencia_situacao_a_ativa_i_inati}
+      data_que_ficou_inativo: dina_emp
+      data_do_cadastramento: dcad_emp
+      selecionada_1_sim_0_nao: {coluna: sele_emp, dominio: geempre_vigencia_selecionada_1_sim_0_nao}
+      este_campo_nao_e_mais_usado_a_partir_da: codi_cla
+      usa_contabilidade_1_sim_0_nao: {coluna: ucta_emp, dominio: geempre_vigencia_usa_contabilidade_1_sim_}
+      usa_livro_caixa_1_sim_0_nao: {coluna: ucxa_emp, dominio: geempre_vigencia_usa_livro_caixa_1_sim_0_}
+      usa_honorarios_1_sim_0_nao: {coluna: uhon_emp, dominio: geempre_vigencia_usa_honorarios_1_sim_0_n}
+      usa_escrita_fiscal_1_sim_0_nao: {coluna: uefi_emp, dominio: geempre_vigencia_usa_escrita_fiscal_1_sim}
+      usa_patrimonio_1_sim_0_nao: {coluna: upat_emp, dominio: geempre_vigencia_usa_patrimonio_1_sim_0_n}
+      usa_lalur_1_sim_0_nao: {coluna: ulal_emp, dominio: geempre_vigencia_usa_lalur_1_sim_0_nao}
+      usa_atualizar_1_sim_0_nao: {coluna: uatu_emp, dominio: geempre_vigencia_usa_atualizar_1_sim_0_na}
+      usa_protocolo_1_sim_0_nao: {coluna: upro_emp, dominio: geempre_vigencia_usa_protocolo_1_sim_0_na}
+      usa_registro_1_sim_0_nao: {coluna: ureg_emp, dominio: geempre_vigencia_usa_registro_1_sim_0_nao}
+      cae: ccae_emp
+      inscricao_subst_tributario: {coluna: isub_emp, sensivel: parcial}
+      nro_de_empregados_da_empresa: empreg_emp
+      valor_medio_do_faturamento: vlfat_emp
+      valor_dos_honorarios: vlhon_emp
+      complemento_do_responsavel_legal: comp_leg_emp
+      cpf_do_responsavel_legal: {coluna: cpf_leg_emp, sensivel: parcial}
+      endereco_do_responsavel_legal: {coluna: end_leg_emp, sensivel: parcial}
+      municipio_do_responsavel_legal: mun_leg_emp
+      estado_do_responsavel_legal: uf_leg_emp
+      cep_do_responsavel_legal: {coluna: cep_leg_emp, sensivel: parcial}
+      natureza_juridica: njud_emp
+      complemento: comp_emp
+      numero_do_responsavel_legal: nume_leg_emp
+      bairro_do_responsavel_legal: {coluna: bair_leg_emp, sensivel: parcial}
+      codigo_do_municipio_do_responsavel_legal: codm_leg_emp
+      telefone_do_responsavel_legal: {coluna: fone_leg_emp, sensivel: parcial}
+      cnae: cnae_emp
+      ddd: dddf_emp
+      contador: codi_con
+      cargo_do_responsavel_legal: cargo_leg_emp
+      ddd_do_responsavel_legal: dddf_leg_emp
+      nro_do_livro_no_cartorio_de_registros_es: livro_cart_emp
+      folha_do_livro_no_cartorio_de_registros: folha_cart_emp
+      nro_na_folha_do_livro_no_cartorio_de_reg: nliv_cart_emp
+    filtros:
+      data_da_vigencia:
+        coluna: data
+        ops: [eq, in]
+      data_de_inscricao_na_junta_comercial:
+        coluna: djuc_emp
+        ops: [entre, gte, lte]
+      data_que_ficou_inativo:
+        coluna: dina_emp
+        ops: [entre, gte, lte]
+      data_do_cadastramento:
+        coluna: dcad_emp
+        ops: [entre, gte, lte]
+      nome:
+        coluna: nome_emp
+        ops: [contem, prefixo]
+      endereco:
+        coluna: ende_emp
+        ops: [contem, prefixo]
+      cep:
+        coluna: cepe_emp
+        ops: [eq, in]
+      cidade:
+        coluna: cida_emp
+        ops: [contem, prefixo]
+      cnpj:
+        coluna: cgce_emp
+        ops: [eq, in]
+      inscricao_estadual:
+        coluna: iest_emp
+        ops: [contem, prefixo]
+      inscricao_municipal:
+        coluna: imun_emp
+        ops: [eq, in]
+      inscricao_na_junta_comercial:
+        coluna: ijuc_emp
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bair_emp
+        ops: [contem, prefixo]
+      ramo_de_atividade:
+        coluna: ramo_emp
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.969 linhas, 1.968 empresa(s), data de 1990-01-01 a 2018-03-07.', 'Colunas expostas nulas em 100% das linhas (6): cidade, codigo_da_classificacao,
+        codigo_do_municipio, inscricao_subst_tributario, valor_dos_honorarios, codigo_do_municipio_do_responsavel_legal.', 'tipo_da_inscricao_1_cnpj_2_cpf_3_cei_6_c:
+        todos os valores reais estão no comentário do banco (1=1.827, 2=141, 6=1).', 'situacao_a_ativa_i_inativa_c_em_constitu: todos os valores reais estão no comentário
+        do banco (I=1.226, A=743).', 'selecionada_1_sim_0_nao: todos os valores reais estão no comentário do banco (0=1.638, 1=331).', 'usa_contabilidade_1_sim_0_nao:
+        todos os valores reais estão no comentário do banco (1=1.383, 0=586).', 'usa_livro_caixa_1_sim_0_nao: todos os valores reais estão no comentário do banco
+        (0=1.969).', 'usa_honorarios_1_sim_0_nao: todos os valores reais estão no comentário do banco (1=1.466, 0=503).', 'usa_escrita_fiscal_1_sim_0_nao: todos os
+        valores reais estão no comentário do banco (1=1.384, 0=585).', 'usa_patrimonio_1_sim_0_nao: todos os valores reais estão no comentário do banco (1=1.372,
+        0=597).', 'usa_lalur_1_sim_0_nao: todos os valores reais estão no comentário do banco (0=1.460, 1=509).', 'usa_atualizar_1_sim_0_nao: todos os valores reais
+        estão no comentário do banco (1=1.395, 0=574).', 'usa_protocolo_1_sim_0_nao: todos os valores reais estão no comentário do banco (0=1.964, nulo=5).', 'usa_registro_1_sim_0_nao:
+        todos os valores reais estão no comentário do banco (1=1.477, 0=492).']
+  geempre_centralizadora:
+    titulo: Tabela Empresa Centralizadora
+    descricao: 'Tabela Empresa Centralizadora. 1.419 linhas no catálogo; chave: VIGENCIA, RAIZ_CNPJ_CAEPF, TINS_EMP, CODI_EMP.'
+    tabela: GEEMPRE_CENTRALIZADORA
+    chave: [VIGENCIA, RAIZ_CNPJ_CAEPF, TINS_EMP, CODI_EMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [RAIZ_CNPJ_CAEPF, asc]
+    - [TINS_EMP, asc]
+    colunas:
+      vigencia: VIGENCIA
+      raiz_do_cnpj_caepf: {coluna: RAIZ_CNPJ_CAEPF, sensivel: parcial}
+      tipo_de_inscricao_1_cnpj_6_caepf: {coluna: TINS_EMP, dominio: geempre_centralizadora_tipo_de_inscricao_1_, sensivel: parcial}
+      codigo_da_empresa: CODI_EMP
+      centralizacao: CENTRALIZACAO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      raiz_do_cnpj_caepf:
+        coluna: RAIZ_CNPJ_CAEPF
+        ops: [eq, in]
+      tipo_de_inscricao_1_cnpj_6_caepf:
+        coluna: TINS_EMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.419 linhas, 1.419 empresa(s), VIGENCIA de 1900-01-01 a 1900-01-01.', 'tipo_de_inscricao_1_cnpj_6_caepf: todos os valores reais
+        estão no comentário do banco (1=1.418, 6=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1665).']
+  geempre_historico:
+    titulo: Tabela de histórico de mudança da tabela GEEMPRE
+    descricao: 'Tabela de histórico de mudança da tabela GEEMPRE. 1.068 linhas no catálogo; chave: SEQUENCIAL.'
+    tabela: GEEMPRE_HISTORICO
+    chave: [SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas: {sequencial: SEQUENCIAL, codi_emp: CODI_EMP, usa_portal_empregado: USA_PORTAL_EMPREGADO}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.068 linhas, 1.068 empresa(s).']
+  geempre_informacoes:
+    titulo: Empresa - Outras Informacoes
+    descricao: 'Empresa - Outras Informacoes. 1 linhas no catálogo; chave: codi_emp.'
+    tabela: geempre_informacoes
+    chave: [codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: []
+    colunas:
+      empresa: codi_emp
+      setor_de_atuacao_1_industria_2_comercio: {coluna: setor, dominio: geempre_informacoes_setor_de_atuacao_1_indu}
+      capital_aberto_s_n: capital_aberto
+      tipo_de_empresa_1_privada_2_publica_3_es: {coluna: tipo, dominio: geempre_informacoes_tipo_de_empresa_1_priva}
+      origem_do_capital_1_nacional_2_estrangei: {coluna: origem_capital, dominio: geempre_informacoes_origem_do_capital_1_nac}
+      esfera_poder: {coluna: esfera_poder, dominio: geempre_informacoes_esfera_de_poder_1_munic}
+      tipo_do_imovel_1_proprio_quitado_2_propr: {coluna: tipo_imovel, dominio: geempre_informacoes_tipo_do_imovel_1_propri}
+      franquia: FRANQUIA
+      franqueadora: FRANQUEADORA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      capital_aberto_s_n:
+        coluna: capital_aberto
+        ops: [eq, in]
+      tipo_de_empresa_1_privada_2_publica_3_es:
+        coluna: tipo
+        ops: [eq, in]
+      tipo_do_imovel_1_proprio_quitado_2_propr:
+        coluna: tipo_imovel
+        ops: [eq, in]
+      franquia:
+        coluna: FRANQUIA
+        ops: [eq, in]
+      franqueadora:
+        coluna: FRANQUEADORA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): esfera_poder, franqueadora.', 'setor_de_atuacao_1_industria_2_comercio:
+        todos os valores reais estão no comentário do banco (1=1).', 'tipo_de_empresa_1_privada_2_publica_3_es: todos os valores reais estão no comentário do banco
+        (1=1).', 'origem_do_capital_1_nacional_2_estrangei: todos os valores reais estão no comentário do banco (1=1).', 'esfera_poder: coluna sem nenhum valor preenchido;
+        o domínio do comentário do banco não pôde ser verificado.', 'tipo_do_imovel_1_proprio_quitado_2_propr: todos os valores reais estão no comentário do banco
+        (1=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9999).']
+  geempre_bens:
+    titulo: Empresa - Bens
+    descricao: 'Empresa - Bens. 1 linhas no catálogo; chave: codi_emp, sequencial.'
+    tabela: geempre_bens
+    chave: [codi_emp, sequencial]
+    acesso: {empresa: codi_emp, periodo: data_matricula, volume: pequeno}
+    ordem:
+    - [data_matricula, desc]
+    - [sequencial, asc]
+    colunas:
+      empresa: codi_emp
+      sequencial: sequencial
+      classificacao: classificacao
+      tipo_u_urbano_r_rural: {coluna: tipo, dominio: geempre_bens_tipo_u_urbano_r_rural}
+      descricao: descricao
+      localizacao: localizacao
+      valor_do_bem: valor
+      area_em_m2_ou_ha: area
+      area_construida_em_m2: area_construida
+      onus_s_n: onus
+      tipo_de_onus_p_penhora_h_hipoteca: {coluna: tipo_onus, dominio: geempre_bens_tipo_de_onus_p_penhora_h_hipoteca}
+      valor_do_onus: valor_onus
+      credor: credor
+      matricula: matricula
+      cartorio: cartorio
+      data_da_matricula: data_matricula
+      numero_do_livro: livro
+      numero_da_folha: folha
+      cessao_s_n: cessao
+      bem_impenhoravel_s_n: impenhoravel
+      imovel_rural_enquadrado_s_n: rural_enquadrado
+      marca: marca
+      ano: ano
+      alienado_s_n: alienado
+      vencimento_final: vencimento
+      leasing_s_n: leasing
+      empresa_do_leasing: empresa
+      data_do_contrato_de_leasing: data_contrato
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_da_matricula:
+        coluna: data_matricula
+        ops: [entre, gte, lte]
+      vencimento_final:
+        coluna: vencimento
+        ops: [entre, gte, lte]
+      data_do_contrato_de_leasing:
+        coluna: data_contrato
+        ops: [entre, gte, lte]
+      classificacao:
+        coluna: classificacao
+        ops: [eq, in]
+      tipo_u_urbano_r_rural:
+        coluna: tipo
+        ops: [eq, in]
+      descricao:
+        coluna: descricao
+        ops: [contem, prefixo]
+      localizacao:
+        coluna: localizacao
+        ops: [contem, prefixo]
+      onus_s_n:
+        coluna: onus
+        ops: [eq, in]
+      tipo_de_onus_p_penhora_h_hipoteca:
+        coluna: tipo_onus
+        ops: [eq, in]
+      credor:
+        coluna: credor
+        ops: [contem, prefixo]
+      matricula:
+        coluna: matricula
+        ops: [eq, in]
+      cartorio:
+        coluna: cartorio
+        ops: [contem, prefixo]
+      numero_do_livro:
+        coluna: livro
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), data_matricula de 1994-10-10 a 1994-10-10.', 'Colunas expostas nulas em 100% das linhas (7): valor_do_onus,
+        credor, marca, ano, vencimento_final, empresa_do_leasing, data_do_contrato_de_leasing.', 'tipo_u_urbano_r_rural: todos os valores reais estão no comentário
+        do banco (U=1).', 'tipo_de_onus_p_penhora_h_hipoteca: todos os valores reais estão no comentário do banco (H=1).', 'Vínculo geempre (geempre): 0 de 1 linhas
+        sem registro relacionado (empresa 9999).']
+  geempre_seguros:
+    titulo: Empresa - Seguros
+    descricao: 'Empresa - Seguros. 1 linhas no catálogo; chave: codi_emp, sequencial.'
+    tabela: geempre_seguros
+    chave: [codi_emp, sequencial]
+    acesso: {empresa: codi_emp, periodo: vencimento, volume: pequeno}
+    ordem:
+    - [vencimento, desc]
+    - [sequencial, asc]
+    colunas: {empresa: codi_emp, sequencial: sequencial, modalidade_do_seguro: modalidade, bem_segurado: bem, nome_da_seguradora: seguradora, valor_do_seguro: valor,
+      data_de_vencimento: vencimento}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: vencimento
+        ops: [entre, gte, lte]
+      modalidade_do_seguro:
+        coluna: modalidade
+        ops: [contem, prefixo]
+      bem_segurado:
+        coluna: bem
+        ops: [contem, prefixo]
+      nome_da_seguradora:
+        coluna: seguradora
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), vencimento de 2005-07-10 a 2005-07-10.', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado
+        (empresa 9999).']
+  geempre_participacoes:
+    titulo: Empresa - Participacoes em outras empresas
+    descricao: 'Empresa - Participacoes em outras empresas. 1 linhas no catálogo; chave: codi_emp, cnpj.'
+    tabela: geempre_participacoes
+    chave: [codi_emp, cnpj]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [cnpj, asc]
+    colunas:
+      empresa: codi_emp
+      cnpj: {coluna: cnpj, sensivel: parcial}
+      razao_social: {coluna: razao_social, sensivel: parcial}
+      participacao: participacao
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      cnpj:
+        coluna: cnpj
+        ops: [eq, in]
+      razao_social:
+        coluna: razao_social
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9999).']
+  geempre_comerciais:
+    titulo: Empresa - Referencias Comerciais
+    descricao: 'Empresa - Referencias Comerciais. 1 linhas no catálogo; chave: codi_emp, sequencial.'
+    tabela: geempre_comerciais
+    chave: [codi_emp, sequencial]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [sequencial, asc]
+    colunas:
+      empresa: codi_emp
+      sequencial: sequencial
+      tipo_c_cliente_f_fornecedor_a_ambos: {coluna: tipo, dominio: geempre_comerciais_tipo_c_cliente_f_fo}
+      nome_da_empresa: empresa
+      endereco: {coluna: endereco, sensivel: parcial}
+      bairro: {coluna: bairro, sensivel: parcial}
+      cidade: cidade
+      uf: uf
+      numero: numero
+      cep: {coluna: cep, sensivel: parcial}
+      complemento: complemento
+      ddd: ddd
+      fone: {coluna: fone, sensivel: parcial}
+      pessoa_para_contato: PESSOA_CONTATO
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      tipo_c_cliente_f_fornecedor_a_ambos:
+        coluna: tipo
+        ops: [eq, in]
+      nome_da_empresa:
+        coluna: empresa
+        ops: [contem, prefixo]
+      endereco:
+        coluna: endereco
+        ops: [contem, prefixo]
+      bairro:
+        coluna: bairro
+        ops: [contem, prefixo]
+      cidade:
+        coluna: cidade
+        ops: [contem, prefixo]
+      uf:
+        coluna: uf
+        ops: [eq, in]
+      cep:
+        coluna: cep
+        ops: [eq, in]
+      complemento:
+        coluna: complemento
+        ops: [contem, prefixo]
+      fone:
+        coluna: fone
+        ops: [eq, in]
+      pessoa_para_contato:
+        coluna: PESSOA_CONTATO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (2): complemento, pessoa_para_contato.', 'tipo_c_cliente_f_fornecedor_a_ambos:
+        todos os valores reais estão no comentário do banco (A=1).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 9999).']

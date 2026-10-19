@@ -1,0 +1,124 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_provisoes
+titulo: Pessoal - provisoes (rascunho em lote)
+dominios:
+  foprovisoes_periodos_considerar_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOPROVISOES_PERIODOS.CONSIDERAR_PROVISAO_MES estão no comentário do banco (2026-10-18). Distribuição: 1=112.955, 0=2.081.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  foprovisoes_valores:
+    titulo: Valores da provisão.
+    descricao: 'Valores da provisão.. 782.189 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, TIPO_VALOR.'
+    tabela: FOPROVISOES_VALORES
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, TIPO_VALOR]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: COMPETENCIA, tipo_de_provisao: TIPO, tipo_de_valor: TIPO_VALOR, valor: VALOR,
+      valor_do_1_3_de_ferias: VALOR_ADICIONAL_FERIAS, valor_de_medias_e_vantagens: VALOR_MEDIAS_VANTAGENS, valor_do_inss_empresa: VALOR_INSS_EMPRESA, valor_do_inss_rat: VALOR_INSS_RAT,
+      valor_do_inss_terceiros: VALOR_INSS_TERCEIROS, valor_do_fgts: VALOR_FGTS, valor_do_pis: VALOR_PIS, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, valor_do_adicional_de_ferias_sem_conside: VALOR_ADICIONAL_FERIAS_SEM_MEDIAS_VANTAGENS,
+      valor_do_adicional_de_ferias_das_medias: VALOR_ADICIONAL_FERIAS_MEDIAS_VANTAGENS, valor_adicional_ferias_mp_927: VALOR_ADICIONAL_FERIAS_MP_927, valor_adicional_ferias_sem_medias_vantag: VALOR_ADICIONAL_FERIAS_SEM_MEDIAS_VANTAGENS_MP_927,
+      valor_adicional_ferias_medias_vantagens: VALOR_ADICIONAL_FERIAS_MEDIAS_VANTAGENS_MP_927}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_provisao:
+        coluna: TIPO
+        ops: [eq, in]
+      tipo_de_valor:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 782.189 linhas, 321 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.']
+  foprovisoes_periodos_valores:
+    titulo: Valores do período da provisão
+    descricao: 'Valores do período da provisão. 526.302 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, I_FERIAS_AQUISITIVOS, TIPO_VALOR.'
+    tabela: FOPROVISOES_PERIODOS_VALORES
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, I_FERIAS_AQUISITIVOS, TIPO_VALOR]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: COMPETENCIA, tipo_de_provisao: TIPO, sequencia_de_periodos_aquisitivos: I_FERIAS_AQUISITIVOS,
+      tipo_de_valor_da_provisao: TIPO_VALOR, valor: VALOR, valor_do_1_3_de_ferias: VALOR_ADICIONAL_FERIAS, valor_de_medias_e_vantagens: VALOR_MEDIAS_VANTAGENS, valor_do_inss_empresa: VALOR_INSS_EMPRESA,
+      valor_do_inss_rat: VALOR_INSS_RAT, valor_do_inss_terceiros: VALOR_INSS_TERCEIROS, valor_do_fgts: VALOR_FGTS, valor_do_pis: VALOR_PIS, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      valor_do_adicional_de_ferias_sem_conside: VALOR_ADICIONAL_FERIAS_SEM_MEDIAS_VANTAGENS, valor_do_adicional_de_ferias_das_medias: VALOR_ADICIONAL_FERIAS_MEDIAS_VANTAGENS,
+      valor_adicional_ferias_mp_927: VALOR_ADICIONAL_FERIAS_MP_927, valor_adicional_ferias_sem_medias_vantag: VALOR_ADICIONAL_FERIAS_SEM_MEDIAS_VANTAGENS_MP_927,
+      valor_adicional_ferias_medias_vantagens: VALOR_ADICIONAL_FERIAS_MEDIAS_VANTAGENS_MP_927}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_provisao:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencia_de_periodos_aquisitivos:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      tipo_de_valor_da_provisao:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 526.302 linhas, 320 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.']
+  foprovisoes_periodos:
+    titulo: PROVISOES CALCULADAS - PERIODOS DE FERIAS
+    descricao: 'PROVISOES CALCULADAS - PERIODOS DE FERIAS. 115.036 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, I_FERIAS_AQUISITIVOS.'
+    tabela: FOPROVISOES_PERIODOS
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO, I_FERIAS_AQUISITIVOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia: COMPETENCIA
+      tipo_da_provisao: TIPO
+      sequencia_de_periodos_aquisitivos: I_FERIAS_AQUISITIVOS
+      numero_de_dias_de_direito_no_periodo: QTDE_DIAS
+      numero_de_avos_adquiridos: NO_AVOS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      considerar_na_provisao_do_mes_0_nao_1_si: {coluna: CONSIDERAR_PROVISAO_MES, dominio: foprovisoes_periodos_considerar_}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_da_provisao:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencia_de_periodos_aquisitivos:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 115.036 linhas, 320 empresa(s), COMPETENCIA de 2013-01-01 a 2026-09-01.', 'considerar_na_provisao_do_mes_0_nao_1_si: todos os
+        valores reais estão no comentário do banco (1=112.955, 0=2.081).']
+  foprovisoes_valores_tipos:
+    titulo: Descrição dos tipos de valores gerados no calculo da provisão.
+    descricao: 'Descrição dos tipos de valores gerados no calculo da provisão.. 35 linhas no catálogo; chave: TIPO_VALOR.'
+    tabela: FOPROVISOES_VALORES_TIPOS
+    chave: [TIPO_VALOR]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [TIPO_VALOR, asc]
+    colunas: {tipo_de_valor: TIPO_VALOR, descricao: DESCRICAO}
+    filtros:
+      tipo_de_valor:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 35 linhas.']

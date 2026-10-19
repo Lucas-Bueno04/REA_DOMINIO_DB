@@ -1,0 +1,150 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_bem
+titulo: Contábil - bem (rascunho em lote)
+entidades:
+  pmbem_taxa_alternativa:
+    titulo: Bens - Taxa Alternativa
+    descricao: 'Bens - Taxa Alternativa. 3.927 linhas no catálogo; chave: CODI_EMP, I_BEM, SEQUENCIAL.'
+    tabela: PMBEM_TAXA_ALTERNATIVA
+    chave: [CODI_EMP, I_BEM, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [I_BEM, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, bem: I_BEM, sequencial: SEQUENCIAL, a_partir_de: VIGENCIA, taxa_alternativa: TAXA_ALTERNATIVA}
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+    filtros:
+      bem:
+        coluna: I_BEM
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      a_partir_de:
+        coluna: VIGENCIA
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 3.928 linhas, 260 empresa(s), VIGENCIA de 2006-01-01 a 2026-10-01.', 'Vínculo pmbem (PMBEM): 0 de 4 linhas sem registro relacionado
+        (empresa 750).']
+  pmbem_documentos_fiscais:
+    titulo: Tabela de cadastro referente a documento Notas Fiscais / Conhecimento
+    descricao: 'Tabela de cadastro referente a documento Notas Fiscais / Conhecimento. 372 linhas no catálogo; chave: CODI_EMP, I_BEM, SEQUENCIAL.'
+    tabela: PMBEM_DOCUMENTOS_FISCAIS
+    chave: [CODI_EMP, I_BEM, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO, desc]
+    - [I_BEM, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_bem: I_BEM, numero_sequencial: SEQUENCIAL, numero: NUMERO, serie: SERIE, data_de_emissao: DATA_EMISSAO, especie: MODELO,
+      chave_nfe: CHAVE_NFE, fornecedor: CODI_FOR, emitente_t_terceiros_p_propio: EMITENTE, codigo_do_produto: CODI_PDI, sequencial_do_item: SEQUENCIAL_ITEM, documento_c_conhecimento_de_transporte_n: TIPO,
+      numero_do_documento_de_arrecadacao: NUM_DOC_ARRECADACAO, quantidade: QUANTIDADE, valor_do_icms: VALOR_ICMS, valor_do_icms_substituicao_tributaria: VALOR_ICMS_ST,
+      valor_do_icms_frete: VALOR_ICMS_FRETE, valor_do_icms_diferencial_de_aliquota: VALOR_ICMS_DIFALI}
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, codi_for: codi_for}
+        colunas: {effornece_nome: nomr_for}
+    filtros:
+      codigo_do_bem:
+        coluna: I_BEM
+        ops: [eq, in]
+      numero_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_de_emissao:
+        coluna: DATA_EMISSAO
+        ops: [entre, gte, lte]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      chave_nfe:
+        coluna: CHAVE_NFE
+        ops: [contem, prefixo]
+      fornecedor:
+        coluna: CODI_FOR
+        ops: [eq, in]
+      emitente_t_terceiros_p_propio:
+        coluna: EMITENTE
+        ops: [eq, in]
+      codigo_do_produto:
+        coluna: CODI_PDI
+        ops: [eq, in]
+      documento_c_conhecimento_de_transporte_n:
+        coluna: TIPO
+        ops: [eq, in]
+      numero_do_documento_de_arrecadacao:
+        coluna: NUM_DOC_ARRECADACAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 372 linhas, 71 empresa(s), DATA_EMISSAO de 2010-01-18 a 2024-11-18.', 'Vínculo pmbem (PMBEM): 0 de 2 linhas sem registro relacionado
+        (empresa 1111).', 'Vínculo effornece (effornece): 0 de 2 linhas sem registro relacionado (empresa 1111).']
+  pmbem_lancto:
+    titulo: Bens - Lançamentos Contábeis
+    descricao: 'Bens - Lançamentos Contábeis. 116 linhas no catálogo; chave: CODI_EMP, I_BEM, EMPRESA_LAN, NUME_LAN.'
+    tabela: PMBEM_LANCTO
+    chave: [CODI_EMP, I_BEM, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_BEM, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {empresa: CODI_EMP, bem: I_BEM, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE}
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+    filtros:
+      bem:
+        coluna: I_BEM
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 114 linhas, 30 empresa(s).', 'Vínculo pmbem (PMBEM): 0 de 2 linhas sem registro relacionado (empresa 881).']
+  pmbem_historico:
+    titulo: Bens - Históricos
+    descricao: 'Bens - Históricos. 1 linhas no catálogo; chave: CODI_EMP, I_BEM, SEQUENCIAL.'
+    tabela: PMBEM_HISTORICO
+    chave: [CODI_EMP, I_BEM, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_HISTORICO, volume: pequeno}
+    ordem:
+    - [DATA_HISTORICO, desc]
+    - [I_BEM, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, bem: I_BEM, sequencial: SEQUENCIAL, data: DATA_HISTORICO, descricao: DESCRICAO}
+    vinculos:
+      pmbem:
+        tabela: PMBEM
+        liga: {codi_emp: codi_emp, i_bem: i_bem}
+        colunas: {pmbem_nome: NOME}
+    filtros:
+      bem:
+        coluna: I_BEM
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data:
+        coluna: DATA_HISTORICO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_HISTORICO de 2026-04-30 a 2026-04-30.', 'Vínculo pmbem (PMBEM): 0 de 1 linhas sem registro relacionado
+        (empresa 591).']

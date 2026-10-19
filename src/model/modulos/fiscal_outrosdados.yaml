@@ -1,0 +1,798 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_outrosdados
+titulo: Fiscal - outrosdados (rascunho em lote)
+dominios:
+  efoutrosdados_efd_contas_tipo_do_cst_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_EFD_CONTAS.TIPO_CST estão no comentário do banco (2026-10-18). Distribuição: 1=3.237, 2=132.'
+    valores: {'1': Todos os CSTs, '2': Selecionar os CSTs}
+  efoutrosdados_efd_contas_tipo_do_natu:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_EFD_CONTAS.TIPO_NATUREZA_RECEITA estão no comentário do banco (2026-10-18). Distribuição: 1=3.369.'
+    valores: {'1': Todas as Naturezas, '2': Selecionar as Naturezas}
+  efoutrosdados_efd_contas_tipo_do_acum:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_EFD_CONTAS.TIPO_ACUMULADOR estão no comentário do banco (2026-10-18). Distribuição: 1=3.187, 2=182.'
+    valores: {'1': Todos os acumuladores, '2': Selecioanr os acumuladores}
+  efoutrosdados_efd_contas_tipo_do_cfop:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_EFD_CONTAS.TIPO_CFOP estão no comentário do banco (2026-10-18). Distribuição: 1=2.384, 2=985.'
+    valores: {'1': Todos os CFOPs, '2': Selecionar os CFOPs}
+  efoutrosdados_planejamento_tributario_cfops_considerados_tipo_d_debi:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CFOPS_CONSIDERADOS.TIPO estão no comentário do banco (2026-10-18). Distribuição: C=418,
+      D=240.'
+    valores: {D: Débito, C: Crédito}
+  efoutrosdados_planejamento_tributario_cfops_considerados_atividade_1:
+    confirmado: true
+    nota: 'Todos os valores observados em EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CFOPS_CONSIDERADOS.ATIVIDADE estão no comentário do banco (2026-10-18). Distribuição:
+      1=512, 2=142, 3=4.'
+    valores: {'1': Comercio, '2': Industria, '3': Serviço}
+entidades:
+  efoutrosdados_efd_contas:
+    titulo: EFD Contribuições - Outros Dados - Contas
+    descricao: 'EFD Contribuições - Outros Dados - Contas. 3.369 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA.'
+    tabela: EFOUTROSDADOS_EFD_CONTAS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [REGISTRO, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      informativo: I_INFORMATIVOS
+      registro_1_c481_c485_2_m400_m800_3_f500: REGISTRO
+      sequencial_da_conta: SEQUENCIAL_CTA
+      conta_contabil: CODI_CTA
+      tipo_do_cst_1_todos_os_csts_2_selecionar: {coluna: TIPO_CST, dominio: efoutrosdados_efd_contas_tipo_do_cst_}
+      tipo_do_natureza_receita_1_todas_as_natu: {coluna: TIPO_NATUREZA_RECEITA, dominio: efoutrosdados_efd_contas_tipo_do_natu}
+      tipo_do_acumulador_1_todos_os_acumulador: {coluna: TIPO_ACUMULADOR, dominio: efoutrosdados_efd_contas_tipo_do_acum}
+      tipo_do_cfop_1_todos_os_cfops_2_selecion: {coluna: TIPO_CFOP, dominio: efoutrosdados_efd_contas_tipo_do_cfop}
+      tipo_lancamento_d_demais_lancamentos_c_c: TIPO_LANCAMENTO
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      registro_1_c481_c485_2_m400_m800_3_f500:
+        coluna: REGISTRO
+        ops: [eq, in]
+      sequencial_da_conta:
+        coluna: SEQUENCIAL_CTA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      tipo_do_cst_1_todos_os_csts_2_selecionar:
+        coluna: TIPO_CST
+        ops: [eq, in]
+      tipo_do_natureza_receita_1_todas_as_natu:
+        coluna: TIPO_NATUREZA_RECEITA
+        ops: [eq, in]
+      tipo_do_acumulador_1_todos_os_acumulador:
+        coluna: TIPO_ACUMULADOR
+        ops: [eq, in]
+      tipo_do_cfop_1_todos_os_cfops_2_selecion:
+        coluna: TIPO_CFOP
+        ops: [eq, in]
+      tipo_lancamento_d_demais_lancamentos_c_c:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.369 linhas, 32 empresa(s), COMPETENCIA de 2017-07-01 a 2026-07-01.', 'tipo_do_cst_1_todos_os_csts_2_selecionar: todos os valores
+        reais estão no comentário do banco (1=3.237, 2=132).', 'tipo_do_natureza_receita_1_todas_as_natu: todos os valores reais estão no comentário do banco (1=3.369).',
+      'tipo_do_acumulador_1_todos_os_acumulador: todos os valores reais estão no comentário do banco (1=3.187, 2=182).', 'tipo_do_cfop_1_todos_os_cfops_2_selecion:
+        todos os valores reais estão no comentário do banco (1=2.384, 2=985).']
+  efoutrosdados_efd_contas_cfop:
+    titulo: EFD Contribuições - Outros Dados - Contas - CFOP
+    descricao: 'EFD Contribuições - Outros Dados - Contas - CFOP. 1.787 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA,
+      SEQUENCIAL_NAT.'
+    tabela: EFOUTROSDADOS_EFD_CONTAS_CFOP
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA, SEQUENCIAL_NAT]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [REGISTRO, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, registro_1_c481_c485_2_m400_m800_3_f500: REGISTRO, sequencial_da_conta: SEQUENCIAL_CTA,
+      sequencial_do_cfop: SEQUENCIAL_NAT, codigo_do_cfop: CODI_NAT, versao_do_cfop: VERSAO_NAT}
+    vinculos:
+      efnatureza:
+        tabela: efnatureza
+        liga: {codi_nat: codi_nat, versao_nat: versao_nat}
+        colunas: {efnatureza_nome: nome_nat}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      registro_1_c481_c485_2_m400_m800_3_f500:
+        coluna: REGISTRO
+        ops: [eq, in]
+      sequencial_da_conta:
+        coluna: SEQUENCIAL_CTA
+        ops: [eq, in]
+      sequencial_do_cfop:
+        coluna: SEQUENCIAL_NAT
+        ops: [eq, in]
+      codigo_do_cfop:
+        coluna: CODI_NAT
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.787 linhas, 22 empresa(s), COMPETENCIA de 2020-01-01 a 2025-03-01.', 'Vínculo efnatureza (efnatureza): 0 de 114 linhas sem registro
+        relacionado (empresa 1026).']
+  efoutrosdados_reinf_rendimentos_isentos:
+    titulo: REINF - Outros Dados - Rendimentos Isentos
+    descricao: 'REINF - Outros Dados - Rendimentos Isentos. 1.181 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO.'
+    tabela: EFOUTROSDADOS_REINF_RENDIMENTOS_ISENTOS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_RENDIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_RENDIMENTO, desc]
+    - [COMPETENCIA, asc]
+    - [I_INFORMATIVOS, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      informativo: I_INFORMATIVOS
+      sequencial_rendimento: I_RENDIMENTO_ISENTO
+      cpf_cnpj_do_beneficiario: {coluna: BENEFICIARIO, sensivel: parcial}
+      pais: CODIGO_PAIS
+      codigo_natureza_de_rendimento: CODI_NAT_RENDIMENTO
+      valor: VALOR
+      controle_de_informacoes_importadas_da_fo: IMPORTADO_FOLHA
+      data_do_rendimento_isento: DATA_RENDIMENTO
+      beneficiario_importado_pela_contabilidad: ORIGEM_CONTABILIDADE
+      lucro_apurado_ate_2025_s_n: LUCRO_APURADO_ATE_2025
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial_rendimento:
+        coluna: I_RENDIMENTO_ISENTO
+        ops: [eq, in]
+      data_do_rendimento_isento:
+        coluna: DATA_RENDIMENTO
+        ops: [entre, gte, lte]
+      cpf_cnpj_do_beneficiario:
+        coluna: BENEFICIARIO
+        ops: [eq, in]
+      pais:
+        coluna: CODIGO_PAIS
+        ops: [eq, in]
+      codigo_natureza_de_rendimento:
+        coluna: CODI_NAT_RENDIMENTO
+        ops: [eq, in]
+      controle_de_informacoes_importadas_da_fo:
+        coluna: IMPORTADO_FOLHA
+        ops: [eq, in]
+      beneficiario_importado_pela_contabilidad:
+        coluna: ORIGEM_CONTABILIDADE
+        ops: [eq, in]
+      lucro_apurado_ate_2025_s_n:
+        coluna: LUCRO_APURADO_ATE_2025
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.201 linhas, 27 empresa(s), DATA_RENDIMENTO de 2024-10-31 a 2026-10-02.']
+  efoutrosdados_planejamento_tributario_cfops_considerados:
+    titulo: Outros Dados - Planejamento Tributário - CFOPs considerados para o cálculo (debito e credito)
+    descricao: 'Outros Dados - Planejamento Tributário - CFOPs considerados para o cálculo (debito e credito). 658 linhas no catálogo; chave: CODI_EMP, COMPETENCIA,
+      I_INFORMATIVOS, TIPO, I_SEQUENCIAL, ATIVIDADE.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CFOPS_CONSIDERADOS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, TIPO, I_SEQUENCIAL, ATIVIDADE]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [TIPO, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      informativo: I_INFORMATIVOS
+      tipo_d_debito_c_credito: {coluna: TIPO, dominio: efoutrosdados_planejamento_tributario_cfops_considerados_tipo_d_debi}
+      sequencial: I_SEQUENCIAL
+      atividade_1_comercio_2_industria_3_servi: {coluna: ATIVIDADE, dominio: efoutrosdados_planejamento_tributario_cfops_considerados_atividade_1}
+      cfop_considerado: CFOP_CONSIDERADO
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      tipo_d_debito_c_credito:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      atividade_1_comercio_2_industria_3_servi:
+        coluna: ATIVIDADE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 658 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'tipo_d_debito_c_credito: todos os valores reais estão no
+        comentário do banco (C=418, D=240).', 'atividade_1_comercio_2_industria_3_servi: todos os valores reais estão no comentário do banco (1=512, 2=142, 3=4).',
+      'Vínculo efinformativos (efinformativos): 0 de 329 linhas sem registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 329 linhas sem registro
+        relacionado (empresa 1649).']
+  efoutrosdados_efd_contas_acumulador:
+    titulo: EFD Contribuições - Outros Dados - Contas - Acumulador
+    descricao: 'EFD Contribuições - Outros Dados - Contas - Acumulador. 444 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA,
+      SEQUENCIAL_ACUMULADOR.'
+    tabela: EFOUTROSDADOS_EFD_CONTAS_ACUMULADOR
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA, SEQUENCIAL_ACUMULADOR]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [REGISTRO, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, registro_1_c481_c485_2_m400_m800_3_f500: REGISTRO, sequencial_da_conta: SEQUENCIAL_CTA,
+      sequencial_do_acumulador: SEQUENCIAL_ACUMULADOR, codigo_do_acumulador: CODI_ACU}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      registro_1_c481_c485_2_m400_m800_3_f500:
+        coluna: REGISTRO
+        ops: [eq, in]
+      sequencial_da_conta:
+        coluna: SEQUENCIAL_CTA
+        ops: [eq, in]
+      sequencial_do_acumulador:
+        coluna: SEQUENCIAL_ACUMULADOR
+        ops: [eq, in]
+      codigo_do_acumulador:
+        coluna: CODI_ACU
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 444 linhas, 20 empresa(s), COMPETENCIA de 2024-01-01 a 2026-07-01.']
+  efoutrosdados_efd_reinf_servicos_tomados:
+    titulo: EFD-Reinf - Outros Dados - Serviçoes Tomados
+    descricao: 'EFD-Reinf - Outros Dados - Serviçoes Tomados. 79 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, CODI_EMP_TOMADOR, TIPO_INSCRICAO_TOMADOR, INSCRICAO_TOMADOR,
+      CODIGO_RECOLHIMENTO_VALOR_APURADO, TIPO_INSCRICAO_VALOR_APURADO, INSCRICAO_VALOR_APURADO, NUMERO_DOCUMENTO, INDICATIVO_PRESTACAO_SERVICOS.'
+    tabela: EFOUTROSDADOS_EFD_REINF_SERVICOS_TOMADOS
+    chave: [CODI_EMP, COMPETENCIA, CODI_EMP_TOMADOR, TIPO_INSCRICAO_TOMADOR, INSCRICAO_TOMADOR, CODIGO_RECOLHIMENTO_VALOR_APURADO, TIPO_INSCRICAO_VALOR_APURADO, INSCRICAO_VALOR_APURADO,
+      NUMERO_DOCUMENTO, INDICATIVO_PRESTACAO_SERVICOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_EMP_TOMADOR, asc]
+    - [TIPO_INSCRICAO_TOMADOR, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      empresa_tomador: CODI_EMP_TOMADOR
+      tipo_inscricao_tomador: {coluna: TIPO_INSCRICAO_TOMADOR, sensivel: parcial}
+      inscricao_tomador: {coluna: INSCRICAO_TOMADOR, sensivel: parcial}
+      codigo_de_recolhimento: CODIGO_RECOLHIMENTO_VALOR_APURADO
+      tipo_inscricao_valor_apurado: {coluna: TIPO_INSCRICAO_VALOR_APURADO, sensivel: parcial}
+      inscricao_valor_apurado: {coluna: INSCRICAO_VALOR_APURADO, sensivel: parcial}
+      numero_do_documento: NUMERO_DOCUMENTO
+      indicativo_de_prestacao_de_servicos: INDICATIVO_PRESTACAO_SERVICOS
+      valor_debito: VALOR_DEBITO
+      numero_cno: NUMERO_CNO
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      empresa_tomador:
+        coluna: CODI_EMP_TOMADOR
+        ops: [eq, in]
+      tipo_inscricao_tomador:
+        coluna: TIPO_INSCRICAO_TOMADOR
+        ops: [eq, in]
+      inscricao_tomador:
+        coluna: INSCRICAO_TOMADOR
+        ops: [eq, in]
+      codigo_de_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO_VALOR_APURADO
+        ops: [eq, in]
+      tipo_inscricao_valor_apurado:
+        coluna: TIPO_INSCRICAO_VALOR_APURADO
+        ops: [eq, in]
+      inscricao_valor_apurado:
+        coluna: INSCRICAO_VALOR_APURADO
+        ops: [eq, in]
+      numero_do_documento:
+        coluna: NUMERO_DOCUMENTO
+        ops: [eq, in]
+      indicativo_de_prestacao_de_servicos:
+        coluna: INDICATIVO_PRESTACAO_SERVICOS
+        ops: [eq, in]
+      numero_cno:
+        coluna: NUMERO_CNO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 79 linhas, 4 empresa(s), COMPETENCIA de 2021-02-01 a 2026-02-01.']
+  efoutrosdados_efd_contas_cst:
+    titulo: EFD Contribuições - Outros Dados - Contas - CST
+    descricao: 'EFD Contribuições - Outros Dados - Contas - CST. 28 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA, SEQUENCIAL_CST.'
+    tabela: EFOUTROSDADOS_EFD_CONTAS_CST
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, REGISTRO, SEQUENCIAL_CTA, SEQUENCIAL_CST]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [REGISTRO, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, registro_1_c481_c485_2_m400_m800_3_f500: REGISTRO, sequencial_da_conta: SEQUENCIAL_CTA,
+      sequencial_do_cst: SEQUENCIAL_CST, codigo_da_situacao_tributaria: CODI_CST}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      registro_1_c481_c485_2_m400_m800_3_f500:
+        coluna: REGISTRO
+        ops: [eq, in]
+      sequencial_da_conta:
+        coluna: SEQUENCIAL_CTA
+        ops: [eq, in]
+      sequencial_do_cst:
+        coluna: SEQUENCIAL_CST
+        ops: [eq, in]
+      codigo_da_situacao_tributaria:
+        coluna: CODI_CST
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 28 linhas, 7 empresa(s), COMPETENCIA de 2017-07-01 a 2026-07-01.']
+  efoutrosdados_efd_reinf_servicos_prestados:
+    titulo: EFD-Reinf - Outros Dados - Serviçoes Tomados
+    descricao: 'EFD-Reinf - Outros Dados - Serviçoes Tomados. 20 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, CODI_EMP_PRESTADOS, TIPO_INSCRICAO_PRESTADOS, INSCRICAO_PRESTADOS,
+      CODIGO_RECOLHIMENTO_VALOR_APURADO, TIPO_INSCRICAO_VALOR_APURADO, INSCRICAO_VALOR_APURADO, NUMERO_DOCUMENTO, TIPO_NOTA, INDICATIVO_PRESTACAO_SERVICOS.'
+    tabela: EFOUTROSDADOS_EFD_REINF_SERVICOS_PRESTADOS
+    chave: [CODI_EMP, COMPETENCIA, CODI_EMP_PRESTADOS, TIPO_INSCRICAO_PRESTADOS, INSCRICAO_PRESTADOS, CODIGO_RECOLHIMENTO_VALOR_APURADO, TIPO_INSCRICAO_VALOR_APURADO,
+      INSCRICAO_VALOR_APURADO, NUMERO_DOCUMENTO, TIPO_NOTA, INDICATIVO_PRESTACAO_SERVICOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [CODI_EMP_PRESTADOS, asc]
+    - [TIPO_INSCRICAO_PRESTADOS, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      codi_emp_prestados: CODI_EMP_PRESTADOS
+      tipo_inscricao_prestados: {coluna: TIPO_INSCRICAO_PRESTADOS, sensivel: parcial}
+      inscricao_prestados: {coluna: INSCRICAO_PRESTADOS, sensivel: parcial}
+      codigo_de_recolhimento: CODIGO_RECOLHIMENTO_VALOR_APURADO
+      tipo_inscricao_valor_apurado: {coluna: TIPO_INSCRICAO_VALOR_APURADO, sensivel: parcial}
+      inscricao_valor_apurado: {coluna: INSCRICAO_VALOR_APURADO, sensivel: parcial}
+      numero_do_documento: NUMERO_DOCUMENTO
+      tipo_da_nota_s_saida_v_servico: TIPO_NOTA
+      indicativo_de_prestacao_de_servicos: INDICATIVO_PRESTACAO_SERVICOS
+      valor_debito: VALOR_DEBITO
+      numero_cno: NUMERO_CNO
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      codi_emp_prestados:
+        coluna: CODI_EMP_PRESTADOS
+        ops: [eq, in]
+      tipo_inscricao_prestados:
+        coluna: TIPO_INSCRICAO_PRESTADOS
+        ops: [eq, in]
+      inscricao_prestados:
+        coluna: INSCRICAO_PRESTADOS
+        ops: [eq, in]
+      codigo_de_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO_VALOR_APURADO
+        ops: [eq, in]
+      tipo_inscricao_valor_apurado:
+        coluna: TIPO_INSCRICAO_VALOR_APURADO
+        ops: [eq, in]
+      inscricao_valor_apurado:
+        coluna: INSCRICAO_VALOR_APURADO
+        ops: [eq, in]
+      numero_do_documento:
+        coluna: NUMERO_DOCUMENTO
+        ops: [eq, in]
+      tipo_da_nota_s_saida_v_servico:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      indicativo_de_prestacao_de_servicos:
+        coluna: INDICATIVO_PRESTACAO_SERVICOS
+        ops: [eq, in]
+      numero_cno:
+        coluna: NUMERO_CNO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas, 1 empresa(s), COMPETENCIA de 2021-09-01 a 2023-11-01.']
+  efoutrosdados_reinf_rendimentos_isentos_contas_param:
+    titulo: REINF - Outros Dados - Rendimentos Isentos - Contas parâmetros
+    descricao: 'REINF - Outros Dados - Rendimentos Isentos - Contas parâmetros. 8 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO.'
+    tabela: EFOUTROSDADOS_REINF_RENDIMENTOS_ISENTOS_CONTAS_PARAM
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO_INICIAL, volume: pequeno}
+    ordem:
+    - [PERIODO_INICIAL, desc]
+    - [COMPETENCIA, asc]
+    - [I_INFORMATIVOS, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, sequencial_rendimento: I_RENDIMENTO_ISENTO, periodo_inicial: PERIODO_INICIAL,
+      periodo_final: PERIODO_FINAL, determinar_a_forma_de_importar_o_saldo_d: FORMA_IMPORTAR_SALDO}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial_rendimento:
+        coluna: I_RENDIMENTO_ISENTO
+        ops: [eq, in]
+      periodo_inicial:
+        coluna: PERIODO_INICIAL
+        ops: [entre, gte, lte]
+      periodo_final:
+        coluna: PERIODO_FINAL
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 8 linhas, 2 empresa(s), PERIODO_INICIAL de 2025-05-01 a 2026-01-01.']
+  efoutrosdados_efd_recibo_scp:
+    titulo: EFD Contribuições - Outros Dados - Recibo - SCP
+    descricao: 'EFD Contribuições - Outros Dados - Recibo - SCP. 7 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SCP.'
+    tabela: EFOUTROSDADOS_EFD_RECIBO_SCP
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SCP]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_SCP, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, scp: I_SCP, numero_do_recibo: NUMERO_RECIBO}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+      numero_do_recibo:
+        coluna: NUMERO_RECIBO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 7 linhas, 1 empresa(s), COMPETENCIA de 2025-03-01 a 2025-04-01.']
+  efoutrosdados_reinf_rendimentos_isentos_contas:
+    titulo: REINF - Outros Dados - Rendimentos Isentos - Contas
+    descricao: 'REINF - Outros Dados - Rendimentos Isentos - Contas. 7 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO, CONTA.'
+    tabela: EFOUTROSDADOS_REINF_RENDIMENTOS_ISENTOS_CONTAS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_RENDIMENTO_ISENTO, CONTA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_RENDIMENTO_ISENTO, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, sequencial_rendimento: I_RENDIMENTO_ISENTO, conta: CONTA}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial_rendimento:
+        coluna: I_RENDIMENTO_ISENTO
+        ops: [eq, in]
+      conta:
+        coluna: CONTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7 linhas, 1 empresa(s), COMPETENCIA de 2026-01-01 a 2026-01-01.']
+  efoutrosdados_planejamento_tributario_presuncao:
+    titulo: Outros Dados - Planejamento Tributário - Percentual Receita Bruta por Presunção de CSLL e IRPJ
+    descricao: 'Outros Dados - Planejamento Tributário - Percentual Receita Bruta por Presunção de CSLL e IRPJ. 3 linhas no catálogo; chave: CODI_EMP, COMPETENCIA,
+      I_INFORMATIVOS, I_SEQUENCIAL.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_PRESUNCAO
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, sequencial: I_SEQUENCIAL, percentual_csll: PERCENTUAL_CSLL, percentual_irpj: PERCENTUAL_IRPJ,
+      percentual_receita_bruta: PERCENTUAL_RECEITA_BRUTA, considerar_cfops_de: CONSIDERAR_CFOP}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 2 linhas sem
+        registro relacionado (empresa 1).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 1).']
+  efoutrosdados_planejamento_tributario_custos_despesas_lucro:
+    titulo: Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real)
+    descricao: 'Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real). 3 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, EMPRESA,
+      CODI_CTA.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CUSTOS_DESPESAS_LUCRO_REAL_EMPRESAS_CONTAS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, EMPRESA, CODI_CTA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [EMPRESA, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, empresa_importar_saldo_das_contas_contab: EMPRESA, conta_contabil: CODI_CTA,
+      empresa_do_plano_de_contas: CODI_EMP_PLANO}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      empresa_importar_saldo_das_contas_contab:
+        coluna: EMPRESA
+        ops: [eq, in]
+      conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      empresa_do_plano_de_contas:
+        coluna: CODI_EMP_PLANO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 2 linhas sem
+        registro relacionado (empresa 1).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 1).']
+  efoutrosdados_efd_evento_scp:
+    titulo: EFD Contribuições - Outros Dados - SCP
+    descricao: 'EFD Contribuições - Outros Dados - SCP. 2 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SCP.'
+    tabela: EFOUTROSDADOS_EFD_EVENTO_SCP
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SCP]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_SCP, asc]
+    colunas: {empresa: CODI_EMP, competaancia: COMPETENCIA, informativo: I_INFORMATIVOS, scp: I_SCP, evento: EVENTO}
+    filtros:
+      competaancia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      scp:
+        coluna: I_SCP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s), COMPETENCIA de 2022-03-01 a 2022-03-01.']
+  efoutrosdados_planejamento_tributario_aliquota_impostos:
+    titulo: Outros Dados - Planejamento Tributário - Aliquota dos Impostos
+    descricao: 'Outros Dados - Planejamento Tributário - Aliquota dos Impostos. 2 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_ALIQUOTA_IMPOSTOS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, aliquota_iss: ALIQUOTA_ISS, aliquota_ipi: ALIQUOTA_IPI, aliquota_csll: ALIQUOTA_CSLL,
+      aliquota_irpj: ALIQUOTA_IRPJ, alqiuota_pis_cumulativo: ALIQUOTA_PIS, aliquota_cofins_cumulativo: ALIQUOTA_COFINS, aliquota_pis_nao_cumulativo: ALIQUOTA_PIS_NC,
+      aliquota_cofins_nao_cumulativo: ALIQUOTA_COFINS_NC, aliquota_pis_importacao: ALIQUOTA_PIS_IMPORTACAO, aliquota_cofins_importacao: ALIQUOTA_COFINS_IMPORTACAO,
+      aliquota_icms_importacao: ALIQUOTA_ICMS_IMPORTACAO, tabela_de_icms: I_TABELA_ICMS}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      tabela_de_icms:
+        coluna: I_TABELA_ICMS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 1 linhas sem
+        registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1649).']
+  efoutrosdados_planejamento_tributario_custos_despesas_lucro_x:
+    titulo: Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real)
+    descricao: 'Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real). 2 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CUSTOS_DESPESAS_LUCRO_REAL
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, considerar_os_valores_da_folha_mensal_do: CONSIDERAR_VALORES_FOLHA_MENSAL,
+      forma_de_importacao_do_saldo_das_contas: FORMA_IMPORTACAO_SALDO_CONTAS, considerar_o_saldo_das_contas_contabeis: CONSIDERAR_SALDO_CONTAS_ACUMULADORES}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      considerar_os_valores_da_folha_mensal_do:
+        coluna: CONSIDERAR_VALORES_FOLHA_MENSAL
+        ops: [eq, in]
+      forma_de_importacao_do_saldo_das_contas:
+        coluna: FORMA_IMPORTACAO_SALDO_CONTAS
+        ops: [eq, in]
+      considerar_o_saldo_das_contas_contabeis:
+        coluna: CONSIDERAR_SALDO_CONTAS_ACUMULADORES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 1 linhas sem
+        registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1649).']
+  efoutrosdados_planejamento_tributario_custos_despesas_lucro_x_x:
+    titulo: Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real)
+    descricao: 'Outros Dados - Planejamento Tributário - Custos e Despesas (Lucro Real). 2 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, EMPRESA.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CUSTOS_DESPESAS_LUCRO_REAL_EMPRESAS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, EMPRESA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [EMPRESA, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, empresa_importar_saldo_das_contas_contab: EMPRESA}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      empresa_importar_saldo_das_contas_contab:
+        coluna: EMPRESA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 1 linhas sem
+        registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1649).']
+  efoutrosdados_planejamento_tributario_percentual_rb_simples:
+    titulo: Outros Dados - Planejamento Tributario - Percentual de Receita Bruta calculo Simples Nacional
+    descricao: 'Outros Dados - Planejamento Tributario - Percentual de Receita Bruta calculo Simples Nacional. 2 linhas no catálogo; chave: CODI_EMP, COMPETENCIA,
+      I_INFORMATIVOS, I_SEQUENCIAL.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_PERCENTUAL_RB_SIMPLES_NACIONAL
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, sequencial: I_SEQUENCIAL, anexo: ANEXO, secao: SECAO, tabela: TABELA, considerar_cfops_de: CONSIDERAR_CFOP,
+      percentual_receita_bruta: PERCENTUAL_RECEITA_BRUTA}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s), COMPETENCIA de 2026-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 1 linhas sem
+        registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1649).']
+  efoutrosdados_dirf_scp:
+    titulo: DIRF - Outros Dados - SCP
+    descricao: 'DIRF - Outros Dados - SCP. 1 linhas no catálogo; chave: CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_DIRF_SCP.'
+    tabela: EFOUTROSDADOS_DIRF_SCP
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, I_DIRF_SCP]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [I_DIRF_SCP, asc]
+    colunas:
+      empresa: CODI_EMP
+      competencia: COMPETENCIA
+      informativo: I_INFORMATIVOS
+      sequencial: I_DIRF_SCP
+      cnpj: {coluna: CNPJ, sensivel: parcial}
+      nome: NOME
+      filial: CODIGO_FILIAL
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_DIRF_SCP
+        ops: [eq, in]
+      cnpj:
+        coluna: CNPJ
+        ops: [eq, in]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      filial:
+        coluna: CODIGO_FILIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), COMPETENCIA de 2021-01-01 a 2021-01-01.']
+  efoutrosdados_planejamento_tributario_custos_despesas_lucro_x_x_x:
+    titulo: Outros Dados - Planejamento Tributário - Custos e Despesas Saldo Conta Acumulador (Lucro Real)
+    descricao: 'Outros Dados - Planejamento Tributário - Custos e Despesas Saldo Conta Acumulador (Lucro Real). 1 linhas no catálogo; chave: CODI_EMP, COMPETENCIA,
+      I_INFORMATIVOS, EMPRESA.'
+    tabela: EFOUTROSDADOS_PLANEJAMENTO_TRIBUTARIO_CUSTOS_DESPESAS_LUCRO_REAL_SALDO_CONTA_ACUMULADOR_EMPRESAS
+    chave: [CODI_EMP, COMPETENCIA, I_INFORMATIVOS, EMPRESA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_INFORMATIVOS, asc]
+    - [EMPRESA, asc]
+    colunas: {empresa: CODI_EMP, competencia: COMPETENCIA, informativo: I_INFORMATIVOS, empresa_importar_saldo_das_contas_contab: EMPRESA}
+    vinculos:
+      efinformativos:
+        tabela: efinformativos
+        liga: {i_informativos: i_informativos}
+        colunas: {efinformativos_nome: descricao}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      informativo:
+        coluna: I_INFORMATIVOS
+        ops: [eq, in]
+      empresa_importar_saldo_das_contas_contab:
+        coluna: EMPRESA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), COMPETENCIA de 2027-01-01 a 2027-01-01.', 'Vínculo efinformativos (efinformativos): 0 de 1 linhas sem
+        registro relacionado (empresa 1649).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 1649).']

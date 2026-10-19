@@ -7,14 +7,16 @@
 <style>
 :root{
   --bg:#f4f6f8; --panel:#fff; --ink:#18212b; --muted:#5c6b7a; --line:#d6dce3; --soft:#eceff3; --accent:#2a6fdb; --danger:#c0392b; --ok:#177a4d;
-  --s-validada:#0e7a49; --s-modelada:#34a874; --s-apoio:#a4d9bd; --s-em_analise:#f2b632; --s-ignorada:#aeb6c1; --s-vazia:#e3e7ec;
+  --s-validada:#0e7a49; --s-medida:#5b9bd5; --s-modelada:#34a874; --s-apoio:#a4d9bd; --s-em_analise:#f2b632; --s-ignorada:#aeb6c1; --s-vazia:#e3e7ec;
   --s-nao_iniciada:#cf5b52; --s-bloqueada:#6c3483;
+  --b-curada:#0e7a49; --b-revisada:#1b9aaa; --b-validada:#34a874; --b-gerada:#5b9bd5; --b-falhou:#cf5b52; --b-sem_ferramenta:#aeb6c1;
   --shadow:0 1px 2px rgba(20,30,50,.08),0 4px 14px rgba(20,30,50,.06);
 }
 @media (prefers-color-scheme:dark){
   :root{--bg:#10151b; --panel:#192029; --ink:#e6ebf0; --muted:#95a3b2; --line:#2c3643; --soft:#222b36; --accent:#6aa3ff; --danger:#ff7a6b; --ok:#46c98b;
-    --s-validada:#1aa468; --s-modelada:#3cc98a; --s-apoio:#2b6a4d; --s-em_analise:#e6a91f; --s-ignorada:#5d6772; --s-vazia:#262f3a;
-    --s-nao_iniciada:#c9524a; --s-bloqueada:#a569bd}
+    --s-validada:#1aa468; --s-medida:#4f8fc9; --s-modelada:#3cc98a; --s-apoio:#2b6a4d; --s-em_analise:#e6a91f; --s-ignorada:#5d6772; --s-vazia:#262f3a;
+    --s-nao_iniciada:#c9524a; --s-bloqueada:#a569bd;
+    --b-curada:#1aa468; --b-revisada:#2bb3c4; --b-validada:#3cc98a; --b-gerada:#4f8fc9; --b-falhou:#c9524a; --b-sem_ferramenta:#5d6772}
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -90,6 +92,7 @@ footer{color:var(--muted);font-size:12px;padding:8px 16px 28px;max-width:1560px;
   <section id="s-mosaico"></section>
   <section id="s-fila"></section>
   <section id="s-familias"></section>
+  <section id="s-biblioteca"></section>
   <section id="s-historico"></section>
 </main>
 <div id="tip"></div>
@@ -108,12 +111,12 @@ async function api(rota,corpo){
 }
 const COR=s=>getComputedStyle(document.documentElement).getPropertyValue('--s-'+s).trim();
 const S={resumo:null,serie:[],tabelas:[],fila:[],familias:[],hist:[],f:{dep:'',st:new Set(),q:'',min:0,fam:'',prior:false}};
-const ORDEM=['validada','modelada','apoio','em_analise','nao_iniciada','ignorada','vazia','bloqueada'];
+const ORDEM=['validada','medida','modelada','apoio','em_analise','nao_iniciada','ignorada','vazia','bloqueada'];
 
 /* ---------- navegação */
-const ABAS=[['painel','Painel'],['mosaico','Mosaico'],['fila','Fila de trabalho'],['familias','Famílias'],['historico','Histórico']];
+const ABAS=[['painel','Painel'],['mosaico','Mosaico'],['fila','Fila de trabalho'],['familias','Famílias'],['biblioteca','Biblioteca de tools'],['historico','Histórico']];
 function ir(id){document.querySelectorAll('main>section').forEach(x=>x.classList.toggle('on',x.id==='s-'+id));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
-  if(id==='mosaico')desenharMosaico(); history.replaceState(null,'','#'+id)}
+  if(id==='mosaico')desenharMosaico(); if(id==='biblioteca')carregarBiblioteca(); history.replaceState(null,'','#'+id)}
 ABAS.forEach(([id,n])=>$('#nav').append(h('button',{'data-id':id,onclick:()=>ir(id)},n)));
 
 /* ---------- carga */
@@ -139,7 +142,7 @@ function painel(){
   sec.append(h('h2',null,'Onde estamos'),h('p',{class:'lead'},`Cada tabela legível do banco (${fmt(R.tabelas)}) tem um status. Verde = já mapeada em uma entidade; vermelho = ainda não iniciada; cinza = vazia hoje ou ignorada. Clique em uma cor para ver essas tabelas no mosaico.`));
   sec.append(h('div',{class:'box'},barraSeg(R.por_status,R.tabelas,irMosaico),legenda(R.por_status,irMosaico)));
   sec.append(h('div',{class:'grid g4'},
-    [[fmt(R.tabelas_modeladas),'tabelas modeladas ('+pf(R.tabelas_modeladas,R.tabelas)+' do total)'],[fmt(R.entidades),'entidades de negócio ('+R.entidades_validadas+' com regras validadas)'],
+    [[fmt(R.tabelas_modeladas),'tabelas modeladas ('+pf(R.tabelas_modeladas,R.tabelas)+' do total)'],[fmt(R.entidades),'entidades de negócio ('+R.entidades_validadas+' curadas e conciliadas · '+R.entidades_medidas+' geradas em lote, com fatos medidos)'],
      [fmt(R.por_status.em_analise||0),'em análise agora'],[fmt(R.dominios_confirmados)+' / '+fmt(R.dominios),'domínios de códigos confirmados']].map(([n,t])=>h('div',{class:'card'},h('b',null,n),h('span',null,t)))));
   sec.append(h('div',{class:'grid g2',style:'margin-top:14px'},
     h('div',{class:'box'},h('h3',null,'Progresso por medida'),
@@ -152,7 +155,7 @@ function painel(){
       h('h4',null,'Próximas da fila'),h('table',null,h('tbody',null,S.fila.slice(0,6).map(x=>h('tr',null,h('td',{class:'mono'},x.nome),h('td',{class:'small'},x.motivo),h('td',null,h('button',{class:'pe',onclick:()=>abrir(x.nome)},'Abrir')))))))));
   const dep=h('div',{class:'box'},h('h3',null,'Por departamento'));
   Object.entries(R.por_departamento).sort((a,b)=>Object.values(b[1]).reduce((x,y)=>x+y,0)-Object.values(a[1]).reduce((x,y)=>x+y,0)).forEach(([d,c])=>{const tot=Object.values(c).reduce((x,y)=>x+y,0);
-    dep.append(h('div',{style:'margin:8px 0'},h('div',{class:'row',style:'justify-content:space-between;margin:0 0 3px'},h('b',null,d),h('span',{class:'small'},`${fmt(tot)} tabelas · ${fmt((c.validada||0)+(c.modelada||0)+(c.apoio||0))} modeladas`)),barraSeg(c,tot,s=>{S.f.dep=d;irMosaico(s)})))});
+    dep.append(h('div',{style:'margin:8px 0'},h('div',{class:'row',style:'justify-content:space-between;margin:0 0 3px'},h('b',null,d),h('span',{class:'small'},`${fmt(tot)} tabelas · ${fmt((c.validada||0)+(c.medida||0)+(c.modelada||0)+(c.apoio||0))} modeladas`)),barraSeg(c,tot,s=>{S.f.dep=d;irMosaico(s)})))});
   sec.append(dep);
 }
 function grafico(){
@@ -199,7 +202,7 @@ function desenharMosaico(){
       if(x0+w>W-6&&x0>6){x0=6;y+=rowH+PAD;rowH=0}
       lay.push({fam,arr,x:x0,y,k,rows,w});x0+=w+PAD;rowH=Math.max(rowH,hh)});
     y+=rowH+6;
-    const mod=ts.filter(t=>['validada','modelada','apoio'].includes(t.status)).length;
+    const mod=ts.filter(t=>['validada','medida','modelada','apoio'].includes(t.status)).length;
     const cv=h('canvas');cv.width=W*dpr;cv.height=y*dpr;cv.style.height=y+'px';const g=cv.getContext('2d');g.scale(dpr,dpr);
     g.font='10.5px system-ui';const txt=getComputedStyle(document.documentElement).getPropertyValue('--muted');
     const meta=[];
@@ -292,7 +295,7 @@ function aRelacoes(){
 function aMapear(){
   const d=G.det,box=h('div');
   if(!d.escopo||d.bloqueada){box.append(h('p',null,'Esta tabela está fora do escopo ou bloqueada por segurança; não pode virar entidade.'));return box}
-  if(['modelada','validada','apoio'].includes(d.auto))box.append(h('div',{class:'res ok'},`Já mapeada por: ${[...d.entidades,...d.usada_em].join(', ')}. Para alterar, edite o YAML em src/model/modulos/.`));
+  if(['modelada','validada','medida','apoio'].includes(d.auto))box.append(h('div',{class:'res ok'},`Já mapeada por: ${[...d.entidades,...d.usada_em].join(', ')}. Para alterar, edite o YAML em src/model/modulos/.`));
   const mods=['fiscal','contabil','folha','honorarios','geral','comum','outros'];
   const selMod=h('select',null,mods.map(m=>h('option',{value:m,selected:m===d.modulo_sugerido},m)));
   const nome=h('input',{type:'text',placeholder:'nome_da_entidade (opcional)',style:'width:240px'});
@@ -317,6 +320,63 @@ function aMapear(){
   if(d.rascunho)api('rascunho?tabela='+d.t).then(r=>{if(r.yaml){ta.value=r.yaml}});
   return box;
 }
+
+
+/* ---------- biblioteca de tools MCP (acompanhamento) */
+const BORD=['curada','revisada','validada','gerada','falhou','sem_ferramenta'];
+const BROT={curada:'Curada (modelo conciliado)',revisada:'Revisada por agente',validada:'Validada (bateria)',gerada:'Gerada (não validada)',falhou:'Falhou na validação',sem_ferramenta:'Sem ferramenta ainda'};
+const BCOR=s=>getComputedStyle(document.documentElement).getPropertyValue('--b-'+s).trim();
+const B={dados:null,f:{st:new Set(),mod:'',q:''}};
+async function carregarBiblioteca(){
+  const sec=$('#s-biblioteca');if(!B.dados)sec.innerHTML='<p class="small">carregando a biblioteca…</p>';
+  try{B.dados=await api('biblioteca')}catch(e){sec.innerHTML='<p class="small">erro: '+e.message+'</p>';return}
+  bibUI()}
+function bibSeg(c,total,onclick){const b=h('div',{class:'seg'});BORD.forEach(s=>{const n=c[s]||0;if(!n)return;const i=h('i',{style:`width:${100*n/total}%;background:${BCOR(s)}`,title:`${BROT[s]}: ${fmt(n)} (${pf(n,total)})`});if(onclick)i.addEventListener('click',()=>onclick(s));b.append(i)});return b}
+function bibUI(){
+  const D=B.dados,R=D.resumo,sec=$('#s-biblioteca');sec.innerHTML='';
+  const total=R.tabelas+(R.por_status.sem_ferramenta||0);
+  const comFerr=R.tabelas;const pron=(R.por_status.validada||0)+(R.por_status.curada||0)+(R.por_status.revisada||0);
+  const filtra=s=>{B.f.st=new Set([s]);bibUI()};
+  sec.append(h('h2',null,'Biblioteca de tools MCP'),
+    h('p',{class:'lead'},'Acompanha quais tabelas já viraram ferramentas de consulta na biblioteca (src/biblioteca/<módulo>/<tabela>.py) e em que estágio estão. Gerada = ferramenta padrão criada do modelo; Validada = passou na bateria contra o banco (esquema, descrição, entrada, execução real, filtro, paginação, credenciais); Curada = construída sobre entidade conciliada à mão; Revisada = avaliada por um agente independente.'),
+    h('div',{class:'box'},bibSeg(R.por_status,total,filtra),h('div',{class:'legend'},BORD.filter(s=>R.por_status[s]).map(s=>h('span',{onclick:()=>filtra(s)},h('i',{class:'sw',style:`background:${BCOR(s)}`}),`${BROT[s]} · ${fmt(R.por_status[s])}`)))),
+    h('div',{class:'grid g4'},[[fmt(R.ferramentas),'ferramentas na biblioteca ('+Object.entries(D.por_tipo).map(([k,v])=>v+' '+k).join(' · ')+')'],[fmt(comFerr),'tabelas com ferramenta ('+pf(comFerr,total)+' das que valem mapear)'],
+      [fmt(pron),'tabelas validadas ('+pf(pron,total)+')'],[fmt(R.ferramentas_com_falha),'ferramentas com falha na validação'],[fmt(R.por_status.sem_ferramenta||0),'tabelas ainda sem ferramenta']].map(([n,t])=>h('div',{class:'card'},h('b',null,n),h('span',null,t)))));
+  const mods=Object.entries(R.por_modulo).sort((a,b)=>b[1].total-a[1].total);
+  sec.append(h('div',{class:'box',style:'margin-top:14px'},h('h3',null,'Por módulo da biblioteca ('+mods.length+' pastas)'),
+    h('div',{style:'display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:6px 18px'},mods.map(([m,c])=>h('div',{style:'cursor:pointer',onclick:()=>{B.f.mod=B.f.mod===m?'':m;bibUI()}},
+      h('div',{class:'row',style:'justify-content:space-between;margin:0'},h('b',{class:'mono small'},m+(B.f.mod===m?' ✕':'')),h('span',{class:'small'},fmt(c.total))),bibSeg(c,c.total))))));
+  const busca=h('input',{type:'search',placeholder:'Buscar tabela…',value:B.f.q,oninput:e=>{B.f.q=e.target.value.trim().toLowerCase();bibLista()}});
+  const leg=h('div',{class:'legend'},BORD.map(s=>h('span',{class:B.f.st.size&&!B.f.st.has(s)?'off':'',onclick:()=>{B.f.st.has(s)?B.f.st.delete(s):B.f.st.add(s);bibUI()}},h('i',{class:'sw',style:`background:${BCOR(s)}`}),BROT[s])),h('span',{onclick:()=>{B.f.st=new Set();B.f.mod='';bibUI()}},'limpar filtros'));
+  sec.append(h('div',{class:'box'},h('h3',null,'Tabelas'),h('div',{class:'row'},busca),leg,h('div',{id:'bib-lista'})));
+  const ev=D.historico;if(ev.length>1)sec.append(h('div',{class:'box'},h('h3',null,'Evolução (tabelas validadas por dia)'),h('table',null,h('tbody',null,ev.slice(-10).map(x=>h('tr',null,h('td',{class:'small'},x.dia),h('td',{class:'n'},fmt(x.ferramentas)+' ferramentas'),h('td',{class:'n'},fmt(x.tabelas_validadas)+' / '+fmt(x.tabelas)+' tabelas validadas'),h('td',{class:'n'},fmt(x.falhas)+' falhas')))))));
+  if(D.erros_carga.length)sec.append(h('div',{class:'box res err'},h('b',null,'Erros ao carregar a biblioteca:'),D.erros_carga.slice(0,10).map(x=>h('div',{class:'mono small'},x))));
+  bibLista();
+}
+function bibLista(){
+  const D=B.dados,f=B.f,alvo=$('#bib-lista');if(!alvo)return;alvo.innerHTML='';
+  const l=D.tabelas.filter(t=>(!f.st.size||f.st.has(t.status))&&(!f.mod||t.modulo===f.mod)&&(!f.q||t.t.includes(f.q)||t.modulo.includes(f.q)));
+  const sem=(!f.st.size||f.st.has('sem_ferramenta'))&&!f.mod?D.sem_ferramenta.filter(t=>!f.q||t.t.includes(f.q)):[];
+  const mx=300;
+  alvo.append(h('div',{class:'small'},`${fmt(l.length+sem.length)} tabelas (mostrando até ${mx})`),
+    h('table',null,h('thead',null,h('tr',null,h('th',null,'Tabela'),h('th',null,'Módulo / departamento'),h('th',{class:'n'},'Linhas'),h('th',null,'Status na biblioteca'),h('th',null,'Ferramentas'))),
+    h('tbody',null,l.slice(0,mx).map(t=>h('tr',{style:'cursor:pointer',onclick:()=>bibAbrir(t)},h('td',{class:'mono'},t.t),h('td',{class:'small'},t.modulo+(t.dep?' · '+t.dep:'')),h('td',{class:'n'},fmt(t.linhas)),
+        h('td',null,h('span',{class:'st',style:`background:${BCOR(t.status)}`},BROT[t.status])),h('td',{class:'small'},t.ferramentas.map(x=>h('span',{class:'tag',title:x.status},x.nome.replace(/^.*_(consultar|obter|totais)$/,'$1')+(x.status==='falhou'?' ✗':x.status==='validada'?' ✓':'')))))),
+      l.length<mx?sem.slice(0,mx-l.length).map(t=>h('tr',{style:'cursor:pointer',onclick:()=>abrir(t.t)},h('td',{class:'mono'},t.t),h('td',{class:'small'},t.dep),h('td',{class:'n'},fmt(t.linhas)),h('td',null,h('span',{class:'st',style:`background:${BCOR('sem_ferramenta')}`},BROT.sem_ferramenta)),h('td',{class:'small'},'mapa: '+t.status_mapa))):null)));
+}
+async function bibAbrir(t){
+  const fs=await Promise.all(t.ferramentas.map(x=>api('biblioteca/ferramenta?nome='+encodeURIComponent(x.nome))));
+  $('#gTitulo').textContent=t.t;$('#gSub').textContent=`${BROT[t.status]} · módulo ${t.modulo} · ${fmt(t.linhas)} linhas`;$('#gAbas').innerHTML='';
+  const c=$('#gCorpo');c.innerHTML='';
+  fs.forEach(f=>{c.append(h('div',{class:'box'},h('h3',null,f.nome),h('div',{class:'small'},f.tipo+' · '+(f.gerada?'gerada do modelo':'curada')+' · '+f.status+(f.validada_em?' em '+f.validada_em.replace('T',' '):'')+(f.ms!=null?' · '+f.ms+' ms':'')),
+    h('h4',null,'Checagens da validação'),h('div',null,Object.entries(f.checks).map(([k,v])=>h('span',{class:'tag',style:`border-color:${v.ok?'var(--ok)':'var(--danger)'}`,title:v.msg||''},(v.ok?'✓ ':'✗ ')+k))),
+    Object.entries(f.checks).filter(([,v])=>!v.ok).map(([k,v])=>h('div',{class:'res err small'},k+': '+v.msg)),
+    f.revisao?h('div',{class:'res ok small'},h('b',null,'Revisão ('+f.revisor+'): '),f.revisao):null,
+    h('h4',null,'Parâmetros'),h('table',null,h('tbody',null,f.parametros.map(p=>h('tr',null,h('td',{class:'mono'},p.nome+(p.obrigatorio?' *':'')),h('td',{class:'small'},p.descricao))))),
+    h('h4',null,'Descrição que o modelo de IA lê'),h('pre',{class:'mono small',style:'white-space:pre-wrap'},f.descricao),
+    f.exemplos.length?h('h4',null,'Exemplo'):null,f.exemplos.map(x=>h('pre',{class:'mono small'},JSON.stringify(x.argumentos,null,1)))))});
+  $('#gaveta').classList.add('on')}
+
 
 /* ---------- início */
 $('#atualizar').addEventListener('click',carregar);

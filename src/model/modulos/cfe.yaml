@@ -1,0 +1,314 @@
+# Modelo de entidades do Cupom Fiscal Eletrônico (CF-e SAT): tabelas EFCUPOM_FISCAL_ELETRONICO*.
+# Formato: docs/formato-modelo.md
+#
+# NÃO MODELADO DE PROPÓSITO (próxima rodada, se houver uso):
+#   *_ESTOQUE_APURACAO_ESTOQUE (12,4 mi, cálculo interno de estoque ST), *_ESTOQUE_SALDO, *_ESTOQUE_SIMPLES_NACIONAL_MONOFASICO,
+#   *_ESTOQUE_APURACAO_ESTOQUE_ICMS_SUBTRI, *_PARCELAS/_PAGAMENTOS (376 linhas) e variantes _SIMPLES_NACIONAL, *_PAGAMENTOS_LANCTO,
+#   *_SINTETICO_LANCTO, *_INSS_RB* e *_SP_CREDITO_ACUMULADO (vazias), EFSAT_CF_E (cadastro do equipamento SAT).
+modulo: cfe
+titulo: Cupom Fiscal Eletrônico (CF-e)
+dominios:
+  situacao_cfe:
+    descricao: Situação do CF-e (efcupom_fiscal_eletronico.situacao).
+    confirmado: parcial
+    nota: >
+      O comentário do banco diz "Situação (0/1/2/4)" sem legenda. Nos dados só aparecem 0 (7.223.034) e 2 (12.090). Evidência de 2:
+      12.083 de 12.090 (99,9%) têm número de extrato e chave de cancelamento, todos com valor total 0 e sem cliente; já os de
+      situação 0 nunca têm extrato de cancelamento. Logo 2 = cancelado e 0 = normal. 1 e 4 não ocorrem.
+    valores: {0: Normal, 1: Desconhecido (não ocorre), 2: Cancelado, 4: Desconhecido (não ocorre)}
+  tipo_titulo_cfe:
+    confirmado: true            # comentário da coluna tipo_titulo
+    nota: Todos os 7.235.124 CF-e têm 99 (Outros).
+    valores: {0: Duplicata, 1: Cheque, 2: Promissória, 3: Recibo, 4: Clientes, 5: Documento Fiscal, 99: Outros}
+  origem_registro_cfe:
+    confirmado: parcial
+    nota: >
+      O comentário lista só 0 (Sistema), 1 (Imp. Tabelas), 2 (Imp. Layout) e 3 (Imp. Tabelas Concorrentes), mas 7.235.120 de
+      7.235.124 CF-e (99,99%) têm 7, que não consta no comentário (provável importação do arquivo do SAT; sem confirmação).
+    valores: {0: Sistema, 1: Importação de tabelas, 2: Importação de layout, 3: Importação de tabelas concorrentes, 7: Não documentado (provável importação do SAT)}
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  codigo_imposto:
+    descricao: Código do imposto (codi_imp), igual em todas as empresas (mesmo domínio do módulo fiscal).
+    confirmado: true
+    valores: {1: ICMS, 2: IPI, 3: ISS, 4: PIS, 5: COFINS, 8: DIFALI, 9: Substituição Tributária, 16: IRRF, 18: ISS Retido, 22: PIS (Retido), 23: COFINS (Retido), 24: Contribuição Social (Retida), 26: INSS Retido}
+  tipo_lancamento_cfe:
+    confirmado: parcial
+    nota: O comentário só diz "Tipo do lançamento". Na empresa 1017 todos os lançamentos são tipo 1.
+    valores: {1: Contabilização do CF-e (hipótese)}
+
+entidades:
+  cupom_fiscal_eletronico:
+    titulo: Cupons fiscais eletrônicos (CF-e SAT)
+    descricao: >
+      Cabeçalho de cada CF-e lançado na escrita fiscal: chave, data, extrato, equipamento SAT, situação e valor total. Cobre 40
+      empresas, de 2017-07 a 2026-01. Cancelamentos vêm como outro registro com extrato e chave de cancelamento preenchidos.
+    tabela: efcupom_fiscal_eletronico
+    chave: [codi_emp, i_cfe]
+    acesso: {empresa: codi_emp, periodo: data_cfe, exige_algum: [periodo, codigo, chave_cfe, extrato], volume: grande}
+    ordem: [[data_cfe, desc], [i_cfe, desc]]
+    colunas:
+      codigo: i_cfe
+      chave_cfe: chave_cfe
+      data: data_cfe
+      extrato: extrato
+      sat: sat
+      cliente_codigo: codi_cli
+      tipo_titulo: {coluna: tipo_titulo, dominio: tipo_titulo_cfe}
+      identificacao: {coluna: identificacao, sensivel: parcial}
+      situacao: {coluna: situacao, dominio: situacao_cfe}
+      valor_total: valor_total_cfe
+      origem_registro: {coluna: origem_reg, dominio: origem_registro_cfe}
+      extrato_cancelamento: extrato_cancelamento
+      chave_cancelamento: chave_nfe_cancelamento
+      usuario: codi_usu
+      conferido: {coluna: conferido, dominio: sim_nao_texto}
+    vinculos:
+      cliente:
+        tabela: efclientes
+        liga: {codi_emp: codi_emp, codi_cli: codi_cli}
+        colunas: {cliente_nome: nome_cli, cliente_cnpj_cpf: cgce_cli}
+        sensiveis: [cliente_nome, cliente_cnpj_cpf]
+      total:
+        tabela: efcupom_fiscal_eletronico_estoque_total
+        liga: {codi_emp: codi_emp, i_cfe: i_cfe}
+        colunas: {total_produtos: valor_produtos, total_desconto: valor_desconto, total_acrescimo: valor_acrescimo}
+    filtros:
+      codigo: {coluna: i_cfe, ops: [eq, in]}
+      chave_cfe: {coluna: chave_cfe, ops: [eq]}
+      data: {coluna: data_cfe, ops: [eq, entre, gte, lte]}
+      extrato: {coluna: extrato, ops: [eq, in]}
+      sat: {coluna: sat, ops: [eq, in]}
+      cliente_codigo: {coluna: codi_cli, ops: [eq, in]}
+      situacao: {coluna: situacao, ops: [eq, in]}
+      valor_total: {coluna: valor_total_cfe, ops: [gte, lte, entre]}
+    filhos:
+      itens: {entidade: item_cupom_fiscal_eletronico, liga: {codi_emp: codi_emp, i_cfe: codigo_cfe}}
+      impostos: {entidade: imposto_cupom_fiscal_eletronico, liga: {codi_emp: codi_emp, i_cfe: codigo_cfe}}
+      pis_cofins: {entidade: pis_cofins_cupom_fiscal_eletronico, liga: {codi_emp: codi_emp, i_cfe: codigo_cfe}}
+      lancamentos: {entidade: lancamento_cupom_fiscal_eletronico, liga: {codi_emp: codi_emp, i_cfe: codigo_cfe}}
+    regras:
+      - "Cancelamento: situação 2 tem extrato e chave de cancelamento em 12.083 de 12.090 CF-e, com valor total 0 e sem cliente; situação 0 nunca tem extrato de cancelamento (7.223.034 de 7.223.034). Para o que vale na apuração, filtre `situacao = 0`."
+      - "Chave: os 7.235.124 CF-e têm chave de 44 posições e não há chave repetida por empresa (empresa 1017: 0 repetidas em 554.404)."
+      - "Fechamento (empresa 1017, 554.404 CF-e): valor_total do cabeçalho = valor_total do estoque_total em 100%; estoque_total = soma dos itens em 552.621 de 552.621; soma de impostos.valor_total = valor_total do cabeçalho em 552.621 de 552.621. Os 1.783 restantes são cancelados (valor 0, sem itens)."
+      - "origem_registro vale 7 em 99,99% dos CF-e e esse código não é documentado no comentário do banco; tipo_titulo é sempre 99 e conferido é sempre N: não servem para filtrar."
+
+  item_cupom_fiscal_eletronico:
+    titulo: Itens dos CF-e (estoque)
+    descricao: >
+      Um item vendido por linha, com quantidade, valores e tributação de ICMS, PIS e COFINS. Colunas de combustível (bico, tanque,
+      operação, modal), FECOEP/FECOP e quantidade tributável por unidade de medida só estão em usos específicos e foram omitidas.
+    tabela: efcupom_fiscal_eletronico_estoque
+    chave: [codi_emp, i_cfe, i_estoque]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: cupom, coluna: data_cfe}
+      exige_algum: [codigo_cfe, periodo]
+      volume: grande
+    ordem: [[i_cfe, desc], [i_estoque, asc]]
+    colunas:
+      codigo_cfe: i_cfe
+      sequencial: i_estoque
+      produto_codigo: codi_pdi
+      unidade: unidade
+      quantidade: quantidade
+      valor_unitario: valor_unitario
+      valor_produto: valor_produto
+      desconto: desconto
+      acrescimo: acrescimo
+      valor_total: valor_total
+      cfop: codi_nat
+      cfop_versao: versao_nat
+      acumulador_codigo: codi_acu
+      cst_icms: cst_icms
+      base_icms: base_calculo_icms
+      aliquota_icms: aliquota_icms
+      valor_icms: valor_icms
+      cst_pis: cst_pis
+      natureza_receita_pis: natureza_receita_pis
+      base_pis: base_calculo_pis
+      aliquota_pis: aliquota_pis
+      valor_pis: valor_pis
+      cst_cofins: cst_cofins
+      natureza_receita_cofins: natureza_receita_cofins
+      base_cofins: base_calculo_cofins
+      aliquota_cofins: aliquota_cofins
+      valor_cofins: valor_cofins
+      dados_pis_cofins_ok: {coluna: dados_piscofins_ok, dominio: sim_nao_texto}
+      codigo_cest: codigo_cest
+    vinculos:
+      cupom:
+        tabela: efcupom_fiscal_eletronico
+        liga: {codi_emp: codi_emp, i_cfe: i_cfe}
+        colunas: {cupom_data: data_cfe, cupom_chave: chave_cfe, cupom_situacao: situacao}
+      produto:
+        tabela: efprodutos
+        liga: {codi_emp: codi_emp, codi_pdi: codi_pdi}
+        colunas: {produto_descricao: desc_pdi, produto_ncm: cncm_pdi}
+      acumulador:
+        tabela: efacumulador
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {acumulador_nome: nome_acu}
+    filtros:
+      codigo_cfe: {coluna: i_cfe, ops: [eq, in]}
+      produto_codigo: {coluna: codi_pdi, ops: [eq, in, prefixo]}
+      cfop: {coluna: codi_nat, ops: [eq, in]}
+      cst_icms: {coluna: cst_icms, ops: [eq, in]}
+      cst_pis: {coluna: cst_pis, ops: [eq, in]}
+      cst_cofins: {coluna: cst_cofins, ops: [eq, in]}
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+    regras:
+      - "Sem órfãos: os 702.017 itens da empresa 1017 têm o CF-e correspondente (0 sem cabeçalho); a soma de valor_total dos itens por CF-e é igual ao estoque_total em 552.621 de 552.621."
+      - "Na empresa 1017 o ICMS é quase sempre CST 60 (701.433 de 702.017) e os dados de PIS/COFINS estão todos conferidos (dados_pis_cofins_ok = S)."
+
+  imposto_cupom_fiscal_eletronico:
+    titulo: Impostos dos CF-e por acumulador
+    descricao: >
+      Resumo por acumulador de cada CF-e (valor do produto, desconto, acréscimo e total). Alimenta a apuração: a soma do
+      valor_total por CF-e é igual ao valor do cabeçalho.
+    tabela: efcupom_fiscal_eletronico_impostos
+    chave: [codi_emp, i_cfe, i_imposto]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: cupom, coluna: data_cfe}
+      exige_algum: [codigo_cfe, periodo]
+      volume: grande
+    ordem: [[i_cfe, desc], [i_imposto, asc]]
+    colunas:
+      codigo_cfe: i_cfe
+      sequencial: i_imposto
+      acumulador_codigo: codi_acu
+      valor_produto: valor_produto
+      desconto: desconto
+      acrescimo: acrescimo
+      valor_total: valor_total
+    vinculos:
+      cupom:
+        tabela: efcupom_fiscal_eletronico
+        liga: {codi_emp: codi_emp, i_cfe: i_cfe}
+        colunas: {cupom_data: data_cfe, cupom_chave: chave_cfe, cupom_situacao: situacao}
+      acumulador:
+        tabela: efacumulador
+        liga: {codi_emp: codi_emp, codi_acu: codi_acu}
+        colunas: {acumulador_nome: nome_acu}
+    filtros:
+      codigo_cfe: {coluna: i_cfe, ops: [eq, in]}
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+    filhos:
+      detalhes: {entidade: detalhe_imposto_cupom_fiscal_eletronico, liga: {codi_emp: codi_emp, i_cfe: codigo_cfe, i_imposto: imposto_sequencial}}
+    regras:
+      - "Soma de valor_total por CF-e = valor_total do cabeçalho em 552.621 de 552.621 CF-e vigentes da empresa 1017."
+
+  detalhe_imposto_cupom_fiscal_eletronico:
+    titulo: Detalhamento dos impostos do CF-e
+    descricao: Base, alíquota e valor por imposto (ICMS etc.), CST e CFOP de cada linha de imposto do CF-e.
+    tabela: efcupom_fiscal_eletronico_impostos_detalhamento
+    chave: [codi_emp, i_cfe, i_imposto, i_detalhamento]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: cupom, coluna: data_cfe}
+      exige_algum: [codigo_cfe, periodo]
+      volume: grande
+    ordem: [[i_cfe, desc], [i_imposto, asc], [i_detalhamento, asc]]
+    colunas:
+      codigo_cfe: i_cfe
+      imposto_sequencial: i_imposto
+      sequencial: i_detalhamento
+      imposto_codigo: {coluna: codi_imp, dominio: codigo_imposto}
+      valor_contabil: valor_contabil
+      base_calculo: base_calculo
+      aliquota: aliquota
+      valor_imposto: valor_imposto
+      valor_isentas: valor_isentas
+      valor_outros: valor_outros
+      cst: cst
+      cfop: codi_nat
+      cfop_versao: versao_nat
+      observacao_codigo: codigo_observacao
+      observacao: descricao_observacao
+    vinculos:
+      cupom:
+        tabela: efcupom_fiscal_eletronico
+        liga: {codi_emp: codi_emp, i_cfe: i_cfe}
+        colunas: {cupom_data: data_cfe, cupom_situacao: situacao}
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      codigo_cfe: {coluna: i_cfe, ops: [eq, in]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+      cst: {coluna: cst, ops: [eq, in]}
+      cfop: {coluna: codi_nat, ops: [eq, in]}
+    regras:
+      - "Na empresa 1017 todo o detalhamento é de ICMS (codi_imp = 1; 554.530 linhas)."
+
+  pis_cofins_cupom_fiscal_eletronico:
+    titulo: PIS/COFINS dos CF-e (resumo por CST)
+    descricao: >
+      Resumo de PIS e COFINS por CST/natureza da receita/CFOP, usado pela apuração (a apuração lê esta tabela e a de itens).
+      Cobre 1,36 milhão de linhas, bem menos que os itens (nem todo CF-e tem resumo).
+    tabela: efcupom_fiscal_eletronico_pis_cofins
+    chave: [codi_emp, i_cfe, i_pis_cofins]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: cupom, coluna: data_cfe}
+      exige_algum: [codigo_cfe, periodo]
+      volume: grande
+    ordem: [[i_cfe, desc], [i_pis_cofins, asc]]
+    colunas:
+      codigo_cfe: i_cfe
+      sequencial: i_pis_cofins
+      cst: cst
+      natureza_receita: natureza_receita
+      cfop: codi_nat
+      cfop_versao: versao_nat
+      valor_contabil: valor_contabil
+      exclusoes: exclusoes
+      base_calculo: base_calculo
+      aliquota_pis: aliquota_pis
+      aliquota_cofins: aliquota_cofins
+      quantidade_tributada: quantidade_tributada
+      valor_pis: valor_pis
+      valor_cofins: valor_cofins
+      exclusao_cooperativa: exclusao_cooperativa
+      percentual_reducao_bc: percentual_reducao_bc
+      codigo_recolhimento_pis: codigo_recolhimento_pis
+      codigo_recolhimento_cofins: codigo_recolhimento_cofins
+    vinculos:
+      cupom:
+        tabela: efcupom_fiscal_eletronico
+        liga: {codi_emp: codi_emp, i_cfe: i_cfe}
+        colunas: {cupom_data: data_cfe, cupom_situacao: situacao}
+    filtros:
+      codigo_cfe: {coluna: i_cfe, ops: [eq, in]}
+      cst: {coluna: cst, ops: [eq, in]}
+      cfop: {coluna: codi_nat, ops: [eq, in]}
+    regras:
+      - "Na empresa 1017, 148.571 linhas: CST 4 em 147.105 e CST 1 em 1.466."
+
+  lancamento_cupom_fiscal_eletronico:
+    titulo: Lançamentos contábeis dos CF-e
+    descricao: Liga cada CF-e ao lançamento contábil gerado (ctlancto). `empresa_cfe` é a empresa dona do CF-e; `codi_emp` é a empresa do lançamento.
+    tabela: efcupom_fiscal_eletronico_lancto
+    chave: [codi_emp, i_cfe, nume_lan, fili_lan]
+    acesso:
+      empresa: codi_emp
+      periodo: {vinculo: cupom, coluna: data_cfe}
+      exige_algum: [codigo_cfe, periodo]
+      volume: grande
+    ordem: [[i_cfe, desc], [nume_lan, asc]]
+    colunas:
+      codigo_cfe: i_cfe
+      lancamento_numero: nume_lan
+      empresa_cfe: fili_lan
+      tipo: {coluna: tipo, dominio: tipo_lancamento_cfe}
+    vinculos:
+      cupom:
+        tabela: efcupom_fiscal_eletronico
+        liga: {fili_lan: codi_emp, i_cfe: i_cfe}
+        colunas: {cupom_data: data_cfe, cupom_situacao: situacao}
+    filtros:
+      codigo_cfe: {coluna: i_cfe, ops: [eq, in]}
+      lancamento_numero: {coluna: nume_lan, ops: [eq, in]}
+    regras:
+      - "Na empresa 1017 os 554.516 lançamentos têm fili_lan igual a codi_emp e tipo 1."

@@ -1,0 +1,402 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_d
+titulo: Fiscal - d (rascunho em lote)
+dominios:
+  efd_reinf_envio_arquivos_xml_arquivo_alterado_:
+    confirmado: true
+    nota: 'Todos os valores observados em EFD_REINF_ENVIO_ARQUIVOS_XML.ALTERADO_PELO_USUARIO estão no comentário do banco (2026-10-18). Distribuição: N=75.232, S=41.'
+    valores: {S: Sim, N: Não}
+entidades:
+  efd_reinf_envio_arquivos_xml:
+    titulo: EFD-Reinf - Envio dos Arquivos - XML
+    descricao: 'EFD-Reinf - Envio dos Arquivos - XML. 74.952 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL.'
+    tabela: EFD_REINF_ENVIO_ARQUIVOS_XML
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_sequencial_de_envio_dos_arquivos: I_ENVIO
+      codigo_da_filial: I_FILIAL
+      arquivo_alterado_pelo_usuario_s_sim_n_na: {coluna: ALTERADO_PELO_USUARIO, dominio: efd_reinf_envio_arquivos_xml_arquivo_alterado_}
+      evento_gerado_ao_enviar_para_o_auditor_f: GERADO_PELO_AUDITOR
+    vinculos:
+      efd_reinf_envio_arquivos:
+        tabela: EFD_REINF_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_filial: i_filial, i_envio: i_envio}
+        colunas: {efd_reinf_envio_arquivos_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      codigo_da_filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      arquivo_alterado_pelo_usuario_s_sim_n_na:
+        coluna: ALTERADO_PELO_USUARIO
+        ops: [eq, in]
+      evento_gerado_ao_enviar_para_o_auditor_f:
+        coluna: GERADO_PELO_AUDITOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 75.273 linhas, 875 empresa(s).', 'arquivo_alterado_pelo_usuario_s_sim_n_na: todos os valores reais estão no comentário do banco
+        (N=75.232, S=41).', 'Vínculo efd_reinf_envio_arquivos (EFD_REINF_ENVIO_ARQUIVOS): 0 de 41 linhas sem registro relacionado (empresa 754).']
+  efd_reinf_retorno_arquivos_r4099_periodo:
+    titulo: EFD-Reinf - Retorno do Web Service - R-4099 - Periodo
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-4099 - Periodo. 14.304 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, PERIODICIDADE, PERIODO, CODIGO_RECEITA.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R4099_PERIODO
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, PERIODICIDADE, PERIODO, CODIGO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial_de_envio: I_ENVIO, filial: I_FILIAL, periodicidade: PERIODICIDADE, periodo: PERIODO, codigo_de_receita: CODIGO_RECEITA,
+      valor_retido: VALOR_RETIDO, valor_nao_retido: VALOR_NAO_RETIDO}
+    filtros:
+      sequencial_de_envio:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      periodicidade:
+        coluna: PERIODICIDADE
+        ops: [eq, in]
+      periodo:
+        coluna: PERIODO
+        ops: [eq, in]
+      codigo_de_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 14.382 linhas, 567 empresa(s).']
+  efd_reinf_retorno_arquivos_r4099:
+    titulo: EFD-Reinf - Retorno do Web Service - R-4099
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-4099. 10.057 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R4099
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial_empresa: I_ENVIO, filial: I_FILIAL, indicador_se_possui_movimentacao: POSSUI_MOVIMENTO}
+    filtros:
+      sequencial_empresa:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      indicador_se_possui_movimentacao:
+        coluna: POSSUI_MOVIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10.112 linhas, 605 empresa(s).']
+  efd_reinf_retorno_arquivos_r2010:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2010
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2010. 2.679 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2010
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: I_ENVIO
+      filial: I_FILIAL
+      codigo_da_receita: CODIGO_RECEITA
+      cnpj_do_prestador: {coluna: CNPJ_PRESTADOR, sensivel: parcial}
+      base_de_calculo: BASE_CALCULO
+      valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA
+      cno: CNO
+      valor_da_contribuicao_com_exigibilidade: VALOR_CONTRIBUICAO_EXIGIBILIDADE_SUSPENSA
+    filtros:
+      sequencial:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+      cnpj_do_prestador:
+        coluna: CNPJ_PRESTADOR
+        ops: [eq, in]
+      cno:
+        coluna: CNO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.726 linhas, 130 empresa(s).']
+  efd_reinf_retorno_arquivos_r2099_r2010:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2099 - R-2010
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2099 - R-2010. 1.516 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2099_R2010
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_envio: I_ENVIO
+      filial: I_FILIAL
+      sequencial: I_SEQUENCIAL
+      cnpj_do_prestador: {coluna: CNPJ_PRESTADOR, sensivel: parcial}
+      codigo_da_receita: CODIGO_RECEITA
+      base_de_calculo: BASE_CALCULO
+      valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA
+      cno: CNO
+      valor_da_contribuicao_com_exigibilidade: VALOR_CONTRIBUICAO_EXIGIBILIDADE_SUSPENSA
+    filtros:
+      sequencial_envio:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      cnpj_do_prestador:
+        coluna: CNPJ_PRESTADOR
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+      cno:
+        coluna: CNO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.516 linhas, 109 empresa(s).']
+  efd_reinf_envio_arquivos_log_erros_comunicacao:
+    titulo: EFD-Reinf - Envio dos Arquivos - Log dos Erros na Comunicação
+    descricao: 'EFD-Reinf - Envio dos Arquivos - Log dos Erros na Comunicação. 1.120 linhas no catálogo; chave: CODI_EMP, I_FILIAL, I_ENVIO, I_SEQUENCIAL.'
+    tabela: EFD_REINF_ENVIO_ARQUIVOS_LOG_ERROS_COMUNICACAO
+    chave: [CODI_EMP, I_FILIAL, I_ENVIO, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_FILIAL, asc]
+    - [I_ENVIO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_empresa_filial: I_FILIAL, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, codigo_sequencial_de_erros: I_SEQUENCIAL,
+      usuario: USUARIO, versao_do_sistema: VERSAO_SISTEMA, arquivo_de_atualizacao: ATUALIZACAO, versao_do_banco_de_dados: VERSAO_BANCO, mensagem_do_erro: MENSAGEM_ERRO}
+    vinculos:
+      efd_reinf_envio_arquivos:
+        tabela: EFD_REINF_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_filial: i_filial, i_envio: i_envio}
+        colunas: {efd_reinf_envio_arquivos_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_da_empresa_filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      codigo_sequencial_de_erros:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      versao_do_sistema:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      mensagem_do_erro:
+        coluna: MENSAGEM_ERRO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.128 linhas, 163 empresa(s).', 'Vínculo efd_reinf_envio_arquivos (EFD_REINF_ENVIO_ARQUIVOS): 0 de 3 linhas sem registro relacionado
+        (empresa 1615).']
+  efd_reinf_retorno_arquivos_r2020:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2020
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2020. 554 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2020
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: I_ENVIO
+      filial: I_FILIAL
+      tipo_de_inscricao_do_tomador: {coluna: TIPO_INSCRICAO_TOMADOR, sensivel: parcial}
+      numero_de_inscricao_do_tomador: {coluna: NUMERO_INSCRICAO_TOMADOR, sensivel: parcial}
+      base_de_calculo: BASE_CALCULO
+      valor_da_retencao: VALOR_RETENCAO
+      valor_adicional_da_retencao: VALOR_ADICIONAL_RETENCAO
+      deducao_retencao: VALOR_DEDUCAO_RETENCAO
+    filtros:
+      sequencial:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      tipo_de_inscricao_do_tomador:
+        coluna: TIPO_INSCRICAO_TOMADOR
+        ops: [eq, in]
+      numero_de_inscricao_do_tomador:
+        coluna: NUMERO_INSCRICAO_TOMADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 554 linhas, 8 empresa(s).']
+  efd_reinf_retorno_arquivos_r2099_r2020:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2099 - R-2020
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2099 - R-2020. 299 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2099_R2020
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial_envio: I_ENVIO
+      filial: I_FILIAL
+      sequencial: I_SEQUENCIAL
+      tipo_de_inscricao_do_tomador: {coluna: TIPO_INSCRICAO_TOMADOR, sensivel: parcial}
+      numero_de_inscricao_do_tomador: {coluna: NUMERO_INSCRICAO_TOMADOR, sensivel: parcial}
+      base_de_calculo: BASE_CALCULO
+      valor_da_retencao: VALOR_RETENCAO
+      valor_adicional_da_retencao: VALOR_ADICIONAL_RETENCAO
+      deducao_retencao: VALOR_DEDUCAO_RETENCAO
+    filtros:
+      sequencial_envio:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_inscricao_do_tomador:
+        coluna: TIPO_INSCRICAO_TOMADOR
+        ops: [eq, in]
+      numero_de_inscricao_do_tomador:
+        coluna: NUMERO_INSCRICAO_TOMADOR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 299 linhas, 7 empresa(s).']
+  efd_reinf_retorno_arquivos_r2060:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2060
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2060. 178 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2060
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_ENVIO, filial: I_FILIAL, codigo_da_receita: CODIGO_RECEITA, valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA}
+    filtros:
+      sequencial:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 178 linhas, 4 empresa(s).']
+  efd_reinf_retorno_arquivos_r2050:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2010
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2010. 147 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2050
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, CODIGO_RECEITA]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_ENVIO, filial: I_FILIAL, codigo_da_receita: CODIGO_RECEITA, valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA}
+    filtros:
+      sequencial:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 147 linhas, 1 empresa(s).']
+  efd_reinf_retorno_arquivos_r2099_r2050:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2099 - R-2050
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2099 - R-2050. 102 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2099_R2050
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial_envio: I_ENVIO, filial: I_FILIAL, sequencial: I_SEQUENCIAL, codigo_da_receita: CODIGO_RECEITA, valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA}
+    filtros:
+      sequencial_envio:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 102 linhas, 1 empresa(s).']
+  efd_reinf_retorno_arquivos_r2099_r2060:
+    titulo: EFD-Reinf - Retorno do Web Service - R-2099 - R-2060
+    descricao: 'EFD-Reinf - Retorno do Web Service - R-2099 - R-2060. 92 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL.'
+    tabela: EFD_REINF_RETORNO_ARQUIVOS_R2099_R2060
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL, I_SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial_envio: I_ENVIO, filial: I_FILIAL, sequencial: I_SEQUENCIAL, codigo_da_receita: CODIGO_RECEITA, valor_da_contribuicao_previdenciaria: VALOR_CONTRIBUICAO_PREVIDENCIARIA}
+    filtros:
+      sequencial_envio:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      codigo_da_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 92 linhas, 4 empresa(s).']
+  efd_reinf_retorno_xml_evento:
+    titulo: EFD-Reinf - Arquivos XML Enviados e de Retorno
+    descricao: 'EFD-Reinf - Arquivos XML Enviados e de Retorno. 17 linhas no catálogo; chave: CODI_EMP, I_ENVIO, I_FILIAL.'
+    tabela: EFD_REINF_RETORNO_XML_EVENTO
+    chave: [CODI_EMP, I_ENVIO, I_FILIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [I_FILIAL, asc]
+    colunas: {empresa: CODI_EMP, sequencial: I_ENVIO, filial: I_FILIAL}
+    filtros:
+      sequencial:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 16 linhas, 11 empresa(s).']
+  efd_reinf_eventos:
+    titulo: EFD Reinf - Eventos
+    descricao: 'EFD Reinf - Eventos. 12 linhas no catálogo; chave: I_EVENTO.'
+    tabela: EFD_REINF_EVENTOS
+    chave: [I_EVENTO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_EVENTO, asc]
+    colunas: {codigo_do_evento: I_EVENTO, descicao_do_evento: DESCRICAO}
+    filtros:
+      codigo_do_evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      descicao_do_evento:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 12 linhas.']

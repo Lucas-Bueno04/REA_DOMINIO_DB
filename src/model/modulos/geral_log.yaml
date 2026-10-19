@@ -1,0 +1,122 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_log
+titulo: Geral - log (rascunho em lote)
+dominios:
+  gelog_utilitarios_nota_tipo_da_nota_1_entrada_2:
+    confirmado: true
+    nota: 'Todos os valores observados em GELOG_UTILITARIOS_NOTA.TIPO_NOTA estão no comentário do banco (2026-10-18). Distribuição: 3=154.981, 2=56.668, 1=42.125.'
+    valores: {'1': Entrada, '2': Saída, '3': Serviço}
+  gelog_utilitarios_utilitario_1_alterar_notas_2_l:
+    confirmado: true
+    nota: 'Todos os valores observados em GELOG_UTILITARIOS.OPCAO_MENU estão no comentário do banco (2026-10-18). Distribuição: 1=9.547.'
+    valores: {'1': Alterar Notas, '2': Limpeza Arquivos}
+entidades:
+  gelog_utilitarios_nota:
+    titulo: Log dos Utilitários - Notas
+    descricao: 'Log dos Utilitários - Notas. 253.613 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL, TIPO_NOTA, CODIGO_NOTA.'
+    tabela: GELOG_UTILITARIOS_NOTA
+    chave: [CODI_EMP, SEQUENCIAL, TIPO_NOTA, CODIGO_NOTA]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [SEQUENCIAL, asc]
+    - [TIPO_NOTA, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: SEQUENCIAL
+      tipo_da_nota_1_entrada_2_saida_3_servico: {coluna: TIPO_NOTA, dominio: gelog_utilitarios_nota_tipo_da_nota_1_entrada_2}
+      codigo_da_nota: CODIGO_NOTA
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_da_nota_1_entrada_2_saida_3_servico:
+        coluna: TIPO_NOTA
+        ops: [eq, in]
+      codigo_da_nota:
+        coluna: CODIGO_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 253.774 linhas, 458 empresa(s).', 'tipo_da_nota_1_entrada_2_saida_3_servico: todos os valores reais estão no comentário do banco
+        (3=154.981, 2=56.668, 1=42.125).']
+  gelog_utilitarios:
+    titulo: Log dos Utilitários
+    descricao: 'Log dos Utilitários. 9.543 linhas no catálogo; chave: CODI_EMP, SEQUENCIAL.'
+    tabela: GELOG_UTILITARIOS
+    chave: [CODI_EMP, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [SEQUENCIAL, asc]
+    colunas:
+      empresa: CODI_EMP
+      sequencial: SEQUENCIAL
+      utilitario_1_alterar_notas_2_limpeza_arq: {coluna: OPCAO_MENU, dominio: gelog_utilitarios_utilitario_1_alterar_notas_2_l}
+      usuario: USUARIO
+      versao: VERSAO
+      arquivo_de_atualizacao: ARQUIVO
+      opcoes_utilizadas_na_tela: OPCOES_TELA
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+      versao:
+        coluna: VERSAO
+        ops: [eq, in]
+      opcoes_utilizadas_na_tela:
+        coluna: OPCOES_TELA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 9.547 linhas, 458 empresa(s).', 'utilitario_1_alterar_notas_2_limpeza_arq: todos os valores reais estão no comentário do banco
+        (1=9.547).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 1759).']
+  gelog_erro_atualizacao_banco:
+    titulo: LOG DE ERRO NA ATUALIZAÇÃO DO BANCO
+    descricao: 'LOG DE ERRO NA ATUALIZAÇÃO DO BANCO. 4 linhas no catálogo; chave: I_NUMERO_ERRO.'
+    tabela: GELOG_ERRO_ATUALIZACAO_BANCO
+    chave: [I_NUMERO_ERRO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_NUMERO_ERRO, asc]
+    colunas: {i_numero_erro: I_NUMERO_ERRO, versao_sistema: VERSAO_SISTEMA, atualizacao: ATUALIZACAO, versao_banco: VERSAO_BANCO, comando: COMANDO, erro_sql: ERRO_SQL}
+    filtros:
+      i_numero_erro:
+        coluna: I_NUMERO_ERRO
+        ops: [eq, in]
+      versao_sistema:
+        coluna: VERSAO_SISTEMA
+        ops: [contem, prefixo]
+      comando:
+        coluna: COMANDO
+        ops: [contem, prefixo]
+      erro_sql:
+        coluna: ERRO_SQL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas.']
+  gelog_geral:
+    titulo: Tabela de logs gerais do contÃ¡bil.
+    descricao: 'Tabela de logs gerais do contÃ¡bil.. 1 linhas no catálogo; chave: GUID_LOG.'
+    tabela: GELOG_GERAL
+    chave: [GUID_LOG]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [GUID_LOG, asc]
+    colunas: {guid_do_registro: GUID_LOG, c_1_erro_copiando_dll_relatorios_dw_2_ex: TIPO, usuario_logado: USUARIO, mensagem_do_log: MENSAGEM_LOG}
+    filtros:
+      guid_do_registro:
+        coluna: GUID_LOG
+        ops: [eq, in]
+      c_1_erro_copiando_dll_relatorios_dw_2_ex:
+        coluna: TIPO
+        ops: [eq, in]
+      usuario_logado:
+        coluna: USUARIO
+        ops: [eq, in]
+      mensagem_do_log:
+        coluna: MENSAGEM_LOG
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

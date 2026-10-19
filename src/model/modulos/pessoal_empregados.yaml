@@ -1,0 +1,1502 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_empregados
+titulo: Pessoal - empregados (rascunho em lote)
+dominios:
+  foempregados_alteracao_outros_campos_forma_de_pa:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_OUTROS_CAMPOS.FORMA_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 1=12.911, nulo=5.190.'
+    valores: {'1': Por mês, '2': Por semana, '3': Por convocação}
+  foempregados_alteracao_outros_campos_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_OUTROS_CAMPOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=18.101.'
+    valores: {'0': Sistema, '1': Imp. tabelas, '2': Imp. layout, '3': Imp. tabelas concorrentes}
+  foempregados_alteracao_cadastral_possui_defi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.POSSUI_DEFICIENCIA_REABILITADO estão no comentário do banco (2026-10-18). Distribuição:
+      0=12.698.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_residente_o:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.RESIDENTE_EXTERIOR estão no comentário do banco (2026-10-18). Distribuição: 0=12.696, 1=2.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_cota_de_def:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.COTA_DEFICIENTE estão no comentário do banco (2026-10-18). Distribuição: 0=12.690, 1=8.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=9.696, 1=3.002.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=12.316,
+      1=382.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=12.698.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_alteracao_cadastral_enviar_even:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ALTERACAO_CADASTRAL.ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL estão no comentário do banco (2026-10-18).
+      Distribuição: 0=9.624, 1=3.074.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_plano_saude_enviar_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_PLANO_SAUDE.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=3.501.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_plano_saude_gerar_retifi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_PLANO_SAUDE.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=3.501.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_plano_saude_marcacao_do_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_PLANO_SAUDE.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=3.501.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_plano_saude_desconto_por:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_PLANO_SAUDE.POSSUI_DESCONTO_FAIXA_ETARIA estão no comentário do banco (2026-10-18). Distribuição: 0=3.501.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_tipo_1_admi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=1.928, 2=216, 5=99,
+      4=27, 3=27.'
+    valores: {'1': Admissional, '2': Periódico, '3': Retorno ao trabalho, '4': Mudança de função, '5': Demissional, '6': Monitorização pontual}
+  foempregados_atestados_ocupacionais_resultado_1:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.RESULTADO estão no comentário do banco (2026-10-18). Distribuição: 1=2.295, nulo=2.'
+    valores: {'1': Apto, '2': Inapto}
+  foempregados_atestados_ocupacionais_indicacao_d:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.RESULTADO_ALTERADO estão no comentário do banco (2026-10-18). Distribuição: 1=2.297.'
+    valores: {'1': Normal, '2': Alterado, '3': Estável, '4': Agravamento, '5': Ocupacional, '6': Não Ocupacional}
+  foempregados_atestados_ocupacionais_tipo_de_res:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.TIPO_RESULTADO_ALTERADO estão no comentário do banco (2026-10-18). Distribuição: 0=2.297.'
+    valores: {'0': NA, '1': Estável, '2': Agravamento}
+  foempregados_atestados_ocupacionais_tipo_do_agr:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.TIPO_AGRAVAMENTO_RESULTADO_ALTERADO estão no comentário do banco (2026-10-18). Distribuição:
+      0=2.297.'
+    valores: {'0': NA, '1': Ocupacional, '2': Não ocupacional}
+  foempregados_atestados_ocupacionais_origem_do_a:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: 1=1.916, 2=381.'
+    valores: {'1': Processo de cadastro de atestado ocupacional, '2': Cadastro de empregados, '3': Histórico PPP}
+  foempregados_atestados_ocupacionais_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=2.297.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=2.297.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=2.297.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_estabilidade_enviar_para_o_esocial_0:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ESTABILIDADE.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=1.595.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_estabilidade_gerar_retificacao_para_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ESTABILIDADE.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=1.595.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_estabilidade_marcacao_do_evento_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ESTABILIDADE.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=1.595.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_conselhos_regionais_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=936.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_conselhos_regionais_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=936.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_conselhos_regionais_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=936.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_dados_eventos_esocial_status_da_e:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_DADOS_EVENTOS_ESOCIAL.STATUS_EXCLUSAO estão no comentário do banco (2026-10-18). Distribuição: 1=843, 4=1.'
+    valores: {'1': Não enviado, '2': Enviado, '3': Em Processamento, '4': Invalidado}
+  foempregados_conselhos_regionais_alteracao_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS_ALTERACAO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=278.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+  foempregados_conselhos_regionais_alteracao_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS_ALTERACAO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=278.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_conselhos_regionais_alteracao_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS_ALTERACAO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=278.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_conselhos_regionais_alteracao_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CONSELHOS_REGIONAIS_ALTERACAO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=278.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_certidao_civil_tipo_da_cer:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CERTIDAO_CIVIL.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=83, 2=57.'
+    valores: {'1': Certidão de nascimento, '2': Certidão de casamento, '3': Certidão nascimento indígena4=Certidão de óbito, '5': Certidão de emancipação}
+  foempregados_certidao_civil_emitir_docu:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CERTIDAO_CIVIL.EMITIR_DOCUMENTOS estão no comentário do banco (2026-10-18). Distribuição: 0=131, 1=9.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_vale_alimentacao_desconto_forma_de_desconto_1_perc:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_VALE_ALIMENTACAO_DESCONTO.FORMA_DESCONTO estão no comentário do banco (2026-10-18). Distribuição: 1=76, 2=13.'
+    valores: {'1': Percentual, '2': Valor}
+  foempregados_vale_alimentacao_desconto_base_de_calculo_para_o_d:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_VALE_ALIMENTACAO_DESCONTO.BASE_CALCULO estão no comentário do banco (2026-10-18). Distribuição: 4=76, 1=13.'
+    valores: {'1': Salário base, '2': Salário mínimo, '3': Piso salarial, '4': 20% do valor de vale alimentação fornecido, '5': '% do valor de Vale Alimentação fornecido'}
+  foempregados_vale_alimentacao_desconto_origem_do_registro_0_sis:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_VALE_ALIMENTACAO_DESCONTO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=89.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  foempregados_vale_alimentacao_tipo_de_lancamento_1_d:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_VALE_ALIMENTACAO.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=84, 2=4.'
+    valores: {'1': Diário, '2': Semanal, '3': Mensal}
+  foempregados_vale_alimentacao_origem_do_registro_0_s:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_VALE_ALIMENTACAO.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=88.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  foempregados_chave_pix_tipo_da_chave_1_c:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CHAVE_PIX.TIPO_CHAVE estão no comentário do banco (2026-10-18). Distribuição: 3=34, 1=31, 2=13, 4=1.'
+    valores: {'1': Celular, '2': E-mail, '3': CPF, '4': Chave Aleatória}
+  foempregados_exames_toxicologicos_tipo_do_exame_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.TIPO estão no comentário do banco (2026-10-18). Distribuição: 1=8, 2=5.'
+    valores: {'1': Admissional, '2': Demissional, '3': Periódico}
+  foempregados_exames_toxicologicos_origem_do_regi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=13.'
+    valores: {'0': Sistema, '1': Importação de tabelas, '2': Importação de layout}
+  foempregados_exames_toxicologicos_enviar_para_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=13.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_exames_toxicologicos_gerar_retifica:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=13.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_exames_toxicologicos_marcacao_do_ev:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=13.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_exames_toxicologicos_enviar_evento_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_EXAMES_TOXICOLOGICOS.ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL estão no comentário do banco (2026-10-18).
+      Distribuição: 0=13.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_exames_enviar_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_EXAMES.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=8.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_exames_gerar_retif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_EXAMES.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=8.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_exames_marcacao_do:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_EXAMES.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=8.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_material_biolo:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.MATERIAL_BIOLOGICO_ANALISE estão no comentário do banco
+      (2026-10-18). Distribuição: 1=4.'
+    valores: {'1': Urina, '2': Sangue}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_exposicao_exce:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.EXPOSICAO_EXCESSIVA estão no comentário do banco (2026-10-18).
+      Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_ordem_do_exame:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.ORDEM_EXAME estão no comentário do banco (2026-10-18).
+      Distribuição: 1=4.'
+    valores: {'1': Referencial, '2': Sequencial}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_indicacao_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.INDICACAO_RESULTADO estão no comentário do banco (2026-10-18).
+      Distribuição: 1=4.'
+    valores: {'1': Normal, '2': Alterado, '3': Estável, '4': Agravamento, '5': Ocupacional, '6': Não ocupacional}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_origem_do_regi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18).
+      Distribuição: 3=4.'
+    valores: {'0': Sistema, '1': Imp. layout, '2': Imp. tabelas, '3': Conversão}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_interpretacao_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.INTERPRETACAO_EXAME estão no comentário do banco (2026-10-18).
+      Distribuição: 1=4.'
+    valores: {'1': EE, '2': SC, '3': SC+}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_enviar_para_o_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18).
+      Distribuição: 1=4.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_gerar_retifica:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco
+      (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi_marcacao_do_ev:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco
+      (2026-10-18). Distribuição: 0=4.'
+    valores: {'0': Não, '1': Sim}
+  foempregados_chave_pix_alternativa_tipo_da_cha:
+    confirmado: true
+    nota: 'Todos os valores observados em FOEMPREGADOS_CHAVE_PIX_ALTERNATIVA.TIPO_CHAVE estão no comentário do banco (2026-10-18). Distribuição: 3=3.'
+    valores: {'1': Celular, '2': E-mail, '3': CPF, '4': Chave Aleatória}
+entidades:
+  foempregados_envios_esocial:
+    titulo: Envios de empregados ao eSocial
+    descricao: 'Envios de empregados ao eSocial. 295.590 linhas no catálogo; chave: codi_emp, i_empregados, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOEMPREGADOS_ENVIOS_ESOCIAL
+    chave: [codi_emp, i_empregados, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem:
+    - [i_empregados, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: codi_emp, codigo_do_empregado: i_empregados, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 295.671 linhas, 508 empresa(s).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS): 0 de 80 linhas sem registro relacionado
+        (empresa 824).', 'Vínculo foempregados (foempregados): 0 de 80 linhas sem registro relacionado (empresa 824).']
+  foempregados_alteracao_contratual_envios_esocial:
+    titulo: Envios das alterações contratuais ao eSocial
+    descricao: 'Envios das alterações contratuais ao eSocial. 29.846 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOEMPREGADOS_ALTERACAO_CONTRATUAL_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: medio}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foempregados_alteracao_c:
+        tabela: FOEMPREGADOS_ALTERACAO_CONTRATUAL
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_alteracao: data_alteracao}
+        colunas: {foempregados_alteracao_c_nome: DESCRICAO_INDICATIVO_OBJETO_DETERMINANTE_CONTRATACAO_PRAZO_DETERMINADO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 29.911 linhas, 507 empresa(s), DATA_ALTERACAO de 1974-04-03 a 2026-10-20.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 8 linhas sem registro relacionado (empresa 1698).', 'Vínculo foempregados_alteracao_c (FOEMPREGADOS_ALTERACAO_CONTRATUAL): 0 de 8 linhas sem registro
+        relacionado (empresa 1698).']
+  foempregados_alteracao_outros_campos:
+    titulo: Registros de alteração contratual para envio ao eSocial.
+    descricao: 'Registros de alteração contratual para envio ao eSocial.. 18.081 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO.'
+    tabela: FOEMPREGADOS_ALTERACAO_OUTROS_CAMPOS
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ADMISSAO_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL, volume: medio}
+    ordem:
+    - [DATA_ADMISSAO_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL, desc]
+    - [I_EMPREGADOS, asc]
+    - [DATA_ALTERACAO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      codigo_do_departamento: I_DEPTO
+      codigo_do_centro_de_custos: I_CCUSTOS
+      simples_072007: SIMPLES_072007
+      codigo_do_sindicato_piso: I_SINDPISO
+      possui_residencia_propria: RESIDENCIA_PROPRIA
+      imovel_adquirido_com_recursos_do_fgts: IMOVEL_ADQUIRIDO_RECURSOS_FGTS
+      ddd_do_telefone: {coluna: DDD_FONE2, sensivel: parcial}
+      telefone: {coluna: FONE2, sensivel: parcial}
+      naturalizado: NATURALIZADO
+      numero_do_processo_no_mte: NUMERO_PROCESSO_MTE
+      validade_da_carteira_de_trabalho_estrang: VALIDADE_CTRAB_ESTR
+      forma_de_pagamento_1_por_mes_2_por_seman: {coluna: FORMA_CALCULO, dominio: foempregados_alteracao_outros_campos_forma_de_pa}
+      calcular_inss_patronal: CALCULAR_INSS_PATRONAL
+      dirigente_sindical: DIRIGENTE_SINDICAL
+      cnpj_da_empresa_de_origem_do_dirigente_s: {coluna: CNPJ_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL, sensivel: parcial}
+      nome_da_empresa_de_origem_do_dirigente_s: NOME_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL
+      categoria_de_origem_do_dirigente_sindica: CATEGORIA_ORIGEM_DIRIGENTE_SINDICAL
+      data_de_admissao_na_empresa_de_origem_do: DATA_ADMISSAO_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL
+      matricula_na_empresa_de_origem_do_dirige: MATRICULA_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL
+      responsavel_pela_remuneracao_do_dirigent: RESPONSAVEL_REMUNERACAO_DIRIGENTE_SINDICAL
+      tipo_de_remuneracao_do_dirigente_sindica: TIPO_REMUNERACAO_DIRIGENTE_SINDICAL
+      data_de_inicio_do_pagamento_adicional_ao: DATA_INICIO_PAGAMENTO_ADICIONAL_DIRIGENTE_SINDICAL
+      remuneracao_na_empresa_do_dirigente_sind: {coluna: REMUNERACAO_EMPRESA_DIRIGENTE_SINDICAL, sensivel: financeiro}
+      remuneracao_no_sindicato_do_dirigente_si: {coluna: REMUNERACAO_SINDICATO_DIRIGENTE_SINDICAL, sensivel: financeiro}
+      remuneracao_no_periodo_de_desligamento_r: REMUNERACAO_PERIODO_DESLIGAMENTO_REINTEGRACAO_PAGAS_JUIZO
+      possui_vinculo_com_outra_empresa: POSSUI_VINC_OUT_EMP
+      codigo_do_banco: I_BANCOS
+      agencia_para_pagamento: AGENCIA_CONTA_PAGAMENTO
+      conta_corrente: CONTA_CORR
+      digito_da_conta_para_pagamento: DIGITO_CONTA_PAGAMENTO
+      tipo_de_conta_bancaria: TIPO_CONTA
+      carga_horaria_variavel: CARGA_HORARIA_VARIAVEL
+      codigo_da_filial: I_FILIAIS
+      codigo_do_sindicato_piso_experiencia: I_SINDPISO_EXPERIENCIA
+      ocorrencia_sefip: OCO_SEFIP
+      tipo_de_servico: TIPO_SERVICO
+      horas_compensadas: HORAS_COMPENSADAS
+      horas_trabalhadas_no_mes: HORAS_MES
+      horas_trabalhadas_por_dia: HORAS_DIA
+      data_de_expedicao_da_carteira_de_trabalh: DATA_EXPEDICAO_CARTEIRA_TRABALHO
+      orgao_emissor_da_cnh: ORGAO_EMISSOR_CNH
+      data_de_validade_do_rne: DATA_VALIDADE_RNE
+      data_de_opcao_pelo_fgts: DATA_OPCAO_FGTS
+      codigo_do_coordenador_de_estagio: I_COORDENADOR_ESTAGIO
+      forma_de_pagamento: FORMA_PAGAMENTO
+      codigo_do_municipio_do_ric: CODIGO_MUNICIPIO_RIC
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: foempregados_alteracao_outros_campos_origem_do_r}
+      codigo_esocial: CODIGO_ESOCIAL
+      codigo_esocial_do_empregado_origem_quand: CODIGO_ESOCIAL_EMPREGADO_ORIGEM
+      codigo_operacao_pagamento: CODIGO_OPERACAO_PAGAMENTO
+      funcionario_sindicalizado: SINDICALIZADO
+      numero_do_pis: PIS
+      codigo_do_municipio_de_nascimento: MUNICIPIO_NASCIMENTO
+      uf_de_nascimento: {coluna: UF_NASCIMENTO, sensivel: pessoal}
+      nome_do_pai: NOME_PAI
+      nome_da_mae: NOME_MAE
+      e_mail_alternativo: {coluna: EMAIL_ALTERNATIVO, sensivel: parcial}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fobancos:
+        tabela: fobancos
+        liga: {i_bancos: i_bancos}
+        colunas: {fobancos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      validade_da_carteira_de_trabalho_estrang:
+        coluna: VALIDADE_CTRAB_ESTR
+        ops: [entre, gte, lte]
+      data_de_admissao_na_empresa_de_origem_do:
+        coluna: DATA_ADMISSAO_EMPRESA_ORIGEM_DIRIGENTE_SINDICAL
+        ops: [entre, gte, lte]
+      data_de_inicio_do_pagamento_adicional_ao:
+        coluna: DATA_INICIO_PAGAMENTO_ADICIONAL_DIRIGENTE_SINDICAL
+        ops: [entre, gte, lte]
+      data_de_expedicao_da_carteira_de_trabalh:
+        coluna: DATA_EXPEDICAO_CARTEIRA_TRABALHO
+        ops: [entre, gte, lte]
+      data_de_validade_do_rne:
+        coluna: DATA_VALIDADE_RNE
+        ops: [entre, gte, lte]
+      data_de_opcao_pelo_fgts:
+        coluna: DATA_OPCAO_FGTS
+        ops: [entre, gte, lte]
+      codigo_do_departamento:
+        coluna: I_DEPTO
+        ops: [eq, in]
+      codigo_do_centro_de_custos:
+        coluna: I_CCUSTOS
+        ops: [eq, in]
+      codigo_do_sindicato_piso:
+        coluna: I_SINDPISO
+        ops: [eq, in]
+      ddd_do_telefone:
+        coluna: DDD_FONE2
+        ops: [eq, in]
+      telefone:
+        coluna: FONE2
+        ops: [eq, in]
+      naturalizado:
+        coluna: NATURALIZADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 18.101 linhas, 977 empresa(s).', 'Colunas expostas nulas em 100% das linhas (8): ddd_do_telefone, nome_da_empresa_de_origem_do_dirigente_s,
+        categoria_de_origem_do_dirigente_sindica, data_de_admissao_na_empresa_de_origem_do, matricula_na_empresa_de_origem_do_dirige, responsavel_pela_remuneracao_do_dirigent,
+        tipo_de_remuneracao_do_dirigente_sindica, data_de_inicio_do_pagamento_adicional_ao.', 'forma_de_pagamento_1_por_mes_2_por_seman: todos os valores reais estão
+        no comentário do banco (1=12.911, nulo=5.190).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=18.101).',
+      'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 9135).', 'Vínculo fobancos (fobancos): 0 de 2 linhas sem registro relacionado
+        (empresa 9135).']
+  foempregados_alteracao_cadastral:
+    titulo: Registros de alteração contratual para envio ao eSocial.
+    descricao: 'Registros de alteração contratual para envio ao eSocial.. 12.680 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO.'
+    tabela: FOEMPREGADOS_ALTERACAO_CADASTRAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_NASCIMENTO, volume: medio}
+    ordem:
+    - [DATA_NASCIMENTO, desc]
+    - [I_EMPREGADOS, asc]
+    - [DATA_ALTERACAO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      nome: NOME
+      pis: PIS
+      sexo: SEXO
+      cor: COR
+      estado_civil: {coluna: ESTADO_CIVIL, sensivel: pessoal}
+      grau_de_instrucao: GRAU_INSTRUCAO
+      data_de_nascimento: {coluna: DATA_NASCIMENTO, sensivel: pessoal}
+      municipio_de_nascimento: MUNICIPIO_NASCIMENTO
+      codigo_do_pais_de_nascimento: PAIS_NASCIMENTO
+      codigo_do_pais_da_nacionalidade: PAIS_NACIONALIDADE
+      nome_no_esocial: NOME_SOCIAL
+      tipo_do_endereco: TIPO_ENDERECO
+      endereco: {coluna: ENDERECO, sensivel: parcial}
+      numero_do_endereco: NUMERO_ENDERECO
+      bairro: {coluna: BAIRRO, sensivel: parcial}
+      complemento: {coluna: COMPLEMENTO_ENDERECO, sensivel: parcial}
+      cep: {coluna: CEP_ENDERECO, sensivel: parcial}
+      codigo_do_municipio_do_endereco: MUNICIPIO_ENDERECO
+      uf_do_endereco: {coluna: UF_ENDERECO, sensivel: parcial}
+      codigo_do_pais_do_endereco: PAIS_ENDERECO
+      codigo_postal: CODIGO_POSTAL
+      ddd_do_telefone: {coluna: DDD_FONE, sensivel: parcial}
+      numero_de_telefone: {coluna: FONE, sensivel: parcial}
+      ddd_do_celular: DDD_CELULAR
+      numero_de_celular: CELULAR
+      e_mail_principal: {coluna: EMAIL_PRINCIPAL, sensivel: parcial}
+      orgao_de_expedicao: ORG_EXPED_IDENT
+      tipo_de_visto_estrangeiro: TIPO_VISTO_ESTRANGEIRO
+      possui_deficiencia_0_nao_1_sim: {coluna: POSSUI_DEFICIENCIA, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_motora_0_nao_1_sim: {coluna: POSSUI_DEFICIENCIA_MOTORA, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_visual_0_nao_1_sim: {coluna: POSSUI_DEFICIENCIA_VISUAL, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_auditiva_0_nao_1_sim: {coluna: POSSUI_DEFICIENCIA_AUDITIVA, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_mental_0_nao_1_sim: {coluna: POSSUI_DEFICIENCIA_MENTAL, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_intelectual_0_nao_1_s: {coluna: POSSUI_DEFICIENCIA_INTELECTUAL, dominio: foempregados_alteracao_cadastral_possui_defi}
+      possui_deficiencia_reabilitado_0_nao_1_s: {coluna: POSSUI_DEFICIENCIA_REABILITADO, dominio: foempregados_alteracao_cadastral_possui_defi}
+      residente_ou_domiciliado_no_exterior_0_n: {coluna: RESIDENTE_EXTERIOR, dominio: foempregados_alteracao_cadastral_residente_o}
+      nome_do_municipio_para_residente_no_exte: NOME_MUNICIPIO_RESIDENTE_EXTERIOR
+      cota_de_deficiente_0_nao_1_sim: {coluna: COTA_DEFICIENTE, dominio: foempregados_alteracao_cadastral_cota_de_def}
+      observacao_da_deficiencia: {coluna: OBSERVACAO_DEFICIENCIA, sensivel: pessoal}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REGISTRO
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_alteracao_cadastral_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_alteracao_cadastral_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_alteracao_cadastral_marcacao_do}
+      numero_do_recibo_importado_do_esocial: NUMERO_RECIBO_ESOCIAL_VALIDACAO_AUTOMATICA
+      id_do_evento_importado_do_esocial: ID_ESOCIAL_VALIDACAO_AUTOMATICA
+      tempo_de_residencia_no_brasil: TEMPO_RESIDENCIA
+      enviar_evento_esocial_anterior_ao_inicio: {coluna: ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL, dominio: foempregados_alteracao_cadastral_enviar_even}
+      enviar_esocial_manualmente: ENVIAR_ESOCIAL_MANUALMENTE
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      data_de_nascimento:
+        coluna: DATA_NASCIMENTO
+        ops: [entre, gte, lte]
+      nome:
+        coluna: NOME
+        ops: [contem, prefixo]
+      pis:
+        coluna: PIS
+        ops: [eq, in]
+      sexo:
+        coluna: SEXO
+        ops: [eq, in]
+      estado_civil:
+        coluna: ESTADO_CIVIL
+        ops: [eq, in]
+      nome_no_esocial:
+        coluna: NOME_SOCIAL
+        ops: [contem, prefixo]
+      tipo_do_endereco:
+        coluna: TIPO_ENDERECO
+        ops: [eq, in]
+      endereco:
+        coluna: ENDERECO
+        ops: [contem, prefixo]
+      bairro:
+        coluna: BAIRRO
+        ops: [contem, prefixo]
+      complemento:
+        coluna: COMPLEMENTO_ENDERECO
+        ops: [contem, prefixo]
+      cep:
+        coluna: CEP_ENDERECO
+        ops: [eq, in]
+      uf_do_endereco:
+        coluna: UF_ENDERECO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12.698 linhas, 977 empresa(s), DATA_NASCIMENTO de 1900-01-01 a 9966-01-01.', 'Colunas expostas nulas em 100% das linhas (3): codigo_postal,
+        ddd_do_telefone, ddd_do_celular.', 'possui_deficiencia_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=12.684, 1=14).', 'possui_deficiencia_motora_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=12.694, 1=4).', 'possui_deficiencia_visual_0_nao_1_sim: todos os valores reais estão no comentário
+        do banco (0=12.693, 1=5).', 'possui_deficiencia_auditiva_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=12.694, 1=4).', 'possui_deficiencia_mental_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=12.697, 1=1).', 'possui_deficiencia_intelectual_0_nao_1_s: todos os valores reais estão no comentário
+        do banco (0=12.698).', 'possui_deficiencia_reabilitado_0_nao_1_s: todos os valores reais estão no comentário do banco (0=12.698).', 'residente_ou_domiciliado_no_exterior_0_n:
+        todos os valores reais estão no comentário do banco (0=12.696, 1=2).', 'cota_de_deficiente_0_nao_1_sim: todos os valores reais estão no comentário do banco
+        (0=12.690, 1=8).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=9.696, 1=3.002).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=12.316, 1=382).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário
+        do banco (0=12.698).', 'enviar_evento_esocial_anterior_ao_inicio: todos os valores reais estão no comentário do banco (0=9.624, 1=3.074).', 'Vínculo foempregados
+        (foempregados): 0 de 2 linhas sem registro relacionado (empresa 908).']
+  foempregados_alteracao_cadastral_envios_esocial:
+    titulo: Envios das alterações cadastrais ao eSocial
+    descricao: 'Envios das alterações cadastrais ao eSocial. 12.339 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS.'
+    tabela: FOEMPREGADOS_ALTERACAO_CADASTRAL_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_ALTERACAO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: medio}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      foempregados_alteracao_c:
+        tabela: FOEMPREGADOS_ALTERACAO_CADASTRAL
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_alteracao: data_alteracao}
+        colunas: {foempregados_alteracao_c_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12.359 linhas, 507 empresa(s), DATA_ALTERACAO de 1974-04-03 a 2026-10-20.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 3 linhas sem registro relacionado (empresa 1665).', 'Vínculo foempregados_alteracao_c (FOEMPREGADOS_ALTERACAO_CADASTRAL): 0 de 3 linhas sem registro
+        relacionado (empresa 1665).']
+  foempregados_plano_saude:
+    titulo: Cadastro de empregados - Plano de saúde
+    descricao: 'Cadastro de empregados - Plano de saúde. 3.501 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_OPERADORAPLANOSAUDE, DATA_INICIO.'
+    tabela: FOEMPREGADOS_PLANO_SAUDE
+    chave: [CODI_EMP, I_EMPREGADOS, I_OPERADORAPLANOSAUDE, DATA_INICIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_FIM, volume: pequeno}
+    ordem:
+    - [DATA_FIM, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_OPERADORAPLANOSAUDE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_da_operadora_de_plano_de_saude: I_OPERADORAPLANOSAUDE
+      data_inicio_periodo: DATA_INICIO
+      data_fim_periodo: DATA_FIM
+      tipo_beneficiario: TIPO_BENEFICIARIO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_plano_saude_enviar_para_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_plano_saude_gerar_retifi}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_plano_saude_marcacao_do_}
+      endpoint_utilizado_para_a_exclusao_do_re: ENDPOINT_EXCLUSAO
+      desconto_por_faixa_etaria_0_nao_1_sim: {coluna: POSSUI_DESCONTO_FAIXA_ETARIA, dominio: foempregados_plano_saude_desconto_por}
+      codigo_da_faixa_etaria: I_PLANO_SAUDE_FAIXA_ETARIA
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fooperadoraplanosaude:
+        tabela: FOOPERADORAPLANOSAUDE
+        liga: {i_operadoraplanosaude: i_operadoraplanosaude}
+        colunas: {fooperadoraplanosaude_nome: NOME}
+      foplano_saude_faixa_etar:
+        tabela: FOPLANO_SAUDE_FAIXA_ETARIA
+        liga: {i_plano_saude_faixa_etaria: i_plano_saude_faixa_etaria}
+        colunas: {foplano_saude_faixa_etar_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_operadora_de_plano_de_saude:
+        coluna: I_OPERADORAPLANOSAUDE
+        ops: [eq, in]
+      data_inicio_periodo:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      data_fim_periodo:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      tipo_beneficiario:
+        coluna: TIPO_BENEFICIARIO
+        ops: [eq, in]
+      endpoint_utilizado_para_a_exclusao_do_re:
+        coluna: ENDPOINT_EXCLUSAO
+        ops: [contem, prefixo]
+      codigo_da_faixa_etaria:
+        coluna: I_PLANO_SAUDE_FAIXA_ETARIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.501 linhas, 87 empresa(s), DATA_FIM de 2017-02-01 a 2026-07-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_faixa_etaria.',
+      'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=3.501).', 'gerar_retificacao_esocial: todos os valores reais estão
+        no comentário do banco (0=3.501).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=3.501).', 'desconto_por_faixa_etaria_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=3.501).', 'Vínculo foempregados (foempregados): 0 de 7 linhas sem registro relacionado (empresa 978).',
+      'Vínculo fooperadoraplanosaude (FOOPERADORAPLANOSAUDE): 0 de 7 linhas sem registro relacionado (empresa 978).', 'Vínculo foplano_saude_faixa_etar (FOPLANO_SAUDE_FAIXA_ETARIA):
+        0 de 7 linhas sem registro relacionado (empresa 978).']
+  foempregados_atestados_ocupacionais:
+    titulo: Cadastro de Empregados - Atestados Ocupacionais
+    descricao: 'Cadastro de Empregados - Atestados Ocupacionais. 2.297 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL.'
+    tabela: FOEMPREGADOS_ATESTADOS_OCUPACIONAIS
+    chave: [CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_ATESTADO_OCUPACIONAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_atestado_ocupacional: I_ATESTADO_OCUPACIONAL
+      data: DATA
+      tipo_1_admissional_2_periodico_3_retorno: {coluna: TIPO, dominio: foempregados_atestados_ocupacionais_tipo_1_admi}
+      resultado_1_apto_2_inapto: {coluna: RESULTADO, dominio: foempregados_atestados_ocupacionais_resultado_1}
+      data_de_vencimento: DATA_VENCIMENTO
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+      exame_realizado_r_referencial_s_sequenci: EXAME
+      natureza_do_exame: NATUREZA
+      indicacao_do_resultado_1_normal_2_altera: {coluna: RESULTADO_ALTERADO, dominio: foempregados_atestados_ocupacionais_indicacao_d}
+      tipo_de_resultado_alterado_0_na_1_estave: {coluna: TIPO_RESULTADO_ALTERADO, dominio: foempregados_atestados_ocupacionais_tipo_de_res}
+      tipo_do_agravamento_do_resultado_alterad: {coluna: TIPO_AGRAVAMENTO_RESULTADO_ALTERADO, dominio: foempregados_atestados_ocupacionais_tipo_do_agr}
+      origem_do_atestado_1_processo_de_cadastr: {coluna: ORIGEM, dominio: foempregados_atestados_ocupacionais_origem_do_a}
+      nis_da_monitoracao_biologica: {coluna: NIS_MONITORACAO_BIOLOGICA, sensivel: pessoal}
+      nome_da_monitoracao_biologica: {coluna: NOME_MONITORACAO_BIOLOGICA, sensivel: pessoal}
+      crm_do_responsavel_pela_monitoracao_biol: {coluna: CRM_MONITORACAO_BIOLOGICA, sensivel: pessoal}
+      codigo_estado_monitoracao_biologica: CODIGO_ESTADO_MONITORACAO_BIOLOGICA
+      nome_do_servico_de_saude_responsavel: NOME_SERVICO_SAUDE_RESPONSAVEL
+      codigo_cnes_do_servico_de_saude_responsa: CODIGO_CNES_SERVICO_SAUDE_RESPONSAVEL
+      forma_de_contato_com_o_servico_de_saude: FORMA_CONTATO_SERVICO_SAUDE_RESPONSAVEL
+      e_mail_do_servico_de_saude_responsavel: {coluna: EMAIL_SERVICO_SAUDE_RESPONSAVEL, sensivel: parcial}
+      codigo_do_medico_dentista: I_MEDICOS
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_atestados_ocupacionais_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      geestado:
+        tabela: geestado
+        liga: {codigo_estado_monitoracao_biologica: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      fomedicos:
+        tabela: FOMEDICOS
+        liga: {i_medicos: i_medicos}
+        colunas: {fomedicos_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_atestado_ocupacional:
+        coluna: I_ATESTADO_OCUPACIONAL
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      data_de_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      tipo_1_admissional_2_periodico_3_retorno:
+        coluna: TIPO
+        ops: [eq, in]
+      exame_realizado_r_referencial_s_sequenci:
+        coluna: EXAME
+        ops: [eq, in]
+      natureza_do_exame:
+        coluna: NATUREZA
+        ops: [contem, prefixo]
+      tipo_de_resultado_alterado_0_na_1_estave:
+        coluna: TIPO_RESULTADO_ALTERADO
+        ops: [eq, in]
+      tipo_do_agravamento_do_resultado_alterad:
+        coluna: TIPO_AGRAVAMENTO_RESULTADO_ALTERADO
+        ops: [eq, in]
+      nis_da_monitoracao_biologica:
+        coluna: NIS_MONITORACAO_BIOLOGICA
+        ops: [eq, in]
+      nome_da_monitoracao_biologica:
+        coluna: NOME_MONITORACAO_BIOLOGICA
+        ops: [contem, prefixo]
+      crm_do_responsavel_pela_monitoracao_biol:
+        coluna: CRM_MONITORACAO_BIOLOGICA
+        ops: [eq, in]
+      codigo_estado_monitoracao_biologica:
+        coluna: CODIGO_ESTADO_MONITORACAO_BIOLOGICA
+        ops: [eq, in]
+      nome_do_servico_de_saude_responsavel:
+        coluna: NOME_SERVICO_SAUDE_RESPONSAVEL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2.297 linhas, 135 empresa(s), DATA de 1201-01-30 a 2022-01-05.', 'Colunas expostas nulas em 100% das linhas (1): nis_da_monitoracao_biologica.',
+      'tipo_1_admissional_2_periodico_3_retorno: todos os valores reais estão no comentário do banco (1=1.928, 2=216, 5=99, 4=27, 3=27).', 'resultado_1_apto_2_inapto:
+        todos os valores reais estão no comentário do banco (1=2.295, nulo=2).', 'indicacao_do_resultado_1_normal_2_altera: todos os valores reais estão no comentário
+        do banco (1=2.297).', 'tipo_de_resultado_alterado_0_na_1_estave: todos os valores reais estão no comentário do banco (0=2.297).', 'tipo_do_agravamento_do_resultado_alterad:
+        todos os valores reais estão no comentário do banco (0=2.297).', 'origem_do_atestado_1_processo_de_cadastr: todos os valores reais estão no comentário do
+        banco (1=1.916, 2=381).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=2.297).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=2.297).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do
+        banco (0=2.297).', 'Vínculo foempregados (foempregados): 0 de 3 linhas sem registro relacionado (empresa 887).', 'Vínculo geestado (geestado): 0 de 3 linhas
+        sem registro relacionado (empresa 887).', 'Vínculo fomedicos (FOMEDICOS): 0 de 3 linhas sem registro relacionado (empresa 887).']
+  foempregados_estabilidade:
+    titulo: Estabilidades do empregado.
+    descricao: 'Estabilidades do empregado.. 1.592 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_ESTABILIDADE, SEQUENCIAL.'
+    tabela: FOEMPREGADOS_ESTABILIDADE
+    chave: [CODI_EMP, I_EMPREGADOS, I_ESTABILIDADE, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_ESTABILIDADE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_tipo_de_estabilidade: I_ESTABILIDADE
+      codigo_sequencial: SEQUENCIAL
+      data_de_inicio_da_estabilidade: DATA_INICIO
+      quantidade_de_dias_da_estabilidade: QUANTIDADE_DIAS
+      data_do_fim_da_estabilidade: DATA_FIM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      dias_de_ferias_a_ser_dilatado_na_estabil: DIAS_FERIAS_DILATAR
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_estabilidade_enviar_para_o_esocial_0}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_estabilidade_gerar_retificacao_para_}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_estabilidade_marcacao_do_evento_para}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      foestabilidade_tipos:
+        tabela: FOESTABILIDADE_TIPOS
+        liga: {i_estabilidade: i_estabilidade}
+        colunas: {foestabilidade_tipos_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_tipo_de_estabilidade:
+        coluna: I_ESTABILIDADE
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_de_inicio_da_estabilidade:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      data_do_fim_da_estabilidade:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+    regras: ['Medido em 2026-10-18: 1.595 linhas, 102 empresa(s), DATA_INICIO de 2010-09-01 a 2026-12-08.', 'Colunas expostas nulas em 100% das linhas (1): dias_de_ferias_a_ser_dilatado_na_estabil.',
+      'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=1.595).', 'gerar_retificacao_esocial: todos os valores reais estão
+        no comentário do banco (0=1.595).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=1.595).', 'Vínculo foempregados
+        (foempregados): 0 de 4 linhas sem registro relacionado (empresa 291).', 'Vínculo foestabilidade_tipos (FOESTABILIDADE_TIPOS): 0 de 4 linhas sem registro relacionado
+        (empresa 291).']
+  foempregados_conselhos_regionais:
+    titulo: Cadastro de Empregados - Conselhos Regionais
+    descricao: 'Cadastro de Empregados - Conselhos Regionais. 936 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CONSELHO_REGIONAL.'
+    tabela: FOEMPREGADOS_CONSELHOS_REGIONAIS
+    chave: [CODI_EMP, I_EMPREGADOS, I_CONSELHO_REGIONAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EXPEDICAO, volume: pequeno}
+    ordem:
+    - [DATA_EXPEDICAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_CONSELHO_REGIONAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_conselho_regional: I_CONSELHO_REGIONAL
+      conselho: CONSELHO
+      numero_do_registro: NUMERO_REGISTRO
+      regiao: REGIAO
+      data_de_expedicao: DATA_EXPEDICAO
+      data_de_validade: DATA_VALIDADE
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_conselhos_regionais_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_conselhos_regionais_gerar_retif}
+      codigo_da_uf: CODIGO_UF
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_conselhos_regionais_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_conselho_regional:
+        coluna: I_CONSELHO_REGIONAL
+        ops: [eq, in]
+      data_de_expedicao:
+        coluna: DATA_EXPEDICAO
+        ops: [entre, gte, lte]
+      data_de_validade:
+        coluna: DATA_VALIDADE
+        ops: [entre, gte, lte]
+      conselho:
+        coluna: CONSELHO
+        ops: [eq, in]
+      numero_do_registro:
+        coluna: NUMERO_REGISTRO
+        ops: [eq, in]
+      regiao:
+        coluna: REGIAO
+        ops: [eq, in]
+      codigo_da_uf:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 936 linhas, 106 empresa(s), DATA_EXPEDICAO de 1995-09-19 a 2026-08-10.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores
+        reais estão no comentário do banco (1=936).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=936).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=936).', 'Vínculo foempregados (foempregados): 0 de 2 linhas sem registro relacionado (empresa 639).']
+  foempregados_dados_eventos_esocial:
+    titulo: Tabela de relacionamento entre o cadastro de empregados e os registros de envio para o eSocial.
+    descricao: 'Tabela de relacionamento entre o cadastro de empregados e os registros de envio para o eSocial.. 844 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS,
+      I_DADOS_EVENTOS.'
+    tabela: FOEMPREGADOS_DADOS_EVENTOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_DADOS_EVENTOS, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_registro_de_envio: I_DADOS_EVENTOS
+      status_da_exclusao_dos_eventos_1_nao_env: {coluna: STATUS_EXCLUSAO, dominio: foempregados_dados_eventos_esocial_status_da_e}
+      codigo_da_empresa_do_envio_do_evento: CODI_EMP_ENVIO
+      codigo_do_empregado_do_envio_do_evento: I_EMPREGADOS_ENVIO
+      cria_uma_fila_com_o_evento_esocial_exclu: REENVIAR_DADOS_EVENTOS_EXCLUSAO
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_envio: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_registro_de_envio:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_da_empresa_do_envio_do_evento:
+        coluna: CODI_EMP_ENVIO
+        ops: [eq, in]
+      codigo_do_empregado_do_envio_do_evento:
+        coluna: I_EMPREGADOS_ENVIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 844 linhas, 58 empresa(s).', 'status_da_exclusao_dos_eventos_1_nao_env: todos os valores reais estão no comentário do banco (1=843,
+        4=1).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 556).', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 4 linhas sem registro relacionado (empresa 556).']
+  foempregados_transf:
+    titulo: TABELA DE TRANSFERÊNCIA DE EMPREGADOS
+    descricao: 'TABELA DE TRANSFERÊNCIA DE EMPREGADOS. 427 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TRANSF_CODI_EMP, TRANSF_I_EMPREGADOS.'
+    tabela: FOEMPREGADOS_TRANSF
+    chave: [CODI_EMP, I_EMPREGADOS, TRANSF_CODI_EMP, TRANSF_I_EMPREGADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [TRANSF_CODI_EMP, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, codigo_da_empresa_de_origem: TRANSF_CODI_EMP, codigo_do_empregado_de_origem: TRANSF_I_EMPREGADOS}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_empresa_de_origem:
+        coluna: TRANSF_CODI_EMP
+        ops: [eq, in]
+      codigo_do_empregado_de_origem:
+        coluna: TRANSF_I_EMPREGADOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 427 linhas, 39 empresa(s).', 'Vínculo foempregados (foempregados): 0 de 6 linhas sem registro relacionado (empresa 1161).']
+  foempregados_conselhos_regionais_alteracao:
+    titulo: Alterações das informações profissionais do empregado.
+    descricao: 'Alterações das informações profissionais do empregado.. 278 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CONSELHO_REGIONAL, CAMPO, DATA_ALTERACAO.'
+    tabela: FOEMPREGADOS_CONSELHOS_REGIONAIS_ALTERACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_CONSELHO_REGIONAL, CAMPO, DATA_ALTERACAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_GRAVACAO, volume: pequeno}
+    ordem:
+    - [DATA_GRAVACAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_CONSELHO_REGIONAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_conselho_regional: I_CONSELHO_REGIONAL
+      campo_alterado: CAMPO
+      data_da_alteracao: {coluna: DATA_ALTERACAO, sensivel: pessoal}
+      valor_anterior_a_alteracao: DE
+      valor_posterior_a_alteracao: PARA
+      data_de_gravacao_da_alteracao: DATA_GRAVACAO
+      horario_de_gravacao_da_alteracao: HORARIO_GRAVACAO
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: foempregados_conselhos_regionais_alteracao_origem_do_r}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_conselhos_regionais_alteracao_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_conselhos_regionais_alteracao_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_conselhos_regionais_alteracao_marcacao_do}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_conselho_regional:
+        coluna: I_CONSELHO_REGIONAL
+        ops: [eq, in]
+      campo_alterado:
+        coluna: CAMPO
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      data_de_gravacao_da_alteracao:
+        coluna: DATA_GRAVACAO
+        ops: [entre, gte, lte]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [eq, in]
+      valor_posterior_a_alteracao:
+        coluna: PARA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 278 linhas, 22 empresa(s), DATA_GRAVACAO de 2016-03-08 a 2026-09-09.', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores
+        reais estão no comentário do banco (0=278).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=278).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=278).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco
+        (0=278).', 'Vínculo foempregados (foempregados): 0 de 4 linhas sem registro relacionado (empresa 734).']
+  foempregados_certidao_civil:
+    titulo: Cadastro de certidão civil do empregado
+    descricao: 'Cadastro de certidão civil do empregado. 140 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, DATA_EMISSAO.'
+    tabela: FOEMPREGADOS_CERTIDAO_CIVIL
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, DATA_EMISSAO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_da_certidao_1_certidao_de_nasciment: {coluna: TIPO, dominio: foempregados_certidao_civil_tipo_da_cer}
+      data_de_emissao_da_certidao: DATA_EMISSAO
+      termo_matricula_da_certidao: TERMO_MATRICULA
+      livro_de_registro_da_certidao: LIVRO
+      folha_de_registro_da_certidao: FOLHA
+      cartorio_de_registro_da_certidao: CARTORIO
+      codigo_do_municipio_do_cartorio: CODIGO_MUNICIPIO
+      emitir_documentos_0_nao_1_sim: {coluna: EMITIR_DOCUMENTOS, dominio: foempregados_certidao_civil_emitir_docu}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+    vinculos:
+      gemunicipio:
+        tabela: gemunicipio
+        liga: {codigo_municipio: codigo_municipio}
+        colunas: {gemunicipio_nome: nome_municipio}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_da_certidao_1_certidao_de_nasciment:
+        coluna: TIPO
+        ops: [eq, in]
+      data_de_emissao_da_certidao:
+        coluna: DATA_EMISSAO
+        ops: [eq, in]
+      termo_matricula_da_certidao:
+        coluna: TERMO_MATRICULA
+        ops: [contem, prefixo]
+      livro_de_registro_da_certidao:
+        coluna: LIVRO
+        ops: [eq, in]
+      folha_de_registro_da_certidao:
+        coluna: FOLHA
+        ops: [eq, in]
+      cartorio_de_registro_da_certidao:
+        coluna: CARTORIO
+        ops: [contem, prefixo]
+      codigo_do_municipio_do_cartorio:
+        coluna: CODIGO_MUNICIPIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 140 linhas, 57 empresa(s), DATA_EMISSAO de 1911-08-02 a 2160-10-04.', 'tipo_da_certidao_1_certidao_de_nasciment: todos os valores
+        reais estão no comentário do banco (1=83, 2=57).', 'emitir_documentos_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=131, 1=9).', 'Vínculo
+        gemunicipio (gemunicipio): 0 de 1 linhas sem registro relacionado (empresa 234).', 'Vínculo foempregados (foempregados): 0 de 1 linhas sem registro relacionado
+        (empresa 234).']
+  foempregados_vale_alimentacao_desconto:
+    titulo: Vale alimentação - Desconto
+    descricao: 'Vale alimentação - Desconto. 89 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, TIPO_LANCAMENTO, I_EVENTOS, SEQUENCIAL.'
+    tabela: FOEMPREGADOS_VALE_ALIMENTACAO_DESCONTO
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESSO, TIPO_LANCAMENTO, I_EVENTOS, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESSO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      competencia: COMPETENCIA
+      tipo_de_processo: TIPO_PROCESSO
+      tipo_de_lancamento: TIPO_LANCAMENTO
+      codigo_da_rubrica_de_desconto: I_EVENTOS
+      sequencial: SEQUENCIAL
+      forma_de_desconto_1_percentual_2_valor: {coluna: FORMA_DESCONTO, dominio: foempregados_vale_alimentacao_desconto_forma_de_desconto_1_perc}
+      valor_para_desconto: VALOR
+      base_de_calculo_para_o_desconto_1_salari: {coluna: BASE_CALCULO, dominio: foempregados_vale_alimentacao_desconto_base_de_calculo_para_o_d}
+      valor_do_desconto: VALOR_DESCONTAR
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foempregados_vale_alimentacao_desconto_origem_do_registro_0_sis}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_processo:
+        coluna: TIPO_PROCESSO
+        ops: [eq, in]
+      tipo_de_lancamento:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      codigo_da_rubrica_de_desconto:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 89 linhas, 1 empresa(s), COMPETENCIA de 2018-01-01 a 2021-05-01.', 'forma_de_desconto_1_percentual_2_valor: todos os valores reais
+        estão no comentário do banco (1=76, 2=13).', 'base_de_calculo_para_o_desconto_1_salari: todos os valores reais estão no comentário do banco (4=76, 1=13).',
+      'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=89).', 'Vínculo foempregados (foempregados): 0 de 89 linhas
+        sem registro relacionado (empresa 275).']
+  foempregados_vale_alimentacao:
+    titulo: Vale alimentação - Empregados
+    descricao: 'Vale alimentação - Empregados. 88 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_VALE_ALIMENTACAO.'
+    tabela: FOEMPREGADOS_VALE_ALIMENTACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_VALE_ALIMENTACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_VALE_ALIMENTACAO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_vale_alimentacao: I_VALE_ALIMENTACAO
+      tipo_lancamento: {coluna: TIPO_LANCAMENTO, dominio: foempregados_vale_alimentacao_tipo_de_lancamento_1_d}
+      quantidade_de_vales: QUANTIDADE
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foempregados_vale_alimentacao_origem_do_registro_0_s}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fovale_alimentacao:
+        tabela: FOVALE_ALIMENTACAO
+        liga: {codi_emp: codi_emp, i_vale_alimentacao: i_vale_alimentacao}
+        colunas: {fovale_alimentacao_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_vale_alimentacao:
+        coluna: I_VALE_ALIMENTACAO
+        ops: [eq, in]
+      tipo_lancamento:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 88 linhas, 5 empresa(s).', 'tipo_lancamento: todos os valores reais estão no comentário do banco (1=84, 2=4).', 'origem_do_registro_0_sistema_1_importaca:
+        todos os valores reais estão no comentário do banco (0=88).', 'Vínculo foempregados (foempregados): 0 de 17 linhas sem registro relacionado (empresa 1713).',
+      'Vínculo fovale_alimentacao (FOVALE_ALIMENTACAO): 0 de 17 linhas sem registro relacionado (empresa 1713).']
+  foempregados_vinc:
+    titulo: Empregados - Cadastro - Multiplos vinculos
+    descricao: 'Empregados - Cadastro - Multiplos vinculos. 82 linhas no catálogo; chave: codi_emp, i_empregados, codi_emp_vinc, i_empregados_vinc.'
+    tabela: foempregados_vinc
+    chave: [codi_emp, i_empregados, codi_emp_vinc, i_empregados_vinc]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem:
+    - [i_empregados, asc]
+    - [codi_emp_vinc, asc]
+    colunas: {codigo_empresa: codi_emp, codigo_empregado: i_empregados, codi_emp_vinc: codi_emp_vinc, i_empregados_vinc: i_empregados_vinc, vinculo_com_ordem_de_calculo_menor: ORDEM_MENOR}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp_vinc: codi_emp, i_empregados_vinc: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      codi_emp_vinc:
+        coluna: codi_emp_vinc
+        ops: [eq, in]
+      i_empregados_vinc:
+        coluna: i_empregados_vinc
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 82 linhas, 19 empresa(s).', 'Vínculo foempregados (foempregados): 0 de 1 linhas sem registro relacionado (empresa 668).']
+  foempregados_chave_pix:
+    titulo: Cadastro de empregados - Chave Pix
+    descricao: 'Cadastro de empregados - Chave Pix. 78 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CHAVE_PIX.'
+    tabela: FOEMPREGADOS_CHAVE_PIX
+    chave: [CODI_EMP, I_EMPREGADOS, I_CHAVE_PIX]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CHAVE_PIX, asc]
+    colunas:
+      empresa: CODI_EMP
+      empregado: I_EMPREGADOS
+      sequencial: I_CHAVE_PIX
+      tipo_chave: {coluna: TIPO_CHAVE, dominio: foempregados_chave_pix_tipo_da_chave_1_c}
+      valor_da_chave_pix: CHAVE_PIX
+      chave_atual_pix_s_n: CHAVE_ATUAL
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CHAVE_PIX
+        ops: [eq, in]
+      tipo_chave:
+        coluna: TIPO_CHAVE
+        ops: [eq, in]
+      valor_da_chave_pix:
+        coluna: CHAVE_PIX
+        ops: [contem, prefixo]
+      chave_atual_pix_s_n:
+        coluna: CHAVE_ATUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 79 linhas, 29 empresa(s).', 'tipo_chave: todos os valores reais estão no comentário do banco (3=34, 1=31, 2=13, 4=1).', 'Vínculo
+        foempregados (foempregados): 0 de 1 linhas sem registro relacionado (empresa 1472).']
+  foempregados_exames_toxicologicos:
+    titulo: Exames toxicológicos dos empregados
+    descricao: 'Exames toxicológicos dos empregados. 13 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, TIPO, SEQUENCIAL.'
+    tabela: FOEMPREGADOS_EXAMES_TOXICOLOGICOS
+    chave: [CODI_EMP, I_EMPREGADOS, TIPO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      tipo_do_exame_1_admissional_2_demissiona: {coluna: TIPO, dominio: foempregados_exames_toxicologicos_tipo_do_exame_}
+      sequencial_para_exames_periodicos: SEQUENCIAL
+      data_do_exame: DATA
+      codigo_do_exame: CODIGO_EXAME
+      cnpj_do_laboratorio: {coluna: CNPJ_LABORATORIO, sensivel: parcial}
+      codigo_do_medico: I_MEDICOS
+      origem_do_registro_0_sistema_1_importaca: {coluna: ORIGEM_REGISTRO, dominio: foempregados_exames_toxicologicos_origem_do_regi}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_exames_toxicologicos_enviar_para_o_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_exames_toxicologicos_gerar_retifica}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_exames_toxicologicos_marcacao_do_ev}
+      enviar_evento_esocial_anterior_ao_inicio: {coluna: ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL, dominio: foempregados_exames_toxicologicos_enviar_evento_}
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fomedicos:
+        tabela: FOMEDICOS
+        liga: {i_medicos: i_medicos}
+        colunas: {fomedicos_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      tipo_do_exame_1_admissional_2_demissiona:
+        coluna: TIPO
+        ops: [eq, in]
+      sequencial_para_exames_periodicos:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data_do_exame:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      codigo_do_exame:
+        coluna: CODIGO_EXAME
+        ops: [eq, in]
+      cnpj_do_laboratorio:
+        coluna: CNPJ_LABORATORIO
+        ops: [eq, in]
+      codigo_do_medico:
+        coluna: I_MEDICOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 13 linhas, 1 empresa(s), DATA de 2018-07-10 a 2019-05-09.', 'tipo_do_exame_1_admissional_2_demissiona: todos os valores reais
+        estão no comentário do banco (1=8, 2=5).', 'origem_do_registro_0_sistema_1_importaca: todos os valores reais estão no comentário do banco (0=13).', 'enviar_para_o_esocial_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (1=13).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=13).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=13).', 'enviar_evento_esocial_anterior_ao_inicio: todos os valores reais estão no comentário do banco
+        (0=13).', 'Vínculo foempregados (foempregados): 0 de 13 linhas sem registro relacionado (empresa 614).', 'Vínculo fomedicos (FOMEDICOS): 0 de 13 linhas sem
+        registro relacionado (empresa 614).']
+  foempregados_atestados_ocupacionais_exames:
+    titulo: Cadastro de Empregados - Atestados Ocupacionais - Exames
+    descricao: 'Cadastro de Empregados - Atestados Ocupacionais - Exames. 8 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL, I_EXAME.'
+    tabela: FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_EXAMES
+    chave: [CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL, I_EXAME]
+    acesso: {empresa: CODI_EMP, periodo: DATA, volume: pequeno}
+    ordem:
+    - [DATA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_ATESTADO_OCUPACIONAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_atestado_ocupacional: I_ATESTADO_OCUPACIONAL
+      codigo_do_exame: I_EXAME
+      data: DATA
+      descricao: DESCRICAO
+      origem_do_registro_0_sistema_1_importaca: ORIGEM_REGISTRO
+      codigo_do_procedimento_na_tabela_tuss: CODIGO_TUSS
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_atestados_ocupacionais_exames_enviar_para}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_exames_gerar_retif}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_exames_marcacao_do}
+    vinculos:
+      foempregados_atestados_o:
+        tabela: FOEMPREGADOS_ATESTADOS_OCUPACIONAIS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_atestado_ocupacional: i_atestado_ocupacional}
+        colunas: {foempregados_atestados_o_nome: NOME_MEDICO}
+      fotabela_tuss:
+        tabela: FOTABELA_TUSS
+        liga: {codigo_tuss: codigo}
+        colunas: {fotabela_tuss_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_atestado_ocupacional:
+        coluna: I_ATESTADO_OCUPACIONAL
+        ops: [eq, in]
+      codigo_do_exame:
+        coluna: I_EXAME
+        ops: [eq, in]
+      data:
+        coluna: DATA
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_procedimento_na_tabela_tuss:
+        coluna: CODIGO_TUSS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8 linhas, 3 empresa(s), DATA de 2015-01-21 a 2021-12-08.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no
+        comentário do banco (1=8).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=8).', 'marcacao_do_evento_para_gerar_o_evento_d:
+        todos os valores reais estão no comentário do banco (0=8).', 'Vínculo foempregados_atestados_o (FOEMPREGADOS_ATESTADOS_OCUPACIONAIS): 0 de 3 linhas sem registro
+        relacionado (empresa 603).', 'Vínculo fotabela_tuss (FOTABELA_TUSS): 0 de 3 linhas sem registro relacionado (empresa 603).']
+  foempregados_atestados_ocupacionais_resultado_monitoracao_bi:
+    titulo: Resultados da monitoração biológica.
+    descricao: 'Resultados da monitoração biológica.. 4 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL, I_RESULTADO_MONITORACAO_BIOLOGICA.'
+    tabela: FOEMPREGADOS_ATESTADOS_OCUPACIONAIS_RESULTADO_MONITORACAO_BIOLOGICA
+    chave: [CODI_EMP, I_EMPREGADOS, I_ATESTADO_OCUPACIONAL, I_RESULTADO_MONITORACAO_BIOLOGICA]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_ATESTADO_OCUPACIONAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_sequencial_do_atestado_ocupaciona: I_ATESTADO_OCUPACIONAL
+      codigo_sequencial_do_resultado_da_monito: I_RESULTADO_MONITORACAO_BIOLOGICA
+      data_de_inicio_da_monitoracao_biologica: DATA_INICIO
+      data_final_da_monitoracao_biologica: DATA_FIM
+      codigo_do_agente_quimico: CODIGO_AGENTE_QUIMICO
+      material_biologico_para_analise_1_urina: {coluna: MATERIAL_BIOLOGICO_ANALISE, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_material_biolo}
+      codigo_da_analise_efetuada: CODIGO_ANALISE_EFETUADA
+      exposicao_excessica_0_nao_1_sim: {coluna: EXPOSICAO_EXCESSIVA, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_exposicao_exce}
+      ordem_do_exame_1_referencial_2_sequencia: {coluna: ORDEM_EXAME, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_ordem_do_exame}
+      indicacao_do_resultado_1_normal_2_altera: {coluna: INDICACAO_RESULTADO, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_indicacao_do_r}
+      natureza_do_exame: NATUREZA_EXAME
+      origem_do_registro_0_sistema_1_imp_layou: {coluna: ORIGEM_REGISTRO, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_origem_do_regi}
+      interpretacao_do_exame_1_ee_2_sc_3_sc: {coluna: INTERPRETACAO_EXAME, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_interpretacao_}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_enviar_para_o_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_gerar_retifica}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foempregados_atestados_ocupacionais_resultado_monitoracao_bi_marcacao_do_ev}
+    vinculos:
+      foempregados_atestados_o:
+        tabela: FOEMPREGADOS_ATESTADOS_OCUPACIONAIS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_atestado_ocupacional: i_atestado_ocupacional}
+        colunas: {foempregados_atestados_o_nome: NOME_MEDICO}
+      foagente_quimico:
+        tabela: FOAGENTE_QUIMICO
+        liga: {codigo_agente_quimico: codigo}
+        colunas: {foagente_quimico_nome: DESCRICAO}
+      fomonitoracao_biologica:
+        tabela: FOMONITORACAO_BIOLOGICA_ANALISE_EFETUADA
+        liga: {codigo_analise_efetuada: codigo}
+        colunas: {fomonitoracao_biologica_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_sequencial_do_atestado_ocupaciona:
+        coluna: I_ATESTADO_OCUPACIONAL
+        ops: [eq, in]
+      codigo_sequencial_do_resultado_da_monito:
+        coluna: I_RESULTADO_MONITORACAO_BIOLOGICA
+        ops: [eq, in]
+      data_de_inicio_da_monitoracao_biologica:
+        coluna: DATA_INICIO
+        ops: [entre, gte, lte]
+      data_final_da_monitoracao_biologica:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      codigo_do_agente_quimico:
+        coluna: CODIGO_AGENTE_QUIMICO
+        ops: [eq, in]
+      codigo_da_analise_efetuada:
+        coluna: CODIGO_ANALISE_EFETUADA
+        ops: [eq, in]
+      natureza_do_exame:
+        coluna: NATUREZA_EXAME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), DATA_INICIO de 2005-01-02 a 2005-01-25.', 'Colunas expostas nulas em 100% das linhas (4): data_final_da_monitoracao_biologica,
+        codigo_do_agente_quimico, codigo_da_analise_efetuada, natureza_do_exame.', 'material_biologico_para_analise_1_urina: todos os valores reais estão no comentário
+        do banco (1=4).', 'exposicao_excessica_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=4).', 'ordem_do_exame_1_referencial_2_sequencia:
+        todos os valores reais estão no comentário do banco (1=4).', 'indicacao_do_resultado_1_normal_2_altera: todos os valores reais estão no comentário do banco
+        (1=4).', 'origem_do_registro_0_sistema_1_imp_layou: todos os valores reais estão no comentário do banco (3=4).', 'interpretacao_do_exame_1_ee_2_sc_3_sc: todos
+        os valores reais estão no comentário do banco (1=4).', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=4).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=4).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco
+        (0=4).', 'Vínculo foempregados_atestados_o (FOEMPREGADOS_ATESTADOS_OCUPACIONAIS): 0 de 4 linhas sem registro relacionado (empresa 9999).', 'Vínculo foagente_quimico
+        (FOAGENTE_QUIMICO): 0 de 4 linhas sem registro relacionado (empresa 9999).', 'Vínculo fomonitoracao_biologica (FOMONITORACAO_BIOLOGICA_ANALISE_EFETUADA):
+        0 de 4 linhas sem registro relacionado (empresa 9999).']
+  foempregados_chave_pix_alternativa:
+    titulo: Cadastro de empregados - Chave Pix alternativa
+    descricao: 'Cadastro de empregados - Chave Pix alternativa. 3 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_CHAVE_PIX.'
+    tabela: FOEMPREGADOS_CHAVE_PIX_ALTERNATIVA
+    chave: [CODI_EMP, I_EMPREGADOS, I_CHAVE_PIX]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_CHAVE_PIX, asc]
+    colunas:
+      empresa: CODI_EMP
+      empregado: I_EMPREGADOS
+      sequencial: I_CHAVE_PIX
+      tipo_da_chave_alternativa_1_celular_2_e: {coluna: TIPO_CHAVE, dominio: foempregados_chave_pix_alternativa_tipo_da_cha}
+      valor_da_chave_pix_alternativa: CHAVE_PIX
+      chave_pix_alternativa_atual_s_n: CHAVE_ATUAL
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial:
+        coluna: I_CHAVE_PIX
+        ops: [eq, in]
+      tipo_da_chave_alternativa_1_celular_2_e:
+        coluna: TIPO_CHAVE
+        ops: [eq, in]
+      valor_da_chave_pix_alternativa:
+        coluna: CHAVE_PIX
+        ops: [contem, prefixo]
+      chave_pix_alternativa_atual_s_n:
+        coluna: CHAVE_ATUAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'tipo_da_chave_alternativa_1_celular_2_e: todos os valores reais estão no comentário do banco (3=3).',
+      'Vínculo foempregados (foempregados): 0 de 1 linhas sem registro relacionado (empresa 1139).']
+  foempregados_esocial_domestico:
+    titulo: Cadastro de Empregados Domésticos - eSocial Doméstico
+    descricao: 'Cadastro de Empregados Domésticos - eSocial Doméstico. 2 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS.'
+    tabela: FOEMPREGADOS_ESOCIAL_DOMESTICO
+    chave: [CODI_EMP, I_EMPREGADOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, cadastrado_s_sim_n_nao: CADASTRADO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      cadastrado_s_sim_n_nao:
+        coluna: CADASTRADO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 9056).', 'Vínculo foempregados
+        (foempregados): 0 de 2 linhas sem registro relacionado (empresa 9056).']

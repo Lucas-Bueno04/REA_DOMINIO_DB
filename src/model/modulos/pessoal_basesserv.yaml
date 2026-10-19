@@ -1,0 +1,381 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_basesserv
+titulo: Pessoal - basesserv (rascunho em lote)
+dominios:
+  fobasesserv_calculos_rateio_servico_existe_regi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_CALCULOS_RATEIO_SERVICO.EXISTE_CALCULO_RATEIO estão no comentário do banco (2026-10-18). Distribuição: 0=620.310,
+      1=8.688.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_permite_alte:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.PERMITE_ALTERAR_DATA_PAGAMENTO estão no comentário do banco (2026-10-18). Distribuição: 1=6.039.'
+    valores: {'0': Não, '1': sim}
+  fobasesserv_simulacao_gravou_as_ba:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.GRAVOU_BASES_CALCULO_DIFERENCA estão no comentário do banco (2026-10-18). Distribuição: 1=5.188, 0=851.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_calcular_dif:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.CALCULAR_DIFERENCA_13_ADIANTAMENTO estão no comentário do banco (2026-10-18). Distribuição: 0=6.039.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_calcula_o_13:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.CALCULAR_13_ADIANTAMENTO_CONFORME_AVOS_DIREITO estão no comentário do banco (2026-10-18). Distribuição:
+      0=6.039.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_considerou_m:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.MEDIA_DIFERENCIADA_COMISSOES estão no comentário do banco (2026-10-18). Distribuição: 0=5.642, 1=397.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_simulacao_0_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.SIMULACAO estão no comentário do banco (2026-10-18). Distribuição: 1=5.188, 0=851.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_calcular_adi:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.CALCULAR_ADIANTAMENTO_13_SALARIO_MES_ANTERIOR estão no comentário do banco (2026-10-18). Distribuição:
+      0=6.039.'
+    valores: {'0': Não, '1': Sim}
+  fobasesserv_simulacao_gravou_o_val:
+    confirmado: true
+    nota: 'Todos os valores observados em FOBASESSERV_SIMULACAO.GRAVOU_VALOR_INTEGRAL_RUBRICAS estão no comentário do banco (2026-10-18). Distribuição: 1=6.039.'
+    valores: {'0': Não, '1': Sim}
+entidades:
+  fobasesserv_calculos_rateio_servico:
+    titulo: Relacionamento entre o cálculo principal e os cálculos de rateio por serviço.
+    descricao: 'Relacionamento entre o cálculo principal e os cálculos de rateio por serviço.. 628.958 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA,
+      TIPO_PROCESS, I_SERVICOS, RATEIO, CODI_EMP_RELACIONADO, I_EMPREGADOS_RELACIONADO, COMPETENCIA_RELACIONADO, TIPO_PROCESS_RELACIONADO, I_SERVICOS_RELACIONADO,
+      RATEIO_RELACIONADO, I_CALCULOS, I_CALCULOS_RELACIONADO.'
+    tabela: FOBASESSERV_CALCULOS_RATEIO_SERVICO
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESS, I_SERVICOS, RATEIO, CODI_EMP_RELACIONADO, I_EMPREGADOS_RELACIONADO, COMPETENCIA_RELACIONADO, TIPO_PROCESS_RELACIONADO,
+      I_SERVICOS_RELACIONADO, RATEIO_RELACIONADO, I_CALCULOS, I_CALCULOS_RELACIONADO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESS, asc]
+    colunas:
+      codigo_da_empresa_do_calculo_integral: CODI_EMP
+      codigo_do_empregado_do_calculo_integral: I_EMPREGADOS
+      competencia_do_calculo_integral: COMPETENCIA
+      tipo_de_processo_do_calculo_integral: TIPO_PROCESS
+      codigo_do_servico_do_calculo_integral: I_SERVICOS
+      rateio_do_calculo_integral: RATEIO
+      codigo_da_empresa_do_calculo_relacionado: CODI_EMP_RELACIONADO
+      codigo_do_empregado_do_calculo_relaciona: I_EMPREGADOS_RELACIONADO
+      competencia_do_calculo_relacionado: COMPETENCIA_RELACIONADO
+      tipo_de_processo_do_calculo_relacionado: TIPO_PROCESS_RELACIONADO
+      codigo_do_servico_do_calculo_relacionado: I_SERVICOS_RELACIONADO
+      rateio_do_calculo_relacionado: RATEIO_RELACIONADO
+      codigo_do_calculo_do_calculo_integral: I_CALCULOS
+      codigo_do_calculo_do_calculo_relacionado: I_CALCULOS_RELACIONADO
+      codigo_do_calculo_do_calculo_integral_re: I_CALCULOS_OLD
+      codigo_do_complemento_de_calculo_do_calc: I_CALCULOS_COMPLEMENTOS_OLD
+      i_calculos_relacionado_old: I_CALCULOS_RELACIONADO_OLD
+      i_calculos_complementos_relacionado_old: I_CALCULOS_COMPLEMENTOS_RELACIONADO_OLD
+      existe_registro_de_rateio_para_o_calculo: {coluna: EXISTE_CALCULO_RATEIO, dominio: fobasesserv_calculos_rateio_servico_existe_regi}
+      situacao_mes_do_calculo: SITUACAO_MES
+    filtros:
+      codigo_do_empregado_do_calculo_integral:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia_do_calculo_integral:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_processo_do_calculo_integral:
+        coluna: TIPO_PROCESS
+        ops: [eq, in]
+      codigo_do_servico_do_calculo_integral:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio_do_calculo_integral:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_da_empresa_do_calculo_relacionado:
+        coluna: CODI_EMP_RELACIONADO
+        ops: [eq, in]
+      codigo_do_empregado_do_calculo_relaciona:
+        coluna: I_EMPREGADOS_RELACIONADO
+        ops: [eq, in]
+      competencia_do_calculo_relacionado:
+        coluna: COMPETENCIA_RELACIONADO
+        ops: [eq, in]
+      tipo_de_processo_do_calculo_relacionado:
+        coluna: TIPO_PROCESS_RELACIONADO
+        ops: [eq, in]
+      codigo_do_servico_do_calculo_relacionado:
+        coluna: I_SERVICOS_RELACIONADO
+        ops: [eq, in]
+      rateio_do_calculo_relacionado:
+        coluna: RATEIO_RELACIONADO
+        ops: [eq, in]
+      codigo_do_calculo_do_calculo_integral:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_do_calculo_relacionado:
+        coluna: I_CALCULOS_RELACIONADO
+        ops: [eq, in]
+      codigo_do_calculo_do_calculo_integral_re:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 628.998 linhas, 865 empresa(s), COMPETENCIA de 2013-01-01 a 2026-11-01.', 'existe_registro_de_rateio_para_o_calculo: todos os
+        valores reais estão no comentário do banco (0=620.310, 1=8.688).']
+  fobasesserv_envios_esocial:
+    titulo: Envios de bases de cálculo para o esocial
+    descricao: 'Envios de bases de cálculo para o esocial. 349.595 linhas no catálogo; chave: codi_emp, i_empregados, competencia, tipo_process, i_servicos, rateio,
+      CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS, I_CALCULOS.'
+    tabela: FOBASESSERV_ENVIOS_ESOCIAL
+    chave: [codi_emp, i_empregados, competencia, tipo_process, i_servicos, rateio, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS, I_CALCULOS]
+    acesso: {empresa: codi_emp, periodo: competencia, volume: medio}
+    ordem:
+    - [competencia, desc]
+    - [i_empregados, asc]
+    - [tipo_process, asc]
+    colunas: {codigo_da_empresa: codi_emp, codigo_do_empregado: i_empregados, competencia: competencia, tipo_da_folha: tipo_process, codigo_do_servico: i_servicos,
+      rateio: rateio, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS, codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS, codigo_do_calculo: I_CALCULOS,
+      codigo_do_calculo_renomeado: I_CALCULOS_OLD}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+    filtros:
+      codigo_do_empregado:
+        coluna: i_empregados
+        ops: [eq, in]
+      competencia:
+        coluna: competencia
+        ops: [eq, in]
+      tipo_da_folha:
+        coluna: tipo_process
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: i_servicos
+        ops: [eq, in]
+      rateio:
+        coluna: rateio
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 349.606 linhas, 468 empresa(s), competencia de 2018-10-01 a 2026-10-05.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 94 linhas sem registro relacionado (empresa 1592).']
+  fobasesserv_fofilhos:
+    titulo: Dependentes que foram considerados para o cálculo.
+    descricao: 'Dependentes que foram considerados para o cálculo.. 10.482 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESS, I_SERVICOS,
+      RATEIO, I_FILHOS, I_CALCULOS.'
+    tabela: FOBASESSERV_FOFILHOS
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESS, I_SERVICOS, RATEIO, I_FILHOS, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [TIPO_PROCESS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, competencia: COMPETENCIA, tipo_de_folha: TIPO_PROCESS, codigo_do_servico: I_SERVICOS,
+      rateio: RATEIO, codigo_do_dependente: I_FILHOS, codigo_do_calculo: I_CALCULOS, codigo_do_calculo_renomeado: I_CALCULOS_OLD}
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_folha:
+        coluna: TIPO_PROCESS
+        ops: [eq, in]
+      codigo_do_servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      codigo_do_calculo:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      codigo_do_calculo_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 10.484 linhas, 127 empresa(s), COMPETENCIA de 2017-12-15 a 2026-12-01.', 'Vínculo fofilhos (fofilhos): 0 de 40 linhas sem registro
+        relacionado (empresa 1161).']
+  fobasesserv_simulacao:
+    titulo: Bases da simulação de rescisão/férias
+    descricao: 'Bases da simulação de rescisão/férias. 6.039 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESS, I_SERVICOS, RATEIO, I_CALCULOS.'
+    tabela: FOBASESSERV_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, COMPETENCIA, TIPO_PROCESS, I_SERVICOS, RATEIO, I_CALCULOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGTO, desc]
+    - [I_EMPREGADOS, asc]
+    - [COMPETENCIA, asc]
+    colunas:
+      codigo_empresa: CODI_EMP
+      empregado: I_EMPREGADOS
+      competencia: COMPETENCIA
+      tipo_de_calculo: TIPO_PROCESS
+      servico: I_SERVICOS
+      rateio: RATEIO
+      codigo_sequencial_de_calculos: I_CALCULOS
+      departamento: I_DEPTO
+      centro_de_custos: I_CCUSTOS
+      cargo: I_CARGOS
+      situacao_mes: SITUACAO_MES
+      no_filhos: NUM_FILHOS
+      no_dependentes: NUM_DEPENDENTES
+      proventos: {coluna: PROVENTOS, sensivel: financeiro}
+      descontos: DESCONTOS
+      salario_maternidade: {coluna: SALARIO_MATERNIDADE, sensivel: financeiro}
+      salario_mes: {coluna: SALARIO_MES, sensivel: financeiro}
+      valor_sal_familia: VAL_SAL_FAM
+      no_cheque: NUME_CHEQUE
+      dedinssmat13: DEDINSSMAT13
+      data_pagamento: DATA_PAGTO
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      numero_de_dias_que_o_empregado_ficou_no: DIAS_SERVICO
+      c_1_dados_implantados_0_calculado_pelo_s: IMPLANTADO
+      filial: I_FILIAIS
+      codigo_sequencial_de_calculos_renomeado: I_CALCULOS_OLD
+      categoria: CATEGORIA
+      horas_dia: HORAS_DIA
+      horas_semana: HORAS_SEMANA
+      horas_mes: HORAS_MES
+      sequencial_de_periodos_de_gozo: I_FERIAS_GOZO
+      competencia_da_alteracao_salarial_cct: COMPETENCIA_CCT
+      indica_no_calculo_do_13o_salario_se_a_fo: FOLHA_MES_PAGA
+      tipo_do_calculo_proporcional_1_mes_comer: TIPO_CALCULO_PROP
+      vinculo_empregaticio: VINCULO
+      diferenca_de_inss_13o_salario_descontado: {coluna: DIF_INSS_13_DESC_MAIOR, sensivel: financeiro}
+      percentual_de_adiantamento: PERCENTUAL_ADIANTAMENTO
+      permite_alterar_a_data_de_pagamento_0_na: {coluna: PERMITE_ALTERAR_DATA_PAGAMENTO, dominio: fobasesserv_simulacao_permite_alte}
+      codigo_do_calculo_que_descontou_o_arredo: I_CALCULOS_DESCONTO_ARREDONDAMENTO_OLD
+      gravou_as_bases_de_calculo_das_diferenca: {coluna: GRAVOU_BASES_CALCULO_DIFERENCA, dominio: fobasesserv_simulacao_gravou_as_ba}
+      codigo_do_complemento_de_calculo_renomea: I_CALCULOS_COMPLEMENTOS_OLD
+      codigo_da_funcao: I_FUNCAO
+      calcular_diferenca_13o_adiantamento_0_na: {coluna: CALCULAR_DIFERENCA_13_ADIANTAMENTO, dominio: fobasesserv_simulacao_calcular_dif}
+      calcula_o_13o_adiantamento_folha_mensal: {coluna: CALCULAR_13_ADIANTAMENTO_FOLHA_MENSAL, dominio: fobasesserv_simulacao_calcula_o_13}
+      calcula_o_13o_adiantamento_conforme_avos: {coluna: CALCULAR_13_ADIANTAMENTO_CONFORME_AVOS_DIREITO, dominio: fobasesserv_simulacao_calcula_o_13}
+      base_do_piso_salarial_utilizada_para_o_c: BASE_PISO_SALARIAL
+      quantidade_de_faltas_consideradas_no_cal: QUANTIDADE_FALTAS
+      soma_das_rubricas_com_tipo_informativa: TOTAL_RUBRICAS_INFORMATIVAS
+      soma_das_rubricas_com_tipo_informativa_d: TOTAL_RUBRICAS_INFORMATIVAS_DEDUTORAS
+      considerou_medias_diferenciadas_para_com: {coluna: MEDIA_DIFERENCIADA_COMISSOES, dominio: fobasesserv_simulacao_considerou_m}
+      codigo_do_periodo_gozo_da_licenca_premio: I_PERIODO_GOZO_LICENCA_PREMIO
+      simulacao_0_nao_1_sim: {coluna: SIMULACAO, dominio: fobasesserv_simulacao_simulacao_0_}
+      calcular_adiantamento_13o_com_base_no_sa: {coluna: CALCULAR_ADIANTAMENTO_13_SALARIO_MES_ANTERIOR, dominio: fobasesserv_simulacao_calcular_adi}
+      gravou_o_valor_integral_das_rubricas_que: {coluna: GRAVOU_VALOR_INTEGRAL_RUBRICAS, dominio: fobasesserv_simulacao_gravou_o_val}
+      salario_considerado_no_calculo: {coluna: SALARIO, sensivel: financeiro}
+      salario_mensal_no_sindicato_considerado: {coluna: SALARIO_MENSAL_SINDICATO, sensivel: financeiro}
+      salario_por_semana_considerado_no_calcul: {coluna: SALARIO_SEMANA, sensivel: financeiro}
+      salario_por_semana_no_sindicato_consider: {coluna: SALARIO_SEMANA_SINDICATO, sensivel: financeiro}
+      salario_por_dia_considerado_no_calculo: {coluna: SALARIO_DIA, sensivel: financeiro}
+      salario_por_dia_no_sindicato_considerado: {coluna: SALARIO_DIA_SINDICATO, sensivel: financeiro}
+      i_calculos_pagamento_adicional_mp_927: I_CALCULOS_PAGAMENTO_ADICIONAL_MP_927
+      i_calculos_desconto_arredondamento: I_CALCULOS_DESCONTO_ARREDONDAMENTO
+      i_calculos_complementos: I_CALCULOS_COMPLEMENTOS
+    vinculos:
+      foservicos:
+        tabela: foservicos
+        liga: {codi_emp: codi_emp, i_servicos: i_servicos}
+        colunas: {foservicos_nome: nome}
+      foccustos:
+        tabela: foccustos
+        liga: {codi_emp: codi_emp, i_ccustos: i_ccustos}
+        colunas: {foccustos_nome: nome}
+      focargos:
+        tabela: focargos
+        liga: {codi_emp: codi_emp, i_cargos: i_cargos}
+        colunas: {focargos_nome: nome}
+      fodepto:
+        tabela: fodepto
+        liga: {codi_emp: codi_emp, i_depto: i_depto}
+        colunas: {fodepto_nome: nome}
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+      fofiliais:
+        tabela: fofiliais
+        liga: {codi_emp: codi_emp, i_filiais: i_filiais}
+        colunas: {fofiliais_nome: nome}
+    filtros:
+      empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      tipo_de_calculo:
+        coluna: TIPO_PROCESS
+        ops: [eq, in]
+      servico:
+        coluna: I_SERVICOS
+        ops: [eq, in]
+      rateio:
+        coluna: RATEIO
+        ops: [eq, in]
+      codigo_sequencial_de_calculos:
+        coluna: I_CALCULOS
+        ops: [eq, in]
+      data_pagamento:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      competencia_da_alteracao_salarial_cct:
+        coluna: COMPETENCIA_CCT
+        ops: [entre, gte, lte]
+      departamento:
+        coluna: I_DEPTO
+        ops: [eq, in]
+      centro_de_custos:
+        coluna: I_CCUSTOS
+        ops: [eq, in]
+      cargo:
+        coluna: I_CARGOS
+        ops: [eq, in]
+      situacao_mes:
+        coluna: SITUACAO_MES
+        ops: [eq, in]
+      filial:
+        coluna: I_FILIAIS
+        ops: [eq, in]
+      codigo_sequencial_de_calculos_renomeado:
+        coluna: I_CALCULOS_OLD
+        ops: [eq, in]
+      i_calculos_pagamento_adicional_mp_927:
+        coluna: I_CALCULOS_PAGAMENTO_ADICIONAL_MP_927
+        ops: [eq, in]
+      i_calculos_desconto_arredondamento:
+        coluna: I_CALCULOS_DESCONTO_ARREDONDAMENTO
+        ops: [eq, in]
+      i_calculos_complementos:
+        coluna: I_CALCULOS_COMPLEMENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.039 linhas, 192 empresa(s), DATA_PAGTO de 2018-07-06 a 9022-01-09.', 'Colunas expostas nulas em 100% das linhas (5): competencia_da_alteracao_salarial_cct,
+        indica_no_calculo_do_13o_salario_se_a_fo, codigo_do_calculo_que_descontou_o_arredo, codigo_do_complemento_de_calculo_renomea, codigo_do_periodo_gozo_da_licenca_premio.',
+      'permite_alterar_a_data_de_pagamento_0_na: todos os valores reais estão no comentário do banco (1=6.039).', 'gravou_as_bases_de_calculo_das_diferenca: todos
+        os valores reais estão no comentário do banco (1=5.188, 0=851).', 'calcular_diferenca_13o_adiantamento_0_na: todos os valores reais estão no comentário do
+        banco (0=6.039).', 'calcula_o_13o_adiantamento_folha_mensal: todos os valores reais estão no comentário do banco (0=6.039).', 'calcula_o_13o_adiantamento_conforme_avos:
+        todos os valores reais estão no comentário do banco (0=6.039).', 'considerou_medias_diferenciadas_para_com: todos os valores reais estão no comentário do
+        banco (0=5.642, 1=397).', 'simulacao_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=5.188, 0=851).', 'calcular_adiantamento_13o_com_base_no_sa:
+        todos os valores reais estão no comentário do banco (0=6.039).', 'gravou_o_valor_integral_das_rubricas_que: todos os valores reais estão no comentário do
+        banco (1=6.039).', 'Vínculo foservicos (foservicos): 0 de 9 linhas sem registro relacionado (empresa 735).', 'Vínculo foccustos (foccustos): 0 de 9 linhas
+        sem registro relacionado (empresa 735).', 'Vínculo focargos (focargos): 0 de 9 linhas sem registro relacionado (empresa 735).', 'Vínculo fodepto (fodepto):
+        0 de 9 linhas sem registro relacionado (empresa 735).', 'Vínculo foempregados (foempregados): 0 de 9 linhas sem registro relacionado (empresa 735).', 'Vínculo
+        fofiliais (fofiliais): 0 de 9 linhas sem registro relacionado (empresa 735).']

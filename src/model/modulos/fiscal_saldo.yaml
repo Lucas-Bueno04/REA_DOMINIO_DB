@@ -1,0 +1,142 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_saldo
+titulo: Fiscal - saldo (rascunho em lote)
+entidades:
+  efsaldo_imposto_descricao_vigencia_ordem:
+    titulo: Tela de Apuração de Impostos - Layouts - Ordem das colunas
+    descricao: 'Tela de Apuração de Impostos - Layouts - Ordem das colunas. 9.636 linhas no catálogo; chave: CODI_IMP, UF, VIGENCIA, MODELO, ORDEM.'
+    tabela: EFSALDO_IMPOSTO_DESCRICAO_VIGENCIA_ORDEM
+    chave: [CODI_IMP, UF, VIGENCIA, MODELO, ORDEM]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODI_IMP, asc]
+    - [UF, asc]
+    colunas: {codigo_do_imposto: CODI_IMP, uf: UF, vigencia: VIGENCIA, modelo: MODELO, ordem: ORDEM, coluna: COLUNA, descricao_apuracao: DESCRICAO, descricao_relatorio: DESCRICAO_RELATORIO,
+      operacao: OPERACAO, nivel: NIVEL, tipo: TIPO, visualizacao: VISUALIZACAO, detalhamento: DETALHAMENTO, forma_exibicao: FORMA_EXIBICAO, demonstra_relatorio_resumo: DEMONSTRA_RELATORIO_RESUMO,
+      coluna_relatorio_de_resumo_modelo_lancad: COLUNA_RELATORIO_RESUMO_LANCADO, coluna_relatorio_de_resumo_modelo_calcul: COLUNA_RELATORIO_RESUMO_CALCULADO, para_colunas_que_possuem_valor_indicador: SOMA_NO_PAI}
+    filtros:
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      modelo:
+        coluna: MODELO
+        ops: [eq, in]
+      ordem:
+        coluna: ORDEM
+        ops: [eq, in]
+      coluna:
+        coluna: COLUNA
+        ops: [contem, prefixo]
+      descricao_apuracao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      descricao_relatorio:
+        coluna: DESCRICAO_RELATORIO
+        ops: [contem, prefixo]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      demonstra_relatorio_resumo:
+        coluna: DEMONSTRA_RELATORIO_RESUMO
+        ops: [eq, in]
+      coluna_relatorio_de_resumo_modelo_lancad:
+        coluna: COLUNA_RELATORIO_RESUMO_LANCADO
+        ops: [contem, prefixo]
+      coluna_relatorio_de_resumo_modelo_calcul:
+        coluna: COLUNA_RELATORIO_RESUMO_CALCULADO
+        ops: [contem, prefixo]
+      para_colunas_que_possuem_valor_indicador:
+        coluna: SOMA_NO_PAI
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 9.636 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  efsaldo_imposto_descricao_vigencia_recolher:
+    titulo: Tela de Apuração de Impostos - Recolher
+    descricao: 'Tela de Apuração de Impostos - Recolher. 769 linhas no catálogo; chave: CODI_IMP, UF, VIGENCIA, MODELO, ORDEM.'
+    tabela: EFSALDO_IMPOSTO_DESCRICAO_VIGENCIA_RECOLHER
+    chave: [CODI_IMP, UF, VIGENCIA, MODELO, ORDEM]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODI_IMP, asc]
+    - [UF, asc]
+    colunas: {codigo_do_imposto: CODI_IMP, uf: UF, vigencia: VIGENCIA, modelo: MODELO, ordem: ORDEM, coluna: COLUNA, descricao_apuracao: DESCRICAO, descricao_relatorio: DESCRICAO_RELATORIO,
+      visualizacao: VISUALIZACAO, tipo: TIPO, botao_memoria_de_calculo: MEMORIA_CALCULO, nivel: NIVEL}
+    filtros:
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      modelo:
+        coluna: MODELO
+        ops: [eq, in]
+      ordem:
+        coluna: ORDEM
+        ops: [eq, in]
+      coluna:
+        coluna: COLUNA
+        ops: [contem, prefixo]
+      descricao_apuracao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      descricao_relatorio:
+        coluna: DESCRICAO_RELATORIO
+        ops: [contem, prefixo]
+      tipo:
+        coluna: TIPO
+        ops: [eq, in]
+      botao_memoria_de_calculo:
+        coluna: MEMORIA_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 769 linhas, VIGENCIA de 1900-01-01 a 2025-10-01.']
+  efsaldo_imposto_descricao_vigencia:
+    titulo: Tela de Apuração de Impostos - Layouts de Apresentação
+    descricao: 'Tela de Apuração de Impostos - Layouts de Apresentação. 394 linhas no catálogo; chave: CODI_IMP, UF, VIGENCIA, MODELO.'
+    tabela: EFSALDO_IMPOSTO_DESCRICAO_VIGENCIA
+    chave: [CODI_IMP, UF, VIGENCIA, MODELO]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [CODI_IMP, asc]
+    - [UF, asc]
+    colunas: {codigo_do_imposto: CODI_IMP, uf: UF, vigencia: VIGENCIA, modelo: MODELO, layout: LAYOUT}
+    filtros:
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      uf:
+        coluna: UF
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      modelo:
+        coluna: MODELO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 394 linhas, VIGENCIA de 1900-01-01 a 2026-01-01.']
+  efsaldo_imposto_ordem:
+    titulo: Tela de Apuração de Impostos - Ordem dos Impostos
+    descricao: 'Tela de Apuração de Impostos - Ordem dos Impostos. 155 linhas no catálogo; chave: CODI_IMP.'
+    tabela: EFSALDO_IMPOSTO_ORDEM
+    chave: [CODI_IMP]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_IMP, asc]
+    colunas: {codigo_do_imposto: CODI_IMP, ordem: ORDEM}
+    filtros:
+      codigo_do_imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 155 linhas.']

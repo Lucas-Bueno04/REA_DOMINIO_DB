@@ -1,0 +1,183 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: geral_imposto
+titulo: Geral - imposto (rascunho em lote)
+dominios: {}
+entidades:
+  geimposto_vigencia_pagamentos_ctb:
+    titulo: Impostos - Cadastro - Contas para Pagamento
+    descricao: 'Impostos - Cadastro - Contas para Pagamento. 81.815 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP.'
+    tabela: GEIMPOSTO_VIGENCIA_PAGAMENTOS_CTB
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: medio}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, imposto: CODI_IMP, vigencia: VIGENCIA_IMP, conta_debito: CTDB_CTP, conta_credito: CTCR_CTP, historico_padrao: CHIS_CTP, conta_debito_dos_juros: JRDB_CTP,
+      conta_credito_dos_juros: JRCR_CTP, historico_padrao_dos_juros: JRCH_CTP, conta_debito_da_multa: MTDB_CTP, conta_credito_da_multa: MTCR_CTP, historico_padrao_da_multa: MTCH_CTP,
+      conta_credito_do_parcelamento: CTPARCELAMENTOCREDITO, historico_padrao_do_parcelamento: HTPARCELAMENTO, debito_valor_pago_a_maior_conta: CTDEBITO_VALOR_PAGO_A_MAIOR,
+      credito_valor_pago_a_maior_conta: CTCREDITO_VALOR_PAGO_A_MAIOR, valor_pago_a_maior_historico: HT_VALOR_PAGO_A_MAIOR, correcao_conta_debito: CTCORRECAO_DEBITO,
+      correcao_conta_credito: CTCORRECAO_CREDITO, correcao_historico: HTCORRECAO, acrescimo_conta_debito: CTACRESCIMO_DEBITO, acrescimo_conta_credito: CTACRESCIMO_CREDITO,
+      acrescimo_historico: HTACRESCIMO, desconto_debito: CTDESCONTO_DEBITO, desconto_credito: CTDESCONTO_CREDITO, desconto_historico: HTDESCONTO}
+    filtros:
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 81.815 linhas, 1.504 empresa(s), VIGENCIA_IMP de 1964-06-01 a 2026-09-01.']
+  geimposto_vigencia_parcelamento_ctb:
+    titulo: Impostos - Cadastro - Contas para Parcelamento
+    descricao: 'Impostos - Cadastro - Contas para Parcelamento. 35.396 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP.'
+    tabela: GEIMPOSTO_VIGENCIA_PARCELAMENTO_CTB
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: medio}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    colunas: {empresa: CODI_EMP, imposto: CODI_IMP, vigencia: VIGENCIA_IMP, gerar_lancamentos_de_partida_simples_s_n: GERAR_LANCAMENTO_PARTIDA_SIMPLES, conta_da_provisao: CTPROVISAO,
+      historico_padrao_da_provisao: HTPROVISAO, conta_provisao_dos_juros: CTJUROSPROVISAO, conta_despesa_dos_juros: CTJUROSDESPESA, historico_padrao_dos_juros: HTJUROS,
+      conta_provisao_da_multa: CTMULTAPROVISAO, conta_despesa_da_multa: CTMULTADESPESA, historico_padrao_da_multa: HTMULTA, conta_provisao_de_encargos: CT_ENCARGOS_PROVISAO,
+      conta_despesa_de_encargos: CT_ENCARGOS_DESPESA, historico_padrao_de_encargos: HT_ENCARGOS}
+    filtros:
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+      gerar_lancamentos_de_partida_simples_s_n:
+        coluna: GERAR_LANCAMENTO_PARTIDA_SIMPLES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 35.398 linhas, 1.504 empresa(s), VIGENCIA_IMP de 1966-07-01 a 2026-09-01.']
+  geimposto_vigencia_recolhimento_ctb:
+    titulo: Impostos - Cadastro - Codigo de Recolhimento - Contabilidade
+    descricao: 'Impostos - Cadastro - Codigo de Recolhimento - Contabilidade. 3.213 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_RECOLHIMENTO.'
+    tabela: GEIMPOSTO_VIGENCIA_RECOLHIMENTO_CTB
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_RECOLHIMENTO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: pequeno}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    - [I_RECOLHIMENTO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_IMP, vigencia: VIGENCIA_IMP, sequencial: I_RECOLHIMENTO, imposto_a_recolher_conta: CT_RECOLHER, imposto_a_recolher_historico: HT_RECOLHER,
+      imposto_a_recolher_imposto_venda: CT_VENDAS, pagamento_valor_principal_conta_debito: CT_PRINCIPAL_DEBITO, pagamento_valor_principal_conta_credito: CT_PRINCIPAL_CREDITO,
+      pagamento_valor_principal_historico: HT_PRINCIPAL, pagamento_valor_juros_conta_debito: CT_JUROS_DEBITO, pagamento_valor_juros_conta_credito: CT_JUROS_CREDITO,
+      pagamento_valor_juros_historico: HT_JUROS, pagamento_valor_multa_conta_debito: CT_MULTA_DEBITO, pagamento_valor_multa_conta_credito: CT_MULTA_CREDITO, pagamento_valor_multa_historico: HT_MULTA,
+      gera_lancamento_contabeis_por_nota: GERA_LANCAMENTO_CONTABEIS_POR_NOTA, devolucoes_imposto_a_recuperar_conta: CT_RECUPERAR, devolucoes_devolucoes_vendas_conta: CT_DEVOLUCAO_VENDAS,
+      devolucoes_historico: HT_DEVOLUCAO_VENDAS, zeramento_historico: HT_ZERAMENTO, imposto_a_recuperar_historico: HT_RECUPERAR, imposto_a_recuperar_imposto_compras: CT_COMPRAS,
+      estorno_de_debitos_subtri_debito: CT_DEBITO_ESTORNO_DEBITOS_SUBTRI, estorno_de_debitos_subtri_credito: CT_CREDITO_ESTORNO_DEBITOS_SUBTRI, estorno_de_debitos_subtri_historico: HT_ESTORNO_DEBITOS_SUBTRI,
+      debito_estorno_creditos_subtri_conta: CT_DEBITO_ESTORNO_CREDITOS_SUBTRI, credito_estorno_creditos_subtri_conta: CT_CREDITO_ESTORNO_CREDITOS_SUBTRI, estorno_creditos_subtri_historico: HT_ESTORNO_CREDITOS_SUBTRI}
+    filtros:
+      codigo:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+      sequencial:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+      gera_lancamento_contabeis_por_nota:
+        coluna: GERA_LANCAMENTO_CONTABEIS_POR_NOTA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.213 linhas, 1.429 empresa(s), VIGENCIA_IMP de 1964-06-01 a 2026-09-01.']
+  geimposto_vigencia_recolhimento_natureza_rendimento:
+    titulo: Natureza de rendimentos do recolhimento
+    descricao: 'Natureza de rendimentos do recolhimento. 1.399 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_RECOLHIMENTO, I_SEQUENCIAL_NATUREZA.'
+    tabela: GEIMPOSTO_VIGENCIA_RECOLHIMENTO_NATUREZA_RENDIMENTO
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_RECOLHIMENTO, I_SEQUENCIAL_NATUREZA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: pequeno}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    - [I_RECOLHIMENTO, asc]
+    colunas: {empresa: CODI_EMP, codigo: CODI_IMP, vigencia: VIGENCIA_IMP, sequencial: I_RECOLHIMENTO, sequencial_natureza: I_SEQUENCIAL_NATUREZA, codigo_do_recolhimento: CODIGO_RECOLHIMENTO,
+      codigo_da_natureza_de_rendimento: CODI_NAT_RENDIMENTO}
+    filtros:
+      codigo:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+      sequencial:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+      sequencial_natureza:
+        coluna: I_SEQUENCIAL_NATUREZA
+        ops: [eq, in]
+      codigo_do_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+      codigo_da_natureza_de_rendimento:
+        coluna: CODI_NAT_RENDIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.399 linhas, 200 empresa(s), VIGENCIA_IMP de 2003-10-01 a 2026-06-01.']
+  geimposto_vigencia_codrec_natureza_rendimento:
+    titulo: Tabela com as naturezas de rendimento dos impostos
+    descricao: 'Tabela com as naturezas de rendimento dos impostos. 48 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP, CODI_REC, I_SEQUENCIAL_NATUREZA.'
+    tabela: GEIMPOSTO_VIGENCIA_CODREC_NATUREZA_RENDIMENTO
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, CODI_REC, I_SEQUENCIAL_NATUREZA]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: pequeno}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    - [CODI_REC, asc]
+    colunas: {empresa: CODI_EMP, imposto: CODI_IMP, vigencia: VIGENCIA_IMP, codigo_do_recolhimento: CODI_REC, sequencial_do_recolhimento_x_natureza_de: I_SEQUENCIAL_NATUREZA,
+      codigo_da_natureza_de_rendimento: CODI_NAT_RENDIMENTO, tipo_de_isencao_para_rendimentos_isentos: TIPO_ISENCAO, descricao_de_isencao_para_rendimentos_is: DESCRICAO_ISENCAO}
+    filtros:
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+      codigo_do_recolhimento:
+        coluna: CODI_REC
+        ops: [eq, in]
+      sequencial_do_recolhimento_x_natureza_de:
+        coluna: I_SEQUENCIAL_NATUREZA
+        ops: [eq, in]
+      codigo_da_natureza_de_rendimento:
+        coluna: CODI_NAT_RENDIMENTO
+        ops: [eq, in]
+      tipo_de_isencao_para_rendimentos_isentos:
+        coluna: TIPO_ISENCAO
+        ops: [eq, in]
+      descricao_de_isencao_para_rendimentos_is:
+        coluna: DESCRICAO_ISENCAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 48 linhas, 25 empresa(s), VIGENCIA_IMP de 2022-01-01 a 2026-05-01.', 'Colunas expostas nulas em 100% das linhas (2): tipo_de_isencao_para_rendimentos_isentos,
+        descricao_de_isencao_para_rendimentos_is.']
+  geimposto_vigencia_sub_apuracao:
+    titulo: Impostos - Cadastro - AM - Crédito Estímulo
+    descricao: 'Impostos - Cadastro - AM - Crédito Estímulo. 3 linhas no catálogo; chave: CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_SUB_APURACAO.'
+    tabela: GEIMPOSTO_VIGENCIA_SUB_APURACAO
+    chave: [CODI_EMP, CODI_IMP, VIGENCIA_IMP, I_SUB_APURACAO]
+    acesso: {empresa: CODI_EMP, periodo: VIGENCIA_IMP, volume: pequeno}
+    ordem:
+    - [VIGENCIA_IMP, desc]
+    - [CODI_IMP, asc]
+    - [I_SUB_APURACAO, asc]
+    colunas: {empresa: CODI_EMP, imposto: CODI_IMP, vigencia: VIGENCIA_IMP, sequencial: I_SUB_APURACAO, descricao: DESCRICAO, codigo_recolhimento: CODIGO_RECOLHIMENTO,
+      data_do_vencimento: DIA_VENCIMENTO, conta_a_recolher: CT_RECOLHER, historico_a_recolher: HT_RECOLHER, conta_a_recuperar: CT_RECUPERAR, historico_a_recuperar: HT_RECUPERAR,
+      conta_do_incentivo_fiscal: CT_INCENTIVO_FISCAL, historico_do_incentivo_fiscal: HT_INCENTIVO_FISCAL}
+    filtros:
+      imposto:
+        coluna: CODI_IMP
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA_IMP
+        ops: [eq, in]
+      sequencial:
+        coluna: I_SUB_APURACAO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_recolhimento:
+        coluna: CODIGO_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s), VIGENCIA_IMP de 2025-05-01 a 2026-01-01.']

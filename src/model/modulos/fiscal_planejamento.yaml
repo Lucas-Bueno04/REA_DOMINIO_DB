@@ -1,0 +1,286 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_planejamento
+titulo: Fiscal - planejamento (rascunho em lote)
+dominios:
+  efplanejamento_tributario_impostos_simples_regime_de_p:
+    confirmado: true
+    nota: 'Todos os valores observados em EFPLANEJAMENTO_TRIBUTARIO_IMPOSTOS_SIMPLES.REGIME estão no comentário do banco (2026-10-18). Distribuição: S=40.'
+    valores: {P: Presumido, R: Real, S: Simples Nacional}
+  efplanejamento_tributario_impostos_simples_tipo_a_ambo:
+    confirmado: true
+    nota: 'Todos os valores observados em EFPLANEJAMENTO_TRIBUTARIO_IMPOSTOS_SIMPLES.TIPO estão no comentário do banco (2026-10-18). Distribuição: I=40.'
+    valores: {A: Ambos, I: Interno, E: Externo}
+entidades:
+  efplanejamento_tributario_impostos:
+    titulo: Planejamento Tributário - Impostos
+    descricao: 'Planejamento Tributário - Impostos. 204 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO, IMPOSTO.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_IMPOSTOS
+    chave: [CODI_EMP, REGIME, PERIODO, IMPOSTO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    - [IMPOSTO, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, periodo_planejamento: PERIODO, imposto: IMPOSTO, competencia_da_tributacao_f_federal_e_es: COMPETENCIA_TRIBUTACAO,
+      aliquota: ALIQUOTA, valor: VALOR}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+      imposto:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      competencia_da_tributacao_f_federal_e_es:
+        coluna: COMPETENCIA_TRIBUTACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 204 linhas, 1 empresa(s), PERIODO de 2026-01-01 a 2026-12-01.']
+  efplanejamento_tributario_receitas:
+    titulo: Planejamento Tributário - Receitas
+    descricao: 'Planejamento Tributário - Receitas. 192 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO, TIPO_RECEITA.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_RECEITAS
+    chave: [CODI_EMP, REGIME, PERIODO, TIPO_RECEITA]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    - [TIPO_RECEITA, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, periodo_planejamento: PERIODO, tipo_receita_rbc_rbs_rbi_cc_ci_ed_dvc_dv: TIPO_RECEITA,
+      receita_interna_base: RECEITA_INTERNA, receita_externa_base: RECEITA_EXTERNA, receita_total_base: RECEITA_TOTAL, valor_ipi_interno_base: VALOR_IPI_INTERNO,
+      valor_ipi_externo_base: VALOR_IPI_EXTERNO, valor_ipi_total_base: VALOR_IPI_TOTAL, valor_icms_st_interno_base: VALOR_ICMS_ST_INTERNO, valor_icms_st_externo_base: VALOR_ICMS_ST_EXTERNO,
+      valor_icms_st_total_base: VALOR_ICMS_ST_TOTAL, aumento: AUMENTO, reducao: REDUCAO, receita_interna_estimativa: RECEITA_INTERNA_ESTIMATIVA, receita_externa_estimativa: RECEITA_EXTERNA_ESTIMATIVA,
+      receita_total_estimativa: RECEITA_TOTAL_ESTIMATIVA, valor_ipi_interno_estimativa: VALOR_IPI_INTERNO_ESTIMATIVA, valor_ipi_externo_estimativa: VALOR_IPI_EXTERNO_ESTIMATIVA,
+      valor_ipi_total_estimativa: VALOR_IPI_TOTAL_ESTIMATIVA, valor_icms_st_interno_estimativa: VALOR_ICMS_ST_INTERNO_ESTIMATIVA, valor_icms_st_externo_estimativa: VALOR_ICMS_ST_EXTERNO_ESTIMATIVA,
+      valor_icms_st_total_estimativa: VALOR_ICMS_ST_TOTAL_ESTIMATIVA}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+      tipo_receita_rbc_rbs_rbi_cc_ci_ed_dvc_dv:
+        coluna: TIPO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 192 linhas, 1 empresa(s), PERIODO de 2026-01-01 a 2026-08-01.']
+  efplanejamento_tributario_receitas_uf:
+    titulo: Planejamento Tributário - Receitas por estado
+    descricao: 'Planejamento Tributário - Receitas por estado. 150 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO, TIPO_RECEITA, UF_ORIGEM, UF_DESTINO.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_RECEITAS_UF
+    chave: [CODI_EMP, REGIME, PERIODO, TIPO_RECEITA, UF_ORIGEM, UF_DESTINO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    - [TIPO_RECEITA, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, periodo_planejamento: PERIODO, tipo_receita_rbc_rbs_rbi_cc_ci_ed_dvc_dv: TIPO_RECEITA,
+      estado_origem: UF_ORIGEM, estado_destino: UF_DESTINO, receita: RECEITA, valor_ipi: VALOR_IPI, valor_icms_st: VALOR_ICMS_ST, aumento: AUMENTO, reducao: REDUCAO,
+      receita_estimativa: RECEITA_ESTIMATIVA, valor_ipi_estimativa: VALOR_IPI_ESTIMATIVA, valor_icms_st_estimativa: VALOR_ICMS_ST_ESTIMATIVA}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+      tipo_receita_rbc_rbs_rbi_cc_ci_ed_dvc_dv:
+        coluna: TIPO_RECEITA
+        ops: [eq, in]
+      estado_origem:
+        coluna: UF_ORIGEM
+        ops: [eq, in]
+      estado_destino:
+        coluna: UF_DESTINO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 150 linhas, 1 empresa(s), PERIODO de 2026-01-01 a 2026-08-01.']
+  efplanejamento_tributario_tabela_simples_faixas:
+    titulo: Planejamento Tributário - Tabela Simples Faixas
+    descricao: 'Planejamento Tributário - Tabela Simples Faixas. 120 linhas no catálogo; chave: ANEXO, TIPO_ANEXO, VIGENCIA, FAIXA.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_TABELA_SIMPLES_FAIXAS
+    chave: [ANEXO, TIPO_ANEXO, VIGENCIA, FAIXA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [ANEXO, asc]
+    - [TIPO_ANEXO, asc]
+    colunas: {anexo: ANEXO, tipo_normal_exportacao: TIPO_ANEXO, vigencia: VIGENCIA, faixa: FAIXA, receita_bruta_inicial: RECEITA_INICIAL, receita_bruta_final: RECEITA_FINAL,
+      aliquota: ALIQUOTA, valor_a_deduzir: VALOR_DEDUCAO, percentual_irpj: PERC_IRPJ, percentual_csll: PERC_CSLL, percentual_inss: PERC_INSS, percentual_ipi: PERC_IPI,
+      percentual_icms: PERC_ICMS, percentual_iss: PERC_ISS, percentual_cbs: PERC_CBS, percentual_ibs: PERC_IBS}
+    filtros:
+      anexo:
+        coluna: ANEXO
+        ops: [eq, in]
+      tipo_normal_exportacao:
+        coluna: TIPO_ANEXO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      faixa:
+        coluna: FAIXA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 120 linhas, VIGENCIA de 2027-01-01 a 2033-01-01.']
+  efplanejamento_tributario_impostos_simples:
+    titulo: Planejamento Tributário - Impostos Simples
+    descricao: 'Planejamento Tributário - Impostos Simples. 40 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO, IMPOSTO, ANEXO, SECAO, TABELA, TIPO, IMPOSTO_REPARTICAO.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_IMPOSTOS_SIMPLES
+    chave: [CODI_EMP, REGIME, PERIODO, IMPOSTO, ANEXO, SECAO, TABELA, TIPO, IMPOSTO_REPARTICAO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    - [IMPOSTO, asc]
+    colunas:
+      empresa: CODI_EMP
+      regime_de_planejamento_p_presumido_r_rea: {coluna: REGIME, dominio: efplanejamento_tributario_impostos_simples_regime_de_p}
+      periodo_planejamento: PERIODO
+      imposto: IMPOSTO
+      anexo: ANEXO
+      secao: SECAO
+      tabela: TABELA
+      tipo_a_ambos_i_interno_e_externo: {coluna: TIPO, dominio: efplanejamento_tributario_impostos_simples_tipo_a_ambo}
+      imposto_reparticao: IMPOSTO_REPARTICAO
+      valor: VALOR
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+      imposto:
+        coluna: IMPOSTO
+        ops: [eq, in]
+      anexo:
+        coluna: ANEXO
+        ops: [eq, in]
+      secao:
+        coluna: SECAO
+        ops: [eq, in]
+      tabela:
+        coluna: TABELA
+        ops: [eq, in]
+      tipo_a_ambos_i_interno_e_externo:
+        coluna: TIPO
+        ops: [eq, in]
+      imposto_reparticao:
+        coluna: IMPOSTO_REPARTICAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 40 linhas, 1 empresa(s), PERIODO de 2026-01-01 a 2026-08-01.', 'regime_de_planejamento_p_presumido_r_rea: todos os valores reais
+        estão no comentário do banco (S=40).', 'tipo_a_ambos_i_interno_e_externo: todos os valores reais estão no comentário do banco (I=40).']
+  efplanejamento_tributario_valor_folha:
+    titulo: Planejamento Tributário - Valor Folha
+    descricao: 'Planejamento Tributário - Valor Folha. 24 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_VALOR_FOLHA
+    chave: [CODI_EMP, REGIME, PERIODO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, periodo_planejamento: PERIODO, valor_salario: VALOR_SALARIO, valor_contribuinte: VALOR_CONTRIBUINTE,
+      valor_inss_empresa_terceiros: VALOR_INSS, valor_demais_tributos: VALOR_DEMAIS_TRIBUTOS, valor_salario_valor_contribuinte_valor_i: VALOR_TOTAL, valor_ultimo_doze_meses: VALOR_ULTIMO_DOZE_MESES,
+      aumento: AUMENTO, reducao: REDUCAO, valor_salario_estimativa: VALOR_SALARIO_ESTIMATIVA, valor_contribuinte_estimativa: VALOR_CONTRIBUINTE_ESTIMATIVA, valor_inss_estimativa: VALOR_INSS_ESTIMATIVA,
+      valor_demais_tributos_estimativa: VALOR_DEMAIS_TRIBUTOS_ESTIMATIVA, valor_total_estimativa: VALOR_TOTAL_ESTIMATIVA, valor_ultimo_doze_meses_estimativa: VALOR_ULTIMO_DOZE_MESES_ESTIMATIVA}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24 linhas, 1 empresa(s), PERIODO de 2025-01-01 a 2025-08-01.']
+  efplanejamento_tributario_valor_despesa:
+    titulo: Planejamento Tributário - Despesas
+    descricao: 'Planejamento Tributário - Despesas. 24 linhas no catálogo; chave: CODI_EMP, REGIME, PERIODO.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_VALOR_DESPESA
+    chave: [CODI_EMP, REGIME, PERIODO]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO, volume: pequeno}
+    ordem:
+    - [PERIODO, desc]
+    - [REGIME, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, periodo_planejamento: PERIODO, valor_despesa: VALOR_DESPESA, aumento: AUMENTO,
+      reducao: REDUCAO, valor_despesa_estimativa: VALOR_DESPESA_ESTIMATIVA}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_planejamento:
+        coluna: PERIODO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 24 linhas, 1 empresa(s), PERIODO de 2026-01-01 a 2026-08-01.']
+  efplanejamento_tributario_tabela_simples:
+    titulo: Planejamento Tributário - Tabela Simples
+    descricao: 'Planejamento Tributário - Tabela Simples. 20 linhas no catálogo; chave: ANEXO, TIPO_ANEXO, VIGENCIA.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO_TABELA_SIMPLES
+    chave: [ANEXO, TIPO_ANEXO, VIGENCIA]
+    acesso: {empresa: null, periodo: VIGENCIA, volume: pequeno}
+    ordem:
+    - [VIGENCIA, desc]
+    - [ANEXO, asc]
+    - [TIPO_ANEXO, asc]
+    colunas: {anexo: ANEXO, tipo_normal_exportacao: TIPO_ANEXO, vigencia: VIGENCIA, descricao: DESCRICAO}
+    filtros:
+      anexo:
+        coluna: ANEXO
+        ops: [eq, in]
+      tipo_normal_exportacao:
+        coluna: TIPO_ANEXO
+        ops: [eq, in]
+      vigencia:
+        coluna: VIGENCIA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 20 linhas, VIGENCIA de 2027-01-01 a 2033-01-01.']
+  efplanejamento_tributario:
+    titulo: Planejamento Tributário
+    descricao: 'Planejamento Tributário. 3 linhas no catálogo; chave: CODI_EMP, REGIME.'
+    tabela: EFPLANEJAMENTO_TRIBUTARIO
+    chave: [CODI_EMP, REGIME]
+    acesso: {empresa: CODI_EMP, periodo: PERIODO_CONSIDERADO_INICIO, volume: pequeno}
+    ordem:
+    - [PERIODO_CONSIDERADO_INICIO, desc]
+    - [REGIME, asc]
+    colunas: {empresa: CODI_EMP, regime_de_planejamento_p_presumido_r_rea: REGIME, ano_planejamento: ANO, periodo_inicial_considerado_para_calculo: PERIODO_CONSIDERADO_INICIO,
+      periodo_final_considerado_para_calculo: PERIODO_CONSIDERADO_FIM, periodo_com_estouro_do_limite_estadual: PERIODO_ESTOURO_LIMITE_ESTADUAL, periodo_com_estouro_do_limite_federal: PERIODO_ESTOURO_LIMITE_FEDERAL,
+      empresa_estourou_limite_federal_ano_ante: EMPRESA_ESTOUROU_LIMITE_FEDERAL_ANO_ANTERIOR, empresa_estourou_limite_estadual_ano_ant: EMPRESA_ESTOUROU_LIMITE_ESTADUAL_ANO_ANTERIOR,
+      possui_socio_em_outra_empresa: POSSUI_SOCIO_EM_OUTRA_EMPRESA, possui_ncm_multiplos_cclasstrib: POSSUI_NCM_COM_MULTIPLO_CCLASSTRIB, forma_de_calculo_1_movimentacoes_da_empr: FORMA_CALCULO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      regime_de_planejamento_p_presumido_r_rea:
+        coluna: REGIME
+        ops: [eq, in]
+      periodo_inicial_considerado_para_calculo:
+        coluna: PERIODO_CONSIDERADO_INICIO
+        ops: [entre, gte, lte]
+      periodo_final_considerado_para_calculo:
+        coluna: PERIODO_CONSIDERADO_FIM
+        ops: [entre, gte, lte]
+      periodo_com_estouro_do_limite_estadual:
+        coluna: PERIODO_ESTOURO_LIMITE_ESTADUAL
+        ops: [entre, gte, lte]
+      periodo_com_estouro_do_limite_federal:
+        coluna: PERIODO_ESTOURO_LIMITE_FEDERAL
+        ops: [entre, gte, lte]
+      empresa_estourou_limite_federal_ano_ante:
+        coluna: EMPRESA_ESTOUROU_LIMITE_FEDERAL_ANO_ANTERIOR
+        ops: [eq, in]
+      empresa_estourou_limite_estadual_ano_ant:
+        coluna: EMPRESA_ESTOUROU_LIMITE_ESTADUAL_ANO_ANTERIOR
+        ops: [eq, in]
+      possui_socio_em_outra_empresa:
+        coluna: POSSUI_SOCIO_EM_OUTRA_EMPRESA
+        ops: [eq, in]
+      possui_ncm_multiplos_cclasstrib:
+        coluna: POSSUI_NCM_COM_MULTIPLO_CCLASSTRIB
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s), PERIODO_CONSIDERADO_INICIO de 2025-01-01 a 2025-01-01.', 'Colunas expostas nulas em 100% das linhas (2):
+        possui_ncm_multiplos_cclasstrib, forma_de_calculo_1_movimentacoes_da_empr.', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 1).']

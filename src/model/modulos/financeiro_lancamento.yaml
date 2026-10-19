@@ -1,0 +1,317 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_lancamento
+titulo: Financeiro do escritório - lancamento (rascunho em lote)
+dominios:
+  hrlancamento_desconto_origem_do_desconto_c_comp:
+    confirmado: true
+    nota: 'Todos os valores observados em HRLANCAMENTO_DESCONTO.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: C=200, P=91.'
+    valores: {C: Competência, P: Período}
+entidades:
+  hrlancamento_pagar_parcela:
+    titulo: Lancamentos de contas a pagar - Parcelas
+    descricao: 'Lancamentos de contas a pagar - Parcelas. 8.259 linhas no catálogo; chave: CODI_EMP, I_PAGAR, I_PARCELA.'
+    tabela: HRLANCAMENTO_PAGAR_PARCELA
+    chave: [CODI_EMP, I_PAGAR, I_PARCELA]
+    acesso: {empresa: CODI_EMP, periodo: VENCIMENTO, volume: pequeno}
+    ordem:
+    - [VENCIMENTO, desc]
+    - [I_PAGAR, asc]
+    - [I_PARCELA, asc]
+    colunas: {escritorio: CODI_EMP, lancamento_a_pagar: I_PAGAR, codigo: I_PARCELA, data_de_vencimento: VENCIMENTO, valor_da_parcela: VALOR, possivel_conta_para_pagamento: I_CONTA_FINANCEIRA,
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, valor_irrf_aproveitado: VALOR_IRRF, valor_de_iss_retido: VALOR_ISS_RETIDO, valor_de_inss_retido: VALOR_INSS_RETIDO,
+      valor_de_crf_aproveitado: VALOR_CRF, valor_original_sem_retencoes: VALOR_ORIGINAL, documento_da_parcela: DOCUMENTO}
+    vinculos:
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+    filtros:
+      lancamento_a_pagar:
+        coluna: I_PAGAR
+        ops: [eq, in]
+      codigo:
+        coluna: I_PARCELA
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: VENCIMENTO
+        ops: [entre, gte, lte]
+      possivel_conta_para_pagamento:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.259 linhas, 2 empresa(s), VENCIMENTO de 2018-01-03 a 2026-01-20.', 'Vínculo hrconta_financeira (HRCONTA_FINANCEIRA): 2 de 8.204
+        linhas sem registro relacionado (empresa 1).']
+  hrlancamento_pagar:
+    titulo: Lancamentos de contas a pagar
+    descricao: 'Lancamentos de contas a pagar. 6.681 linhas no catálogo; chave: CODI_EMP, I_PAGAR.'
+    tabela: HRLANCAMENTO_PAGAR
+    chave: [CODI_EMP, I_PAGAR]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [I_PAGAR, asc]
+    colunas: {escritorio: CODI_EMP, codigo: I_PAGAR, tipo_do_lancamento_v_a_vista_p_a_prazo: TIPO, categoria: I_CATEGORIA_PAGAR, fornecedor: I_FORNECEDOR, conta_financeira_ou_possivel_conta_para: I_CONTA_FINANCEIRA,
+      documento: DOCUMENTO, serie: SERIE, data_de_emissao: EMISSAO, lancar_p_valor_da_parcela_t_valor_total: LANCAR, valor_total: VALOR, valor_de_desconto: VALOR_DESCONTO,
+      valor_sem_original_sem_desconto: VALOR_ORIGINAL, data_de_pagamento: DATA_PAGAMENTO, codigo_do_historico: I_HISTORICO, historico: HISTORICO, quantidade_de_parcelas: QUANTIDADE,
+      data_de_vencimento_inicial: VENCIMENTO_INICIAL, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, valor_irrf: VALOR_IRRF, valor_de_iss_retido: VALOR_ISS_RETIDO,
+      valor_de_inss_retido: VALOR_INSS_RETIDO, valor_de_crf: VALOR_CRF}
+    vinculos:
+      effornece:
+        tabela: effornece
+        liga: {codi_emp: codi_emp, i_fornecedor: codi_for}
+        colunas: {effornece_nome: nomr_for}
+      hrcategoria_pagar:
+        tabela: HRCATEGORIA_PAGAR
+        liga: {codi_emp: codi_emp, i_categoria_pagar: i_categoria_pagar}
+        colunas: {hrcategoria_pagar_nome: DESCRICAO}
+      hrconta_financeira:
+        tabela: HRCONTA_FINANCEIRA
+        liga: {codi_emp: codi_emp, i_conta_financeira: i_conta_financeira}
+        colunas: {hrconta_financeira_nome: DESCRICAO}
+      hrhistorico:
+        tabela: HRHISTORICO
+        liga: {codi_emp: codi_emp, i_historico: i_historico}
+        colunas: {hrhistorico_nome: HISTORICO}
+    filtros:
+      codigo:
+        coluna: I_PAGAR
+        ops: [eq, in]
+      data_de_emissao:
+        coluna: EMISSAO
+        ops: [entre, gte, lte]
+      data_de_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      data_de_vencimento_inicial:
+        coluna: VENCIMENTO_INICIAL
+        ops: [entre, gte, lte]
+      tipo_do_lancamento_v_a_vista_p_a_prazo:
+        coluna: TIPO
+        ops: [eq, in]
+      categoria:
+        coluna: I_CATEGORIA_PAGAR
+        ops: [eq, in]
+      fornecedor:
+        coluna: I_FORNECEDOR
+        ops: [eq, in]
+      conta_financeira_ou_possivel_conta_para:
+        coluna: I_CONTA_FINANCEIRA
+        ops: [eq, in]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      lancar_p_valor_da_parcela_t_valor_total:
+        coluna: LANCAR
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: I_HISTORICO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 6.681 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): data_de_pagamento.', 'Vínculo effornece (effornece):
+        0 de 6.626 linhas sem registro relacionado (empresa 1).', 'Vínculo hrcategoria_pagar (HRCATEGORIA_PAGAR): 0 de 6.626 linhas sem registro relacionado (empresa
+        1).', 'Vínculo hrconta_financeira (HRCONTA_FINANCEIRA): 2 de 6.626 linhas sem registro relacionado (empresa 1).', 'Vínculo hrhistorico (HRHISTORICO): 6.625
+        de 6.626 linhas sem registro relacionado (empresa 1).']
+  hrlancamento_receber:
+    titulo: Lancamentos de contas a receber - Mensais e Fixos
+    descricao: 'Lancamentos de contas a receber - Mensais e Fixos. 6.371 linhas no catálogo; chave: CODI_EMP, I_CLIENTE, I_RECEBER.'
+    tabela: HRLANCAMENTO_RECEBER
+    chave: [CODI_EMP, I_CLIENTE, I_RECEBER]
+    acesso: {empresa: CODI_EMP, periodo: DATA_LANCAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_LANCAMENTO, desc]
+    - [I_CLIENTE, asc]
+    - [I_RECEBER, asc]
+    colunas: {escritorio: CODI_EMP, cliente: I_CLIENTE, codigo: I_RECEBER, competencia_para_lancamento_mensal_ou_in: COMPETENCIA, conta_corrente_escritorio: I_MOVIMENTO_ESCRITORIO,
+      conta_corrente_cliente: I_MOVIMENTO_CLIENTE, conta_corrente_cliente_sequencial: I_MOVIMENTO_CLIENTE_SEQ, competencia_do_primeiro_faturamento_do_l: PRIMEIRO_FATURAMENTO,
+      lancamento_fixo_s_n: FIXO, evento: I_EVENTO, data_do_lancamento: DATA_LANCAMENTO, fatura_com_o_contrato_s_n: FATURA_CONTRATO, contrato: I_CONTRATO, data_de_vencimento_para_o_lancamento_men: DATA_VENCIMENTO,
+      dia_de_vencimento_para_o_lancamento_fixo: DIA_VENCIMENTO, mes_de_vecimento_para_o_lancamento_fixo: MES_VENCIMENTO, meses_para_faturamento_para_o_lancamento: MES_FATURAMENTO,
+      meses_selecionados_para_o_lancamento_fix: MES_SELECIONADO, definir_encerramento_do_lancamento_fixo: ENCERRAR, data_de_encerramento_do_lancamento_fixo: DATA_ENCERRAMENTO,
+      quantidade: QUANTIDADE, valor: VALOR, pago_pelo_escritorio_s_n: PAGO_ESCRITORIO, complemento: COMPLEMENTO, origem_do_lancamento_l_lancamento_c_cont: ORIGEM,
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, modulo_que_originou_o_lancamento_hr_hono: MODULO_ORIGEM, considerar_adicionar_anual: CONSIDERAR_ADICIONAL_ANUAL,
+      observacao_do_lancamento: OBSERVACAO}
+    vinculos:
+      hrcliente:
+        tabela: HRCLIENTE
+        liga: {codi_emp: codi_emp, i_cliente: i_cliente}
+        colunas: {hrcliente_nome: NOME}
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      codigo:
+        coluna: I_RECEBER
+        ops: [eq, in]
+      competencia_para_lancamento_mensal_ou_in:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      competencia_do_primeiro_faturamento_do_l:
+        coluna: PRIMEIRO_FATURAMENTO
+        ops: [entre, gte, lte]
+      data_do_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      data_de_vencimento_para_o_lancamento_men:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      data_de_encerramento_do_lancamento_fixo:
+        coluna: DATA_ENCERRAMENTO
+        ops: [entre, gte, lte]
+      conta_corrente_escritorio:
+        coluna: I_MOVIMENTO_ESCRITORIO
+        ops: [eq, in]
+      conta_corrente_cliente:
+        coluna: I_MOVIMENTO_CLIENTE
+        ops: [eq, in]
+      conta_corrente_cliente_sequencial:
+        coluna: I_MOVIMENTO_CLIENTE_SEQ
+        ops: [eq, in]
+      lancamento_fixo_s_n:
+        coluna: FIXO
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      fatura_com_o_contrato_s_n:
+        coluna: FATURA_CONTRATO
+        ops: [eq, in]
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 6.371 linhas, 2 empresa(s), DATA_LANCAMENTO de 2015-04-30 a 2210-11-25.', 'Colunas expostas nulas em 100% das linhas (3): conta_corrente_escritorio,
+        conta_corrente_cliente, conta_corrente_cliente_sequencial.', 'Vínculo hrcliente (HRCLIENTE): 0 de 4.408 linhas sem registro relacionado (empresa 1).', 'Vínculo
+        hrcontrato (HRCONTRATO): 4.266 de 4.408 linhas sem registro relacionado (empresa 1).', 'Vínculo hrevento (HREVENTO): 0 de 4.408 linhas sem registro relacionado
+        (empresa 1).']
+  hrlancamento_pagar_lancto:
+    titulo: Lancamentos de contas a pagar X Lancamentos Contabeis
+    descricao: 'Lancamentos de contas a pagar X Lancamentos Contabeis. 3.550 linhas no catálogo; chave: CODI_EMP, I_PAGAR, EMPRESA_LAN, NUME_LAN.'
+    tabela: HRLANCAMENTO_PAGAR_LANCTO
+    chave: [CODI_EMP, I_PAGAR, EMPRESA_LAN, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_PAGAR, asc]
+    - [EMPRESA_LAN, asc]
+    colunas: {escritorio: CODI_EMP, lancamento_a_pagar: I_PAGAR, empresa_do_lancamento_contabil: EMPRESA_LAN, numero_do_lancamento_contabil: NUME_LAN, empresa_que_originou_o_lancamento_contab: FILI_LAN,
+      codigo_do_lote: CODI_LOTE, tipo_do_lancamento_contabil_s_sistema_u: TIPO_LANCAMENTO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {fili_lan: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      lancamento_a_pagar:
+        coluna: I_PAGAR
+        ops: [eq, in]
+      empresa_do_lancamento_contabil:
+        coluna: EMPRESA_LAN
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_do_lancamento_contabil_s_sistema_u:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.550 linhas, 2 empresa(s).', 'Vínculo geempre (geempre): 0 de 3.525 linhas sem registro relacionado (empresa 1).']
+  hrlancamento_desconto:
+    titulo: Lancamentos de descontos
+    descricao: 'Lancamentos de descontos. 291 linhas no catálogo; chave: CODI_EMP, I_CLIENTE, I_DESCONTO.'
+    tabela: HRLANCAMENTO_DESCONTO
+    chave: [CODI_EMP, I_CLIENTE, I_DESCONTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ENCERRAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_ENCERRAMENTO, desc]
+    - [I_CLIENTE, asc]
+    - [I_DESCONTO, asc]
+    colunas:
+      escritorio: CODI_EMP
+      cliente: I_CLIENTE
+      codigo: I_DESCONTO
+      competencia: COMPETENCIA
+      lancamento_receber: I_RECEBER
+      contrato: I_CONTRATO
+      o_desconto_e_para_o_adicional_anual_s_n: ADICIONAL_ANUAL
+      tipo_de_lancamento_v_valor_p_percentual: TIPO_LANCAMENTO
+      valor_ou_percentual: VALOR_PERCENTUAL
+      historico: HISTORICO
+      definir_encerramento_do_desconto_s_n: ENCERRAR
+      data_de_encerramento_do_desconto: DATA_ENCERRAMENTO
+      origem_do_desconto_c_competencia_p_perio: {coluna: ORIGEM, dominio: hrlancamento_desconto_origem_do_desconto_c_comp}
+      data_de_lancamento: DATA_LANCAMENTO
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+    filtros:
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      codigo:
+        coluna: I_DESCONTO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_encerramento_do_desconto:
+        coluna: DATA_ENCERRAMENTO
+        ops: [entre, gte, lte]
+      data_de_lancamento:
+        coluna: DATA_LANCAMENTO
+        ops: [entre, gte, lte]
+      lancamento_receber:
+        coluna: I_RECEBER
+        ops: [eq, in]
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      o_desconto_e_para_o_adicional_anual_s_n:
+        coluna: ADICIONAL_ANUAL
+        ops: [eq, in]
+      tipo_de_lancamento_v_valor_p_percentual:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      definir_encerramento_do_desconto_s_n:
+        coluna: ENCERRAR
+        ops: [eq, in]
+      origem_do_desconto_c_competencia_p_perio:
+        coluna: ORIGEM
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 291 linhas, 1 empresa(s), DATA_ENCERRAMENTO de 2017-11-01 a 2026-02-01.', 'origem_do_desconto_c_competencia_p_perio: todos os
+        valores reais estão no comentário do banco (C=200, P=91).', 'Vínculo hrcontrato (HRCONTRATO): 6 de 291 linhas sem registro relacionado (empresa 1).']
+  hrlancamento_receber_competencia:
+    titulo: Lancamentos de contas a receber - Mensais e Fixos - Competencias para faturamento futuro
+    descricao: 'Lancamentos de contas a receber - Mensais e Fixos - Competencias para faturamento futuro. 42 linhas no catálogo; chave: CODI_EMP, I_CLIENTE, I_RECEBER,
+      MES.'
+    tabela: HRLANCAMENTO_RECEBER_COMPETENCIA
+    chave: [CODI_EMP, I_CLIENTE, I_RECEBER, MES]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CLIENTE, asc]
+    - [I_RECEBER, asc]
+    colunas: {escritorio: CODI_EMP, cliente: I_CLIENTE, lancamento_receber: I_RECEBER, mes_de_faturamento: MES}
+    filtros:
+      cliente:
+        coluna: I_CLIENTE
+        ops: [eq, in]
+      lancamento_receber:
+        coluna: I_RECEBER
+        ops: [eq, in]
+      mes_de_faturamento:
+        coluna: MES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 42 linhas, 2 empresa(s).']

@@ -1,0 +1,771 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_movimento
+titulo: Fiscal - movimento (rascunho em lote)
+dominios:
+  efmovimento_ajuste_estadual_sp_detalhamento_02_ocorrencia_operacao_1_p:
+    confirmado: true
+    nota: 'Todos os valores observados em EFMOVIMENTO_AJUSTE_ESTADUAL_SP_DETALHAMENTO_02_OCORRENCIA.OPERACAO estão no comentário do banco (2026-10-18). Distribuição:
+      1=35.'
+    valores: {'1': Propria, '2': Substituicao tributaria}
+  efmovimento_ajuste_federal_origem_do_c:
+    confirmado: true
+    nota: 'Todos os valores observados em EFMOVIMENTO_AJUSTE_FEDERAL.ORIGEM_CREDITO estão no comentário do banco (2026-10-18). Distribuição: I=2.'
+    valores: {I: interno, E: externo}
+entidades:
+  efmovimento_ajuste_estadual_sp:
+    titulo: SP - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'SP - Ajuste Impostos lançados estaduais - Geral. 38 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, descricao_no_livro: DESCRICAO_LIVRO_TIPO,
+      observacao: OBSERVACAO, codigo_do_estado: CODIGO_UF, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM,
+      codigo_de_receita: CODIGO_RECEITA}
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      descricao_no_livro:
+        coluna: DESCRICAO_LIVRO_TIPO
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+      codigo_de_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 38 linhas, 19 empresa(s), DATA_AJUSTE de 2013-01-31 a 2026-08-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_ajuste_do_sped.',
+      'Vínculo efajustes (efajustes): 0 de 2 linhas sem registro relacionado (empresa 364).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa
+        364).', 'Vínculo geestado (geestado): 0 de 2 linhas sem registro relacionado (empresa 364).']
+  efmovimento_ajuste_estadual_sp_detalhamento_02_ocorrencia:
+    titulo: SP - Ajuste Impostos lançados estaduais – Detalhamento 02 ocorrência
+    descricao: 'SP - Ajuste Impostos lançados estaduais – Detalhamento 02 ocorrência. 35 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP_DETALHAMENTO_02_OCORRENCIA
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_AJUSTE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_do_movimento_do_ajuste: I_AJUSTE
+      operacao_1_propria_2_substituicao_tribut: {coluna: OPERACAO, dominio: efmovimento_ajuste_estadual_sp_detalhamento_02_ocorrencia_operacao_1_p}
+      codigo_do_subitem: SUBITEM
+      ocorrencia: OCORRENCIA
+      fundamento_legal: FUNDAMENTACAO_LEGAL
+    vinculos:
+      efmovimento_ajuste_estad:
+        tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP
+        liga: {codi_emp: codi_emp, i_ajuste: i_ajuste}
+        colunas: {efmovimento_ajuste_estad_nome: DESCRICAO_LIVRO_TIPO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      ocorrencia:
+        coluna: OCORRENCIA
+        ops: [contem, prefixo]
+      fundamento_legal:
+        coluna: FUNDAMENTACAO_LEGAL
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 35 linhas, 18 empresa(s).', 'operacao_1_propria_2_substituicao_tribut: todos os valores reais estão no comentário do banco (1=35).',
+      'Vínculo efmovimento_ajuste_estad (EFMOVIMENTO_AJUSTE_ESTADUAL_SP): 0 de 2 linhas sem registro relacionado (empresa 364).']
+  efmovimento_ajuste_estadual_mg:
+    titulo: MG - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'MG - Ajuste Impostos lançados estaduais - Geral. 34 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_MG
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, observacao: OBSERVACAO,
+      codigo_do_estado: CODIGO_UF, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM, operacao_regime_especial_de_tributacao_r: OPERACAO_REGIME_ESPECIAL_TRIBUTACAO,
+      i_sub_apuracao: I_SUB_APURACAO, codigo_de_receita: CODIGO_RECEITA, sequencial_do_codigo_de_recolhimento: I_RECOLHIMENTO}
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+      operacao_regime_especial_de_tributacao_r:
+        coluna: OPERACAO_REGIME_ESPECIAL_TRIBUTACAO
+        ops: [eq, in]
+      i_sub_apuracao:
+        coluna: I_SUB_APURACAO
+        ops: [eq, in]
+      codigo_de_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+      sequencial_do_codigo_de_recolhimento:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 34 linhas, 1 empresa(s), DATA_AJUSTE de 2025-05-01 a 2026-01-01.', 'Colunas expostas nulas em 100% das linhas (2): codigo_do_estado,
+        sequencial_do_codigo_de_recolhimento.', 'Vínculo efajustes (efajustes): 0 de 34 linhas sem registro relacionado (empresa 1473).', 'Vínculo eftabela_movaju_ajuste_s
+        (EFTABELA_MOVAJU_AJUSTE_SPED): 0 de 34 linhas sem registro relacionado (empresa 1473).', 'Vínculo geempre (geempre): 0 de 34 linhas sem registro relacionado
+        (empresa 1473).', 'Vínculo geestado (geestado): 0 de 34 linhas sem registro relacionado (empresa 1473).']
+  efmovimento_ajuste_estadual_mg_lancto:
+    titulo: MG - Ajuste Impostos lançados estaduais - Lançamentos contábeis
+    descricao: 'MG - Ajuste Impostos lançados estaduais - Lançamentos contábeis. 30 linhas no catálogo; chave: FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_MG_LANCTO
+    chave: [FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [FILI_LAN, asc]
+    - [I_AJUSTE, asc]
+    colunas: {empresa_do_movimento: FILI_LAN, sequencial_do_movimento_do_ajuste: I_AJUSTE, empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, tipo_do_lancamento: TIPO}
+    filtros:
+      empresa_do_movimento:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 30 linhas, 1 empresa(s).']
+  efmovimento_ajuste_estadual_pe:
+    titulo: PE - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'PE - Ajuste Impostos lançados estaduais - Geral. 21 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_PE
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, observacao: OBSERVACAO,
+      codigo_do_estado: CODIGO_UF, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED, codigo_do_ajuste_sef: I_AJUSTE_SEF, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM,
+      operacao_vinculada_ao_incentivo_prodepe: OPERACAO_VINCULADA_PRODEPE, calcular_prodepe_codigo_da_apuracao: I_PRODEPE_APURACAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+      eftabela_pe_ajuste_sef:
+        tabela: EFTABELA_PE_AJUSTE_SEF
+        liga: {i_ajuste_sef: i_ajuste_sef}
+        colunas: {eftabela_pe_ajuste_sef_nome: DESCRICAO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+      codigo_do_ajuste_sef:
+        coluna: I_AJUSTE_SEF
+        ops: [eq, in]
+      operacao_vinculada_ao_incentivo_prodepe:
+        coluna: OPERACAO_VINCULADA_PRODEPE
+        ops: [eq, in]
+      calcular_prodepe_codigo_da_apuracao:
+        coluna: I_PRODEPE_APURACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 21 linhas, 3 empresa(s), DATA_AJUSTE de 2018-01-01 a 2026-01-01.', 'Colunas expostas nulas em 100% das linhas (2): codigo_do_estado,
+        calcular_prodepe_codigo_da_apuracao.', 'Vínculo geempre (geempre): 0 de 6 linhas sem registro relacionado (empresa 1447).', 'Vínculo efajustes (efajustes):
+        0 de 6 linhas sem registro relacionado (empresa 1447).', 'Vínculo geestado (geestado): 0 de 6 linhas sem registro relacionado (empresa 1447).', 'Vínculo eftabela_movaju_ajuste_s
+        (EFTABELA_MOVAJU_AJUSTE_SPED): 0 de 6 linhas sem registro relacionado (empresa 1447).', 'Vínculo eftabela_pe_ajuste_sef (EFTABELA_PE_AJUSTE_SEF): 0 de 6 linhas
+        sem registro relacionado (empresa 1447).']
+  efmovimento_ajuste_estadual_sp_detalhamento_02_informacoes_a:
+    titulo: SP - Ajuste Impostos lançados estaduais - Detalhamento 02 - Adicionais
+    descricao: 'SP - Ajuste Impostos lançados estaduais - Detalhamento 02 - Adicionais. 8 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP_DETALHAMENTO_02_INFORMACOES_ADICIONAIS
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, especie: CODI_ESP, participante: TIPO_CLIENTE_FORNECEDOR, cliente_fornecedor: CODIGO_CLIENTE_FORNECEDOR,
+      numero_documento: NUMERO_DOCUMENTO, serie: SERIE, subserie: SUBSERIE, chave_nfe_nfce_ou_cte: CHAVE_NFE_CTE, numero_do_documento_de_arrecadacao: NUMERO_DOCUMENTO_ARRECADACAO,
+      numero_do_processo: NUMERO_PROCESSO, origem: ORIGEM, descricao: DESCRICAO}
+    vinculos:
+      efmovimento_ajuste_estad:
+        tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP
+        liga: {codi_emp: codi_emp, i_ajuste: i_ajuste}
+        colunas: {efmovimento_ajuste_estad_nome: DESCRICAO_LIVRO_TIPO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      especie:
+        coluna: CODI_ESP
+        ops: [eq, in]
+      participante:
+        coluna: TIPO_CLIENTE_FORNECEDOR
+        ops: [eq, in]
+      cliente_fornecedor:
+        coluna: CODIGO_CLIENTE_FORNECEDOR
+        ops: [eq, in]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      chave_nfe_nfce_ou_cte:
+        coluna: CHAVE_NFE_CTE
+        ops: [contem, prefixo]
+      numero_do_documento_de_arrecadacao:
+        coluna: NUMERO_DOCUMENTO_ARRECADACAO
+        ops: [eq, in]
+      numero_do_processo:
+        coluna: NUMERO_PROCESSO
+        ops: [contem, prefixo]
+      origem:
+        coluna: ORIGEM
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8 linhas, 6 empresa(s).', 'Colunas expostas nulas em 100% das linhas (4): especie, cliente_fornecedor, numero_documento, chave_nfe_nfce_ou_cte.',
+      'Vínculo efmovimento_ajuste_estad (EFMOVIMENTO_AJUSTE_ESTADUAL_SP): 0 de 1 linhas sem registro relacionado (empresa 1507).']
+  efmovimento_ajuste_estadual_mg_detalhamento_11:
+    titulo: MG - Ajuste Impostos lançados estaduais - Detalhamento 11
+    descricao: 'MG - Ajuste Impostos lançados estaduais - Detalhamento 11. 3 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_MG_DETALHAMENTO_11
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, tipo_r_o_t_d_a: TIPO, nota_fiscal: NOTA_FISCAL, serie: SERIE, data_emissao: DATA_EMISSAO,
+      auto_de_infracao: AUTO_DE_INFRACAO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data_emissao:
+        coluna: DATA_EMISSAO
+        ops: [entre, gte, lte]
+      tipo_r_o_t_d_a:
+        coluna: TIPO
+        ops: [eq, in]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      auto_de_infracao:
+        coluna: AUTO_DE_INFRACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): nota_fiscal, data_emissao, auto_de_infracao.']
+  efmovimento_ajuste_estadual_pr:
+    titulo: PR - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'PR - Ajuste Impostos lançados estaduais - Geral. 3 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_PR
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, observacao: OBSERVACAO,
+      codigo_do_estado: CODIGO_UF, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM}
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 2 empresa(s), DATA_AJUSTE de 2023-08-01 a 2025-05-31.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_estado.',
+      'Vínculo efajustes (efajustes): 0 de 2 linhas sem registro relacionado (empresa 1367).', 'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado
+        (empresa 1367).', 'Vínculo geestado (geestado): 0 de 2 linhas sem registro relacionado (empresa 1367).', 'Vínculo eftabela_movaju_ajuste_s (EFTABELA_MOVAJU_AJUSTE_SPED):
+        0 de 2 linhas sem registro relacionado (empresa 1367).']
+  efmovimento_ajuste_estadual_rj:
+    titulo: RJ - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'RJ - Ajuste Impostos lançados estaduais - Geral. 3 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_RJ
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, descricao_no_livro: TIPO_DESCRICAO_LIVRO,
+      observacao: OBSERVACAO, codigo_do_estado: CODIGO_UF, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM}
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      descricao_no_livro:
+        coluna: TIPO_DESCRICAO_LIVRO
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s), DATA_AJUSTE de 2018-01-01 a 2024-09-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_estado.',
+      'Vínculo efajustes (efajustes): 0 de 1 linhas sem registro relacionado (empresa 357).', 'Vínculo eftabela_movaju_ajuste_s (EFTABELA_MOVAJU_AJUSTE_SPED): 0 de
+        1 linhas sem registro relacionado (empresa 357).', 'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 357).', 'Vínculo geestado (geestado):
+        0 de 1 linhas sem registro relacionado (empresa 357).']
+  efmovimento_ajuste_estadual_rj_detalhamento_02:
+    titulo: RJ - Ajuste Impostos lançados estaduais - Detalhamento 02
+    descricao: 'RJ - Ajuste Impostos lançados estaduais - Detalhamento 02. 3 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_RJ_DETALHAMENTO_02
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGAMENTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGAMENTO, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, codigo_do_detalhamento: CODIGO, descricao: DESCRICAO_OCORRENCIA, legislacao_tributaria: LEGISLACAO_TRIBUTARIA,
+      numero_do_banco: NUMERO_BANCO, data_de_pagamento: DATA_PAGAMENTO}
+    vinculos:
+      efmovimento_ajuste_estad:
+        tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_RJ
+        liga: {codi_emp: codi_emp, i_ajuste: i_ajuste}
+        colunas: {efmovimento_ajuste_estad_nome: TIPO_DESCRICAO_LIVRO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data_de_pagamento:
+        coluna: DATA_PAGAMENTO
+        ops: [entre, gte, lte]
+      codigo_do_detalhamento:
+        coluna: CODIGO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO_OCORRENCIA
+        ops: [contem, prefixo]
+      legislacao_tributaria:
+        coluna: LEGISLACAO_TRIBUTARIA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 3 linhas, 3 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): data_de_pagamento.', 'Vínculo efmovimento_ajuste_estad
+        (EFMOVIMENTO_AJUSTE_ESTADUAL_RJ): 0 de 1 linhas sem registro relacionado (empresa 357).']
+  efmovimento_ajuste_estadual_ce:
+    titulo: CE - Ajuste Impostos lançados estaduais - Geral
+    descricao: 'CE - Ajuste Impostos lançados estaduais - Geral. 3 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_CE
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, data: DATA_AJUSTE, codigo_do_ajuste: CODI_AJU, valor: VALOR, observacao: OBSERVACAO,
+      codigo_do_estado: CODIGO_UF, sistema_de_origem_do_movimento_variaveis: SISTEMA_ORIGEM, codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geestado:
+        tabela: geestado
+        liga: {codigo_uf: codigo_uf}
+        colunas: {geestado_nome: nome_uf}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      codigo_do_estado:
+        coluna: CODIGO_UF
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 2 empresa(s), DATA_AJUSTE de 2023-10-13 a 2024-09-01.', 'Colunas expostas nulas em 100% das linhas (1): codigo_do_estado.',
+      'Vínculo geempre (geempre): 0 de 2 linhas sem registro relacionado (empresa 1474).', 'Vínculo efajustes (efajustes): 0 de 2 linhas sem registro relacionado
+        (empresa 1474).', 'Vínculo geestado (geestado): 0 de 2 linhas sem registro relacionado (empresa 1474).', 'Vínculo eftabela_movaju_ajuste_s (EFTABELA_MOVAJU_AJUSTE_SPED):
+        0 de 2 linhas sem registro relacionado (empresa 1474).']
+  efmovimento_ajuste_estadual_sp_lancto:
+    titulo: SP - Ajuste Impostos lançados estaduais – Lançamentos contábeis
+    descricao: 'SP - Ajuste Impostos lançados estaduais – Lançamentos contábeis. 3 linhas no catálogo; chave: FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP_LANCTO
+    chave: [FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [FILI_LAN, asc]
+    - [I_AJUSTE, asc]
+    colunas: {empresa_do_movimento: FILI_LAN, sequencial_do_movimento_do_ajuste: I_AJUSTE, empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, tipo_do_lancamento: TIPO}
+    vinculos:
+      efmovimento_ajuste_estad:
+        tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP
+        liga: {fili_lan: codi_emp, i_ajuste: i_ajuste}
+        colunas: {efmovimento_ajuste_estad_nome: DESCRICAO_LIVRO_TIPO}
+    filtros:
+      empresa_do_movimento:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3 linhas, 1 empresa(s).', 'Vínculo efmovimento_ajuste_estad (EFMOVIMENTO_AJUSTE_ESTADUAL_SP): 0 de 3 linhas sem registro relacionado
+        (empresa 9997).']
+  efmovimento_ajuste_estadual_mg_detalhamento_09:
+    titulo: MG - Ajuste Impostos lançados estaduais - Detalhamento 09
+    descricao: 'MG - Ajuste Impostos lançados estaduais - Detalhamento 09. 2 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_MG_DETALHAMENTO_09
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EMISSAO, volume: pequeno}
+    ordem:
+    - [DATA_EMISSAO, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, tipo_o_s_a_e_t_r: TIPO, codigo_da_especie: CODI_ESP, codigo_do_cliente: CODI_CLI,
+      data_emissao: DATA_EMISSAO, nota_fiscal: NOTA_FISCAL, serie: SERIE, justificativa: JUSTIFICATIVA, chave_nfe_ou_cte: CHAVE_NFE_CTE}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data_emissao:
+        coluna: DATA_EMISSAO
+        ops: [entre, gte, lte]
+      tipo_o_s_a_e_t_r:
+        coluna: TIPO
+        ops: [eq, in]
+      codigo_da_especie:
+        coluna: CODI_ESP
+        ops: [eq, in]
+      codigo_do_cliente:
+        coluna: CODI_CLI
+        ops: [eq, in]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      justificativa:
+        coluna: JUSTIFICATIVA
+        ops: [contem, prefixo]
+      chave_nfe_ou_cte:
+        coluna: CHAVE_NFE_CTE
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): codigo_da_especie, codigo_do_cliente, data_emissao.']
+  efmovimento_ajuste_federal:
+    titulo: Ajuste Impostos lançados federais - Geral
+    descricao: 'Ajuste Impostos lançados federais - Geral. 2 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_FEDERAL
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AJUSTE, volume: pequeno}
+    ordem:
+    - [DATA_AJUSTE, desc]
+    - [I_AJUSTE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      sequencial_do_movimento_do_ajuste: I_AJUSTE
+      data: DATA_AJUSTE
+      codigo_do_ajuste: CODI_AJU
+      valor: VALOR
+      observacao: OBSERVACAO
+      sequencial_do_codigo_de_recolhimento: I_RECOLHIMENTO
+      codigo_de_receita: CODIGO_RECEITA
+      origem_do_credito_i_interno_e_externo: {coluna: ORIGEM_CREDITO, dominio: efmovimento_ajuste_federal_origem_do_c}
+      codigo_do_ajuste_do_sped: CODIGO_AJUSTE_SPED
+    vinculos:
+      efajustes:
+        tabela: efajustes
+        liga: {codi_emp: codi_emp, codi_aju: codi_aju}
+        colunas: {efajustes_nome: nome_aju}
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+      eftabela_movaju_ajuste_s:
+        tabela: EFTABELA_MOVAJU_AJUSTE_SPED
+        liga: {codigo_ajuste_sped: codigo}
+        colunas: {eftabela_movaju_ajuste_s_nome: DESCRICAO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data:
+        coluna: DATA_AJUSTE
+        ops: [entre, gte, lte]
+      codigo_do_ajuste:
+        coluna: CODI_AJU
+        ops: [eq, in]
+      observacao:
+        coluna: OBSERVACAO
+        ops: [contem, prefixo]
+      sequencial_do_codigo_de_recolhimento:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+      codigo_de_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+      origem_do_credito_i_interno_e_externo:
+        coluna: ORIGEM_CREDITO
+        ops: [eq, in]
+      codigo_do_ajuste_do_sped:
+        coluna: CODIGO_AJUSTE_SPED
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s), DATA_AJUSTE de 2026-06-01 a 2026-08-01.', 'origem_do_credito_i_interno_e_externo: todos os valores reais
+        estão no comentário do banco (I=2).', 'Vínculo efajustes (efajustes): 0 de 2 linhas sem registro relacionado (empresa 1676).', 'Vínculo geempre (geempre):
+        0 de 2 linhas sem registro relacionado (empresa 1676).', 'Vínculo eftabela_movaju_ajuste_s (EFTABELA_MOVAJU_AJUSTE_SPED): 0 de 2 linhas sem registro relacionado
+        (empresa 1676).']
+  efmovimento_ajuste_federal_detalhamento_03:
+    titulo: Ajuste Impostos lançados federais - Detalhamento 03
+    descricao: 'Ajuste Impostos lançados federais - Detalhamento 03. 2 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_FEDERAL_DETALHAMENTO_03
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, origem_documento: ORIGEM_DOCUMENTO, numero_do_processo: NUMERO_PROCESSO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      numero_do_processo:
+        coluna: NUMERO_PROCESSO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).']
+  efmovimento_ajuste_estadual_ce_complementar:
+    titulo: CE - Ajuste Impostos lançados estaduais - Complementar
+    descricao: 'CE - Ajuste Impostos lançados estaduais - Complementar. 2 linhas no catálogo; chave: CODI_EMP, I_AJUSTE.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_CE_COMPLEMENTAR
+    chave: [CODI_EMP, I_AJUSTE]
+    acesso: {empresa: CODI_EMP, periodo: DATA_VENCIMENTO, volume: pequeno}
+    ordem:
+    - [DATA_VENCIMENTO, desc]
+    - [I_AJUSTE, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, codigo_da_especie: CODIGO_ESPECIE, numero_da_dae: NUMERO_DAE, numero_da_ida: NUMERO_IDA,
+      descricao: DESCRICAO, codigo_de_receita: CODIGO_RECEITA, sequencial_do_codigo_do_recolhimento: I_RECOLHIMENTO, data_de_vencimento: DATA_VENCIMENTO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      data_de_vencimento:
+        coluna: DATA_VENCIMENTO
+        ops: [entre, gte, lte]
+      codigo_da_especie:
+        coluna: CODIGO_ESPECIE
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_de_receita:
+        coluna: CODIGO_RECEITA
+        ops: [eq, in]
+      sequencial_do_codigo_do_recolhimento:
+        coluna: I_RECOLHIMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (4): numero_da_dae, numero_da_ida, sequencial_do_codigo_do_recolhimento,
+        data_de_vencimento.']
+  efmovimento_ajuste_estadual_ce_lancto:
+    titulo: CE - Ajuste Impostos lançados estaduais - Lançamentos contábeis
+    descricao: 'CE - Ajuste Impostos lançados estaduais - Lançamentos contábeis. 2 linhas no catálogo; chave: FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_CE_LANCTO
+    chave: [FILI_LAN, I_AJUSTE, CODI_EMP, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [FILI_LAN, asc]
+    - [I_AJUSTE, asc]
+    colunas: {empresa_do_movimento: FILI_LAN, sequencial_do_movimento_do_ajuste: I_AJUSTE, empresa_do_lancamento: CODI_EMP, numero_do_lancamento: NUME_LAN, tipo_do_lancamento: TIPO}
+    filtros:
+      empresa_do_movimento:
+        coluna: FILI_LAN
+        ops: [eq, in]
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      numero_do_lancamento:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      tipo_do_lancamento:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 1 empresa(s).']
+  efmovimento_ajuste_estadual_sp_detalhamento_02_documentos:
+    titulo: SP - Ajuste Impostos lançados estaduais - Detalhamento 2 - Documentos
+    descricao: 'SP - Ajuste Impostos lançados estaduais - Detalhamento 2 - Documentos. 1 linhas no catálogo; chave: CODI_EMP, I_AJUSTE, I_DETALHAMENTO.'
+    tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP_DETALHAMENTO_02_DOCUMENTOS
+    chave: [CODI_EMP, I_AJUSTE, I_DETALHAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_NOTA, volume: pequeno}
+    ordem:
+    - [DATA_NOTA, desc]
+    - [I_AJUSTE, asc]
+    - [I_DETALHAMENTO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, sequencial_do_movimento_do_ajuste: I_AJUSTE, sequencial_do_detalhamento_do_movimento: I_DETALHAMENTO, especie: CODI_ESP,
+      serie: SERIE, subserie: SUBSERIE, data: DATA_NOTA, numero_do_documento: NUMERO_DOCUMENTO, participante: TIPO_CLIENTE_FORNECEDOR, cliente_fornecedor: CODIGO_CLIENTE_FORNECEDOR,
+      valor_documento: VALOR_DOCUMENTO, chave_nfe_ou_cte: CHAVE_NFE_CTE, codigo_do_produto: CODIGO_PRODUTO}
+    vinculos:
+      efmovimento_ajuste_estad:
+        tabela: EFMOVIMENTO_AJUSTE_ESTADUAL_SP
+        liga: {codi_emp: codi_emp, i_ajuste: i_ajuste}
+        colunas: {efmovimento_ajuste_estad_nome: DESCRICAO_LIVRO_TIPO}
+    filtros:
+      sequencial_do_movimento_do_ajuste:
+        coluna: I_AJUSTE
+        ops: [eq, in]
+      sequencial_do_detalhamento_do_movimento:
+        coluna: I_DETALHAMENTO
+        ops: [eq, in]
+      data:
+        coluna: DATA_NOTA
+        ops: [entre, gte, lte]
+      especie:
+        coluna: CODI_ESP
+        ops: [eq, in]
+      serie:
+        coluna: SERIE
+        ops: [eq, in]
+      participante:
+        coluna: TIPO_CLIENTE_FORNECEDOR
+        ops: [eq, in]
+      cliente_fornecedor:
+        coluna: CODIGO_CLIENTE_FORNECEDOR
+        ops: [eq, in]
+      chave_nfe_ou_cte:
+        coluna: CHAVE_NFE_CTE
+        ops: [contem, prefixo]
+      codigo_do_produto:
+        coluna: CODIGO_PRODUTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), DATA_NOTA de 2026-03-17 a 2026-03-17.', 'Colunas expostas nulas em 100% das linhas (1): subserie.', 'Vínculo
+        efmovimento_ajuste_estad (EFMOVIMENTO_AJUSTE_ESTADUAL_SP): 0 de 1 linhas sem registro relacionado (empresa 1676).']

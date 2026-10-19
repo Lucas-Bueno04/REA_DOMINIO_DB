@@ -1,0 +1,632 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_ferias
+titulo: Pessoal - ferias (rascunho em lote)
+dominios:
+  foferias_gozo_simulacao_tipo_de_calculo_das_fe:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 7=3.643.'
+    valores: {'1': Individual, '2': Coletiva, '3': Rescisão, '4': Manual, '5': Provisão, '6': Acerto, '7': Simulação férias, '8': Simulação rescisão}
+  foferias_gozo_simulacao_descontar_faltas_notur:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.DESCONTAR_FALTAS_NOTURNAS estão no comentário do banco (2026-10-18). Distribuição: N=3.643.'
+    valores: {S: Sim, N: Não}
+  foferias_gozo_simulacao_descontar_faltas_por_s:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.DESCONTAR_FALTAS_SUSPENSAO estão no comentário do banco (2026-10-18). Distribuição: N=3.643.'
+    valores: {S: Sim, N: Não}
+  foferias_gozo_simulacao_descontar_faltas_parci:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.DESCONTAR_FALTAS_PARCIAIS estão no comentário do banco (2026-10-18). Distribuição: N=3.637, S=6.'
+    valores: {S: Sim, N: Não}
+  foferias_gozo_simulacao_enviar_para_o_esocial_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 1=3.643.'
+    valores: {'0': Não, '1': Sim}
+  foferias_gozo_simulacao_gerar_retificacao_para:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=3.643.'
+    valores: {'0': Não, '1': Sim}
+  foferias_gozo_simulacao_marcacao_do_evento_par:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=3.643.'
+    valores: {'0': Não, '1': Sim}
+  foferias_gozo_simulacao_parcelar_o_valor_do_1_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_GOZO_SIMULACAO.PARCELAR_UM_TERCO_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 0=3.643.'
+    valores: {'0': Não, '1': Sim}
+  foferias_lancamentos_frm_de_rateio_da_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_LANCAMENTOS.FORMA_RATEIO_PENSAO_ALIMENTICIA estão no comentário do banco (2026-10-18). Distribuição: 0=1.120, 1=10,
+      2=4.'
+    valores: {'0': Não rateado, '1': Rateio pela qtd de ben, '2': Rat do valor da rubrica por percentual definido}
+  foferias_coletivas_descontar_faltas_notu:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_COLETIVAS.DESCONTAR_FALTAS_NOTURNAS estão no comentário do banco (2026-10-18). Distribuição: N=345.'
+    valores: {S: Sim, N: Não}
+  foferias_coletivas_descontar_faltas_por_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_COLETIVAS.DESCONTAR_FALTAS_SUSPENSAO estão no comentário do banco (2026-10-18). Distribuição: N=345.'
+    valores: {S: Sim, N: Não}
+  foferias_coletivas_descontar_faltas_parc:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_COLETIVAS.DESCONTAR_FALTAS_PARCIAIS estão no comentário do banco (2026-10-18). Distribuição: N=345.'
+    valores: {S: Sim, N: Não}
+  foferias_coletivas_parcelar_o_valor_do_1:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_COLETIVAS.PARCELAR_UM_TERCO_FERIAS estão no comentário do banco (2026-10-18). Distribuição: 0=345.'
+    valores: {'0': Não, '1': Sim}
+  foferias_lancamentos_pensao_alimenticia_origem_do_r:
+    confirmado: true
+    nota: 'Todos os valores observados em FOFERIAS_LANCAMENTOS_PENSAO_ALIMENTICIA.ORIGEM_REGISTRO estão no comentário do banco (2026-10-18). Distribuição: 0=20.'
+    valores: {'0': Sistema, '1': Imp Tabelas, '2': Imp Layout}
+entidades:
+  foferias_gozo_tipo:
+    titulo: GOZO DAS FERIAS SEPARADOS POR TIPO
+    descricao: 'GOZO DAS FERIAS SEPARADOS POR TIPO. 61.403 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_FERIAS_GOZO_TIPO, COMPETENCIA, INICIO.'
+    tabela: FOFERIAS_GOZO_TIPO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_FERIAS_GOZO_TIPO, COMPETENCIA, INICIO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, tipo_de_gozo_gozo_abono_lic_remum: I_FERIAS_GOZO_TIPO,
+      competencia: COMPETENCIA, data_numerica_inicial: INICIO, data_numerica_final: FIM, numero_de_dias: NUMERO_DIAS, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      tipo_de_gozo_gozo_abono_lic_remum:
+        coluna: I_FERIAS_GOZO_TIPO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      data_numerica_inicial:
+        coluna: INICIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 61.413 linhas, 410 empresa(s), COMPETENCIA de 1994-12-01 a 2026-12-01.']
+  foferias_programacao:
+    titulo: PROGRAMAÇÃO E AVISO DE FERIAS
+    descricao: 'PROGRAMAÇÃO E AVISO DE FERIAS. 17.449 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_PROGRAMACAO, TIPO.'
+    tabela: FOFERIAS_PROGRAMACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_PROGRAMACAO, TIPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_AVISO, volume: medio}
+    ordem:
+    - [DATA_AVISO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_PROGRAMACAO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, codigo_da_programacao_de_ferias: I_FERIAS_PROGRAMACAO, c_1_programacao_2_aviso: TIPO, sequencia_de_periodos_aquisitivos: I_FERIAS_AQUISITIVOS,
+      sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, data_de_inicio_do_gozo_de_ferias: GOZO_INICIO, data_numerica_para_a_quantidade_de_dias: DIAS_GOZO, dias_abono: DIAS_ABONO,
+      data_do_aviso_de_ferias: DATA_AVISO, data_do_pagamento_das_ferias: DATA_PAGTO, indica_se_o_abono_foi_pago: PAGA_ABONO, indica_se_a_antecipacao_do_13o_salario_f: PAGA_AD13,
+      dias_direito: DIAS_DIREITO, dias_gozados: DIAS_GOZADOS, data_limite_para_inicio_do_gozo_de_feria: LIMITE_INICIO_GOZO, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG,
+      inicio_do_abono: ABONO_INICIO, final_do_abono: ABONO_FIM, data_da_solicitacao_do_abono_pecuniario: DATA_SOLICITACAO_ABONO, indica_se_as_ferias_foram_pagas: PAGA_FERIAS}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_da_programacao_de_ferias:
+        coluna: I_FERIAS_PROGRAMACAO
+        ops: [eq, in]
+      c_1_programacao_2_aviso:
+        coluna: TIPO
+        ops: [eq, in]
+      data_de_inicio_do_gozo_de_ferias:
+        coluna: GOZO_INICIO
+        ops: [entre, gte, lte]
+      data_do_aviso_de_ferias:
+        coluna: DATA_AVISO
+        ops: [entre, gte, lte]
+      data_do_pagamento_das_ferias:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      data_limite_para_inicio_do_gozo_de_feria:
+        coluna: LIMITE_INICIO_GOZO
+        ops: [entre, gte, lte]
+      inicio_do_abono:
+        coluna: ABONO_INICIO
+        ops: [entre, gte, lte]
+      final_do_abono:
+        coluna: ABONO_FIM
+        ops: [entre, gte, lte]
+      data_da_solicitacao_do_abono_pecuniario:
+        coluna: DATA_SOLICITACAO_ABONO
+        ops: [entre, gte, lte]
+      sequencia_de_periodos_aquisitivos:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      indica_se_o_abono_foi_pago:
+        coluna: PAGA_ABONO
+        ops: [eq, in]
+      indica_se_a_antecipacao_do_13o_salario_f:
+        coluna: PAGA_AD13
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 17.455 linhas, 320 empresa(s), DATA_AVISO de 1900-01-01 a 2026-10-30.']
+  foferias_gozo_tipo_simulacao:
+    titulo: Simulação do tipo de gozo de férias
+    descricao: 'Simulação do tipo de gozo de férias. 12.062 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_FERIAS_GOZO_TIPO, COMPETENCIA, INICIO.'
+    tabela: FOFERIAS_GOZO_TIPO_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_FERIAS_GOZO_TIPO, COMPETENCIA, INICIO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: medio}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, tipo_de_gozo_gozo_abono_lic_remum: I_FERIAS_GOZO_TIPO,
+      competencia: COMPETENCIA, data_numerica_inicial: INICIO, data_numerica_final: FIM, numero_de_dias: NUMERO_DIAS, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      tipo_de_gozo_gozo_abono_lic_remum:
+        coluna: I_FERIAS_GOZO_TIPO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      data_numerica_inicial:
+        coluna: INICIO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12.062 linhas, 192 empresa(s), COMPETENCIA de 2018-06-01 a 2027-02-01.']
+  foferias_gozo_medias:
+    titulo: MEDIAS DE FERIAS CALCULADAS NO GOZO
+    descricao: 'MEDIAS DE FERIAS CALCULADAS NO GOZO. 8.578 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, TIPO_INF, TIPO_CALCULO.'
+    tabela: FOFERIAS_GOZO_MEDIAS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, TIPO_INF, TIPO_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, horas_valor_vantagem_ou_hora_aula: TIPO_INF, ferias_vencidas_ou_13o_salario: TIPO_CALCULO,
+      valor_da_media: VALOR, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      horas_valor_vantagem_ou_hora_aula:
+        coluna: TIPO_INF
+        ops: [eq, in]
+      ferias_vencidas_ou_13o_salario:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 8.580 linhas, 193 empresa(s).']
+  foferias_gozo_afastamentos:
+    titulo: Tabela de relacionamento entre o cálculo de férias e o afastamento de férias.
+    descricao: 'Tabela de relacionamento entre o cálculo de férias e o afastamento de férias.. 7.381 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO,
+      SEQUENCIAL.'
+    tabela: FOFERIAS_GOZO_AFASTAMENTOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, sequencial_do_calculo_de_ferias: I_FERIAS_GOZO, sequencial: SEQUENCIAL, data_do_afastamento: DATA_REAL_DN}
+    vinculos:
+      foafastamentos:
+        tabela: FOAFASTAMENTOS
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_real_dn: data_real_dn}
+        colunas: {foafastamentos_nome: NOME_MEDICO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_do_calculo_de_ferias:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 7.384 linhas, 319 empresa(s).', 'Vínculo foafastamentos (FOAFASTAMENTOS): 0 de 8 linhas sem registro relacionado (empresa 9021).']
+  foferias_gozo_simulacao:
+    titulo: Simulação do gozo de férias
+    descricao: 'Simulação do gozo de férias. 3.643 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO.'
+    tabela: FOFERIAS_GOZO_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGTO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas:
+      codigo_empresa: CODI_EMP
+      codigo: I_EMPREGADOS
+      sequencial_de_periodos_de_gozo: I_FERIAS_GOZO
+      sequencia_de_periodos_aquisitivos: I_FERIAS_AQUISITIVOS
+      inicio_do_gozo: GOZO_INICIO
+      fim_do_gozo: GOZO_FIM
+      paga_abono_s_n: ABONO_PAGA
+      inicio_abono: ABONO_INICIO
+      fim_abono: ABONO_FIM
+      data_do_pagamento: DATA_PAGTO
+      paga_13o_s_n: PAGA_AD13
+      medias_informadas_manualmente_s_n: MEDIAS_MANUAL
+      numero_de_dias_de_faltas_no_momento_do_c: DIAS_FALTAS
+      valor_de_ferias_baixado_da_provisao_pelo: BAIXA_PROV_FERIAS
+      valor_de_adicional_de_ferias_1_3_baixado: BAIXA_PROV_ADICFERIAS
+      valor_de_inss_baixado_da_provisao_pelo_c: BAIXA_PROV_INSS
+      valor_de_fgts_baixado_da_provisao_pelo_c: BAIXA_PROV_FGTS
+      valor_de_pis_baixado_da_provisao_pelo_ca: BAIXA_PROV_PIS
+      sequencia_de_pagamento: I_PAGTO
+      descontar_faltas: DESCONTAR_FALTAS
+      sequencial_de_ferias_coletivas: I_FERIAS_COLETIVAS
+      indica_se_o_empregado_foi_transferido: TRANSFERIDO
+      tipo_de_calculo_das_ferias_1_individual: {coluna: TIPO, dominio: foferias_gozo_simulacao_tipo_de_calculo_das_fe}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      inicio_do_gozo_numerico: GOZO_INICIO_DN
+      fim_do_gozo_numerico: GOZO_FIM_DN
+      inicio_abono_numerico: ABONO_INICIO_DN
+      fim_abono_numerico: ABONO_FIM_DN
+      data_inicial_do_periodo_aquisitivo: INICIO_AQUISITIVO
+      data_final_do_periodo_aquisitivo: FIM_AQUISITIVO
+      descontar_faltas_noturnas_s_sim_n_nao: {coluna: DESCONTAR_FALTAS_NOTURNAS, dominio: foferias_gozo_simulacao_descontar_faltas_notur}
+      descontar_faltas_por_suspensao_s_sim_n_n: {coluna: DESCONTAR_FALTAS_SUSPENSAO, dominio: foferias_gozo_simulacao_descontar_faltas_por_s}
+      descontar_faltas_parciais_s_sim_n_nao: {coluna: DESCONTAR_FALTAS_PARCIAIS, dominio: foferias_gozo_simulacao_descontar_faltas_parci}
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: foferias_gozo_simulacao_enviar_para_o_esocial_}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: foferias_gozo_simulacao_gerar_retificacao_para}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: foferias_gozo_simulacao_marcacao_do_evento_par}
+      nao_calcular_adicional_mp_927: NAO_CALCULAR_ADICIONAL_MP_927
+      iniciou_novo_periodo_aquisitivo_por_feri: INICIOU_NOVO_PERIODO_AQUISITIVO_FERIAS_COLETIVAS_ANO_ADMISSAO
+      parcelar_o_valor_do_1_3_das_ferias_0_nao: {coluna: PARCELAR_UM_TERCO_FERIAS, dominio: foferias_gozo_simulacao_parcelar_o_valor_do_1_}
+      indica_se_as_ferias_foram_pagas: PAGA_FERIAS
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      inicio_do_gozo:
+        coluna: GOZO_INICIO
+        ops: [entre, gte, lte]
+      fim_do_gozo:
+        coluna: GOZO_FIM
+        ops: [entre, gte, lte]
+      inicio_abono:
+        coluna: ABONO_INICIO
+        ops: [entre, gte, lte]
+      fim_abono:
+        coluna: ABONO_FIM
+        ops: [entre, gte, lte]
+      data_do_pagamento:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      data_inicial_do_periodo_aquisitivo:
+        coluna: INICIO_AQUISITIVO
+        ops: [entre, gte, lte]
+      data_final_do_periodo_aquisitivo:
+        coluna: FIM_AQUISITIVO
+        ops: [entre, gte, lte]
+      sequencia_de_periodos_aquisitivos:
+        coluna: I_FERIAS_AQUISITIVOS
+        ops: [eq, in]
+      paga_abono_s_n:
+        coluna: ABONO_PAGA
+        ops: [eq, in]
+      paga_13o_s_n:
+        coluna: PAGA_AD13
+        ops: [eq, in]
+      medias_informadas_manualmente_s_n:
+        coluna: MEDIAS_MANUAL
+        ops: [eq, in]
+      sequencia_de_pagamento:
+        coluna: I_PAGTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 3.643 linhas, 192 empresa(s), DATA_PAGTO de 2018-07-06 a 9022-01-09.', 'Colunas expostas nulas em 100% das linhas (2): sequencia_de_pagamento,
+        sequencial_de_ferias_coletivas.', 'tipo_de_calculo_das_ferias_1_individual: todos os valores reais estão no comentário do banco (7=3.643).', 'descontar_faltas_noturnas_s_sim_n_nao:
+        todos os valores reais estão no comentário do banco (N=3.643).', 'descontar_faltas_por_suspensao_s_sim_n_n: todos os valores reais estão no comentário do
+        banco (N=3.643).', 'descontar_faltas_parciais_s_sim_n_nao: todos os valores reais estão no comentário do banco (N=3.637, S=6).', 'enviar_para_o_esocial_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (1=3.643).', 'gerar_retificacao_esocial: todos os valores reais estão no comentário do banco (0=3.643).',
+      'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco (0=3.643).', 'parcelar_o_valor_do_1_3_das_ferias_0_nao: todos
+        os valores reais estão no comentário do banco (0=3.643).']
+  foferias_gozo_medias_simulacao:
+    titulo: Simulação das médias do gozo de férias
+    descricao: 'Simulação das médias do gozo de férias. 2.122 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, TIPO_INF, TIPO_CALCULO.'
+    tabela: FOFERIAS_GOZO_MEDIAS_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, TIPO_INF, TIPO_CALCULO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, horas_valor_vantagem_ou_hora_aula: TIPO_INF, ferias_vencidas_ou_13o_salario: TIPO_CALCULO,
+      valor_da_media: VALOR, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      horas_valor_vantagem_ou_hora_aula:
+        coluna: TIPO_INF
+        ops: [eq, in]
+      ferias_vencidas_ou_13o_salario:
+        coluna: TIPO_CALCULO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2.122 linhas, 68 empresa(s).']
+  foferias_gozo_vantagens:
+    titulo: VANTAGENS CALCULADAS NAS FERIAS
+    descricao: 'VANTAGENS CALCULADAS NAS FERIAS. 1.939 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS.'
+    tabela: FOFERIAS_GOZO_VANTAGENS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, codigo_do_evento: I_EVENTOS, valor_informado: VALOR_INF,
+      valor_calculado: VALOR_CALC, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.939 linhas, 79 empresa(s).']
+  foferias_gozo_diasdesconsiderar:
+    titulo: DIAS A DESCONSIDERAR NO PERÍODO DO GOZO
+    descricao: 'DIAS A DESCONSIDERAR NO PERÍODO DO GOZO. 1.732 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, DIA.'
+    tabela: FOFERIAS_GOZO_DIASDESCONSIDERAR
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, DIA]
+    acesso: {empresa: CODI_EMP, periodo: DIA, volume: pequeno}
+    ordem:
+    - [DIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, dia_a_ser_desconsiderado: DIA, origem_do_dia_1_sindicato_2_domingo_feri: ORIGEM}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      dia_a_ser_desconsiderado:
+        coluna: DIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.732 linhas, 46 empresa(s), DIA de 2012-12-25 a 2026-01-01.']
+  foferias_lancamentos:
+    titulo: TABELA DE LANÇAMENTOS DE FÉRIAS
+    descricao: 'TABELA DE LANÇAMENTOS DE FÉRIAS. 1.134 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS.'
+    tabela: FOFERIAS_LANCAMENTOS
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_gozo: I_FERIAS_GOZO
+      codigo_do_evento: I_EVENTOS
+      valor_informado: VALOR_INFORMADO
+      valor_calculado: VALOR_CALCULADO
+      origem: ORIGEM
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      forma_do_rateio_0_nao_ratear_1_quantidad: PLANO_SAUDE_RATEIO
+      frm_de_rateio_da_pensao_alimenticia_0_na: {coluna: FORMA_RATEIO_PENSAO_ALIMENTICIA, dominio: foferias_lancamentos_frm_de_rateio_da_p}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.134 linhas, 144 empresa(s).', 'frm_de_rateio_da_pensao_alimenticia_0_na: todos os valores reais estão no comentário do banco
+        (0=1.120, 1=10, 2=4).']
+  foferias_coletivas:
+    titulo: CALCULOS DE FERIAS COLETIVAS
+    descricao: 'CALCULOS DE FERIAS COLETIVAS. 345 linhas no catálogo; chave: CODI_EMP, I_FERIAS_COLETIVAS.'
+    tabela: FOFERIAS_COLETIVAS
+    chave: [CODI_EMP, I_FERIAS_COLETIVAS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_PAGTO, volume: pequeno}
+    ordem:
+    - [DATA_PAGTO, desc]
+    - [I_FERIAS_COLETIVAS, asc]
+    colunas:
+      codigo: CODI_EMP
+      sequencial_de_ferias_coletivas: I_FERIAS_COLETIVAS
+      inicio_do_gozo: GOZO_INICIO
+      fim_do_gozo: GOZO_FIM
+      paga_abono: ABONO_PAGA
+      inicio_do_abono: ABONO_INICIO
+      fim_do_abono: ABONO_FIM
+      data_do_pagamento: DATA_PAGTO
+      pagar_adiantamento_de_decimo_terceiro: PAGA_AD13
+      descontar_faltas: DESCONTAR_FALTAS
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      descontar_faltas_noturnas_s_sim_n_nao: {coluna: DESCONTAR_FALTAS_NOTURNAS, dominio: foferias_coletivas_descontar_faltas_notu}
+      descontar_faltas_por_suspensao_s_sim_n_n: {coluna: DESCONTAR_FALTAS_SUSPENSAO, dominio: foferias_coletivas_descontar_faltas_por_}
+      descontar_faltas_parciais_s_sim_n_nao: {coluna: DESCONTAR_FALTAS_PARCIAIS, dominio: foferias_coletivas_descontar_faltas_parc}
+      nao_calcular_adicional_mp_927: NAO_CALCULAR_ADICIONAL_MP_927
+      parcelar_o_valor_do_1_3_das_ferias_0_nao: {coluna: PARCELAR_UM_TERCO_FERIAS, dominio: foferias_coletivas_parcelar_o_valor_do_1}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      sequencial_de_ferias_coletivas:
+        coluna: I_FERIAS_COLETIVAS
+        ops: [eq, in]
+      inicio_do_gozo:
+        coluna: GOZO_INICIO
+        ops: [entre, gte, lte]
+      fim_do_gozo:
+        coluna: GOZO_FIM
+        ops: [entre, gte, lte]
+      inicio_do_abono:
+        coluna: ABONO_INICIO
+        ops: [entre, gte, lte]
+      fim_do_abono:
+        coluna: ABONO_FIM
+        ops: [entre, gte, lte]
+      data_do_pagamento:
+        coluna: DATA_PAGTO
+        ops: [entre, gte, lte]
+      paga_abono:
+        coluna: ABONO_PAGA
+        ops: [eq, in]
+      pagar_adiantamento_de_decimo_terceiro:
+        coluna: PAGA_AD13
+        ops: [eq, in]
+      descontar_faltas:
+        coluna: DESCONTAR_FALTAS
+        ops: [eq, in]
+      descontar_faltas_noturnas_s_sim_n_nao:
+        coluna: DESCONTAR_FALTAS_NOTURNAS
+        ops: [eq, in]
+      descontar_faltas_por_suspensao_s_sim_n_n:
+        coluna: DESCONTAR_FALTAS_SUSPENSAO
+        ops: [eq, in]
+      descontar_faltas_parciais_s_sim_n_nao:
+        coluna: DESCONTAR_FALTAS_PARCIAIS
+        ops: [eq, in]
+      nao_calcular_adicional_mp_927:
+        coluna: NAO_CALCULAR_ADICIONAL_MP_927
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 345 linhas, 57 empresa(s), DATA_PAGTO de 2007-12-31 a 2026-01-02.', 'descontar_faltas_noturnas_s_sim_n_nao: todos os valores reais
+        estão no comentário do banco (N=345).', 'descontar_faltas_por_suspensao_s_sim_n_n: todos os valores reais estão no comentário do banco (N=345).', 'descontar_faltas_parciais_s_sim_n_nao:
+        todos os valores reais estão no comentário do banco (N=345).', 'parcelar_o_valor_do_1_3_das_ferias_0_nao: todos os valores reais estão no comentário do banco
+        (0=345).', 'Vínculo geempre (geempre): 0 de 3 linhas sem registro relacionado (empresa 583).']
+  foferias_gozo_vantagens_simulacao:
+    titulo: Simulação das vantagens do gozo de férias
+    descricao: 'Simulação das vantagens do gozo de férias. 243 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS.'
+    tabela: FOFERIAS_GOZO_VANTAGENS_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, codigo_do_evento: I_EVENTOS, valor_informado: VALOR_INF,
+      valor_calculado: VALOR_CALC, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 243 linhas, 27 empresa(s).']
+  foferias_gozo_diasdesconsiderar_simulacao:
+    titulo: Simulação dos dias a desconsiderar no gozo de férias
+    descricao: 'Simulação dos dias a desconsiderar no gozo de férias. 36 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, DIA.'
+    tabela: FOFERIAS_GOZO_DIASDESCONSIDERAR_SIMULACAO
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, DIA]
+    acesso: {empresa: CODI_EMP, periodo: DIA, volume: pequeno}
+    ordem:
+    - [DIA, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_empresa: CODI_EMP, codigo: I_EMPREGADOS, sequencial_de_periodos_de_gozo: I_FERIAS_GOZO, dia_a_ser_desconsiderado: DIA, origem_do_dia_1_sindicato_2_domingo_feri: ORIGEM}
+    filtros:
+      codigo:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      sequencial_de_periodos_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      dia_a_ser_desconsiderado:
+        coluna: DIA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 36 linhas, 4 empresa(s), DIA de 2018-12-25 a 2025-01-01.']
+  foferias_lancamentos_pensao_alimenticia:
+    titulo: Valores de pensão alimentícia nas férias por dependente.
+    descricao: 'Valores de pensão alimentícia nas férias por dependente.. 20 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS, I_FILHOS.'
+    tabela: FOFERIAS_LANCAMENTOS_PENSAO_ALIMENTICIA
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS, I_FILHOS]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      codigo_do_periodo_de_gozo: I_FERIAS_GOZO
+      codigo_do_evento: I_EVENTOS
+      codigo_do_dependente: I_FILHOS
+      valor: VALOR
+      origem_do_registro_0_sistema_1_imp_tabel: {coluna: ORIGEM_REGISTRO, dominio: foferias_lancamentos_pensao_alimenticia_origem_do_r}
+    vinculos:
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_periodo_de_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      codigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 20 linhas, 11 empresa(s).', 'origem_do_registro_0_sistema_1_imp_tabel: todos os valores reais estão no comentário do banco (0=20).',
+      'Vínculo fofilhos (fofilhos): 0 de 2 linhas sem registro relacionado (empresa 1).']
+  foferias_lancamentos_planosaude:
+    titulo: Lançamentos de férias - Processos - Plano de saúde
+    descricao: 'Lançamentos de férias - Processos - Plano de saúde. 2 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS, I_BENEFICIARIO.'
+    tabela: FOFERIAS_LANCAMENTOS_PLANOSAUDE
+    chave: [CODI_EMP, I_EMPREGADOS, I_FERIAS_GOZO, I_EVENTOS, I_BENEFICIARIO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_EMPREGADOS, asc]
+    - [I_FERIAS_GOZO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, codigo_do_gozo: I_FERIAS_GOZO, codigo_do_evento: I_EVENTOS, sequencial_de_beneficiario: I_BENEFICIARIO,
+      coigo_do_dependente: I_FILHOS, valor: VALOR, origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG, codigo_da_operadora_de_plano_de_saude: I_OPERADORAPLANOSAUDE}
+    vinculos:
+      fooperadoraplanosaude:
+        tabela: FOOPERADORAPLANOSAUDE
+        liga: {i_operadoraplanosaude: i_operadoraplanosaude}
+        colunas: {fooperadoraplanosaude_nome: NOME}
+      fofilhos:
+        tabela: fofilhos
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, i_filhos: i_filhos}
+        colunas: {fofilhos_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      codigo_do_gozo:
+        coluna: I_FERIAS_GOZO
+        ops: [eq, in]
+      codigo_do_evento:
+        coluna: I_EVENTOS
+        ops: [eq, in]
+      sequencial_de_beneficiario:
+        coluna: I_BENEFICIARIO
+        ops: [eq, in]
+      coigo_do_dependente:
+        coluna: I_FILHOS
+        ops: [eq, in]
+      codigo_da_operadora_de_plano_de_saude:
+        coluna: I_OPERADORAPLANOSAUDE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 2 linhas, 2 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): coigo_do_dependente.', 'Vínculo fooperadoraplanosaude
+        (FOOPERADORAPLANOSAUDE): 0 de 1 linhas sem registro relacionado (empresa 978).', 'Vínculo fofilhos (fofilhos): 1 de 1 linhas sem registro relacionado (empresa
+        978).']

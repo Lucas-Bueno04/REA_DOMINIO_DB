@@ -1,0 +1,138 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_tabela
+titulo: Financeiro do escritório - tabela (rascunho em lote)
+dominios:
+  hrtabela_especie_titulo_banco_da_coo:
+    confirmado: true
+    nota: 'Todos os valores observados em HRTABELA_ESPECIE_TITULO.COOPERATIVA_CREDITO_BANCO estão no comentário do banco (2026-10-18). Distribuição: U=320, N=30,
+      S=28.'
+    valores: {U: Unicred, S: Sicoob, N: Uniprime}
+entidades:
+  hrtabela_natureza_operacao:
+    titulo: Natureza de operação para NFS-e
+    descricao: 'Natureza de operação para NFS-e. 1.435 linhas no catálogo; chave: I_SEQUENCIAL.'
+    tabela: HRTABELA_NATUREZA_OPERACAO
+    chave: [I_SEQUENCIAL]
+    acesso: {empresa: null, periodo: DATA_VIGENCIA, volume: pequeno}
+    ordem:
+    - [DATA_VIGENCIA, desc]
+    - [I_SEQUENCIAL, asc]
+    colunas: {codigo_sequencial: I_SEQUENCIAL, data_da_vigencia: DATA_VIGENCIA, municipio_federal: MUNICIPIO_SRF, item: ITEM, descricao: DESCRICAO, descricao_da_coluna: DESCRICAO_COLUNA}
+    filtros:
+      codigo_sequencial:
+        coluna: I_SEQUENCIAL
+        ops: [eq, in]
+      data_da_vigencia:
+        coluna: DATA_VIGENCIA
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      descricao_da_coluna:
+        coluna: DESCRICAO_COLUNA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.428 linhas, DATA_VIGENCIA de 1900-01-01 a 2023-08-28.']
+  hrtabela_mensagem_inconsistencia_importacao_remessa:
+    titulo: Mensagens de inconsistências de arquivos de retorno de boleto bancário
+    descricao: 'Mensagens de inconsistências de arquivos de retorno de boleto bancário. 551 linhas no catálogo; chave: CODIGO, BANCO, TIPO_REMESSA.'
+    tabela: HRTABELA_MENSAGEM_INCONSISTENCIA_IMPORTACAO_REMESSA
+    chave: [CODIGO, BANCO, TIPO_REMESSA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [BANCO, asc]
+    colunas: {codigo_da_mensagem: CODIGO, codigo_do_banco: BANCO, tipo_da_remessa_0_ambos_1_cnab_240_2_cna: TIPO_REMESSA, descricao_da_mensagem: DESCRICAO}
+    filtros:
+      codigo_da_mensagem:
+        coluna: CODIGO
+        ops: [eq, in]
+      codigo_do_banco:
+        coluna: BANCO
+        ops: [eq, in]
+      tipo_da_remessa_0_ambos_1_cnab_240_2_cna:
+        coluna: TIPO_REMESSA
+        ops: [eq, in]
+      descricao_da_mensagem:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 551 linhas.']
+  hrtabela_especie_titulo:
+    titulo: Tabela de especie de titulos - cobrança registrada - conta financeira
+    descricao: 'Tabela de especie de titulos - cobrança registrada - conta financeira. 378 linhas no catálogo; chave: CODIGO, SOMENTE_BANCO, COOPERATIVA_CREDITO,
+      TIPO_REMESSA, CARTEIRA, COOPERATIVA_CREDITO_BANCO, VERSAO_ARQUIVO.'
+    tabela: HRTABELA_ESPECIE_TITULO
+    chave: [CODIGO, SOMENTE_BANCO, COOPERATIVA_CREDITO, TIPO_REMESSA, CARTEIRA, COOPERATIVA_CREDITO_BANCO, VERSAO_ARQUIVO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODIGO, asc]
+    - [SOMENTE_BANCO, asc]
+    colunas:
+      codigo: CODIGO
+      somente_para_o_banco_0_banco_padrao: SOMENTE_BANCO
+      cooperativa_de_credito_s_n: COOPERATIVA_CREDITO
+      tipo_remessa: TIPO_REMESSA
+      carteira: CARTEIRA
+      banco_da_cooperativa_u_unicred_s_sicoob: {coluna: COOPERATIVA_CREDITO_BANCO, dominio: hrtabela_especie_titulo_banco_da_coo}
+      versao: VERSAO_ARQUIVO
+      descricao: DESCRICAO
+    filtros:
+      codigo:
+        coluna: CODIGO
+        ops: [eq, in]
+      somente_para_o_banco_0_banco_padrao:
+        coluna: SOMENTE_BANCO
+        ops: [eq, in]
+      cooperativa_de_credito_s_n:
+        coluna: COOPERATIVA_CREDITO
+        ops: [eq, in]
+      tipo_remessa:
+        coluna: TIPO_REMESSA
+        ops: [eq, in]
+      carteira:
+        coluna: CARTEIRA
+        ops: [eq, in]
+      banco_da_cooperativa_u_unicred_s_sicoob:
+        coluna: COOPERATIVA_CREDITO_BANCO
+        ops: [eq, in]
+      versao:
+        coluna: VERSAO_ARQUIVO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 378 linhas.', 'banco_da_cooperativa_u_unicred_s_sicoob: todos os valores reais estão no comentário do banco (U=320, N=30, S=28).']
+  hrtabela_nfse_aliquota_ibpt:
+    titulo: Tabela Alíquota de impostos conforme IBPT
+    descricao: 'Tabela Alíquota de impostos conforme IBPT. 204 linhas no catálogo; chave: I_ALIQUOTA.'
+    tabela: HRTABELA_NFSE_ALIQUOTA_IBPT
+    chave: [I_ALIQUOTA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ALIQUOTA, asc]
+    colunas: {codigo: I_ALIQUOTA, descricao: DESCRICAO, aliquota: ALIQUOTA}
+    filtros:
+      codigo:
+        coluna: I_ALIQUOTA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 204 linhas.']
+  hrtabela_cfps_nfse:
+    titulo: Tabela Codigo Fiscal de Prestacoes de Servicos - NFSE
+    descricao: 'Tabela Codigo Fiscal de Prestacoes de Servicos - NFSE. 57 linhas no catálogo; chave: I_CFPS.'
+    tabela: HRTABELA_CFPS_NFSE
+    chave: [I_CFPS]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CFPS, asc]
+    colunas: {codigo_do_cfps: I_CFPS, descricao_do_cfps: DESCRICAO}
+    filtros:
+      codigo_do_cfps:
+        coluna: I_CFPS
+        ops: [eq, in]
+      descricao_do_cfps:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 57 linhas.']

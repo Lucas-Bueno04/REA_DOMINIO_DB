@@ -1,0 +1,421 @@
+# Modelo de entidades do PERFIL FISCAL da empresa: parâmetros da escrita fiscal por vigência (EFPARAMETRO_VIGENCIA*) e acumuladores com seus impostos
+# (EFACUMULADOR_VIGENCIA*). Curado à mão; o uso dos acumuladores foi conciliado com a receita bruta do Simples Nacional
+# (scripts/conciliar_receita_simples.py). Formato: docs/formato-modelo.md
+#
+# NÃO EXPOSTO DE PROPÓSITO: efparametro_vigencia tem mais de 650 colunas (centenas são regras de um estado específico: RS, SE, MG, PE, DF, PR, MT...);
+# aqui estão as ~45 de uso geral. As demais continuam acessíveis por consultar_tabela('EFPARAMETRO_VIGENCIA', colunas=[...]).
+# Idem em EFACUMULADOR_VIGENCIA (~100 colunas): as estaduais e de históricos de parcelas ficam de fora.
+modulo: parametro_fiscal
+titulo: Perfil fiscal da empresa (parâmetros e acumuladores)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  regime_federal_fiscal:
+    descricao: Regime federal da empresa na escrita fiscal (efparametro_vigencia.rfed_par)
+    confirmado: parcial
+    nota: >
+      O comentário do banco só diz "1 / 2 / ... / 9", sem legenda. Deduzido do que cada empresa realmente apura (vigência mais recente de cada
+      empresa; apurações a partir de 2025-01). 5: 733 empresas, 447 apuram IRPJ e 459 PIS e só 8 apuram Simples, logo LUCRO PRESUMIDO (conclusão por
+      evidência). 4: 466 empresas, 166 apuram Simples Nacional e só 3 apuram IRPJ, logo SIMPLES NACIONAL (por evidência). 1: 170 empresas, 87 apuram PIS,
+      16 IRPJ e 1 Simples: provável lucro real, mas o IRPJ do lucro real pode vir do Lalur (não conferido). 2: 29 empresas, 10 apuram Simples Nacional e só 1 apura IRPJ; 103 de suas 114 vigências têm regime estadual 13 (Simples): é
+      uma variante do SIMPLES (a empresa 679, que apura Simples todo mês, usa 2). 6 (2 empresas), 8 (2) e 9 (32 empresas, 15 apuram IRPJ): não determinados.
+    valores: {1: Lucro real (provável), 2: Simples - variante do Simples Nacional (por evidência), 4: Simples Nacional, 5: Lucro presumido, 6: Não determinado, 8: Não determinado, 9: Não determinado}
+  regime_estadual_fiscal:
+    descricao: Regime estadual da empresa (rest_par)
+    confirmado: parcial
+    nota: >
+      O comentário lista 1 (Normal), 2 (ME), 3 (Estimativa) e 4 (EPP), mas os dados só têm 1 e 13. O 13 não consta no comentário: aparece em
+      1.736 das 1.764 vigências de regime federal 4 e em 103 das 114 de regime federal 2, ou seja, é o regime do Simples Nacional (conclusão por evidência).
+    valores: {1: Normal, 13: Simples Nacional (por evidência)}
+  regime_municipal_fiscal:
+    confirmado: true      # comentário do banco
+    valores: {1: Normal, 2: Simples}
+  regime_recolhimento_fiscal:
+    confirmado: parcial
+    nota: O comentário lista R (real) e P (presumido), mas todas as 6.449 vigências têm R; o regime de recolhimento NÃO distingue lucro presumido de real (use rfed_par).
+    valores: {R: Real, P: Presumido}
+  integracao_contabil:
+    descricao: Como as notas viram lançamentos contábeis (integraent_par / integrasai_par / integraser_par)
+    confirmado: parcial
+    nota: O comentário do banco está truncado em "D - Sintetico por d..."; D é provavelmente "por dia". Distribuição não medida.
+    valores: {A: Analítica com a data da nota, U: Analítica com a data do último dia do mês, S: Sintética por mês, D: Sintética por dia (provável)}
+  tipo_nota_acumulador:
+    confirmado: true      # comentário do banco; V 1.236, P 1.111, O 458.456
+    valores: {V: À vista, P: A prazo, O: Outras}
+  diferenca_base_valor_contabil:
+    descricao: Onde lançar a diferença entre a base de cálculo e o valor contábil (efacumulador_vigencia_impostos.diferenca_iac)
+    confirmado: true      # comentário do banco
+    valores: {1: Isentas, 2: Outras, 3: Não lançar, 4: IPI, 5: Substituição tributária, 6: Não tributadas, 7: Parcela reduzida}
+  apuracao_consolidada:
+    confirmado: true
+    valores: {1: Não, 2: Estabelecimento consolidador, 3: Estabelecimento consolidado}
+  processa_filiais:
+    confirmado: true
+    valores: {1: Não, 2: Sim}
+  fato_gerador_retencao:
+    confirmado: true
+    valores: {E: Emissão, P: Pagamento}
+
+  sim1_nao2:
+    confirmado: true      # comentários "(1 - Sim/2 - Nao)"
+    valores: {1: Sim, 2: Não}
+  lancamento_por:
+    confirmado: true      # comentário do banco
+    valores: {1: Código, 2: Nome, 3: CNPJ}
+  perfil_sped:
+    confirmado: true
+    nota: Todas as empresas têm A.
+    valores: {A: Perfil A, B: Perfil B}
+  opcao_produto:
+    confirmado: true
+    valores: {N: Normal, B: NBM, C: NCM, I: Identificador}
+
+  tipo_aliquota_icms:
+    confirmado: true      # comentário do banco; A em 378.968, T em 5, vazio em 28
+    valores: {A: Informar a alíquota, T: Informar a tabela}
+
+entidades:
+  parametro_fiscal:
+    titulo: Parâmetros da escrita fiscal por vigência
+    descricao: >
+      Configuração fiscal de cada empresa a partir de uma data (vigência): regimes federal, estadual e municipal, geração de lançamentos contábeis,
+      integração das notas, fatos geradores das retenções e opções do Simples. Cada alteração de regime cria uma nova vigência; a vigente em uma data é a
+      mais recente com `vigencia` até essa data. 6.449 linhas, 1.434 empresas (308 com uma só vigência, até 24). Usa ~45 das 650+ colunas.
+    tabela: efparametro_vigencia
+    chave: [codi_emp, vigencia_par]
+    acesso: {empresa: codi_emp, periodo: vigencia_par, volume: pequeno}
+    ordem: [[vigencia_par, desc]]
+    colunas:
+      vigencia: vigencia_par
+      descricao: DESCRICAO_PAR
+      regime_federal: {coluna: RFED_PAR, dominio: regime_federal_fiscal}
+      regime_estadual: {coluna: REST_PAR, dominio: regime_estadual_fiscal}
+      regime_municipal: {coluna: RMUN_PAR, dominio: regime_municipal_fiscal}
+      regime_recolhimento: {coluna: REGIME_RECOLHIMENTO_PAR, dominio: regime_recolhimento_fiscal}
+      gera_lancamentos_contabeis: {coluna: LCTB_PAR, dominio: sim_nao_texto}
+      lancamentos_em_outra_empresa: {coluna: CTBMAT_PAR, dominio: sim_nao_texto}
+      empresa_da_contabilidade: CODMAT_PAR
+      processa_filiais: {coluna: FILI_PAR, dominio: processa_filiais}
+      agrupa_lancamentos_filiais: {coluna: AGRUPAFIL_PAR, dominio: sim_nao_texto}
+      apuracao_consolidada: {coluna: CONSOLIDADA_PAR, dominio: apuracao_consolidada}
+      centralizacao_recolhimento: CENTRAL_PAR
+      gera_honorarios: {coluna: GEHO_PAR, dominio: sim_nao_texto}
+      substituicao_tributaria: {coluna: SUBST_PAR, dominio: sim_nao_texto}
+      integracao_entradas: {coluna: INTEGRAENT_PAR, dominio: integracao_contabil}
+      integracao_saidas: {coluna: INTEGRASAI_PAR, dominio: integracao_contabil}
+      integracao_servicos: {coluna: INTEGRASER_PAR, dominio: integracao_contabil}
+      cada_fornecedor_gera_conta: {coluna: CRIACTAFOR_PAR, dominio: sim_nao_texto}
+      cada_cliente_gera_conta: {coluna: CRIACTACLI_PAR, dominio: sim_nao_texto}
+      fato_gerador_crf: {coluna: CRFFATGER_PAR, dominio: fato_gerador_retencao}
+      fato_gerador_irrf: {coluna: IRRFFATGER_PAR, dominio: fato_gerador_retencao}
+      fato_gerador_crf_pf: {coluna: CRFOPFATGER_PAR, dominio: fato_gerador_retencao}
+      fato_gerador_irrf_pf: {coluna: IRRFPFATGER_PAR, dominio: fato_gerador_retencao}
+      prestadora_servico_base_16: {coluna: PRESTSERV_PAR, dominio: sim_nao_texto}
+      deduz_st_base_irpj_csll: {coluna: DEDUZST_PAR, dominio: sim_nao_texto}
+      transfere_creditos_acumulados: {coluna: TRANSFERECREDITOS_PAR, dominio: sim_nao_texto}
+      calcula_adicional_icms: {coluna: ADICIONAL_ICMS_PAR, dominio: sim_nao_texto}
+      simples_saldo_negativo_proximo_mes: {coluna: SALDOSIMPLES_PAR, dominio: sim_nao_texto}
+      simples_federal_com_iss: {coluna: SIMPLESISS_PAR, dominio: sim_nao_texto}
+      simples_50_prestadoras: {coluna: SIMPLES50_PAR, dominio: sim_nao_texto}
+      simples_aliquota_diferenciada: {coluna: SIMPLES_ALIQ_DIFERENCIADA_PAR, dominio: sim_nao_texto}
+      regime_especial_st: {coluna: REGIME_ESPECIAL_ST_PAR, dominio: sim_nao_texto}
+      margem_valor_agregado: MVA_PAR
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {empresa_nome: nome_emp, empresa_cnpj_cpf: cgce_emp}
+        sensiveis: [empresa_cnpj_cpf]
+    filtros:
+      vigencia: {coluna: vigencia_par, ops: [eq, entre, gte, lte]}
+      regime_federal: {coluna: RFED_PAR, ops: [eq, in]}
+      regime_estadual: {coluna: REST_PAR, ops: [eq, in]}
+    filhos:
+      impostos: {entidade: parametro_fiscal_imposto, liga: {codi_emp: codi_emp, vigencia_par: vigencia}}
+    regras:
+      - "Vigência em vigor numa data = a de maior `vigencia` menor ou igual a essa data, por empresa (a mesma regra vale para acumuladores; validada na receita do Simples: 38 de 40 competências fecham ao centavo). 308 empresas têm 1 vigência, 198 têm 2 e há empresas com até 24."
+      - "Regime federal (rfed_par), vigência mais recente por empresa: 5 = lucro presumido (733 empresas), 4 = Simples Nacional (466), 1 = provável lucro real (170), 2 = variante do Simples (29), 9 (32) incerto, 6 e 8 (2 cada) não determinados. A legenda NÃO consta no banco; ver a nota do domínio regime_federal_fiscal. Cruze com a apuração (efsdoimp_simples_nacional, IRPJ) antes de afirmar o regime de uma empresa."
+      - "Regime estadual 13 não está no comentário do banco (que lista 1 a 4) e é o único além do 1: 1.736 das 1.764 vigências de regime federal 4 e 103 das 114 de regime federal 2 têm 13; todas as demais têm 1."
+      - "Regime de recolhimento: todas as 6.449 vigências têm R (real), inclusive as de lucro presumido: o campo não identifica o regime de tributação. 6.429 vigências geram lançamentos contábeis (lctb = S) e 20 não."
+      - "Há vigência datada de 1964-06-01 (a mais antiga); datas anteriores a 2000 provavelmente são digitação do ano."
+
+  parametro_fiscal_imposto:
+    titulo: Impostos ativos em cada vigência dos parâmetros fiscais
+    descricao: Quais impostos a empresa apura em cada vigência (89.618 linhas, 1.434 empresas, 54 impostos diferentes).
+    tabela: efparametro_vigencia_impostos
+    chave: [codi_emp, vigencia_par, codi_imp]
+    acesso: {empresa: codi_emp, periodo: vigencia_par, volume: medio}
+    ordem: [[vigencia_par, desc], [codi_imp, asc]]
+    colunas:
+      vigencia: vigencia_par
+      imposto_codigo: codi_imp
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {codi_emp: codi_emp, codi_imp: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      vigencia: {coluna: vigencia_par, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: codi_imp, ops: [eq, in]}
+    regras:
+      - "Toda linha tem a vigência correspondente em parametro_fiscal (0 órfãs em 89.618)."
+
+  acumulador_vigencia:
+    titulo: Acumuladores fiscais por vigência (configuração)
+    descricao: >
+      Cada acumulador classifica as notas (entrada, saída, serviço) e define como entram na receita, no faturamento, nos impostos e na
+      contabilidade. A configuração vale por vigência: o acumulador em vigor numa nota é o de maior `vigencia` até a data da nota (as notas não guardam
+      a vigência). 460.803 linhas, 1.419 empresas, 434 mil acumuladores (96% com uma só vigência).
+    tabela: efacumulador_vigencia
+    chave: [codi_emp, codi_acu, vigencia_acu]
+    acesso: {empresa: codi_emp, volume: medio}
+    ordem: [[codi_acu, asc], [vigencia_acu, desc]]
+    colunas:
+      acumulador_codigo: codi_acu
+      vigencia: vigencia_acu
+      descricao: DESCRICAO_ACU
+      incide_receita_bruta: {coluna: IREC_ACU, dominio: sim_nao_texto}
+      incide_faturamento: {coluna: IFAT_ACU, dominio: sim_nao_texto}
+      incide_devolucao: {coluna: IDEV_ACU, dominio: sim_nao_texto}
+      incide_acrescimo_financeiro: {coluna: IAX1_ACU, dominio: sim_nao_texto}
+      enquadramento_epp: {coluna: IENQ_ACU, dominio: sim_nao_texto}
+      faz_estoque_dipi: {coluna: ESTO_ACU, dominio: sim_nao_texto}
+      gera_bens_patrimonio: {coluna: GPAT_ACU, dominio: sim_nao_texto}
+      gera_parcelas: {coluna: PARC_ACU, dominio: sim_nao_texto}
+      tipo_nota: {coluna: TIPONOTA_ACU, dominio: tipo_nota_acumulador}
+      nota_transferencia_credito: {coluna: TRANSFERENCIA_ACU, dominio: sim_nao_texto}
+      confere_natureza: {coluna: CNAT_ACU, dominio: sim_nao_texto}
+      nota_cancelada: {coluna: CANCEL_ACU, dominio: sim_nao_texto}
+      servico_terceirizado: {coluna: SERVTERC_ACU, dominio: sim_nao_texto}
+      incide_simples_municipal: {coluna: SMUN_ACU, dominio: sim_nao_texto}
+      simples_nao_somar_servico_50: {coluna: NAOSOMARSIMPLES_ACU, dominio: sim_nao_texto}
+      simples_aliquota_diferenciada: {coluna: SIMPLES_ALIQ_DIFERENCIADA_ACU, dominio: sim_nao_texto}
+      simples_credito_presumido: {coluna: SIMPLESN_CREDITO_PRESUMIDO_ACU, dominio: sim_nao_texto}
+      simples_entradas_mercadoria: {coluna: SIMPLESN_ENTRADAS_ACU, dominio: sim_nao_texto}
+      produtos_sujeitos_st: {coluna: PRODUTOS_SUJEITOS_ST_ACU, dominio: sim_nao_texto}
+      credito_presumido: {coluna: CREDITO_PRESUMIDO_ACU, dominio: sim_nao_texto}
+      importacao_credito_icms: {coluna: IMPORTACAO_ACU, dominio: sim_nao_texto}
+      gera_entrada_outra_empresa: {coluna: GERAENTRADA_ACU, dominio: sim_nao_texto}
+      conta_debito: CDEB_ACU
+      conta_credito: CCRE_ACU
+      historico_padrao: CHIS_ACU
+      conta_contrapartida_pagamento: CTCP_ACU
+      conta_juros: CTJR_ACU
+      conta_multa: CTMT_ACU
+      conta_desconto: CTDT_ACU
+      conta_devolucao: CTDV_ACU
+      conta_icms_compras: CTAICMSCP_ACU
+      cop: COP_ACU
+    filtros:
+      acumulador_codigo: {coluna: codi_acu, ops: [eq, in]}
+      vigencia: {coluna: vigencia_acu, ops: [eq, entre, gte, lte]}
+      descricao: {coluna: DESCRICAO_ACU, ops: [contem, prefixo]}
+      incide_receita_bruta: {coluna: IREC_ACU, ops: [eq]}
+      incide_devolucao: {coluna: IDEV_ACU, ops: [eq]}
+    filhos:
+      impostos: {entidade: acumulador_vigencia_imposto, liga: {codi_emp: codi_emp, codi_acu: acumulador_codigo, vigencia_acu: vigencia}}
+    regras:
+      - "Receita bruta do Simples: as notas de saída, serviços e CF-e contam na receita quando o acumulador em vigor na data tem `incide_receita_bruta` = S; as devoluções lançadas em entradas abatem quando `incide_devolucao` = S. Conferido em 38 de 40 empresa/competências sorteadas (ver simples.apuracao_simples_nacional)."
+      - "Indicadores (460.803 vigências): receita = faturamento = S em 138.517 (inclui 23.216 que também incidem em devolução), ambos N em 322.111 (31.402 só devolução); receita S e faturamento N em 133 e o inverso em 42. Receita e faturamento quase sempre andam juntos."
+      - "96% dos acumuladores (416.083 de 434.521) têm uma só vigência; 14.633 têm duas; o máximo é 15."
+      - "Tipo de nota: 458.456 vigências são O (outras), 1.236 V (à vista) e 1.111 P (a prazo): o tipo só é usado em poucos acumuladores."
+
+  acumulador_vigencia_imposto:
+    titulo: Impostos de cada acumulador por vigência
+    descricao: >
+      Como cada acumulador trata cada imposto: alíquota da base de cálculo, onde lançar a diferença da base, redução, e o enquadramento no Simples
+      Nacional (anexo, seção e tabela) usado na segregação da receita. 896.705 linhas, 40 impostos diferentes.
+    tabela: efacumulador_vigencia_impostos
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP]
+    acesso: {empresa: CODI_EMP, exige_algum: [acumulador_codigo], volume: grande}
+    ordem: [[CODI_ACU, asc], [VIGENCIA_ACU, desc], [CODI_IMP, asc]]
+    colunas:
+      acumulador_codigo: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      imposto_codigo: CODI_IMP
+      aliquota_base_calculo: ALBC_IAC
+      diferenca_base_lancar_em: {coluna: DIFERENCA_IAC, dominio: diferenca_base_valor_contabil}
+      percentual_reducao: REDUCAO_IAC
+      reduz_imposto: {coluna: REDUZ_IMPOSTO_IAC, dominio: sim_nao_texto}
+      codigo_recolhimento_padrao: CODREC_PADRAO_IAC
+      sequencial_recolhimento: I_RECOLHIMENTO
+      simples_anexo: SIMPLESN_ANEXO_IAC
+      simples_secao: SIMPLESN_SECAO_IAC
+      simples_tabela: SIMPLESN_TABELA_IAC
+      simples_situacao_irpj: SIMPLESN_IRPJ_IAC
+      simples_situacao_csll: SIMPLESN_CSLL_IAC
+      simples_situacao_cofins: SIMPLESN_COFINS_IAC
+      simples_situacao_pis: SIMPLESN_PIS_IAC
+      simples_situacao_inss: SIMPLESN_INSS_IAC
+      simples_situacao_ipi: SIMPLESN_IPI_IAC
+      simples_situacao_icms: SIMPLESN_ICMS_IAC
+      simples_situacao_iss: SIMPLESN_ISS_IAC
+      simples_reducao_base_icms: SIMPLESN_ARBC_ICMS_IAC
+      simples_reducao_base_iss: SIMPLESN_ARBC_ISS_IAC
+      simples_utilizar_reducao_icms: {coluna: SIMPLESN_UTILIZAR_ARBC_ICMS_IAC, dominio: sim_nao_texto}
+      simples_servicos_702_705: {coluna: SIMPLESN_SERVICOS_702_705, dominio: sim_nao_texto}
+      modalidade_operacao: MODALIDADE_OPERACAO_IAC
+      debito_especial_sped: {coluna: DEBITO_ESPECIAL_SPED_IAC, dominio: sim_nao_texto}
+      dacon_tipo_receita: DACON_TIPO_RECEITA_IAC
+    vinculos:
+      acumulador:
+        tabela: efacumulador_vigencia
+        liga: {CODI_EMP: codi_emp, CODI_ACU: codi_acu, VIGENCIA_ACU: vigencia_acu}
+        colunas: {acumulador_descricao: DESCRICAO_ACU}
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      acumulador_codigo: {coluna: CODI_ACU, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_ACU, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+    regras:
+      - "Toda linha tem o acumulador e a vigência correspondentes em acumulador_vigencia (0 sem acumulador em 896.705)."
+      - "O enquadramento no Simples (anexo preenchido) está quase só no imposto 44 (Simples Nacional): 33.057 linhas; seguem IPI 528, PIS 204, Simples MEI 19 e outros com poucas linhas."
+
+  parametro_fiscal_geral:
+    titulo: Parâmetros gerais da escrita fiscal (sem vigência)
+    descricao: >
+      Opções da escrita fiscal que não variam por vigência: período atual de trabalho, data de fechamento (não se lança depois dela), SPED, controle de estoque, forma de
+      lançar clientes e fornecedores e integração contábil. Uma linha por empresa (1.434). Usa 38 das 135 colunas; as demais são opções de tela e de regras estaduais.
+    tabela: efparametro
+    chave: [CODI_EMP]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem: [[CODI_EMP, asc]]
+    colunas:
+      periodo_atual: PERI_PAR
+      periodo_inicial: PINI_PAR
+      fechamento_fiscal: PFEC_PAR
+      inicio_efetivo_atividades: INICIOEFETIVO_PAR
+      simples_inicio_no_sistema: SIMPLESN_INICIO_SISTEMA_PAR
+      controla_estoque: {coluna: ESTO_PAR, dominio: sim1_nao2}
+      gera_movimento_produtos_sintegra: {coluna: DIPI_PAR, dominio: sim1_nao2}
+      gera_sped: {coluna: SPED_PAR, dominio: sim_nao_texto}
+      gera_sped_fiscal: {coluna: SPED_FISCAL_PAR, dominio: sim_nao_texto}
+      perfil_sped: {coluna: SPED_PERFIL_PAR, dominio: perfil_sped}
+      gera_lancamentos_contabeis: {coluna: GERA_LANCAMENTOS_PAR, dominio: sim_nao_texto}
+      gera_perdcomp: {coluna: PERDCOMP_PAR, dominio: sim_nao_texto}
+      gera_informacoes_sintegra: {coluna: DIGECF_PAR, dominio: sim_nao_texto}
+      verifica_inscricao_estadual: {coluna: CHKINS_PAR, dominio: sim_nao_texto}
+      lancamento_fornecedor_por: {coluna: LFOR_PAR, dominio: lancamento_por}
+      lancamento_cliente_por: {coluna: LCLI_PAR, dominio: lancamento_por}
+      opcao_lancamento_produtos: {coluna: PRODUTO_PAR, dominio: opcao_produto}
+      sequencia_automatica_saidas_servicos: {coluna: SEQAUT_PAR, dominio: sim_nao_texto}
+      controla_contas_a_pagar_receber: {coluna: CAIXA_PAR, dominio: sim_nao_texto}
+      usa_tabelas_municipais: {coluna: USATM_PAR, dominio: sim_nao_texto}
+      controla_aidf: {coluna: CONTROLA_AIDF_PAR, dominio: sim_nao_texto}
+      informativo_nota_fiscal_paulista: {coluna: INFORMATIVO_NFP_PAR, dominio: sim_nao_texto}
+      importa_nfe_do_site_da_receita: {coluna: IMPORTAR_NFE_PAR, dominio: sim_nao_texto}
+      informa_chave_nfe_terceiros: {coluna: INFORMAR_NFE_TERCEIROS_PAR, dominio: sim_nao_texto}
+      distribuidora_de_combustivel: {coluna: COMBUSTIVEL_PAR, dominio: sim_nao_texto}
+      limite_lancamento_reducao_z: LIMITE_REDUCAO_Z_PAR
+      utiliza_dominio_cliente: {coluna: DOMCLI_PAR, dominio: sim_nao_texto}
+      scanc_ctb: {coluna: SCANCCTB_PAR, dominio: sim_nao_texto}
+      entrega_a_domicilio: {coluna: ENTREGA_DOMICILIO_PAR, dominio: sim_nao_texto}
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {CODI_EMP: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      periodo_atual: {coluna: PERI_PAR, ops: [eq, entre, gte, lte]}
+      fechamento_fiscal: {coluna: PFEC_PAR, ops: [eq, entre, gte, lte]}
+      gera_sped_fiscal: {coluna: SPED_FISCAL_PAR, ops: [eq]}
+    regras:
+      - "Uma linha por empresa (1.434 empresas; todas têm vigência em parametro_fiscal, 0 sem). Período atual de 2010-01 a 2026-09."
+      - "Fechamento fiscal (`fechamento_fiscal`, 'não é permitido lançamento após esta data'): preenchido nas 1.434 empresas, de 1966-06-30 a 2026-04-30; é anterior ao período atual em 1.433 e posterior em 1 — o fechamento costuma estar ATRASADO em relação ao período de trabalho. Datas como 1966 são provavelmente 'sem fechamento'."
+      - "SPED Fiscal: gera (S) em 921 empresas e não em 513; o controle genérico `gera_sped` é N em todas as 1.434. Controla estoque (1) em 1.429 empresas e não (2) em 5; gera lançamentos contábeis em 1.431 e não em 3."
+      - "Perfil do SPED é A em todas; lançamento de produtos Normal (N) em 1.430 e NCM (C) em 4. O início do cálculo do Simples no sistema está preenchido em 358 empresas (de 2015-01 a 2026-09)."
+
+  acumulador_vigencia_cfop:
+    titulo: CFOPs permitidos em cada acumulador por vigência
+    descricao: >
+      Lista de CFOPs (naturezas de operação) que o acumulador aceita numa vigência. Cada acumulador costuma ter 2 CFOPs (o estadual e o interestadual, ex.: 5xxx e 6xxx) ou 1.
+      767.782 linhas, 1.414 empresas, 512 CFOPs distintos.
+    tabela: efacumulador_vigencia_cfop
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_NAT]
+    acesso: {empresa: CODI_EMP, exige_algum: [acumulador_codigo], volume: grande}
+    ordem: [[CODI_ACU, asc], [VIGENCIA_ACU, desc], [CODI_NAT, asc]]
+    colunas:
+      acumulador_codigo: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      cfop: CODI_NAT
+      complemento_cfop_cat_17_99: COMPLEMENTO_CFOP_CAT_17_99
+    vinculos:
+      acumulador:
+        tabela: efacumulador_vigencia
+        liga: {CODI_EMP: codi_emp, CODI_ACU: codi_acu, VIGENCIA_ACU: vigencia_acu}
+        colunas: {acumulador_descricao: DESCRICAO_ACU}
+    filtros:
+      acumulador_codigo: {coluna: CODI_ACU, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_ACU, ops: [eq, entre, gte, lte]}
+      cfop: {coluna: CODI_NAT, ops: [eq, in, prefixo]}
+    regras:
+      - "Número de CFOPs por acumulador/vigência: 2 em 349.322, 1 em 63.684, 3 em 1.653, 4 em 103; máximo 8. Todas as linhas têm o acumulador e a vigência correspondentes (0 órfãs em 767.782)."
+      - "Conciliação com as notas: em 13.088 notas de saída de 2025 de 3 empresas médias, o CFOP da nota está na lista do acumulador vigente na data em 13.071 (99,9%); as outras 17 são de acumuladores sem lista de CFOPs."
+
+  acumulador_vigencia_aliquota:
+    titulo: Alíquotas pré-definidas dos impostos de cada acumulador
+    descricao: >
+      Alíquotas e percentual de base de cálculo pré-definidos para cada imposto de um acumulador numa vigência (mais de uma por imposto, pelo sequencial), com o tipo de alíquota
+      de ICMS (informada ou por tabela), adicional, carga tributária e coeficiente. 379.002 linhas.
+    tabela: efacumulador_vigencia_impostos_aliquotas
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP, SEQU_IMP]
+    acesso: {empresa: CODI_EMP, exige_algum: [acumulador_codigo], volume: medio}
+    ordem: [[CODI_ACU, asc], [VIGENCIA_ACU, desc], [CODI_IMP, asc], [SEQU_IMP, asc]]
+    colunas:
+      acumulador_codigo: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      imposto_codigo: CODI_IMP
+      sequencial: SEQU_IMP
+      aliquota: ALIQUOTA_IMP
+      percentual_base_calculo: PERCENTUALBC_IMP
+      tipo_aliquota_icms: {coluna: TIPO_ALIQUOTA_ICMS, dominio: tipo_aliquota_icms}
+      tabela_icms: I_TABELA_ICMS
+      adicional_aliquota: ADICIONAL_ALIQUOTA_IMP
+      carga_tributaria: PERCENTUAL_CARGA_TRIBUTARIA
+      coeficiente: VALOR_COEFICIENTE
+    filtros:
+      acumulador_codigo: {coluna: CODI_ACU, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_ACU, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+    regras:
+      - "Tipo de alíquota do ICMS: informada (A) em 378.968 linhas, por tabela (T) em 5 e vazio em 28. Todas as linhas têm o acumulador e a vigência correspondentes (0 órfãs em 379.002)."
+
+  acumulador_vigencia_conta:
+    titulo: Contas contábeis dos impostos de cada acumulador
+    descricao: >
+      Contas e históricos padrão que a contabilização usa para cada imposto de um acumulador: imposto a recolher, a recuperar, sobre vendas, sobre compras, devoluções e estornos,
+      e se gera lançamento contábil. 453.490 linhas, 1.417 empresas.
+    tabela: efacumulador_vigencia_impostos_contas
+    chave: [CODI_EMP, CODI_ACU, VIGENCIA_ACU, CODI_IMP]
+    acesso: {empresa: CODI_EMP, exige_algum: [acumulador_codigo], volume: medio}
+    ordem: [[CODI_ACU, asc], [VIGENCIA_ACU, desc], [CODI_IMP, asc]]
+    colunas:
+      acumulador_codigo: CODI_ACU
+      vigencia: VIGENCIA_ACU
+      imposto_codigo: CODI_IMP
+      conta_imposto_a_recolher: CTRC_IAC
+      historico_imposto_a_recolher: CHIP_IAC
+      conta_imposto_a_recuperar: CTRP_IAC
+      historico_imposto_a_recuperar: CHIR_IAC
+      conta_imposto_sobre_vendas: CTVD_IAC
+      conta_imposto_sobre_compras: CTCP_IAC
+      conta_devolucao_vendas: CTDV_IAC
+      conta_devolucao_compras: CTDEVCOMPRA_IAC
+      historico_devolucao_compras: CHDEVCOMPRA_IAC
+      gera_lancamento_contabil: {coluna: GERA_LAN_CTB_IAC, dominio: sim_nao_texto}
+      historico_estorno_debito: CHESTORNO_DEBITO_IAC
+      historico_credito_venda_fora_estabelecimento: CHOUTROS_CREDITOS_VENDA_FORA_ESTABELECIMENTO_IAC
+    vinculos:
+      imposto:
+        tabela: geimposto
+        liga: {CODI_EMP: codi_emp, CODI_IMP: codi_imp}
+        colunas: {imposto_nome: nome_imp, imposto_sigla: sigl_imp}
+    filtros:
+      acumulador_codigo: {coluna: CODI_ACU, ops: [eq, in]}
+      vigencia: {coluna: VIGENCIA_ACU, ops: [eq, entre, gte, lte]}
+      imposto_codigo: {coluna: CODI_IMP, ops: [eq, in]}
+      gera_lancamento_contabil: {coluna: GERA_LAN_CTB_IAC, ops: [eq]}
+    regras:
+      - "Gera lançamento contábil (S) em 453.474 linhas e não (N) em 17. Todas as linhas têm o acumulador e a vigência correspondentes (0 órfãs em 453.490)."

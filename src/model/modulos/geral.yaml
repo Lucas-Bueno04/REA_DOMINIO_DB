@@ -51,7 +51,7 @@ entidades:
     descricao: >
       Cadastro GLOBAL de pessoas sócias (não depende de empresa; 412 de 2.125 aparecem em mais de uma empresa).
       Somente identificação mínima.
-    privacidade: "Pessoa física identificada (nome e CPF). Mascarar por padrão."
+    privacidade: "Pessoa física identificada (nome e CPF). Os dados saem em claro nesta versão do servidor: devolva só o que a pergunta exigir."
     tabela: gesocios
     chave: [i_socio]
     acesso: {empresa: null, volume: pequeno}

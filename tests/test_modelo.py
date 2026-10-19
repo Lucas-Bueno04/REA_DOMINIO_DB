@@ -15,7 +15,13 @@ def test_modelos_sem_erros():
 def test_avisos_conhecidos_apenas():
     """Os avisos aceitos hoje são relações sustentadas pelos dados mas ausentes dos JOINs dos programas da Domínio."""
     _, _, avisos, _ = validar(sorted(MODULOS.glob("*.yaml")))
-    esperados = ("historico_padrao: nenhuma relação ctlancto↔cthispad", "evento_padrao: nenhuma relação fomovtoserv↔foeventosdef")
+    esperados = ("historico_padrao: nenhuma relação ctlancto↔cthispad", "evento_padrao: nenhuma relação fomovtoserv↔foeventosdef",
+                 # alíquotas do Simples: ligação sustentada pelos dados (397 de 397 linhas cruzadas) mas sem FK declarada no banco
+                 "aliquotas: nenhuma relação efsdoimp_simples_nacional↔EFSDOIMP_SIMPLES_NACIONAL_ALIQUOTAS",
+                 # campos do informativo ligam ao catálogo pelo cabeçalho (efoutrosdados), 0 campos sem cabeçalho em 3,8 mi
+                 "nenhuma relação efoutrosdados_dados↔efinformativos",
+                 # tabelas do banco sem PK nem índice único: a chave da entidade é o conjunto de colunas expostas (gerado em lote)
+                 "difere da PK [] e não há índice único igual")
     inesperados = [a for a in avisos if not any(e in a for e in esperados)]
     assert inesperados == [], inesperados
 

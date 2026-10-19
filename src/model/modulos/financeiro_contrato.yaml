@@ -1,0 +1,227 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: financeiro_contrato
+titulo: Financeiro do escritório - contrato (rascunho em lote)
+dominios:
+  hrcontrato_excedente_faturamento_execente_c_lanc:
+    confirmado: true
+    nota: 'Todos os valores observados em HRCONTRATO_EXCEDENTE_FATURAMENTO.EXCEDENTE estão no comentário do banco (2026-10-18). Distribuição: E=1.'
+    valores: {C: Lançamentos contábeis, F: Lançamentos fiscais, T: Horas trabalhadas, E: Funcionários}
+entidades:
+  hrcontrato_competencia:
+    titulo: Contratos - Competencias para faturamento futuro
+    descricao: 'Contratos - Competencias para faturamento futuro. 11.353 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, MES.'
+    tabela: HRCONTRATO_COMPETENCIA
+    chave: [CODI_EMP, I_CONTRATO, MES]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_CONTRATO, asc]
+    - [MES, asc]
+    colunas: {escritorio: CODI_EMP, contrato: I_CONTRATO, mes_de_faturamento: MES}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+    filtros:
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      mes_de_faturamento:
+        coluna: MES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 11.353 linhas, 2 empresa(s).', 'Vínculo hrcontrato (HRCONTRATO): 0 de 11.269 linhas sem registro relacionado (empresa 1).']
+  hrcontrato_faturamento:
+    titulo: Contrato - Faturamento
+    descricao: 'Contrato - Faturamento. 1.157 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, COMPETENCIA.'
+    tabela: HRCONTRATO_FATURAMENTO
+    chave: [CODI_EMP, I_CONTRATO, COMPETENCIA]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_CONTRATO, asc]
+    colunas: {escritorio: CODI_EMP, contrato: I_CONTRATO, competencia: COMPETENCIA, situacao_a_ativo_i_inativo: SITUACAO, usuario: USUARIO}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+    filtros:
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [eq, in]
+      situacao_a_ativo_i_inativo:
+        coluna: SITUACAO
+        ops: [eq, in]
+      usuario:
+        coluna: USUARIO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1.157 linhas, 2 empresa(s), COMPETENCIA de 2018-01-01 a 2025-05-01.', 'Vínculo hrcontrato (HRCONTRATO): 0 de 1.148 linhas sem
+        registro relacionado (empresa 1).']
+  hrcontrato_adicional_competencia:
+    titulo: Contratos - Adicional anual - Competencias para faturamento futuro
+    descricao: 'Contratos - Adicional anual - Competencias para faturamento futuro. 864 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, MES.'
+    tabela: HRCONTRATO_ADICIONAL_COMPETENCIA
+    chave: [CODI_EMP, I_CONTRATO, MES]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONTRATO, asc]
+    - [MES, asc]
+    colunas: {escritorio: CODI_EMP, contrato: I_CONTRATO, mes_de_faturamento: MES, dia_de_vencimento: DIA_VENCIMENTO}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+    filtros:
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      mes_de_faturamento:
+        coluna: MES
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 864 linhas, 1 empresa(s).', 'Vínculo hrcontrato (HRCONTRATO): 0 de 864 linhas sem registro relacionado (empresa 1).']
+  hrcontrato_alteracao:
+    titulo: Contratos - Alterações
+    descricao: 'Contratos - Alterações. 32 linhas no catálogo; chave: CODI_EMP, i_CONTRATO, DATA_ALTERACAO, I_CAMPO.'
+    tabela: HRCONTRATO_ALTERACAO
+    chave: [CODI_EMP, i_CONTRATO, DATA_ALTERACAO, I_CAMPO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ALTERACAO, volume: pequeno}
+    ordem:
+    - [DATA_ALTERACAO, desc]
+    - [i_CONTRATO, asc]
+    - [I_CAMPO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_contrato: i_CONTRATO, data_da_alteracao: DATA_ALTERACAO, campo_alterado: I_CAMPO, valor_anterior_a_alteracao: DE,
+      valor_posterior_a_aleracao: PARA}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrcontrato_alteracao_cam:
+        tabela: HRCONTRATO_ALTERACAO_CAMPOS
+        liga: {i_campo: i_campo}
+        colunas: {hrcontrato_alteracao_cam_nome: DESCRICAO}
+    filtros:
+      codigo_do_contrato:
+        coluna: i_CONTRATO
+        ops: [eq, in]
+      data_da_alteracao:
+        coluna: DATA_ALTERACAO
+        ops: [eq, in]
+      campo_alterado:
+        coluna: I_CAMPO
+        ops: [eq, in]
+      valor_anterior_a_alteracao:
+        coluna: DE
+        ops: [contem, prefixo]
+      valor_posterior_a_aleracao:
+        coluna: PARA
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 32 linhas, 1 empresa(s), DATA_ALTERACAO de 2022-02-01 a 2025-01-01.', 'Vínculo hrcontrato (HRCONTRATO): 0 de 32 linhas sem registro
+        relacionado (empresa 1).', 'Vínculo hrcontrato_alteracao_cam (HRCONTRATO_ALTERACAO_CAMPOS): 0 de 32 linhas sem registro relacionado (empresa 1).']
+  hrcontrato_historico:
+    titulo: Contratos - Historicos
+    descricao: 'Contratos - Historicos. 4 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, SEQUENCIAL.'
+    tabela: HRCONTRATO_HISTORICO
+    chave: [CODI_EMP, I_CONTRATO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_HISTORICO, volume: pequeno}
+    ordem:
+    - [DATA_HISTORICO, desc]
+    - [I_CONTRATO, asc]
+    - [SEQUENCIAL, asc]
+    colunas: {escritorio: CODI_EMP, contrato: I_CONTRATO, sequencial: SEQUENCIAL, data: DATA_HISTORICO, descricao: DESCRICAO}
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+    filtros:
+      contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      data:
+        coluna: DATA_HISTORICO
+        ops: [entre, gte, lte]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 4 linhas, 1 empresa(s), DATA_HISTORICO de 2024-08-09 a 2024-10-09.', 'Vínculo hrcontrato (HRCONTRATO): 0 de 4 linhas sem registro
+        relacionado (empresa 1).']
+  hrcontrato_excedente_faturamento:
+    titulo: Contrato - Excedentes de faturamento
+    descricao: 'Contrato - Excedentes de faturamento. 1 linhas no catálogo; chave: CODI_EMP, I_CONTRATO, I_EXCEDENTE.'
+    tabela: HRCONTRATO_EXCEDENTE_FATURAMENTO
+    chave: [CODI_EMP, I_CONTRATO, I_EXCEDENTE]
+    acesso: {empresa: CODI_EMP, periodo: A_PARTIR_DE, volume: pequeno}
+    ordem:
+    - [A_PARTIR_DE, desc]
+    - [I_CONTRATO, asc]
+    - [I_EXCEDENTE, asc]
+    colunas:
+      escritorio: CODI_EMP
+      codigo_contrato: I_CONTRATO
+      sequencial: I_EXCEDENTE
+      execente_c_lancamentos_contabeis_f_lanca: {coluna: EXCEDENTE, dominio: hrcontrato_excedente_faturamento_execente_c_lanc}
+      evento: I_EVENTO
+      valor: VALOR
+      a_partir_de: A_PARTIR_DE
+      encerrar_s_n: ENCERRAR
+      encerrado_em: ENCERRADO_EM
+    vinculos:
+      hrcontrato:
+        tabela: HRCONTRATO
+        liga: {codi_emp: codi_emp, i_contrato: i_contrato}
+        colunas: {hrcontrato_nome: DESCRICAO}
+      hrevento:
+        tabela: HREVENTO
+        liga: {codi_emp: codi_emp, i_evento: i_evento}
+        colunas: {hrevento_nome: DESCRICAO}
+    filtros:
+      codigo_contrato:
+        coluna: I_CONTRATO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_EXCEDENTE
+        ops: [eq, in]
+      a_partir_de:
+        coluna: A_PARTIR_DE
+        ops: [entre, gte, lte]
+      encerrado_em:
+        coluna: ENCERRADO_EM
+        ops: [entre, gte, lte]
+      execente_c_lancamentos_contabeis_f_lanca:
+        coluna: EXCEDENTE
+        ops: [eq, in]
+      evento:
+        coluna: I_EVENTO
+        ops: [eq, in]
+      encerrar_s_n:
+        coluna: ENCERRAR
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s), A_PARTIR_DE de 2017-08-01 a 2017-08-01.', 'Colunas expostas nulas em 100% das linhas (1): encerrado_em.',
+      'execente_c_lancamentos_contabeis_f_lanca: todos os valores reais estão no comentário do banco (E=1).', 'Vínculo hrcontrato (HRCONTRATO): 0 de 1 linhas sem
+        registro relacionado (empresa 1).', 'Vínculo hrevento (HREVENTO): 0 de 1 linhas sem registro relacionado (empresa 1).']
+  hrcontrato_alteracao_campos:
+    titulo: Contratos - Campos alterações
+    descricao: 'Contratos - Campos alterações. 1 linhas no catálogo; chave: I_CAMPO.'
+    tabela: HRCONTRATO_ALTERACAO_CAMPOS
+    chave: [I_CAMPO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_CAMPO, asc]
+    colunas: {codigo_do_campo: I_CAMPO, descricao_do_campo: DESCRICAO}
+    filtros:
+      codigo_do_campo:
+        coluna: I_CAMPO
+        ops: [eq, in]
+      descricao_do_campo:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

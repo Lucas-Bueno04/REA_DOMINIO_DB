@@ -1,0 +1,97 @@
+# Modelo de entidades da MEMÓRIA DE CÁLCULO da FOLHA: cadastro de bases (FOCADBASES), bases e valores de cada cálculo (FOCALCULOSBASES) e quais eventos (rubricas) incidem
+# em cada base (FOEVENTOSBASES). Curado à mão e conciliado no banco (só leitura). Formato: docs/formato-modelo.md
+#
+# NÃO EXPOSTO DE PROPÓSITO: as colunas de fórmula/compilação de FOCADBASES (frm_script, frm_fil1..4: código do próprio sistema) e as de controle do eSocial de FOEVENTOSBASES.
+# ATENÇÃO: valores de base e de imposto por empregado identificável (dado financeiro). O identificador do cálculo (`calculo`) é um GUID que vem de movimento_folha/base_folha.
+modulo: folha_calculo
+titulo: Memória de cálculo da folha (bases e incidências)
+dominios:
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+  tipo_base_calculo:
+    descricao: Tipo da base de cálculo (focadbases.tipo_base)
+    confirmado: false
+    nota: >
+      O comentário diz só "Tipo da base" e não há legenda. Em uso: 1 em 204 bases, 0 em 59 e 2, 3, 4, 5, 7, 8, 9 em uma base cada. Significado desconhecido; não usar como regra.
+    valores: {0: Sem legenda, 1: Sem legenda, 2: Sem legenda, 3: Sem legenda, 4: Sem legenda, 5: Sem legenda, 7: Sem legenda, 8: Sem legenda, 9: Sem legenda}
+
+entidades:
+  cadastro_base_calculo_folha:
+    titulo: Cadastro de bases de cálculo da folha
+    descricao: >
+      Os 270 tipos de base que o cálculo da folha usa (INSS Mensal, FGTS Mensal, INSS Férias, INSS empresa, terço de férias por rubrica, empréstimos...). 164 têm código negativo
+      (bases internas do sistema) e 106 positivo. As fórmulas não são expostas. Tabela global.
+    tabela: focadbases
+    chave: [i_cadbases]
+    acesso: {empresa: null, volume: pequeno}
+    ordem: [[i_cadbases, asc]]
+    colunas:
+      base_codigo: i_cadbases
+      descricao: descricao
+      tipo_base: {coluna: tipo_base, dominio: tipo_base_calculo}
+      ordem: ordem
+    filtros:
+      base_codigo: {coluna: i_cadbases, ops: [eq, in, gte, lte]}
+      descricao: {coluna: descricao, ops: [contem, prefixo]}
+    regras:
+      - "270 bases: 164 internas (código negativo) e 106 de código positivo; as mais usadas nos cálculos de 2026 são 9 (INSS Mensal), -86 (INSS Empresa sem desoneração), 15 (FGTS Mensal), -6/-8/-7 (partes do INSS da empresa) e 10/16 (INSS e FGTS de férias)."
+
+  calculo_base_folha:
+    titulo: Bases e valores de um cálculo da folha
+    descricao: >
+      Para cada cálculo de um empregado (identificado por `calculo`), uma linha por base: valor da base, taxa aplicada e valor resultante, com a descrição de como foi calculado.
+      Mais de 8,4 milhões de linhas; é obrigatório informar o cálculo (o identificador vem de movimento_folha ou base_folha). A tabela não tem coluna de empresa.
+    tabela: focalculosbases
+    chave: [I_CALCULOSBASES]
+    acesso: {empresa: null, exige_algum: [calculo], volume: grande}
+    ordem: [[I_CALCULOS, asc], [i_cadbases, asc]]
+    privacidade: Bases e valores de INSS, FGTS e IRRF por empregado identificável (financeiro).
+    colunas:
+      calculo_base: I_CALCULOSBASES
+      calculo: I_CALCULOS
+      base_codigo: i_cadbases
+      base: {coluna: base, sensivel: financeiro}
+      taxa: taxa
+      valor: {coluna: valor, sensivel: financeiro}
+      como_foi_calculado: DESCRICAO_CALCULO
+    vinculos:
+      cadastro:
+        tabela: focadbases
+        liga: {i_cadbases: i_cadbases}
+        colunas: {base_descricao: descricao}
+    filtros:
+      calculo: {coluna: I_CALCULOS, ops: [eq, in]}
+      base_codigo: {coluna: i_cadbases, ops: [eq, in]}
+    regras:
+      - "Integridade: toda base de cálculo tem o tipo no cadastro (0 sem cadastro em 3,66 milhões de linhas de cálculos recentes; 124 tipos distintos em uso)."
+      - "Valor = base × taxa / 100 em 86,6% das bases com taxa (2.954 de 3.412 na empresa 354); as demais são progressivas (INSS, IRRF) ou com dedução, e toda base sem taxa tem valor 0."
+      - "Base do INSS mensal (base 9): em 688 cálculos de 40 empresas na competência 2026-08 (folha mensal), a base gravada é IGUAL à soma dos proventos (tipo P) cujos eventos incidem na base 9 (foeventosbases) em 582 (84,6%); em 36 é MENOR porque está limitada ao teto do INSS (8.475,55, o valor mais frequente quando a base é menor); em 56 é menor por outro motivo e em 14 é maior que a soma (causas não apuradas, 10% do total)."
+
+  incidencia_evento_folha:
+    titulo: Bases em que cada evento da folha incide
+    descricao: >
+      Liga cada evento (rubrica) às bases de cálculo em que ele incide (INSS, FGTS, IRRF, férias...): é o que decide o que entra em cada base. 1 linha por empresa, evento e base. Inclui
+      indicadores de envio ao eSocial.
+    tabela: foeventosbases
+    chave: [codi_emp, i_eventos, i_cadbases]
+    acesso: {empresa: codi_emp, volume: grande}
+    ordem: [[i_eventos, asc], [i_cadbases, asc]]
+    colunas:
+      evento_codigo: i_eventos
+      base_codigo: i_cadbases
+      enviar_esocial: {coluna: ENVIAR_ESOCIAL, dominio: sim_nao_numerico}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: sim_nao_numerico}
+    vinculos:
+      evento:
+        tabela: foeventos
+        liga: {codi_emp: codi_emp, i_eventos: i_eventos}
+        colunas: {evento_nome: nome}
+      cadastro:
+        tabela: focadbases
+        liga: {i_cadbases: i_cadbases}
+        colunas: {base_descricao: descricao}
+    filtros:
+      evento_codigo: {coluna: i_eventos, ops: [eq, in]}
+      base_codigo: {coluna: i_cadbases, ops: [eq, in]}
+    regras:
+      - "6,08 milhões de linhas. Bases com mais eventos: 59 (594.625), 21 (403.823), 15 FGTS Mensal (381.352), 62 (338.979), 9 INSS Mensal (301.557) e 35 (269.016). Integridade (20 maiores empresas, 185.668 linhas): todo evento da incidência existe no cadastro de eventos (0 sem evento)."
+      - "É a regra que reconcilia a base do INSS: a soma dos proventos dos eventos com incidência na base 9 é a base gravada em calculo_base_folha (ver regras daquela entidade)."

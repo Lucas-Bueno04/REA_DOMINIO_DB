@@ -1,0 +1,389 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: pessoal_condicoes
+titulo: Pessoal - condicoes (rascunho em lote)
+dominios:
+  focondicoes_ambientais_trabalho_enviar_para_o_esocial_0_nao_1:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO.ENVIAR_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=61, 1=1.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_gerar_retificacao_para_o_esoc:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO.GERAR_RETIFICACAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_marcacao_do_evento_para_gerar:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO.PROCESSAR_EXCLUSAO_ESOCIAL estão no comentário do banco (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_enviar_evento_esocial_anterio:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO.ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL estão no comentário do banco (2026-10-18).
+      Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_insalubrida:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.INSALUBRIDADE estão no comentário do banco (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_periculosid:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.PERICULOSIDADE estão no comentário do banco (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_aposentador:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.APOSENTADORIA_ESPECIAL estão no comentário do banco (2026-10-18). Distribuição:
+      0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_utiliza_pro:
+    confirmado: parcial
+    nota: 'Valores em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.UTILIZA_PROTECAO_INDIVIDUAL fora do comentário do banco: 0=62. Distribuição: 0=62 (2026-10-18).'
+    valores: {'1': Não se aplica, '2': Não utilizado, '3': Utilizado}
+  focondicoes_ambientais_trabalho_fator_risco_epc_eficaz_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.EPC_EFICAZ estão no comentário do banco (2026-10-18). Distribuição: 1=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_eficaz_na_n:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.EFICAZ_NEUTRALIZACAO_RISCO_TRABALHADOR estão no comentário do banco (2026-10-18).
+      Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_houve_tenta:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.TENTATIVA_IMPLEMENTACAO_MEDIDAS_PROTECAO_COLETIVA estão no comentário do banco
+      (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_observado_c:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.OBSERVADO_CONDICOES_FUNCIONAMENTO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_observado_o:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.OBSERVADO_PRAZO_VALIDADE_CERTIFICADO_APROVACAO estão no comentário do banco
+      (2026-10-18). Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_observado_p:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.OBSERVADO_PERIODICIDADE_MANUTENCAO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_fator_risco_observado_h:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO.OBSERVADO_HIGIENIZACAO_CONFORME_ORIENTACAO estão no comentário do banco (2026-10-18).
+      Distribuição: 0=62.'
+    valores: {'0': Não, '1': Sim}
+  focondicoes_ambientais_trabalho_responsavel_orgao_de_classe_1_crm_2_crea_:
+    confirmado: true
+    nota: 'Todos os valores observados em FOCONDICOES_AMBIENTAIS_TRABALHO_RESPONSAVEL.ORGAO_CLASSE estão no comentário do banco (2026-10-18). Distribuição: 1=62.'
+    valores: {'1': CRM, '2': CREA, '3': Outros}
+entidades:
+  focondicoes_ambientais_trabalho_lista_fatores_risco:
+    titulo: Tabela de catálogo dos fatores de risco das condições ambientais de trabalho
+    descricao: 'Tabela de catálogo dos fatores de risco das condições ambientais de trabalho. 966 linhas no catálogo; chave: I_FATOR_RISCO.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_LISTA_FATORES_RISCO
+    chave: [I_FATOR_RISCO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_FATOR_RISCO, asc]
+    colunas: {codigo_sequencial_do_fator_de_risco: I_FATOR_RISCO, descricao: DESCRICAO, codigo_do_fator_de_risco: CODIGO}
+    filtros:
+      codigo_sequencial_do_fator_de_risco:
+        coluna: I_FATOR_RISCO
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+      codigo_do_fator_de_risco:
+        coluna: CODIGO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 966 linhas.']
+  focondicoes_ambientais_trabalho_lista_atividades:
+    titulo: Lista de atividades perigosas e insalubres.
+    descricao: 'Lista de atividades perigosas e insalubres.. 206 linhas no catálogo; chave: I_ATIVIDADES.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_LISTA_ATIVIDADES
+    chave: [I_ATIVIDADES]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_ATIVIDADES, asc]
+    colunas: {codigo_da_atividade: I_ATIVIDADES, descricao: NOME}
+    filtros:
+      codigo_da_atividade:
+        coluna: I_ATIVIDADES
+        ops: [eq, in]
+      descricao:
+        coluna: NOME
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 206 linhas.']
+  focondicoes_ambientais_trabalho:
+    titulo: Ambiente de trabalho.
+    descricao: 'Ambiente de trabalho.. 62 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_INICIO.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_INICIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_FIM, volume: pequeno}
+    ordem:
+    - [DATA_FIM, desc]
+    - [I_EMPREGADOS, asc]
+    - [DATA_INICIO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_inicio_da_condicao: DATA_INICIO
+      descricao_da_atividade_desempenhada: DESCRICAO_ATIVIDADE_DESEMPENHADA
+      metodologia_utilizada_no_levantamento_de: METODOLOGIA_UTILIZADA_LEVANTAMENTO_RISCOS_ERGONOMICOS
+      observacao_complementar: OBSERVACAO_COMPLEMENTAR
+      enviar_para_o_esocial_0_nao_1_sim: {coluna: ENVIAR_ESOCIAL, dominio: focondicoes_ambientais_trabalho_enviar_para_o_esocial_0_nao_1}
+      gerar_retificacao_esocial: {coluna: GERAR_RETIFICACAO_ESOCIAL, dominio: focondicoes_ambientais_trabalho_gerar_retificacao_para_o_esoc}
+      marcacao_do_evento_para_gerar_o_evento_d: {coluna: PROCESSAR_EXCLUSAO_ESOCIAL, dominio: focondicoes_ambientais_trabalho_marcacao_do_evento_para_gerar}
+      enviar_evento_esocial_anterior_ao_inicio: {coluna: ENVIAR_ESOCIAL_PERIODO_ANTERIOR_INICIO_BANCO_CONTABIL, dominio: focondicoes_ambientais_trabalho_enviar_evento_esocial_anterio}
+      data_fim_da_condicao: DATA_FIM
+    vinculos:
+      foempregados:
+        tabela: foempregados
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados}
+        colunas: {foempregados_nome: nome}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_inicio_da_condicao:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      data_fim_da_condicao:
+        coluna: DATA_FIM
+        ops: [entre, gte, lte]
+      descricao_da_atividade_desempenhada:
+        coluna: DESCRICAO_ATIVIDADE_DESEMPENHADA
+        ops: [contem, prefixo]
+      metodologia_utilizada_no_levantamento_de:
+        coluna: METODOLOGIA_UTILIZADA_LEVANTAMENTO_RISCOS_ERGONOMICOS
+        ops: [contem, prefixo]
+      observacao_complementar:
+        coluna: OBSERVACAO_COMPLEMENTAR
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 62 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (3): metodologia_utilizada_no_levantamento_de, observacao_complementar,
+        data_fim_da_condicao.', 'enviar_para_o_esocial_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=61, 1=1).', 'gerar_retificacao_esocial:
+        todos os valores reais estão no comentário do banco (0=62).', 'marcacao_do_evento_para_gerar_o_evento_d: todos os valores reais estão no comentário do banco
+        (0=62).', 'enviar_evento_esocial_anterior_ao_inicio: todos os valores reais estão no comentário do banco (0=62).', 'Vínculo foempregados (foempregados): 0
+        de 62 linhas sem registro relacionado (empresa 1).']
+  focondicoes_ambientais_trabalho_envios_esocial:
+    titulo: Envios de condições ambientais de trabalho para o esocial
+    descricao: 'Envios de condições ambientais de trabalho para o esocial. 62 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_INICIO, CODI_EMP_DADOS_EVENTOS,
+      I_DADOS_EVENTOS.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_ENVIOS_ESOCIAL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_INICIO, CODI_EMP_DADOS_EVENTOS, I_DADOS_EVENTOS]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [CODI_EMP_DADOS_EVENTOS, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, data_de_inicio: DATA_INICIO, codigo_da_empresa_referente_a_foesocial: CODI_EMP_DADOS_EVENTOS,
+      codigo_do_evento_referente_a_foesocial_d: I_DADOS_EVENTOS}
+    vinculos:
+      foesocial_dados_eventos:
+        tabela: FOESOCIAL_DADOS_EVENTOS
+        liga: {codi_emp_dados_eventos: codi_emp, i_dados_eventos: i_dados_eventos}
+        colunas: {foesocial_dados_eventos_nome: TABELA_DADOS}
+      focondicoes_ambientais_t:
+        tabela: FOCONDICOES_AMBIENTAIS_TRABALHO
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_inicio: data_inicio}
+        colunas: {focondicoes_ambientais_t_nome: DESCRICAO_ATIVIDADE_DESEMPENHADA}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_de_inicio:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      codigo_da_empresa_referente_a_foesocial:
+        coluna: CODI_EMP_DADOS_EVENTOS
+        ops: [eq, in]
+      codigo_do_evento_referente_a_foesocial_d:
+        coluna: I_DADOS_EVENTOS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 62 linhas, 1 empresa(s), DATA_INICIO de 2021-12-01 a 2023-10-25.', 'Vínculo foesocial_dados_eventos (FOESOCIAL_DADOS_EVENTOS):
+        0 de 62 linhas sem registro relacionado (empresa 1).', 'Vínculo focondicoes_ambientais_t (FOCONDICOES_AMBIENTAIS_TRABALHO): 0 de 62 linhas sem registro relacionado
+        (empresa 1).']
+  focondicoes_ambientais_trabalho_informacoes:
+    titulo: Informações do ambiente de trabalho.
+    descricao: 'Informações do ambiente de trabalho.. 62 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_INICIO, I_AMBIENTE_TRABALHO.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_INFORMACOES
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_INICIO, I_AMBIENTE_TRABALHO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_AMBIENTE_TRABALHO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_do_empregado: I_EMPREGADOS, data_inicio_da_condicao: DATA_INICIO, codigo_do_ambiente_de_trabalho: I_AMBIENTE_TRABALHO}
+    vinculos:
+      focondicoes_ambientais_t:
+        tabela: FOCONDICOES_AMBIENTAIS_TRABALHO
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_inicio: data_inicio}
+        colunas: {focondicoes_ambientais_t_nome: DESCRICAO_ATIVIDADE_DESEMPENHADA}
+      foambientes_trabalho:
+        tabela: FOAMBIENTES_TRABALHO
+        liga: {codi_emp: codi_emp, i_ambiente_trabalho: i_ambiente_trabalho}
+        colunas: {foambientes_trabalho_nome: NOME}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_inicio_da_condicao:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      codigo_do_ambiente_de_trabalho:
+        coluna: I_AMBIENTE_TRABALHO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 62 linhas, 1 empresa(s), DATA_INICIO de 2021-12-01 a 2023-10-25.', 'Vínculo focondicoes_ambientais_t (FOCONDICOES_AMBIENTAIS_TRABALHO):
+        0 de 62 linhas sem registro relacionado (empresa 1).', 'Vínculo foambientes_trabalho (FOAMBIENTES_TRABALHO): 0 de 62 linhas sem registro relacionado (empresa
+        1).']
+  focondicoes_ambientais_trabalho_fator_risco:
+    titulo: Fatores de riscos do ambiente de trabalho.
+    descricao: 'Fatores de riscos do ambiente de trabalho.. 62 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_INICIO, I_FATOR_RISCO, SEQUENCIAL.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_FATOR_RISCO
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_INICIO, I_FATOR_RISCO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [I_FATOR_RISCO, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_inicio_da_condicao: DATA_INICIO
+      fator_de_risco: I_FATOR_RISCO
+      sequencial: SEQUENCIAL
+      tipo_de_avaliacao_0_nao_aplicavel_1_quan: TIPO_AVALIACAO
+      grau_de_exposicao: GRAU_EXPOSICAO
+      limite_de_tolerancia: LIMITE_TOLERANCIA
+      unidade_de_medida: I_UNIDADE_MEDIDA
+      tecnica_de_medicao: TECNICA_MEDICAO
+      insalubridade_0_nao_1_sim: {coluna: INSALUBRIDADE, dominio: focondicoes_ambientais_trabalho_fator_risco_insalubrida}
+      periculosidade_0_nao_1_sim: {coluna: PERICULOSIDADE, dominio: focondicoes_ambientais_trabalho_fator_risco_periculosid}
+      aposentadoria_especial_0_nao_1_sim: {coluna: APOSENTADORIA_ESPECIAL, dominio: focondicoes_ambientais_trabalho_fator_risco_aposentador}
+      utiliza_protecao_coletiva_1_nao_se_aplic: {coluna: UTILIZA_PROTECAO_COLETIVA, dominio: focondicoes_ambientais_trabalho_fator_risco_utiliza_pro}
+      epc_eficaz_0_nao_1_sim: {coluna: EPC_EFICAZ, dominio: focondicoes_ambientais_trabalho_fator_risco_epc_eficaz_}
+      utiliza_protecao_individual_1_nao_se_apl: {coluna: UTILIZA_PROTECAO_INDIVIDUAL, dominio: focondicoes_ambientais_trabalho_fator_risco_utiliza_pro}
+      eficaz_na_neutralizacao_do_fator_de_risc: {coluna: EFICAZ_NEUTRALIZACAO_RISCO_TRABALHADOR, dominio: focondicoes_ambientais_trabalho_fator_risco_eficaz_na_n}
+      houve_tentativa_de_implementacao_de_medi: {coluna: TENTATIVA_IMPLEMENTACAO_MEDIDAS_PROTECAO_COLETIVA, dominio: focondicoes_ambientais_trabalho_fator_risco_houve_tenta}
+      observado_condicoes_de_funcionamento_do: {coluna: OBSERVADO_CONDICOES_FUNCIONAMENTO, dominio: focondicoes_ambientais_trabalho_fator_risco_observado_c}
+      observado_o_uso_ininterrupto_do_equipame: {coluna: OBSERVADO_USO_ININTERRUPTO, dominio: focondicoes_ambientais_trabalho_fator_risco_observado_o}
+      observado_o_prazo_de_validade_do_certifi: {coluna: OBSERVADO_PRAZO_VALIDADE_CERTIFICADO_APROVACAO, dominio: focondicoes_ambientais_trabalho_fator_risco_observado_o}
+      observado_periodicidade_da_manutencao_do: {coluna: OBSERVADO_PERIODICIDADE_MANUTENCAO, dominio: focondicoes_ambientais_trabalho_fator_risco_observado_p}
+      observado_higienizacao_conforme_a_orient: {coluna: OBSERVADO_HIGIENIZACAO_CONFORME_ORIENTACAO, dominio: focondicoes_ambientais_trabalho_fator_risco_observado_h}
+      descricao_do_agente_nocivo: DESCRICAO_AGENTE_NOCIVO
+      numero_do_processo_agentes_nocivos: NUMERO_PROCESSO
+    vinculos:
+      focondicoes_ambientais_t:
+        tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_LISTA_FATORES_RISCO
+        liga: {i_fator_risco: i_fator_risco}
+        colunas: {focondicoes_ambientais_t_nome: DESCRICAO}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_inicio_da_condicao:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      fator_de_risco:
+        coluna: I_FATOR_RISCO
+        ops: [eq, in]
+      sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      tipo_de_avaliacao_0_nao_aplicavel_1_quan:
+        coluna: TIPO_AVALIACAO
+        ops: [eq, in]
+      unidade_de_medida:
+        coluna: I_UNIDADE_MEDIDA
+        ops: [eq, in]
+      tecnica_de_medicao:
+        coluna: TECNICA_MEDICAO
+        ops: [contem, prefixo]
+      descricao_do_agente_nocivo:
+        coluna: DESCRICAO_AGENTE_NOCIVO
+        ops: [contem, prefixo]
+      numero_do_processo_agentes_nocivos:
+        coluna: NUMERO_PROCESSO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 62 linhas, 1 empresa(s), DATA_INICIO de 2021-12-01 a 2023-10-25.', 'Colunas expostas nulas em 100% das linhas (5): grau_de_exposicao,
+        limite_de_tolerancia, tecnica_de_medicao, descricao_do_agente_nocivo, numero_do_processo_agentes_nocivos.', 'insalubridade_0_nao_1_sim: todos os valores reais
+        estão no comentário do banco (0=62).', 'periculosidade_0_nao_1_sim: todos os valores reais estão no comentário do banco (0=62).', 'aposentadoria_especial_0_nao_1_sim:
+        todos os valores reais estão no comentário do banco (0=62).', 'utiliza_protecao_coletiva_1_nao_se_aplic: valores reais fora do comentário do banco (0=62);
+        tratar o domínio como hipótese.', 'epc_eficaz_0_nao_1_sim: todos os valores reais estão no comentário do banco (1=62).', 'utiliza_protecao_individual_1_nao_se_apl:
+        valores reais fora do comentário do banco (0=62); tratar o domínio como hipótese.', 'eficaz_na_neutralizacao_do_fator_de_risc: todos os valores reais estão
+        no comentário do banco (0=62).', 'houve_tentativa_de_implementacao_de_medi: todos os valores reais estão no comentário do banco (0=62).', 'observado_condicoes_de_funcionamento_do:
+        todos os valores reais estão no comentário do banco (0=62).', 'observado_o_uso_ininterrupto_do_equipame: todos os valores reais estão no comentário do banco
+        (0=62).', 'observado_o_prazo_de_validade_do_certifi: todos os valores reais estão no comentário do banco (0=62).', 'observado_periodicidade_da_manutencao_do:
+        todos os valores reais estão no comentário do banco (0=62).', 'observado_higienizacao_conforme_a_orient: todos os valores reais estão no comentário do banco
+        (0=62).', 'Vínculo focondicoes_ambientais_t (FOCONDICOES_AMBIENTAIS_TRABALHO_LISTA_FATORES_RISCO): 0 de 62 linhas sem registro relacionado (empresa 1).']
+  focondicoes_ambientais_trabalho_responsavel:
+    titulo: Ambiente de trabalho.
+    descricao: 'Ambiente de trabalho.. 62 linhas no catálogo; chave: CODI_EMP, I_EMPREGADOS, DATA_INICIO, SEQUENCIAL.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_RESPONSAVEL
+    chave: [CODI_EMP, I_EMPREGADOS, DATA_INICIO, SEQUENCIAL]
+    acesso: {empresa: CODI_EMP, periodo: DATA_INICIO, volume: pequeno}
+    ordem:
+    - [DATA_INICIO, desc]
+    - [I_EMPREGADOS, asc]
+    - [SEQUENCIAL, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_do_empregado: I_EMPREGADOS
+      data_inicio_da_condicao: DATA_INICIO
+      codigo_sequencial: SEQUENCIAL
+      cpf_do_responsavel: {coluna: CPF, sensivel: parcial}
+      nis_pis_do_responsavel: NIS_PIS
+      nome_do_responsavel: NOME
+      orgao_de_classe_1_crm_2_crea_3_outros: {coluna: ORGAO_CLASSE, dominio: focondicoes_ambientais_trabalho_responsavel_orgao_de_classe_1_crm_2_crea_}
+      descricao_do_orgao_de_classe: DESCRICAO_ORGAO_CLASSE
+      numero_do_orgao_de_classe: NUMERO_ORGAO_CLASSE
+      uf_do_orgao_de_classe: UF_ORGAO_CLASSE
+    vinculos:
+      focondicoes_ambientais_t:
+        tabela: FOCONDICOES_AMBIENTAIS_TRABALHO
+        liga: {codi_emp: codi_emp, i_empregados: i_empregados, data_inicio: data_inicio}
+        colunas: {focondicoes_ambientais_t_nome: DESCRICAO_ATIVIDADE_DESEMPENHADA}
+    filtros:
+      codigo_do_empregado:
+        coluna: I_EMPREGADOS
+        ops: [eq, in]
+      data_inicio_da_condicao:
+        coluna: DATA_INICIO
+        ops: [eq, in]
+      codigo_sequencial:
+        coluna: SEQUENCIAL
+        ops: [eq, in]
+      cpf_do_responsavel:
+        coluna: CPF
+        ops: [eq, in]
+      nis_pis_do_responsavel:
+        coluna: NIS_PIS
+        ops: [eq, in]
+      nome_do_responsavel:
+        coluna: NOME
+        ops: [contem, prefixo]
+      descricao_do_orgao_de_classe:
+        coluna: DESCRICAO_ORGAO_CLASSE
+        ops: [eq, in]
+      numero_do_orgao_de_classe:
+        coluna: NUMERO_ORGAO_CLASSE
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 62 linhas, 1 empresa(s), DATA_INICIO de 2021-12-01 a 2023-10-25.', 'Colunas expostas nulas em 100% das linhas (2): nis_pis_do_responsavel,
+        descricao_do_orgao_de_classe.', 'orgao_de_classe_1_crm_2_crea_3_outros: todos os valores reais estão no comentário do banco (1=62).', 'Vínculo focondicoes_ambientais_t
+        (FOCONDICOES_AMBIENTAIS_TRABALHO): 0 de 62 linhas sem registro relacionado (empresa 1).']
+  focondicoes_ambientais_trabalho_unidade_medida_fator_risco:
+    titulo: Tabela de catálogo das unidades de medida dos fatores de risco das condições ambientais de trabalho
+    descricao: 'Tabela de catálogo das unidades de medida dos fatores de risco das condições ambientais de trabalho. 30 linhas no catálogo; chave: I_UNIDADE_MEDIDA.'
+    tabela: FOCONDICOES_AMBIENTAIS_TRABALHO_UNIDADE_MEDIDA_FATOR_RISCO
+    chave: [I_UNIDADE_MEDIDA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [I_UNIDADE_MEDIDA, asc]
+    colunas: {codigo_da_unidade_de_medida: I_UNIDADE_MEDIDA, descricao: DESCRICAO}
+    filtros:
+      codigo_da_unidade_de_medida:
+        coluna: I_UNIDADE_MEDIDA
+        ops: [eq, in]
+      descricao:
+        coluna: DESCRICAO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 30 linhas.']

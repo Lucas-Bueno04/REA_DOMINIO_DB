@@ -1,0 +1,10 @@
+# EFIMPORTADOR_FIXO_CONVENIO_ICMS115_ACUMULADOR_CFOP — Configuração do leiaute Convênio ICMS 115/03 - Acumulador - CFOP
+110 linhas
+
+| Coluna | Tipo | PK | Nulo | Comentário |
+|---|---|---|---|---|
+| CODI_EMP | integer(4) | PK |  | Código da empresa |
+| I_ACUMULADOR | integer(4) | PK |  | Sequencial do acumulador |
+| I_CFOP | integer(4) | PK |  | Sequencial do CFOP |
+| CFOP | integer(4) |  |  | CFOP |
+| VERSAO_CFOP | smallint(2) |  |  | Versão do CFOP |

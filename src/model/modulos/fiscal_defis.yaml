@@ -1,0 +1,140 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: fiscal_defis
+titulo: Fiscal - defis (rascunho em lote)
+entidades:
+  efdefis_api_envio_arquivos_json:
+    titulo: DEFIS Api - Envio dos Arquivos - JSON
+    descricao: 'DEFIS Api - Envio dos Arquivos - JSON. 680 linhas no catálogo; chave: CODI_EMP, I_ENVIO, TIPO_ARQUIVO.'
+    tabela: EFDEFIS_API_ENVIO_ARQUIVOS_JSON
+    chave: [CODI_EMP, I_ENVIO, TIPO_ARQUIVO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [TIPO_ARQUIVO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, tipo_do_arquivo: TIPO_ARQUIVO}
+    vinculos:
+      efdefis_api_envio_arquiv:
+        tabela: EFDEFIS_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {efdefis_api_envio_arquiv_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      tipo_do_arquivo:
+        coluna: TIPO_ARQUIVO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 680 linhas, 215 empresa(s).', 'Vínculo efdefis_api_envio_arquiv (EFDEFIS_API_ENVIO_ARQUIVOS): 0 de 2 linhas sem registro relacionado
+        (empresa 729).']
+  efdefis_api_envio_arquivos:
+    titulo: DEFIS Api - Envio dos Arquivos
+    descricao: 'DEFIS Api - Envio dos Arquivos. 340 linhas no catálogo; chave: CODI_EMP, I_ENVIO.'
+    tabela: EFDEFIS_API_ENVIO_ARQUIVOS
+    chave: [CODI_EMP, I_ENVIO]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ENVIO, volume: pequeno}
+    ordem:
+    - [DATA_ENVIO, desc]
+    - [I_ENVIO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, competencia: COMPETENCIA, tipo_de_envio: TIPO_ENVIO, situacao_processo: SITUACAO,
+      nome_do_arquivo: NOME_ARQUIVO, tipo_de_declaracao: TIPO_DECLARACAO, data_de_envio: DATA_ENVIO, hora_de_envio: HORARIO_ENVIO, numero_da_guia_defis: NUMERO_DEFIS}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      data_de_envio:
+        coluna: DATA_ENVIO
+        ops: [entre, gte, lte]
+      tipo_de_envio:
+        coluna: TIPO_ENVIO
+        ops: [eq, in]
+      situacao_processo:
+        coluna: SITUACAO
+        ops: [eq, in]
+      nome_do_arquivo:
+        coluna: NOME_ARQUIVO
+        ops: [contem, prefixo]
+      tipo_de_declaracao:
+        coluna: TIPO_DECLARACAO
+        ops: [eq, in]
+      numero_da_guia_defis:
+        coluna: NUMERO_DEFIS
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 340 linhas, 215 empresa(s), DATA_ENVIO de 2025-03-21 a 2026-05-27.', 'Colunas expostas nulas em 100% das linhas (1): numero_da_guia_defis.',
+      'Vínculo geempre (geempre): 0 de 1 linhas sem registro relacionado (empresa 729).']
+  efdefis_api_envio_arquivos_mensagem:
+    titulo: DEFIS Api - Envio dos Arquivos - Retorno
+    descricao: 'DEFIS Api - Envio dos Arquivos - Retorno. 340 linhas no catálogo; chave: CODI_EMP, I_ENVIO, SEQUENCIAL_MENSAGEM.'
+    tabela: EFDEFIS_API_ENVIO_ARQUIVOS_MENSAGEM
+    chave: [CODI_EMP, I_ENVIO, SEQUENCIAL_MENSAGEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [SEQUENCIAL_MENSAGEM, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, sequencial_mensagem: SEQUENCIAL_MENSAGEM, codigo_da_mensagem_de_retorno: CODIGO_MENSAGEM,
+      titulo_da_mensagem_de_retorno: TITULO_MENSAGEM, descricao_do_titulo: DESCRICAO_MENSAGEM}
+    vinculos:
+      efdefis_api_envio_arquiv:
+        tabela: EFDEFIS_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {efdefis_api_envio_arquiv_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      sequencial_mensagem:
+        coluna: SEQUENCIAL_MENSAGEM
+        ops: [eq, in]
+      codigo_da_mensagem_de_retorno:
+        coluna: CODIGO_MENSAGEM
+        ops: [eq, in]
+      titulo_da_mensagem_de_retorno:
+        coluna: TITULO_MENSAGEM
+        ops: [contem, prefixo]
+      descricao_do_titulo:
+        coluna: DESCRICAO_MENSAGEM
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 340 linhas, 215 empresa(s).', 'Vínculo efdefis_api_envio_arquiv (EFDEFIS_API_ENVIO_ARQUIVOS): 0 de 1 linhas sem registro relacionado
+        (empresa 729).']
+  efdefis_api_bilhetagem:
+    titulo: DEFIS Api - Envio dos Arquivos - Bilhetagem de custos
+    descricao: 'DEFIS Api - Envio dos Arquivos - Bilhetagem de custos. 340 linhas no catálogo; chave: CODI_EMP, I_ENVIO, CODI_CON, SEQUENCIAL_BILHETAGEM.'
+    tabela: EFDEFIS_API_BILHETAGEM
+    chave: [CODI_EMP, I_ENVIO, CODI_CON, SEQUENCIAL_BILHETAGEM]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_ENVIO, asc]
+    - [CODI_CON, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_sequencial_de_envio_dos_arquivos: I_ENVIO, codigo_do_contador: CODI_CON, sequencial_bilhetagem: SEQUENCIAL_BILHETAGEM,
+      tipo_de_servico_realizado: TIPO_ENVIO, operacao_gerou_custo: GEROU_CUSTO}
+    vinculos:
+      efdefis_api_envio_arquiv:
+        tabela: EFDEFIS_API_ENVIO_ARQUIVOS
+        liga: {codi_emp: codi_emp, i_envio: i_envio}
+        colunas: {efdefis_api_envio_arquiv_nome: NOME_ARQUIVO}
+    filtros:
+      codigo_sequencial_de_envio_dos_arquivos:
+        coluna: I_ENVIO
+        ops: [eq, in]
+      codigo_do_contador:
+        coluna: CODI_CON
+        ops: [eq, in]
+      sequencial_bilhetagem:
+        coluna: SEQUENCIAL_BILHETAGEM
+        ops: [eq, in]
+      tipo_de_servico_realizado:
+        coluna: TIPO_ENVIO
+        ops: [eq, in]
+      operacao_gerou_custo:
+        coluna: GEROU_CUSTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 340 linhas, 215 empresa(s).', 'Vínculo efdefis_api_envio_arquiv (EFDEFIS_API_ENVIO_ARQUIVOS): 0 de 1 linhas sem registro relacionado
+        (empresa 729).']

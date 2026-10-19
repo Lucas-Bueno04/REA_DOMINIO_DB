@@ -27,7 +27,7 @@ def amb(tmp_path, monkeypatch):
 def test_status_derivado_e_resumo(amb):
     r = dd.resumo()
     assert sum(r["por_status"].values()) == r["tabelas"]
-    assert r["tabelas_modeladas"] == sum(r["por_status"].get(s, 0) for s in ("validada", "modelada", "apoio"))
+    assert r["tabelas_modeladas"] == sum(r["por_status"].get(s, 0) for s in ("validada", "medida", "modelada", "apoio"))
     assert r["tabelas_modeladas"] >= 70
     assert r["por_status"].get("bloqueada", 0) >= 1
     assert r["linhas_modeladas"] <= r["linhas_total"]
@@ -42,7 +42,7 @@ def test_tabelas_bloqueadas_ficam_bloqueadas(amb):
 def test_fila_ordenada_e_sem_modeladas(amb):
     f = dd.fila(30)
     assert [x["score"] for x in f] == sorted((x["score"] for x in f), reverse=True)
-    assert all(x["status"] not in ("validada", "modelada", "apoio", "bloqueada", "vazia") for x in f)
+    assert all(x["status"] not in ("validada", "medida", "modelada", "apoio", "bloqueada", "vazia") for x in f)
 
 
 def test_marcacao_manual_e_prioridade(amb):
@@ -98,7 +98,7 @@ def test_promocao_exige_validacao_e_grava_so_no_diretorio_temporario(amb):
     dd.salvar_rascunho("efsdopro", g["yaml"])
     with pytest.raises((FileExistsError, ValueError)):
         dd.promover_rascunho("efsdopro")                # não sobrescreve sem pedir (ou recusa por duplicar a entidade)
-    assert dd.detalhe("efsdopro")["status"] in ("modelada", "validada")
+    assert dd.detalhe("efsdopro")["status"] in ("modelada", "validada", "medida")
 
 
 def test_nao_gera_rascunho_de_tabela_bloqueada(amb):

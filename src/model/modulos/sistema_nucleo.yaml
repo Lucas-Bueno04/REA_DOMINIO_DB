@@ -1,0 +1,299 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: sistema_nucleo
+titulo: Sistema - nucleo (rascunho em lote)
+dominios:
+  audados_tipo_do_movimento_1_inclus:
+    confirmado: true
+    nota: 'Todos os valores observados em audados.tipo estão no comentário do banco (2026-10-18). Distribuição: 1=17.309.140, 3=12.449.527, 2=2.007.162.'
+    valores: {'1': Inclusao, '2': Alteracao, '3': Exclusao}
+  autabelas_selecionada_1_sim_0_na:
+    confirmado: true
+    nota: 'Todos os valores observados em autabelas.seleciona estão no comentário do banco (2026-10-18). Distribuição: 0=894, 1=1.'
+    valores: {'1': Sim, '0': Nao}
+  auparametros_excluir_dados_anteriores_a:
+    confirmado: true
+    nota: 'Todos os valores observados em auparametros.EXCLUIR_DADOS_ANTERIORES_A estão no comentário do banco (2026-10-18). Distribuição: 0=1.'
+    valores: {'0': Nunca excluir, '1': 3 meses, '2': 1 Ano, '3': 5 anos}
+entidades:
+  audados:
+    titulo: Movimentos da auditoria
+    descricao: 'Movimentos da auditoria. 31.761.864 linhas no catálogo; chave: sequencial.'
+    tabela: audados
+    chave: [sequencial]
+    acesso:
+      empresa: codi_emp
+      exige_algum: [sequencial]
+      volume: grande
+    ordem:
+    - [sequencial, asc]
+    colunas:
+      sequencial: sequencial
+      codigo_da_tabela: table_id
+      empresa: codi_emp
+      usuario: usuario
+      tipo_do_movimento_1_inclusao_2_alteracao: {coluna: tipo, dominio: audados_tipo_do_movimento_1_inclus}
+    vinculos:
+      autabelas:
+        tabela: autabelas
+        liga: {table_id: table_id}
+        colunas: {autabelas_nome: tabela}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      usuario:
+        coluna: usuario
+        ops: [contem, prefixo]
+      tipo_do_movimento_1_inclusao_2_alteracao:
+        coluna: tipo
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 31.765.829 linhas, 1.602 empresa(s).', 'tipo_do_movimento_1_inclusao_2_alteracao: todos os valores reais estão no comentário do
+        banco (1=17.309.140, 3=12.449.527, 2=2.007.162).', 'Vínculo autabelas (autabelas): 0 de 584 linhas sem registro relacionado (empresa 1039).']
+  aucolunas:
+    titulo: Comentario das colunas auditadas
+    descricao: 'Comentario das colunas auditadas. 15.014 linhas no catálogo; chave: table_id, coluna.'
+    tabela: aucolunas
+    chave: [table_id, coluna]
+    acesso: {empresa: null, volume: medio}
+    ordem:
+    - [table_id, asc]
+    - [coluna, asc]
+    colunas: {tabela: table_id, coluna: coluna, comentario: comentario}
+    vinculos:
+      autabelas:
+        tabela: autabelas
+        liga: {table_id: table_id}
+        colunas: {autabelas_nome: tabela}
+    filtros:
+      tabela:
+        coluna: table_id
+        ops: [eq, in]
+      coluna:
+        coluna: coluna
+        ops: [eq, in]
+      comentario:
+        coluna: comentario
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 15.014 linhas.', 'Vínculo autabelas (autabelas): 0 de 15.014 linhas sem registro relacionado.']
+  auvalores:
+    titulo: Valores das colunas valoradas
+    descricao: 'Valores das colunas valoradas. 8.360 linhas no catálogo; chave: table_id, coluna, valor.'
+    tabela: auvalores
+    chave: [table_id, coluna, valor]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [table_id, asc]
+    - [coluna, asc]
+    colunas: {codigo_da_tabela_no_banco: table_id, nome_da_coluna: coluna, valor_da_coluna: valor, descricao_do_valor_da_coluna: descricao}
+    filtros:
+      codigo_da_tabela_no_banco:
+        coluna: table_id
+        ops: [eq, in]
+      nome_da_coluna:
+        coluna: coluna
+        ops: [eq, in]
+      valor_da_coluna:
+        coluna: valor
+        ops: [eq, in]
+      descricao_do_valor_da_coluna:
+        coluna: descricao
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 8.360 linhas.']
+  aufiltroempresas:
+    titulo: Empresas auditadas - filtro
+    descricao: 'Empresas auditadas - filtro. 1.960 linhas no catálogo; chave: codi_emp.'
+    tabela: aufiltroempresas
+    chave: [codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: []
+    colunas: {empresa: codi_emp}
+    regras: ['Medido em 2026-10-18: 1.960 linhas, 1.960 empresa(s).']
+  autabelas:
+    titulo: Tabelas que serao auditadas
+    descricao: 'Tabelas que serao auditadas. 895 linhas no catálogo; chave: table_id.'
+    tabela: autabelas
+    chave: [table_id]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [table_id, asc]
+    colunas:
+      codigo_da_tabela_no_banco: table_id
+      nome_da_tabela: tabela
+      modulo_da_tabela: modulo
+      tabela_pai: tabela_pai
+      descricao_da_tabela: descricao
+      selecionada_1_sim_0_nao: {coluna: seleciona, dominio: autabelas_selecionada_1_sim_0_na}
+      comentario: comentario
+      tabela_foi_inativada_na_auditoria_s_n: INATIVA
+    filtros:
+      codigo_da_tabela_no_banco:
+        coluna: table_id
+        ops: [eq, in]
+      nome_da_tabela:
+        coluna: tabela
+        ops: [contem, prefixo]
+      modulo_da_tabela:
+        coluna: modulo
+        ops: [eq, in]
+      tabela_pai:
+        coluna: tabela_pai
+        ops: [contem, prefixo]
+      descricao_da_tabela:
+        coluna: descricao
+        ops: [contem, prefixo]
+      comentario:
+        coluna: comentario
+        ops: [contem, prefixo]
+      tabela_foi_inativada_na_auditoria_s_n:
+        coluna: INATIVA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 895 linhas.', 'selecionada_1_sim_0_nao: todos os valores reais estão no comentário do banco (0=894, 1=1).']
+  aufiltrousuarios:
+    titulo: Usuarios auditados - filtro
+    descricao: 'Usuarios auditados - filtro. 193 linhas no catálogo; chave: usuario.'
+    tabela: aufiltrousuarios
+    chave: [usuario]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [usuario, asc]
+    colunas: {nome: usuario}
+    filtros:
+      nome:
+        coluna: usuario
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 193 linhas.']
+  auusuarios:
+    titulo: Usuarios selecionados
+    descricao: 'Usuarios selecionados. 169 linhas no catálogo; chave: usuario.'
+    tabela: auusuarios
+    chave: [usuario]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [usuario, asc]
+    colunas: {usuario: usuario}
+    filtros:
+      usuario:
+        coluna: usuario
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 169 linhas.']
+  aufiltrotabelas:
+    titulo: Tabelas auditadas - filtro
+    descricao: 'Tabelas auditadas - filtro. 144 linhas no catálogo; chave: table_id.'
+    tabela: aufiltrotabelas
+    chave: [table_id]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [table_id, asc]
+    colunas: {tabela: table_id}
+    filtros:
+      tabela:
+        coluna: table_id
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 144 linhas.']
+  aucolunasexclusao:
+    titulo: Colunas gravadas na exclusao
+    descricao: 'Colunas gravadas na exclusao. 107 linhas no catálogo; chave: table_id, coluna.'
+    tabela: aucolunasexclusao
+    chave: [table_id, coluna]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [table_id, asc]
+    - [coluna, asc]
+    colunas: {tabela: table_id, nome_da_coluna: coluna}
+    vinculos:
+      autabelas:
+        tabela: autabelas
+        liga: {table_id: table_id}
+        colunas: {autabelas_nome: tabela}
+    filtros:
+      tabela:
+        coluna: table_id
+        ops: [eq, in]
+      nome_da_coluna:
+        coluna: coluna
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 107 linhas.', 'Vínculo autabelas (autabelas): 0 de 107 linhas sem registro relacionado.']
+  aucolunaslivres:
+    titulo: Colunas que nao sao auditadas
+    descricao: 'Colunas que nao sao auditadas. 18 linhas no catálogo; chave: table_id, coluna.'
+    tabela: aucolunaslivres
+    chave: [table_id, coluna]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [table_id, asc]
+    - [coluna, asc]
+    colunas: {codigo_da_tabela_no_banco: table_id, nome_da_coluna: coluna}
+    vinculos:
+      autabelas:
+        tabela: autabelas
+        liga: {table_id: table_id}
+        colunas: {autabelas_nome: tabela}
+    filtros:
+      codigo_da_tabela_no_banco:
+        coluna: table_id
+        ops: [eq, in]
+      nome_da_coluna:
+        coluna: coluna
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 18 linhas.', 'Vínculo autabelas (autabelas): 0 de 18 linhas sem registro relacionado.']
+  austatus:
+    titulo: Status da auditoria
+    descricao: 'Status da auditoria. 1 linhas no catálogo; chave: sequencial.'
+    tabela: austatus
+    chave: [sequencial]
+    acesso: {empresa: null, periodo: data, volume: pequeno}
+    ordem:
+    - [data, desc]
+    - [sequencial, asc]
+    colunas: {sequencial: sequencial, status_iniciado_ou_parado_i_p: status, data_atual: data, hora_atual: hora, usuario_atual: usuario}
+    filtros:
+      sequencial:
+        coluna: sequencial
+        ops: [eq, in]
+      data_atual:
+        coluna: data
+        ops: [entre, gte, lte]
+      status_iniciado_ou_parado_i_p:
+        coluna: status
+        ops: [eq, in]
+      usuario_atual:
+        coluna: usuario
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, data de 2018-03-07 a 2018-03-07.']
+  auparametros:
+    titulo: Parametros da auditoria
+    descricao: 'Parametros da auditoria. 1 linhas no catálogo; chave: novas_empresas, novos_usuarios, novas_tabelas, filtro_empresa, filtro_usuario, filtro_tabela,
+      EXCLUIR_DADOS_ANTERIORES_A.'
+    tabela: auparametros
+    chave: [novas_empresas, novos_usuarios, novas_tabelas, filtro_empresa, filtro_usuario, filtro_tabela, EXCLUIR_DADOS_ANTERIORES_A]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [novas_empresas, asc]
+    colunas:
+      auditar_novas_empresas: novas_empresas
+      auditar_novos_usuarios: novos_usuarios
+      auditar_novas_tabelas: novas_tabelas
+      filtrar_auditoria_por_empresa: filtro_empresa
+      filtrar_auditoria_por_usuario: filtro_usuario
+      filtrar_auditoria_por_tabelas: filtro_tabela
+      excluir_dados_anteriores_a_0_nunca_exclu: {coluna: EXCLUIR_DADOS_ANTERIORES_A, dominio: auparametros_excluir_dados_anteriores_a}
+    filtros:
+      auditar_novas_empresas:
+        coluna: novas_empresas
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.', 'excluir_dados_anteriores_a_0_nunca_exclu: todos os valores reais estão no comentário do banco (0=1).']
+  aucontrole:
+    titulo: Controle do sequencial
+    descricao: 'Controle do sequencial. 1 linhas no catálogo; chave: sequencial.'
+    tabela: aucontrole
+    chave: [sequencial]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [sequencial, asc]
+    colunas: {maior_sequencial_disponivel_na_tabela_au: sequencial}
+    filtros:
+      maior_sequencial_disponivel_na_tabela_au:
+        coluna: sequencial
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1 linhas.']

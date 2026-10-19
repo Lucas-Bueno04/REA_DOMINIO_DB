@@ -276,6 +276,139 @@ O modelo curado toca **75 tabelas (1,6% das 4.727 fontes do gerador)**, que conc
 - O servidor ainda **não foi registrado** no Claude Code (comando em `docs/uso-mcp.md`).
 - A suíte de integração depende de dados reais (ex.: empresa 879, 1430, 245, escritório 930): se esses dados mudarem os testes podem precisar de ajuste.
 
+## Fase 3 — módulo CF-e (2026-10-18)
+**Entregas:** `src/model/modulos/cfe.yaml` (6 entidades), `docs/modelo-cfe.md`, `scripts/sondar_cfe.py`. Validado (0 erros, 0 avisos), executado no banco real (6 de 6, sem multiplicar linhas) e suíte `pytest` com 73 testes passando. Só leitura, como no restante do projeto.
+
+| Entidade | Tabela | Linhas |
+|---|---|---|
+| cupom_fiscal_eletronico | `efcupom_fiscal_eletronico` | 7.235.124 |
+| item_cupom_fiscal_eletronico | `efcupom_fiscal_eletronico_estoque` | 12.416.469 |
+| imposto_cupom_fiscal_eletronico | `..._impostos` | 7.623.014 |
+| detalhe_imposto_cupom_fiscal_eletronico | `..._impostos_detalhamento` | 7.744.304 |
+| pis_cofins_cupom_fiscal_eletronico | `..._pis_cofins` | 1.363.671 |
+| lancamento_cupom_fiscal_eletronico | `..._lancto` (+ `_estoque_total` como vínculo) | 7.399.590 |
+
+**Conciliação (empresa 1017, 554.404 CF-e):** valor do cabeçalho = `estoque_total` em 100%; `estoque_total` = soma dos itens e soma dos impostos = cabeçalho em 552.621 de 552.621; 0 itens órfãos; 0 chaves repetidas.
+**Descobertas:** `situacao` 2 = cancelado (99,9% com extrato/chave de cancelamento e valor 0), 0 = normal; 1 e 4 não ocorrem (`confirmado: parcial`). `origem_reg` = 7 em 99,99% das linhas e **não consta no comentário** do banco (só 0 a 3). `tipo_titulo` é sempre 99 e `conferido` sempre N. Só 40 empresas usam CF-e (2017-07 a 2026-01).
+**Fora de propósito:** `*_ESTOQUE_APURACAO_ESTOQUE` (12,4 mi, cálculo interno), saldo/monofásico/ICMS-ST, parcelas/pagamentos (376 linhas), tabelas vazias e `EFSAT_CF_E`.
+**Pendente:** a apuração lê `EFTMP_CUPOM_FISCAL_ELETRONICO_PERIODO` (temporária); o critério de situação que a Domínio usa para escolher os CF-e do período ainda não foi extraído dos `.pbd`.
+**Próximas da fila (por volume):** `efsdopro`/`efsdopro_diario` (8,7 mi), `GEGUIA_CONTRIBUICAO_PREVIDENCIARIA*` (4 mi; colunas já em `docs/colunas/`), INSS/IRRF/FGTS da folha, SPED ECF, auditoria.
+
+## Fase 3 — módulo Contabilidade referencial (2026-10-18)
+**Entregas:** `src/model/modulos/referencial.yaml` (10 entidades), `docs/modelo-referencial.md`, `scripts/sondar_ct_referencial.py`. Validado (0 erros, 0 avisos), executado no banco real (10 de 10, sem multiplicar linhas), 73 testes passando. Só leitura.
+
+| Grupo | Entidades (tabela) | Linhas |
+|---|---|---|
+| Planos referenciais (globais) | plano_referencial_ecf (`ctcontas_sped_ecf_geral`), plano_referencial_srf (`ctcontas_srf`), plano_referencial_ecf_imune_isenta | 1.133 · 809 · 515 |
+| Mapeamento conta → referencial | conta_referencial_ecf / _srf / _ecf_imune_isenta (`ctcontas_*_ref`) | 922 mil · 635 mil · 17,5 mil |
+| Lançamentos referenciais | lancamento_referencial_ecf (`ctlancto_sped_ecf_geral`), _srf (`ctlancto_referencial_srf`), _ecf_imune_isenta | 21,7 mi · 1,15 mi · 470 mil |
+| SCP | lancamento_scp (`ctlancto_scp`) | 2.742 |
+
+**Descobertas:** cada linha referencial é **uma perna** (débito *ou* crédito, a outra conta vale 0), então somar `valor` direto dá o dobro do lançamento. A conta referencial é a que o mapeamento `ctcontas_*_ref` associa à conta do livro (100% das pernas de débito, empresas 1017 e 596). Conciliação ECF (empresa 1017, 580.266 lançamentos): soma das pernas de débito = `vlor_lan` em 579.198; todo lançamento tem linha referencial; 0 órfãos. No SRF só existe perna para conta com mapeamento (52.961 de 54.974 lançamentos da empresa 596). `origem_reg` é sempre 0 nas tabelas referenciais. No plano ECF a utilização 3 (só Presumido) está no comentário mas não ocorre nos dados.
+**Fora de propósito:** 24 tabelas `CTLANCTO_*` vazias (COSIF, FCONT, BC, ANS, etc.), planos de setores regulados, `CTCONTAS_*_REF_SA_SCP`, `CTSPED_*` (próxima rodada).
+
+## Fase 3 — módulo SPED ECF, Outros Dados (2026-10-18)
+**Entregas:** `src/model/modulos/sped_ecf.yaml` (11 entidades), `docs/modelo-sped_ecf.md`, `scripts/sondar_sped_ecf.py`. Validado (0 erros, 0 avisos), executado no banco real (11 de 11), 73 testes passando. Só leitura.
+
+| Grupo | Entidades (tabela) | Linhas |
+|---|---|---|
+| Parâmetros | ecf_outros_dados (`ctsped_ecf_od`) | 2.533 |
+| Valores | valor_registro_ecf (`..._registro`), conta_registro_ecf, valor_mes_registro_ecf | 8,58 mi · 4.866 · 32.556 |
+| Layout | layout_registro_ecf (`cttabela_sped_ecf_od_registro`) | 10.776 |
+| Lalur | valor_lalur_ecf (`..._registro_lalur`), conta_lalur_ecf, lancamento_lalur_ecf, base_negativa_parte_b_ecf | 4,08 mi · 1.825 · 14.978 · 194 |
+| Signatários | signatario_ecf, qualificacao_signatario | 1.051 · 21 |
+
+**Descobertas:** há 1 registro por (empresa, ano-calendário, SCP) em 613 empresas, anos 2017-2025; lucro presumido trimestral é 83% (2.112 de 2.533). 99% de `valor_registro_ecf` vale 0 (o sistema grava todas as linhas do layout). **Erro evitado:** o `codigo` do Lalur *não* é o do layout da ECF (só 3,9% casa, por coincidência numérica); os programas ligam-no às tabelas `LRTABELA_GRUPO_*` (módulo Lalur, ainda não modelado). O vínculo com o layout foi retirado de `valor_lalur_ecf`. Tipo de saldo vazio ('') existe e não consta no comentário do banco. O cadastro tem 110 campos e a entidade expõe 56.
+**Fora de propósito:** registros específicos da ECF (Y570, Y600, Y612, Y620, Y671, Y672, Y720, Y800, W100, L200, M010, M410, X360, X430, X450, X480; 6 a 18 mil linhas), SPED Contábil (`CTSPED_CONTABIL_OD*`), e-mail/telefone de signatário.
+**Próximo:** módulo Lalur (`LR*`, 129 tabelas, para ligar o `codigo`), registros específicos da ECF e SPED Contábil.
+
+## Mapeamento em lote — Fiscal (2026-10-18)
+**Decisão do dono do projeto:** mapear 100% do banco útil, departamento por departamento, até não restar tabela "não iniciada". O controle do que foi feito é o **status derivado da plataforma** (por tabela) + este arquivo; não existe outro controle.
+
+**Processo (scripts novos, todos só leitura no banco):**
+1. `scripts/mapear_lote.py --dep <Departamento>`: pega as tabelas "não iniciadas", gera uma entidade por tabela com o gerador da plataforma (colunas sem binário/credencial/"SEM USO", domínios dos comentários, vínculos pelas FKs declaradas, filtros), agrupa por família em `src/model/modulos/<dep>_<familia>.yaml` (famílias de até 3 tabelas vão para `<dep>_outros.yaml`), valida no catálogo e **executa cada entidade no banco real** (SELECT de 200 linhas e fan-out dos vínculos). Relatório em `data/lotes/<dep>.json`.
+2. `scripts/medir_fatos.py --todos-gerados`: mede, no banco, volume/período/empresas, colunas nulas em 100%, domínios (valores reais x comentário; só vira `confirmado: true` com ao menos um valor real e nenhum fora do comentário) e linhas sem pai em cada vínculo; grava como `regras` (com a data da medição).
+3. `scripts/marcar_sensiveis.py`: marca `sensivel: parcial` (CPF/CNPJ, inscrição, e-mail, telefone, endereço) e remove colunas de texto de certificado digital.
+4. `gerar_docs_modelo.py <modulo>` e `dump_colunas.py` para a documentação.
+
+**Resultado do Fiscal:** 876 tabelas "não iniciadas" → **875 entidades em 33 módulos** (`fiscal_*.yaml`); 0 erros de validação; 875 de 875 executam no banco real; 0 multiplicam linhas; 191 domínios confirmados contra os dados e 18 parciais; 111 colunas marcadas como sensíveis. Modelo total: 980 entidades. Cobertura: 989 tabelas e 66,4% das linhas do banco (175,7 mi de 264,6 mi).
+**A tabela removida do banco:** `EFSDOIMP_PIS_COFINS_REDUCAO_LINEAR_FILIAL_APROVEITAMENTO_CREDITO` (7.166 linhas no catálogo de 15/10) não existe mais; marcada como "ignorada". É a única diferença entre o catálogo e o banco hoje (5.140 x 5.139 tabelas).
+
+**O que "validada" significa para as entidades em lote — leia antes de confiar:** a plataforma deriva "validada" de a entidade ter `regras`. Nas 875 entidades geradas, as regras são **fatos estruturais medidos** (volume, período, colunas nulas, domínios, órfãos de vínculo), **não** conciliações de regra de negócio com um total que a Domínio calcula (como as 54 entidades curadas à mão). Os nomes de API vêm dos comentários do banco (alguns truncados), as descrições são automáticas e as chaves de 6 tabelas sem PK nem índice único são o conjunto de colunas expostas. Próximo nível de validação (manual) para as de maior valor: `efsdopro`, `efoutrosdados_dados`, `efacumulador_vigencia*`, `efsdoimp_*`.
+**Não foi feito:** as 1.789 tabelas fiscais vazias; leitura do conteúdo de colunas de XML/binário (excluídas); regras de negócio (só as curadas).
+
+### Lote Pessoal (2026-10-18)
+464 tabelas "não iniciadas" → **464 entidades em 29 módulos** (`pessoal_*.yaml`); 0 erros de validação; 464 de 464 executam no banco real; 0 multiplicam linhas; 270 colunas marcadas como sensíveis (`pessoal` para nascimento, CID, deficiência, documentos e filiação; `financeiro` para salário e remuneração; CPF/CNPJ, e-mail, telefone e endereço como `parcial`). Descoberta do processo: 8 tabelas grandes (≥ 100 mil linhas) ficaram sem filtro obrigatório que liderasse um índice; o novo `scripts/proteger_acesso.py` cria esses filtros e os torna `exige_algum` (agora faz parte de `scripts/fechar_lote.py`, que encadeia medir fatos → sensíveis → proteger acesso → validar → documentar). Mesmas ressalvas do Fiscal sobre o que "validada" significa.
+
+### Lote dos demais departamentos (2026-10-18)
+| Departamento | Tabelas | Módulos | Observação |
+|---|---|---|---|
+| Contábil | 278 | 14 (`contabil_*`) | 20 colunas sensíveis |
+| Geral | 257 | 21 (`geral_*`) | 52 colunas sensíveis; 2 entidades protegidas por `proteger_acesso` |
+| Financeiro do escritório | 76 | 7 (`financeiro_*`) | |
+| Processos | 26 | 4 (`processos_*`) | |
+| Societário | 19 | 2 (`societario_*`) | |
+| Sistema | 14 | 2 (`sistema_*`) | auditoria: `audados` (31,8 mi) expõe só metadados; o `conteudo` das linhas auditadas é `long varchar` e foi excluído de propósito |
+| Outros | 3 | 1 (`outros_outros`) | |
+
+**Situação da plataforma ao fim do dia:** 0 tabelas "não iniciadas" em qualquer departamento; 2.134 tabelas modeladas (2.066 "validadas" pelo critério mecânico, 50 modeladas à mão sem regras, 18 de apoio); **99,99% das linhas do banco cobertas** (264,57 mi de 264,59 mi); 773 de 773 tabelas com ≥ 1.000 linhas; 2.117 entidades; 21.631 colunas expostas de 53.963 úteis; 1.324 domínios, dos quais 1.247 confirmados. 0 erros de validação; só os 2 avisos antigos e 26 "tabela sem PK" (esperados e documentados no teste). Ficam fora: as 2.580 tabelas vazias, as 12 bloqueadas (credenciais) e 1 removida do banco.
+**Ressalva que continua valendo:** em lote, "validada" = fatos estruturais medidos, não conciliação de regra de negócio. A próxima fase é **curar à mão as entidades de maior valor** (nomes, descrições, regras conciliadas com totais que a Domínio calcula) e transformar o modelo em funções de consulta nomeadas (futuras ferramentas MCP).
+
+## Curadoria das tabelas de maior valor (2026-10-18, em andamento)
+Depois do mapeamento em lote, cada tabela de alto valor é **curada à mão** (nomes legíveis, descrição, regras conciliadas com um total que a Domínio calcula) em módulo manual; `scripts/curar_entidade.py <tabela>` tira a entidade do módulo gerado. Entregues:
+
+| Módulo | Entidades | Conciliação feita (só leitura) |
+|---|---|---|
+| `estoque` | `saldo_produto` (8,45 mi), `saldo_produto_diario` | saldo = anterior + entradas − saídas (valor 100%, físico 100% a menos de 0,001); continuidade entre meses 62.130/62.130; entradas = `efmvepro`; **saídas = notas de saída + CF-e vigentes (100% a menos de 0,001; só com notas seriam 90,2%)**; diário fecha com o mensal 82.962/82.962 (`scripts/sondar_saldo_produtos.py`) |
+| `simples` | `apuracao_simples_nacional`, `aliquota_simples_nacional`, `receita_bruta_anterior_simples` | total = soma dos detalhes em 18.355/18.355 grupos (**nunca some todas as linhas**: dobra); imposto = IRPJ+CSLL+COFINS+PIS+INSS+IPI+ICMS+ISS em 13.403/13.403; **receita bruta recalculada pelos documentos fecha ao centavo em 38 de 40 empresa/competências sorteadas** (`scripts/conciliar_receita_simples.py`); 2 exceções registradas (1110/2025-10: serviços 87.948,65 acima da base — hipótese de regime de caixa NÃO confirmada; 1649/2026-03: 198,27 no grupo de ST) |
+
+| `parametro_fiscal` | `parametro_fiscal`, `parametro_fiscal_imposto`, `acumulador_vigencia`, `acumulador_vigencia_imposto` | vigência em vigor = a mais recente até a data (a mesma regra dos acumuladores, validada na receita do Simples); regimes deduzidos dos dados (ver abaixo); 0 órfãos de vigência/acumulador |
+
+| `esocial` | `evento_esocial` (913 mil), `catalogo_evento_esocial` (44), `lote_esocial` (210 mil), `ocorrencia_evento_esocial` (82 mil) | 99,99% dos eventos têm recibo+validação+resposta; **resposta 202 = sucesso com advertência** (10.730 de 10.730 com ocorrência; 201 nunca tem: 262.934); evento = número S-xxxx (1299 = fechamento); catálogo cobre 100%; lote do registro tem o mesmo evento em 100% (78.357); ID de envio único |
+
+| `guias` | `guia_imposto` (408 mil), `pagamento_imposto` (35 mil) | `valor_pago` da apuração fecha com a soma dos pagamentos em 98,2% (2.044/2.082, 2023-2024); `saldo_recolher = saldo_devedor` em 99,9%; **o registro de pagamentos parou em 2023** (guias com saldo e valor pago: 1.525 em 2023, 17 em 2024, 6 em 2025, 0 em 2026; `efpagimp` termina em 2025-04) |
+| `parametros_empresa` | `parametro_contabil` (1.441), `parametro_folha` (1.356) | plano de contas de 87 empresas vem de OUTRA empresa; 971 bloqueiam lançamento fora do período de trabalho; `mes_encerrado` da folha está desatualizado (≤ 2026-03): usar o S-1299 |
+
+| `informativos` | `informativo` (82), `informativo_empresa` (83 mil), `dado_informativo` (3,84 mi) | todo campo tem cabeçalho (0 órfãos em 3,8 mi); 9 competências com ano impossível (20, 2240, 3202, 5025); informativo 35 (SPED PIS/COFINS) tem 2,9 mi de campos |
+| `lalur` | `calculo_lalur` (2.884), `apuracao_irpj_real` e `apuracao_csll_real` (3.108 cada), `lucro_antes_irpj_csll` (2.813) | **todas as identidades fecham**: lucro real e base 3.108/3.108; IRPJ = 15% (278/278); CSLL = 9% (277/278, 1 em 9,03%); adicional = 10% × (LR − 20.000 × m), m inteiro de 1 a 12 em 167/167; a recolher com piso zero 278/278 (IRPJ e CSLL); deduções do IRPJ 3.108/3.108, da CSLL 3.103/3.108 |
+| `parametro_fiscal` (EFPARAMETRO) | `parametro_fiscal_geral` (1.434) | `PFEC_PAR` (fechamento fiscal) está antes do período atual em 1.433 das 1.434 empresas |
+
+| `das_api` | `envio_das_api` (13.320), `mensagem_envio_das_api` (18.777), `bilhetagem_das_api` (13.320) | **situação do envio coincide 1 para 1 com o código HTTP da mensagem** (0 aguardando, 1 sucesso/200, 2 recusado/400-403, 3 erro/500, 4 não autorizado/401); número do DAS (17 posições) só em emissões; **a partir da 2ª transmissão com sucesso todas são retificadoras (1.334/1.334)**; só há dados de 2024-04 em diante |
+
+| `folha_historico` | `alteracao_salarial` (27.825), `alteracao_contratual` (33.339), `lancamento_evento_folha` (226 mil), `situacao_mensal_empregado` (429 mil) | aumento percentual fecha 3.727/3.731, adição de valor 107/107, continuidade do salário anterior 8.915/8.955; **`foafastamentos_competencia` é a situação MENSAL do empregado: 93% das linhas são "Trabalhando" (código 1)**, afastamentos são a minoria |
+
+| `guias` (regras) | `regra_recolhimento` (315 mil), `codigo_receita_imposto` (38 mil) | código de recolhimento da guia = o da regra em 7.426/7.427; **vencimento: 62,5% no dia configurado, 28,3% antecipado para o dia útil anterior quando cai no fim de semana, 9,2% não explicado (provável feriado)**; a lista de códigos de receita tem só 19 códigos e é usada por 1,4% das regras |
+| `produto_fiscal` | `produto_vigencia` (261 mil) | classificação por vigência (PIS/COFINS, ICMS, IPI, ST, monofásico); só 46 vigências monofásicas; dados PIS/COFINS conferidos em 71.071 de 261.175; todas as vigências têm produto no cadastro (0 sem cadastro em 71.973) |
+
+| `parametro_fiscal` (filhos do acumulador) | `acumulador_vigencia_cfop` (768 mil), `acumulador_vigencia_aliquota` (379 mil), `acumulador_vigencia_conta` (453 mil) | 0 órfãos nos três; **o CFOP da nota de saída está na lista do acumulador vigente em 13.071 de 13.088 notas (99,9%)** |
+| `icms` | `apuracao_icms_st_uf` (706 mil), `ajuste_apuracao` (50 mil) | **saldo devedor − credor = débitos − créditos em 706.590/706.590**; só 1.076 linhas têm saldo (a tabela guarda as 27 UFs de cada apuração); legenda de `oper_aju` deduzida dos nomes padrão (1 outros créditos … 7 outros recolhimentos, 43 ativo permanente) |
+
+| `folha_calculo` | `cadastro_base_calculo_folha` (270), `calculo_base_folha` (8,4 mi), `incidencia_evento_folha` (6,1 mi) | **base do INSS mensal = soma dos proventos que incidem na base 9** em 582 de 688 cálculos (84,6%), 36 limitados ao teto de R$ 8.475,55 e 70 (10%) não explicados; sem órfãos (0 base sem cadastro em 3,66 mi); as fórmulas do sistema (`frm_script`) ficam fora |
+| `folha_contabil` | `configuracao_integracao_folha` (112.913), `evento_integracao_folha` (831.213), `lancamento_integracao_folha` (213.590) | todo lançamento da integração existe em `ctlancto` (0 sem lançamento nos 38.065 de 2025); a **legenda de `tipo` (1–8, 10) não está no banco** e não fechou com os totais da folha (empresa 1430, 2026-08): domínio mantido sem legenda (`confirmado: false`) |
+
+**Descobertas de dados:** o saldo de produtos inclui CF-e; a receita do Simples é definida pelo acumulador (`IREC_ACU`/`IDEV_ACU`), com a vigência mais recente até a data do documento (as notas não guardam a vigência); a empresa 715 tem 12 linhas de receita anterior com ano 2170-2171 (erro de digitação); em `EFSDOIMP_SIMPLES_NACIONAL_ALIQUOTAS` o total é a soma das partes só no anexo 1 (17.045/17.045), nunca no anexo 2 (0/17.045).
+
+**Funções de consulta nomeadas** (`src/server/consultas.py`, com catálogo `FUNCOES` pronto para virar ferramentas MCP; `tests/test_consultas.py`, contra o banco real): `receita_bruta_simples(empresa, competencia)` recalcula a receita e compara com a base apurada (`confere` / `diverge` / `sem_apuracao`); `perfil_fiscal(empresa, data)` devolve regimes em vigor, impostos ativos e **evidências** (apurações dos últimos 12 meses) porque a legenda do regime federal não está no banco.
+`situacao_esocial(empresa, competencia)` informa se a folha está **fechada no eSocial** (vale o último S-1298/S-1299 da competência: o padrão real é fechar, reabrir e fechar de novo), quantos S-1200/S-1210 foram aceitos/rejeitados/com advertência e as pendências sem recibo.
+`guias_do_mes(empresa, competencia)` lista as guias com situação (paga / parcial / vencida ou a vencer **sem pagamento registrado**) e avisa que o registro de pagamentos é incompleto de 2024 em diante; `apuracao_lalur(empresa, competencia)` refaz o cálculo do IRPJ/CSLL do lucro real passo a passo e confere com o gravado (**2.884 de 2.884 competências conferem**); `situacao_das(empresa, competencia)` resume apuração, declaração PGDAS-D, guia DAS e erros da API (4.477 competências com envio: 2.676 declaradas com DAS emitido; entre as **com movimento**, só 37 declaradas sem DAS e 191 sem declaração transmitida são casos de atenção; as sem movimento não têm guia a emitir); `situacao_reinf(empresa, competencia)` (fechamento R-2099/R-2098, eventos aceitos/rejeitados; 300 competências sorteadas sem erro); `receita_bruta_mensal(empresa, de, ate)` (série de até 36 meses, mesma regra validada do Simples, serve a presumido e real); `resumo_folha(empresa, competencia)` (totais por tipo de folha; líquido gravado = proventos − descontos em 254/254 cálculos); `classificacao_produto(empresa, produto, data)` (enquadramento fiscal vigente de um produto); `historico_salarial(empresa, empregado)` (linha do tempo salarial com checagem de continuidade); `informativos_da_empresa(empresa, de, ate)` lista as obrigações acessórias preparadas, com recibo e retificadora; `perfil_empresa(empresa)` é a porta de entrada (cadastro, regimes e impostos, parâmetros contábeis e de folha, último fechamento do eSocial; 40 de 40 empresas sorteadas sem erro). `memoria_calculo_folha(empresa, empregado, competencia, tipo_folha)` mostra cada base do cálculo (INSS, FGTS, IRRF, férias...) com base, taxa e valor; `valor = base × taxa/100` em 86,6% das bases com taxa (empresa 354, 2026), as demais são progressivas ou com dedução. **Correções do lote feitas depois:** 15 colunas GUID que são PK/FK voltaram às entidades (`scripts/incluir_chaves_guid.py`), 31 colunas que são código do próprio sistema (scripts/fórmulas compiladas de 1.000+ caracteres: `foformulas`, `focadbases`, `poprocedim`...) foram retiradas (`scripts/limpar_colunas_script.py`), e o painel passou a separar **"validada"** (curada e conciliada, 59+ tabelas) de **"medida"** (gerada em lote, 2.000+).
+**Legenda do regime federal (`efparametro_vigencia.rfed_par`), deduzida dos dados:** 5 = lucro presumido (733 empresas; 447 apuram IRPJ), 4 = Simples Nacional (466; 166 apuram Simples em 2025), 2 = variante do Simples (29; 10 apuram Simples, 103 de 114 vigências com regime estadual 13), 1 = provável lucro real (170); 6, 8 e 9 não determinados. O regime estadual 13 (não consta no comentário) é o do Simples. O regime de recolhimento é sempre R (não distingue presumido de real).
+**Descoberta de entidades:** com 2.117 entidades, o MCP ganhou `buscar_entidades(termo)` (sem acento, todas as palavras, curadas primeiro) e `listar_entidades` paginado (13 ferramentas; `docs/uso-mcp.md`). Verificação de que as 2.117 entidades executam e serializam pelo `Motor` (como o MCP faz): `scripts/testar_motor_entidades.py` — 2.117 de 2.117 (3 corrigidas: `codi_emp` nulo em 100% nas notificações de atendimento).
+
+### Qualidade e desempenho (2026-10-18)
+- `docs/funcoes.md` (gerado por `scripts/gerar_docs_funcoes.py`) especifica as 15 funções de `src/server/consultas.py`, prontas para virar ferramentas MCP; `visao_mensal(empresa, competencia)` junta receita, guias, folha e o estado de eSocial, Reinf e DAS com alertas (40 de 40 empresas ativas sorteadas sem erro).
+- `tests/test_todas_entidades.py` roda **todas as 2.117 entidades** pelo `Motor` no banco real (≈ 1 min): 0 falhas. Suíte: 117 testes.
+- Carregamento do modelo com o `CSafeLoader` do PyYAML (libyaml): `Motor()` de 7,3 s para 1,05 s; validação do modelo 1,3 s; suíte de 207 s para 114 s.
+
+## Biblioteca de tools MCP (2026-10-18)
+Pedido: transformar **todas** as tabelas mapeadas (inclusive as geradas em lote) numa biblioteca de ferramentas MCP, uma pasta por módulo e um arquivo por tabela, com descrição para o modelo de IA, validação e casos de uso. Arquitetura, perfis e processo em `docs/biblioteca.md`; catálogo em `docs/biblioteca/` (`scripts/gerar_docs_biblioteca.py`).
+- **Biblioteca** `src/biblioteca/`: 137 pastas de módulo, 1 arquivo por tabela (gerado por `scripts/gerar_biblioteca.py`), mais `casos_de_uso/` com as 15 funções nomeadas como tools. Por tabela: `*_consultar` (filtros, ordenação, paginação), `*_obter` (chave) e `*_totais` (contagem/soma por grupo). Servidor: perfil `compacto` (gateway `buscar_ferramentas`/`descrever_ferramenta`/`executar_ferramenta` + casos de uso) ou `completo` (todas; ≈14 MB de schema, por isso o gateway é o padrão).
+- **Bateria de validação** (`scripts/validar_biblioteca.py`, contra o banco, só leitura): esquema, descrição, entrada, execução com amostra real, campos, credenciais, filtro, paginação, obter e totais (total geral = contagem da consulta = soma dos grupos). Resultado em `data/biblioteca_estado.db`; a aba **Biblioteca de tools** da plataforma mostra o status por tabela (sem_ferramenta → gerada → validada → curada/revisada → falhou).
+- **A bateria achou defeitos reais do motor** (valem para todas as entidades): `CHAR(n)` com brancos misturados (`NCM = '0101'` não achava `'0101    '`; agora testa as variantes com IN, mantendo o índice), filtro chamado `periodo` tratado como período da tabela (4 entidades renomeadas para `periodo_referencia`), texto vazio (`''` × `' '`), 5 nomes de campo com mojibake.
+- **Revisão independente por agentes** (9 agentes sem contexto em 3 rodadas, só pela interface do cliente MCP, amostras estratificadas sorteadas com sementes diferentes; ferramentas reprovadas são retestadas na rodada seguinte): aprovação **80% (rodada 1, 133 ferramentas) → 77% (rodada 2, 125) → 90% (rodada 3, 117; IC 95% Wilson 83–94%)**. A regra de decisão fixada (limite inferior do IC ≥ 85%) **não foi atingida** na rodada 3 (83%): por isso só as ferramentas aprovadas individualmente têm veredito `[aprovada]` (status `revisada` quando todas as da tabela foram aprovadas); a biblioteca como um todo NÃO está carimbada como revisada. O que sobra de reprovação é, em sua maior parte, limitação do banco (códigos sem legenda, tabelas de configuração interna, períodos em colunas vazias) que a descrição só pode avisar.
+- **Defeitos reais achados pelos revisores e corrigidos:** `resumo_folha` dobrava proventos e descontos (`fobasesserv` grava o cálculo em 2 linhas, `rateio` 0 e 1; agora só `rateio = 0`: líquido calculado = gravado = 67.938,00 na empresa 354/2026-08, com teste de regressão); filtros de texto só com `contem/prefixo` anunciados como "valor simples" (descrição e mensagem de erro corrigidas); descrições que prometiam mascaramento inexistente; `*_totais` sem aviso de soma sem sinal/linha de total, somando alíquotas, códigos, acumulados e datas seriais (lista de campos somáveis agora exige nome de valor/quantidade); `periodo` sem dizer a coluna e sem avisar que linhas com a coluna vazia não aparecem; falsos positivos do alerta de dado pessoal ("PIS" imposto) e ausências (login, IP, máquina). As ferramentas agora trazem empresa-exemplo com dados, comentário da tabela no banco, campos de vínculo, datas sentinela e regras da tabela nos totais.
+- **Armadilha de processo:** a sincronização do estado apagava vereditos quando a biblioteca carregava quebrada durante uma edição; agora só apaga com carga íntegra (os vereditos da rodada 1 foram perdidos assim; os números acima vêm dos relatórios dos revisores).
+- Mapeadas também as 12 tabelas "apoio" com dados (sem entidade própria), que agora têm ferramentas.
+
 ## Decisões
 - Ghidra não será usado (PowerBuilder p-code; SQL extraído do texto dos `.pbd`).
 - Dicionário via `SYS.*` (o usuário de leitura não lê `DSDBA.*`). A coluna `password` de `SYS.SYSUSER` nunca é lida.

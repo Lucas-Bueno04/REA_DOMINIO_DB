@@ -1,0 +1,169 @@
+# Modelo de entidades dos PARÂMETROS da empresa na CONTABILIDADE (CTPARMTO) e na FOLHA (FOPARMTO): uma linha por empresa. Curado à mão e medido no banco (só leitura).
+# Formato: docs/formato-modelo.md
+#
+# NÃO EXPOSTO DE PROPÓSITO: ctparmto tem 249 colunas (muitas "Nao usado" e de tela) e foparmto 599 (centenas de opções de rubricas e regras de cálculo); aqui estão as de uso geral.
+# As demais continuam acessíveis por consultar_tabela('CTPARMTO'|'FOPARMTO', colunas=[...]).
+modulo: parametros_empresa
+titulo: Parâmetros da empresa (contabilidade e folha)
+dominios:
+  sim_nao_texto: {confirmado: true, valores: {S: Sim, N: Não}}
+  sim_nao_numerico: {confirmado: true, valores: {1: Sim, 0: Não}}
+  regime_contabil:
+    descricao: Como a contabilidade da empresa é usada (ctparmto.ctcx_par)
+    confirmado: true      # comentário do banco; em uso 1 (1.440) e 3 (1)
+    valores: {1: Fiscal, 2: Caixa, 3: Gerencial}
+  informar_conta_por:
+    confirmado: true      # comentário do banco; C em 1.440 e M em 1
+    valores: {C: Código, M: Máscara}
+  acao_periodo_trabalho:
+    descricao: O que o sistema faz com lançamentos fora do período de trabalho (ctparmto.lant_par)
+    confirmado: true      # comentário do banco; N em 971 e L em 470
+    valores: {L: Livre, A: Avisar, N: Não permitir}
+  tipo_folha_atual:
+    descricao: Tipo do processamento da folha em andamento (foparmto.tipo_proces)
+    confirmado: parcial
+    nota: "Em uso: 11 (mensal) em 911 empresas, 70 em 375, 41 (adiantamento) em 65, 51 e 52 (13º) em 2 cada e 42 (complementar) em 1. No cadastro de folha o código 70 é 'participação nos lucros'; que 375 empresas estejam nesse tipo como processamento ATUAL não está documentado."
+    valores: {11: Mensal, 41: Adiantamento, 42: Complementar, 51: Adiantamento de 13º salário, 52: 13º salário, 70: Participação nos lucros}
+  base_adiantamento:
+    descricao: Base de cálculo do adiantamento (foparmto.adiant_tiposal)
+    confirmado: parcial
+    nota: O comentário só diz "Base de cálculo". Em uso 1 (1.327 empresas, percentual médio 37%) e 2 (29 empresas, 40%); a legenda não está no banco.
+    valores: {1: Base 1 (sem legenda no banco), 2: Base 2 (sem legenda no banco)}
+  data_pagamento_mes:
+    descricao: Data de pagamento da folha mensal (foparmto.data_pagto_mes)
+    confirmado: parcial
+    nota: O comentário lista 1 (último dia útil do mês de competência) e 2 (quinto dia útil) e está truncado depois disso. Em uso 1 (31) e 2 (1.325).
+    valores: {1: Último dia útil do mês da competência, 2: Quinto dia útil (provável)}
+
+entidades:
+  parametro_contabil:
+    titulo: Parâmetros da contabilidade por empresa
+    descricao: >
+      Configuração contábil da empresa: máscara e origem do plano de contas, regime (fiscal/caixa/gerencial), período de trabalho, centro de custo, contas de
+      lucro e prejuízo e transferência do resultado. 1.441 linhas, uma por empresa. Usa 39 das 249 colunas.
+    tabela: ctparmto
+    chave: [codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_emp, asc]]
+    colunas:
+      regime_contabil: {coluna: ctcx_par, dominio: regime_contabil}
+      mascara_plano_contas: masc_par
+      mascara_gerencial: masc_ger
+      mascara_relatorios: masc_rel
+      informar_conta_por: {coluna: lmas_par, dominio: informar_conta_por}
+      inicio_lancamentos: dila_par
+      periodo_trabalho_inicio: dini_par
+      periodo_trabalho_fim: dfin_par
+      acao_fora_do_periodo: {coluna: lant_par, dominio: acao_periodo_trabalho}
+      relatorios_inicio: dinr_par
+      relatorios_fim: dfir_par
+      plano_origem_empresa: codi_pad
+      compartilha_plano: {coluna: comp_pad, dominio: sim_nao_texto}
+      historico_origem_empresa: codi_emp_his
+      compartilha_historicos: {coluna: compart_his, dominio: sim_nao_texto}
+      centraliza_matriz_filiais: {coluna: emat_par, dominio: sim_nao_texto}
+      informa_filial_no_lancamento: {coluna: fili_par, dominio: sim_nao_texto}
+      contabilidade_por_centro_custo: {coluna: ccusto_par, dominio: sim_nao_texto}
+      rateio_centro_custo_por_filial: {coluna: ratcf_par, dominio: sim_nao_texto}
+      usa_dre: {coluna: dre_par, dominio: sim_nao_texto}
+      usa_dlpa: {coluna: dlpa_par, dominio: sim_nao_texto}
+      usa_doar: {coluna: doar_par, dominio: sim_nao_texto}
+      historico_obrigatorio: {coluna: hist_obrig, dominio: sim_nao_texto}
+      permite_lancamento_valor_zero: {coluna: permzero_par, dominio: sim_nao_texto}
+      permite_cadastrar_contas: {coluna: permcta_par, dominio: sim_nao_texto}
+      conta_inicial: inicta_par
+      conta_final: fimcta_par
+      permite_cadastrar_historicos: {coluna: permhis_par, dominio: sim_nao_texto}
+      historico_inicial: inihis_par
+      historico_final: fimhis_par
+      conta_caixa: ccxa_par
+      informa_conta_caixa: {coluna: infcx_par, dominio: sim_nao_texto}
+      conta_patrimonio_liquido: patl_par
+      conta_destino_resultado: zera_par
+      conta_lucro_periodo: lucr_par
+      conta_prejuizo_periodo: prej_par
+      transfere_resultado_automaticamente: {coluna: faza_par, dominio: sim_nao_texto}
+      altera_lancamentos_outros_sistemas: {coluna: altl_par, dominio: sim_nao_texto}
+      utiliza_dominio_cliente: {coluna: domcli_par, dominio: sim_nao_texto}
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      plano_origem_empresa: {coluna: codi_pad, ops: [eq, in]}
+      regime_contabil: {coluna: ctcx_par, ops: [eq, in]}
+      compartilha_plano: {coluna: comp_pad, ops: [eq]}
+    regras:
+      - "Uma linha por empresa (1.441 empresas, 1.441 linhas). Regime contábil 1 (fiscal) em 1.440 e 3 (gerencial) em 1; conta informada por código (C) em 1.440 e por máscara (M) em 1."
+      - "Plano de contas: `plano_origem_empresa` é nulo em 1.354 empresas (plano próprio) e aponta para OUTRA empresa em 87; nenhuma aponta para si mesma. 57 empresas marcam compartilha_plano = S. Para resolver as contas de uma empresa use a empresa do plano (é o `plano_empresa` do lançamento)."
+      - "Máscara do plano de contas: 9.9.9.99.999999 em 1.378 empresas; 9.9.9.99.9999 em 30; 9.9.99.999.999 em 17; 9.9.99.99.999 em 7; 9.9.9.99.99.999 em 6; 9.99.99.999999 em 2."
+      - "Período de trabalho: 1.273 empresas têm data final (de 2020-04-30 a 2030-12-31; datas muito futuras provavelmente significam 'sem limite'); fora do período o sistema bloqueia (N) em 971 empresas e libera (L) em 470; nenhuma usa avisar (A)."
+      - "Demonstrações e fechamento: usa DRE (S) em 1.403 empresas, DLPA em 1.336, histórico obrigatório em 1.418 e transferência automática do resultado para o patrimônio líquido em 1.401; 14 empresas têm tudo isso desligado."
+      - "Contabilidade por centro de custo (ccusto = S) em 10 empresas."
+
+  parametro_folha:
+    titulo: Parâmetros da folha por empresa
+    descricao: >
+      Configuração da folha da empresa: competência e tipo de processamento atuais, tipos de folha usados, regras de adiantamento, 13º e férias, integração
+      contábil, rateio por serviço e dia do pagamento. 1.356 linhas, uma por empresa. Usa 39 das 599 colunas.
+    tabela: foparmto
+    chave: [codi_emp]
+    acesso: {empresa: codi_emp, volume: pequeno}
+    ordem: [[codi_emp, asc]]
+    colunas:
+      competencia_atual: data_proces
+      tipo_folha_atual: {coluna: tipo_proces, dominio: tipo_folha_atual}
+      mes_encerrado: {coluna: mes_encerrado, nulo_se: "1900-01-01"}
+      empresa_dos_eventos: codi_emp_eve
+      folha_semanal: {coluna: tem_folha_semanal, dominio: sim_nao_texto}
+      folha_quinzenal: {coluna: tem_folha_quinzenal, dominio: sim_nao_texto}
+      folha_professor: {coluna: tem_folha_professor, dominio: sim_nao_texto}
+      adiantamento_base: {coluna: adiant_tiposal, dominio: base_adiantamento}
+      adiantamento_percentual: adiant_percentual
+      adiantamento_afastados: {coluna: adiant_afast, dominio: sim_nao_numerico}
+      adiantamento_contribuintes: {coluna: adiant_contr, dominio: sim_nao_numerico}
+      adiantamento_dias_minimos: adiant_afast_condic_dias
+      decimo_terceiro_percentual: calc13_percentual
+      decimo_terceiro_paga_medias: {coluna: calc13_pag_media, dominio: sim_nao_texto}
+      decimo_terceiro_paga_adicionais: {coluna: calc13_pag_adic, dominio: sim_nao_texto}
+      decimo_terceiro_nao_calcula_diretores: {coluna: calc13_nao_calc_dir, dominio: sim_nao_texto}
+      decimo_terceiro_mais_de_um_adiantamento: {coluna: calc13_maisde1adiant, dominio: sim_nao_texto}
+      decimo_terceiro_estagiario: {coluna: calc13_estagiario, dominio: sim_nao_numerico}
+      decimo_terceiro_desconta_faltas: {coluna: calc13_faltas, dominio: sim_nao_numerico}
+      ajusta_13_em_dezembro: {coluna: ajusta_med_13, dominio: sim_nao_texto}
+      ferias_desconta_faltas: {coluna: fer_desc_faltas, dominio: sim_nao_texto}
+      ferias_paga_adicionais: {coluna: fer_paga_adic, dominio: sim_nao_texto}
+      ferias_paga_medias: {coluna: fer_paga_med, dominio: sim_nao_texto}
+      ferias_adianta_13: {coluna: fer_decimo_1p, dominio: sim_nao_texto}
+      ferias_estagiario: {coluna: fer_estagiario, dominio: sim_nao_numerico}
+      gera_lancamentos_contabeis: {coluna: cta_gera, dominio: sim_nao_numerico}
+      lancamentos_na_empresa: cta_codi_emp
+      contabil_separa_rescisao: {coluna: cta_sep_rescisao, dominio: sim_nao_numerico}
+      contabil_separa_ferias: {coluna: cta_sep_ferias, dominio: sim_nao_numerico}
+      contabil_tipo_exportacao: cta_tipo_exp
+      contabil_por_centro_custo: {coluna: cta_ccus_rateio, dominio: sim_nao_numerico}
+      usa_rateio_por_servico: {coluna: usa_rateio, dominio: sim_nao_numerico}
+      rateio_inicio: usa_rateio_inicio
+      discrimina_dsr: {coluna: separar_dsr, dominio: sim_nao_numerico}
+      ordena_eventos: {coluna: ordenar_eventos, dominio: sim_nao_numerico}
+      movimento_ferias_na_folha_mensal: {coluna: mov_fer_mes, dominio: sim_nao_texto}
+      data_pagamento_mensal: {coluna: DATA_PAGTO_MES, dominio: data_pagamento_mes}
+      optante_simples_nacional: {coluna: simples_072007, dominio: sim_nao_numerico}
+      conta_debito_gps: gps_conta_debito
+    vinculos:
+      empresa:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {empresa_nome: nome_emp}
+    filtros:
+      competencia_atual: {coluna: data_proces, ops: [eq, entre, gte, lte]}
+      tipo_folha_atual: {coluna: tipo_proces, ops: [eq, in]}
+      gera_lancamentos_contabeis: {coluna: cta_gera, ops: [eq]}
+    regras:
+      - "Uma linha por empresa (1.356). Nenhuma empresa trabalha com folha semanal, quinzenal ou de professores (todas N)."
+      - "Competência atual (data_proces): de 2013-01 a 2026-10; 255 empresas estão em setembro/2026 ou depois, 25 entre janeiro e agosto de 2026 e 1.076 antes de 2026 (empresas sem folha ativa)."
+      - "Tipo de folha atual: 11 (mensal) em 911 empresas, 70 em 375, 41 em 65, 51 e 52 em 2 cada e 42 em 1."
+      - "Encerramento: `mes_encerrado` tem valor em todas as 1.356 linhas, de 1900-01-01 (padrão 'não informado') a 2026-03: está desatualizado em relação à competência atual e não deve ser usado para saber se a folha está fechada (use o S-1299 do eSocial: função situacao_esocial)."
+      - "Integração contábil: gera lançamentos (cta_gera = 1) em 1.257 empresas e não em 99; só 3 usam rateio por serviço. Eventos próprios em 711 empresas e eventos de outra empresa (codi_emp_eve) em 645."
+      - "Adiantamento: base 1 em 1.327 empresas (percentual médio 37%) e base 2 em 29 (40%). Pagamento da folha mensal: código 2 em 1.325 empresas e 1 em 31."

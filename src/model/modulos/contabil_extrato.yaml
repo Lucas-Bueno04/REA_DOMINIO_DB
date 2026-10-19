@@ -1,0 +1,555 @@
+# Gerado em lote por scripts/mapear_lote.py a partir da ESTRUTURA do banco (comentários, PK, FK) e testado no banco real.
+# Entidades sem `regras` ainda não foram conferidas contra dados; domínios extraídos de comentários são hipóteses até medir (medir_fatos.py).
+modulo: contabil_extrato
+titulo: Contábil - extrato (rascunho em lote)
+dominios:
+  ctextrato_bancario_lancamento_item_tipo_d_soma:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ITEM.TIPO estão no comentário do banco (2026-10-18). Distribuição: C=16.211, D=9.189.'
+    valores: {D: Soma, C: Subtrai}
+  ctextrato_bancario_lancamento_item_origem_m_ma:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ITEM.ORIGEM estão no comentário do banco (2026-10-18). Distribuição: I=25.400.'
+    valores: {M: Manualmente, I: Importação}
+  ctextrato_bancario_lancamento_item_versao_do_e:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ITEM.VERSAO estão no comentário do banco (2026-10-18). Distribuição: 2=25.400.'
+    valores: {'1': Antigo, '2': Novo}
+  ctextrato_bancario_lancamento_item_tipo_x_um_d:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ITEM.TIPO_LANCAMENTO estão no comentário do banco (2026-10-18). Distribuição: X=25.400.'
+    valores: {X: Um débito para um crédito, V: Varios débitos para varios créditos}
+  ctextrato_bancario_lancamento_item_lancto_tipo_de_lan:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ITEM_LANCTO.TIPO estão no comentário do banco (2026-10-18). Distribuição: 0=11.321, 1=7.971.'
+    valores: {'0': Sistema, '1': Manual}
+  ctextrato_bancario_lancamento_iceberg_situacao_da_transaca:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ICEBERG.STATUS_TRANSACAO_ROTA estão no comentário do banco (2026-10-18). Distribuição: 1=5.992.'
+    valores: {'1': Transação Original, '2': Atualizada, '3': Atualizada Apos Fechamento, '4': Excluida Apos Fechamento, '5': Atualizada Com Vinculo, '6': Excluida
+        Com Vinculo, '7': Atualizada Apos Contabilização, '8': Excluida Apos Contabilização}
+  ctextrato_bancario_configuracao_tipo_d_soma:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_CONFIGURACAO.TIPO estão no comentário do banco (2026-10-18). Distribuição: A=988, C=436, D=187.'
+    valores: {D: Soma, C: Subtrai, A: Ambos}
+  ctextrato_bancario_configuracao_tipo_do_fil:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_CONFIGURACAO.TIPO_FILTRO_NUMERO_DOCUMENTO estão no comentário do banco (2026-10-18). Distribuição: C=1.611.'
+    valores: {P: Parcial, C: Completo}
+  ctextrato_bancario_configuracao_iceberg_detalhe_tipo_de_ins:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG_DETALHE.TIPO_INSCRICAO estão no comentário do banco (2026-10-18). Distribuição:
+      1=441, 2=45.'
+    valores: {'1': CNPJ, '2': CPF}
+  ctextrato_bancario_lancamento_natureza_do_saldo_i:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO.NATUREZA estão no comentário do banco (2026-10-18). Distribuição: P=196, N=12.'
+    valores: {P: Positivo, N: Negativo}
+  ctextrato_bancario_transacoes_iceberg_tipo_de_val:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_TRANSACOES_ICEBERG.TIPO_VALOR estão no comentário do banco (2026-10-18). Distribuição: C=16, D=13.'
+    valores: {D: Débito, C: Crédito}
+  ctextrato_bancario_lancamento_iceberg_lancto_tipo_de_lan:
+    confirmado: true
+    nota: 'Todos os valores observados em CTEXTRATO_BANCARIO_LANCAMENTO_ICEBERG_LANCTO.TIPO_VALOR estão no comentário do banco (2026-10-18). Distribuição: D=5, C=5.'
+    valores: {D: Soma, C: Subtrai}
+entidades:
+  ctextrato_bancario_lancamento_item:
+    titulo: Lançamento de extrato bancário - lançamentos
+    descricao: 'Lançamento de extrato bancário - lançamentos. 25.400 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, I_ITEM.'
+    tabela: CTEXTRATO_BANCARIO_LANCAMENTO_ITEM
+    chave: [CODI_EMP, I_LANCAMENTO, I_ITEM]
+    acesso: {empresa: CODI_EMP, periodo: DATA_ITEM, volume: medio}
+    ordem:
+    - [DATA_ITEM, desc]
+    - [I_LANCAMENTO, asc]
+    - [I_ITEM, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_extrato: I_LANCAMENTO
+      sequencial_do_item: I_ITEM
+      data: DATA_ITEM
+      historico: HISTORICO
+      documento: DOCUMENTO
+      valor: VALOR
+      tipo_d_soma_c_subtrai: {coluna: TIPO, dominio: ctextrato_bancario_lancamento_item_tipo_d_soma}
+      origem_m_manualmente_i_importacao: {coluna: ORIGEM, dominio: ctextrato_bancario_lancamento_item_origem_m_ma}
+      versao_do_extrato_1_antigo_2_novo: {coluna: VERSAO, dominio: ctextrato_bancario_lancamento_item_versao_do_e}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+      tipo_x_um_debito_para_um_credito_v_vario: {coluna: TIPO_LANCAMENTO, dominio: ctextrato_bancario_lancamento_item_tipo_x_um_d}
+      codigo_da_filial: FILIAL
+    filtros:
+      codigo_extrato:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      sequencial_do_item:
+        coluna: I_ITEM
+        ops: [eq, in]
+      data:
+        coluna: DATA_ITEM
+        ops: [entre, gte, lte]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      documento:
+        coluna: DOCUMENTO
+        ops: [contem, prefixo]
+      tipo_d_soma_c_subtrai:
+        coluna: TIPO
+        ops: [eq, in]
+      origem_m_manualmente_i_importacao:
+        coluna: ORIGEM
+        ops: [eq, in]
+      tipo_x_um_debito_para_um_credito_v_vario:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 25.400 linhas, 28 empresa(s), DATA_ITEM de 2012-06-05 a 2026-07-31.', 'tipo_d_soma_c_subtrai: todos os valores reais estão no
+        comentário do banco (C=16.211, D=9.189).', 'origem_m_manualmente_i_importacao: todos os valores reais estão no comentário do banco (I=25.400).', 'versao_do_extrato_1_antigo_2_novo:
+        todos os valores reais estão no comentário do banco (2=25.400).', 'tipo_x_um_debito_para_um_credito_v_vario: todos os valores reais estão no comentário do
+        banco (X=25.400).']
+  ctextrato_bancario_lancamento_item_lancto:
+    titulo: Lançamento de extrato bancário - lançamentos contábeis
+    descricao: 'Lançamento de extrato bancário - lançamentos contábeis. 19.292 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO, I_ITEM, NUME_LAN.'
+    tabela: CTEXTRATO_BANCARIO_LANCAMENTO_ITEM_LANCTO
+    chave: [CODI_EMP, I_LANCAMENTO, I_ITEM, NUME_LAN]
+    acesso: {empresa: CODI_EMP, volume: medio}
+    ordem:
+    - [I_LANCAMENTO, asc]
+    - [I_ITEM, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_extrato: I_LANCAMENTO
+      sequencial_do_item: I_ITEM
+      numero_do_lancamento_contabil: NUME_LAN
+      codigo_do_lote: CODI_LOTE
+      tipo_de_lancamento_0_sistema_1_manual: {coluna: TIPO, dominio: ctextrato_bancario_lancamento_item_lancto_tipo_de_lan}
+    filtros:
+      codigo_extrato:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      sequencial_do_item:
+        coluna: I_ITEM
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_de_lancamento_0_sistema_1_manual:
+        coluna: TIPO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 19.292 linhas, 18 empresa(s).', 'tipo_de_lancamento_0_sistema_1_manual: todos os valores reais estão no comentário do banco (0=11.321,
+        1=7.971).']
+  ctextrato_bancario_lancamento_iceberg:
+    titulo: Lançamento de extrato ICEBERG
+    descricao: 'Lançamento de extrato ICEBERG. 5.992 linhas no catálogo; chave: CODI_EMP, CODI_EMP_LANCTO, I_EXTRATO_BANCARIO, I_EXTRATO_BANCARIO_ITEM.'
+    tabela: CTEXTRATO_BANCARIO_LANCAMENTO_ICEBERG
+    chave: [CODI_EMP, CODI_EMP_LANCTO, I_EXTRATO_BANCARIO, I_EXTRATO_BANCARIO_ITEM]
+    acesso: {empresa: CODI_EMP, periodo: DATA_EXTRATO, volume: pequeno}
+    ordem:
+    - [DATA_EXTRATO, desc]
+    - [CODI_EMP_LANCTO, asc]
+    - [I_EXTRATO_BANCARIO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_empresa_do_lancamento: CODI_EMP_LANCTO
+      sequencial_do_extrato: I_EXTRATO_BANCARIO
+      sequencial: I_EXTRATO_BANCARIO_ITEM
+      identificador_da_transacao_eventid: ID_TRANSACAO
+      data_do_extrato: DATA_EXTRATO
+      codigo_de_transacao: CODI_TRANSACAO
+      valor_do_extrato: VALOR
+      codigo_do_lote_contabil: CODI_LOTE
+      inscricao_da_pessoa_envolvida_na_transac: {coluna: INSCRICAO, sensivel: parcial}
+      nome_da_pessoa_envolvida_na_transacao_ta: NOME
+      tipo_lancamento: TIPO_LANCAMENTO
+      codigo_de_identificacao_do_banco: I_BANCO
+      c_credito_d_debito: TIPO_VALOR
+      c_0_pendente_contab_contabilizada_mesmo: STATUS
+      desconsiderar_o_extrato_bancario_digital: DESCONSIDERAR_EXTRATO_BANCARIO
+      parceiro_de_conexao_open_banking: PARTNER
+      saldo_da_conta_apos_a_transacao: SALDO
+      situacao_da_transacao_apos_processamento: {coluna: STATUS_TRANSACAO_ROTA, dominio: ctextrato_bancario_lancamento_iceberg_situacao_da_transaca}
+      sequencial_do_json_que_atualizou_o_extra: CODI_HISTORY
+      ordem_da_transacao_no_dia: ORDEM_DATA_EXTRATO
+      identificador_da_transacao_por_client_id: TRANSACTION_ID
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_empresa_do_lancamento:
+        coluna: CODI_EMP_LANCTO
+        ops: [eq, in]
+      sequencial_do_extrato:
+        coluna: I_EXTRATO_BANCARIO
+        ops: [eq, in]
+      sequencial:
+        coluna: I_EXTRATO_BANCARIO_ITEM
+        ops: [eq, in]
+      data_do_extrato:
+        coluna: DATA_EXTRATO
+        ops: [entre, gte, lte]
+      identificador_da_transacao_eventid:
+        coluna: ID_TRANSACAO
+        ops: [contem, prefixo]
+      codigo_do_lote_contabil:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      inscricao_da_pessoa_envolvida_na_transac:
+        coluna: INSCRICAO
+        ops: [eq, in]
+      nome_da_pessoa_envolvida_na_transacao_ta:
+        coluna: NOME
+        ops: [contem, prefixo]
+      tipo_lancamento:
+        coluna: TIPO_LANCAMENTO
+        ops: [eq, in]
+      codigo_de_identificacao_do_banco:
+        coluna: I_BANCO
+        ops: [eq, in]
+      c_credito_d_debito:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+      desconsiderar_o_extrato_bancario_digital:
+        coluna: DESCONSIDERAR_EXTRATO_BANCARIO
+        ops: [eq, in]
+      parceiro_de_conexao_open_banking:
+        coluna: PARTNER
+        ops: [contem, prefixo]
+      sequencial_do_json_que_atualizou_o_extra:
+        coluna: CODI_HISTORY
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 5.992 linhas, 1 empresa(s), DATA_EXTRATO de 2024-01-02 a 2025-08-21.', 'Colunas expostas nulas em 100% das linhas (4): parceiro_de_conexao_open_banking,
+        saldo_da_conta_apos_a_transacao, sequencial_do_json_que_atualizou_o_extra, identificador_da_transacao_por_client_id.', 'situacao_da_transacao_apos_processamento:
+        todos os valores reais estão no comentário do banco (1=5.992).', 'Vínculo geempre (geempre): 0 de 5.992 linhas sem registro relacionado (empresa 1).']
+  ctextrato_bancario_configuracao:
+    titulo: Configuração para contabilizar extrato bancário
+    descricao: 'Configuração para contabilizar extrato bancário. 1.611 linhas no catálogo; chave: CODI_EMP, I_CONFIGURACAO.'
+    tabela: CTEXTRATO_BANCARIO_CONFIGURACAO
+    chave: [CODI_EMP, I_CONFIGURACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [I_CONFIGURACAO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_CONFIGURACAO
+      conta_contabil_do_banco: CODI_CTA_BANCO
+      parte_do_historico: PARTE_HISTORICO
+      conta_de_contra_partida: CODI_CTA_CONTRA_PARTIDA
+      codigo_do_historico: CODI_HIS
+      historico: HISTORICO
+      tipo_d_soma_c_subtrai_a_ambos: {coluna: TIPO, dominio: ctextrato_bancario_configuracao_tipo_d_soma}
+      numero_do_documento: NUMERO_DOCUMENTO
+      tipo_do_filtro_do_naomero_do_documento_p: {coluna: TIPO_FILTRO_NUMERO_DOCUMENTO, dominio: ctextrato_bancario_configuracao_tipo_do_fil}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_CONFIGURACAO
+        ops: [eq, in]
+      conta_contabil_do_banco:
+        coluna: CODI_CTA_BANCO
+        ops: [eq, in]
+      parte_do_historico:
+        coluna: PARTE_HISTORICO
+        ops: [contem, prefixo]
+      conta_de_contra_partida:
+        coluna: CODI_CTA_CONTRA_PARTIDA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: CODI_HIS
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+      tipo_d_soma_c_subtrai_a_ambos:
+        coluna: TIPO
+        ops: [eq, in]
+      numero_do_documento:
+        coluna: NUMERO_DOCUMENTO
+        ops: [contem, prefixo]
+      tipo_do_filtro_do_naomero_do_documento_p:
+        coluna: TIPO_FILTRO_NUMERO_DOCUMENTO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 1.611 linhas, 54 empresa(s).', 'Colunas expostas nulas em 100% das linhas (1): numero_do_documento.', 'tipo_d_soma_c_subtrai_a_ambos:
+        todos os valores reais estão no comentário do banco (A=988, C=436, D=187).', 'tipo_do_filtro_do_naomero_do_documento_p: todos os valores reais estão no comentário
+        do banco (C=1.611).', 'Vínculo geempre (geempre): 0 de 14 linhas sem registro relacionado (empresa 10059).']
+  ctextrato_bancario_configuracao_iceberg_detalhe:
+    titulo: Configuração para Contabilizar Extrato Bancário Contabilidade Digital - Detalhe
+    descricao: 'Configuração para Contabilizar Extrato Bancário Contabilidade Digital - Detalhe. 486 linhas no catálogo; chave: CODI_EMP, CODI_TRANSACAO, I_DETALHE.'
+    tabela: CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG_DETALHE
+    chave: [CODI_EMP, CODI_TRANSACAO, I_DETALHE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_TRANSACAO, asc]
+    - [I_DETALHE, asc]
+    colunas:
+      codigo_da_empresa: CODI_EMP
+      codigo_da_transacao: CODI_TRANSACAO
+      sequencial_do_detalhe: I_DETALHE
+      tipo_de_inscricao_1_cnpj_2_cpf: {coluna: TIPO_INSCRICAO, dominio: ctextrato_bancario_configuracao_iceberg_detalhe_tipo_de_ins}
+      numero_da_inscricao: {coluna: INSCRICAO, sensivel: parcial}
+      nome_do_participante: NOME
+      codigo_da_conta_contabil: CODI_CTA
+      codigo_do_historico: CODI_HIS
+      descricao_do_historico: HISTORICO
+    vinculos:
+      ctextrato_bancario_confi:
+        tabela: CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG
+        liga: {codi_emp: codi_emp, codi_transacao: codi_transacao}
+        colunas: {ctextrato_bancario_confi_nome: HISTORICO}
+    filtros:
+      codigo_da_transacao:
+        coluna: CODI_TRANSACAO
+        ops: [eq, in]
+      sequencial_do_detalhe:
+        coluna: I_DETALHE
+        ops: [eq, in]
+      tipo_de_inscricao_1_cnpj_2_cpf:
+        coluna: TIPO_INSCRICAO
+        ops: [eq, in]
+      numero_da_inscricao:
+        coluna: INSCRICAO
+        ops: [eq, in]
+      nome_do_participante:
+        coluna: NOME
+        ops: [contem, prefixo]
+      codigo_da_conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: CODI_HIS
+        ops: [eq, in]
+      descricao_do_historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 486 linhas, 1 empresa(s).', 'tipo_de_inscricao_1_cnpj_2_cpf: todos os valores reais estão no comentário do banco (1=441, 2=45).',
+      'Vínculo ctextrato_bancario_confi (CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG): 0 de 486 linhas sem registro relacionado (empresa 1).']
+  ctextrato_bancario_lancamento:
+    titulo: Lançamento de extrato bancário
+    descricao: 'Lançamento de extrato bancário. 208 linhas no catálogo; chave: CODI_EMP, I_LANCAMENTO.'
+    tabela: CTEXTRATO_BANCARIO_LANCAMENTO
+    chave: [CODI_EMP, I_LANCAMENTO]
+    acesso: {empresa: CODI_EMP, periodo: COMPETENCIA, volume: pequeno}
+    ordem:
+    - [COMPETENCIA, desc]
+    - [I_LANCAMENTO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo: I_LANCAMENTO
+      competencia: COMPETENCIA
+      conta_contabil_do_banco: CODI_CTA
+      saldo_inicial: SALDO_INICIAL
+      natureza_do_saldo_inicial_p_positivo_n_n: {coluna: NATUREZA, dominio: ctextrato_bancario_lancamento_natureza_do_saldo_i}
+      origem_do_registro_0_sistema_1_imp_tabel: ORIGEM_REG
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo:
+        coluna: I_LANCAMENTO
+        ops: [eq, in]
+      competencia:
+        coluna: COMPETENCIA
+        ops: [entre, gte, lte]
+      conta_contabil_do_banco:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      natureza_do_saldo_inicial_p_positivo_n_n:
+        coluna: NATUREZA
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 208 linhas, 30 empresa(s), COMPETENCIA de 2012-06-01 a 2026-07-01.', 'natureza_do_saldo_inicial_p_positivo_n_n: todos os valores
+        reais estão no comentário do banco (P=196, N=12).', 'Vínculo geempre (geempre): 0 de 5 linhas sem registro relacionado (empresa 852).']
+  ctextrato_bancario_transacoes_iceberg:
+    titulo: Tipos de transações bancarias Contabilidade Digital
+    descricao: 'Tipos de transações bancarias Contabilidade Digital. 29 linhas no catálogo; chave: CODI_TRANSACAO.'
+    tabela: CTEXTRATO_BANCARIO_TRANSACOES_ICEBERG
+    chave: [CODI_TRANSACAO]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_TRANSACAO, asc]
+    colunas:
+      codigo_da_transacao: CODI_TRANSACAO
+      nome_da_transacao: NOME_TRANSACAO
+      tipo_de_valor_d_debito_c_credito: {coluna: TIPO_VALOR, dominio: ctextrato_bancario_transacoes_iceberg_tipo_de_val}
+      detalhar_transacao_s_n: DETALHAR
+      modelo_em_formato_json: MODELO_JSON
+    filtros:
+      codigo_da_transacao:
+        coluna: CODI_TRANSACAO
+        ops: [eq, in]
+      nome_da_transacao:
+        coluna: NOME_TRANSACAO
+        ops: [contem, prefixo]
+      tipo_de_valor_d_debito_c_credito:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+      detalhar_transacao_s_n:
+        coluna: DETALHAR
+        ops: [eq, in]
+      modelo_em_formato_json:
+        coluna: MODELO_JSON
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 29 linhas.', 'tipo_de_valor_d_debito_c_credito: todos os valores reais estão no comentário do banco (C=16, D=13).']
+  ctextrato_bancario_configuracao_iceberg:
+    titulo: Configuração para Contabilizar Extrato Bancário Contabilidade Digital
+    descricao: 'Configuração para Contabilizar Extrato Bancário Contabilidade Digital. 26 linhas no catálogo; chave: CODI_EMP, CODI_TRANSACAO.'
+    tabela: CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG
+    chave: [CODI_EMP, CODI_TRANSACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_TRANSACAO, asc]
+    colunas: {codigo_da_empresa: CODI_EMP, codigo_da_transacao: CODI_TRANSACAO, detalhar_transacao_s_n: DETALHAR, codigo_da_conta_contabil: CODI_CTA, codigo_do_historico: CODI_HIS,
+      descricao_do_historico: HISTORICO, coluna_para_ordenar_a_tela_de_configurac: ORDENACAO}
+    vinculos:
+      geempre:
+        tabela: geempre
+        liga: {codi_emp: codi_emp}
+        colunas: {geempre_nome: nome_emp}
+    filtros:
+      codigo_da_transacao:
+        coluna: CODI_TRANSACAO
+        ops: [eq, in]
+      detalhar_transacao_s_n:
+        coluna: DETALHAR
+        ops: [eq, in]
+      codigo_da_conta_contabil:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: CODI_HIS
+        ops: [eq, in]
+      descricao_do_historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 26 linhas, 1 empresa(s).', 'Vínculo geempre (geempre): 0 de 26 linhas sem registro relacionado (empresa 1).']
+  ctextrato_bancario_transacoes_iceberg_tarifa:
+    titulo: Tarifas de transações bancárias Contabilidade Digital
+    descricao: 'Tarifas de transações bancárias Contabilidade Digital. 12 linhas no catálogo; chave: CODI_TARIFA.'
+    tabela: CTEXTRATO_BANCARIO_TRANSACOES_ICEBERG_TARIFA
+    chave: [CODI_TARIFA]
+    acesso: {empresa: null, volume: pequeno}
+    ordem:
+    - [CODI_TARIFA, asc]
+    colunas: {codigo_da_tarifa: CODI_TARIFA, nome_da_tarifa: NOME_TARIFA, codigo_da_transacao: CODI_TRANSACAO}
+    filtros:
+      codigo_da_tarifa:
+        coluna: CODI_TARIFA
+        ops: [eq, in]
+      nome_da_tarifa:
+        coluna: NOME_TARIFA
+        ops: [contem, prefixo]
+      codigo_da_transacao:
+        coluna: CODI_TRANSACAO
+        ops: [eq, in]
+    regras: ['Medido em 2026-10-18: 12 linhas.', 'Colunas expostas nulas em 100% das linhas (1): codigo_da_transacao.']
+  ctextrato_bancario_lancamento_iceberg_lancto:
+    titulo: Lançamento de extrato ICEBERG - lançamentos contábeis
+    descricao: 'Lançamento de extrato ICEBERG - lançamentos contábeis. 10 linhas no catálogo; chave: CODI_EMP, CODI_EMP_LANCTO, I_EXTRATO_BANCARIO, I_ITEM, NUME_LAN,
+      CODI_LOTE.'
+    tabela: CTEXTRATO_BANCARIO_LANCAMENTO_ICEBERG_LANCTO
+    chave: [CODI_EMP, CODI_EMP_LANCTO, I_EXTRATO_BANCARIO, I_ITEM, NUME_LAN, CODI_LOTE]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_EMP_LANCTO, asc]
+    - [I_EXTRATO_BANCARIO, asc]
+    colunas:
+      empresa: CODI_EMP
+      codigo_da_empresa_do_lancamento: CODI_EMP_LANCTO
+      codigo_extrato: I_EXTRATO_BANCARIO
+      sequencial_do_item: I_ITEM
+      numero_do_lancamento_contabil: NUME_LAN
+      codigo_do_lote: CODI_LOTE
+      valor_do_lancamento: VALOR
+      tipo_de_lancamento_d_soma_c_subtrai: {coluna: TIPO_VALOR, dominio: ctextrato_bancario_lancamento_iceberg_lancto_tipo_de_lan}
+      conta_de_contrapartida: CODI_CTA
+      codigo_do_historico: CODI_HIS
+      historico: HISTORICO
+      origem_contabilizacao_1_sistema_agente_c: ORIGEM_REG
+    filtros:
+      codigo_da_empresa_do_lancamento:
+        coluna: CODI_EMP_LANCTO
+        ops: [eq, in]
+      codigo_extrato:
+        coluna: I_EXTRATO_BANCARIO
+        ops: [eq, in]
+      sequencial_do_item:
+        coluna: I_ITEM
+        ops: [eq, in]
+      numero_do_lancamento_contabil:
+        coluna: NUME_LAN
+        ops: [eq, in]
+      codigo_do_lote:
+        coluna: CODI_LOTE
+        ops: [eq, in]
+      tipo_de_lancamento_d_soma_c_subtrai:
+        coluna: TIPO_VALOR
+        ops: [eq, in]
+      conta_de_contrapartida:
+        coluna: CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico:
+        coluna: CODI_HIS
+        ops: [eq, in]
+      historico:
+        coluna: HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 10 linhas, 1 empresa(s).', 'tipo_de_lancamento_d_soma_c_subtrai: todos os valores reais estão no comentário do banco (D=5, C=5).']
+  ctextrato_bancario_configuracao_iceberg_outros:
+    titulo: Outras configurações de lançamentos - encargos
+    descricao: 'Outras configurações de lançamentos - encargos. 1 linhas no catálogo; chave: CODI_EMP, CODI_TRANSACAO.'
+    tabela: CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG_OUTROS
+    chave: [CODI_EMP, CODI_TRANSACAO]
+    acesso: {empresa: CODI_EMP, volume: pequeno}
+    ordem:
+    - [CODI_TRANSACAO, asc]
+    colunas: {empresa: CODI_EMP, tipo_de_transacao: CODI_TRANSACAO, codigo_da_conta_designada_a_juros: JUROS_CODI_CTA, codigo_do_historico_designado_a_juros: JUROS_CODI_HIS,
+      juros_historico: JUROS_HISTORICO, codigo_da_conta_designada_a_multa: MULTA_CODI_CTA, codigo_do_historico_designado_a_multa: MULTA_CODI_HIS, multa_historico: MULTA_HISTORICO,
+      codigo_da_conta_designada_a_desconto: DESCONTO_CODI_CTA, codigo_do_historico_designado_a_desconto: DESCONTO_CODI_HIS, desconto_historico: DESCONTO_HISTORICO}
+    vinculos:
+      ctextrato_bancario_confi:
+        tabela: CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG
+        liga: {codi_emp: codi_emp, codi_transacao: codi_transacao}
+        colunas: {ctextrato_bancario_confi_nome: HISTORICO}
+    filtros:
+      tipo_de_transacao:
+        coluna: CODI_TRANSACAO
+        ops: [eq, in]
+      codigo_da_conta_designada_a_juros:
+        coluna: JUROS_CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico_designado_a_juros:
+        coluna: JUROS_CODI_HIS
+        ops: [eq, in]
+      juros_historico:
+        coluna: JUROS_HISTORICO
+        ops: [contem, prefixo]
+      codigo_da_conta_designada_a_multa:
+        coluna: MULTA_CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico_designado_a_multa:
+        coluna: MULTA_CODI_HIS
+        ops: [eq, in]
+      multa_historico:
+        coluna: MULTA_HISTORICO
+        ops: [contem, prefixo]
+      codigo_da_conta_designada_a_desconto:
+        coluna: DESCONTO_CODI_CTA
+        ops: [eq, in]
+      codigo_do_historico_designado_a_desconto:
+        coluna: DESCONTO_CODI_HIS
+        ops: [eq, in]
+      desconto_historico:
+        coluna: DESCONTO_HISTORICO
+        ops: [contem, prefixo]
+    regras: ['Medido em 2026-10-18: 1 linhas, 1 empresa(s).', 'Colunas expostas nulas em 100% das linhas (9): codigo_da_conta_designada_a_juros, codigo_do_historico_designado_a_juros,
+        juros_historico, codigo_da_conta_designada_a_multa, codigo_do_historico_designado_a_multa, multa_historico, codigo_da_conta_designada_a_desconto, codigo_do_historico_designado_a_desconto,
+        desconto_historico.', 'Vínculo ctextrato_bancario_confi (CTEXTRATO_BANCARIO_CONFIGURACAO_ICEBERG): 0 de 1 linhas sem registro relacionado (empresa 1).']
